@@ -2,7 +2,7 @@
   "image": "ghcr.io/andreilgeorgescu/devcontainer-base:2",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "22"
+      "version": "20"
     }
   },
   "customizations": {
@@ -18,7 +18,7 @@
   "portsAttributes": {
     "4321": {
       "label": "Website",
-      "onAutoForward": "openBrowserOnce"
+      "onAutoForward": "openPreview"
     }
   }
 }
