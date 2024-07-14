@@ -12,5 +12,13 @@
       ]
     }
   },
-  "updateContentCommand": "npm ci"
+  "updateContentCommand": "npm ci",
+  "postAttachCommand": "npm run dev",
+  "forwardPorts": [4321],
+  "portsAttributes": {
+    "4321": {
+      "label": "Website",
+      "onAutoForward": "openBrowserOnce"
+    }
+  }
 }
