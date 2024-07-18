@@ -1,8 +1,7 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
-title: My Second Blog Post
+title: My First Blog-------------------------------------
 author: Astro Learner
-description: "After learning some Astro, I couldn't stop!"
+description: This is the first post of my new Astro blog.This is the first post of my new Astro blog.This is the first post of my new Astro blog.This is the first post of
 image:
     url: "https://docs.astro.build/assets/arc.webp"
     alt: "The Astro logo on a dark background with a purple gradient arc."
