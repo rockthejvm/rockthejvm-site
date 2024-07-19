@@ -3,50 +3,49 @@ import BaseLayout from "./BaseLayout.astro";
 import rays from "../images/rays.webp";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import PostTags from "../components/PostTags.astro";
 
-interface Props {
+type Props = {
   frontmatter: CollectionEntry<"posts">["data"];
-}
+};
 
 const { frontmatter } = Astro.props;
+const { author, description, image, lastUpdatedDate, publishedDate, tags } =
+  frontmatter;
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "2-digit",
+  });
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
-  <p>Published on: {frontmatter.pubDate.toString().slice(0, 10)}</p>
-  <p><em>{frontmatter.description}</em></p>
-  <p>Written by: {frontmatter.author}</p>
-  <!-- <img src={frontmatter.image.url} width="300" height="180" alt={frontmatter.image.alt} /> -->
-  <Image src={rays} width={300} height={180} alt={frontmatter.image.alt} />
-  <div class="tags">
-    {
-      frontmatter.tags.map((tag) => (
-        <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
-      ))
-    }
-  </div>
-  <hr />
+<BaseLayout pageTitle={frontmatter.title} , pageH1={frontmatter.title}>
   <article>
+    <p>Published on: {formatDate(publishedDate)}</p>
+    {lastUpdatedDate && <p>Updated on: {formatDate(lastUpdatedDate)}</p>}
+    <p><em>{description}</em></p>
+    <p>Written by: {author}</p>
+    <!-- <img src={frontmatter.image.url} width="300" height="180" alt={frontmatter.image.alt} /> -->
+    <Image src={rays} width={300} height={180} alt={image.alt} />
+    <PostTags tags={tags} />
+    <hr />
     <slot />
+    <!-- <hr />
+    {
+      frontmatter.relatedPosts && (
+        <section>
+          <h2>Related Posts</h2>
+          <ul>
+            {frontmatter.relatedPosts.map((post) => (
+              <li>
+                <a href={`/posts/${post.slug}`}>"s"</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    } -->
   </article>
 </BaseLayout>
-<style>
-  a {
-    color: #00539f;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: 0.5em;
-    padding: 0.5em 1em;
-    font-size: 1.15em;
-    background-color: #f8fcfd;
-  }
-</style>
