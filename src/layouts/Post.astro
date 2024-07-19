@@ -11,15 +11,9 @@ interface Props {
 }
 
 const { frontmatter } = Astro.props;
-const {
-  author,
-  description,
-  image,
-  lastUpdatedDate,
-  publishedDate,
-  tags,
-  title,
-} = frontmatter;
+const { description, image, lastUpdatedDate, publishedDate, tags, title } =
+  frontmatter;
+const { data: author } = await getEntry("authors", frontmatter.author.id);
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", {
@@ -28,8 +22,6 @@ const formatDate = (date: Date) =>
     day: "2-digit",
     timeZone: "UTC",
   });
-
-const authorData = await getEntry("authors", author.id);
 ---
 
 <Base {title} {description}>
@@ -37,7 +29,8 @@ const authorData = await getEntry("authors", author.id);
     <p>Published on: {formatDate(publishedDate)}</p>
     {lastUpdatedDate && <p>Updated on: {formatDate(lastUpdatedDate)}</p>}
     <p><em>{description}</em></p>
-    <p>Written by: {authorData.data.name}</p>
+    <p>Written by: {author.name}</p>
+    <Image src={author.avatar} alt={author.name} width="25" height="25" />
     <!-- <img src={frontmatter.image.url} width="300" height="180" alt={frontmatter.image.alt} /> -->
     <Image src={rays} width={300} height={180} alt={image.alt} />
     <PostTags {tags} />
