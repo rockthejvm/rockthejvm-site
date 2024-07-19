@@ -1,29 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-const allPosts = await getCollection("posts");
-const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
-const pageTitle = "Tag Index";
+import Base from "../../layouts/Base.astro";
+import PostTags from "../../components/PostTags.astro";
+const posts = await getCollection("posts");
+const tags = [...new Set(posts.map((post) => post.data.tags).flat())];
+const title: string = "Tag Index";
+const description: string = "The tags index page";
 ---
 
-<BaseLayout pageTitle={pageTitle} pageH1="Tags">
-  <div class="tags">
-    {
-      uniqueTags.map((tag) => (
-        <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
-      ))
-    }
-  </div>
-</BaseLayout>
-<style>
-  a {
-    color: #00539f;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-</style>
+<Base {title} {description}>
+  <PostTags {tags} />
+</Base>

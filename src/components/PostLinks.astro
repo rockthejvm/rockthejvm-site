@@ -1,20 +1,10 @@
-<!-- ---
-import type { CollectionEntry } from "astro:content";
-import PostLink from "./PostLink.astro";
+---
+import { getCollection } from "astro:content";
+import PostLink from "../components/PostLink.astro";
 
-// type Props = {
-//   posts: CollectionEntry<"posts">["data"];
-// }
-type Props = {
-  postss: CollectionEntry<"posts">;
-}
-const { postss } = Astro.props;
+const posts = await getCollection("posts");
 ---
 
 <ul>
-  {
-    postss.map((post) => (
-      <PostLink slug={post.slug} title={post.data.title} />
-    ))
-  }
-</ul> -->
+  {posts.map((post) => <PostLink slug={post.slug} title={post.data.title} />)}
+</ul>
