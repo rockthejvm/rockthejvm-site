@@ -2,28 +2,34 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
-interface Props {
+
+type Props = {
   pageTitle: string;
-}
-const { pageTitle } = Astro.props;
+  pageH1: string;
+};
+
+const { pageTitle, pageH1 } = Astro.props;
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width" initial-scale="1.0" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
   <body>
-    <slot name="before-header" />
+    <!-- <slot name="before-header" /> -->
     <Header />
-    <slot name="after-header" />
-    <h1>{pageTitle}</h1>
-    <slot />
+    <!-- <slot name="after-header" /> -->
+    <main>
+      <h1>{pageH1}</h1>
+      <slot />
+    </main>
     <Footer />
-    <slot name="after-footer" />
+    <!-- <slot name="after-footer" /> -->
     <script>
       import "../scripts/menu.js";
     </script>

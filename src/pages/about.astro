@@ -2,19 +2,19 @@
 import "../styles/global.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const pageTitle: String = "About Me";
+const pageTitle: string = "About Me";
 const identity: {
-  firstName: String;
-  country: String;
-  occupation: String;
-  hobbies: String[];
+  firstName: string;
+  country: string;
+  occupation: string;
+  hobbies: string[];
 } = {
   firstName: "Sarah",
   country: "Canada",
   occupation: "Technical Writer",
   hobbies: ["photography", "birdwatching", "baseball"],
 };
-const skills: String[] = [
+const skills: string[] = [
   "HTML",
   "CSS",
   "JavaScript",
@@ -25,12 +25,12 @@ const skills: String[] = [
 const happy: Boolean = false;
 const finished = true;
 const goal: Number = 3;
-const skillColor: String = "navy";
-const fontWeight: String = "bold";
-const textCase: String = "uppercase";
+const skillColor: string = "navy";
+const fontWeight: string = "bold";
+const textCase: string = "uppercase";
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} pageH1="About">
   <p>Here are a few facts about me:</p>
   <ul>
     <li>My name is {identity.firstName}.</li>

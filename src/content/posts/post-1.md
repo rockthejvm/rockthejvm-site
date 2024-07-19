@@ -1,8 +1,9 @@
 ---
 title: My First Blog-----------------------------------------------
-pubDate: 2022-07-01
+publishedDate: 2024-07-17
+lastUpdatedDate: 2024-07-18
 description: This is the first post of my new Astro blog.This is the first post of my new Astro blog.This is the first post of my new Astro blog.This is the first post of
-author: 'Astro Learner'
+author: andrei-georgescu
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
     alt: 'The Astro logo on a dark background with a pink glow.'

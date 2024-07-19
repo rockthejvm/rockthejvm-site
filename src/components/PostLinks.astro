@@ -1,0 +1,20 @@
+<!-- ---
+import type { CollectionEntry } from "astro:content";
+import PostLink from "./PostLink.astro";
+
+// type Props = {
+//   posts: CollectionEntry<"posts">["data"];
+// }
+type Props = {
+  postss: CollectionEntry<"posts">;
+}
+const { postss } = Astro.props;
+---
+
+<ul>
+  {
+    postss.map((post) => (
+      <PostLink slug={post.slug} title={post.data.title} />
+    ))
+  }
+</ul> -->

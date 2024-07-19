@@ -1,0 +1,18 @@
+---
+import PostTag from "./PostTag.astro";
+
+type Props = {
+  tags: string[];
+};
+const { tags } = Astro.props;
+---
+
+<div>
+  {tags.map((tag) => <PostTag tag={tag} />)}
+</div>
+<style>
+  div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+</style>
