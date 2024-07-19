@@ -1,7 +1,9 @@
 ---
-type Props = {
-  tag: string;
-};
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  tag: CollectionEntry<"posts">["data"]["tags"][0];
+}
 const { tag } = Astro.props;
 ---
 

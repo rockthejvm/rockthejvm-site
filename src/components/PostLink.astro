@@ -1,10 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
 
-type Props = {
+interface Props {
   title: CollectionEntry<"posts">["data"]["title"];
   slug: CollectionEntry<"posts">["slug"];
-};
+}
 const { title, slug } = Astro.props;
 ---
 
