@@ -1,18 +1,19 @@
 ---
-import Copyright from "./Copyright.astro";
+import Copyright from "./Copyright.jsx";
 import Social from "./Social.astro";
 ("./Social.astro");
 ---
 
 <footer>
   <Social platform="github" username="andreilgeorgescu" />
-  <Copyright />
+  <Copyright client:visible />
 </footer>
 
 <style>
   footer {
     display: flex;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 50rem;
+    top: 100vh;
   }
 </style>
