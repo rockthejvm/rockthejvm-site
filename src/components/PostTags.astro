@@ -1,14 +1,15 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import PostTag from "./PostTag.astro";
 
-type Props = {
-  tags: string[];
-};
+interface Props {
+  tags: CollectionEntry<"posts">["data"]["tags"];
+}
 const { tags } = Astro.props;
 ---
 
 <div>
-  {tags.map((tag) => <PostTag tag={tag} />)}
+  {tags.map((tag) => <PostTag {tag} />)}
 </div>
 <style>
   div {
