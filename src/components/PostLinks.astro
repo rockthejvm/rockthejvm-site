@@ -1,8 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import PostLink from "../components/PostLink.astro";
+import type { CollectionEntry } from "astro:content";
 
-const posts = await getCollection("posts");
+interface Props {
+  posts?: CollectionEntry<"posts">[];
+}
+const allPosts = await getCollection("posts");
+const { posts = allPosts } = Astro.props;
 ---
 
 <ul>

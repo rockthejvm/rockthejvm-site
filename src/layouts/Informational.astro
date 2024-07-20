@@ -1,0 +1,52 @@
+---
+import Hero from "../components/Hero.astro";
+import Base from "./Base.astro";
+
+// interface Props {
+//   imagePair?: [string, string];
+//   metaDescription: string;
+//   metaSiteTitle: string;
+//   metaTitle: string;
+//   OGDescription: string;
+//   OGImage: string;
+//   OGImageAlt: string;
+//   OGSiteName: string;
+//   OGTitle: string;
+//   OGType: string;
+//   OGURL: string;
+//   title: string;
+// }
+
+const { frontmatter } = Astro.props;
+
+const {
+  imagePair,
+  metaDescription,
+  metaSiteTitle,
+  metaTitle,
+  OGDescription,
+  OGImage,
+  OGImageAlt,
+  OGSiteName,
+  OGTitle,
+  OGType,
+  OGURL,
+  title,
+} = frontmatter;
+---
+
+<Base
+  {metaDescription}
+  {metaSiteTitle}
+  {metaTitle}
+  {OGDescription}
+  {OGImage}
+  {OGImageAlt}
+  {OGSiteName}
+  {OGTitle}
+  {OGType}
+  {OGURL}
+>
+  <Hero {imagePair} {title} />
+  <slot />
+</Base>

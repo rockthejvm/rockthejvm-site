@@ -1,19 +1,45 @@
 ---
 // import { Icon } from "astro-icon/components";
 interface Props {
-  description: string;
-  title: string;
+  metaDescription: string;
+  metaSiteTitle: string;
+  metaTitle: string;
+  OGDescription: string;
+  OGImage: string;
+  OGImageAlt: string;
+  OGSiteName: string;
+  OGTitle: string;
+  OGType: string;
+  OGURL: string;
 }
-const { description, title } = Astro.props;
+const {
+  metaDescription,
+  metaSiteTitle,
+  metaTitle,
+  OGDescription,
+  OGImage,
+  OGImageAlt,
+  OGSiteName,
+  OGTitle,
+  OGType,
+  OGURL,
+} = Astro.props;
 ---
 
 <head>
-  <meta charset="utf-8" />
-  <!-- <Icon name="favicon" /> -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width" initial-scale="1.0" />
+  <meta charset="utf-8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="description" content={metaDescription} />
   <meta name="generator" content={Astro.generator} />
-  <meta name="description" content={description} />
-  <!-- <meta name="author"  -->
-  <title>{title}</title>
+  <meta name="site_title" content={metaSiteTitle} />
+  <meta name="viewport" content="width=device-width" initial-scale="1.0" />
+  <meta property="og:description" content={OGDescription} />
+  <meta property="og:image:alt" content={OGImageAlt} />
+  <meta property="og:image" content={OGImage} />
+  <meta property="og:site_name" content={OGSiteName} />
+  <meta property="og:title" content={OGTitle} />
+  <meta property="og:type" content={OGType} />
+  <meta property="og:url" content={OGURL} />
+  <title>{metaTitle}</title>
 </head>

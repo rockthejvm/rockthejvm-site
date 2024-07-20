@@ -1,19 +1,21 @@
 ---
-import Hamburger from "./Hamburger.astro";
-import Navigation from "./Navigation.astro";
-import ThemeIcon from "./ThemeIcon.astro";
+import LoginButton from "./LoginButton.astro";
+// import Hamburger from "./Hamburger.astro";
+// import Navigation from "./Navigation.astro";
+// import ThemeIcon from "./ThemeIcon.astro";
+// type ImagePair = {
+//   url: string;
+//   alt: string;
+// };
+const imagePair: [string, string] = [
+  "https://www.filepicker.io/api/file/bbjdMbWMQNiLBb65Q7BY",
+  "Rock the JVM members login",
+];
 ---
 
 <header>
-  <Hamburger />
+  <!-- <Hamburger />
   <Navigation />
-  <ThemeIcon />
+  <ThemeIcon /> -->
+  <LoginButton {imagePair} />
 </header>
-<style>
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-  }
-</style>

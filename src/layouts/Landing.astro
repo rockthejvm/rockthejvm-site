@@ -1,0 +1,58 @@
+---
+import Hero from "../components/Hero.astro";
+import Base from "./Base.astro";
+
+interface Props {
+  imagePair?: [string, string];
+  metaDescription: string;
+  metaSiteTitle: string;
+  metaTitle: string;
+  OGDescription: string;
+  OGImage: string;
+  OGImageAlt: string;
+  OGSiteName: string;
+  OGTitle: string;
+  OGType: string;
+  OGURL: string;
+  subtitle: string;
+  subtitle2?: string;
+  title: string;
+}
+
+const {
+  imagePair,
+  metaDescription,
+  metaSiteTitle,
+  metaTitle,
+  OGDescription,
+  OGImage,
+  OGImageAlt,
+  OGSiteName,
+  OGTitle,
+  OGType,
+  OGURL,
+  subtitle,
+  subtitle2,
+  title,
+} = Astro.props;
+---
+
+<Base
+  {metaDescription}
+  {metaSiteTitle}
+  {metaTitle}
+  {OGDescription}
+  {OGImage}
+  {OGImageAlt}
+  {OGSiteName}
+  {OGTitle}
+  {OGType}
+  {OGURL}
+>
+  <Hero {imagePair} {subtitle} {subtitle2} {title} />
+</Base>
+<!-- <style>
+  Hero {
+    background-color: var(--color-primary);
+  }
+</style> -->
