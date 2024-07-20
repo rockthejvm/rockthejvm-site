@@ -66,12 +66,7 @@ export const collections = {
     type: "content",
     schema: z
       .object({
-        avatar: z
-          .object({
-            url: z.string().url(),
-            alt: z.string(),
-          })
-          .strict(),
+        avatar: z.string(),
         company: z.string(),
         link: z.string().url(),
         city: z.string(),
