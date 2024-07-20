@@ -1,6 +1,4 @@
 ---
-layout: ../layouts/Informational.astro
-imagePair: [https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21, Rock the JVM - learn Scala, Akka and Apache Spark]
 metaDescription: The best training material on Java, Scala, Akka and the JVM, on the whole damn web.
 metaSiteTitle: Rock the JVM
 metaTitle: About us - Rock the JVM

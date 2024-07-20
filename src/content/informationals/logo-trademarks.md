@@ -1,6 +1,4 @@
 ---
-layout: ../layouts/Informational.astro
-imagePair: [https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21, Rock the JVM - learn Scala, Akka and Apache Spark]
 metaDescription: The design and meaning of the Rock the JVM logo, as well as the use of other logos on the site.
 metaSiteTitle: Rock the JVM
 metaTitle: Logos and Trademarks | Rock the JVM
@@ -21,7 +19,7 @@ Rock the JVM aims to become the go-to learning resource for anything in the Scal
 
 ## The Design
 
-The idea of a rock-on sign with polygons came to me while I was in the process of creating this website, but I draw like a 3-year-old. So I went on 99 Designs and a brilliant designer helped me with the UI/UX for this website (which I eventually never used, but that's a longer story). Before creating the actual website, I asked him to help me with a logo for it. His name is Ionuț, he goes by the nickname Jickster and you can find him [here]("https://99designs.com/profiles/jickster").
+The idea of a rock-on sign with polygons came to me while I was in the process of creating this website, but I draw like a 3-year-old. So I went on 99 Designs and a brilliant designer helped me with the UI/UX for this website (which I eventually never used, but that's a longer story). Before creating the actual website, I asked him to help me with a logo for it. His name is Ionuț, he goes by the nickname Jickster and you can find him [here](https://99designs.com/profiles/jickster).
 
 ## What it Means
 
