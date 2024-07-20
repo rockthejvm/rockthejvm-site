@@ -24,7 +24,7 @@ const formatDate = (date: Date) =>
   });
 ---
 
-<Base {title} {description}>
+<Base metaTitle=`${title} - Rock the JVM Blog` {description}>
   <article>
     <p>Published on: {formatDate(publishedDate)}</p>
     {lastUpdatedDate && <p>Updated on: {formatDate(lastUpdatedDate)}</p>}

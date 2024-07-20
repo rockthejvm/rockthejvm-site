@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import PostLink from "../../components/PostLink.astro";
 import Base from "../../layouts/Base.astro";
+import PostLinks from "../../components/PostLinks.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -17,12 +17,10 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
-const description: string = "Page for the tag ${tag}";
+const description: string = `"Page for the tag ${tag}"`;
 ---
 
 <Base title={tag} {description}>
   <p>Posts tagged with {tag}</p>
-  <ul>
-    {posts.map((post) => <PostLink title={post.data.title} slug={post.slug} />)}
-  </ul>
+  <PostLinks {posts} />
 </Base>

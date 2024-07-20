@@ -1,0 +1,13 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  imagePair?: [string, string];
+}
+const { imagePair } = Astro.props;
+---
+
+<button>
+  <Image src={imagePair[0]} alt={imagePair[1]} inferSize={true} />
+  <p>My account</p>
+</button>

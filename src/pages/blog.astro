@@ -4,10 +4,10 @@ import "../styles/global.css";
 import Base from "../layouts/Base.astro";
 import PostLinks from "../components/PostLinks.astro";
 
-const title: string = "My Astro Learning Blog";
+const metaTitle: string = "My Astro Learning Blog";
 const description: string = "The blog page";
 ---
 
-<Base {title} {description}>
+<Base {metaTitle} {description}>
   <PostLinks />
 </Base>

@@ -4,17 +4,17 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
     },
-    "ghcr.io/devcontainers/features/git-lfs:1": {}
+    "ghcr.io/devcontainers/features/git-lfs:1": {} // move to base?
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "astro-build.astro-vscode",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode" // replace with trunk?
       ]
     }
   },
-  "updateContentCommand": "npm ci",
+  "updateContentCommand": "npm install", // npm ci?
   "postAttachCommand": "npm run dev",
   "forwardPorts": [4321],
   "portsAttributes": {
