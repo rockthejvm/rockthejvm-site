@@ -3,7 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import PostTag from "./PostTag.astro";
 
 interface Props {
-  tags: CollectionEntry<"posts">["data"]["tags"];
+  tags: CollectionEntry<"blog">["data"]["tags"];
 }
 const { tags } = Astro.props;
 ---
