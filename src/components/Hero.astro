@@ -11,20 +11,18 @@ interface Props {
 const { imagePair, subtitle, subtitle2, title } = Astro.props;
 ---
 
-<div>
-  {
-    imagePair && (
-      <Image src={imagePair[0]} alt={imagePair[1]} inferSize={true} />
-    )
-  }
-  <div>
-    <h1>{title}</h1>
-    {subtitle && <p>{subtitle}</p>}
-    {subtitle2 && <p>{subtitle2}</p>}
+<section class="hero-section">
+  <div class="img-wrapper">
+    {
+      imagePair && (
+        <Image src={imagePair[0]!} alt={imagePair[1]!} inferSize={true} />
+      )
+    }
   </div>
-</div>
-<style>
-  div {
-    background-color: red;
-  }
-</style>
+
+  <div class="content-wrapper">
+    <h1 class="main-heading">{title}</h1>
+    {subtitle && <p class="intro-text">{subtitle}</p>}
+    {subtitle2 && <p class="intro-text">{subtitle2}</p>}
+  </div>
+</section>
