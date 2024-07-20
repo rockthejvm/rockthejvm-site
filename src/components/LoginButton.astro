@@ -5,9 +5,30 @@ interface Props {
   image?: { src: string; alt: string };
 }
 const { image } = Astro.props;
+
+const loginUrl = "https://rockthejvm.com/sign_in";
 ---
 
-<button>
-  {image && <Image src={image.src} alt={image.alt} inferSize={true} />}
+<!-- <button>
+  {image && <img src={image.src} alt={image.alt} />}
   <p>My account</p>
-</button>
+</button> -->
+<a class="" href={loginUrl}>
+  <div class="login-box">
+    <img class="my-account__logo" src={image!.src} alt={image!.alt} />
+    <div class="my-account__title">My account</div>
+  </div>
+</a>
+
+<!--
+<a class="" href="https://rockthejvm.com/sign_in">
+        <div class="login-box">
+          <img
+            class="my-account__logo"
+            src="./green-rtjvm-logo.svg"
+            alt="Rock the JVM members login"
+          />
+          <div class="my-account__title">My account</div>
+        </div>
+      </a>
+-->

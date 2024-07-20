@@ -13,11 +13,12 @@ const profilePictureAlt = "Profile picture";
 const instructorUrl = "https://danielciocirlan.com/";
 ---
 
-<section class="section-heading">
-  <h2 class="section-heading">{title}</h2>
+<h2 class="section-heading">{title}</h2>
+
+<section class="instructor-section">
   <div class="img-wrapper">
     <a href={instructorUrl}>
-      <Image src={profilePicture} alt={profilePictureAlt} inferSize={true} />
+      <img src={profilePicture} alt={profilePictureAlt} />
     </a>
   </div>
   <div class="content-wrapper">
@@ -26,9 +27,10 @@ const instructorUrl = "https://danielciocirlan.com/";
       {instructorBio}
     </p>
   </div>
-  <p class="bio-text">
-    <strong>
-      {instructorMessage}
-    </strong>
-  </p>
 </section>
+
+<p class="bio-text">
+  <strong>
+    {instructorMessage}
+  </strong>
+</p>

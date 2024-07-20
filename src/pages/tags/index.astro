@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PostTags from "../../components/PostTags.astro";
-const posts = await getCollection("posts");
+const posts = await getCollection("blog");
 const tags = [...new Set(posts.map((post) => post.data.tags).flat())];
 const title: string = "Tag Index";
 const description: string = "The tags index page";

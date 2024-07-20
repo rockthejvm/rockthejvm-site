@@ -2,7 +2,9 @@
 import Contact from "../components/Contact.astro";
 import Hero from "../components/Hero.astro";
 import Instructor from "../components/Instructor.astro";
+import LatestContent from "../components/LatestContent.astro";
 import Membership from "../components/Membership.astro";
+import BrandLogos from "../components/BrandLogos.astro";
 import Reviews from "../components/Reviews.astro";
 import Base from "./Base.astro";
 
@@ -48,8 +50,13 @@ const {
   {OGURL}
 >
   <div class="main">
-    <Hero {image} {subtitle} {subtitle2} {title} />
-    <hr />
+    <div>
+      <Hero {image} {subtitle} {subtitle2} {title} />
+      <LatestContent />
+      <Membership />
+      <Instructor />
+      <BrandLogos />
+      <!-- <hr />
     <h2>LATEST CONTENT</h2>
     <hr />
     <h2>COURSES</h2>
@@ -57,7 +64,8 @@ const {
     <Membership />
     <Instructor />
     <Reviews />
-    <Contact />
+    <Contact /> -->
+    </div>
   </div>
 </Base>
 <!-- <style>
