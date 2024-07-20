@@ -3,14 +3,12 @@ import Hero from "../components/Hero.astro";
 import Base from "./Base.astro";
 
 interface Props {
-  imagePair?: [string, string];
+  image?: { src: string; alt: string };
   metaDescription: string;
-  metaSiteTitle: string;
   metaTitle: string;
   OGDescription: string;
   OGImage: string;
   OGImageAlt: string;
-  OGSiteName: string;
   OGTitle: string;
   OGType: string;
   OGURL: string;
@@ -20,14 +18,12 @@ interface Props {
 }
 
 const {
-  imagePair,
+  image,
   metaDescription,
-  metaSiteTitle,
   metaTitle,
   OGDescription,
   OGImage,
   OGImageAlt,
-  OGSiteName,
   OGTitle,
   OGType,
   OGURL,
@@ -39,17 +35,15 @@ const {
 
 <Base
   {metaDescription}
-  {metaSiteTitle}
   {metaTitle}
   {OGDescription}
   {OGImage}
   {OGImageAlt}
-  {OGSiteName}
   {OGTitle}
   {OGType}
   {OGURL}
 >
-  <Hero {imagePair} {subtitle} {subtitle2} {title} />
+  <Hero {image} {subtitle} {subtitle2} {title} />
 </Base>
 <!-- <style>
   Hero {

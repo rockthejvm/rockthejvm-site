@@ -1,17 +1,15 @@
 ---
 import "../styles/global.css";
-import Head from "../components/Head.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import Head from "../components/Head.astro";
 
 interface Props {
   metaDescription: string;
-  metaSiteTitle: string;
   metaTitle: string;
   OGDescription: string;
   OGImage: string;
   OGImageAlt: string;
-  OGSiteName: string;
   OGTitle: string;
   OGType: string;
   OGURL: string;
@@ -19,12 +17,10 @@ interface Props {
 
 const {
   metaDescription,
-  metaSiteTitle,
   metaTitle,
   OGDescription,
   OGImage,
   OGImageAlt,
-  OGSiteName,
   OGTitle,
   OGType,
   OGURL,
@@ -35,12 +31,10 @@ const {
 <html lang="en">
   <Head
     {metaDescription}
-    {metaSiteTitle}
     {metaTitle}
     {OGDescription}
     {OGImage}
     {OGImageAlt}
-    {OGSiteName}
     {OGTitle}
     {OGType}
     {OGURL}
