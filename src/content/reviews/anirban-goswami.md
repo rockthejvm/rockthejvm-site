@@ -1,5 +1,5 @@
 ---
-avatar: anirban-goswami.jpeg
+avatar: ./anirban-goswami.jpeg
 city: Cupertino
 country: California
 company: Apple
