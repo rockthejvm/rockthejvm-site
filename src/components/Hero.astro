@@ -22,3 +22,747 @@ const { image, subtitle, subtitle2, title } = Astro.props;
     {subtitle2 && <p class="intro-text">{subtitle2}</p>}
   </div>
 </section>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  body,
+  html {
+    /* font-size: 18pt;*/
+    font-family: Montserrat, sans-serif;
+  }
+
+  @media (max-width: 1680px) {
+    body,
+    html {
+      font-size: 13pt;
+    }
+  }
+
+  @media (max-width: 1280px) {
+    body,
+    html {
+      font-size: 13pt;
+    }
+  }
+
+  @media (max-width: 980px) {
+    body,
+    html {
+      font-size: 11pt;
+    }
+  }
+
+  *,
+  :after,
+  :before {
+    box-sizing: border-box;
+  }
+
+  body {
+    -webkit-text-size-adjust: none;
+    min-width: 320px;
+    min-height: 100vh;
+    line-height: 1;
+    word-wrap: break-word;
+    overflow-x: hidden;
+  }
+
+  strong {
+    color: inherit;
+    font-weight: bolder;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  a {
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease,
+      border-color 0.25s ease;
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  body:before {
+    content: "";
+    display: block;
+    background-attachment: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1000;
+    pointer-events: none;
+    transform: scale(1);
+    /*background-image: linear-gradient(135deg, #ff4b24 0, #540000 100%);
+  background-size: auto;*/
+    background-position: 0 0;
+    background-repeat: repeat;
+    /* added this to be the same as the rock the jvm jobs board */
+    background-size: 300%;
+    background-image: linear-gradient(
+      -45deg,
+      rgb(38, 145, 207) 0%,
+      rgb(43, 51, 160) 25%,
+      rgb(96, 54, 127) 50%,
+      rgb(153, 67, 67) 100%
+    );
+    animation: animateBG 20s ease infinite;
+  }
+
+  body:after {
+    display: block;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 1s ease-in-out 0s,
+      visibility 1s 0s;
+    transform: scale(1);
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .main {
+    display: flex;
+    position: relative;
+    max-width: 100%;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: center;
+    padding: 3rem 5rem;
+    width: 74rem;
+  }
+
+  .my-account {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 99;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    box-shadow: 1px 1px 20px 10px #00000038;
+    font-family: Montserrat, sans-serif;
+  }
+
+  .login-box:hover {
+    width: 185px;
+  }
+  .login-box:hover .my-account__logo {
+    width: 40px;
+    /* margin-right: 10px !important; */
+  }
+
+  .my-account__logo {
+    width: 40px;
+    margin: 0 !important;
+    transition: margin 0.3s;
+  }
+
+  .my-account__title {
+    margin: 0 10px;
+    transition: margin 0.3s;
+  }
+
+  .hero-section {
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    /* padding: 7.5rem 0; */
+  }
+
+  .hero-section .img-wrapper {
+    height: 160px;
+    width: 25%;
+  }
+
+  .hero-section .content-wrapper {
+    height: 280px;
+    width: 75%;
+    text-align: left;
+  }
+
+  .hero-section .img-wrapper img {
+    width: 200px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-section {
+      height: 540px;
+      padding: 7.5rem 0;
+    }
+    .hero-section .img-wrapper {
+      height: 250px;
+      width: 25%;
+    }
+  }
+
+  @media (max-width: 1100px) and (min-width: 768px) {
+    .hero-section .img-wrapper img {
+      width: 100%;
+    }
+  }
+
+  .main-heading {
+    text-transform: uppercase;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 4.25em;
+    line-height: 1.375;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+
+  .intro-text {
+    color: rgba(255, 255, 255, 0.769);
+    font-family: Montserrat, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1.125em;
+    line-height: 1.5;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .section-heading {
+    text-align: center;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 3.5em;
+    line-height: 1.125;
+    font-weight: 700;
+    margin-top: 3rem;
+  }
+
+  .course-box {
+    /* height: 550px; */
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 1.125rem 0 rgba(0, 0, 0, 0.471);
+    border-radius: 1rem;
+    overflow: hidden;
+    flex-wrap: wrap;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .free-content {
+    display: flex;
+  }
+
+  .course-box .image-wrapper {
+    width: calc(30% + 1.62rem);
+  }
+
+  .course-box .image-wrapper-2 {
+    width: calc(40% + 1.62rem);
+  }
+
+  .course-box .image-wrapper img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* START CUSTOM STUFF */
+  .free-content-box {
+    flex: 1;
+    background-color: #fff;
+    box-shadow: 0 0 1.125rem 0 rgba(0, 0, 0, 0.471);
+    border-radius: 1rem;
+    overflow: hidden;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .box-heading {
+    margin: 1rem;
+  }
+
+  .course-title a {
+    font-size: 2rem;
+    text-decoration: none;
+  }
+
+  .course-title a:hover {
+    color: #fc1c03;
+  }
+
+  .content-links-container {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .content-link {
+    padding: 0.6rem;
+    margin: 0.2rem 0;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    line-height: 1.2rem;
+  }
+
+  .content-link:hover {
+    background: #163d77;
+    color: white;
+  }
+
+  .content-link:active {
+    background: black;
+    color: white;
+  }
+
+  .content-link:after {
+    content: "";
+    background: lightgray;
+    width: 80%;
+    height: 1px;
+    position: absolute;
+    bottom: -0.2rem;
+  }
+
+  .content-link-text {
+    display: flex;
+    align-items: center;
+  }
+
+  .content-link-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .articles-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 190px;
+  }
+
+  .articles-list > * {
+    flex: 1 1;
+    max-width: 200px;
+  }
+
+  .free-image-wrapper img {
+    display: block;
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* END CUSTOM STUFF */
+
+  @media (min-width: 1131px) {
+    .course-box .image-wrapper img {
+      /*height: 190px;*/
+    }
+  }
+
+  @media (min-width: 1131px) {
+    .course-box {
+      height: 203px;
+    }
+    .course-box .image-wrapper img {
+      height: 203px;
+      width: 100%;
+    }
+    /* .course-box .image-wrapper-2 img {
+      height: 405px;
+  } */
+  }
+
+  @media (max-width: 1130px) and (min-width: 768px) {
+    .course-box {
+      height: 203px;
+    }
+    .course-box .image-wrapper img {
+      height: 203px;
+    }
+  }
+
+  .course-box .content-wrapper {
+    text-align: left;
+    width: calc(70% - 1.62rem);
+    padding: 1rem 1.5rem;
+  }
+
+  .course-box .content-wrapper-2 {
+    text-align: left;
+    width: calc(60% - 1.62rem);
+    padding: 1rem 1.5rem;
+  }
+
+  .course-title {
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.75em;
+    line-height: 1.125;
+    font-weight: 700;
+  }
+
+  .course-description {
+    text-align: justify;
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: 400;
+    margin-top: 1rem;
+  }
+
+  .membership-section {
+    flex-wrap: wrap;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .membership-section img {
+    display: block;
+    max-width: 100%;
+    margin: auto;
+  }
+
+  .membership-section .content-wrapper,
+  .membership-section .image-wrapper {
+    width: 50%;
+  }
+
+  .membership-section .title {
+    text-align: justify;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1.75em;
+    line-height: 1.5;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .membership-section .description {
+    text-align: justify;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: 400;
+    margin-top: 1rem;
+  }
+
+  .instructor-section {
+    padding: 1.5rem 3rem;
+    background: #fff;
+    border-radius: 24px;
+    flex-wrap: wrap;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .instructor-section img {
+    display: block;
+    width: 15.25rem;
+    margin: auto;
+    border-radius: 50%;
+  }
+
+  .instructor-section .title {
+    text-transform: uppercase;
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    font-size: 2.5em;
+    line-height: 1.125;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .instructor-section .description {
+    text-align: justify;
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .instructor-section .image-wrapper {
+    width: 40%;
+  }
+
+  .instructor-section .content-wrapper {
+    width: 60%;
+  }
+
+  .bio-text {
+    margin: 2rem 0;
+    text-align: center;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1.75em;
+    line-height: 1.5;
+    font-weight: 700;
+  }
+
+  .brand-logos {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 1rem;
+  }
+
+  .brand-logos div {
+    flex: 1 1 10rem;
+    margin: 1rem 0.35rem;
+  }
+
+  .brand-logos img {
+    display: block;
+    max-width: 100%;
+    width: 8rem;
+    margin: auto;
+  }
+
+  .review-wrapper .header {
+    width: 44rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem auto 1rem;
+  }
+
+  .reviewer-img {
+    width: 25%;
+  }
+
+  .reviewer-details {
+    width: 75%;
+    text-align: center;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.25em;
+    line-height: 1.125;
+    font-weight: 700;
+  }
+
+  .reviewer-img img {
+    max-width: 100%;
+    width: 68px;
+    border-radius: 3rem;
+  }
+
+  .review-text {
+    text-align: justify;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .mail-icon {
+    display: flex;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+    width: 2em;
+    height: 2em;
+    font-size: 3.75em;
+    border: solid 1px #d9d9d9;
+    color: #d9d9d9;
+    margin: 2rem auto;
+  }
+
+  .mail-icon:hover {
+    border-color: #f29db1;
+  }
+
+  .mail-icon svg {
+    width: 60%;
+    height: 60%;
+    fill: #d9d9d9;
+  }
+
+  .mail-icon:hover svg {
+    fill: #f29db1;
+  }
+
+  .about-link {
+    text-align: center;
+  }
+
+  .about-link a {
+    color: #fff;
+    text-decoration: none;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.125em;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .about-link a:hover {
+    text-decoration: underline;
+  }
+
+  .login-box {
+    display: flex;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 175px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 99;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    box-shadow: 1px 1px 20px 10px #00000038;
+    font-family: Montserrat, sans-serif;
+  }
+
+  .copyright-text {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: 400;
+    margin-top: 2rem;
+  }
+
+  .student-link {
+    text-decoration: none;
+  }
+
+  .student-link:hover {
+    text-decoration: underline;
+    color: white;
+  }
+
+  @media (max-width: 767.98px) {
+    .brand-logos div,
+    .course-box .content-wrapper,
+    .course-box .content-wrapper-2,
+    .course-box .image-wrapper,
+    .course-box .image-wrapper-2,
+    .hero-section .content-wrapper,
+    .hero-section .img-wrapper,
+    .instructor-section .content-wrapper,
+    .instructor-section .image-wrapper,
+    .membership-section .content-wrapper,
+    .membership-section .image-wrapper,
+    .reviewer-details,
+    .reviewer-img {
+      width: 100%;
+    }
+
+    .instructor-section .image-wrapper {
+      margin-bottom: 2rem;
+    }
+
+    .brand-logos img.logo-img-2 {
+      margin: 1.5rem auto;
+    }
+
+    .reviewer-details br {
+      display: none;
+    }
+
+    .review-wrapper .header {
+      width: 100%;
+    }
+
+    .login-box {
+      top: 2px;
+      left: 2px;
+      right: 0;
+      /* border-radius: 0; */
+    }
+
+    .my-account__logo {
+      margin: 0;
+    }
+
+    .free-content {
+      flex-direction: column;
+    }
+  }
+
+  .no-display {
+    display: none;
+  }
+
+  @keyframes animateBG {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+</style>
