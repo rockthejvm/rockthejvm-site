@@ -1,0 +1,21 @@
+---
+import { Image } from "astro:assets";
+import { type CollectionEntry } from "astro:content";
+
+interface Props {
+  frontmatter: CollectionEntry<"reviews">["data"];
+}
+
+const { frontmatter } = Astro.props;
+const { avatar, city, company, country, link, name, role } = frontmatter;
+---
+
+<article>
+  <header>
+    <Image src={avatar.url} alt={avatar.alt} inferSize={true} />
+    <p><a href={name}>{link}</a>, {role} at {company}</p>
+    <br />
+    <p>({city}, {country})</p>
+  </header>
+  <slot />
+</article>

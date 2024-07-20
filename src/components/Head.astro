@@ -2,34 +2,31 @@
 // import { Icon } from "astro-icon/components";
 interface Props {
   metaDescription: string;
-  metaSiteTitle: string;
   metaTitle: string;
   OGDescription: string;
   OGImage: string;
   OGImageAlt: string;
-  OGSiteName: string;
   OGTitle: string;
   OGType: string;
   OGURL: string;
 }
 const {
   metaDescription,
-  metaSiteTitle,
   metaTitle,
   OGDescription,
   OGImage,
   OGImageAlt,
-  OGSiteName,
   OGTitle,
   OGType,
   OGURL,
 } = Astro.props;
+const metaSiteTitle: string = "Rock the JVM";
+const OGSiteName: string = "Rock the JVM!";
 ---
 
 <head>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta charset="utf-8" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta charset="UTF-8" />
   <meta name="description" content={metaDescription} />
   <meta name="generator" content={Astro.generator} />
   <meta name="site_title" content={metaSiteTitle} />
@@ -41,5 +38,5 @@ const {
   <meta property="og:title" content={OGTitle} />
   <meta property="og:type" content={OGType} />
   <meta property="og:url" content={OGURL} />
-  <title>{metaTitle}</title>
+  <title>{metaTitle} - {metaSiteTitle}</title>
 </head>
