@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  imagePair: [string, string];
+  subtitle: string;
+  subtitle2: string;
+  title: string;
+}
+
+const imagePair = [
+  "https://cdn.filestackcontent.com/kKClNQUjSXmLy790EdpB",
+  "Membership",
+];
+const title = "The Membership";
+const subtitle = "Now also for teams!";
+const subtitle2 =
+  "All of Rock the JVM, at your service. Access ~250 hours of the best content you'll ever find, write more code than many write in their careers, and be welcome in a community of driven people like you.";
+---
+
+<section class="membership-section">
+  <h2 id="membership" class="section-heading">{title}</h2>
+  <div class="image-wrapper">
+    <a href="https://rockthejvm.com/p/membership">
+      <Image src={imagePair[0]!} alt={imagePair[1]!} inferSize={true} />
+    </a>
+  </div>
+  <div class="content-wrapper">
+    <p class="title"><strong>{subtitle}</strong></p>
+    <p class="description">{subtitle2}</p>
+    <p class="description">
+      <a href={imagePair[2]}>Learn more</a>
+      &nbsp;
+      <a href={imagePair[2]}>Check the team pack</a>
+    </p>
+  </div>
+</section>

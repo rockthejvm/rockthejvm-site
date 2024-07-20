@@ -57,6 +57,21 @@ export const collections = {
         })
         .strict(),
   }),
+  reviews: defineCollection({
+    type: "content",
+    schema: ({ image }) =>
+      z
+        .object({
+          avatar: image(),
+          company: z.string(),
+          link: z.string().url(),
+          location: z.string(),
+          name: z.string(),
+          review: z.string(),
+          role: z.string(),
+        })
+        .strict(),
+  }),
 };
 // TODO: validate that the dates are not in the future
 // TODO: validate that the date is in ISO format
