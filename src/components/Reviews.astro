@@ -1,45 +1,19 @@
-<section class="review-wrapper">
-  <h2 class="section-heading"></h2>
+---
+import { getCollection } from "astro:content";
+import Review from "../layouts/Review.astro";
 
-  <div class="review-wrapper">
-    <div class="header">
-      <div class="reviewer-img">
-        <img
-          src="https://res.cloudinary.com/riverwalk-software/image/upload/c_scale,w_500/f_auto/q_auto:eco/v1/rtjvm-homepage/giannis-polyzos-picture"
-          alt="Giannis Polyzos logo"
-        />
-      </div>
-      <div class="reviewer-details">
-        <a
-          class="student-link"
-          href="https://www.linkedin.com/in/john-polyzos-04a60688/"
-          >Giannis Polyzos</a
-        >, Senior Engineer at Ververica<br /> (Athens, Greece)
-      </div>
-    </div>
-    <div class="review-text">
-      <em
-        >From Scala, to Akka, to Spark, Daniel delivers exceptional material in
-        each and every one of these technologies. I&#39;ve been using them for a
-        long time and there is always something new I will discover from him. <strong
-          >The level of detail he gets into as well as the way he delivers
-          material is mindblowing.</strong
-        > I personally find his latest course Spark Optimization pure gold and one
-        of a kind. I&#39;ve been using Spark for a year now and I haven&#39;t even
-        thought how much you can leverage query plans to make such optimizations.
-        <strong
-          >I can&#39;t stop thinking every time, how he manages to go so deep</strong
-        > - because using a technology is one thing, but knowing its internals so
-        well and how everything works behind the scenes is another story when it
-        comes to distributed systems. Long story short Daniel is definitely the best
-        instructor I&#39;ve come across and each one of his courses is the best resource
-        you can find online. Kudos for all your work and knowledge sharing.</em
-      >
-    </div>
-  </div>
-</section>
+const reviews = await getCollection("reviews");
+---
 
-<!-----
+<section>
+  <h2>Reviews</h2>
+  {
+    reviews.map(async (review) => (
+      <Review frontmatter={review.data}>{await review.render()}</Review>
+    ))
+  }
+
+  <!-----
 
           <h2 class="section-heading">Reviews</h2>
 
@@ -142,3 +116,4 @@
           </div>
 
 --- -->
+</section>

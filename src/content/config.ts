@@ -19,7 +19,7 @@ export const collections = {
         // image: image(),
         image: z
           .object({
-            url: z.string(),
+            url: z.string().url(),
             alt: z.string(),
           })
           .strict(),
@@ -44,31 +44,40 @@ export const collections = {
         }
       ),
   }),
+  reviews: defineCollection({
+    type: "content",
+    schema: z
+      .object({
+        avatar: z
+          .object({
+            url: z.string().url(),
+            alt: z.string(),
+          })
+          .strict(),
+        company: z.string(),
+        link: z.string().url(),
+        city: z.string(),
+        country: z.string(),
+        name: z.string(),
+        role: z.string(),
+      })
+      .strict(),
+  }),
   authors: defineCollection({
     type: "data",
     schema: ({ image }) =>
       z
         .object({
-          name: z.string(),
+          avatar: z
+            .object({
+              image: image(),
+              alt: z.string(),
+            })
+            .strict(),
           bio: z.string(),
           email: z.string().email(),
-          role: z.enum(["Co-Founder"]),
-          avatar: image(),
-        })
-        .strict(),
-  }),
-  reviews: defineCollection({
-    type: "content",
-    schema: ({ image }) =>
-      z
-        .object({
-          avatar: image(),
-          company: z.string(),
-          link: z.string().url(),
-          location: z.string(),
           name: z.string(),
-          review: z.string(),
-          role: z.string(),
+          role: z.enum(["Co-Founder"]),
         })
         .strict(),
   }),

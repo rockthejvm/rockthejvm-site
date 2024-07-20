@@ -2,22 +2,18 @@
 import { Image } from "astro:assets";
 
 interface Props {
-  imagePair?: [string, string];
+  image?: { src: string; alt: string } | undefined;
   subtitle?: string;
-  subtitle2?: string;
+  subtitle2?: string | undefined;
   title: string;
 }
 
-const { imagePair, subtitle, subtitle2, title } = Astro.props;
+const { image, subtitle, subtitle2, title } = Astro.props;
 ---
 
 <section class="hero-section">
   <div class="img-wrapper">
-    {
-      imagePair && (
-        <Image src={imagePair[0]!} alt={imagePair[1]!} inferSize={true} />
-      )
-    }
+    {image && <Image src={image.src} alt={image.alt} inferSize={true} />}
   </div>
 
   <div class="content-wrapper">

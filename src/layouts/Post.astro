@@ -1,10 +1,9 @@
 ---
-import rays from "../images/rays.webp";
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
-import PostTags from "../components/PostTags.astro";
-import Base from "./Base.astro";
 import { getEntry } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "./Base.astro";
+import PostTags from "../components/PostTags.astro";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
   frontmatter: CollectionEntry<"posts">["data"];
@@ -24,16 +23,30 @@ const formatDate = (date: Date) =>
   });
 ---
 
-<Base metaTitle=`${title} - Rock the JVM Blog` {description}>
+<Base
+  {metaDescription}
+  {metaSiteTitle}
+  {metaTitle}
+  {OGDescription}
+  {OGImage}
+  {OGImageAlt}
+  {OGSiteName}
+  {OGTitle}
+  {OGType}
+  {OGURL}
+>
   <article>
-    <p>Published on: {formatDate(publishedDate)}</p>
-    {lastUpdatedDate && <p>Updated on: {formatDate(lastUpdatedDate)}</p>}
-    <p><em>{description}</em></p>
-    <p>Written by: {author.name}</p>
-    <Image src={author.avatar} alt={author.name} width="25" height="25" />
-    <!-- <img src={frontmatter.image.url} width="300" height="180" alt={frontmatter.image.alt} /> -->
-    <Image src={rays} width={300} height={180} alt={image.alt} />
-    <PostTags {tags} />
+    <header>
+      <h1>{title}</h1>
+      <p>Published on: {formatDate(publishedDate)}</p>
+      {lastUpdatedDate && <p>Updated on: {formatDate(lastUpdatedDate)}</p>}
+      <p><em>{description}</em></p>
+      <p>Written by: {author.name}</p>
+      <Image src={author.avatar} alt={author.name} width="25" height="25" />
+      <!-- <img src={frontmatter.image.url} width="300" height="180" alt={frontmatter.image.alt} /> -->
+      <Image src={rays} width={300} height={180} alt={image.alt} />
+      <PostTags {tags} />
+    </header>
     <hr />
     <slot />
     <!-- <hr />
