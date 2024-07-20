@@ -1,5 +1,9 @@
 ---
+import Contact from "../components/Contact.astro";
 import Hero from "../components/Hero.astro";
+import Instructor from "../components/Instructor.astro";
+import Membership from "../components/Membership.astro";
+import Reviews from "../components/Reviews.astro";
 import Base from "./Base.astro";
 
 interface Props {
@@ -43,7 +47,14 @@ const {
   {OGType}
   {OGURL}
 >
+  <h1>"HELLO"</h1>
   <Hero {image} {subtitle} {subtitle2} {title} />
+  <!-- latestcontent -->
+  <!-- courses -->
+  <Membership />
+  <Instructor />
+  <Reviews />
+  <Contact />
 </Base>
 <!-- <style>
   Hero {

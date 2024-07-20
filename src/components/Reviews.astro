@@ -2,14 +2,20 @@
 import { getCollection } from "astro:content";
 import Review from "../layouts/Review.astro";
 
+const zip = (a: any, b: any) => a.map((k: any, i: any) => [k, b[i]]);
 const reviews = await getCollection("reviews");
+const reviewsContent = reviews.map(async (review) => await review.render());
+const zippedReviews = zip(reviews, reviewsContent);
 ---
 
 <section>
   <h2>Reviews</h2>
   {
-    reviews.map(async (review) => (
-      <Review frontmatter={review.data}>{await review.render()}</Review>
+    // reviews.map(async (review) => (
+    //   <Review frontmatter={review.data}>{await review.render()}</Review>
+    // ))
+    zippedReviews.map(([review, content]) => (
+      <Review frontmatter={review.data}>{content}</Review>
     ))
   }
 
