@@ -12,11 +12,7 @@ const { avatar, city, company, country, link, name, role } = frontmatter;
 
 <article>
   <header>
-    <Image
-      src="/content/reviews/anirban-goswami.jpeg"
-      alt=`"Photo of ${name}"`
-      inferSize={true}
-    />
+    <img src={avatar} alt=`"Photo of ${name}"` />
     <p><a href={name}>{link}</a>, {role} at {company}</p>
     <br />
     <p>({city}, {country})</p>

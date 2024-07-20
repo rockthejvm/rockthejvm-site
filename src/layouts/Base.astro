@@ -40,10 +40,12 @@ const {
     {OGURL}
   />
   <body>
-    <Header />
-    <main>
-      <slot />
-    </main>
-    <Footer />
+    <div class="wrapper">
+      <Header />
+      <main>
+        <slot />
+        <Footer />
+      </main>
+    </div>
   </body>
 </html>
