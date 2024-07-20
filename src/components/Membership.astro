@@ -9,13 +9,16 @@ const membershipLink: string = "https://rockthejvm.com/membership";
 const teamPackLink: string = "https://rockthejvm.com/team-pack";
 ---
 
+<h2 id="membership" class="section-heading">The Membership</h2>
+
 <section class="membership-section">
-  <h2 id="membership" class="section-heading">The Membership</h2>
   <div class="image-wrapper">
     <a href={membershipLink}>
-      <Image src={image.src} alt={image.alt} inferSize={true} />
+      <!-- <Image src={image.src} alt={image.alt} inferSize={true} /> -->
+      <img src={image.src} alt={image.alt} />
     </a>
   </div>
+
   <div class="content-wrapper">
     <p class="title">
       <strong>Now also for <a href={teamPackLink}>teams!</a></strong>

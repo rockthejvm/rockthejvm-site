@@ -13,7 +13,8 @@ const { image, subtitle, subtitle2, title } = Astro.props;
 
 <section class="hero-section">
   <div class="img-wrapper">
-    {image && <Image src={image.src} alt={image.alt} inferSize={true} />}
+    <img src={image!.src} alt={image!.alt} />
+    <!-- {image && <Image src={image.src} alt={image.alt} inferSize={true} />} -->
   </div>
 
   <div class="content-wrapper">

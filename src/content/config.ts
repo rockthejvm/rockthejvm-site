@@ -1,48 +1,24 @@
+import { string } from "astro/zod";
 import { z, defineCollection, reference } from "astro:content";
 
 export const collections = {
-  posts: defineCollection({
+  blog: defineCollection({
     type: "content",
     schema: z
       .object({
-        title: z
-          .string()
-          .min(50, "Title should be at least 50 characters")
-          .max(60, "Title should not exceed 60 characters"),
-        publishedDate: z.date(),
-        lastUpdatedDate: z.date().optional(),
-        description: z
-          .string()
-          .min(140, "Description should be at least 140 characters")
-          .max(160, "Description should not exceed 160 characters"),
-        author: reference("authors"),
-        // image: image(),
-        image: z
-          .object({
-            url: z.string().url(),
-            alt: z.string(),
-          })
-          .strict(),
-        tags: z.array(z.string()).min(1, "At least one tag is required"),
-        // relatedPosts: z.array(reference("posts")).optional(),
+        title: z.string(),
+        date: z.date(),
+        header: z.object({
+          image: z.string(),
+          overlay_color: z.string().optional(),
+          overlay_image: z.string().optional(),
+        }),
+        tags: z.array(z.string()),
+        excerpt: z.string(),
+        toc: z.boolean().optional(),
+        toc_label: z.string().optional(),
       })
-      .strict()
-      .refine(
-        (data) => {
-          if (
-            data.lastUpdatedDate &&
-            data.lastUpdatedDate < data.publishedDate
-          ) {
-            return false;
-          }
-          return true;
-        },
-        {
-          message:
-            "lastUpdatedDate must be greater than or equal to publishedDate",
-          path: ["lastUpdatedDate"],
-        }
-      ),
+      .strict(),
   }),
   informationals: defineCollection({
     type: "content",
