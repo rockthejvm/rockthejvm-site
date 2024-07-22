@@ -20,8 +20,8 @@ const {
   OGType,
   OGURL,
 } = Astro.props;
-const metaSiteTitle: string = "Rock the JVM";
-const OGSiteName: string = "Rock the JVM!";
+import data from "../data/site.json";
+const { metaSiteTitle, OGSiteName } = data;
 ---
 
 <head>
