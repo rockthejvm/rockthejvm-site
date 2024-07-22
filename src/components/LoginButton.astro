@@ -5,15 +5,13 @@ interface Props {
   image?: { src: string; alt: string };
 }
 const { image } = Astro.props;
-
-const loginUrl = "https://rockthejvm.com/sign_in";
 ---
 
 <!-- <button>
   {image && <img src={image.src} alt={image.alt} />}
   <p>My account</p>
 </button> -->
-<a class="" href={loginUrl}>
+<a class="" href="https://rockthejvm.com/sign_in">
   <div class="login-box">
     <img class="my-account__logo" src={image!.src} alt={image!.alt} />
     <div class="my-account__title">My account</div>

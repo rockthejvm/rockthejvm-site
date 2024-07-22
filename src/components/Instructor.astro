@@ -1,36 +1,31 @@
 ---
-import { Image } from "astro:assets";
-
-const title = "The Instructor";
-const instructorName = "Daniel Ciocîrlan".toUpperCase();
-const instructorBio =
-  "Software engineer and best-selling instructor. I'm an avid fan of Scala, Kotlin, functional programming, big data and streaming. As of May 2023, I've taught more than 80000 people all over the world.";
-const instructorMessage =
-  "I've taught Scala, Kotlin, Akka, Spark and more in live trainings at some of the best companies in the world.";
-const profilePicture =
-  "https://res.cloudinary.com/riverwalk-software/image/upload/c_scale,w_500/f_auto/q_auto:eco/v1/rtjvm-homepage/profile-picture";
-const profilePictureAlt = "Profile picture";
-const instructorUrl = "https://danielciocirlan.com/";
+// import { Image } from "astro:assets";
 ---
 
-<h2 class="section-heading">{title}</h2>
+<h2 class="section-heading">The Instructor</h2>
 
 <section class="instructor-section">
   <div class="img-wrapper">
-    <a href={instructorUrl}>
-      <img src={profilePicture} alt={profilePictureAlt} />
+    <a href="https://danielciocirlan.com/">
+      <img
+        src="https://res.cloudinary.com/riverwalk-software/image/upload/c_scale,w_500/f_auto/q_auto:eco/v1/rtjvm-homepage/profile-picture"
+        alt="Profile picture"
+      />
     </a>
   </div>
   <div class="content-wrapper">
-    <p class="title">{instructorName}</p>
+    <p class="title">{"Daniel Ciocîrlan".toUpperCase()}</p>
     <p class="description">
-      {instructorBio}
+      Software engineer and best-selling instructor. I'm an avid fan of Scala,
+      Kotlin, functional programming, big data and streaming. As of May 2023,
+      I've taught more than 80000 people all over the world.
     </p>
   </div>
 </section>
 
 <p class="bio-text">
   <strong>
-    {instructorMessage}
+    I've taught Scala, Kotlin, Akka, Spark and more in live trainings at some of
+    the best companies in the world.
   </strong>
 </p>
