@@ -10,7 +10,10 @@ interface Props {
 const { frontmatter } = Astro.props;
 const { title, description, pubDate, updatedDate, heroImage, tags } =
   frontmatter;
-const { data: author } = await getEntry("authors", frontmatter.author.id);
+const { data: author } = await getEntry(
+  frontmatter.author.collection,
+  frontmatter.author.id,
+);
 
 // const formatDate = (date: Date) =>
 //   date.toLocaleDateString("en-US", {
