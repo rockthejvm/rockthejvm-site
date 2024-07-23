@@ -1,9 +1,10 @@
 ---
 avatar: ./giannis-polyzos.jpeg
-city: Athens
-country: Greece
 company: Ververica
 link: https://www.linkedin.com/in/john-polyzos-04a60688/
+location:
+    city: Athens
+    country: Greece
 name: Giannis Polyzos
 role: Senior Engineer
 ---

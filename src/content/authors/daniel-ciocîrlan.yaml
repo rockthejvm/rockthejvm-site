@@ -1,0 +1,14 @@
+bio: I'm a software engineer and the founder of Rock the JVM. I teach Scala, Kotlin, Java, big data and a variety of tech both live and in online courses.
+location:
+  city: Bucharest
+  country: Romania
+name: Daniel Ciocîrlan
+photo: ./
+socials:
+  email: daniel@rockthejvm.com
+  facebook: https://facebook.com/rockthejvm
+  github: https://github.com/rockthejvm
+  linkedin: https://ro.linkedin.com/in/danielciocirlan
+  twitter: https://twitter.com/rockthejvm
+  website: https://rockthejvm.com/
+  youtube: https://youtube.com/rockthejvm

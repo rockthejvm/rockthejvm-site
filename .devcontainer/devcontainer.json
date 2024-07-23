@@ -14,8 +14,8 @@
       ]
     }
   },
-  "updateContentCommand": "npm ci",
-  "postAttachCommand": "npm run dev",
+  "updateContentCommand": "pnpm install --frozen-lockfile",
+  "postAttachCommand": "pnpm run dev",
   "forwardPorts": [4321],
   "portsAttributes": {
     "4321": {
