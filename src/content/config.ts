@@ -6,12 +6,11 @@ export const collections = {
     schema: z
       .object({
         title: z.string(),
-        date: z.date(),
-        header: z.object({
-          image: z.string(),
-        }).strict(),
-        tags: z.array(z.string()),
-        excerpt: z.string(),
+        description: z.string(),
+        pubDate: z.coerce.date(),
+        updatedDate: z.coerce.date().optional(),
+        heroImage: z.string().url(),
+        tags: z.array(z.string()).min(1, "At least one tag is required"),
         author: reference("authors"),
       })
       .strict(),
@@ -57,9 +56,9 @@ export const collections = {
         .object({
           bio: z.string().optional(),
           location: z.object({
-            city: z.string(),
+            city: z.string().optional(),
             country: z.string(),
-          }).optional().strict(),
+          }).strict().optional(),
           name: z.string(),
           photo: image().optional(),
           socials: z.object({
@@ -70,7 +69,7 @@ export const collections = {
             twitter: z.string().url().optional(),
             website: z.string().url().optional(),
             youtube: z.string().url().optional(),
-          }).optional().strict(),
+          }).strict().optional(),
         })
         .strict(),
   }),
