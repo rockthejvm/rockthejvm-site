@@ -8,7 +8,6 @@ export default defineCollection({
       description: z.string(),
       pubDate: z.date(),
       updatedDate: z.date().optional(),
-      heroImage: z.string().url(),
       tags: z.array(z.string()),
       author: reference("authors").default("daniel-ciocirlan"),
     })
