@@ -1,8 +1,6 @@
 ---
 import { getEntry } from "astro:content";
-import { Image } from "astro:assets";
 import Base from "./Base.astro";
-import PostTags from "../components/PostTags.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -10,39 +8,30 @@ interface Props {
 }
 
 const { frontmatter } = Astro.props;
-const {
-  description,
-  image,
-  lastUpdatedDate,
-  publishedDate,
-  tags,
-  title,
-  overlay_color,
-  overlay_image,
-  toc,
-} = frontmatter;
+const { title, description, pubDate, updatedDate, heroImage, tags } =
+  frontmatter;
 const { data: author } = await getEntry("authors", frontmatter.author.id);
 
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "2-digit",
-    timeZone: "UTC",
-  });
+// const formatDate = (date: Date) =>
+//   date.toLocaleDateString("en-US", {
+//     weekday: "short",
+//     month: "short",
+//     day: "2-digit",
+//     timeZone: "UTC",
+//   });
 ---
 
 <Base
-  {metaDescription}
-  {metaSiteTitle}
-  {metaTitle}
-  {OGDescription}
-  {OGImage}
-  {OGImageAlt}
-  {OGSiteName}
-  {OGTitle}
-  {OGType}
-  {OGURL}
+  metaDescription=""
+  metaTitle=""
+  OGDescription=""
+  OGImage=""
+  OGImageAlt=""
+  OGTitle=""
+  OGType=""
+  OGURL=""
 >
-  <article></article>
+  <article>
+    <slot />
+  </article>
 </Base>
