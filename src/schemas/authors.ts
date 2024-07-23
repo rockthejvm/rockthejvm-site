@@ -14,7 +14,11 @@ export default defineCollection({
           .strict()
           .optional(),
         name: z.string(),
-        photo: image().optional(),
+        photo: image()
+          .refine((image) => image.width >= 300, {
+            message: "Photo width must be at least 300px",
+          })
+          .optional(),
         socials: z
           .object({
             email: z.string().email().optional(),
