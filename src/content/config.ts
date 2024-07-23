@@ -3,7 +3,7 @@ import blog from "../schemas/blog";
 import informationals from "../schemas/informationals";
 import reviews from "../schemas/reviews";
 
-export default {
+export const collections = {
   authors,
   blog,
   informationals,
