@@ -1,4 +1,3 @@
-import { string } from "astro/zod";
 import { z, defineCollection, reference } from "astro:content";
 
 export const collections = {
@@ -10,13 +9,10 @@ export const collections = {
         date: z.date(),
         header: z.object({
           image: z.string(),
-          overlay_color: z.string().optional(),
-          overlay_image: z.string().optional(),
-        }),
+        }).strict(),
         tags: z.array(z.string()),
         excerpt: z.string(),
-        toc: z.boolean().optional(),
-        toc_label: z.string().optional(),
+        author: reference("authors"),
       })
       .strict(),
   }),
@@ -45,8 +41,10 @@ export const collections = {
         avatar: z.string(),
         company: z.string(),
         link: z.string().url(),
-        city: z.string(),
-        country: z.string(),
+        location: z.object({
+          city: z.string(),
+          country: z.string(),
+        }).strict(),
         name: z.string(),
         role: z.string(),
       })
@@ -57,19 +55,23 @@ export const collections = {
     schema: ({ image }) =>
       z
         .object({
-          avatar: z
-            .object({
-              image: image(),
-              alt: z.string(),
-            })
-            .strict(),
-          bio: z.string(),
-          email: z.string().email(),
+          bio: z.string().optional(),
+          location: z.object({
+            city: z.string(),
+            country: z.string(),
+          }).optional().strict(),
           name: z.string(),
-          role: z.enum(["Co-Founder"]),
+          photo: image().optional(),
+          socials: z.object({
+            email: z.string().email().optional(),
+            facebook: z.string().url().optional(),
+            github: z.string().url().optional(),
+            linkedin: z.string().url().optional(),
+            twitter: z.string().url().optional(),
+            website: z.string().url().optional(),
+            youtube: z.string().url().optional(),
+          }).optional().strict(),
         })
         .strict(),
   }),
 };
-// TODO: validate that the dates are not in the future
-// TODO: validate that the date is in ISO format
