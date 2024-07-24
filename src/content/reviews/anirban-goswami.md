@@ -3,8 +3,8 @@ avatar: ./anirban-goswami.jpeg
 company: Apple
 link: https://www.linkedin.com/in/anirban-goswami-5a724559/
 location:
-    city: Cupertino
-    country: California
+  city: Cupertino
+  country: California
 name: Anirban Goswami
 role: Data
 ---

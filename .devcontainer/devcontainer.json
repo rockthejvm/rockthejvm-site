@@ -72,8 +72,10 @@
         "editor.wordWrap": "on"
       },
       //// GitHub Codespace
-      // astro-build.houston
-      "workbench.colorTheme": "Houston",
+      // astro-build.astro-vscode
+      "[astro]": {
+        "editor.defaultFormatter": "astro-build.astro-vscode"
+      },
       // christian-kohler.path-intellisense
       "javascript.suggest.paths": false,
       "path-intellisense.autoSlashAfterDirectory": true,
@@ -141,7 +143,7 @@
       }
     }
   },
-  "updateContentCommand": "pnpm install --frozen-lockfile",
+  "updateContentCommand": "pnpm install --frozen-lockfile && npx trunk install",
   "postAttachCommand": "pnpm run dev",
   "forwardPorts": [4321],
   "portsAttributes": {

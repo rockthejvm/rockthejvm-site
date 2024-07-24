@@ -3,8 +3,8 @@ avatar: ./mihai-fecioru.jpeg
 company: Adobe
 link: https://www.linkedin.com/in/mihai-fecioru-1008a4/
 location:
-    city: San Francisco Bay Area
-    country: California
+  city: San Francisco Bay Area
+  country: California
 name: Mihai Fecioru
 role: Engineering Manager
 ---
