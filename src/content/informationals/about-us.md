@@ -23,4 +23,4 @@ When I'm not coding, I dance salsa and bachata and I tend to play an absurd amou
 
 I'm always there to help at <daniel@rockthejvm.com> if you need anything.
 
-![image](https://www.filepicker.io/api/file/gM75WemgSJyKxAwDJKRI)
+![image](/src/content/authors/daniel-ciocirlan.jpeg)
