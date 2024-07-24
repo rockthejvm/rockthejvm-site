@@ -1,17 +1,144 @@
 {
-  "image": "ghcr.io/andreilgeorgescu/devcontainer-base:2",
+  "image": "mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04",
+  "containerEnv": {
+    "ASTRO_TELEMETRY_DISABLED": "1"
+  },
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
     },
-    "ghcr.io/devcontainers/features/git-lfs:1": {} // move to base?
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "astro-build.astro-vscode",
-        "esbenp.prettier-vscode" // replace with trunk?
+        "astro-build.houston",
+        "christian-kohler.path-intellisense",
+        "eamodio.gitlens",
+        "GitHub.copilot",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+        "ms-vsliveshare.vsliveshare",
+        "redhat.vscode-yaml",
+        "remcohaszing.schemastore",
+        "tamasfe.even-better-toml",
+        "Trunk.io",
+        "Tyriar.lorem-ipsum",
+        "Tyriar.sort-lines"
       ]
+    },
+    "settings": {
+      //// Visual Studio Code
+      "editor.detectIndentation": false,
+      "editor.formatOnSave": true,
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2,
+      "editor.trimAutoWhitespace": true,
+      "editor.wordWrap": "off",
+      "files.autoSave": "off",
+      "files.encoding": "utf8",
+      "files.eol": "\n",
+      "files.insertFinalNewline": true,
+      "files.readonlyInclude": {
+        ".gitignore": true,
+        ".trunk/**": true, // trunk.io
+        "**/{,*-}lock{,.*}": true,
+        "**/{bin,build,dist,out,output,_site,site}/**": true,
+        "**/{LICENSE,LEGAL}{,.*}": true,
+        "**/CHANGELOG{,.*}": true
+      },
+      "files.trimFinalNewlines": true,
+      "files.trimTrailingWhitespace": true,
+      "git.autofetch": true,
+      "git.confirmSync": false,
+      "git.enableSmartCommit": false,
+      "git.mergeEditor": true,
+      "git.postCommitCommand": "sync",
+      "git.suggestSmartCommit": false,
+      "markdown.editor.drop.copyIntoWorkspace": "never",
+      "markdown.editor.filePaste.copyIntoWorkspace": "never",
+      "markdown.updateLinksOnFileMove.enabled": "always",
+      "notebook.formatOnSave.enabled": true,
+      "notebook.insertFinalNewline": true,
+      "notebook.output.wordWrap": true,
+      //// Language-Specific
+      "[markdown]": {
+        "editor.tabSize": 4,
+        "editor.wordWrap": "on"
+      },
+      "[plaintext]": {
+        "editor.tabSize": 4,
+        "editor.wordWrap": "on"
+      },
+      //// GitHub Codespace
+      // astro-build.houston
+      "workbench.colorTheme": "Houston",
+      // christian-kohler.path-intellisense
+      "javascript.suggest.paths": false,
+      "path-intellisense.autoSlashAfterDirectory": true,
+      "path-intellisense.autoTriggerNextSuggestion": true,
+      "path-intellisense.showHiddenFiles": true,
+      "typescript.suggest.paths": false,
+      // eamodio.gitlens
+      "gitlens.currentLine.enabled": false,
+      "gitlens.defaultDateFormat": "YYYY-MM-DD",
+      "gitlens.defaultTimeFormat": "H:mm",
+      // GitHub.copilot
+      "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+      },
+      // GitHub.copilot-chat
+      "github.copilot.chat.welcomeMessage": "never",
+      // GitHub.vscode-pull-request-github
+      "githubIssues.createIssueTriggers": [],
+      "githubIssues.issueBranchTitle": "issue${issueNumber}",
+      "githubIssues.workingIssueFormatScm": "${issueTitle}\n\nResolves ${issueNumberLabel}",
+      "githubPullRequests.assignCreated": "${user}",
+      "githubPullRequests.createOnPublishBranch": "never",
+      "githubPullRequests.defaultCreateOption": "createDraft",
+      "githubPullRequests.defaultMergeMethod": "squash",
+      "githubPullRequests.notifications": "pullRequests",
+      "githubPullRequests.pullBranch": "always",
+      "githubPullRequests.pushBranch": "always",
+      "githubPullRequests.terminalLinksHandler": "vscode",
+      // mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04
+      "terminal.integrated.defaultProfile.linux": "zsh",
+      // ms-vsliveshare.vsliveshare
+      "liveshare.allowGuestDebugControl": true,
+      "liveshare.allowGuestTaskControl": true,
+      "liveshare.languages.allowGuestCommandControl": true,
+      "liveshare.launcherClient": "visualStudioCode",
+      "liveshare.notebooks.allowGuestExecuteCells": true,
+      "liveshare.publishWorkspaceInfo": true,
+      "liveshare.showVerboseNotifications": false,
+      // redhat.vscode-yaml
+      "yaml.extension.recommendations": false,
+      "yaml.format.enable": false,
+      "yaml.validate": false,
+      // trunk.io
+      "editor.defaultFormatter": "trunk.io",
+      "files.readonlyExclude": {
+        ".trunk/configs/**": true,
+        ".trunk/trunk.yaml": true
+      },
+      "files.exclude": {
+        "**/.trunk/*actions/": true,
+        "**/.trunk/*logs/": true,
+        "**/.trunk/*notifications/": true,
+        "**/.trunk/*out/": true,
+        "**/.trunk/*plugins/": true
+      },
+      "files.watcherExclude": {
+        "**/.trunk/*actions/": true,
+        "**/.trunk/*logs/": true,
+        "**/.trunk/*notifications/": true,
+        "**/.trunk/*out/": true,
+        "**/.trunk/*plugins/": true
+      }
     }
   },
   "updateContentCommand": "pnpm install --frozen-lockfile",
