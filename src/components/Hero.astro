@@ -14,7 +14,6 @@ const { image, subtitle, subtitle2, title } = Astro.props;
 <section class="hero-section">
   <div class="img-wrapper">
     {image && <img src={image.src} alt={image.alt} />}
-    <!-- {image && <Image src={image.src} alt={image.alt} inferSize={true} />} -->
   </div>
 
   <div class="content-wrapper">
@@ -23,7 +22,7 @@ const { image, subtitle, subtitle2, title } = Astro.props;
     {subtitle2 && <p class="intro-text">{subtitle2}</p>}
   </div>
 </section>
-
+<!--
 <style>
   * {
     margin: 0;
@@ -766,4 +765,4 @@ const { image, subtitle, subtitle2, title } = Astro.props;
       background-position: 0% 50%;
     }
   }
-</style>
+</style> -->
