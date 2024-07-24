@@ -1,14 +1,5 @@
 ---
-metaDescription: The design and meaning of the Rock the JVM logo, as well as the use of other logos on the site.
-metaSiteTitle: Rock the JVM
-metaTitle: Logos and Trademarks | Rock the JVM
-OGDescription: The design and meaning of the Rock the JVM logo, as well as the use of other logos on the site.
-OGImage: https://file-uploads.teachablecdn.com/effbc0d6cc384212bea0ce3b8c79e6e1/7d77a6a3c0ee4a95845626c0172a705a
-OGImageAlt: Rock the JVM - learn Scala, Akka and Apache Spark
-OGSiteName: Rock the JVM
-OGTitle: Logos and Trademarks
-OGType: website
-OGURL: https://rockthejvm.com/logo-trademarks
+description: The design and meaning of the Rock the JVM logo, as well as the use of other logos on the site.
 title: The Rock the JVM Logo
 ---
 

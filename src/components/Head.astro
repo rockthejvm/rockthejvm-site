@@ -2,31 +2,35 @@
 import site from "../data/site.json";
 
 interface Props {
-  article?: {
-    author: {
-      name: string;
-      twitter?: {
-        username: string;
-      };
-    };
-    modifiedTime: Date;
-    publishedTime: Date;
-    section: string;
-    tags: string[];
-    video?: string;
-  };
-  canonicalUrl: string;
+  article?:
+    | {
+        author: {
+          name: string;
+          twitter?:
+            | {
+                username: string;
+              }
+            | undefined;
+        };
+        updatedTime: Date;
+        publishedTime: Date;
+        section: string;
+        tags: string[];
+        video?: string | undefined;
+      }
+    | undefined;
+  canonicalUrl: URL;
   description: string;
-  image?: {
-    alt: string;
-    src: string;
-  };
-  locale?: string;
+  image?:
+    | {
+        alt: string;
+        src: string;
+      }
+    | undefined;
   title: string;
-  type?: string;
+  type?: string | undefined;
 }
-const { article, description, locale, title, image, type, canonicalUrl } =
-  Astro.props;
+const { article, description, title, image, type, canonicalUrl } = Astro.props;
 const imageContent = image ? image.src : site.logo;
 const imageAlt = image ? image.alt : `"Logo of "${site.name}`;
 ---
@@ -43,7 +47,7 @@ const imageAlt = image ? image.alt : `"Logo of "${site.name}`;
         <meta property="article:author" content={article.author.name} />
         <meta
           property="article:modified_time"
-          content={article.modifiedTime.toISOString()}
+          content={article.updatedTime.toISOString()}
         />
         <meta
           property="article:published_time"
@@ -61,14 +65,18 @@ const imageAlt = image ? image.alt : `"Logo of "${site.name}`;
   <meta property="og:image:alt" content={imageAlt} />
   <!-- <meta property="og:image:height" content= /> -->
   <meta property="og:image:secure_url" content={imageContent} />
-  <!-- <meta property="og:image:type" content= /> -->
+  <!-- <meta property="og:image:type" content=`"image/${}"` /> -->
   <meta property="og:image:url" content={imageContent} />
   <!-- <meta property="og:image:width" content= /> -->
   <meta property="og:image" content={imageContent} />
-  <meta property="og:locale" content={locale ?? "en_US"} />
+  <meta property="og:locale" content="en_ S" />
   <meta property="og:site_name" content={site.name} />
   <meta property="og:title" content={title} />
   <meta property="og:type" content={type ?? "website"} />
+  <meta
+    property="og:updated_time"
+    content={article?.updatedTime.toISOString() ?? new Date().toISOString()}
+  />
   <meta property="og:url" content={canonicalUrl} />
   <title>{title} | {site.name}</title>
   <meta property="twitter:card" content="summary_large_image" />

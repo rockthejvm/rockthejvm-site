@@ -3,47 +3,17 @@ import type { CollectionEntry } from "astro:content";
 import Hero from "../components/Hero.astro";
 import Base from "./Base.astro";
 
-// interface Props {
-//   image?: [string, string];
-//   metaDescription: string;
-//   metaSiteTitle: string;
-//   metaTitle: string;
-//   OGDescription: string;
-//   OGImage: string;
-//   OGImageAlt: string;
-//   OGSiteName: string;
-//   OGTitle: string;
-//   OGType: string;
-//   OGURL: string;
-//   title: string;
-// }
-
 interface Props {
-  frontmatter: CollectionEntry<"informationals">;
+  frontmatter: CollectionEntry<"informationals">["data"];
 }
 
 const { frontmatter } = Astro.props;
 
-const {
-  image,
-  description,
-  title,
-  OGDescription,S
-  OGTitle,
-  title,
-} = frontmatter;
+const { description, title } = frontmatter;
 ---
 
-<Base
-  metaDescription={description}
-  metaTitle={title}
-  {OGDescription}
-  OGImage={image.src}
-  OGImageAlt={}
-  OGTitle={title}
-  OGType="website"
-  OGURL={frontmatter.slug}
->
-  <Hero {image} {title} />
+<Base canonicalUrl={Astro.url} {description} {title} type="article">
+  <!-- <Hero {title} /> -->
+  <h1>{title}</h1>
   <slot />
 </Base>

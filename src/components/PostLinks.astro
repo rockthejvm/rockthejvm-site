@@ -4,7 +4,7 @@ import PostLink from "../components/PostLink.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  posts?: CollectionEntry<"blog">[];
+  posts?: CollectionEntry<"blog">[] | undefined;
 }
 const allPosts = await getCollection("blog");
 const { posts = allPosts } = Astro.props;

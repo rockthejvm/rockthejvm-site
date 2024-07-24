@@ -9,7 +9,7 @@ import Reviews from "../components/Reviews.astro";
 import Base from "./Base.astro";
 
 interface Props {
-  image?: { src: string; alt: string };
+  image?: { src: string; alt: string } | undefined;
   metaDescription: string;
   metaTitle: string;
   OGDescription: string;
@@ -19,7 +19,7 @@ interface Props {
   OGType: string;
   OGURL: string;
   subtitle: string;
-  subtitle2?: string;
+  subtitle2?: string | undefined;
   title: string;
 }
 
