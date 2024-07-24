@@ -1,15 +1,6 @@
 ---
-metaDescription: The best training material on Java, Scala, Akka and the JVM, on the whole damn web.
-metaSiteTitle: Rock the JVM
-metaTitle: About us - Rock the JVM
-OGDescription: The best training material on Java, Scala, Akka and the JVM, on the whole damn web.
-OGImage: https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21
-OGImageAlt: Rock the JVM - learn Scala, Akka and Apache Spark
-OGSiteName: Rock the JVM
-OGTitle: About us - Rock the JVM
-OGType: website
-OGURL: https://rockthejvm.com/about-us
-title: The Rock the JVM story
+description: The best training material on Java, Scala, Akka and the JVM, on the whole damn web.
+title: The Rock the JVM Story
 ---
 
 ## The one-liner

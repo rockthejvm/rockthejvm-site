@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 
 interface Props {
-  image?: { src: string; alt: string };
+  image?: { src: string; alt: string } | undefined;
 }
 const { image } = Astro.props;
 ---
