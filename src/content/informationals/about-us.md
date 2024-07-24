@@ -12,11 +12,12 @@ OGURL: https://rockthejvm.com/about-us
 title: The Rock the JVM story
 ---
 
-
 ## The one-liner
+
 Rock the JVM aims to be the go-to resource for learning Scala, Akka, Spark and everything JVM. Everything is battle-tested on yours truly.
 
 ## The reasonably short version
+
 I'm [Daniel Ciocîrlan](https://danielciocirlan.com/), a developer and teacher from Bucharest, Romania. I've started Rock the JVM to share everything that I learned through pain, blood, sweat and tears and distill everything in action-packed courses with a smooth learning curve. Since 2013, I've been teaching a variety of programming topics to people all over the world and at every level of the game, from senior engineers processing trillions of data points to 7-year-olds moving spaceships on the screen.
 
 At first, I mastered Java, then I taught it for 3.5 years to university students. I found Scala 7 years ago when a good friend told me about functional collections. I was blown away, and still am to this day as I discover more of the Scala magic. The rabbit hole only went deeper from there: I learned Akka with my own small projects, then Spark and big data while at Palantir. I left Palantir in mid 2019, but it's very likely my old pipelines are still crunching data every day, as we speak.
@@ -29,6 +30,6 @@ I spend most of my time between Scala, Akka and Spark, and I'm really fortunate 
 I've graduated from University Politehnica of Bucharest with a BSc and a MSc in Computer Science. My Bachelor and Master theses were on quantum computation, of all things. That can be explained by the fact that I was really into physics before - I was winning medals at international physics competitions.
 When I'm not coding, I dance salsa and bachata and I tend to play an absurd amount of Ed Sheeran on my acoustic guitar.
 
-I'm always there to help at daniel@rockthejvm.com if you need anything.
+I'm always there to help at <daniel@rockthejvm.com> if you need anything.
 
 ![image](https://www.filepicker.io/api/file/gM75WemgSJyKxAwDJKRI)

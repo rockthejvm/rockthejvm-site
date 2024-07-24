@@ -7,8 +7,9 @@ interface Props {
   frontmatter: CollectionEntry<"blog">["data"];
 }
 
+const banner: string = "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg";
 const { frontmatter } = Astro.props;
-const { title, description, pubDate, updatedDate, heroImage, tags } =
+const { title, excerpt, pubDate, updatedDate, tags } =
   frontmatter;
 const { data: author } = await getEntry(
   frontmatter.author.collection,
@@ -25,12 +26,12 @@ const { data: author } = await getEntry(
 ---
 
 <Base
-  metaDescription=""
-  metaTitle=""
-  OGDescription=""
-  OGImage=""
-  OGImageAlt=""
-  OGTitle=""
+  metaDescription={excerpt}
+  metaTitle={title}
+  OGDescription={excerpt}
+  OGImage={banner}
+  OGImageAlt="Rock The JVM banner"
+  OGTitle={title}
   OGType=""
   OGURL=""
 >
