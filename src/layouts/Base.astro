@@ -4,7 +4,7 @@ import Header from "../components/Header.astro";
 import Head from "../components/Head.astro";
 
 interface Props {
-  metaDescription: string;
+  description: string;
   metaTitle: string;
   OGDescription: string;
   OGImage: string;
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const {
-  metaDescription,
+  description,
   metaTitle,
   OGDescription,
   OGImage,
@@ -29,7 +29,7 @@ const {
 <!doctype html>
 <html lang="en">
   <Head
-    {metaDescription}
+    {description}
     {metaTitle}
     {OGDescription}
     {OGImage}
