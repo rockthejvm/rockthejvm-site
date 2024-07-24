@@ -1,42 +1,40 @@
 ---
-// import { Icon } from "astro-icon/components";
+import site from "../data/site.json";
+
+
+
 interface Props {
-  metaDescription: string;
-  metaTitle: string;
-  OGDescription: string;
-  OGImage: string;
-  OGImageAlt: string;
-  OGTitle: string;
-  OGType: string;
-  OGURL: string;
+  description: string;
+  title: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  type: string;
+  url: string;
 }
-const {
-  metaDescription,
-  metaTitle,
-  OGDescription,
-  OGImage,
-  OGImageAlt,
-  OGTitle,
-  OGType,
-  OGURL,
-} = Astro.props;
-import data from "../data/site.json";
-const { metaSiteTitle, OGSiteName } = data;
+const { description, title, image, type, url } = Astro.props;
 ---
 
+
 <head>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta charset="UTF-8" />
-  <meta name="description" content={metaDescription} />
+  <meta charset="utf-8" />
+  <meta name="description" content={description} />
   <meta name="generator" content={Astro.generator} />
-  <meta name="site_title" content={metaSiteTitle} />
-  <meta name="viewport" content="width=device-width" initial-scale="1.0" />
-  <meta property="og:description" content={OGDescription} />
-  <meta property="og:image:alt" content={OGImageAlt} />
-  <meta property="og:image" content={OGImage} />
-  <meta property="og:site_name" content={OGSiteName} />
-  <meta property="og:title" content={OGTitle} />
-  <meta property="og:type" content={OGType} />
-  <meta property="og:url" content={OGURL} />
-  <title>{metaTitle} - {metaSiteTitle}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:description" content={description} />
+  {
+
+
+  image &&
+     <meta property="og:image:alt" content={image.alt} />
+    <meta property="og:image:secure_url" content={image.src} />
+     <meta property="og:image" content={image.src} />
+  }
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={url} />
+  <title>{title} | {site.name}</title>
+  <meta property="og:locale" content={site.locale} />
 </head>

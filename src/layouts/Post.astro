@@ -7,25 +7,17 @@ interface Props {
   frontmatter: CollectionEntry<"blog">["data"];
 }
 
-const banner: string = "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg";
+const banner: string =
+  "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg";
 const { frontmatter } = Astro.props;
-const {
-  excerpt,
-  heroImage,
-  pubDate,
-  tags,
-  title,
-  updatedDate,
- } =
-  frontmatter;
+const { excerpt, heroImage, pubDate, tags, title, updatedDate } = frontmatter;
 const { data: author } = await getEntry(
   frontmatter.author.collection,
-  frontmatter.author.id
+  frontmatter.author.id,
 );
-const series = (frontmatter.series) ? await getEntry(
-  frontmatter.series.collection,
-  frontmatter.series.id
-) : null;
+const series = frontmatter.series
+  ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
+  : null;
 
 // const formatDate = (date: Date) =>
 //   date.toLocaleDateString("en-US", {
@@ -43,7 +35,7 @@ const series = (frontmatter.series) ? await getEntry(
   OGImage={banner}
   OGImageAlt="Rock The JVM banner"
   OGTitle={title}
-  OGType=""
+  type="article"
   OGURL=""
 >
   <article>

@@ -1,5 +1,9 @@
+import site from "../data/site.json";
+
 export default () => (
-  <small>
-    &copy; {new Date().getFullYear()} Rock the JVM. All rights reserved.
-  </small>
+  <p>
+    <small>
+      &copy; 2019&ndash;{new Date().getFullYear()} {site.name}
+    </small>
+  </p>
 );
