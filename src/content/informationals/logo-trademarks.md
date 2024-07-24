@@ -12,7 +12,6 @@ OGURL: https://rockthejvm.com/logo-trademarks
 title: The Rock the JVM Logo
 ---
 
-
 ## Become a Rockstar Programmer
 
 Rock the JVM aims to become the go-to learning resource for anything in the Scala ecosystem, and beyond. The name says it all: I want to show you the best programming tools and techniques to rock the JVM. The logo is a visual representation of this mission.
