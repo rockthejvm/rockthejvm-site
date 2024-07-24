@@ -5,7 +5,9 @@ interface Props {
   article?: {
     author: {
       name: string;
-      twitterUsername?: string;
+      twitter?: {
+        username: string;
+      };
     };
     modifiedTime: Date;
     publishedTime: Date;
@@ -26,6 +28,7 @@ interface Props {
 const { article, description, locale, title, image, type, canonicalUrl } =
   Astro.props;
 const imageContent = image ? image.src : site.logo;
+const imageAlt = image ? image.alt : `"Logo of "${site.name}`;
 ---
 
 <head>
@@ -47,32 +50,36 @@ const imageContent = image ? image.src : site.logo;
         {article.tags.map((tag) => (
           <meta property="article:tag" content={tag} />
         ))}
-        <meta property="og:video" content={article.video} />
+        {article.video && <meta property="og:video" content={article.video} />}
       </Fragment>
     )
   }
   <meta property="og:description" content={description} />
-  <meta
-    property="og:image:alt"
-    content={image ? image.alt : `"Logo of "${site.name}`}
-  />
+  <meta property="og:image:alt" content={imageAlt} />
+  <!-- <meta property="og:image:height" content= /> -->
   <meta property="og:image:secure_url" content={imageContent} />
+  <!-- <meta property="og:image:type" content= /> -->
+  <meta property="og:image:url" content={imageContent} />
+  <!-- <meta property="og:image:width" content= /> -->
   <meta property="og:image" content={imageContent} />
-  <meta property="og:locale" content={locale ?? "enUS"} />
+  <meta property="og:locale" content={locale ?? "en_US"} />
   <meta property="og:site_name" content={site.name} />
   <meta property="og:title" content={title} />
   <meta property="og:type" content={type ?? "website"} />
   <meta property="og:url" content={canonicalUrl} />
   <title>{title} | {site.name}</title>
-  <meta property="twitter:card" content="summary" />
-  <meta property="twitter:description" content={description} />
+  <meta property="twitter:card" content="summary_large_image" />
   <meta
     property="twitter:creator"
-    content={article?.author.twitterUsername
-      ? article.author.twitterUsername
-      : site.twitterUsername}
+    content={article?.author.twitter?.username
+      ? article.author.twitter.username
+      : site.twitter.username}
   />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:domain" content={site.domain} />
+  <meta property="twitter:image:alt" content={imageAlt} />
   <meta property="twitter:image" content={imageContent} />
-  <meta property="twitter:site" content={site.twitterUsername} />
+  <meta property="twitter:site" content={site.twitter.username} />
   <meta property="twitter:title" content={title} />
+  <meta property="twitter:url" content={canonicalUrl} />
 </head>
