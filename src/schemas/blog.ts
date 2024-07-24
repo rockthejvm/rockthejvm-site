@@ -10,6 +10,7 @@ export default defineCollection({
         heroImage: image().optional(),
         pubDate: z.date(),
         series: reference("series").optional(),
+        summary: z.string().optional(),
         tags: z.array(z.string()),
         title: z.string(),
         updatedDate: z.date().optional(),
