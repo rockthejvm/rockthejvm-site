@@ -41,10 +41,13 @@ const imageAlt = image ? image.alt : `"Logo of "${site.name}`;
     article && (
       <Fragment>
         <meta property="article:author" content={article.author.name} />
-        <meta property="article:modified_time" content={article.modifiedTime} />
+        <meta
+          property="article:modified_time"
+          content={article.modifiedTime.toISOString()}
+        />
         <meta
           property="article:published_time"
-          content={article.publishedTime}
+          content={article.publishedTime.toISOString()}
         />
         <meta property="article:section" content={article.section} />
         {article.tags.map((tag) => (
