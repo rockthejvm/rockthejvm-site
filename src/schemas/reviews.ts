@@ -5,9 +5,6 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        photo: image().refine((image) => image.width >= 200, {
-          message: "Photo width must be at least 200px",
-        }),
         company: z.string(),
         link: z.string().url(),
         location: z
@@ -17,6 +14,12 @@ export default defineCollection({
           })
           .strict(),
         name: z.string(),
+        photo: image().refine(
+          (image) => image.width >= 200 && image.height >= 200,
+          {
+            message: "Photo must be at least 200x200px",
+          },
+        ),
         role: z.string(),
       })
       .strict(),

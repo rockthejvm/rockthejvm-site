@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { type CollectionEntry } from "astro:content";
 
 interface Props {
@@ -7,15 +6,22 @@ interface Props {
 }
 
 const { frontmatter } = Astro.props;
-const { avatar, city, company, country, link, name, role } = frontmatter;
+const {
+  company,
+  link,
+  location,
+  name,
+  photo,
+  role,
+ } = frontmatter;
 ---
 
 <article>
   <header>
-    <img src={avatar} alt=`"Photo of ${name}"` />
+    <img src={photo.src} alt=`"Photo of ${name}"` />
     <p><a href={name}>{link}</a>, {role} at {company}</p>
     <br />
-    <p>({city}, {country})</p>
+    <p>({location.city}, {location.country})</p>
   </header>
   <slot />
 </article>
