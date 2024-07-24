@@ -92,7 +92,7 @@
   "yaml.format.enable": false,
   "yaml.validate": false,
   // trunk.io
-  "editor.defaultFormatter": "trunk.io",
+  // "editor.defaultFormatter": "trunk.io",
   "files.readonlyExclude": {
     ".trunk/configs/**": true,
     ".trunk/trunk.yaml": true
