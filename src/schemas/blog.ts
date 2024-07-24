@@ -5,15 +5,17 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        author: reference("authors").default("daniel-ciocirlan"),
+        authors: reference("authors").default("daniel-ciocirlan"),
+        description: z.string().optional(),
         excerpt: z.string(),
         heroImage: image().optional(),
-        pubDate: z.date(),
-        series: reference("series").optional(),
+        publishedDate: z.date(),
+        series: reference("seriess").optional(),
         summary: z.string().optional(),
         tags: z.array(z.string()),
         title: z.string(),
         updatedDate: z.date().optional(),
+        video: z.string().url().optional(),
       })
       .strict(),
 });

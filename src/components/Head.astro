@@ -1,40 +1,78 @@
 ---
 import site from "../data/site.json";
 
-
-
 interface Props {
+  article?: {
+    author: {
+      name: string;
+      twitterUsername?: string;
+    };
+    modifiedTime: Date;
+    publishedTime: Date;
+    section: string;
+    tags: string[];
+    video?: string;
+  };
+  canonicalUrl: string;
   description: string;
-  title: string;
   image?: {
     src: string;
     alt: string;
   };
-  type: string;
-  url: string;
+  locale?: string;
+  title: string;
+  type?: string;
 }
-const { description, title, image, type, url } = Astro.props;
+const { article, description, locale, title, image, type, canonicalUrl } =
+  Astro.props;
+const imageContent = image ? image.src : site.logo;
 ---
 
-
 <head>
+  <link rel="canonical" href={canonicalUrl} />
   <meta charset="utf-8" />
   <meta name="description" content={description} />
   <meta name="generator" content={Astro.generator} />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta property="og:description" content={description} />
   {
-
-
-  image &&
-     <meta property="og:image:alt" content={image.alt} />
-    <meta property="og:image:secure_url" content={image.src} />
-     <meta property="og:image" content={image.src} />
+    article && (
+      <Fragment>
+        <meta property="article:author" content={article.author.name} />
+        <meta property="article:modified_time" content={article.modifiedTime} />
+        <meta
+          property="article:published_time"
+          content={article.publishedTime}
+        />
+        <meta property="article:section" content={article.section} />
+        {article.tags.map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+        <meta property="og:video" content={article.video} />
+      </Fragment>
+    )
   }
+  <meta property="og:description" content={description} />
+  <meta
+    property="og:image:alt"
+    content={image ? image.alt : `"Logo of "${site.name}`}
+  />
+  <meta property="og:image:secure_url" content={imageContent} />
+  <meta property="og:image" content={imageContent} />
+  <meta property="og:locale" content={locale ?? "enUS"} />
   <meta property="og:site_name" content={site.name} />
   <meta property="og:title" content={title} />
-  <meta property="og:type" content={type} />
-  <meta property="og:url" content={url} />
+  <meta property="og:type" content={type ?? "website"} />
+  <meta property="og:url" content={canonicalUrl} />
   <title>{title} | {site.name}</title>
-  <meta property="og:locale" content={site.locale} />
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:description" content={description} />
+  <meta
+    property="twitter:creator"
+    content={article?.author.twitterUsername
+      ? article.author.twitterUsername
+      : site.twitterUsername}
+  />
+  <meta property="twitter:image" content={imageContent} />
+  <meta property="twitter:site" content={site.twitterUsername} />
+  <meta property="twitter:title" content={title} />
 </head>

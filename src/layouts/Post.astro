@@ -15,8 +15,8 @@ const { data: author } = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
-const series = frontmatter.series
-  ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
+const seriess = frontmatter.seriess
+  ? await getEntry(frontmatter.seriess.collection, frontmatter.seriess.id)
   : null;
 
 // const formatDate = (date: Date) =>
@@ -39,6 +39,8 @@ const series = frontmatter.series
   OGURL=""
 >
   <article>
+    <h1>{title}</h1>
+    {summary && <summary>{summary}</summary>}
     <slot />
   </article>
 </Base>
