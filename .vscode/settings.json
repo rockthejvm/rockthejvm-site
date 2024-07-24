@@ -56,15 +56,6 @@
   "gitlens.currentLine.enabled": false,
   "gitlens.defaultDateFormat": "YYYY-MM-DD",
   "gitlens.defaultTimeFormat": "H:mm",
-  // GitHub.copilot
-  "github.copilot.enable": {
-    "*": false,
-    "plaintext": false,
-    "markdown": false,
-    "scminput": false
-  },
-  // GitHub.copilot-chat
-  "github.copilot.chat.welcomeMessage": "never",
   // GitHub.vscode-pull-request-github
   "githubIssues.createIssueTriggers": [],
   "githubIssues.issueBranchTitle": "issue${issueNumber}",
