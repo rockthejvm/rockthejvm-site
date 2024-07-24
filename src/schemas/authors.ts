@@ -6,6 +6,8 @@ export default defineCollection({
     z
       .object({
         bio: z.string().optional(),
+        canonicalUrl: z.string().url().optional(),
+        guestPlug: z.string().optional(),
         location: z
           .object({
             city: z.string().optional(),
@@ -15,8 +17,8 @@ export default defineCollection({
           .optional(),
         name: z.string(),
         photo: image()
-          .refine((image) => image.width >= 300, {
-            message: "Photo width must be at least 300px",
+          .refine((image) => image.width >= 300 && image.height >= 300, {
+            message: "Photo must be at least 300x300px",
           })
           .optional(),
         socials: z
