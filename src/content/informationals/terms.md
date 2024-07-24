@@ -1,5 +1,5 @@
 ---
-description: Terms of use page
+description: The list of terms that must be accepted to browse Rock the JVM.
 title: Terms of Use
 ---
 

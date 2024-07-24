@@ -4,7 +4,10 @@
     "alt": "Rock the JVM members login"
   },
   "domain": "rockthejvm.com",
-  "logo": "https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21",
+  "logo": {
+    "src": "https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21",
+    "alt": "Rock the JVM logo"
+  },
   "name": "Rock the JVM",
   "twitter": {
     "username": "@rockthejvm"
