@@ -1,43 +1,44 @@
 ---
 import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
 import Head from "../components/Head.astro";
+import Header from "../components/Header.astro";
 
 interface Props {
+  article?:
+    | {
+        author: {
+          name: string;
+          twitter?:
+            | {
+                username: string;
+              }
+            | undefined;
+        };
+        updatedTime: Date;
+        publishedTime: Date;
+        section: string;
+        tags: string[];
+        video?: string | undefined;
+      }
+    | undefined;
+  canonicalUrl: URL;
   description: string;
-  metaTitle: string;
-  OGDescription: string;
-  OGImage: string;
-  OGImageAlt: string;
-  OGTitle: string;
-  OGType: string;
-  OGURL: string;
+  image?:
+    | {
+        alt: string;
+        src: string;
+      }
+    | undefined;
+  title: string;
+  type?: string | undefined;
 }
 
-const {
-  description,
-  metaTitle,
-  OGDescription,
-  OGImage,
-  OGImageAlt,
-  OGTitle,
-  OGType,
-  OGURL,
-} = Astro.props;
+const { article, canonicalUrl, description, image, title, type } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-  <Head
-    {description}
-    {metaTitle}
-    {OGDescription}
-    {OGImage}
-    {OGImageAlt}
-    {OGTitle}
-    {OGType}
-    {OGURL}
-  />
+  <Head {article} {canonicalUrl} {description} {image} {title} {type} />
   <body>
     <div class="wrapper">
       <Header />

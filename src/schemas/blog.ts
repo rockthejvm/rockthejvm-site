@@ -11,7 +11,14 @@ export default defineCollection({
           .max(200, "Description must be at most 200 characters")
           .optional(),
         excerpt: z.string(),
-        heroImage: image().optional(),
+        heroImage: image()
+          .refine((image) => image.width >= 1200 && image.height >= 630, {
+            message: "Hero image must be at least 1200x630",
+          })
+          .refine((image) => image.width / image.height === 1.91, {
+            message: "Hero image aspect ratio must be 1.91:1",
+          })
+          .optional(),
         publishedDate: z.date(),
         series: reference("seriess").optional(),
         summary: z.string().optional(),
