@@ -1,39 +1,51 @@
 ---
-import Landing from "../layouts/Landing.astro";
+import site from "../data/site.json";
+import Hero from "../components/Hero.astro";
+import Base from "../layouts/Base.astro";
 
-const image: { src: string; alt: string } = {
-  src: "https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21",
-  alt: "Rock the JVM - learn Scala, Akka and Apache Spark",
-};
-const metaDescription: string =
-  "Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big data and streaming (Apache Spark, Flink), all with hands-on online courses.";
-const metaTitle: string = "Scala, Kotlin and Big Data Courses";
-const OGDescription: string =
-  "Online courses and hands-on training on Scala, Kotlin, Apache Spark, Flink, ZIO, Cats Effect, Akka and more";
-const OGImage: string =
-  "https://file-uploads.teachablecdn.com/effbc0d6cc384212bea0ce3b8c79e6e1/7d77a6a3c0ee4a95845626c0172a705a";
-const OGImageAlt: string = `"The logo of Rock the JVM"`;
-const OGTitle: string = "Rock the JVM!";
-const OGType: string = "website";
-const OGURL: string = "https://rockthejvm.com/";
-const subtitle: string =
-  "The zero-to-master online courses and hands-on training for Scala, Kotlin, Spark, Flink, ZIO, Akka and more.";
-const subtitle2: string =
-  "No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king.";
-const title: string = "Rock The JVM!".toUpperCase();
+interface Props {
+  canonicalUrl: URL;
+  description: string;
+  image: { src: string; alt: string };
+  title: string;
+}
+const image = site.logo;
+const title = "Home";
 ---
 
-<Landing
-  {image}
-  {metaDescription}
-  {metaTitle}
-  {OGDescription}
-  {OGImage}
-  {OGImageAlt}
-  {OGTitle}
-  {OGType}
-  {OGURL}
-  {subtitle}
-  {subtitle2}
-  {title}
-/>
+<Base
+  canonicalUrl={Astro.url}
+  description="Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big
+data and streaming (Apache Spark, Flink), all with hands-on online courses."
+  image={image}
+  title={title}
+>
+  <div class="main">
+    <div>
+      <Hero
+        image={image}
+        subtitle="The zero-to-master online courses and hands-on training for Scala, Kotlin, Spark, Flink, ZIO, Akka and more."
+        subtitle2="No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king."
+        title={title}
+      />
+      <!-- <LatestContent />
+      <Membership />
+      <Instructor />
+      <BrandLogos /> -->
+      <!-- <hr />
+    <h2>LATEST CONTENT</h2>
+    <hr />
+    <h2>COURSES</h2>
+    <hr />
+    <Membership />
+    <Instructor />
+    <Reviews />
+    <Contact /> -->
+    </div>
+  </div>
+</Base>
+<!-- <style>
+  Hero {
+    background-color: var(--color-primary);
+  }
+</style> -->
