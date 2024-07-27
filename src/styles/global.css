@@ -552,7 +552,7 @@ body:after {
   margin: auto;
 }
 
-.review-wrapper .header {
+.testimonial-wrapper .header {
   width: 44rem;
   display: flex;
   flex-wrap: wrap;
@@ -582,7 +582,7 @@ body:after {
   border-radius: 3rem;
 }
 
-.review-text {
+.testimonial-text {
   text-align: justify;
   color: #fff;
   font-family: Montserrat, sans-serif;
@@ -705,7 +705,7 @@ body:after {
     display: none;
   }
 
-  .review-wrapper .header {
+  .testimonial-wrapper .header {
     width: 100%;
   }
 
