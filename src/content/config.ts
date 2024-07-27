@@ -7,6 +7,7 @@ import testimonials from "../collections/testimonials";
 import seriess from "../collections/seriess";
 import clients from "../collections/clients";
 import categories from "../collections/categories";
+import videos from "../collections/videos";
 
 export const collections = {
   articles,
@@ -16,7 +17,8 @@ export const collections = {
   courses,
   informationals,
   memberships,
-  testimonials,
   seriess,
+  testimonials,
+  videos,
 };
 // TODO: auto export from src/schemas
