@@ -11,6 +11,7 @@ export default defineCollection({
         description: z.string(),
         image: image(),
         name: z.string(),
+        ordinal: z.number().int().positive().optional(),
         price: z.number().positive().optional(),
       })
       .strict(),
