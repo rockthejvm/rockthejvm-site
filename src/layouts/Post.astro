@@ -3,6 +3,7 @@ import { getEntry } from "astro:content";
 import Base from "./Base.astro";
 import type { CollectionEntry } from "astro:content";
 import site from "../data/site.json";
+import FormattedDate from "../components/FormattedDate.astro";
 
 interface Props {
   frontmatter: CollectionEntry<"blog">["data"];
@@ -52,6 +53,7 @@ const series = frontmatter.series
 >
   <article>
     <h1>{title}</h1>
+    <FormattedDate date={publishedDate} />
     {summary && <summary>{summary}</summary>}
     <slot />
   </article>
