@@ -1,0 +1,9 @@
+scala -> scala-essentials
+scala-old -> scala-essentials-old
+scala-advanced-old -> advanced-scala-old
+scala-functional-programming-interview-practice -> scala-and-functional-programming-interview-practice
+kotlin-bundle -> the-kotlin-bundle
+akka-essentials -> akka-pekko-essentials
+akka-streams -> akka-pekko-streams
+akka-http -> akka-pekko-http
+the-akka-bundle -> the-akka-pekko-bundle
