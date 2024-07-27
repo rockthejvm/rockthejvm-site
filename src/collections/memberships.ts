@@ -14,7 +14,7 @@ export default defineCollection({
               .object({
                 frequency: z.enum(["monthly", "yearly"]),
                 name: z.string(),
-                price: z.number(),
+                price: z.number().positive(),
               })
               .strict(),
           )
