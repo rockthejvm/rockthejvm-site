@@ -93,9 +93,7 @@ const selectedImage = image ?? site.logo;
   <meta property="twitter:card" content="summary_large_image" />
   <meta
     property="twitter:creator"
-    content={article?.author.twitter?.username
-      ? article.author.twitter.username
-      : site.twitter.username}
+    content={article?.author.twitter?.username ?? site.twitter.username}
   />
   <meta property="twitter:description" content={description} />
   <meta property="twitter:image:alt" content={selectedImage.alt} />
