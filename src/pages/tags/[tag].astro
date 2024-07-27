@@ -1,26 +1,30 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import PostLinks from "../../components/PostLinks.astro";
+import ArticleLinks from "../../components/ArticleLinks.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  const tags = [...new Set(posts.map((post) => post.data.tags).flat())];
+  const articles = await getCollection("articles");
+  const tags = [
+    ...new Set(articles.map((article) => article.data.tags).flat()),
+  ];
   return tags.map((tag) => {
-    const filteredPosts = posts.filter((post) => post.data.tags.includes(tag));
+    const filteredArticles = articles.filter((article) =>
+      article.data.tags.includes(tag),
+    );
     return {
       params: { tag },
-      props: { posts: filteredPosts },
+      props: { articles: filteredArticles },
     };
   });
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { articles } = Astro.props;
 const description = `Page for the tag ${tag}`;
 ---
 
 <Base title={tag} {description}>
-  <p>Posts tagged with {tag}</p>
-  <PostLinks {posts} />
+  <p>Articles tagged with {tag}</p>
+  <ArticleLinks {articles} />
 </Base>

@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import PostTags from "../../components/PostTags.astro";
-const posts = await getCollection("blog");
-const tags = [...new Set(posts.map((post) => post.data.tags).flat())];
+import ArticleTags from "../../components/ArticleTags.astro";
+const articles = await getCollection("articles");
+const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
 const title: string = "Tag Index";
 const description: string = "The tags index page";
 ---
 
 <Base {title} {description}>
-  <PostTags {tags} />
+  <ArticleTags {tags} />
 </Base>

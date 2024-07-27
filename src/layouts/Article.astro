@@ -6,7 +6,7 @@ import site from "../data/site.json";
 import FormattedDate from "../components/FormattedDate.astro";
 
 interface Props {
-  frontmatter: CollectionEntry<"blog">["data"];
+  frontmatter: CollectionEntry<"articles">["data"];
 }
 
 const { frontmatter } = Astro.props;
