@@ -1,15 +1,15 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import PostTag from "./PostTag.astro";
+import ArticleTag from "./ArticleTag.astro";
 
 interface Props {
-  tags: CollectionEntry<"blog">["data"]["tags"];
+  tags: CollectionEntry<"articles">["data"]["tags"];
 }
 const { tags } = Astro.props;
 ---
 
 <div>
-  {tags.map((tag) => <PostTag {tag} />)}
+  {tags.map((tag) => <ArticleTag {tag} />)}
 </div>
 <style>
   div {
