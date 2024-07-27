@@ -30,7 +30,7 @@ const { data: author } = await getEntry(
 );
 const series = frontmatter.series
   ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
-  : null;
+  : undefined;
 
 // const formatDate = (date: Date) =>
 //   date.toLocaleDateString("en-US", {
