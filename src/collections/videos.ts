@@ -27,6 +27,6 @@ export default defineCollection({
         .min(30, "Title must be at least 30 characters")
         .max(70, "Title must be at most 70 characters"),
       series: reference("seriess").optional(),
-      tags: z.array(z.string()).optional(),
+      tags: z.array(z.string()),
     }),
 });
