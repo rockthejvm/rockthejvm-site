@@ -101,5 +101,6 @@
     "**/.trunk/*notifications/": true,
     "**/.trunk/*out/": true,
     "**/.trunk/*plugins/": true
-  }
+  },
+  "workbench.colorTheme": "GitHub Dark Default"
 }
