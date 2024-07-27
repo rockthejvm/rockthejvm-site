@@ -5,9 +5,10 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
+        canonicalUrl: z.string().url(),
         description: z.string(),
         image: image().optional(),
-        articles: z.array(reference("articles")),
+        members: z.array(reference("articles").or(reference("videos"))),
         title: z.string(),
       })
       .strict(),
