@@ -2,15 +2,15 @@
 import { getCollection } from "astro:content";
 import LatestContentCard from "./LatestContentCard.astro";
 
-const posts = await getCollection("blog");
-const latestPosts = posts
+const articles = await getCollection("articles");
+const latestArticles = articles
   .sort(
-    (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+    (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime(),
   )
   .slice(0, 7)
-  .map((post) => ({
-    title: post.data.title,
-    url: `/blog/${post.slug}`,
+  .map((article) => ({
+    title: article.data.title,
+    url: `/blog/${article.slug}`,
   }));
 
 const latestVideos = [
@@ -42,11 +42,11 @@ const latestVideos = [
   },
 ];
 
-const postsTitle = "Latest Articles";
+const articlesTitle = "Latest Articles";
 const videosTitle = "Featured Videos";
-const postsUrl = "/blog";
+const articlesUrl = "/blog";
 const videosUrl = "https://www.youtube.com/rockthejvm";
-const postsImage = {
+const articlesImage = {
   src: "https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/bFrMi6keRSK7xdn8urgH",
   alt: "Rock the JVM blog",
 };
@@ -58,10 +58,10 @@ const videosImage = {
 
 <section class="free-content">
   <LatestContentCard
-    links={latestPosts}
-    title={postsTitle}
-    contentHomeUrl={postsUrl}
-    image={postsImage}
+    links={latestArticles}
+    title={articlesTitle}
+    contentHomeUrl={articlesUrl}
+    image={articlesImage}
   />
   <LatestContentCard
     links={latestVideos}

@@ -7,7 +7,7 @@ export default defineCollection({
       .object({
         description: z.string(),
         image: image().optional(),
-        posts: z.array(reference("blog")),
+        articles: z.array(reference("articles")),
         title: z.string(),
       })
       .strict(),
