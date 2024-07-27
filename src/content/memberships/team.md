@@ -1,6 +1,7 @@
 ---
 name: "Team"
 description: Everything on Rock the JVM in a convenient package for your team.
+image: "./team.png"
 packages:
   [
     { frequency: "yearl", name: "3-Team", price: 585 },
