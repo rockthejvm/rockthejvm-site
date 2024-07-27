@@ -6,19 +6,12 @@ interface Props {
 }
 
 const { frontmatter } = Astro.props;
-const {
-  company,
-  link,
-  location,
-  name,
-  photo,
-  role,
- } = frontmatter;
+const { company, link, location, name, photo, role } = frontmatter;
 ---
 
 <article>
   <header>
-    <img src={photo.src} alt=`"Photo of ${name}"` />
+    <img src={photo.src} alt=`Photo of ${name}` />
     <p><a href={name}>{link}</a>, {role} at {company}</p>
     <br />
     <p>({location.city}, {location.country})</p>

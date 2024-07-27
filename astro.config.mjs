@@ -5,6 +5,6 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://rockthejvm.com",
+  site: "https://www.rockthejvm.com",
   integrations: [preact(), icon()],
 });
