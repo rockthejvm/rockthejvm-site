@@ -4,33 +4,27 @@ import Head from "../components/Head.astro";
 import Header from "../components/Header.astro";
 
 interface Props {
-  article?:
-    | {
-        author: {
-          name: string;
-          twitter?:
-            | {
-                username: string;
-              }
-            | undefined;
-        };
-        updatedTime: Date;
-        publishedTime: Date;
-        section: string;
-        tags: string[];
-        video?: string | undefined;
-      }
-    | undefined;
-  canonicalUrl?: URL | undefined;
+  article?: {
+    author: {
+      name: string;
+      twitter?: {
+        username: string;
+      };
+    };
+    updatedTime: Date;
+    publishedTime: Date;
+    section: string;
+    tags: string[];
+    video?: string;
+  };
+  canonicalUrl?: URL;
   description: string;
-  image?:
-    | {
-        alt: string;
-        src: string;
-      }
-    | undefined;
+  image?: {
+    alt: string;
+    src: string;
+  };
   title: string;
-  type?: string | undefined;
+  type?: string;
 }
 
 const { article, canonicalUrl, description, image, title, type } = Astro.props;
