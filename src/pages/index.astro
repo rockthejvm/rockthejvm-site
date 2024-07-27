@@ -15,24 +15,22 @@ const title = "Home";
 
 <Base
   canonicalUrl={Astro.url}
-  description="Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big
-data and streaming (Apache Spark, Flink), all with hands-on online courses."
+  description="Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big data and streaming (Apache Spark, Flink), all with hands-on online courses."
   image={image}
   title={title}
 >
   <div class="main">
-    <div>
-      <Hero
-        image={image}
-        subtitle="The zero-to-master online courses and hands-on training for Scala, Kotlin, Spark, Flink, ZIO, Akka and more."
-        subtitle2="No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king."
-        title={title}
-      />
-      <!-- <LatestContent />
+    <Hero
+      image={image}
+      subtitle="The zero-to-master online courses and hands-on training for Scala, Kotlin, Spark, Flink, ZIO, Akka and more."
+      subtitle2="No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king."
+      title={title}
+    />
+    <!-- <LatestContent />
       <Membership />
       <Instructor />
       <BrandLogos /> -->
-      <!-- <hr />
+    <!-- <hr />
     <h2>LATEST CONTENT</h2>
     <hr />
     <h2>COURSES</h2>
@@ -41,7 +39,6 @@ data and streaming (Apache Spark, Flink), all with hands-on online courses."
     <Instructor />
     <Reviews />
     <Contact /> -->
-    </div>
   </div>
 </Base>
 <!-- <style>

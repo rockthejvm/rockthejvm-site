@@ -1,6 +1,14 @@
+---
+import site from "../data/site.json";
+---
+
 <nav class="nav-links">
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
+  <a href="/"
+    ><img src={site.logo.src} alt={site.logo.alt} width="50" height="50" /></a
+  >
+  <a href="/about-us/">About</a>
   <a href="/blog/">Blog</a>
-  <a href="/tags/">Tags</a>
+  <a href="/courses/">Courses</a>
+  <a href={site.youtube.channel}>YouTube</a>
+  <a href="">RSS</a>
 </nav>

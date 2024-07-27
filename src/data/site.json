@@ -11,5 +11,8 @@
   "name": "Rock the JVM",
   "twitter": {
     "username": "@rockthejvm"
+  },
+  "youtube": {
+    "channel": "https://www.youtube.com/rockthejvm"
   }
 }

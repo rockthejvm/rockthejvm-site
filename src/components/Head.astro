@@ -19,7 +19,7 @@ interface Props {
         video?: string | undefined;
       }
     | undefined;
-  canonicalUrl: URL;
+  canonicalUrl?: URL | undefined;
   description: string;
   image?:
     | {
@@ -44,7 +44,10 @@ const selectedImage = image ?? site.logo;
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
   </Fragment>
-  <link rel="canonical" href={canonicalUrl} />
+  <link
+    rel="canonical"
+    href={canonicalUrl ?? new URL(Astro.url.pathname, Astro.site)}
+  />
   <meta charset="utf-8" />
   <meta name="description" content={description} />
   <meta name="generator" content={Astro.generator} />
