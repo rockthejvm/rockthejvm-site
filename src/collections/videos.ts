@@ -9,7 +9,7 @@ export default defineCollection({
       canonicalUrl: z.string().url().optional(),
       description: z.string(),
       excerpt: z.string().optional(),
-      heroImage: z
+      thumbnail: z
         .object({
           image: image()
             .refine((image) => image.width >= 1200 && image.height >= 630, {
