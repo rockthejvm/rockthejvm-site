@@ -6,10 +6,12 @@ import memberships from "../collections/memberships";
 import testimonials from "../collections/testimonials";
 import seriess from "../collections/seriess";
 import clients from "../collections/clients";
+import categories from "../collections/categories";
 
 export const collections = {
   articles,
   authors,
+  categories,
   clients,
   courses,
   informationals,

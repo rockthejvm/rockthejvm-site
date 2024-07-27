@@ -20,7 +20,7 @@ export default defineCollection({
             message: "Photo must be at least 200x200px",
           },
         ),
-        sortOrder: z.number(),
+        ordinal: z.number().int().positive(),
         role: z.string(),
       })
       .strict(),
