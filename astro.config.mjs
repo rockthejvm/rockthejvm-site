@@ -7,4 +7,5 @@ import icon from "astro-icon";
 export default defineConfig({
   site: "https://www.rockthejvm.com",
   integrations: [preact(), icon()],
+  markdown: {},
 });
