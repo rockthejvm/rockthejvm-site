@@ -2,21 +2,33 @@
 import { getEntry } from "astro:content";
 import Base from "./Base.astro";
 import type { CollectionEntry } from "astro:content";
+import site from "../data/site.json";
 
 interface Props {
   frontmatter: CollectionEntry<"blog">["data"];
 }
 
+const { frontmatter } = Astro.props;
+const {
+  canonicalUrl,
+  description,
+  excerpt,
+  heroImage,
+  publishedDate,
+  summary,
+  tags,
+  title,
+  updatedDate,
+  video,
+} = frontmatter;
 const banner: string =
   "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg";
-const { frontmatter } = Astro.props;
-const { excerpt, heroImage, pubDate, tags, title, updatedDate } = frontmatter;
 const { data: author } = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
-const seriess = frontmatter.seriess
-  ? await getEntry(frontmatter.seriess.collection, frontmatter.seriess.id)
+const series = frontmatter.series
+  ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
   : null;
 
 // const formatDate = (date: Date) =>
@@ -29,14 +41,14 @@ const seriess = frontmatter.seriess
 ---
 
 <Base
-  metaDescription={excerpt}
-  metaTitle={title}
-  OGDescription={excerpt}
-  OGImage={banner}
-  OGImageAlt="Rock The JVM banner"
-  OGTitle={title}
+  {article}
+  canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
+  description={description ?? excerpt}
+  image={heroImage
+    ? { alt: heroImage.alt, src: heroImage.image.src }
+    : undefined}
+  {title}
   type="article"
-  OGURL=""
 >
   <article>
     <h1>{title}</h1>

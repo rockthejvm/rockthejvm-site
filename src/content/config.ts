@@ -1,8 +1,8 @@
-import authors from "../schemas/authors";
-import blog from "../schemas/blog";
-import informationals from "../schemas/informationals";
-import reviews from "../schemas/reviews";
-import seriess from "../schemas/seriess";
+import authors from "../collections/authors";
+import blog from "../collections/blog";
+import informationals from "../collections/informationals";
+import reviews from "../collections/reviews";
+import seriess from "../collections/seriess";
 
 export const collections = {
   authors,
