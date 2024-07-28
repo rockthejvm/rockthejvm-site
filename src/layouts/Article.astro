@@ -2,7 +2,6 @@
 import { getEntry } from "astro:content";
 import Base from "./Base.astro";
 import type { CollectionEntry } from "astro:content";
-import site from "../data/site.json";
 import FormattedDate from "../components/FormattedDate.astro";
 
 interface Props {
@@ -22,16 +21,16 @@ const {
   updatedDate,
   video,
 } = frontmatter;
-const banner: string =
-  "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg";
 const { data: author } = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
 const series = frontmatter.series
-  ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
-  : undefined;
+? await getEntry(frontmatter.series.collection, frontmatter.series.id)
+: undefined;
 
+type banner = ImageMetadata;
+const banner = "../assets/images/banner.jpeg";
 // const formatDate = (date: Date) =>
 //   date.toLocaleDateString("en-US", {
 //     weekday: "short",
@@ -42,7 +41,18 @@ const series = frontmatter.series
 ---
 
 <Base
-  {article}
+  article={{
+    author: {
+      name: author.name,
+      // add a twitter username if available
+      twitter: author.socials?.twitter ? { username: author.socials.twitter } : undefined,
+    }
+    updatedTime: updatedDate
+    publishedTime: Date;
+    section: string;
+    tags: string[];
+    video?: string;
+  }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}
   image={heroImage
