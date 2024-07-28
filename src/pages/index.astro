@@ -3,6 +3,9 @@ import site from "../data/site.json";
 import Hero from "../components/Hero.astro";
 import Base from "../layouts/Base.astro";
 import Logo from "../assets/images/logos/rtjvm-red.png";
+import MediaObject from "../components/MediaObject";
+import CardWithHeader from "../components/CardWithHeader";
+import MyImage from "../components/MyImage.astro";
 
 interface Props {
   canonicalUrl: URL;
@@ -16,12 +19,12 @@ const title = "Home";
 
 <Base canonicalUrl={Astro.url} description={site.description} {image} {title}>
   <div class="main">
-    <Hero
+    <!-- <Hero
       {image}
       subtitle="The zero-to-master online courses and hands-on training for Scala, Kotlin, Spark, Flink, ZIO, Akka and more."
       subtitle2="No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king."
       {title}
-    />
+    /> -->
     <!-- <LatestContent />
       <Membership />
       <Instructor />
@@ -35,10 +38,31 @@ const title = "Home";
     <Instructor />
     <Testimonials />
     <Contact /> -->
-  </div>
-</Base>
-<!-- <style>
+    <section>
+      <MediaObject />
+    </section>
+    <section>
+      <div class="flex gap-x-10">
+        <CardWithHeader
+          image="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/bFrMi6keRSK7xdn8urgH"
+        >
+          <h1 class="text-2xl">Latest Article</h1>
+          <p>functional erro rhandlng</p>
+        </CardWithHeader>
+        <CardWithHeader
+          image="https://www.filepicker.io/api/file/BIe9ZeSP6hSiggxTUKlQ"
+        />
+      </div>
+    </section>
+    <!-- <style>
   Hero {
     background-color: var(--color-primary);
   }
 </style> -->
+  </div></Base
+>
+<style>
+  section {
+    margin-top: 5rem;
+  }
+</style>

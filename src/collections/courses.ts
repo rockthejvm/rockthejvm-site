@@ -6,12 +6,16 @@ export default defineCollection({
     z
       .object({
         archived: z.boolean().default(false),
-        bundledCourses: z.array(reference("courses")).optional(),
-        category: reference("categories"),
-        description: z.string(),
+        bundledCourses: z
+          .array(reference("courses"))
+          .min(2, "At least 2 courses are required for a bundle")
+          .optional(),
+        grouping: z.object({
+          category: reference("categories"),
+          ordinal: z.number().int().positive().optional(),
+        }),
         image: image(),
         name: z.string(),
-        ordinal: z.number().int().positive().optional(),
         price: z.number().positive().optional(),
       })
       .strict(),
