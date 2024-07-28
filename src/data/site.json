@@ -5,7 +5,7 @@
   },
   "description": "Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big data and streaming (Apache Spark, Flink), all with hands-on online courses.",
   "logo": {
-    "src": "https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21",
+    "src": "../assets/images/logos/rtjvm-red.png",
     "alt": "Rock the JVM logo"
   },
   "name": "Rock the JVM",

@@ -2,6 +2,7 @@
 import site from "../data/site.json";
 import Hero from "../components/Hero.astro";
 import Base from "../layouts/Base.astro";
+import Logo from "../assets/images/logos/rtjvm-red.png";
 
 interface Props {
   canonicalUrl: URL;
@@ -9,22 +10,17 @@ interface Props {
   image: { src: string; alt: string };
   title: string;
 }
-const image = site.logo;
+const image = { src: Logo.src, alt: site.logo.alt };
 const title = "Home";
 ---
 
-<Base
-  canonicalUrl={Astro.url}
-  description={site.description}
-  image={image}
-  title={title}
->
+<Base canonicalUrl={Astro.url} description={site.description} {image} {title}>
   <div class="main">
     <Hero
-      image={image}
+      {image}
       subtitle="The zero-to-master online courses and hands-on training for Scala, Kotlin, Spark, Flink, ZIO, Akka and more."
       subtitle2="No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king."
-      title={title}
+      {title}
     />
     <!-- <LatestContent />
       <Membership />

@@ -7,11 +7,14 @@ interface Props {
 }
 
 const { image, subtitle, subtitle2, title } = Astro.props;
+import { Image } from "astro:assets";
+import Logo from "../assets/images/logos/rtjvm-red.png";
 ---
 
 <section class="hero-section">
   <div class="img-wrapper">
     {image && <img src={image.src} alt={image.alt} />}
+    <Image src={Logo} alt="Rock the JVM logo" width={300} />
   </div>
 
   <div class="content-wrapper">
