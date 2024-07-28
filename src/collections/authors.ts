@@ -1,5 +1,21 @@
 import { defineCollection, z } from "astro:content";
 
+const username = (field: string) =>
+  z
+    .string()
+    .regex(
+      /^(?!https?:\/\/)/,
+      `${field} should not be a URL, but rather a username`,
+    )
+    .optional();
+
+const handle = (field: string) =>
+  // cannot included the `@` symbol
+  z
+    .string()
+    .regex(/^[^@]+$/, `${field} should not include the '@' symbol`)
+    .optional();
+
 export default defineCollection({
   type: "data",
   schema: ({ image }) =>
@@ -24,12 +40,12 @@ export default defineCollection({
         socials: z
           .object({
             email: z.string().email().optional(),
-            facebook: z.string().url().optional(),
-            github: z.string().url().optional(),
-            linkedin: z.string().url().optional(),
-            twitter: z.string().url().optional(),
+            facebook: handle("Facebook"),
+            github: username("GitHub"),
+            linkedin: username("LinkedIn"),
+            twitter: handle("Twitter"),
             website: z.string().url().optional(),
-            youtube: z.string().url().optional(),
+            youtube: handle("YouTube"),
           })
           .strict()
           .optional(),
