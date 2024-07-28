@@ -1,13 +1,10 @@
 ---
-import data from "../data/site.json";
-import HeaderNavigation from "./HeaderNavigation.astro";
-import LoginButton from "./LoginButton.astro";
-import ThemeIcon from "./ThemeIcon.astro";
-const { accountLogo: image } = data;
+import HeaderTW from "./HeaderTW";
 ---
 
 <header>
-  <HeaderNavigation />
+  <HeaderTW client:idle />
+  <!-- <HeaderNavigation /> -->
   <!-- <ThemeIcon /> -->
   <!-- <LoginButton {image} /> -->
 </header>

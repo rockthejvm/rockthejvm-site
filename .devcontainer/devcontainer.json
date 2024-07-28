@@ -14,6 +14,7 @@
       "extensions": [
         "astro-build.astro-vscode",
         "astro-build.houston",
+        "bradlc.vscode-tailwindcss",
         "christian-kohler.path-intellisense",
         "eamodio.gitlens",
         "GitHub.copilot",
@@ -27,7 +28,8 @@
         "tamasfe.even-better-toml",
         "Trunk.io",
         "Tyriar.lorem-ipsum",
-        "Tyriar.sort-lines"
+        "Tyriar.sort-lines",
+        "unifiedjs.vscode-mdx"
       ]
     }
   },
