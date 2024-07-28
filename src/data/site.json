@@ -10,9 +10,11 @@
   },
   "name": "Rock the JVM",
   "twitter": {
-    "username": "@rockthejvm"
+    "handle": "@rockthejvm",
+    "url": "https://twitter.com/@rockthejvm"
   },
   "youtube": {
-    "channel": "https://www.youtube.com/rockthejvm"
+    "handle": "@rockthejvm",
+    "url": "https://www.youtube.com/@rockthejvm"
   }
 }

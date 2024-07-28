@@ -5,15 +5,13 @@ interface Props {
   article?: {
     author: {
       name: string;
-      twitter?: {
-        username: string;
-      };
+      twitter?: string;
     };
     updatedTime?: Date;
     publishedTime: Date;
     section: string;
     tags: string[];
-    video?: string;
+    video?: URL;
   };
   canonicalUrl?: URL;
   description: string;
@@ -128,12 +126,12 @@ const selectedImage = image ?? site.logo;
   <meta property="twitter:card" content="summary_large_image" />
   <meta
     property="twitter:creator"
-    content={article?.author.twitter?.username ?? site.twitter.username}
+    content={article?.author.twitter ?? site.twitter.handle}
   />
   <meta property="twitter:description" content={description} />
   <meta property="twitter:image:alt" content={selectedImage.alt} />
   <meta property="twitter:image" content={selectedImage.src} />
-  <meta property="twitter:site" content={site.twitter.username} />
+  <meta property="twitter:site" content={site.twitter.handle} />
   <meta property="twitter:title" content={title} />
   <meta property="twitter:url" content={canonicalUrl} />
 </head>

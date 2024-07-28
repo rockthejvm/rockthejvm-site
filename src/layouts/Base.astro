@@ -8,15 +8,13 @@ interface Props {
   article?: {
     author: {
       name: string;
-      twitter?: {
-        username: string;
-      };
+      twitter?: string;
     };
     updatedTime?: Date;
     publishedTime: Date;
     section: string;
     tags: string[];
-    video?: string;
+    video?: URL;
   };
   canonicalUrl?: URL;
   description: string;
