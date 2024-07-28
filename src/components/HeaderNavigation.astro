@@ -1,17 +1,47 @@
 ---
 import site from "../data/site.json";
+import Logo from "../assets/images/logos/rtjvm-red.png";
+import { Image } from "astro:assets";
 ---
 
-<nav class="nav-links">
-  <a href="/"
-    ><img src={site.logo.src} alt={site.logo.alt} width="50" height="50" /></a
-  >
-  <a href="/about-us/">About</a>
-  <a href="/blog/">Blog</a>
-  <a href="/courses/">Courses</a>
-  <a href={site.youtube.channel} target="_blank" rel="noopener noreferrer"
-    >YouTube</a
-  >
-  <a href="rss.xml" target="_blank" rel="noopener noreferrer">RSS</a>
-  <a href=""><button type="button">Log In</button></a>
+<nav>
+  <div>
+    <a href="/"><Image src={Logo} alt={site.logo.alt} width={50} /></a>
+  </div>
+  <div>
+    <a href="/about-us/">About</a>
+    <a href="/blog/">Blog</a>
+    <a href="/courses/">Courses</a>
+    <a href={site.youtube.channel} target="_blank" rel="noopener noreferrer"
+      >YouTube</a
+    >
+    <a href="rss.xml" target="_blank" rel="noopener noreferrer">RSS</a>
+    <a href=""><button type="button">Log In</button></a>
+  </div>
 </nav>
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+  a {
+    color: var(--color-navigation);
+    padding: 0rem 0.6rem;
+    text-decoration: none;
+  }
+  button {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: var(--color-primary-dark);
+  }
+</style>

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "my-site",
+    "path": "src/content",
+    "schema": {
+      "path": "markdoc.config.mts",
+      "type": "esm",
+      "property": "default",
+      "watch": true
+    }
+  }
+]
