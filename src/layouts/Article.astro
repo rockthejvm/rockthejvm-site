@@ -19,15 +19,22 @@ const {
   tags,
   title,
   updatedDate,
-  video,
 } = frontmatter;
-const { data: author } = await getEntry(
+const { data } = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
-const series = frontmatter.series
-? await getEntry(frontmatter.series.collection, frontmatter.series.id)
-: undefined;
+const author = {
+  ...data,
+  socials: {
+    ...data.socials,
+    facebook: data.socials?.facebook ? `@${data.socials.facebook}` : undefined,
+    twitter: data.socials?.twitter ? `@${data.socials.twitter}` : undefined,
+    youtube: data.socials?.youtube ? `@${data.socials.youtube}` : undefined,
+  },
+};
+const series = frontmatter.series ? await getEntry(frontmatter.series.collection, frontmatter.series.id) : undefined;
+const video = frontmatter.video ? await getEntry(frontmatter.video.collection, frontmatter.video.id,) : undefined;
 
 type banner = ImageMetadata;
 const banner = "../assets/images/banner.jpeg";
@@ -45,13 +52,13 @@ const banner = "../assets/images/banner.jpeg";
     author: {
       name: author.name,
       // add a twitter username if available
-      twitter: author.socials?.twitter ? { username: author.socials.twitter } : undefined,
-    }
-    updatedTime: updatedDate
-    publishedTime: Date;
-    section: string;
-    tags: string[];
-    video?: string;
+      twitter: author.socials.twitter,
+    },
+    updatedTime: updatedDate,
+    publishedTime: publishedDate,
+    section: string,
+    tags: string[],
+    video: video?.data.canonicalUrl ? new URL(video.data.canonicalUrl) : undefined,
   }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}

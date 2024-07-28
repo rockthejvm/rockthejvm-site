@@ -1,21 +1,5 @@
 import { defineCollection, z } from "astro:content";
 
-const username = (field: string) =>
-  z
-    .string()
-    .regex(
-      /^(?!https?:\/\/)/,
-      `${field} should not be a URL, but rather a username`,
-    )
-    .optional();
-
-const handle = (field: string) =>
-  // cannot included the `@` symbol
-  z
-    .string()
-    .regex(/^[^@]+$/, `${field} should not include the '@' symbol`)
-    .optional();
-
 export default defineCollection({
   type: "data",
   schema: ({ image }) =>
@@ -52,3 +36,19 @@ export default defineCollection({
       })
       .strict(),
 });
+
+const username = (field: string) =>
+  z
+    .string()
+    .regex(
+      /^(?!https?:\/\/)/,
+      `${field} should not be a URL, but rather a username`,
+    )
+    .optional();
+
+const handle = (field: string) =>
+  // cannot included the `@` symbol
+  z
+    .string()
+    .regex(/^[^@]+$/, `${field} should not include the '@' symbol`)
+    .optional();
