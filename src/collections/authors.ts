@@ -47,8 +47,7 @@ const username = (field: string) =>
     .optional();
 
 const handle = (field: string) =>
-  // cannot included the `@` symbol
   z
     .string()
-    .regex(/^[^@]+$/, `${field} should not include the '@' symbol`)
+    .regex(/^@/, `${field} should start with the '@' symbol`)
     .optional();

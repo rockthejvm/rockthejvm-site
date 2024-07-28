@@ -2,6 +2,7 @@
 import Footer from "../components/Footer.astro";
 import Head from "../components/Head.astro";
 import Header from "../components/Header.astro";
+import NarrowContainer from "../components/NarrowContainer";
 import "../styles/fonts.css";
 
 interface Props {
@@ -36,7 +37,9 @@ const { article, canonicalUrl, description, image, title, type } = Astro.props;
     <div>
       <Header />
       <main>
-        <slot />
+        <NarrowContainer>
+          <slot />
+        </NarrowContainer>
         <Footer />
       </main>
     </div>

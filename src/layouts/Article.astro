@@ -3,12 +3,15 @@ import { getEntry } from "astro:content";
 import Base from "./Base.astro";
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
+import type { MarkdownHeading } from "astro";
+import TableOfContents from "../components/TableOfContents.astro";
 
 interface Props {
   frontmatter: CollectionEntry<"articles">["data"];
+  headings: MarkdownHeading[];
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, headings } = Astro.props;
 const {
   canonicalUrl,
   description,
@@ -20,21 +23,16 @@ const {
   title,
   updatedDate,
 } = frontmatter;
-const { data } = await getEntry(
+const { data: author } = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
-const author = {
-  ...data,
-  socials: {
-    ...data.socials,
-    facebook: data.socials?.facebook ? `@${data.socials.facebook}` : undefined,
-    twitter: data.socials?.twitter ? `@${data.socials.twitter}` : undefined,
-    youtube: data.socials?.youtube ? `@${data.socials.youtube}` : undefined,
-  },
-};
-const series = frontmatter.series ? await getEntry(frontmatter.series.collection, frontmatter.series.id) : undefined;
-const video = frontmatter.video ? await getEntry(frontmatter.video.collection, frontmatter.video.id,) : undefined;
+const series = frontmatter.series
+  ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
+  : undefined;
+const video = frontmatter.video
+  ? await getEntry(frontmatter.video.collection, frontmatter.video.id)
+  : undefined;
 
 type banner = ImageMetadata;
 const banner = "../assets/images/banner.jpeg";
@@ -45,6 +43,26 @@ const banner = "../assets/images/banner.jpeg";
 //     day: "2-digit",
 //     timeZone: "UTC",
 //   });
+function buildHierarchy(headings: MarkdownHeading[]) {
+  {
+    const toc: MarkdownHeading[] = [];
+    const parentHeadings = new Map();
+
+    if (!headings) return toc;
+
+    headings.forEach((h: MarkdownHeading) => {
+      const heading = { ...h, subheadings: [] };
+      parentHeadings.set(heading.depth, heading);
+      // Change 2 to 1 if your markdown includes your <h1>
+      if (heading.depth === 2) {
+        toc.push(heading);
+      } else {
+        parentHeadings.get(heading.depth - 1).subheadings.push(heading);
+      }
+    });
+    return toc;
+  }
+}
 ---
 
 <Base
@@ -52,13 +70,15 @@ const banner = "../assets/images/banner.jpeg";
     author: {
       name: author.name,
       // add a twitter username if available
-      twitter: author.socials.twitter,
+      twitter: author.socials?.twitter,
     },
     updatedTime: updatedDate,
     publishedTime: publishedDate,
-    section: string,
-    tags: string[],
-    video: video?.data.canonicalUrl ? new URL(video.data.canonicalUrl) : undefined,
+    section: "Programming",
+    tags: tags,
+    video: video?.data.canonicalUrl
+      ? new URL(video.data.canonicalUrl)
+      : undefined,
   }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}
@@ -70,8 +90,18 @@ const banner = "../assets/images/banner.jpeg";
 >
   <article>
     <h1>{title}</h1>
-    <FormattedDate date={publishedDate} />
+    <p>
+      Last updated: {
+        updatedDate ? (
+          <FormattedDate date={updatedDate} />
+        ) : (
+          <FormattedDate date={publishedDate} />
+        )
+      }
+    </p>
+    <p>Written by: {author.name}</p>
     {summary && <summary>{summary}</summary>}
+    <TableOfContents {headings} />
     <slot />
   </article>
 </Base>
