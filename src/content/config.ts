@@ -1,17 +1,19 @@
-import authors from "../collections/authors";
 import articles from "../collections/articles";
+import authors from "../collections/authors";
+import categories from "../collections/categories";
+import clients from "../collections/clients";
 import courses from "../collections/courses";
 import legals from "../collections/legals";
 import memberships from "../collections/memberships";
-import testimonials from "../collections/testimonials";
 import seriess from "../collections/seriess";
-import categories from "../collections/categories";
+import testimonials from "../collections/testimonials";
 import videos from "../collections/videos";
 
 export const collections = {
   articles,
   authors,
   categories,
+  clients,
   courses,
   legals,
   memberships,

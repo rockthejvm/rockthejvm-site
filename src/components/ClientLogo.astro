@@ -3,13 +3,15 @@ import { Icon } from "astro-icon/components";
 
 interface Props {
   name: string;
+  title: string;
 }
 
-const { name } = Astro.props;
+const { name, title } = Astro.props;
 ---
 
 <Icon
   name=`clients/${name}`
+  title={title}
   width={158}
   height={48}
   class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
