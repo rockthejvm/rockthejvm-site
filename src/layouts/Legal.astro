@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Base from "./Base.astro";
-import site from "../data/site.json";
 
 interface Props {
   frontmatter: CollectionEntry<"informationals">["data"];
@@ -12,14 +11,13 @@ const { frontmatter } = Astro.props;
 const { description, title } = frontmatter;
 ---
 
-<!--
-<Base canonicalUrl={Astro.url} {description} {title} type="article">
-  <Hero
+<Base {description} {title} type="article">
+  <!-- <Hero
     image={{
       alt: site.logo.alt,
       src: site.logo.src,
     }}
     {title}
-  />
+  /> -->
   <slot />
-</Base> -->
+</Base>
