@@ -11,14 +11,17 @@ import Membership from "../components/Membership";
 import LatestContent from "../components/LatestContent";
 import NarrowContainer from "../components/NarrowContainer";
 import ClientLogo from "../components/ClientLogo.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 interface Props {
   canonicalUrl: URL;
   description: string;
   image: { src: string; alt: string };
   title: string;
+  clients: CollectionEntry<"clients">[];
 }
 const image = { src: Logo.src, alt: site.logo.alt };
 const title = "Home";
+const clients = await getCollection("clients");
 ---
 
 <Base canonicalUrl={Astro.url} description={site.description} {image} {title}>
@@ -73,7 +76,11 @@ const title = "Home";
         <h1>Your Instructor</h1>
         <Instructor />
         <LogoCloud>
-          {site.clients.map((client) => <ClientLogo name={client} />)}
+          {
+            clients.map((client) => (
+              <ClientLogo name={client.data.slug} title={client.data.title} />
+            ))
+          }
         </LogoCloud>
       </section>
       <section>
