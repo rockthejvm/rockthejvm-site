@@ -1,3 +1,5 @@
+import site from "../data/site.json";
+
 export default function Example() {
   return (
     <div className="sm:flex">
@@ -18,10 +20,15 @@ export default function Example() {
         </svg>
       </div>
       <div>
-        <h4 className="text-lg font-bold">Lorem ipsum</h4>
+        <h1 className="text-lg font-bold">{site.name}</h1>
         <p className="mt-1">
-          Repudiandae sint consequuntur vel. Amet ut nobis explicabo numquam
-          expedita quia omnis voluptatem. Minus quidem ipsam quia iusto.
+          The zero-to-master online courses and hands-on training for Scala,
+          Kotlin, Spark, Flink, ZIO, Akka and more.
+        </p>
+        <p className="mt-1">
+          No more mindless browsing, obscure blog posts and blurry videos. Save
+          yourself the time and frustration and follow a smooth learning curve
+          where code is king.
         </p>
       </div>
     </div>

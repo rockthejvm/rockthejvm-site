@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Hero from "../components/Hero.astro";
 import Base from "./Base.astro";
 import site from "../data/site.json";
 
@@ -13,6 +12,7 @@ const { frontmatter } = Astro.props;
 const { description, title } = frontmatter;
 ---
 
+<!--
 <Base canonicalUrl={Astro.url} {description} {title} type="article">
   <Hero
     image={{
@@ -22,4 +22,4 @@ const { description, title } = frontmatter;
     {title}
   />
   <slot />
-</Base>
+</Base> -->

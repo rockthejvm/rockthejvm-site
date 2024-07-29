@@ -1,11 +1,13 @@
 ---
 import site from "../data/site.json";
-import Hero from "../components/Hero.astro";
 import Base from "../layouts/Base.astro";
 import Logo from "../assets/images/logos/rtjvm-red.png";
-import MediaObject from "../components/MediaObject";
 import CardWithHeader from "../components/CardWithHeader";
-import MyImage from "../components/MyImage.astro";
+import LogoCloud from "../components/LogoCloud";
+import Instructor from "../components/Instructor";
+import MyTestimonials from "../components/MyTestimonials";
+import Hero from "../components/Hero";
+import Contact from "../components/Contact";
 
 interface Props {
   canonicalUrl: URL;
@@ -39,20 +41,41 @@ const title = "Home";
     <Testimonials />
     <Contact /> -->
     <section>
-      <MediaObject />
+      <Hero />
     </section>
     <section>
+      <h1>Latest Content</h1>
       <div class="flex gap-x-10">
         <CardWithHeader
           image="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/bFrMi6keRSK7xdn8urgH"
         >
-          <h1 class="text-2xl">Latest Article</h1>
+          <h2 class="text-2xl">Latest Article</h2>
           <p>functional erro rhandlng</p>
         </CardWithHeader>
         <CardWithHeader
           image="https://www.filepicker.io/api/file/BIe9ZeSP6hSiggxTUKlQ"
         />
       </div>
+    </section>
+    <section>
+      <h1>Available Courses</h1>
+    </section>
+    <section>
+      <h1>Memberships</h1>
+    </section>
+    <section>
+      <h1>Your Instructor</h1>
+      <Instructor />
+      <LogoCloud />
+    </section>
+    <section>
+      <h1>Testimonials</h1>
+      <MyTestimonials />
+      <MyTestimonials />
+      <MyTestimonials />
+    </section>
+    <section>
+      <Contact />
     </section>
     <!-- <style>
   Hero {
@@ -64,5 +87,6 @@ const title = "Home";
 <style>
   section {
     margin-top: 5rem;
+    margin-bottom: 5rem;
   }
 </style>
