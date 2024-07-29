@@ -1,7 +1,7 @@
 import articles from "../collections/articles";
 import authors from "../collections/authors";
 import categories from "../collections/categories";
-import clients from "../collections/clients";
+import companies from "../collections/companies";
 import courses from "../collections/courses";
 import legals from "../collections/legals";
 import memberships from "../collections/memberships";
@@ -13,7 +13,7 @@ export const collections = {
   articles,
   authors,
   categories,
-  clients,
+  companies,
   courses,
   legals,
   memberships,

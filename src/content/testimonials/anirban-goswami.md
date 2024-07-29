@@ -1,12 +1,13 @@
 ---
-avatar: ./anirban-goswami.jpeg
-company: Apple
+company:
+  entity: apple
+  role: Data
 link: https://www.linkedin.com/in/anirban-goswami-5a724559/
 location:
   city: Cupertino
   country: California
 name: Anirban Goswami
-role: Data
+photo: ./anirban-goswami.jpeg
 ordinal: 3
 ---
 

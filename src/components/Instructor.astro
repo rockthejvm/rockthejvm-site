@@ -1,0 +1,67 @@
+---
+import { getEntry } from "astro:content";
+import InstructorHelper from "./InstructorHelper";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+const instructor = await getEntry("authors", "daniel-ciocirlan");
+const { biography, company, name, photo, socials } = instructor.data;
+const role = company?.role;
+---
+
+<InstructorHelper
+  {biography}
+  facebookUrl=`https://www.facebook.com/${socials?.facebook}`
+  githubUrl=`https://www.github.com/${socials?.github}`
+  linkedinUrl=`https://www.linkedin.com/in/${socials?.linkedin}`
+  twitterUrl=`https://www.twitter.com/${socials?.twitter}`
+  youtubeUrl=`https://www.youtube.com/${socials?.youtube}`
+  {name}
+  {role}
+>
+  {
+    photo && (
+      <Image
+        src={photo}
+        alt={name}
+        class="mx-auto h-56 w-56 rounded-full shadow-lg"
+        slot="photo"
+      />
+    )
+  }
+  <Icon
+    name="socials/facebook"
+    title="Facebook"
+    aria-hidden="true"
+    class="h-6 w-6"
+    slot="facebook"
+  />
+  <Icon
+    name="socials/github"
+    title="GitHub"
+    aria-hidden="true"
+    class="h-6 w-6"
+    slot="github"
+  />
+  <Icon
+    name="socials/linkedin"
+    title="LinkedIn"
+    aria-hidden="true"
+    class="h-6 w-6"
+    slot="linkedin"
+  />
+  <Icon
+    name="socials/twitter"
+    title="Twitter"
+    aria-hidden="true"
+    class="h-6 w-6"
+    slot="twitter"
+  />
+  <Icon
+    name="socials/youtube"
+    title="YouTube"
+    aria-hidden="true"
+    class="h-6 w-6"
+    slot="youtube"
+  />
+</InstructorHelper>
