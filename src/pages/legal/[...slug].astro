@@ -1,0 +1,23 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Legal from "../../layouts/Legal.astro";
+
+export async function getStaticPaths() {
+  const legals = await getCollection("legals");
+  return legals.map((legal) => ({
+    params: { slug: legal.slug },
+    props: { legal },
+  }));
+}
+
+interface Props {
+  legal: CollectionEntry<"legals">;
+}
+
+const { legal } = Astro.props;
+const { Content } = await legal.render();
+---
+
+<Legal frontmatter={legal.data}>
+  <Content />
+</Legal>
