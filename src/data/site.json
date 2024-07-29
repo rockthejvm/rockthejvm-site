@@ -3,7 +3,21 @@
     "src": "https://www.filepicker.io/api/file/bbjdMbWMQNiLBb65Q7BY",
     "alt": "Rock the JVM members login"
   },
+  "clients": [
+    "adobe",
+    "apple",
+    "datto",
+    "google",
+    "hapag-lloyd",
+    "hm-revenue-and-customs",
+    "intuit",
+    "microsoft",
+    "orange",
+    "swiss-re",
+    "ververica"
+  ],
   "description": "Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big data and streaming (Apache Spark, Flink), all with hands-on online courses.",
+  "legalName": "Rock the JVM",
   "logo": {
     "src": "../assets/images/logos/rtjvm-red.png",
     "alt": "Rock the JVM logo"
