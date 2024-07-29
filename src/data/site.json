@@ -22,11 +22,14 @@
     },
     "twitter": {
       "handle": "@rockthejvm",
-      "url": "https://twitter.com/@rockthejvm"
+      "url": "https://x.com/@rockthejvm"
     },
     "youtube": {
       "handle": "@rockthejvm",
       "url": "https://www.youtube.com/@rockthejvm"
+    },
+    "rss": {
+      "url": "rss.xml"
     }
   }
 }

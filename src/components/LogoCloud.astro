@@ -1,0 +1,16 @@
+---
+import { getCollection } from "astro:content";
+import ClientLogo from "./ClientLogo.astro";
+import LogoCloudHelper from "./LogoCloudHelper";
+
+const companies = await getCollection("companies");
+const clients = companies.filter((company) => company.id !== "rock-the-jvm");
+---
+
+<LogoCloudHelper>
+  {
+    clients.map((company) => (
+      <ClientLogo name={company.data.slug} title={company.data.title} />
+    ))
+  }
+</LogoCloudHelper>

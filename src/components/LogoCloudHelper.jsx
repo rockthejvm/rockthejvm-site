@@ -1,6 +1,6 @@
 export default function Example(props) {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <article className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h2 className="text-center text-lg font-semibold leading-8 text-gray-900">
           I've taught Scala, Kotlin, Akka, Spark and more in live trainings at
@@ -10,6 +10,6 @@ export default function Example(props) {
           {props.children}
         </div>
       </div>
-    </div>
+    </article>
   );
 }
