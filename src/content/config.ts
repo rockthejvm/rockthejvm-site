@@ -5,7 +5,6 @@ import legals from "../collections/legals";
 import memberships from "../collections/memberships";
 import testimonials from "../collections/testimonials";
 import seriess from "../collections/seriess";
-import clients from "../collections/clients";
 import categories from "../collections/categories";
 import videos from "../collections/videos";
 
@@ -13,7 +12,6 @@ export const collections = {
   articles,
   authors,
   categories,
-  clients,
   courses,
   legals,
   memberships,

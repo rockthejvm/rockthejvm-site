@@ -1,0 +1,16 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<Icon
+  name=`clients/${name}`
+  width={158}
+  height={48}
+  class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+/>

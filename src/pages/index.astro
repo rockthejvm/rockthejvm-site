@@ -10,7 +10,7 @@ import Contact from "../components/Contact";
 import Membership from "../components/Membership";
 import LatestContent from "../components/LatestContent";
 import NarrowContainer from "../components/NarrowContainer";
-
+import ClientLogo from "../components/ClientLogo.astro";
 interface Props {
   canonicalUrl: URL;
   description: string;
@@ -72,7 +72,9 @@ const title = "Home";
       <section>
         <h1>Your Instructor</h1>
         <Instructor />
-        <LogoCloud />
+        <LogoCloud>
+          {site.clients.map((client) => <ClientLogo name={client} />)}
+        </LogoCloud>
       </section>
       <section>
         <h1>Testimonials</h1>
