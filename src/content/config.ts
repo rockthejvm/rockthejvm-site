@@ -6,6 +6,7 @@ import courses from "../collections/courses";
 import legals from "../collections/legals";
 import memberships from "../collections/memberships";
 import seriess from "../collections/seriess";
+import socials from "../collections/socials";
 import testimonials from "../collections/testimonials";
 import videos from "../collections/videos";
 
@@ -18,6 +19,7 @@ export const collections = {
   legals,
   memberships,
   seriess,
+  socials,
   testimonials,
   videos,
 };
