@@ -9,12 +9,23 @@
     "alt": "Rock the JVM logo"
   },
   "name": "Rock the JVM",
-  "twitter": {
-    "handle": "@rockthejvm",
-    "url": "https://twitter.com/@rockthejvm"
-  },
-  "youtube": {
-    "handle": "@rockthejvm",
-    "url": "https://www.youtube.com/@rockthejvm"
+  "socials": {
+    "facebook": {
+      "url": "https://www.facebook.com/@rockthejvm"
+    },
+    "github": {
+      "url": "https://github.com/rockthejvm"
+    },
+    "linkedin": {
+      "url": "https://www.linkedin.com/company/rockthejvm"
+    },
+    "twitter": {
+      "handle": "@rockthejvm",
+      "url": "https://twitter.com/@rockthejvm"
+    },
+    "youtube": {
+      "handle": "@rockthejvm",
+      "url": "https://www.youtube.com/@rockthejvm"
+    }
   }
 }

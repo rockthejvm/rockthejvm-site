@@ -135,12 +135,12 @@ const selectedImage = image ?? site.logo;
       <meta property="twitter:card" content="summary_large_image" />
       <meta
         property="twitter:creator"
-        content={article?.author.twitter ?? site.twitter.handle}
+        content={article?.author.twitter ?? site.socials.twitter.handle}
       />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image:alt" content={selectedImage.alt} />
       <meta property="twitter:image" content={selectedImage.src} />
-      <meta property="twitter:site" content={site.twitter.handle} />
+      <meta property="twitter:site" content={site.socials.twitter.handle} />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:url" content={canonicalUrl} />
     </Fragment>
