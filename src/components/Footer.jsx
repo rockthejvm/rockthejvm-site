@@ -102,12 +102,12 @@ const navigation = {
       href: "/rss.xml",
       icon: (props) => (
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
           class="size-6"
+          {...props}
         >
           <path
             stroke-linecap="round"
@@ -240,6 +240,8 @@ export default function Example() {
               <a
                 key={item.name}
                 href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">{item.name}</span>
