@@ -25,21 +25,21 @@ interface Props {
   };
   title: string;
   type?: string;
+  error?: boolean;
 }
 
-const { article, canonicalUrl, description, image, title, type } = Astro.props;
+const { article, canonicalUrl, description, error, image, title, type } =
+  Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
-  <Head {article} {canonicalUrl} {description} {image} {title} {type} />
-  <body>
+<html lang="en" class="h-full">
+  <Head {article} {canonicalUrl} {description} {error} {image} {title} {type} />
+  <body class="h-full">
     <div>
       <Header />
       <main>
-        <NarrowContainer>
-          <slot />
-        </NarrowContainer>
+        <slot />
         <Footer />
       </main>
     </div>
