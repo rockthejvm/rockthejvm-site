@@ -15,29 +15,26 @@ import site from "../data/site.json";
   ```
 */
 const navigation = {
-  solutions: [
-    { name: "Marketing", href: "#" },
-    { name: "Analytics", href: "#" },
-    { name: "Commerce", href: "#" },
-    { name: "Insights", href: "#" },
+  content: [
+    { name: "Articles", href: "/blog" },
+    { name: "Courses", href: "/courses" },
+    { name: "Videos", href: "/videos" },
   ],
   support: [
-    { name: "Pricing", href: "#" },
-    { name: "Documentation", href: "#" },
-    { name: "Guides", href: "#" },
-    { name: "API Status", href: "#" },
+    { name: "Contact", href: "/contact" },
+    { name: "Membership", href: "/membership" },
+    { name: "Sitemap", href: "/sitemap-index.xml" },
   ],
   company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Jobs", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Partners", href: "#" },
+    { name: "About", href: "/about" },
+    { name: "News", href: "/news" },
   ],
   legal: [
-    { name: "Claim", href: "#" },
-    { name: "Privacy", href: "#" },
-    { name: "Terms", href: "#" },
+    { name: "Cookies", href: "/legal/cookies" },
+    { name: "Privacy", href: "/legal/privacy" },
+    { name: "Refunds", href: "/legal/refunds" },
+    { name: "Terms", href: "/legal/terms" },
+    { name: "Trademarks", href: "/legal/trademarks" },
   ],
   social: [
     {
@@ -132,10 +129,10 @@ export default function Example() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-gray-900">
-                  Solutions
+                  Content
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
-                  {navigation.solutions.map((item) => (
+                  {navigation.content.map((item) => (
                     <li key={item.name}>
                       <a
                         href={item.href}
@@ -251,7 +248,7 @@ export default function Example() {
           </div>
           <p className="mt-8 text-s leading-5 text-gray-500 md:order-1 md:mt-0">
             <small>
-              &copy; 2019&ndash;{new Date().getFullYear()} {site.name}
+              &copy; 2019&ndash;{new Date().getFullYear()} {site.legalName}
             </small>
           </p>
         </div>
