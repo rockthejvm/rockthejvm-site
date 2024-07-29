@@ -33,6 +33,7 @@ const selectedImage = image ?? site.logo;
     <meta charset="utf-8" />
     <meta name="generator" content={Astro.generator} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href={new URL("rss.xml", Astro.site)} />
   </Fragment>
   <Fragment>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -83,12 +84,6 @@ const selectedImage = image ?? site.logo;
       <meta name="description" content={description} />
       {
         article && (
-          <link
-            rel="alternate"
-            type="application/rss+xml"
-            title={site.name}
-            href={new URL("rss.xml", Astro.site)}
-          />
           <Fragment>
             <meta property="article:author" content={article.author.name} />
             {article.updatedTime && (
