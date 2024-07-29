@@ -117,7 +117,7 @@ const navigation = {
   ],
 };
 
-export default function Example() {
+export default function Example(props) {
   return (
     <footer aria-labelledby="footer-heading" className="bg-white">
       <h2 id="footer-heading" className="sr-only">
@@ -232,20 +232,74 @@ export default function Example() {
           </div>
         </div>
         <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
-          <div className="flex space-x-6 md:order-2">
-            {navigation.social.map((item) => (
+          <ul className="flex space-x-6 md:order-2">
+            <li>
               <a
-                key={item.name}
-                href={item.href}
+                key="Facebook"
+                href={site.socials.facebook.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
-                <span className="sr-only">{item.name}</span>
-                <item.icon aria-hidden="true" className="h-6 w-6" />
+                {props.facebook}
               </a>
-            ))}
-          </div>
+            </li>
+            <li>
+              <a
+                key="GitHub"
+                href={site.socials.github.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-500"
+              >
+                {props.github}
+              </a>
+            </li>
+            <li>
+              <a
+                key="LinkedIn"
+                href={site.socials.linkedin.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-500"
+              >
+                {props.linkedin}
+              </a>
+            </li>
+            <li>
+              <a
+                key="Twitter"
+                href={site.socials.twitter.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-500"
+              >
+                {props.twitter}
+              </a>
+            </li>
+            <li>
+              <a
+                key="YouTube"
+                href={site.socials.youtube.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-500"
+              >
+                {props.youtube}
+              </a>
+            </li>
+            <li>
+              <a
+                key="RSS"
+                href={site.socials.rss.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-500"
+              >
+                {props.rss}
+              </a>
+            </li>
+          </ul>
           <p className="mt-8 text-s leading-5 text-gray-500 md:order-1 md:mt-0">
             <small>
               &copy; 2019&ndash;{new Date().getFullYear()} {site.legalName}

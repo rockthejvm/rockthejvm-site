@@ -2,26 +2,23 @@
 import site from "../data/site.json";
 import Base from "../layouts/Base.astro";
 import Logo from "../assets/images/logos/rtjvm-red.png";
-import LogoCloud from "../components/LogoCloud";
-import Instructor from "../components/Instructor";
-import MyTestimonials from "../components/MyTestimonials";
 import Hero from "../components/Hero";
 import Contact from "../components/Contact";
 import Membership from "../components/Membership";
 import LatestContent from "../components/LatestContent";
 import NarrowContainer from "../components/NarrowContainer";
-import ClientLogo from "../components/ClientLogo.astro";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry } from "astro:content";
+import Testimonials from "../components/Testimonials.astro";
+import SocialProof from "../components/SocialProof.astro";
 interface Props {
   canonicalUrl: URL;
   description: string;
   image: { src: string; alt: string };
   title: string;
-  clients: CollectionEntry<"clients">[];
+  companies: CollectionEntry<"companies">[];
 }
 const image = { src: Logo.src, alt: site.logo.alt };
 const title = "Home";
-const clients = await getCollection("clients");
 ---
 
 <Base canonicalUrl={Astro.url} description={site.description} {image} {title}>
@@ -50,7 +47,7 @@ const clients = await getCollection("clients");
         <Hero />
       </section>
       <section>
-        <h1>Latest Content</h1>
+        <h2>Latest Content</h2>
         <div class="flex gap-x-10">
           <LatestContent />
           <LatestContent />
@@ -66,29 +63,14 @@ const clients = await getCollection("clients");
         </div>
       </section>
       <section>
-        <h1>Available Courses</h1>
+        <h2>Available Courses</h2>
       </section>
       <section>
-        <h1>Memberships</h1>
+        <h2>Memberships</h2>
         <Membership />
       </section>
-      <section>
-        <h1>Your Instructor</h1>
-        <Instructor />
-        <LogoCloud>
-          {
-            clients.map((client) => (
-              <ClientLogo name={client.data.slug} title={client.data.title} />
-            ))
-          }
-        </LogoCloud>
-      </section>
-      <section>
-        <h1>Testimonials</h1>
-        <MyTestimonials />
-        <MyTestimonials />
-        <MyTestimonials />
-      </section>
+      <SocialProof />
+      <Testimonials />
       <section>
         <Contact />
       </section>

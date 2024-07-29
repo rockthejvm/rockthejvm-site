@@ -1,11 +1,16 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
   type: "content",
   schema: ({ image }) =>
     z
       .object({
-        company: z.string(),
+        company: z
+          .object({
+            entity: reference("companies"),
+            role: z.string(),
+          })
+          .strict(),
         link: z.string().url(),
         location: z
           .object({
@@ -21,7 +26,6 @@ export default defineCollection({
           },
         ),
         ordinal: z.number().int().positive(),
-        role: z.string(),
       })
       .strict(),
 });
