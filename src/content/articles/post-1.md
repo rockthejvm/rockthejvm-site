@@ -6,7 +6,7 @@ excerpt: "Learn how to use Redis in Scala using redis4cats and persist records o
 author: herbert-kateu
 ---
 
-## 1. Introduction
+## Introduction
 
 This article is a follow-up to the [websocket](/websockets-in-http4s/) article that was published previously. To recap, we created an in-memory chat application using WebSockets with the help of the Http4s library. The chat application had a variety of features implemented through commands directly in the chat window such as the ability to create users, create chat rooms, and switch between chat rooms.
 
@@ -14,7 +14,7 @@ In this iteration, we'll be integrating Redis to keep track of the users and roo
 
 Since this tutorial builds on the previous article, to follow along, we'll need to clone that [GitHub repo](https://github.com/hkateu/WebsocketChatApp) where we'll be making the necessary updates to build this new version.
 
-## 2. Setting Up
+## Setting Up
 
 We'll be using skunk and redis4Cats in our application so let's add them to our `build.sbt` file.
 
