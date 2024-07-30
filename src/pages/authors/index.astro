@@ -1,0 +1,10 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ArticleAuthors from "../../components/ArticleAuthors.astro";
+const authors = await getCollection("authors");
+---
+
+<Base title="Author index" description="The author index">
+  <ArticleAuthors {authors} />
+</Base>

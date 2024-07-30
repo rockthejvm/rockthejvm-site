@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ArticleAuthor from "./ArticleAuthor.astro";
+
+interface Props {
+  authors: CollectionEntry<"articles">["data"]["author"][];
+}
+const { authors } = Astro.props;
+---
+
+<div>
+  {authors.map((author) => <ArticleAuthor {author} />)}
+</div>
+<style>
+  div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+</style>
