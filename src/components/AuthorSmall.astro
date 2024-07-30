@@ -1,0 +1,11 @@
+---
+import type { CollectionEntry } from "astro:content";
+import AuthorSmallHelper from "./AuthorSmallHelper";
+
+interface Props {
+  author: CollectionEntry<"authors">["data"];
+}
+const { author } = Astro.props;
+---
+
+<AuthorSmallHelper authorName={author.name} />
