@@ -1,22 +1,22 @@
 export default function Example(props) {
   return (
-    <article className="bg-white py-32">
+    <article className="bg-white pt-24 pb-12">
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
         <div className="mx-auto max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Your Instructor
+          <h2 className="text-5xl font-bold mb-12 tracking-tight text-gray-900 sm:text-4xl">
+            The Instructor
           </h2>
+          {props.photo}
+          <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
+            {props.name}
+          </h3>
+          {props.role && (
+            <p className="text-sm leading-6 text-gray-600">{props.role}</p>
+          )}
           <p className="mt-4 text-lg leading-8 text-gray-600">
             {props.biography}
           </p>
         </div>
-        {props.photo}
-        <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
-          {props.name}
-        </h3>
-        {props.role && (
-          <p className="text-sm leading-6 text-gray-600">{props.role}</p>
-        )}
         <ul role="list" className="mt-6 flex justify-center gap-x-6">
           <li>
             <a
