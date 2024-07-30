@@ -1,49 +1,18 @@
 ---
-import { Icon } from "astro-icon/components";
 import FooterHelper from "./FooterHelper";
+import Facebook from "./icons/Facebook.astro";
+import Twitter from "./icons/Twitter.astro";
+import GitHub from "./icons/GitHub.astro";
+import LinkedIn from "./icons/LinkedIn.astro";
+import YouTube from "./icons/YouTube.astro";
+import RSS from "./icons/RSS.astro";
 ---
 
 <FooterHelper>
-  <Icon
-    name="socials/facebook"
-    title="Facebook"
-    aria-hidden="true"
-    class="h-6 w-6"
-    slot="facebook"
-  />
-  <Icon
-    name="socials/github"
-    title="GitHub"
-    aria-hidden="true"
-    class="h-6 w-6"
-    slot="github"
-  />
-  <Icon
-    name="socials/linkedin"
-    title="LinkedIn"
-    aria-hidden="true"
-    class="h-6 w-6"
-    slot="linkedin"
-  />
-  <Icon
-    name="socials/twitter"
-    title="Twitter"
-    aria-hidden="true"
-    class="h-6 w-6"
-    slot="twitter"
-  />
-  <Icon
-    name="socials/youtube"
-    title="YouTube"
-    aria-hidden="true"
-    class="h-6 w-6"
-    slot="youtube"
-  />
-  <Icon
-    name="socials/rss"
-    title="RSS"
-    aria-hidden="true"
-    class="h-6 w-6"
-    slot="rss"
-  />
+  <Facebook slot="facebook" />
+  <GitHub slot="github" />
+  <LinkedIn slot="linkedin" />
+  <Twitter slot="twitter" />
+  <YouTube slot="youtube" />
+  <RSS slot="rss" />
 </FooterHelper>
