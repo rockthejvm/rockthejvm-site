@@ -1,0 +1,13 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  heading: MarkdownHeading;
+}
+
+const { heading } = Astro.props;
+---
+
+<li>
+  <a href={`#${heading.slug}`}>{heading.text}</a>
+</li>
