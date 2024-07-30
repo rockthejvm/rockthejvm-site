@@ -1,10 +1,10 @@
 export default function Example(props) {
   return (
-    <article className="relative isolate overflow-hidden px-6 py-24 sm:py-32 lg:px-8">
-      <div className="mx-auto max-w-2xl lg:max-w-4xl">
+    <article className="relative isolate overflow-hidden py-12 sm:py-16">
+      <div className="mx-auto">
         {props.companyLogo}
         <figure className="mt-8">
-          <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
+          <blockquote className="text-center text-sm font-semibold leading-8 text-gray-900 sm:text-base sm:leading-9">
             <p>{props.children}</p>
           </blockquote>
           <figcaption className="mt-8">
