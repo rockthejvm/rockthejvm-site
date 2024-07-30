@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Base from "./Base.astro";
+import NarrowContainer from "../containers/NarrowContainer";
+
+interface Props {
+  frontmatter: CollectionEntry<"courses">["data"];
+}
+
+const { frontmatter } = Astro.props;
+
+const { archived, bundledCourses, description, grouping, image, price, title } =
+  frontmatter;
+---
+
+<Base {description} {title}>
+  <article>
+    <slot />
+  </article>
+</Base>
