@@ -1,6 +1,6 @@
 ---
-description: The design and meaning of the Rock the JVM logo, as well as the use of other logos on the site.
-title: The Rock the JVM Logo
+description: TODO
+title: TODO
 ---
 
 ## Become a Rockstar Programmer
