@@ -1,5 +1,5 @@
 ---
-description: The list of what data may be collected by Rock the JVM.
+description: TODO
 title: Privacy Policy
 ---
 

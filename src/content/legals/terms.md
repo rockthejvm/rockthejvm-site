@@ -1,5 +1,5 @@
 ---
-description: The list of terms that must be accepted to browse Rock the JVM.
+description: TODO
 title: Terms of Use
 ---
 
