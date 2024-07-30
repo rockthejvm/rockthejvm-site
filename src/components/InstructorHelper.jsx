@@ -4,7 +4,7 @@ export default function Example(props) {
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
         <div className="mx-auto max-w-2xl">
           <h2 className="text-5xl font-bold mb-12 tracking-tight text-gray-900 sm:text-4xl">
-            The Instructor
+            My Instructor
           </h2>
           {props.photo}
           <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
