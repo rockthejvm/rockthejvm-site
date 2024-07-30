@@ -14,7 +14,9 @@ const { description, title } = frontmatter;
 
 <Base {description} {title}>
   <NarrowContainer>
-    <article class="prose lg:prose-xl max-w-none">
+    <article
+      class="prose lg:prose-xl max-w-none prose-img:rounded-full prose-img:max-w-xs prose-img:mx-auto"
+    >
       <h1>{title}</h1>
       <slot />
     </article>
