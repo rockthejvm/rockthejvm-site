@@ -1,10 +1,10 @@
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
-import sectionize from "@hbsnow/rehype-sectionize";
 import markdoc from "@astrojs/markdoc";
 import mdx from "@astrojs/mdx";
-import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
+import sectionize from "@hbsnow/rehype-sectionize";
+import tailwind from "@astrojs/tailwind";
 
 import sitemap from "@astrojs/sitemap";
 
@@ -21,7 +21,6 @@ export default defineConfig({
           "x-twitter",
           "youtube",
         ],
-        // Include all `uis` icons
         "fa6-solid": ["rss"],
       },
     }),
@@ -32,6 +31,7 @@ export default defineConfig({
     sitemap(),
   ],
   markdown: {
+    remarkPlugins: [],
     rehypePlugins: [sectionize],
   },
 });
