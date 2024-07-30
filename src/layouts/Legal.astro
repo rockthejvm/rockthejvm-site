@@ -1,9 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Base from "./Base.astro";
+import NarrowContainer from "../components/NarrowContainer";
 
 interface Props {
-  frontmatter: CollectionEntry<"informationals">["data"];
+  frontmatter: CollectionEntry<"legals">["data"];
 }
 
 const { frontmatter } = Astro.props;
@@ -11,13 +12,11 @@ const { frontmatter } = Astro.props;
 const { description, title } = frontmatter;
 ---
 
-<Base {description} {title} type="article">
-  <!-- <Hero
-    image={{
-      alt: site.logo.alt,
-      src: site.logo.src,
-    }}
-    {title}
-  /> -->
-  <slot />
+<Base {description} {title}>
+  <NarrowContainer>
+    <article class="prose lg:prose-xl max-w-none">
+      <h1>{title}</h1>
+      <slot />
+    </article>
+  </NarrowContainer>
 </Base>
