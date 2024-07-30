@@ -1,7 +1,7 @@
 ---
 import Footer from "../components/Footer.astro";
 import Head from "../components/Head.astro";
-import Header from "../components/Header.jsx";
+import Header from "../components/Header.astro";
 import "../styles/fonts.css";
 
 interface Props {
@@ -36,7 +36,7 @@ const { article, canonicalUrl, description, error, image, title, type } =
   <Head {article} {canonicalUrl} {description} {error} {image} {title} {type} />
   <body class="h-full">
     <div>
-      <Header client:idle />
+      <Header />
       <main>
         <slot />
         <Footer />

@@ -1,0 +1,12 @@
+---
+import { Icon } from "astro-icon/components";
+import site from "../../data/site.json";
+const { ...rest } = Astro.props;
+---
+
+<Icon
+  name="companies/rock-the-jvm"
+  title={site.name}
+  aria-hidden="true"
+  {...rest}
+/>

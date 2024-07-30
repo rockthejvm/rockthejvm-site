@@ -2,7 +2,6 @@
 import site from "../data/site.json";
 import Base from "../layouts/Base.astro";
 import Logo from "../assets/images/logos/rtjvm-red.png";
-import Hero from "../components/Hero";
 import Contact from "../components/Contact";
 import Membership from "../components/Membership";
 import LatestContent from "../components/LatestContent";
@@ -10,6 +9,7 @@ import NarrowContainer from "../containers/NarrowContainer";
 import { type CollectionEntry } from "astro:content";
 import Testimonials from "../components/Testimonials.astro";
 import SocialProof from "../components/SocialProof.astro";
+import Hero from "../components/Hero.astro";
 interface Props {
   canonicalUrl: URL;
   description: string;
@@ -23,26 +23,7 @@ const title = "Home";
 
 <Base canonicalUrl={Astro.url} description={site.description} {image} {title}>
   <NarrowContainer>
-    <div class="main">
-      <!-- <Hero
-      {image}
-      subtitle="The zero-to-master online courses and hands-on training for Scala, Kotlin, Spark, Flink, ZIO, Akka and more."
-      subtitle2="No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king."
-      {title}
-    /> -->
-      <!-- <LatestContent />
-      <Membership />
-      <Instructor />
-      <BrandLogos /> -->
-      <!-- <hr />
-    <h2>LATEST CONTENT</h2>
-    <hr />
-    <h2>COURSES</h2>
-    <hr />
-    <Membership />
-    <Instructor />
-    <Testimonials />
-    <Contact /> -->
+    <div>
       <section>
         <Hero />
       </section>
@@ -74,11 +55,6 @@ const title = "Home";
       <section>
         <Contact />
       </section>
-      <!-- <style>
-  Hero {
-    background-color: var(--color-primary);
-  }
-</style> -->
     </div>
   </NarrowContainer>
 </Base>
