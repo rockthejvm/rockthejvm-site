@@ -2,14 +2,14 @@
 import site from "../data/site.json";
 import Base from "../layouts/Base.astro";
 import Logo from "../assets/images/logos/rtjvm-red.png";
-import Contact from "../components/Contact";
-import Membership from "../components/Membership";
+import Membership from "../components/Membership.astro";
 import LatestContent from "../components/LatestContent";
 import NarrowContainer from "../containers/NarrowContainer";
 import { type CollectionEntry } from "astro:content";
 import Testimonials from "../components/Testimonials.astro";
 import SocialProof from "../components/SocialProof.astro";
 import Hero from "../components/Hero.astro";
+import Contact from "../components/Contact.astro";
 interface Props {
   canonicalUrl: URL;
   description: string;
@@ -23,39 +23,21 @@ const title = "Home";
 
 <Base canonicalUrl={Astro.url} description={site.description} {image} {title}>
   <NarrowContainer>
-    <div>
-      <section>
-        <Hero />
-      </section>
-      <section>
-        <h2>Latest Content</h2>
-        <div class="flex gap-y-10 flex-col md:flex-row md:gap-x-10">
-          <LatestContent />
-          <LatestContent />
-          <!-- <CardWithHeader
-          image="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/bFrMi6keRSK7xdn8urgH"
-        >
-          <h2 class="text-2xl">Latest Article</h2>
-          <p>functional erro rhandlng</p>
-        </CardWithHeader>
-        <CardWithHeader
-          image="https://www.filepicker.io/api/file/BIe9ZeSP6hSiggxTUKlQ"
-        /> -->
-        </div>
-      </section>
-      <section>
-        <h2>Available Courses</h2>
-      </section>
-      <section>
-        <h2>Memberships</h2>
-        <Membership />
-      </section>
-      <SocialProof />
-      <Testimonials />
-      <section>
-        <Contact />
-      </section>
-    </div>
+    <Hero />
+    <section>
+      <h2>Latest Content</h2>
+      <div class="flex gap-y-10 flex-col md:flex-row md:gap-x-10">
+        <LatestContent />
+        <LatestContent />
+      </div>
+    </section>
+    <section>
+      <h2>Available Courses</h2>
+    </section>
+    <Membership />
+    <SocialProof />
+    <Testimonials />
+    <Contact />
   </NarrowContainer>
 </Base>
 <style>
