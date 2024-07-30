@@ -5,6 +5,7 @@ import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import type { MarkdownHeading } from "astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import NarrowContainer from "../containers/NarrowContainer";
 
 interface Props {
   frontmatter: CollectionEntry<"articles">["data"];
@@ -88,20 +89,25 @@ function buildHierarchy(headings: MarkdownHeading[]) {
   {title}
   type="article"
 >
-  <article>
-    <h1>{title}</h1>
-    <p>
-      Last updated: {
-        updatedDate ? (
-          <FormattedDate date={updatedDate} />
-        ) : (
-          <FormattedDate date={publishedDate} />
-        )
-      }
-    </p>
-    <p>Written by: {author.name}</p>
-    {summary && <summary>{summary}</summary>}
-    <TableOfContents {headings} />
-    <slot />
-  </article>
+  <NarrowContainer>
+    <article
+      class="prose lg:prose-xl prose-img:rounded-lg prose-code:before:content-none prose-code:after:content-none"
+    >
+      <h1>{title}</h1>
+      <p>
+        Last updated: {
+          updatedDate ? (
+            <FormattedDate date={updatedDate} />
+          ) : (
+            <FormattedDate date={publishedDate} />
+          )
+        }
+      </p>
+      <p>Written by: {author.name}</p>
+      <hr />
+      {summary && <summary>{summary}</summary>}
+      <TableOfContents {headings} />
+      <slot />
+    </article>
+  </NarrowContainer>
 </Base>
