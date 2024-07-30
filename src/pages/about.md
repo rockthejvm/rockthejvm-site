@@ -1,4 +1,5 @@
 ---
+layout: ../layouts/Legal.astro
 description: The best training material on Java, Scala, Akka and the JVM, on the whole damn web.
 title: The Rock the JVM Story
 ---
@@ -13,7 +14,7 @@ I'm [Daniel Ciocîrlan](https://danielciocirlan.com/), a developer and teacher f
 
 At first, I mastered Java, then I taught it for 3.5 years to university students. I found Scala 7 years ago when a good friend told me about functional collections. I was blown away, and still am to this day as I discover more of the Scala magic. The rabbit hole only went deeper from there: I learned Akka with my own small projects, then Spark and big data while at Palantir. I left Palantir in mid 2019, but it's very likely my old pipelines are still crunching data every day, as we speak.
 
-I hope you enjoy my material - in the meantime, I've just started on [Twitter](https://x.com/rockthejvm) and would love to meet you!
+I hope you enjoy my material - in the meantime, I've just started on [Twitter](https://x.com/@rockthejvm) and would love to meet you!
 
 ## A bit more
 
@@ -23,4 +24,4 @@ When I'm not coding, I dance salsa and bachata and I tend to play an absurd amou
 
 I'm always there to help at <daniel@rockthejvm.com> if you need anything.
 
-![image](/src/content/authors/daniel-ciocirlan.jpeg)
+![image](../content/authors/daniel-ciocirlan.jpeg)
