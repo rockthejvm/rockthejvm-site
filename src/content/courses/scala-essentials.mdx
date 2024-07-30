@@ -1,18 +1,37 @@
 ---
+description: The Scala 3 online course for software engineers. A hands-on training course into the fundamentals of Scala and functional programming.
 grouping:
   category: scala
   ordinal: 2
 image: ./scala-essentials.png
-name: Scala Essentials
 price: 85
+title: Scala Essentials
 ---
 
-export const description = (
-  <>
-    <p>
-      <strong>Now with Scala 3</strong>. Become a Scala programmer. Dive
-      head-first and hands-on into the fundamentals of Scala and functional
-      programming. <a href="">Also available for Scala 2.</a>
-    </p>
-  </>
+export const excerpt = (
+  <p>
+    <strong>Now with Scala 3</strong>. Become a Scala programmer. Dive
+    head-first and hands-on into the fundamentals of Scala and functional
+    programming. <a href="">Also available for Scala 2.</a>
+  </p>
 );
+import CTAHelper from "../../components/CTAHelper";
+import { Image } from "astro:assets";
+import Cover from "./scala-essentials.png";
+
+<h1>{frontmatter.title}</h1>
+<p>
+  Become a Scala programmer. Dive head-first and hands-on into the fundamentals
+  of Scala and functional programming.
+</p>
+<CTAHelper
+  title={frontmatter.title}
+  subtitle="Become a Scala programmer. Dive head-first and hands-on into the fundamentals of Scala and functional programming."
+>
+  <Image
+    src={Cover}
+    alt={frontmatter.title}
+    class="absolute inset-0 -z-10 h-full w-full object-cover blur-sm brightness-50"
+    slot="image"
+  />
+</CTAHelper>

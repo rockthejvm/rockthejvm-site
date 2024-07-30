@@ -11,3 +11,4 @@ scala-advanced-old -> advanced-scala-old
 scala-old -> scala-essentials-old
 terms -> legal/terms
 the-akka-bundle -> the-akka-pekko-bundle
+all courses moved to /courses/...
