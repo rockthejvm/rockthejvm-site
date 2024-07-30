@@ -10,13 +10,14 @@ export default defineCollection({
           .array(reference("courses"))
           .min(2, "At least 2 courses are required for a bundle")
           .optional(),
+        description: z.string(),
         grouping: z.object({
           category: reference("categories"),
           ordinal: z.number().int().positive().optional(),
         }),
         image: image(),
-        name: z.string(),
         price: z.number().positive().optional(),
+        title: z.string(),
       })
       .strict(),
 });
