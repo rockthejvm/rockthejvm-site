@@ -11,7 +11,26 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.rockthejvm.com",
-  integrations: [icon(), markdoc(), mdx(), tailwind(), react(), sitemap()],
+  integrations: [
+    icon({
+      include: {
+        "fa6-brands": [
+          "facebook",
+          "github",
+          "linkedin",
+          "x-twitter",
+          "youtube",
+        ],
+        // Include all `uis` icons
+        "fa6-solid": ["rss"],
+      },
+    }),
+    markdoc(),
+    mdx(),
+    tailwind(),
+    react(),
+    sitemap(),
+  ],
   markdown: {
     rehypePlugins: [sectionize],
   },
