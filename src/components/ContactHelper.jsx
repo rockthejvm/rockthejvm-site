@@ -36,9 +36,9 @@ export default function Example() {
         />
       </div>
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Need a course or training session?
-        </h1>
+        </h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">
           Send me a message and let's talk about your needs.
         </p>
