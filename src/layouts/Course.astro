@@ -1,7 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Base from "./Base.astro";
-import NarrowContainer from "../containers/NarrowContainer";
+import FullContainer from "../containers/FullContainer";
+import CTA from "../components/CTA.astro";
 
 interface Props {
   frontmatter: CollectionEntry<"courses">["data"];
@@ -15,6 +16,8 @@ const { archived, bundledCourses, description, grouping, image, price, title } =
 
 <Base {description} {title}>
   <article>
-    <slot />
+    <CTA src={image} alt={title} {title} />
+    <!-- <slot name="cta" /> -->
   </article>
+  <FullContainer />
 </Base>

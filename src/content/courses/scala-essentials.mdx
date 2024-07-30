@@ -15,23 +15,3 @@ export const excerpt = (
     programming. <a href="">Also available for Scala 2.</a>
   </p>
 );
-import CTAHelper from "../../components/CTAHelper";
-import { Image } from "astro:assets";
-import Cover from "./scala-essentials.png";
-
-<h1>{frontmatter.title}</h1>
-<p>
-  Become a Scala programmer. Dive head-first and hands-on into the fundamentals
-  of Scala and functional programming.
-</p>
-<CTAHelper
-  title={frontmatter.title}
-  subtitle="Become a Scala programmer. Dive head-first and hands-on into the fundamentals of Scala and functional programming."
->
-  <Image
-    src={Cover}
-    alt={frontmatter.title}
-    class="absolute inset-0 -z-10 h-full w-full object-cover blur-sm brightness-50"
-    slot="image"
-  />
-</CTAHelper>
