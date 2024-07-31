@@ -1,11 +1,8 @@
 export default function Example(props) {
   return (
-    <article className="bg-white pt-24 pb-12">
+    <article className="bg-white">
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
         <div className="mx-auto max-w-2xl">
-          <h2 className="text-5xl font-bold mb-12 tracking-tight text-gray-900 sm:text-4xl">
-            My Instructor
-          </h2>
           {props.photo}
           <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
             {props.name}

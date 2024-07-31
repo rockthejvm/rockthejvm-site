@@ -9,21 +9,17 @@ const benefits = [
   "A great work environment",
 ];
 
-export default function Example() {
+export default function Example(props) {
   return (
-    <div className="py-24 sm:py-32">
+    <div className="">
       <div className="relative isolate">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-2xl flex-col gap-16 px-6 py-16 ring-1 ring-white/10 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center lg:py-20 xl:gap-x-20 xl:px-20">
-            <img
-              alt=""
-              src="https://cdn.filestackcontent.com/kKClNQUjSXmLy790EdpB"
-              className="w-full flex-none rounded-2xl shadow-xl lg:max-w-md"
-            />
+          <div className="mx-auto flex max-w-2xl flex-col gap-16 px-6 ring-1 ring-white/10 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20">
+            {props.image}
             <div className="w-full flex-auto">
-              <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
+              <h3 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
                 Now also for teams!
-              </h2>
+              </h3>
               <p className="mt-6 text-lg leading-8 text-black">
                 All of Rock the JVM, at your service. Access ~250 hours of the
                 best content you'll ever find, write more code than many write
@@ -44,18 +40,18 @@ export default function Example() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-10 flex flex-row justify-start gap-5">
+              <div className="mt-10 flex flex-row items-center justify-center gap-x-6 lg:justify-start gap-5">
                 <a
                   href="#"
-                  className="text-sm font-semibold leading-6 text-indigo-400"
+                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   Learn more
                 </a>
                 <a
                   href="#"
-                  className="text-sm font-semibold leading-6 text-indigo-400"
+                  className="text-sm font-semibold leading-6 text-white"
                 >
-                  Check the team pack
+                  Check the team pack <span aria-hidden="true">→</span>
                 </a>
               </div>
             </div>
