@@ -18,6 +18,7 @@ export default defineCollection({
             country: z.string(),
           })
           .strict(),
+        minutesRead: z.string().optional(), // automatically added by remark-reading-time
         name: z.string(),
         photo: image().refine(
           (image) => image.width >= 200 && image.height >= 200,

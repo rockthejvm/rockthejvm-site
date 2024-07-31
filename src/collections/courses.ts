@@ -16,6 +16,7 @@ export default defineCollection({
           ordinal: z.number().int().positive().optional(),
         }),
         image: image(),
+        minutesRead: z.string().optional(), // automatically added by remark-reading-time
         price: z.number().positive().optional(),
         title: z.string(),
       })

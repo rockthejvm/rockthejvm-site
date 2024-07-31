@@ -1,0 +1,54 @@
+---
+import { Image } from "astro:assets";
+import Facebook from "./icons/Facebook.astro";
+import GitHub from "./icons/GitHub.astro";
+import LinkedIn from "./icons/LinkedIn.astro";
+import Twitter from "./icons/Twitter.astro";
+import YouTube from "./icons/YouTube.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+import AuthorWideHelper from "./AuthorWideHelper";
+
+interface Props {
+  author: CollectionEntry<"authors">;
+}
+
+const { author } = Astro.props;
+const { biography, company, name, photo, socials } = author.data;
+const role = company?.role;
+const companyName = company
+  ? await getEntry(company?.entity.collection, company?.entity.id).then(
+      (company) => company.data.title,
+    )
+  : undefined;
+const companyWebsite = company
+  ? await getEntry(company?.entity.collection, company?.entity.id).then(
+      (company) => company.data.website,
+    )
+  : undefined;
+---
+
+<AuthorWideHelper
+  {biography}
+  githubUrl=`https://www.github.com/${socials?.github}`
+  linkedinUrl=`https://www.linkedin.com/in/${socials?.linkedin}`
+  twitterUrl=`https://www.twitter.com/${socials?.twitter}`
+  youtubeUrl=`https://www.youtube.com/${socials?.youtube}`
+  {name}
+  {role}
+  {companyName}
+  {companyWebsite}
+  {socials}
+>
+  <Image
+    src={photo}
+    alt={name}
+    class="mx-auto h-56 w-56 rounded-full shadow-lg"
+    slot="photo"
+  />
+  <Facebook slot="facebook" />
+  <GitHub slot="github" />
+  <LinkedIn slot="linkedin" />
+  <Twitter slot="twitter" />
+  <YouTube slot="youtube" />
+</AuthorWideHelper>
