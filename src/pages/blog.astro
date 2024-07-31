@@ -1,11 +1,10 @@
 ---
-import Base from "../layouts/Base.astro";
-import ArticleLinks from "../components/ArticleLinks.astro";
+import "../styles/global.css";
 
-const metaTitle: string = "My Astro Learning Blog";
-const description: string = "The blog page";
+import ArticleLinks from "../../components/ArticleLinks.astro";
+import Base from "../../layouts/Base.astro";
 ---
 
-<Base {metaTitle} {description}>
+<Base description="Blog index" title="Blog">
   <ArticleLinks />
 </Base>

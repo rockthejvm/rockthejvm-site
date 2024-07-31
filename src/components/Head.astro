@@ -33,7 +33,12 @@ const selectedImage = image ?? site.logo;
     <meta charset="utf-8" />
     <meta name="generator" content={Astro.generator} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="alternate" type="application/rss+xml" title={site.name} href={new URL("rss.xml", Astro.site)} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={site.name}
+      href={new URL("rss.xml", Astro.site)}
+    />
   </Fragment>
   <Fragment>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -75,15 +80,15 @@ const selectedImage = image ?? site.logo;
     />
   </Fragment>
 
-  {!error && (
-    <Fragment>
-      <link
-        rel="canonical"
-        href={canonicalUrl ?? new URL(Astro.url.pathname, Astro.site)}
-      />
-      <meta name="description" content={description} />
-      {
-        article && (
+  {
+    !error && (
+      <Fragment>
+        <link
+          rel="canonical"
+          href={canonicalUrl ?? new URL(Astro.url.pathname, Astro.site)}
+        />
+        <meta name="description" content={description} />
+        {article && (
           <Fragment>
             <meta property="article:author" content={article.author.name} />
             {article.updatedTime && (
@@ -110,34 +115,36 @@ const selectedImage = image ?? site.logo;
               />
             )}
           </Fragment>
-        )
-      }
-      <meta property="og:description" content={description} />
-      <meta property="og:image:alt" content={selectedImage.alt} />
-      <!-- <meta property="og:image:height" content= /> -->
-      <meta property="og:image:secure_url" content={selectedImage.src} />
-      <!-- <meta property="og:image:type" content=`image/${}` /> -->
-      <meta property="og:image:url" content={selectedImage.src} />
-      <!-- <meta property="og:image:width" content= /> -->
-      <meta property="og:image" content={selectedImage.src} />
-      <meta property="og:locale" content="en_US" />
-      <meta property="og:site_name" content={site.name} />
-      <meta property="og:title" content={title} />
-      <meta property="og:type" content={type ?? "website"} />
+        )}
+        <meta property="og:description" content={description} />
+        <meta property="og:image:alt" content={selectedImage.alt} />
+        {/* <meta property="og:image:height" content= /> */}
+        <meta property="og:image:secure_url" content={selectedImage.src} />
+        {/* <meta property="og:image:type" content=`image/${}` /> */}
+        <meta property="og:image:url" content={selectedImage.src} />
+        {/* <meta property="og:image:width" content= /> */}
+        <meta property="og:image" content={selectedImage.src} />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:site_name" content={site.name} />
+        <meta property="og:title" content={title} />
+        <meta property="og:type" content={type ?? "website"} />
 
-      <meta property="og:url" content={canonicalUrl} />
-      <title>{title} | {site.name}</title>
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta
-        property="twitter:creator"
-        content={article?.author.twitter ?? site.socials.twitter.handle}
-      />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image:alt" content={selectedImage.alt} />
-      <meta property="twitter:image" content={selectedImage.src} />
-      <meta property="twitter:site" content={site.socials.twitter.handle} />
-      <meta property="twitter:title" content={title} />
-      <meta property="twitter:url" content={canonicalUrl} />
-    </Fragment>
-  )}
+        <meta property="og:url" content={canonicalUrl} />
+        <title>
+          {title} | {site.name}
+        </title>
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:creator"
+          content={article?.author.twitter ?? site.socials.twitter.handle}
+        />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image:alt" content={selectedImage.alt} />
+        <meta property="twitter:image" content={selectedImage.src} />
+        <meta property="twitter:site" content={site.socials.twitter.handle} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:url" content={canonicalUrl} />
+      </Fragment>
+    )
+  }
 </head>
