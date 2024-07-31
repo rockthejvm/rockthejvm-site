@@ -1,19 +1,24 @@
 ---
-import { getEntry } from "astro:content";
-import InstructorHelper from "./InstructorHelper";
+import AuthorExpandedHelper from "./AuthorExpandedHelper";
 import { Image } from "astro:assets";
 import Facebook from "./icons/Facebook.astro";
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
+import type { CollectionEntry } from "astro:content";
 
-const instructor = await getEntry("authors", "daniel-ciocirlan");
-const { biography, company, name, photo, socials } = instructor.data;
+interface Props {
+  author: CollectionEntry<"authors">;
+  title: string;
+}
+
+const { author, title } = Astro.props;
+const { biography, company, name, photo, socials } = author.data;
 const role = company?.role;
 ---
 
-<InstructorHelper
+<AuthorExpandedHelper
   {biography}
   facebookUrl=`https://www.facebook.com/${socials?.facebook}`
   githubUrl=`https://www.github.com/${socials?.github}`
@@ -22,6 +27,8 @@ const role = company?.role;
   youtubeUrl=`https://www.youtube.com/${socials?.youtube}`
   {name}
   {role}
+  {title}
+  {socials}
 >
   {
     photo && (
@@ -38,4 +45,4 @@ const role = company?.role;
   <LinkedIn slot="linkedin" />
   <Twitter slot="twitter" />
   <YouTube slot="youtube" />
-</InstructorHelper>
+</AuthorExpandedHelper>

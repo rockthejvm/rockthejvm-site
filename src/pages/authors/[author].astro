@@ -2,6 +2,7 @@
 import { getCollection, getEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import ArticleLinks from "../../components/ArticleLinks.astro";
+import AuthorExpanded from "../../components/AuthorExpanded.astro";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
@@ -22,13 +23,13 @@ export async function getStaticPaths() {
 
 const { author } = Astro.params;
 const { articles } = Astro.props;
-const authorName = await getEntry("authors", author).then(
-  (author) => author.data.name,
-);
+const author2 = await getEntry("authors", author);
+const authorName = author2.data.name;
 const description = `Articles written by ${authorName}`;
 ---
 
 <Base title={authorName} {description}>
+  <AuthorExpanded author={author2} title="Author" />
   <h1>Articles written by {authorName}</h1>
   <ArticleLinks {articles} />
 </Base>
