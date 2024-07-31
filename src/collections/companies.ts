@@ -6,6 +6,7 @@ export default defineCollection({
     .object({
       slug: z.string(),
       title: z.string(),
+      website: z.string().url(),
     })
     .strict(),
 });
