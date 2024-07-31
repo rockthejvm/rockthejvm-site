@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, getEntry } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+
+const articles = await getCollection("articles");
+const latestArticles = articles
+  .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
+  .slice(0, 3);
+---
+
+<div class="bg-white">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        From the blog
+      </h2>
+      <p class="mt-2 text-lg leading-8 text-gray-600">TODO</p>
+      <div
+        class="space-y-16 border-t border-gray-200 mt-5 sm:mt-8 py-4 sm:py-8"
+      >
+        {
+          latestArticles.map(async (article) => {
+            const author = await getEntry(
+              article.data.author.collection,
+              article.data.author.id,
+            );
+            const company = author.data.company
+              ? await getEntry(
+                  author.data.company.entity.collection,
+                  author.data.company.entity.id,
+                )
+              : undefined;
+            return (
+              <Fragment>
+                <article class="flex max-w-xl flex-col items-start justify-between">
+                  <div class="flex items-center gap-x-4 text-xs">
+                    <time
+                      datetime={article.data.publishedDate.toISOString()}
+                      class="text-gray-500"
+                    >
+                      <FormattedDate date={article.data.publishedDate} />
+                    </time>
+                    {article.data.tags.map((tag) => (
+                      <a
+                        href={`tags/${tag}`}
+                        class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                      >
+                        {tag}
+                      </a>
+                    ))}
+                  </div>
+                  <div class="group relative">
+                    <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                      <a href={`blog/${article.slug}`}>
+                        <span class="absolute inset-0" />
+                        {article.data.title}
+                      </a>
+                    </h3>
+                    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+                      {article.data.excerpt}
+                    </p>
+                  </div>
+                  <div class="relative mt-8 flex items-center gap-x-4">
+                    <Image
+                      class="h-10 w-10 rounded-full bg-gray-50"
+                      src={author.data.photo}
+                      alt={author.data.name}
+                    />
+                    <div class="text-sm leading-6">
+                      <p class="font-semibold text-gray-900">
+                        <a href={`authors/${author.id}`}>
+                          <span class="absolute inset-0" />
+                          {author.data.name}
+                        </a>
+                      </p>
+                      <p class="text-gray-600">
+                        {company &&
+                          `${author.data.company?.role} | ${company.data.title}`}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              </Fragment>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</div>
