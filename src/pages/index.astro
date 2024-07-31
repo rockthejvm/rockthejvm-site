@@ -12,6 +12,7 @@ import Contact from "../components/Contact.astro";
 import Courses from "../components/Courses.astro";
 import LatestContent from "../components/LatestContent.astro";
 import "../styles/index.css";
+import CardList from "../containers/CardList";
 interface Props {
   canonicalUrl: URL;
   description: string;
@@ -25,12 +26,14 @@ const title = "Home";
 
 <Base description={site.description} {image} {title}>
   <NarrowContainer>
-    <Hero />
-    <LatestContent />
-    <Courses />
-    <Membership />
-    <SocialProof />
-    <Testimonials />
-    <Contact />
+    <CardList>
+      <Hero slot="one" />
+      <LatestContent slot="two" />
+      <Courses slot="three" />
+      <Membership slot="four" />
+      <SocialProof slot="five" />
+      <Testimonials slot="six" />
+      <Contact slot="seven" />
+    </CardList>
   </NarrowContainer>
 </Base>
