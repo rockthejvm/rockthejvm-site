@@ -23,11 +23,12 @@ export default defineCollection({
           .strict()
           .optional(),
         name: z.string(),
-        photo: image()
-          .refine((image) => image.width >= 300 && image.height >= 300, {
-            message: "Photo must be at least 300x300px",
-          })
-          .optional(),
+        photo: image().refine(
+          (image) => image.width >= 460 && image.height >= 460,
+          {
+            message: "Photo must be at least 460x460px",
+          },
+        ),
         socials: z
           .object({
             email: z.string().email().optional(),

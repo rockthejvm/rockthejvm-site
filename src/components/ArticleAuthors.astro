@@ -1,19 +1,19 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import ArticleAuthor from "./ArticleAuthor.astro";
+import AuthorExpanded from "./AuthorExpanded.astro";
 
 interface Props {
-  authors: CollectionEntry<"articles">["data"]["author"][];
+  authors: CollectionEntry<"authors">[];
 }
 const { authors } = Astro.props;
 ---
 
 <div>
-  {authors.map((author) => <ArticleAuthor {author} />)}
+  {authors.map((author) => <AuthorExpanded author={author} />)}
 </div>
 <style>
   div {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
   }
 </style>
