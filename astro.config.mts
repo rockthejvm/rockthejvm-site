@@ -5,6 +5,7 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sectionize from "@hbsnow/rehype-sectionize";
 import tailwind from "@astrojs/tailwind";
+import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 import sitemap from "@astrojs/sitemap";
 
@@ -31,7 +32,7 @@ export default defineConfig({
     sitemap(),
   ],
   markdown: {
-    remarkPlugins: [],
+    remarkPlugins: [remarkReadingTime],
     rehypePlugins: [sectionize],
   },
 });

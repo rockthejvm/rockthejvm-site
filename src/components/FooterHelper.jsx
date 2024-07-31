@@ -203,10 +203,7 @@ export default function Example(props) {
             <h3 className="text-sm font-semibold leading-6 text-gray-900">
               Subscribe to our newsletter
             </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-600">
-              The latest news, articles, and resources, sent to your inbox
-              weekly.
-            </p>
+            <p className="mt-2 text-sm leading-6 text-gray-600">TODO</p>
             <form className="mt-6 sm:flex sm:max-w-md">
               <label htmlFor="email-address" className="sr-only">
                 Email address

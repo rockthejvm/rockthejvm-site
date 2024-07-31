@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import site from "../data/site.json";
 
 const navigation = [
-  { name: "Product", href: "#" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
-  { name: "Company", href: "#" },
+  { name: "Articles", href: "#" },
+  { name: "Courses", href: "#" },
+  { name: "Videos", href: "#" },
+  { name: "About", href: "#" },
 ];
 
 export default function Example(props) {
@@ -20,8 +21,8 @@ export default function Example(props) {
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
-        <a href="#" className="-m-1.5 p-1.5">
-          <span className="sr-only">Your Company</span>
+        <a href="/" className="-m-1.5 p-1.5">
+          <span className="sr-only">{site.name}</span>
           {props.logo}
         </a>
         <div className="flex lg:hidden">

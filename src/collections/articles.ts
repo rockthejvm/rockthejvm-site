@@ -25,6 +25,7 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        minutesRead: z.string().optional(), // automatically added by remark-reading-time
         publishedDate: z.date(),
         series: reference("seriess").optional(),
         summary: z.string().optional(),

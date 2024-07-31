@@ -5,9 +5,10 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        name: z.string(),
         description: z.string(),
         image: image(),
+        minutesRead: z.string().optional(), // automatically added by remark-reading-time
+        name: z.string(),
         packages: z
           .array(
             z

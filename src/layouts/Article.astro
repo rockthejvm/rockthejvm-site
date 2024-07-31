@@ -11,9 +11,10 @@ import AuthorSmall from "../components/AuthorSmall.astro";
 interface Props {
   frontmatter: CollectionEntry<"articles">["data"];
   headings: MarkdownHeading[];
+  minutesRead: string;
 }
 
-const { frontmatter, headings } = Astro.props;
+const { frontmatter, headings, minutesRead } = Astro.props;
 const {
   canonicalUrl,
   description,
@@ -36,35 +37,7 @@ const video = frontmatter.video
   ? await getEntry(frontmatter.video.collection, frontmatter.video.id)
   : undefined;
 
-type banner = ImageMetadata;
-const banner = "../assets/images/banner.jpeg";
-// const formatDate = (date: Date) =>
-//   date.toLocaleDateString("en-US", {
-//     weekday: "short",
-//     month: "short",
-//     day: "2-digit",
-//     timeZone: "UTC",
-//   });
-function buildHierarchy(headings: MarkdownHeading[]) {
-  {
-    const toc: MarkdownHeading[] = [];
-    const parentHeadings = new Map();
-
-    if (!headings) return toc;
-
-    headings.forEach((h: MarkdownHeading) => {
-      const heading = { ...h, subheadings: [] };
-      parentHeadings.set(heading.depth, heading);
-      // Change 2 to 1 if your markdown includes your <h1>
-      if (heading.depth === 2) {
-        toc.push(heading);
-      } else {
-        parentHeadings.get(heading.depth - 1).subheadings.push(heading);
-      }
-    });
-    return toc;
-  }
-}
+const banner: ImageMetadata = "../assets/images/banner.jpeg";
 ---
 
 <Base
@@ -91,23 +64,31 @@ function buildHierarchy(headings: MarkdownHeading[]) {
   type="article"
 >
   <NarrowContainer>
-    <article class="">
+    <article>
       <header>
-        <h1 class="prose lg:prose-xl">{title}</h1>
-        <p>
-          Last updated: {
-            updatedDate ? (
-              <FormattedDate date={updatedDate} />
-            ) : (
-              <FormattedDate date={publishedDate} />
-            )
+        <h1 class="mb-8">{title}</h1>
+        <a href=`authors/${frontmatter.author.id}` class="mt-auto">
+          <AuthorSmall {author} {minutesRead}>
+            <p>
+              Last updated: {
+                updatedDate ? (
+                  <FormattedDate date={updatedDate} />
+                ) : (
+                  <FormattedDate date={publishedDate} />
+                )
+              }
+            </p>
+          </AuthorSmall>
+          {
+            tags.map((tag) => (
+              <span class="inline-flex items-center rounded-md bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700 mr-2 mt-2">
+                {tag}
+              </span>
+            ))
           }
-        </p>
-        <AuthorSmall {author} />
-        <!-- <TableOfContents {headings} />
-        <slot /> -->
+        </a>
         <div class="xl:flex xl:flex-row-reverse">
-          <div class="flex-auto ml-24 prose lg:prose-xl">
+          <div class="flex-auto ml-16 mt-1.5 prose lg:prose-xl">
             <TableOfContents {headings} />
           </div>
           <div
