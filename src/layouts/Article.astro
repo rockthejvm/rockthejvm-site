@@ -91,11 +91,9 @@ function buildHierarchy(headings: MarkdownHeading[]) {
   type="article"
 >
   <NarrowContainer>
-    <article
-      class="prose lg:prose-xl prose-img:rounded-lg prose-code:before:hidden prose-code:after:hidden"
-    >
+    <article class="">
       <header>
-        <h1>{title}</h1>
+        <h1 class="prose lg:prose-xl">{title}</h1>
         <p>
           Last updated: {
             updatedDate ? (
@@ -106,8 +104,18 @@ function buildHierarchy(headings: MarkdownHeading[]) {
           }
         </p>
         <AuthorSmall {author} />
-        <TableOfContents {headings} />
-        <slot />
+        <!-- <TableOfContents {headings} />
+        <slot /> -->
+        <div class="xl:flex xl:flex-row-reverse">
+          <div class="flex-auto ml-24 prose lg:prose-xl">
+            <TableOfContents {headings} />
+          </div>
+          <div
+            class="flex-auto prose lg:prose-xl prose-img:rounded-lg prose-code:before:hidden prose-code:after:hidden"
+          >
+            <slot />
+          </div>
+        </div>
         <footer></footer>
       </header>
     </article>

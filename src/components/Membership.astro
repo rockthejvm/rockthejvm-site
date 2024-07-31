@@ -1,7 +1,17 @@
 ---
+import { Image } from "astro:assets";
 import MembershipHelper from "./MembershipHelper";
+import MembershipImage from "../content/memberships/regular.png";
 ---
 
 <section>
-  <MembershipHelper />
+  <h2 class="text-6xl text-bold">The Membership</h2>
+  <MembershipHelper>
+    <Image
+      src={MembershipImage}
+      alt="Regular membership"
+      class="w-full flex-none rounded-2xl lg:max-w-lg"
+      slot="image"
+    />
+  </MembershipHelper>
 </section>
