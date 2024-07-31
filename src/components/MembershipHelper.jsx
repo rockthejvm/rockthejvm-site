@@ -1,13 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
-const benefits = [
-  "Competitive salaries",
-  "Flexible work hours",
-  "30 days of paid vacation",
-  "Annual team retreats",
-  "Benefits for you and your family",
-  "A great work environment",
-];
+const benefits = ["TODO", "TODO", "TODO", "TODO", "TODO", "TODO"];
 
 export default function Example(props) {
   return (
@@ -43,15 +36,15 @@ export default function Example(props) {
               <div className="mt-10 flex flex-row items-center justify-center gap-x-6 lg:justify-start gap-5">
                 <a
                   href="#"
-                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   Learn more
                 </a>
                 <a
                   href="#"
-                  className="text-sm font-semibold leading-6 text-white"
+                  className="text-sm font-semibold leading-6 text-black"
                 >
-                  Check the team pack <span aria-hidden="true">→</span>
+                  Check out the team pack <span aria-hidden="true">→</span>
                 </a>
               </div>
             </div>
