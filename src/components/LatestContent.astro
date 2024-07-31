@@ -1,11 +1,21 @@
 ---
+import { getCollection, type CollectionEntry } from "astro:content";
 import LatestContentHelper from "./LatestContentHelper";
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+}
+
+const articles = await getCollection("articles");
+const articleData = articles.map((article) => article.data);
 ---
 
 <section>
-  <h2>Latest Content</h2>
-  <div class="flex gap-y-10 flex-col md:flex-row md:gap-x-10">
-    <LatestContentHelper />
-    <LatestContentHelper />
+  <div class="min-h-[100vh]">
+    <h2>Latest Content</h2>
+    <div class="flex gap-y-10 flex-col md:flex-row md:gap-x-10">
+      <!-- <LatestContentHelper articles={articleData} /> -->
+      <!-- <LatestContentHelper /> -->
+    </div>
   </div>
 </section>

@@ -7,6 +7,7 @@ import type { MarkdownHeading } from "astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import NarrowContainer from "../containers/NarrowContainer";
 import AuthorSmall from "../components/AuthorSmall.astro";
+import AuthorWide from "../components/AuthorWide.astro";
 
 interface Props {
   frontmatter: CollectionEntry<"articles">["data"];
@@ -26,7 +27,7 @@ const {
   title,
   updatedDate,
 } = frontmatter;
-const { data: author } = await getEntry(
+const author = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
@@ -43,9 +44,9 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
 <Base
   article={{
     author: {
-      name: author.name,
+      name: author.data.name,
       // add a twitter username if available
-      twitter: author.socials?.twitter,
+      twitter: author.data.socials?.twitter,
     },
     updatedTime: updatedDate,
     publishedTime: publishedDate,
@@ -68,7 +69,7 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
       <header>
         <h1 class="mb-8">{title}</h1>
         <a href=`authors/${frontmatter.author.id}` class="mt-auto">
-          <AuthorSmall {author} {minutesRead}>
+          <AuthorSmall author={author.data} {minutesRead}>
             <p>
               Last updated: {
                 updatedDate ? (
@@ -87,15 +88,20 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
             ))
           }
         </a>
-        <div class="xl:flex xl:flex-row-reverse">
-          <div class="flex-auto ml-16 mt-1.5 prose lg:prose-xl">
-            <TableOfContents {headings} />
+        <div>
+          <div class="xl:flex xl:flex-row-reverse">
+            <div class="flex-auto ml-16 mt-1.5 prose lg:prose-xl">
+              <TableOfContents {headings} />
+            </div>
+            <div
+              class="flex-auto prose lg:prose-xl prose-img:rounded-lg prose-code:before:hidden prose-code:after:hidden"
+            >
+              <slot />
+            </div>
           </div>
-          <div
-            class="flex-auto prose lg:prose-xl prose-img:rounded-lg prose-code:before:hidden prose-code:after:hidden"
-          >
-            <slot />
-          </div>
+          <hr />
+          <AuthorWide {author} />
+          <hr />
         </div>
         <footer></footer>
       </header>
