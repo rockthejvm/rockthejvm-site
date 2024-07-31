@@ -4,7 +4,8 @@ export default defineCollection({
   type: "data",
   schema: z
     .object({
-      slug: z.string(),
+      domain: z.string().url(),
+      icon: z.string(),
       title: z.string(),
     })
     .strict(),
