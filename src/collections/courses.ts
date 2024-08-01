@@ -6,10 +6,6 @@ export default defineCollection({
     z
       .object({
         archived: z.boolean().default(false),
-        authors: z
-          .array(reference("authors"))
-          .min(1, "At least 1 author is required")
-          .default(["daniel-ciocirlan"]),
         bundledCourses: z
           .array(reference("courses"))
           .min(2, "At least 2 courses are required for a bundle")
@@ -36,6 +32,10 @@ export default defineCollection({
           ordinal: z.number().int().positive().optional(),
         }),
         image: image(),
+        instructors: z
+          .array(reference("authors"))
+          .min(1, "At least 1 author is required")
+          .default(["daniel-ciocirlan"]),
         minutesRead: z.string().optional(), // automatically added by remark-reading-time
         price: z.number().positive().optional(),
         purchaseUrl: z.string().url(),
