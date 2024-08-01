@@ -18,6 +18,6 @@ const { course } = Astro.props;
 const { Content } = await course.render();
 ---
 
-<Course frontmatter={course.data}>
+<Course {course}>
   <Content />
 </Course>
