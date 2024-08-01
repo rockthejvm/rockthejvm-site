@@ -6,10 +6,8 @@ import react from "@astrojs/react";
 import sectionize from "@hbsnow/rehype-sectionize";
 import tailwind from "@astrojs/tailwind";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
-
 import sitemap from "@astrojs/sitemap";
 
-// https://astro.build/config
 export default defineConfig({
   site: "https://www.rockthejvm.com",
   integrations: [
