@@ -3,21 +3,34 @@ import type { CollectionEntry } from "astro:content";
 import Base from "./Base.astro";
 import FullContainer from "../containers/FullContainer";
 import CTA from "../components/CTA.astro";
+import FAQ from "../components/FAQ";
+import CoursePricing from "../components/CoursePricing.astro";
 
 interface Props {
-  frontmatter: CollectionEntry<"courses">["data"];
+  course: CollectionEntry<"courses">;
 }
 
-const { frontmatter } = Astro.props;
+const { course } = Astro.props;
+const frontmatter = course.data;
 
-const { archived, bundledCourses, description, grouping, image, price, title } =
-  frontmatter;
+const {
+  archived,
+  bundledCourses,
+  description,
+  faqs,
+  grouping,
+  image,
+  price,
+  title,
+} = frontmatter;
 ---
 
 <Base {description} {title}>
-  <article>
-    <CTA src={image} alt={title} {title} />
-    <!-- <slot name="cta" /> -->
-  </article>
-  <FullContainer />
+  <FullContainer>
+    <article>
+      <CTA src={image} alt={title} {title} />
+      <CoursePricing {course} />
+      {faqs && <FAQ {faqs} client:visible />}
+    </article>
+  </FullContainer>
 </Base>
