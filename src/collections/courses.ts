@@ -14,10 +14,11 @@ export default defineCollection({
           .object({
             hours: z.number().positive(),
             linesOfCode: z.number().int().positive(),
-            numExamples: z.number().int().positive(),
+            examples: z.number().int().positive(),
             rest: z.array(z.string()).optional(),
           })
-          .strict(),
+          .strict()
+          .optional(),
         description: z.string(),
         faqs: z.array(
           z
@@ -34,11 +35,11 @@ export default defineCollection({
         image: image(),
         instructors: z
           .array(reference("authors"))
-          .min(1, "At least 1 author is required")
+          .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
         minutesRead: z.string().optional(), // automatically added by remark-reading-time
         price: z.number().positive().optional(),
-        purchaseUrl: z.string().url(),
+        purchaseLink: z.string().url(),
         title: z.string(),
       })
       .strict(),
