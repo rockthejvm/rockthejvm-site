@@ -1,10 +1,32 @@
 ---
+benefits:
+  hours: 9
+  linesOfCode: 1400
+  examples: 100 # TODO: update this
 description: Learn Spark optimization techniques for the best performance of your Spark code. The only practical Spark performance course on the web.
+faqs:
+  - question: How long is the course? Will I have time for it?
+    answer: The course is a little more than 9 hours in length, with lessons 20-30 minutes each, and we write 1000-1500 lines of code. For complex topics such as Spark optimization techniques, I don't believe in 5-minute lectures or in fill-in-the-blanks quizzes. For best effectiveness, I recommend chunks of 1 hour of learning at a time.
+  - question: What does a typical lesson contain?
+    answer: Code is king, and we write from scratch. In a typical lesson I'll explain some concepts in short, then I'll dive right into the code. We'll write it together, either in the IDE or in the Spark Shell, and we test the effects of the code on either pre-loaded data (which I provide) or with bigger, generated data (whose generator I also provide). Sometimes we'll spend some time in the Spark UI to understand what's going on.
+  - question: Can I expense this at my company?
+    answer: Of course! A wise company will spend some money on training their folks here rather than spending thousands (or millions) on computing power for nothing.
+  - question: Is Spark optimization hard to learn?
+    answer: There's a reason not everyone is a Spark performance pro. However, my job is to give you these (otherwise hard) topics in a way that will make you go like "huh, that wasn't so hard".
+  - question: What if I'm not happy with the course?
+    answer: If you're not 100% happy with the course, I want you to have your money back. It's a risk-free investment.
+  - question: Daniel, I can't afford the course. What do I do?
+    answer: For a while, I told everyone who could not afford a course to email me and I gave them discounts. But then I looked at the stats. Almost all the people who actually took the time and completed the course had paid for it in full. So I'm not offering discounts anymore. This is an investment in yourself, which will pay off 100x if you commit.
+  - question: I have very little Scala or Spark experience. Can I take this course?
+    answer: "Short answer: no. Long answer: we have two recap lessons at the beginning, but they're not a crash course into Scala or Spark and they're not enough if this is the first time you're seeing them. You should take the Scala beginners course and the Spark Essentials course at least."
+  - question: How do you optimize Spark jobs?
+    answer: This is what I teach you here. We always start with understanding how Spark works, so that we know what we can optimize and what we can't. Depending on the size and structure of your data, the right performance technique to apply may differ. Most of the time, joins are the problem, and there are a few tools we can use, such as broadcast joins, pre-partitioning, bucketing or column pruning. If your data is skewed, that'll disproportionately affect the runtime of your job, so we balance your data. The best but the most tedious Spark optimization strategies involve a deep knowledge of RDDs, which is what I'll also show you in this course.
 grouping:
   category: spark
   ordinal: 3
 image: ./spark-optimization.jpeg
 price: 85
+purchaseLink: https://sso.teachable.com/secure/256201/checkout/3428819/spark-optimization
 title: Spark Optimization
 ---
 
