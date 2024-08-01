@@ -1,6 +1,6 @@
 export default function Example(props) {
   return (
-    <div className="relative">
+    <div className="relative min-h-[92vh]">
       {props.image}
       <div className="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"></div>
       <div className="relative px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
