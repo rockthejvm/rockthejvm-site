@@ -14,14 +14,16 @@ const { description, title } = frontmatter;
 ---
 
 <Base {description} {title}>
-  <Prose class="max-w-none">
-    <NarrowContainer>
-      <article>
-        <header>
+  <NarrowContainer>
+    <article>
+      <header>
+        <Prose class="max-w-none">
           <h1>{title}</h1>
-        </header>
+        </Prose>
+      </header>
+      <Prose class="max-w-none">
         <slot />
-      </article>
-    </NarrowContainer>
-  </Prose>
+      </Prose>
+    </article>
+  </NarrowContainer>
 </Base>
