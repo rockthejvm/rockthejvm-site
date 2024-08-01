@@ -13,8 +13,8 @@ const filteredHeadings = headings.filter((heading) => heading.depth === 2);
 
 {
   filteredHeadings.length >= 3 && (
-    <nav class="sticky top-0 right-0">
-      <h2 class="text-gray-500">Table of Contents</h2>
+    <nav>
+      <h2>Table of Contents</h2>
       <ul>
         {filteredHeadings.map((heading) => (
           <TableOfContentsHeading heading={heading} />

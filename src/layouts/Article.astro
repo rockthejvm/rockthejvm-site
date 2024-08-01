@@ -8,14 +8,17 @@ import TableOfContents from "../components/TableOfContents.astro";
 import NarrowContainer from "../containers/NarrowContainer";
 import AuthorSmall from "../components/AuthorSmall.astro";
 import AuthorWide from "../components/AuthorWide.astro";
+import Prose from "@/components/Prose.astro";
+import TagList from "@/components/TagList.astro";
 
 interface Props {
-  frontmatter: CollectionEntry<"articles">["data"];
+  article: CollectionEntry<"articles">;
   headings: MarkdownHeading[];
   minutesRead: string;
 }
 
-const { frontmatter, headings, minutesRead } = Astro.props;
+const { article, headings, minutesRead } = Astro.props;
+const frontmatter = article.data;
 const {
   canonicalUrl,
   description,
@@ -67,9 +70,11 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
   <NarrowContainer>
     <article>
       <header>
-        <h1 class="mb-8">{title}</h1>
-        <a href=`authors/${frontmatter.author.id}` class="mt-auto">
-          <AuthorSmall author={author.data} {minutesRead}>
+        <Prose class="max-w-none">
+          <h1>{title}</h1>
+        </Prose>
+        <a href=`/authors/${frontmatter.author.id}` class="mt-auto">
+          <AuthorSmall {author} {minutesRead}>
             <p>
               Last updated: {
                 updatedDate ? (
@@ -80,31 +85,16 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
               }
             </p>
           </AuthorSmall>
-          {
-            tags.map((tag) => (
-              <span class="inline-flex items-center rounded-md bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700 mr-2 mt-2">
-                {tag}
-              </span>
-            ))
-          }
         </a>
-        <div>
-          <div class="xl:flex xl:flex-row-reverse">
-            <div class="flex-auto ml-16 mt-1.5 prose lg:prose-xl">
-              <TableOfContents {headings} />
-            </div>
-            <div
-              class="flex-auto prose lg:prose-xl prose-img:rounded-lg prose-code:before:hidden prose-code:after:hidden"
-            >
-              <slot />
-            </div>
-          </div>
-          <hr />
-          <AuthorWide {author} />
-          <hr />
-        </div>
-        <footer></footer>
+        <TagList {tags} />
       </header>
+      <Prose>
+        <TableOfContents {headings} />
+        <slot />
+      </Prose>
+      <footer>
+        <AuthorWide {author} />
+      </footer>
     </article>
   </NarrowContainer>
 </Base>
