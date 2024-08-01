@@ -1,11 +1,9 @@
 export default function Example(props) {
   return (
-    <div className="flex">
+    <div className="flex mb-2 mt-6">
       <div className="mr-4 flex-shrink-0">{props.photo}</div>
       <div>
-        <p className="text-lg font-bold text-emerald-500">
-          by {props.authorName}
-        </p>
+        <p className="text-lg font-bold text-emerald-500">{props.authorName}</p>
         <p className="mt-0.5">{props.time}</p>
         <p className="mt-0.5 text-gray-600 inline-flex items-center">
           <span className="inline-flex items-center gap-x-1.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">

@@ -27,7 +27,9 @@ export default defineConfig({
     }),
     markdoc(),
     mdx(),
-    tailwind(),
+    tailwind({
+      nesting: true,
+    }),
     react(),
     sitemap(),
   ],

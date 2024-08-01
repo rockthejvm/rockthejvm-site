@@ -4,17 +4,16 @@ import AuthorSmallHelper from "./AuthorSmallHelper";
 import { Image } from "astro:assets";
 
 interface Props {
-  author: CollectionEntry<"authors">["data"];
+  author: CollectionEntry<"authors">;
   minutesRead: string;
 }
 const { author, minutesRead } = Astro.props;
-const { name, photo } = author;
 ---
 
-<AuthorSmallHelper authorName={author.name} {minutesRead}>
+<AuthorSmallHelper authorName={author.data.name} {minutesRead}>
   <Image
-    src={photo}
-    alt={name}
+    src={author.data.photo}
+    alt={author.data.name}
     class="mx-auto h-20 w-20 rounded-full shadow-lg"
     slot="photo"
   />

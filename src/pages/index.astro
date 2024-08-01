@@ -11,7 +11,7 @@ import Hero from "../components/Hero.astro";
 import Contact from "../components/Contact.astro";
 import Courses from "../components/Courses.astro";
 import LatestContent from "../components/LatestContent.astro";
-import "../styles/index.css";
+import "@styles/index.css";
 import CardList from "../containers/CardList";
 interface Props {
   canonicalUrl: URL;
@@ -25,6 +25,7 @@ const title = "Home";
 ---
 
 <Base description={site.description} {image} {title}>
+  <div class=""></div>
   <NarrowContainer>
     <CardList>
       <Hero slot="one" />
