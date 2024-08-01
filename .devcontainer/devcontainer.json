@@ -17,6 +17,7 @@
         "bradlc.vscode-tailwindcss",
         "christian-kohler.path-intellisense",
         "eamodio.gitlens",
+        "esbenp.prettier-vscode",
         "GitHub.copilot",
         "GitHub.github-vscode-theme",
         "GitHub.vscode-github-actions",
