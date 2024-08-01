@@ -55,6 +55,7 @@
   "path-intellisense.autoTriggerNextSuggestion": true,
   "path-intellisense.showHiddenFiles": true,
   "typescript.suggest.paths": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   // eamodio.gitlens
   "gitlens.currentLine.enabled": false,
   "gitlens.defaultDateFormat": "YYYY-MM-DD",
@@ -105,5 +106,11 @@
     "**/.trunk/*out/": true,
     "**/.trunk/*plugins/": true
   },
-  "workbench.colorTheme": "GitHub Dark Default"
+  "workbench.colorTheme": "GitHub Dark Default",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }

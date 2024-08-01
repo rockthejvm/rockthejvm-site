@@ -18,10 +18,6 @@ const { article } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await article.render();
 ---
 
-<Article
-  frontmatter={article.data}
-  {headings}
-  minutesRead={remarkPluginFrontmatter.minutesRead}
->
+<Article {article} {headings} minutesRead={remarkPluginFrontmatter.minutesRead}>
   <Content />
 </Article>

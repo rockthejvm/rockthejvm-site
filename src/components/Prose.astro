@@ -1,0 +1,12 @@
+---
+const { class: additionalClasses } = Astro.props;
+---
+
+<div
+  class:list={[
+    "prose lg:prose-xl prose-a:no-underline hover:prose-a:underline prose-a:text-sky-600 hover:prose-a:text-sky-500  prose-img:rounded-full prose-img:max-w-xs prose-img:mx-auto prose-code:before:hidden prose-code:after:hidden",
+    additionalClasses,
+  ]}
+>
+  <slot />
+</div>
