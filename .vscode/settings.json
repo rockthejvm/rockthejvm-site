@@ -103,6 +103,12 @@
     "**/.trunk/*out/": true,
     "**/.trunk/*plugins/": true
   },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/*lock*": true
+  },
   "workbench.colorTheme": "GitHub Dark Default",
   "files.associations": {
     "*.css": "tailwindcss"
@@ -122,5 +128,6 @@
   },
   "[mdx]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "redhat.telemetry.enabled": false
 }
