@@ -5,10 +5,11 @@ import Prose from "@/components/Prose.astro";
 import NarrowContainer from "@/containers/NarrowContainer";
 
 interface Props {
-  frontmatter: CollectionEntry<"legals">["data"];
+  legal: CollectionEntry<"legals">;
 }
 
-const { frontmatter } = Astro.props;
+const { legal } = Astro.props;
+const frontmatter = legal.data;
 
 const { description, title } = frontmatter;
 ---
