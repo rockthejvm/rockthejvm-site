@@ -28,20 +28,52 @@ image: ./advanced-kotlin.png
 price: 75
 purchaseLink: https://sso.teachable.com/secure/256201/checkout/5645634/advanced-kotlin
 title: Advanced Kotlin
+featureSection1:
+  imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
+  imageAlt: code image
+featureSection2:
+  imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
+  imageAlt: code image
+featureSection3:
+  imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
+  imageAlt: code image
+featureSection4:
+  imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
+  imageAlt: code image
+featureSection5:
+  imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
+  imageAlt: code image
+featureSection6:
+  imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
+  imageAlt: code image
+primaryColor: bg-[red]
 ---
 
-export const excerpt = (
-  <>
-    <p>
-      Become a top Kotlin developer. Master Kotlin's type system and internals,
-      and learn the rare skills and tools that will make you a senior engineer.
-    </p>
-  </>
-);
+export const excerpt = `<h2>
+    Become a top Kotlin developer. Master Kotlin's type system and internals,
+    and learn the rare skills and tools that will make you a senior engineer.
+  </h2>`;
 
-<Fragment slot="cta">
-  Become one of the best Kotlin programmers.
+import Course from "../../layouts/Course.astro";
 
-Master Kotlin internals and its type system in this hands-on, practical course.
-
-</Fragment>
+<Course mySlug="advanced-kotlin">
+  <Fragment slot="feature1">
+    Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id
+    veniam aliqua proident excepteur commodo do ea. Incididunt sint fugiat
+    pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident
+    excepteur commodo do ea. Incididunt sint fugiat pariatur cupidatat
+    consectetur sit cillum anim id veniam aliqua proident excepteur commodo do
+    ea. Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id
+    veniam aliqua proident excepteur commodo do ea. Incididunt sint fugiat
+    pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident
+    excepteur commodo do ea. Incididunt sint fugiat pariatur cupidatat
+    consectetur sit cillum anim id veniam aliqua proident excepteur commodo do
+    ea. Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id
+    veniam aliqua proident excepteur commodo do ea.
+  </Fragment>
+  <Fragment slot="feature2">Test 2</Fragment>
+  <Fragment slot="feature3">Test 3</Fragment>
+  <Fragment slot="feature4">Test 4</Fragment>
+  <Fragment slot="feature5">Test 5</Fragment>
+  <Fragment slot="feature6">Test 6</Fragment>
+</Course>
