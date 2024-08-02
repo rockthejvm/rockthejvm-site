@@ -28,6 +28,42 @@ export default defineCollection({
             })
             .strict(),
         ),
+        featureSection1: z
+          .object({
+            imageUrl: z.string(),
+            imageAlt: z.string(),
+          })
+          .optional(),
+        featureSection2: z
+          .object({
+            imageUrl: z.string(),
+            imageAlt: z.string(),
+          })
+          .optional(),
+        featureSection3: z
+          .object({
+            imageUrl: z.string(),
+            imageAlt: z.string(),
+          })
+          .optional(),
+        featureSection4: z
+          .object({
+            imageUrl: z.string(),
+            imageAlt: z.string(),
+          })
+          .optional(),
+        featureSection5: z
+          .object({
+            imageUrl: z.string(),
+            imageAlt: z.string(),
+          })
+          .optional(),
+        featureSection6: z
+          .object({
+            imageUrl: z.string(),
+            imageAlt: z.string(),
+          })
+          .optional(),
         grouping: z.object({
           category: reference("categories"),
           ordinal: z.number().int().positive().optional(),
@@ -39,6 +75,7 @@ export default defineCollection({
           .default(["daniel-ciocirlan"]),
         minutesRead: z.string().optional(), // automatically added by remark-reading-time
         price: z.number().positive().optional(),
+        primaryColor: z.string().optional(),
         purchaseLink: z.string().url(),
         title: z.string(),
       })

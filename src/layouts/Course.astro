@@ -5,32 +5,91 @@ import FullContainer from "../containers/FullContainer";
 import CTA from "../components/CTA.astro";
 import FAQ from "../components/FAQ";
 import CoursePricing from "../components/CoursePricing.astro";
+import Feature from "@/components/Feature.astro";
+import { getEntryBySlug } from "astro:content";
 
 interface Props {
-  course: CollectionEntry<"courses">;
+  mySlug: string;
 }
 
-const { course } = Astro.props;
-const frontmatter = course.data;
+const { mySlug } = Astro.props;
+const course = await getEntryBySlug("courses", mySlug);
+const courses = await Astro.glob(`../content/courses/*.mdx`);
+const excerpt = (
+  courses.find((c) => c.file.indexOf(`${mySlug}.mdx`) >= 0) as any
+).excerpt;
+const frontmatter = course!.data;
 
 const {
   archived,
+  featureSection1,
+  featureSection2,
+  featureSection3,
+  featureSection4,
+  featureSection5,
+  featureSection6,
   bundledCourses,
   description,
   faqs,
   grouping,
   image,
   price,
+  primaryColor,
   title,
 } = frontmatter;
 ---
 
 <Base {description} {title}>
-  <FullContainer>
-    <article>
-      <CTA src={image} alt={title} {title} />
-      <CoursePricing {course} />
-      {faqs && <FAQ {faqs} client:visible />}
-    </article>
-  </FullContainer>
+  <article>
+    <CTA src={image} alt={title} {title} />
+    <!-- <Fragment set:html={excerpt} /> -->
+    <h2 class={`text-center ${primaryColor}`}>Is There More to Kotlin?</h2>
+    {
+      featureSection1 && (
+        <Feature section={featureSection1}>
+          <slot name="feature1" />
+        </Feature>
+      )
+    }
+    {
+      featureSection2 && (
+        <Feature section={featureSection2}>
+          <slot name="feature2" />
+        </Feature>
+      )
+    }
+
+    <h2>How This Course Works</h2>
+
+    {
+      featureSection3 && (
+        <Feature section={featureSection3}>
+          <slot name="feature3" />
+        </Feature>
+      )
+    }
+    {
+      featureSection4 && (
+        <Feature section={featureSection4}>
+          <slot name="feature4" />
+        </Feature>
+      )
+    }
+    {
+      featureSection5 && (
+        <Feature section={featureSection5}>
+          <slot name="feature5" />
+        </Feature>
+      )
+    }
+    {
+      featureSection6 && (
+        <Feature section={featureSection6}>
+          <slot name="feature6" />
+        </Feature>
+      )
+    }
+    <CoursePricing {course} />
+    {faqs && <FAQ {faqs} client:visible />}
+  </article>
 </Base>
