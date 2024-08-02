@@ -17,6 +17,7 @@ interface Props {
     tags: string[];
     video?: URL;
   };
+  bodyClasses?: string;
   canonicalUrl?: URL;
   description: string;
   image?: {
@@ -28,14 +29,22 @@ interface Props {
   error?: boolean;
 }
 
-const { article, canonicalUrl, description, error, image, title, type } =
-  Astro.props;
+const {
+  article,
+  bodyClasses,
+  canonicalUrl,
+  description,
+  error,
+  image,
+  title,
+  type,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en" class="h-full">
   <Head {article} {canonicalUrl} {description} {error} {image} {title} {type} />
-  <body class="h-full">
+  <body id="temp" class={`h-full ${bodyClasses}`}>
     <div>
       <Header />
       <main>
