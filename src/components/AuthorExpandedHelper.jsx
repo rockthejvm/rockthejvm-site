@@ -14,7 +14,7 @@ export default function Example(props) {
                 href={props.companyWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold"
+                className="font-bold text-gray-600"
               >
                 {props.companyName}
               </a>
