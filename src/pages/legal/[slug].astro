@@ -4,6 +4,7 @@ import Legal from "../../layouts/Legal.astro";
 
 export async function getStaticPaths() {
   const legals = await getCollection("legals");
+
   return legals.map((legal) => ({
     params: { slug: legal.slug },
     props: { legal },
@@ -18,6 +19,6 @@ const { legal } = Astro.props;
 const { Content } = await legal.render();
 ---
 
-<Legal frontmatter={legal.data}>
+<Legal {legal}>
   <Content />
 </Legal>

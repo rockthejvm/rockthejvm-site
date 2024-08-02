@@ -8,9 +8,10 @@ export async function getStaticPaths() {
   const tags = [
     ...new Set(articles.map((article) => article.data.tags).flat()),
   ];
+
   return tags.map((tag) => {
     const filteredArticles = articles.filter((article) =>
-      article.data.tags.includes(tag),
+      article.data.tags.includes(tag)
     );
     return {
       params: { tag },
