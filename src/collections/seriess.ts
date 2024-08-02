@@ -8,7 +8,10 @@ export default defineCollection({
         canonicalUrl: z.string().url(),
         description: z.string(),
         image: image().optional(),
-        members: z.array(reference("articles").or(reference("videos"))),
+        members: z.union([
+          z.array(reference("articles")),
+          z.array(reference("videos")),
+        ]),
         title: z.string(),
       })
       .strict(),
