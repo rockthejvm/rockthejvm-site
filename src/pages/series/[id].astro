@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const seriess = await getCollection("seriess");
+
+  return seriess.map((series) => ({
+    params: { id: series.id },
+    props: { series },
+  }));
+}
+
+const { series } = Astro.props;
+---

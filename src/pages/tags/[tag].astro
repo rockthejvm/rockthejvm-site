@@ -15,13 +15,12 @@ export async function getStaticPaths() {
     );
     return {
       params: { tag },
-      props: { articles: filteredArticles },
+      props: { articles: filteredArticles, tag },
     };
   });
 }
 
-const { tag } = Astro.params;
-const { articles } = Astro.props;
+const { articles, tag } = Astro.props;
 const description = `Articles tagged with ${tag}`;
 ---
 

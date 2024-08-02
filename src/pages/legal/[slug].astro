@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import Legal from "../../layouts/Legal.astro";
 
 export async function getStaticPaths() {
@@ -9,10 +9,6 @@ export async function getStaticPaths() {
     params: { slug: legal.slug },
     props: { legal },
   }));
-}
-
-interface Props {
-  legal: CollectionEntry<"legals">;
 }
 
 const { legal } = Astro.props;
