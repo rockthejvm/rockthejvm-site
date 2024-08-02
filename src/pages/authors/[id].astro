@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ArticleLinks from "../../components/ArticleLinks.astro";
+import AuthorWide from "../../components/AuthorWide.astro";
+import FullContainer from "../../containers/FullContainer";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  const authors = await getCollection("authors");
+
+  return authors.map((author) => ({
+    params: { id: author.id },
+    props: {
+      articles: articles.filter(
+        (article) => article.data.author.id === author.id
+      ),
+      author,
+    },
+  }));
+}
+
+const { articles, author } = Astro.props;
+const name = author.data.name;
+---
+
+<Base title={name} description=`Articles written by ${name}`>
+  <FullContainer>
+    <AuthorWide {author} />
+    <h1>Articles written by {name}</h1>
+    <ArticleLinks {articles} />
+  </FullContainer>
+</Base>
