@@ -9,15 +9,13 @@ export async function getStaticPaths() {
     ...new Set(articles.map((article) => article.data.tags).flat()),
   ];
 
-  return tags.map((tag) => {
-    const filteredArticles = articles.filter((article) =>
-      article.data.tags.includes(tag)
-    );
-    return {
-      params: { tag },
-      props: { articles: filteredArticles, tag },
-    };
-  });
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      articles: articles.filter((article) => article.data.tags.includes(tag)),
+      tag,
+    },
+  }));
 }
 
 const { articles, tag } = Astro.props;
