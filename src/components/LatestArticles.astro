@@ -44,17 +44,17 @@ const latestArticles = articles
                 : undefined;
               return (
                 <Fragment>
-                  <article class="max-w-full border-b-2 hover:bg-[#163d77] hover:text-white">
+                  <article class="max-w-full border-b-2 hover:bg-[#163d77]">
                     <div class="group relative mx-auto">
-                      <h3 class="text-lg my-1 py-2.5 font-normal leading-6 mx-auto text-center no-underline text-gray-900 group-hover:text-white">
-                        <a
-                          href={`articles/${article.slug}`}
-                          class="no-underline hover:no-underline text-black group-hover:text-white"
-                        >
+                      <a
+                        href={`articles/${article.slug}`}
+                        class="no-underline hover:no-underline text-black"
+                      >
+                        <h3 class="text-lg my-1 py-2.5 font-normal leading-6 mx-auto text-center no-underline">
                           <span class="absolute inset-0" />
                           {article.data.title}
-                        </a>
-                      </h3>
+                        </h3>
+                      </a>
                     </div>
                   </article>
                 </Fragment>
@@ -66,3 +66,9 @@ const latestArticles = articles
     </div>
   </div>
 </div>
+
+<style>
+  article:hover h3 {
+    color: white !important;
+  }
+</style>
