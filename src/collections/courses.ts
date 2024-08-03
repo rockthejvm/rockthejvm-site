@@ -73,7 +73,6 @@ export default defineCollection({
           .array(reference("authors"))
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
-        minutesRead: z.string().optional(), // automatically added by remark-reading-time
         price: z.number().positive().optional(),
         primaryColor: z.string().optional(),
         purchaseLink: z.string().url(),

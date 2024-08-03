@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Article from "./_layouts/_Article.astro";
+import { getReadingTime } from "@/utils/reading-time";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
@@ -12,9 +13,9 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { Content, headings, remarkPluginFrontmatter } = await article.render();
+const { Content, headings } = await article.render();
 ---
 
-<Article {article} {headings} minutesRead={remarkPluginFrontmatter.minutesRead}>
+<Article {article} {headings} minutesRead={getReadingTime(article.body)}>
   <Content />
 </Article>
