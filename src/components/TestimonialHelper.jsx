@@ -5,7 +5,7 @@ export default function Example(props) {
         {props.companyLogo}
         <figure className="mt-8">
           <blockquote className="text-center text-sm font-semibold leading-8 text-white sm:text-base sm:leading-9">
-            <p>{props.children}</p>
+            <p class="text-white">{props.children}</p>
           </blockquote>
           <figcaption className="mt-8">
             {props.photo}

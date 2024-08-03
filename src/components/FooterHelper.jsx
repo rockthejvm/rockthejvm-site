@@ -131,7 +131,7 @@ export default function Example(props) {
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-200">
                   Content
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -139,7 +139,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-white hover:text-gray-900"
                       >
                         {item.name}
                       </a>
@@ -148,7 +148,7 @@ export default function Example(props) {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-200">
                   Support
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -156,7 +156,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-white hover:text-gray-900"
                       >
                         {item.name}
                       </a>
@@ -167,7 +167,7 @@ export default function Example(props) {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-200">
                   Company
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -175,7 +175,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-white hover:text-gray-900"
                       >
                         {item.name}
                       </a>
@@ -184,7 +184,7 @@ export default function Example(props) {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-200">
                   Legal
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -192,7 +192,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-white hover:text-gray-900"
                       >
                         {item.name}
                       </a>
@@ -203,10 +203,10 @@ export default function Example(props) {
             </div>
           </div>
           <div className="mt-10 xl:mt-0">
-            <h3 className="text-sm font-semibold leading-6 text-gray-900">
+            <h3 className="text-sm font-semibold leading-6 text-gray-200">
               Subscribe to our newsletter
             </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-600">TODO</p>
+            <p className="mt-2 text-sm leading-6 text-white">TODO</p>
             <form className="mt-6 sm:flex sm:max-w-md">
               <label htmlFor="email-address" className="sr-only">
                 Email address
@@ -218,7 +218,7 @@ export default function Example(props) {
                 required
                 placeholder="Enter your email"
                 autoComplete="email"
-                className="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
+                className="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
               />
               <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
                 <button
