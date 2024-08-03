@@ -8,7 +8,7 @@ interface Props {
 
 const { course } = Astro.props;
 const { price, benefits, title } = course.data;
-const membership = await getEntryBySlug("memberships", "regular");
+const membership = await getEntryBySlug("memberships", "personal");
 
 const membershipHours = (await getCollection("courses"))
   .map((e) => e.data.benefits?.hours ?? 0)
@@ -20,7 +20,7 @@ const membershipNumExamples = (await getCollection("courses"))
   .map((e) => e.data.benefits?.numExamples ?? 0)
   .reduce((b, a) => b + a);
 const categories = (await getCollection("categories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1,
+  a.data.ordinal <= b.data.ordinal ? -1 : 1
 );
 ---
 
