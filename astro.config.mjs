@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
-import markdoc from "@astrojs/markdoc";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sectionize from "@hbsnow/rehype-sectionize";
@@ -23,7 +22,6 @@ export default defineConfig({
         "fa6-solid": ["rss"],
       },
     }),
-    markdoc(),
     mdx(),
     tailwind({
       nesting: true,
@@ -34,5 +32,13 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkReadingTime],
     rehypePlugins: [sectionize],
+  },
+  redirects: {
+    "/p/about-us": "/about",
+    "/p/privacy": "/legal/privacy",
+    "/p/terms": "/legal/terms",
+    "/p/logo-trademarks": "/legal/trademarks",
+    "/p/membership": "/memberships/personal",
+    "/p/team-pack": "/memberships/team",
   },
 });
