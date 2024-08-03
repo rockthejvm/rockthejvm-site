@@ -13,7 +13,7 @@ export default function Example(props) {
               <a
                 href={props.companyWebsite}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="font-bold text-gray-600"
               >
                 {props.companyName}
@@ -33,7 +33,7 @@ export default function Example(props) {
                 href={`https://www.facebook.com/${props.socials.facebook}`}
                 className="text-gray-400 hover:text-gray-500"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
               >
                 {props.facebook}
               </a>
@@ -45,7 +45,7 @@ export default function Example(props) {
                 href={`https://www.github.com/${props.socials.github}`}
                 className="text-gray-400 hover:text-gray-500"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
               >
                 {props.github}
               </a>
@@ -57,7 +57,7 @@ export default function Example(props) {
                 href={`https://www.linkedin.com/${props.socials.linkedin}`}
                 className="text-gray-400 hover:text-gray-500"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
               >
                 {props.linkedin}
               </a>
@@ -69,7 +69,7 @@ export default function Example(props) {
                 href={`https://www.x.com/${props.socials.twitter}`}
                 className="text-gray-400 hover:text-gray-500"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
               >
                 {props.twitter}
               </a>
@@ -81,7 +81,7 @@ export default function Example(props) {
                 href={`https://www.youtube.com/${props.socials.youtube}`}
                 className="text-gray-400 hover:text-gray-500"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
               >
                 {props.youtube}
               </a>
