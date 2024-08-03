@@ -14,7 +14,6 @@ export default defineCollection({
           .object({
             hours: z.number().positive(),
             linesOfCode: z.number().int().positive(),
-            examples: z.number().int().positive(),
             rest: z.array(z.string()).optional(),
           })
           .strict()
