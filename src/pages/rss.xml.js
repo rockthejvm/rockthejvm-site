@@ -9,12 +9,12 @@ export async function GET(context) {
     description: site.description,
     items: articles.map((article) => ({
       description: article.data.excerpt,
-      link: `/blog/${article.slug}/`,
+      link: `/articles/${article.slug}/`,
       pubDate: article.data.publishedDate.toISOString(),
       title: article.data.title,
     })),
     site: context.site,
     stylesheet: "/rss/styles.xsl",
-    title: `The ${site.name} Blog`,
+    title: `${site.name} Articles`,
   });
 }
