@@ -8,3 +8,4 @@ scala-advanced-old -> advanced-scala-old
 scala-old -> scala-essentials-old
 the-akka-bundle -> the-akka-pekko-bundle
 all courses moved to /courses/...
+scala-3-new-features -> scala-new-features
