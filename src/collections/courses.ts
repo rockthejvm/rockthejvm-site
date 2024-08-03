@@ -21,7 +21,6 @@ export default defineCollection({
         description: z.string(),
         excerpt: z
           .string()
-          .optional()
           .refine(
             (excerpt) => (excerpt ? /^<p>[\s\S]*<\/p>$/.test(excerpt) : true),
             {
@@ -87,9 +86,5 @@ export default defineCollection({
         purchaseLink: z.string().url(),
         title: z.string(),
       })
-      .strict()
-      .refine((data) => data.archived || data.excerpt, {
-        message: "Excerpt is required when the content is not archived",
-        path: ["excerpt"],
-      }),
+      .strict(),
 });
