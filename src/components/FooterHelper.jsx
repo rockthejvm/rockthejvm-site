@@ -238,7 +238,7 @@ export default function Example(props) {
                 key="Facebook"
                 href={site.socials.facebook.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
                 {props.facebook}
@@ -249,7 +249,7 @@ export default function Example(props) {
                 key="GitHub"
                 href={site.socials.github.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
                 {props.github}
@@ -260,7 +260,7 @@ export default function Example(props) {
                 key="LinkedIn"
                 href={site.socials.linkedin.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
                 {props.linkedin}
@@ -271,7 +271,7 @@ export default function Example(props) {
                 key="Twitter"
                 href={site.socials.twitter.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
                 {props.twitter}
@@ -282,7 +282,7 @@ export default function Example(props) {
                 key="YouTube"
                 href={site.socials.youtube.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
                 {props.youtube}
@@ -293,7 +293,7 @@ export default function Example(props) {
                 key="RSS"
                 href={site.socials.rss.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="text-gray-400 hover:text-gray-500"
               >
                 {props.rss}
