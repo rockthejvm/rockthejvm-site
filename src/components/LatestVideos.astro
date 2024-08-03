@@ -70,67 +70,8 @@ const latestArticles = articles
   </div>
 </div>
 
-<!-- ---
-import { Image } from "astro:assets";
-import { getCollection, getEntry } from "astro:content";
-import FormattedDate from "./FormattedDate.astro";
-
-const articles = await getCollection("articles");
-const latestArticles = articles
-  .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
-  .slice(0, 3);
----
-
-<div>
-  <div class="bg-white rounded-3xl overflow-hidden">
-    <div class="w-full max-h-40 max-w-7xl overflow-hidden">
-      <img
-        src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/FRjv6EVPQkRWF1WE9QW9"
-        alt="thumbnail"
-        class="object-cover object-center"
-      />
-    </div>
-    <div class="mx-auto max-w-7xl px-6 lg:px-8 mb-4">
-      <div class="mx-auto max-w-2xl">
-        <h2
-          class="text-3xl font-bold my-4 tracking-tight text-gray-900 sm:text-4xl"
-        >
-          Latest Videos
-        </h2>
-        <div class="py-4 sm:py-4">
-          {
-            latestArticles.map(async (article) => {
-              const author = await getEntry(
-                article.data.author.collection,
-                article.data.author.id
-              );
-              const company = author.data.company
-                ? await getEntry(
-                    author.data.company.entity.collection,
-                    author.data.company.entity.id
-                  )
-                : undefined;
-              return (
-                <Fragment>
-                  <article class="max-w-xl border-b-2">
-                    <div class="group relative mx-auto">
-                      <h3 class="text-lg my-1 py-2.5 font-normal leading-6 mx-auto text-center text-gray-900 group-hover:text-gray-600">
-                        <a
-                          href={`articles/${article.slug}`}
-                          class="no-underline text-black"
-                        >
-                          <span class="absolute inset-0" />
-                          {article.data.title}
-                        </a>
-                      </h3>
-                    </div>
-                  </article>
-                </Fragment>
-              );
-            })
-          }
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
+<style>
+  article:hover h3 {
+    color: white !important;
+  }
+</style>
