@@ -11,7 +11,7 @@ export default function Example(props) {
             {props.photo}
             <div className="mt-4 flex items-center justify-center space-x-3 text-base">
               <div className="font-semibold text-white">
-                <a href={props.link} class="text-white">
+                <a href={props.link} className="text-white">
                   {props.name}
                 </a>
               </div>
