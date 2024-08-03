@@ -3,19 +3,20 @@ import CTAHelper from "./CTAHelper";
 import { Image } from "astro:assets";
 
 interface Props {
-  src: ImageMetadata;
   alt: string;
+  description: string;
+  src: ImageMetadata;
   title: string;
 }
 
-const { src, alt, title } = Astro.props;
+const { alt, description, src, title } = Astro.props;
 ---
 
-<CTAHelper {title}>
+<CTAHelper {description} {title}>
   <slot />
   <Image
-    src={src}
-    alt={alt}
+    {alt}
+    {src}
     class="absolute inset-0 w-full h-full object-cover"
     slot="image"
   />
