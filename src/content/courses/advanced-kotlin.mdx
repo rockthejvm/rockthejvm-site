@@ -21,13 +21,6 @@ faqs:
     answer: Money back, easy 💰 Only a handful of people ever asked for a refund on the entire site of 20+ courses, just to give you an idea.
   - question: Do you have any connection to JetBrains or the Kotlin Foundation?
     answer: Nope - this course is not affiliated with JetBrains (the creators of Kotlin), Google or the Kotlin Foundation. I hope they say good things about this course once they see it, though!
-grouping:
-  category: kotlin
-  ordinal: 3
-image: ./advanced-kotlin.png
-price: 75
-purchaseLink: https://sso.teachable.com/secure/256201/checkout/5645634/advanced-kotlin
-title: Advanced Kotlin
 featureSection1:
   imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
   imageAlt: code image
@@ -46,17 +39,19 @@ featureSection5:
 featureSection6:
   imageUrl: https://cdn.fs.teachablecdn.com/5q4oqVbsRJ6ld3UZa8yn
   imageAlt: code image
+grouping:
+  category: kotlin
+  ordinal: 3
+image: ./advanced-kotlin.png
+price: 75
 primaryColor: bg-[red]
+purchaseLink: https://sso.teachable.com/secure/256201/checkout/5645634/advanced-kotlin
+title: Advanced Kotlin
 ---
 
-export const excerpt = `<h2>
-    Become a top Kotlin developer. Master Kotlin's type system and internals,
-    and learn the rare skills and tools that will make you a senior engineer.
-  </h2>`;
+import Course from "@pages/courses/_layouts/_Course.astro";
 
-import Course from "../../pages/courses/_layouts/_Course.astro";
-
-<Course mySlug="advanced-kotlin">
+<Course>
   <Fragment slot="feature1">
     Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id
     veniam aliqua proident excepteur commodo do ea. Incididunt sint fugiat
