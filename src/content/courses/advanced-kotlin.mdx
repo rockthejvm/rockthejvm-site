@@ -44,7 +44,7 @@ grouping:
   ordinal: 3
 image: ./advanced-kotlin.png
 price: 75
-primaryColor: bg-[red]
+primaryColor: bg-[#CFBBEC]
 purchaseLink: https://sso.teachable.com/secure/256201/checkout/5645634/advanced-kotlin
 title: Advanced Kotlin
 ---
@@ -52,7 +52,20 @@ title: Advanced Kotlin
 import Course from "@pages/courses/_layouts/_Course.astro";
 
 <Course>
+  <Fragment slot="before">
+    ### Become a Kotlin pro.
+
+    If you're on this page, Kotlin will need no introduction. You know the basics, and you've written your fair share of Kotlin in production for your projects, either personal or at work.
+
+    Perhaps your codebase has become larger than you can manage, or you would like to become a senior developer, or need to write libraries and tools for other team members.
+
+    For this, you need **deep knowledge** of Kotlin's type system and internals, so that you can create the best tools.
+
+    **This course is for you.**
+
+  </Fragment>
   <Fragment slot="feature1">
+    ### test
     Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id
     veniam aliqua proident excepteur commodo do ea. Incididunt sint fugiat
     pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident
@@ -71,4 +84,38 @@ import Course from "@pages/courses/_layouts/_Course.astro";
   <Fragment slot="feature4">Test 4</Fragment>
   <Fragment slot="feature5">Test 5</Fragment>
   <Fragment slot="feature6">Test 6</Fragment>
+  <Fragment slot="rest">
+    ### Skills You'll Learn
+
+    After this course, you'll be able to:
+    - understand the most complex Kotlin features
+    - contribute to complex codebases
+    - write libraries and tools for other developers
+    - use the Kotlin type system for generic, easily reusable code
+    - write frameworks that generate or analyze other source code
+
+    Skills you'll get:
+      - Kotlin type system mastery
+      - OOP and FP (obviously)
+      - Delegation and delegated properties
+      - Using delegated properties in the standard library for specific contexts
+      - Simplifying your types
+      - Using advanced generics with variance
+      - Understanding the compiler type-checker and variance positions
+      - Kotlin internals proficiency
+      - Contracts and compiler type checks
+      - Inline functions and performance optimization
+      - Avoiding JVM type erasure
+      - Using reified types
+      - Using reflection for manipulating and using code dynamically at runtime
+      - Creating code generators and analyzers
+      - Writing symbol processors
+      - and much more, all with live runnable examples and practiced with exercises.
+
+    Plus some extra perks:
+      - You'll have access to the entire code I write on camera (1800+ LOC)
+      - You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
+      - You'll have access to the takeaway slides
+
+  </Fragment>
 </Course>

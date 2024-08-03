@@ -5,6 +5,7 @@ import FAQ from "../../../components/FAQ";
 import CoursePricing from "../../../components/CoursePricing.astro";
 import Feature from "@/components/Feature.astro";
 import { getEntryBySlug } from "astro:content";
+import Prose from "@/components/Prose.astro";
 
 const { slug } = Astro.params;
 const course = await getEntryBySlug("courses", slug!);
@@ -33,52 +34,112 @@ const {
   <article>
     <CTA {description} src={image} alt={title} {title} />
     <!-- <Fragment set:html={excerpt} /> -->
-    <h2 class={`text-center ${primaryColor}`}>Is There More to Kotlin?</h2>
+
+    {
+      Astro.slots.has("before") && (
+        <div class="bg-[#F5F5F8] py-16 px-8">
+          <div class="rest-wrapper max-w-2xl mx-auto">
+            <Prose>
+              <slot name="before" />
+            </Prose>
+          </div>
+        </div>
+      )
+    }
+
+    <h2 class={`text-center py-16 ${primaryColor}`}>
+      Is There More to Kotlin?
+    </h2>
     {
       featureSection1 && (
-        <Feature section={featureSection1}>
+        <Feature section={featureSection1} flip={false}>
           <slot name="feature1" />
         </Feature>
       )
     }
     {
       featureSection2 && (
-        <Feature section={featureSection2}>
+        <Feature section={featureSection2} flip={true}>
           <slot name="feature2" />
         </Feature>
       )
     }
 
-    <h2>How This Course Works</h2>
+    <h2 class={`text-center py-16 ${primaryColor}`}>How This Course Works</h2>
 
     {
       featureSection3 && (
-        <Feature section={featureSection3}>
+        <Feature section={featureSection3} flip={false}>
           <slot name="feature3" />
         </Feature>
       )
     }
     {
       featureSection4 && (
-        <Feature section={featureSection4}>
+        <Feature section={featureSection4} flip={true}>
           <slot name="feature4" />
         </Feature>
       )
     }
     {
       featureSection5 && (
-        <Feature section={featureSection5}>
+        <Feature section={featureSection5} flip={false}>
           <slot name="feature5" />
         </Feature>
       )
     }
     {
       featureSection6 && (
-        <Feature section={featureSection6}>
+        <Feature section={featureSection6} flip={true}>
           <slot name="feature6" />
         </Feature>
       )
     }
+
+    <h2 class={`text-center py-16 ${primaryColor}`}>Meet Rock the JVM</h2>
+
+    <Feature
+      section={{
+        imageUrl: "https://cdn.fs.teachablecdn.com/Pv2uGaq0TV6KTYq3hodG",
+        imageAlt: "Daniel Ciocîrlan",
+      }}
+      flip={true}
+    >
+      <h3>Daniel Ciocîrlan</h3>
+      <p>I'm a software engineer and the founder of Rock the JVM.</p>
+      <p>
+        I worked on my first production Kotlin server-side application in 2017
+        (when Kotlin server-side wasn't cool yet 😆), a logistics management
+        application for a big plane manufacturer. I've written a lot more code
+        since, I learned a ton, and I want to share everything.
+      </p>
+      <p>
+        As of February 2024, I've taught Kotlin, Scala and other libraries to
+        100000+ students at various levels and I've held live training sessions
+        for some of the top companies in the industry, including Adobe and
+        Apple. I've also taught university students who now work at Google and
+        Facebook (among others), I've held Hour of Code for 7-year-olds and I've
+        taught more than 35000 kids to code (not in Kotlin, yet 😆).
+      </p>
+      <p>
+        <strong>You're in good hands in this course.</strong> I'll guide you every
+        step of the way, and our private community at Rock the JVM is full of passionate
+        people just like you.
+      </p>
+    </Feature>
+
+    {
+      Astro.slots.has("rest") && (
+        <div class="bg-[#F5F5F8] py-16 px-8">
+          <div class="rest-wrapper max-w-2xl mx-auto">
+            <Prose>
+              <slot name="rest" />
+            </Prose>
+          </div>
+        </div>
+      )
+    }
+
     <CoursePricing {course} />
     {faqs && <FAQ {faqs} client:visible />}
   </article>

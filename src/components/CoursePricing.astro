@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntryBySlug } from "astro:content";
+import Feature from "./Feature.astro";
 
 interface Props {
   course: CollectionEntry<"courses">;
@@ -20,7 +21,7 @@ const membershipNumExamples = (await getCollection("courses"))
   .map((e) => e.data.benefits?.numExamples ?? 0)
   .reduce((b, a) => b + a);
 const categories = (await getCollection("categories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1
+  a.data.ordinal <= b.data.ordinal ? -1 : 1,
 );
 ---
 
@@ -279,5 +280,26 @@ const categories = (await getCollection("categories")).sort((a, b) =>
         >Join Now</a
       >
     </div>
+  </div>
+
+  <div class="mx-auto">
+    <Feature
+      section={{
+        imageUrl: "https://iili.io/2ZgBmF.png",
+        imageAlt: "Money back guarantee",
+      }}
+      flip={true}
+    >
+      <strong class="text-lg">100% Money Back Guarantee</strong>
+      <p class="text-base">
+        If you're not happy with this course, I want you to have your money
+        back. If that happens, email me at daniel@rockthejvm.com with a copy of
+        your welcome email and I will refund you the course.
+      </p>
+      <p class="text-base">
+        Less than 0.05% of students refunded a course on the entire site, and
+        every payment was returned in less than 72 hours.
+      </p>
+    </Feature>
   </div>
 </div>
