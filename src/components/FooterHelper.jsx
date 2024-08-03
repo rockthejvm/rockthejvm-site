@@ -16,7 +16,7 @@ import site from "../data/site.json";
 */
 const navigation = {
   content: [
-    { name: "Articles", href: "/blog" },
+    { name: "Articles", href: "/articles" },
     { name: "Courses", href: "/courses" },
     { name: "Videos", href: "/videos" },
   ],
