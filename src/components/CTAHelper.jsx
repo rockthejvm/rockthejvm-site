@@ -9,8 +9,7 @@ export default function Example(props) {
             {props.title}
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
-            Incididunt sint fugiat pariatur cupidatat consectetur sit cillum
-            anim id veniam aliqua proident excepteur commodo do ea.
+            {props.description}
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <a
