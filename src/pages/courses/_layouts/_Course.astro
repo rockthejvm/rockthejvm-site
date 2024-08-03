@@ -6,18 +6,9 @@ import CoursePricing from "../../../components/CoursePricing.astro";
 import Feature from "@/components/Feature.astro";
 import { getEntryBySlug } from "astro:content";
 
-interface Props {
-  mySlug: string;
-}
-
-const { mySlug } = Astro.props;
-const course = await getEntryBySlug("courses", mySlug);
-const courses = await Astro.glob(`../content/courses/*.mdx`);
-const excerpt = (
-  courses.find((c) => c.file.indexOf(`${mySlug}.mdx`) >= 0) as any
-).excerpt;
+const { slug } = Astro.params;
+const course = await getEntryBySlug("courses", slug!);
 const frontmatter = course!.data;
-
 const {
   archived,
   featureSection1,
