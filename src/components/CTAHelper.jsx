@@ -3,7 +3,7 @@ export default function Example(props) {
     <div className="relative min-h-[92vh]">
       {props.image}
       <div className="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"></div>
-      <div className="relative px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
+      <div className="relative px-6 py-24 sm:px-6 sm:py-48 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-100 sm:text-4xl">
             {props.title}
