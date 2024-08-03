@@ -22,8 +22,8 @@ export default function Example() {
   const [agreed, setAgreed] = useState(false);
 
   return (
-    <div className="isolate bg-white my-8 px-6 py-24 lg:mx-16 rounded-3xl sm:py-32 lg:px-8">
-      <div className="mx-auto max-w-2xl text-center">
+    <div className="isolate my-16 bg-white px-6 py-8 lg:mx-32 rounded-3xl sm:py-12">
+      <div className="mx-auto max-w-xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Need a course or training session?
         </h2>
@@ -31,11 +31,7 @@ export default function Example() {
           Send me a message and let's talk about your needs.
         </p>
       </div>
-      <form
-        action="#"
-        method="POST"
-        className="mx-auto mt-16 max-w-xl sm:mt-20"
-      >
+      <form action="#" method="POST" className="mx-auto max-w-xl">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label
