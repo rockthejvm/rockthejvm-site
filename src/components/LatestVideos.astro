@@ -30,12 +30,12 @@ const latestArticles = articles
             latestArticles.map(async (article) => {
               const author = await getEntry(
                 article.data.author.collection,
-                article.data.author.id,
+                article.data.author.id
               );
               const company = author.data.company
                 ? await getEntry(
                     author.data.company.entity.collection,
-                    author.data.company.entity.id,
+                    author.data.company.entity.id
                   )
                 : undefined;
               return (
@@ -44,7 +44,7 @@ const latestArticles = articles
                     <div class="group relative mx-auto">
                       <h3 class="text-lg my-1 py-2.5 font-normal leading-6 mx-auto text-center text-gray-900 group-hover:text-gray-600">
                         <a
-                          href={`blog/${article.slug}`}
+                          href={`articles/${article.slug}`}
                           class="no-underline text-black"
                         >
                           <span class="absolute inset-0" />
