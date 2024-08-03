@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import Legal from "../../layouts/Legal.astro";
+import Legal from "./_layouts/_Legal.astro";
 
 export async function getStaticPaths() {
   const legals = await getCollection("legals");

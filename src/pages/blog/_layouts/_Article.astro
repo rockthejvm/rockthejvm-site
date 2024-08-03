@@ -1,13 +1,13 @@
 ---
 import { getEntry } from "astro:content";
-import Base from "./Base.astro";
+import Base from "../../../layouts/Base.astro";
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "../components/FormattedDate.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
 import type { MarkdownHeading } from "astro";
-import TableOfContents from "../components/TableOfContents.astro";
-import NarrowContainer from "../containers/NarrowContainer";
-import AuthorSmall from "../components/AuthorSmall.astro";
-import AuthorWide from "../components/AuthorWide.astro";
+import TableOfContents from "../../../components/TableOfContents.astro";
+import NarrowContainer from "../../../containers/NarrowContainer";
+import AuthorSmall from "../../../components/AuthorSmall.astro";
+import AuthorWide from "../../../components/AuthorWide.astro";
 import Prose from "@/components/Prose.astro";
 import TagList from "@/components/TagList.astro";
 
@@ -32,7 +32,7 @@ const {
 } = frontmatter;
 const author = await getEntry(
   frontmatter.author.collection,
-  frontmatter.author.id,
+  frontmatter.author.id
 );
 const series = frontmatter.series
   ? await getEntry(frontmatter.series.collection, frontmatter.series.id)

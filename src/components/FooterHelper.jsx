@@ -119,7 +119,10 @@ const navigation = {
 
 export default function Example(props) {
   return (
-    <footer aria-labelledby="footer-heading" className="bg-white">
+    <footer
+      aria-labelledby="footer-heading"
+      className="shadow-slate-300 bg-opacity-5 bg-black"
+    >
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>

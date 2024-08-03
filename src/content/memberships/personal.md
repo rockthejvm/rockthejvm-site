@@ -1,7 +1,7 @@
 ---
-name: "Regular"
+name: "Personal"
 description: All of the Rock the JVM premium content, at your service.
-image: "./regular.png"
+image: "./personal.png"
 packages:
   [
     { frequency: "monthly", name: "Monthly", price: 35 },
