@@ -7,7 +7,6 @@ export default defineCollection({
       .object({
         description: z.string(),
         image: image(),
-        minutesRead: z.string().optional(), // automatically added by remark-reading-time
         name: z.string(),
         packages: z
           .array(

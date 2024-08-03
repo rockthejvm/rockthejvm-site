@@ -14,7 +14,7 @@ import TagList from "@/components/TagList.astro";
 interface Props {
   article: CollectionEntry<"articles">;
   headings: MarkdownHeading[];
-  minutesRead: string;
+  minutesRead?: number;
 }
 
 const { article, headings, minutesRead } = Astro.props;

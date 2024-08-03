@@ -5,7 +5,6 @@ export default defineCollection({
   schema: z
     .object({
       description: z.string(),
-      minutesRead: z.string().optional(), // automatically added by remark-reading-time
       title: z.string(),
     })
     .strict(),

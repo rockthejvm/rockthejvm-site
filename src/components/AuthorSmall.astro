@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 
 interface Props {
   author: CollectionEntry<"authors">;
-  minutesRead: string;
+  minutesRead?: number;
 }
 const { author, minutesRead } = Astro.props;
 ---
