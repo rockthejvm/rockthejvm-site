@@ -1,0 +1,15 @@
+---
+const { title, img, description, cta } = Astro.props;
+---
+
+<article class="grid gap-2 rounded-md border-2 border-accent-1 p-6">
+  <h2 class="text-3xl font-bold">{title}</h2>
+  <img src={img.src} alt={img.alt} class="aspect-video rounded-sm" />
+  <p>{description}</p>
+  <a
+    href="#"
+    class="bg-content grid place-items-center max-w-fit px-4 py-2 rounded-sm hover:opacity-90 transition-opacity"
+  >
+    {cta}
+  </a>
+</article>
