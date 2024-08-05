@@ -6,6 +6,7 @@ import courseCategories from "@collections/courseCategories";
 import courses from "@collections/courses";
 import legals from "@collections/legals";
 import memberships from "@collections/memberships";
+import newsletters from "@collections/newsletters";
 import seriess from "@collections/seriess";
 import socials from "@collections/socials";
 import testimonials from "@collections/testimonials";
@@ -20,6 +21,7 @@ export const collections = {
   courses,
   legals,
   memberships,
+  newsletters,
   seriess,
   socials,
   testimonials,
