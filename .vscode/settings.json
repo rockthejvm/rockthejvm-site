@@ -109,7 +109,6 @@
     "**/*.code-search": true,
     "**/*lock*": true
   },
-  "workbench.colorTheme": "GitHub Dark Default",
   "files.associations": {
     "*.css": "tailwindcss"
   },
