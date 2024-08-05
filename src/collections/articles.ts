@@ -7,6 +7,7 @@ export default defineCollection({
       .object({
         author: reference("authors").default("daniel-ciocirlan"),
         canonicalUrl: z.string().url().optional(),
+        category: reference("article-categories"),
         description: z
           .string()
           .max(200, "Description must be at most 200 characters")
@@ -26,8 +27,6 @@ export default defineCollection({
           .strict()
           .optional(),
         publishedDate: z.date(),
-        series: reference("seriess").optional(),
-        summary: z.string().optional(),
         tags: z.array(z.string()),
         title: z
           .string()

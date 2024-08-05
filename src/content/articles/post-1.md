@@ -1,4 +1,5 @@
 ---
+category: guide
 title: "WebSockets in Scala, Part 2: Integrating Redis and PostgreSQL"
 publishedDate: 2024-05-23
 tags: ["redis", "scala"]

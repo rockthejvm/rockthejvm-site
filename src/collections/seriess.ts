@@ -5,12 +5,18 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        canonicalUrl: z.string().url(),
         description: z.string(),
         image: image().optional(),
         members: z.union([
-          z.array(reference("articles")),
-          z.array(reference("videos")),
+          z
+            .array(reference("articles"))
+            .min(1, "At least 1 member is required for a series"),
+          z
+            .array(reference("courses"))
+            .min(1, "At least 1 member is required for a series"),
+          z
+            .array(reference("videos"))
+            .min(1, "At least 1 member is required for a series"),
         ]),
         title: z.string(),
       })
