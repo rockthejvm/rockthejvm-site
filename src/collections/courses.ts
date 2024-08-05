@@ -18,6 +18,7 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        category: reference("courseCategories"),
         description: z.string(),
         excerpt: z
           .string()
@@ -41,41 +42,43 @@ export default defineCollection({
             imageUrl: z.string(),
             imageAlt: z.string(),
           })
+          .strict()
           .optional(),
         featureSection2: z
           .object({
             imageUrl: z.string(),
             imageAlt: z.string(),
           })
+          .strict()
           .optional(),
         featureSection3: z
           .object({
             imageUrl: z.string(),
             imageAlt: z.string(),
           })
+          .strict()
           .optional(),
         featureSection4: z
           .object({
             imageUrl: z.string(),
             imageAlt: z.string(),
           })
+          .strict()
           .optional(),
         featureSection5: z
           .object({
             imageUrl: z.string(),
             imageAlt: z.string(),
           })
+          .strict()
           .optional(),
         featureSection6: z
           .object({
             imageUrl: z.string(),
             imageAlt: z.string(),
           })
+          .strict()
           .optional(),
-        grouping: z.object({
-          category: reference("categories"),
-          ordinal: z.number().int().positive().optional(),
-        }),
         image: image(),
         instructors: z
           .array(reference("authors"))
