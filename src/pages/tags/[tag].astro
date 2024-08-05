@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import Base from "../../layouts/Base.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleLinks from "../../components/ArticleLinks.astro";
 
 export async function getStaticPaths() {
@@ -22,7 +22,7 @@ const { articles, tag } = Astro.props;
 const description = `Articles tagged with ${tag}`;
 ---
 
-<Base title={tag} {description}>
+<BaseLayout title={tag} {description}>
   <h1>Articles tagged with '{tag}'</h1>
   <ArticleLinks {articles} />
-</Base>
+</BaseLayout>
