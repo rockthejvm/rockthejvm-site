@@ -1,7 +1,6 @@
 ---
 import "@styles/base.css";
 import Card from "./_Card.astro";
-import ThemeToggle from "@components/ThemeToggle";
 
 const cardData = [
   {
@@ -40,23 +39,33 @@ const cardData = [
 <html>
   <head>
     <script is:inline>
-      document.documentElement.setAttribute(
-        "data-theme",
-        localStorage.getItem("theme") ||
-          window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light"
-      );
+      const setDataTheme = () =>
+        document.documentElement.setAttribute(
+          "data-theme",
+          localStorage.getItem("theme") === "system"
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : localStorage.getItem("theme")
+        );
+
+      localStorage.getItem("theme") || localStorage.setItem("theme", "system");
+      console.log(localStorage.getItem("theme"));
+      setDataTheme();
+      console.log(document.documentElement.getAttribute("data-theme"));
       document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("themeToggle").addEventListener("click", () => {
           localStorage.setItem(
             "theme",
-            localStorage.getItem("theme") === "light" ? "dark" : "light"
+            localStorage.getItem("theme") === "system"
+              ? "light"
+              : localStorage.getItem("theme") === "light"
+                ? "dark"
+                : "system"
           );
-          document.documentElement.setAttribute(
-            "data-theme",
-            localStorage.getItem("theme")
-          );
+          setDataTheme();
+          console.log(localStorage.getItem("theme"));
+          console.log(document.documentElement.getAttribute("data-theme"));
         });
       });
     </script>
@@ -64,9 +73,22 @@ const cardData = [
   <body>
     <main>
       <header class="bg-content">
-        <div id="themeToggle">
-          <ThemeToggle client:idle />
-        </div>
+        <button
+          id="themeToggle"
+          type="button"
+          class="rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+            ></path>
+          </svg>
+        </button>
       </header>
       <div
         class="bg-bkg text-content isolate overflow-hidden p-4 sm:p-8 grid place-items-center"
