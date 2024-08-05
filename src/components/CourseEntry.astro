@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  courses: CollectionEntry<"courses">[];
+}
+
+const { courses } = Astro.props;
+---
+
+{
+  courses.map((course) => (
+    <dd class="mt-2 pr-12" id="faq-0">
+      <p class="text-base leading-7 text-gray-600">{course.data.title}</p>
+    </dd>
+  ))
+}

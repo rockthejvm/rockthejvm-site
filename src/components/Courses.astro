@@ -1,13 +1,52 @@
-<!-- ---
-import type { CollectionEntry } from 'astro:content';
+---
+import { getCollection } from "astro:content";
+import CourseEntry from "./CourseEntry.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntryBySlug } from "astro:content";
+import CoursesHelper from "./CoursesHelper";
 
-interface Props {
-  courses: CollectionEntry<"courses">[];
-}
+const seriess = await getCollection("seriess");
+const filteredSeriess = seriess.filter(
+  (series) => series.data.members[0]!.collection === "courses"
+);
+const memberss = filteredSeriess.map((series) => series.data.members);
+const coursess = await Promise.all(
+  (memberss as CollectionEntry<"courses">[][]).map((members) =>
+    Promise.all(members.map((member) => getEntryBySlug("courses", member.slug)))
+  )
+);
+const categories = await getCollection("courseCategories");
+---
 
-const { courses } = Astro.props;
---- -->
 <section>
   <h2 class="text-white">Available Courses</h2>
-  {}
+  <div class="bg-white">
+    <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
+      <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">
+        <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
+          {
+            categories.map((category) => (
+              <Fragment>
+                <CoursesHelper category={category} client:visible>
+                  <Fragment slot="entries">
+                    {coursess
+                      .filter(
+                        (courses) =>
+                          (
+                            courses[0]
+                              ?.data as CollectionEntry<"courses">["data"]
+                          ).category.id === category.id
+                      )
+                      .map((courses) => (
+                        <CourseEntry {courses} />
+                      ))}
+                  </Fragment>
+                </CoursesHelper>
+              </Fragment>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </div>
 </section>
