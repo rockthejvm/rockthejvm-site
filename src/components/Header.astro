@@ -3,6 +3,6 @@ import HeaderHelper from "./HeaderHelper";
 import RockTheJVM from "./icons/RockTheJVM.astro";
 ---
 
-<HeaderHelper client:idle>
+<HeaderHelper client:media="(width < 1024px)">
   <RockTheJVM class="h-10 sm:h-11 md:h-12 lg:h-14 w-auto" slot="logo" />
 </HeaderHelper>
