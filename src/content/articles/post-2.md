@@ -1,4 +1,5 @@
 ---
+category: guide
 title: "A Scala project with Akka, Cats and Cassandra"
 publishedDate: 2022-04-01
 tags: [akka, cassandra, cats]
