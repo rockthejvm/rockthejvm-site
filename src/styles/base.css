@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root[data-theme="light"] {
+    --color-bkg: 210deg 40% 98%;
+    --color-content: 217deg 32.6% 17.5%;
+    --color-accent1: 288deg 95.8% 90.6%;
+    --color-accent2: 168deg 83.8% 78.2%;
+  }
+
+  :root[data-theme="dark"] {
+    --color-bkg: 210deg 40% 10%;
+    --color-content: 217deg 32.6% 82.5%;
+    --color-accent1: 288deg 95.8% 30.6%;
+    --color-accent2: 168deg 83.8% 48.2%;
+  }
+
+  a {
+    @apply text-accent-1 no-underline;
+  }
+
+  a:hover {
+    @apply text-accent-2 underline;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-bold;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold;
+  }
+
+  h1 {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
+  }
+
+  h4 {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl;
+  }
+
+  h5 {
+    @apply text-sm sm:text-base md:text-lg lg:text-xl;
+  }
+
+  h6 {
+    @apply text-xs sm:text-sm md:text-base lg:text-lg;
+  }
+}

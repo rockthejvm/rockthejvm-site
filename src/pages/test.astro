@@ -1,0 +1,90 @@
+---
+import "@styles/base.css";
+import Card from "./_Card.astro";
+import ThemeToggle from "@components/ThemeToggle";
+
+const cardData = [
+  {
+    title: "Galaxy Swirls",
+    img: {
+      src: "https://raw.githubusercontent.com/coding-in-public/tailwind-darkmode/main/src/assets/images/image-1.png",
+      alt: "galaxy swirl",
+    },
+    description:
+      "Galaxy swirls refer to the patterns of stars and gas within galaxies that appear as spiral arms. These arms are formed by the gravitational forces between stars and the rotation of the galaxy.",
+    cta: "Let's Gooooooo!",
+  },
+  {
+    title: "Rad Beaches",
+    img: {
+      src: "https://raw.githubusercontent.com/coding-in-public/tailwind-darkmode/main/src/assets/images/image-2.png",
+      alt: "beach at sunset",
+    },
+    description:
+      "Beaches at sunset offer a picturesque view of the sun setting over the ocean, with warm hues of orange, pink, and purple painting the sky. It's a serene and romantic experience.",
+    cta: "Take me surfing!",
+  },
+  {
+    title: "Killer Mountains",
+    img: {
+      src: "https://raw.githubusercontent.com/coding-in-public/tailwind-darkmode/main/src/assets/images/image-3.png",
+      alt: "jagged mountains",
+    },
+    description:
+      "Mountains are majestic landforms characterized by steep slopes and high elevations. They are often associated with natural beauty, adventure, and challenge, and are home to diverse ecosystems and unique cultures.",
+    cta: "Pack My Bags",
+  },
+];
+---
+
+<html>
+  <head>
+    <script is:inline>
+      document.documentElement.setAttribute(
+        "data-theme",
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light"
+      );
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("themeToggle").addEventListener("click", () => {
+          localStorage.setItem(
+            "theme",
+            localStorage.getItem("theme") === "light" ? "dark" : "light"
+          );
+          document.documentElement.setAttribute(
+            "data-theme",
+            localStorage.getItem("theme")
+          );
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <main>
+      <header class="bg-content">
+        <div id="themeToggle">
+          <ThemeToggle client:idle />
+        </div>
+      </header>
+      <div
+        class="bg-bkg text-content isolate overflow-hidden p-4 sm:p-8 grid place-items-center"
+      >
+        <div
+          class="grid relative min-h-screen place-items-center place-content-center gap-16 before:absolute before:h-1/2 before:w-3/4 before:rounded-tr-full before:rounded-bl-full before:blur-3xl before:bg-accent-2 before:animate-spin-slower before:-z-10 after:absolute after:h-2/3 after:w-2/3 after:rounded-tr-full after:rounded-bl-full after:blur-3xl after:bg-accent-1/40 after:animate-spin-slow after:-z-10"
+        >
+          <h1 class="text-6xl font-bold">
+            <span class="underline decoration-accent-1">Dark</span> or{" "}
+            <span class="underline decoration-accent-1">Light</span>?
+          </h1>
+          <section
+            class="container grid sm:grid-cols-2 md:grid-cols-3 gap-6 items-start"
+            aria-label="card container"
+          >
+            {cardData.map((card) => <Card {...card} key={card.title} />)}
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
