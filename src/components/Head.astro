@@ -13,19 +13,18 @@ interface Props {
     tags: string[];
     video?: URL;
   };
-  canonicalUrl?: URL;
+  canonicalUrl: URL;
   description: string;
-  image?: {
+  error: boolean;
+  image: {
     alt: string;
     src: string;
   };
   title: string;
-  type?: string;
-  error?: boolean;
+  type: string;
 }
-const { article, description, error, title, image, type, canonicalUrl } =
+const { article, canonicalUrl, description, error, image, title, type } =
   Astro.props;
-const selectedImage = image ?? site.logo;
 ---
 
 <head>
@@ -83,10 +82,7 @@ const selectedImage = image ?? site.logo;
   {
     !error && (
       <Fragment>
-        <link
-          rel="canonical"
-          href={canonicalUrl ?? new URL(Astro.url.pathname, Astro.site)}
-        />
+        <link rel="canonical" href={canonicalUrl} />
         <meta name="description" content={description} />
         {article && (
           <Fragment>
@@ -117,17 +113,17 @@ const selectedImage = image ?? site.logo;
           </Fragment>
         )}
         <meta property="og:description" content={description} />
-        <meta property="og:image:alt" content={selectedImage.alt} />
+        <meta property="og:image:alt" content={image.alt} />
         {/* <meta property="og:image:height" content= /> */}
-        <meta property="og:image:secure_url" content={selectedImage.src} />
+        <meta property="og:image:secure_url" content={image.src} />
         {/* <meta property="og:image:type" content=`image/${}` /> */}
-        <meta property="og:image:url" content={selectedImage.src} />
+        <meta property="og:image:url" content={image.src} />
         {/* <meta property="og:image:width" content= /> */}
-        <meta property="og:image" content={selectedImage.src} />
+        <meta property="og:image" content={image.src} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content={site.name} />
         <meta property="og:title" content={title} />
-        <meta property="og:type" content={type ?? "website"} />
+        <meta property="og:type" content={type} />
 
         <meta property="og:url" content={canonicalUrl} />
         <title>
@@ -139,8 +135,8 @@ const selectedImage = image ?? site.logo;
           content={article?.author.twitter ?? site.socials.twitter.handle}
         />
         <meta property="twitter:description" content={description} />
-        <meta property="twitter:image:alt" content={selectedImage.alt} />
-        <meta property="twitter:image" content={selectedImage.src} />
+        <meta property="twitter:image:alt" content={image.alt} />
+        <meta property="twitter:image" content={image.src} />
         <meta property="twitter:site" content={site.socials.twitter.handle} />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:url" content={canonicalUrl} />
