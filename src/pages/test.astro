@@ -51,15 +51,15 @@ const cardData = [
         );
       };
       const setThemeToggle = () => {
-        document.getElementById("computer").style.display = "none";
-        document.getElementById("sun").style.display = "none";
-        document.getElementById("moon").style.display = "none";
+        document.getElementById("systemTheme").style.display = "none";
+        document.getElementById("lightTheme").style.display = "none";
+        document.getElementById("darkTheme").style.display = "none";
         document.getElementById(
           localStorage.getItem("theme") === "system"
-            ? "computer"
+            ? "systemTheme"
             : localStorage.getItem("theme") === "light"
-              ? "sun"
-              : "moon"
+              ? "lightTheme"
+              : "darkTheme"
         ).style.display = "block";
       };
 

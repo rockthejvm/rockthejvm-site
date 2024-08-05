@@ -19,6 +19,7 @@ export default defineConfig({
           "youtube",
         ],
         "fa6-solid": ["rss"],
+        heroicons: ["computer-desktop", "moon", "sun"],
       },
     }),
     mdx(),
