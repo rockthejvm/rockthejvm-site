@@ -50,23 +50,16 @@ const cardData = [
         );
       };
       const setThemeToggle = () => {
-        switch (localStorage.getItem("theme")) {
-          case "system":
-            document.getElementById("computer").style.display = "block";
-            document.getElementById("sun").style.display = "none";
-            document.getElementById("moon").style.display = "none";
-            break;
-          case "light":
-            document.getElementById("computer").style.display = "none";
-            document.getElementById("sun").style.display = "block";
-            document.getElementById("moon").style.display = "none";
-            break;
-          case "dark":
-            document.getElementById("computer").style.display = "none";
-            document.getElementById("sun").style.display = "none";
-            document.getElementById("moon").style.display = "block";
-            break;
-        }
+        document.getElementById("computer").style.display = "none";
+        document.getElementById("sun").style.display = "none";
+        document.getElementById("moon").style.display = "none";
+        document.getElementById(
+          localStorage.getItem("theme") === "system"
+            ? "computer"
+            : localStorage.getItem("theme") === "light"
+              ? "sun"
+              : "moon"
+        ).style.display = "block";
       };
 
       localStorage.getItem("theme") || localStorage.setItem("theme", "system");
@@ -90,11 +83,11 @@ const cardData = [
   </head>
   <body>
     <main>
-      <header class="bg-content">
+      <header class="size-10 flex items-center">
         <button
           id="themeToggle"
           type="button"
-          class="size-8 rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="mx-1 size-8 rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           <svg
             id="computer"
