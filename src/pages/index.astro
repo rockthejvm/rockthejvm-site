@@ -1,6 +1,6 @@
 ---
 import site from "../data/site.json";
-import Base from "../layouts/Base.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import Logo from "../assets/images/logos/rtjvm-red.png";
 import Membership from "../components/Membership.astro";
 import NarrowContainer from "../containers/NarrowContainer";
@@ -11,7 +11,6 @@ import Hero from "../components/Hero.astro";
 import Contact from "../components/Contact.astro";
 import Courses from "../components/Courses.astro";
 import LatestContent from "../components/LatestContent.astro";
-import "@styles/index.css";
 import CardList from "../containers/CardList";
 interface Props {
   canonicalUrl: URL;
@@ -26,8 +25,7 @@ const bodyClasses =
   "bg-[linear-gradient(-45deg, rgb(38, 145, 207) 0%, rgb(43, 51, 160) 25%, rgb(96, 54, 127) 50%, rgb(153, 67, 67) 100%)]";
 ---
 
-<Base description={site.description} {image} {bodyClasses} {title}>
-  <div class=""></div>
+<BaseLayout description={site.description} {image} {title}>
   <NarrowContainer>
     <CardList class="text-white">
       <Hero slot="one" />
@@ -39,33 +37,36 @@ const bodyClasses =
       <Contact slot="seven" />
     </CardList>
   </NarrowContainer>
-  <style>
-    body:before {
-      content: "";
-      display: block;
-      background-attachment: scroll;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1000;
-      pointer-events: none;
-      transform: scale(1);
-      /*background-image: linear-gradient(135deg, #ff4b24 0, #540000 100%);
+</BaseLayout>
+<style>
+  body:before {
+    content: "";
+    display: block;
+    background-attachment: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1000;
+    pointer-events: none;
+    transform: scale(1);
+    /*background-image: linear-gradient(135deg, #ff4b24 0, #540000 100%);
     background-size: auto;*/
-      background-position: 0 0;
-      background-repeat: repeat;
-      /* added this to be the same as the rock the jvm jobs board */
-      background-size: 300%;
-      background-image: linear-gradient(
-        -45deg,
-        rgb(38, 145, 207) 0%,
-        rgb(43, 51, 160) 25%,
-        rgb(96, 54, 127) 50%,
-        rgb(153, 67, 67) 100%
-      );
-      animation: animateBG 20s ease infinite;
-    }
-  </style>
-</Base>
+    background-position: 0 0;
+    background-repeat: repeat;
+    /* added this to be the same as the rock the jvm jobs board */
+    background-size: 300%;
+    background-image: linear-gradient(
+      -45deg,
+      rgb(38, 145, 207) 0%,
+      rgb(43, 51, 160) 25%,
+      rgb(96, 54, 127) 50%,
+      rgb(153, 67, 67) 100%
+    );
+    animation: animateBG 20s ease infinite;
+  }
+  h2 {
+    @apply text-5xl md:text-6xl font-bold text-center mb-12;
+  }
+</style>

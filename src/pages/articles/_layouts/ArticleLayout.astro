@@ -1,6 +1,6 @@
 ---
 import { getEntry } from "astro:content";
-import Base from "../../../layouts/Base.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../../../components/FormattedDate.astro";
 import type { MarkdownHeading } from "astro";
@@ -8,8 +8,8 @@ import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
 import AuthorSmall from "../../../components/AuthorSmall.astro";
 import AuthorWide from "../../../components/AuthorWide.astro";
-import Prose from "@/components/Prose.astro";
-import TagList from "@/components/TagList.astro";
+import Prose from "@components/Prose.astro";
+import TagList from "@components/TagList.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -44,7 +44,7 @@ const video = frontmatter.video
 const banner: ImageMetadata = "../assets/images/banner.jpeg";
 ---
 
-<Base
+<BaseLayout
   article={{
     author: {
       name: author.data.name,
@@ -97,4 +97,4 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
       </footer>
     </article>
   </NarrowContainer>
-</Base>
+</BaseLayout>

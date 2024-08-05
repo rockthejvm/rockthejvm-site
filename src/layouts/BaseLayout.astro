@@ -2,8 +2,8 @@
 import Footer from "../components/Footer.astro";
 import Head from "../components/Head.astro";
 import Header from "../components/Header.astro";
+import site from "../data/site.json";
 import "@styles/fonts.css";
-import "@styles/global.css";
 
 interface Props {
   article?: {
@@ -17,7 +17,6 @@ interface Props {
     tags: string[];
     video?: URL;
   };
-  bodyClasses?: string;
   canonicalUrl?: URL;
   description: string;
   image?: {
@@ -31,26 +30,23 @@ interface Props {
 
 const {
   article,
-  bodyClasses,
-  canonicalUrl,
+  canonicalUrl = new URL(Astro.url.pathname, Astro.site),
   description,
-  error,
-  image,
+  error = false,
+  image = site.logo,
   title,
-  type,
+  type = "website",
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en">
   <Head {article} {canonicalUrl} {description} {error} {image} {title} {type} />
-  <body id="temp" class={`h-full ${bodyClasses}`}>
-    <div>
-      <Header />
-      <main>
-        <slot />
-        <Footer />
-      </main>
-    </div>
+  <body class="min-h-screen">
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

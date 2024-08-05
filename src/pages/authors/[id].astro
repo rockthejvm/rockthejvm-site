@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import Base from "../../layouts/Base.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleLinks from "../../components/ArticleLinks.astro";
 import AuthorWide from "../../components/AuthorWide.astro";
 import FullContainer from "../../containers/FullContainer";
@@ -24,10 +24,10 @@ const { articles, author } = Astro.props;
 const name = author.data.name;
 ---
 
-<Base title={name} description=`Articles written by ${name}`>
+<BaseLayout title={name} description=`Articles written by ${name}`>
   <FullContainer>
     <AuthorWide {author} />
     <h1>Articles written by {name}</h1>
     <ArticleLinks {articles} />
   </FullContainer>
-</Base>
+</BaseLayout>

@@ -1,8 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Base from "../../../layouts/Base.astro";
-import Prose from "@/components/Prose.astro";
-import NarrowContainer from "@/containers/NarrowContainer";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Prose from "@components/Prose.astro";
+import NarrowContainer from "@containers/NarrowContainer";
 
 interface Props {
   legal: CollectionEntry<"legals">;
@@ -14,7 +14,7 @@ const frontmatter = legal.data;
 const { description, title } = frontmatter;
 ---
 
-<Base {description} {title}>
+<BaseLayout {description} {title}>
   <NarrowContainer>
     <article>
       <header>
@@ -27,4 +27,4 @@ const { description, title } = frontmatter;
       </Prose>
     </article>
   </NarrowContainer>
-</Base>
+</BaseLayout>

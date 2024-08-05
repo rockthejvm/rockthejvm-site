@@ -1,10 +1,12 @@
 ---
 import ErrorPage from "../components/ErrorPage";
-import Base from "../layouts/Base.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<Base
+<BaseLayout
   description="The page you're looking for doesn't exist."
   title="404: Page Not Found"
-  error={true}><ErrorPage /></Base
+  error={true}
 >
+  <ErrorPage />
+</BaseLayout>
