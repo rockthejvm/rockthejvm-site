@@ -4,6 +4,7 @@
 
 @layer base {
   :root[data-theme="light"] {
+    color-scheme: light;
     --color-bkg: 210deg 40% 98%;
     --color-content: 217deg 32.6% 17.5%;
     --color-accent1: 288deg 95.8% 90.6%;
@@ -11,6 +12,7 @@
   }
 
   :root[data-theme="dark"] {
+    color-scheme: dark;
     --color-bkg: 210deg 40% 10%;
     --color-content: 217deg 32.6% 82.5%;
     --color-accent1: 288deg 95.8% 30.6%;
