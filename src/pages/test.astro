@@ -42,7 +42,8 @@ const cardData = [
     <script is:inline>
       document.documentElement.setAttribute(
         "data-theme",
-        window.matchMedia("(prefers-color-scheme: dark)").matches
+        localStorage.getItem("theme") ||
+          window.matchMedia("(prefers-color-scheme: dark)").matches
           ? "dark"
           : "light"
       );
