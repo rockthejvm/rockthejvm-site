@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import Article from "./_layouts/_Article.astro";
+import ArticleLayout from "./_layouts/ArticleLayout.astro";
 import { getReadingTime } from "@utils/get-reading-time";
 
 export async function getStaticPaths() {
@@ -16,6 +16,6 @@ const { article } = Astro.props;
 const { Content, headings } = await article.render();
 ---
 
-<Article {article} {headings} minutesRead={getReadingTime(article.body)}>
+<ArticleLayout {article} {headings} minutesRead={getReadingTime(article.body)}>
   <Content />
-</Article>
+</ArticleLayout>
