@@ -32,6 +32,12 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [],
     rehypePlugins: [sectionize],
+    shikiConfig: {
+      themes: {
+        light: "github-light-default",
+        dark: "github-dark-default",
+      },
+    },
   },
   redirects: {
     "/p/about-us": "/about",
