@@ -1,7 +1,7 @@
 export default function Example(props) {
   return (
     <article className="relative isolate overflow-hidden py-8 text-white sm:py-12">
-      <div className="mx-auto">
+      <div className="mx-auto text-white">
         {props.companyLogo}
         <figure className="mt-8">
           <blockquote className="text-center text-sm font-semibold leading-8 text-white sm:text-base sm:leading-9">
