@@ -9,22 +9,22 @@ const latestArticles = articles
   .slice(0, 3);
 ---
 
-<div>
-  <div class="bg-white rounded-3xl overflow-hidden">
-    <div class="w-full max-h-40 max-w-7xl overflow-hidden">
-      <a href={`/articles`}>
+<div class="">
+  <div class="bg-white rounded-3xl w-full overflow-hidden">
+    <a href={`/articles`}>
+      <div class="w-full max-h-40 overflow-hidden">
         <img
           src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/bFrMi6keRSK7xdn8urgH"
           alt="thumbnail"
-          class="object-cover object-center"
+          class="object-cover object-center w-full"
         />
-      </a>
-    </div>
-    <div class="mx-auto max-w-7xl mb-4">
+      </div>
+    </a>
+    <div class="mx-auto w-full mb-4">
       <div class="mx-auto">
         <a href={`/articles`} class="no-underline hover:no-underline">
           <h3
-            class="text-3xl font-bold my-4 tracking-tight hover:text-[#ff8800] text-gray-900 sm:text-4xl"
+            class="text-3xl text-center font-bold my-4 tracking-tight hover:text-[#ff8800] text-gray-900 sm:text-4xl"
           >
             Latest Articles
           </h3>
@@ -34,12 +34,12 @@ const latestArticles = articles
             latestArticles.map(async (article) => {
               const author = await getEntry(
                 article.data.author.collection,
-                article.data.author.id
+                article.data.author.id,
               );
               const company = author.data.company
                 ? await getEntry(
                     author.data.company.entity.collection,
-                    author.data.company.entity.id
+                    author.data.company.entity.id,
                   )
                 : undefined;
               return (
