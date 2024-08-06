@@ -10,9 +10,9 @@ export default function Example(props) {
     <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
       <Disclosure key={props.category.data.name} as="div" className="pt-6">
         <dt>
-          <DisclosureButton className="group flex w-full items-start justify-between text-left text-gray-900">
+          <DisclosureButton className="group flex w-full items-start justify-between text-left text-white">
             <span className="text-base font-semibold leading-7">
-              {props.category.data.name}
+              <h3>{props.category.data.name}</h3>
             </span>
             <span className="ml-6 flex h-7 items-center">
               <PlusSmallIcon
