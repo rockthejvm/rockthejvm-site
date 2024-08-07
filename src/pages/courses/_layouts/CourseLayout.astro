@@ -36,14 +36,14 @@ const {
     <h2 class={`text-center ${primaryColor}`}>Is There More to Kotlin?</h2>
     {
       featureSection1 && (
-        <Feature section={featureSection1}>
+        <Feature section={featureSection1} flip={false}>
           <slot name="feature1" />
         </Feature>
       )
     }
     {
       featureSection2 && (
-        <Feature section={featureSection2}>
+        <Feature section={featureSection2} flip={true}>
           <slot name="feature2" />
         </Feature>
       )
@@ -53,28 +53,28 @@ const {
 
     {
       featureSection3 && (
-        <Feature section={featureSection3}>
+        <Feature section={featureSection3} flip={false}>
           <slot name="feature3" />
         </Feature>
       )
     }
     {
       featureSection4 && (
-        <Feature section={featureSection4}>
+        <Feature section={featureSection4} flip={true}>
           <slot name="feature4" />
         </Feature>
       )
     }
     {
       featureSection5 && (
-        <Feature section={featureSection5}>
+        <Feature section={featureSection5} flip={false}>
           <slot name="feature5" />
         </Feature>
       )
     }
     {
       featureSection6 && (
-        <Feature section={featureSection6}>
+        <Feature section={featureSection6} flip={true}>
           <slot name="feature6" />
         </Feature>
       )
