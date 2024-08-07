@@ -302,7 +302,8 @@ export default function Example(props) {
           </ul>
           <p className="mt-8 text-s leading-5 text-gray-500 md:order-1 md:mt-0">
             <small>
-              &copy; 2019&ndash;{new Date().getFullYear()} {site.legalName}
+              &copy; {site.founded}&ndash;{new Date().getFullYear()}{" "}
+              {site.legalName}
             </small>
           </p>
         </div>

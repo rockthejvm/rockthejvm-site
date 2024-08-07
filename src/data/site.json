@@ -5,7 +5,8 @@
   },
   "description": "Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big data and streaming (Apache Spark, Flink), all with hands-on online courses.",
   "domain": "rockthejvm.com",
-  "legalName": "Rock the JVM",
+  "founded": 2017,
+  "legalName": "Accelerated Learning System SRL",
   "logo": {
     "src": "../assets/images/logos/rtjvm-red.png",
     "alt": "Rock the JVM"

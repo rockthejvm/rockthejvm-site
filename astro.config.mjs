@@ -7,7 +7,7 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://www.rockthejvm.com",
+  site: "https://rockthejvm.com",
   integrations: [
     icon({
       include: {
