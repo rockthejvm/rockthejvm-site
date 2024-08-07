@@ -18,12 +18,12 @@ const { biography, company, name, photo, socials } = author.data;
 const role = company?.role;
 const companyName = company
   ? await getEntry(company?.entity.collection, company?.entity.id).then(
-      (company) => company.data.title,
+      (company) => company.data.title
     )
   : undefined;
 const companyWebsite = company
   ? await getEntry(company?.entity.collection, company?.entity.id).then(
-      (company) => company.data.website,
+      (company) => company.data.website
     )
   : undefined;
 ---
@@ -40,7 +40,7 @@ const companyWebsite = company
   {companyWebsite}
   {socials}
 >
-  <a href=`authors/${author.id}` slot="photo">
+  <a href=`/authors/${author.id}` slot="photo">
     <Image
       src={photo}
       alt={name}
