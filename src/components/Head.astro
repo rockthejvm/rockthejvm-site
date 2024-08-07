@@ -28,6 +28,48 @@ const { article, canonicalUrl, description, error, image, title, type } =
 ---
 
 <head>
+  <script is:inline>
+    const setDataTheme = () => {
+      document.documentElement.setAttribute(
+        "data-theme",
+        localStorage.getItem("theme") === "system"
+          ? window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+          : localStorage.getItem("theme"),
+      );
+    };
+    const setThemeToggle = () => {
+      document.getElementById("systemTheme").style.display = "none";
+      document.getElementById("lightTheme").style.display = "none";
+      document.getElementById("darkTheme").style.display = "none";
+      document.getElementById(
+        localStorage.getItem("theme") === "system"
+          ? "systemTheme"
+          : localStorage.getItem("theme") === "light"
+            ? "lightTheme"
+            : "darkTheme",
+      ).style.display = "block";
+    };
+
+    localStorage.getItem("theme") || localStorage.setItem("theme", "system");
+    setDataTheme();
+    document.addEventListener("DOMContentLoaded", () => {
+      setThemeToggle();
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        localStorage.setItem(
+          "theme",
+          localStorage.getItem("theme") === "system"
+            ? "light"
+            : localStorage.getItem("theme") === "light"
+              ? "dark"
+              : "system",
+        );
+        setDataTheme();
+        setThemeToggle();
+      });
+    });
+  </script>
   <Fragment>
     <meta charset="utf-8" />
     <meta name="generator" content={Astro.generator} />
