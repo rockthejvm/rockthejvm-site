@@ -25,10 +25,10 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
 );
 ---
 
-<div class="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
+<div class="relative isolate bg-bkg px-6 py-24 sm:py-32 lg:px-8">
   <div class="mx-auto max-w-2xl text-center lg:max-w-4xl">
     <!-- <h2 class="text-base font-semibold leading-7 text-indigo-600">Pricing</h2> -->
-    <p class="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+    <p class="mt-2 text-4xl font-bold tracking-tight text-content sm:text-5xl">
       Take this course now!
     </p>
   </div>
@@ -49,14 +49,14 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         1.0.0x {title} Lifetime License
       </h3>
       <p class="mt-4 flex items-baseline gap-x-2">
-        <span class="text-5xl font-bold tracking-tight text-gray-900"
+        <span class="text-5xl font-bold tracking-tight text-content"
           >${price}</span
         >
       </p>
-      <p class="mt-6 text-base leading-7 text-gray-600">You get:</p>
+      <p class="mt-6 text-base leading-7 text-content">You get:</p>
       <ul
         role="list"
-        class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10"
+        class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
       >
         <li class="flex gap-x-3">
           <svg
@@ -182,12 +182,12 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       <a
         href="#"
         aria-describedby="tier-hobby"
-        class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10"
+        class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Get Now</a
       >
     </div>
     <div
-      class="relative rounded-3xl bg-gray-900 p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10"
+      class="relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10"
     >
       <h3
         id="tier-enterprise"
@@ -196,18 +196,18 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         All-Access Membership
       </h3>
       <p class="mt-4 flex items-baseline gap-x-2">
-        <span class="text-5xl font-bold tracking-tight text-white"
+        <span class="text-5xl font-bold tracking-tight text-content"
           >{
             membership.data.packages.find((e) => e.frequency === "monthly")!
               .price
           }</span
         >
-        <span class="text-base text-gray-400">/month</span>
+        <span class="text-base text-content">/month</span>
       </p>
-      <p class="mt-6 text-base leading-7 text-gray-300">You get:</p>
+      <p class="mt-6 text-base leading-7 text-content">You get:</p>
       <ul
         role="list"
-        class="mt-8 space-y-3 text-sm leading-6 text-gray-300 sm:mt-10"
+        class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
       >
         <li class="flex gap-x-3">
           <svg
@@ -276,7 +276,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       <a
         href="#"
         aria-describedby="tier-enterprise"
-        class="mt-8 block rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:mt-10"
+        class="mt-8 block rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Join Now</a
       >
     </div>
