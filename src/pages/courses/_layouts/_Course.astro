@@ -31,13 +31,13 @@ const {
 ---
 
 <Base {description} {title}>
-  <article>
+  <article class="bg-bkg">
     <CTA {description} src={image} alt={title} {title} />
     <!-- <Fragment set:html={excerpt} /> -->
 
     {
       Astro.slots.has("before") && (
-        <div class="bg-[#F5F5F8] py-16 px-8">
+        <div class="bg-bkg py-16 px-8">
           <div class="rest-wrapper max-w-2xl mx-auto">
             <Prose>
               <slot name="before" />
@@ -130,7 +130,7 @@ const {
 
     {
       Astro.slots.has("rest") && (
-        <div class="bg-[#F5F5F8] py-16 px-8">
+        <div class="py-16 px-8">
           <div class="rest-wrapper max-w-2xl mx-auto">
             <Prose>
               <slot name="rest" />
