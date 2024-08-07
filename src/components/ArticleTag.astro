@@ -8,4 +8,4 @@ interface Props {
 const { tag } = Astro.props;
 ---
 
-<BadgeLarge><a href={`/tags/${tag}`}>{tag}</a></BadgeLarge>
+<BadgeLarge><a href={`/tags/${tag.id}`}>{tag.id}</a></BadgeLarge>
