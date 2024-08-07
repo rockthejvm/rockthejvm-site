@@ -10,7 +10,7 @@ export default function Example(props) {
     <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
       <Disclosure key={props.category.data.name} as="div" className="pt-6">
         <dt>
-          <DisclosureButton className="group flex w-full items-start justify-between text-left text-white">
+          <DisclosureButton className="group flex w-full items-start justify-between text-left text-content">
             <span className="text-base font-semibold leading-7">
               <h3>{props.category.data.name}</h3>
             </span>
@@ -27,7 +27,7 @@ export default function Example(props) {
           </DisclosureButton>
         </dt>
         <DisclosurePanel as="dd" className="mt-2 pr-12">
-          <p className="text-base leading-7 text-gray-600">{props.entries}</p>
+          <p className="text-base leading-7 text-content">{props.entries}</p>
         </DisclosurePanel>
       </Disclosure>
     </dl>

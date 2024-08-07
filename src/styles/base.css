@@ -33,19 +33,6 @@
       rgb(118, 100, 131) 50%,
       rgb(144, 105, 105) 100%
     );
-  }
-
-  :root[data-theme="dark"] body:before {
-    background-image: linear-gradient(
-      -45deg,
-      rgb(38, 145, 207) 0%,
-      rgb(43, 51, 160) 25%,
-      rgb(96, 54, 127) 50%,
-      rgb(153, 67, 67) 100%
-    );
-  }
-
-  body:before {
     content: "";
     display: block;
     background-attachment: scroll;
@@ -57,11 +44,55 @@
     z-index: -1000;
     pointer-events: none;
     transform: scale(1);
-    /*background-image: linear-gradient(135deg, #ff4b24 0, #540000 100%);
-    background-size: auto;*/
     background-position: 0 0;
     background-repeat: repeat;
-    /* added this to be the same as the rock the jvm jobs board */
+    background-size: 300%;
+    animation: animateBG 20s ease infinite;
+  }
+
+  :root[data-theme="dark"] body:before {
+    background-image: linear-gradient(
+      -45deg,
+      rgb(38, 145, 207) 0%,
+      rgb(43, 51, 160) 25%,
+      rgb(96, 54, 127) 50%,
+      rgb(153, 67, 67) 100%
+    );
+    content: "";
+    display: block;
+    background-attachment: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1000;
+    pointer-events: none;
+    transform: scale(1);
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: 300%;
+    animation: animateBG 20s ease infinite;
+  }
+
+  blockquote p {
+    color: var(--color-content);
+  }
+
+  /* body:before {
+    content: "";
+    display: block;
+    background-attachment: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1000;
+    pointer-events: none;
+    transform: scale(1);
+    background-position: 0 0;
+    background-repeat: repeat;
     background-size: 300%;
     background-image: linear-gradient(
       -45deg,
@@ -71,7 +102,7 @@
       rgb(153, 67, 67) 100%
     );
     animation: animateBG 20s ease infinite;
-  }
+  } */
 
   a {
     @apply text-accent-1 no-underline;

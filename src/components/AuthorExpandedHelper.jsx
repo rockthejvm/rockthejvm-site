@@ -4,24 +4,24 @@ export default function Example(props) {
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
         <div className="mx-auto max-w-2xl">
           {props.photo}
-          <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
+          <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-content">
             {props.name}
           </h3>
           {props.role && (
-            <p className="text-sm leading-6 text-gray-600">
+            <p className="text-sm leading-6 text-content">
               {props.role} |{" "}
               <a
                 href={props.companyWebsite}
                 target="_blank"
                 rel="noreferrer"
-                className="font-bold text-gray-600"
+                className="font-bold text-content"
               >
                 {props.companyName}
               </a>
             </p>
           )}
           {props.biography && (
-            <p className="mt-4 text-lg leading-8 text-gray-600">
+            <p className="mt-4 text-lg leading-8 text-content">
               {props.biography}
             </p>
           )}
@@ -31,7 +31,7 @@ export default function Example(props) {
             <li>
               <a
                 href={`https://www.facebook.com/${props.socials.facebook}`}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-gray-500"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -43,7 +43,7 @@ export default function Example(props) {
             <li>
               <a
                 href={`https://www.github.com/${props.socials.github}`}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-gray-500"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -55,7 +55,7 @@ export default function Example(props) {
             <li>
               <a
                 href={`https://www.linkedin.com/${props.socials.linkedin}`}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-gray-500"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -67,7 +67,7 @@ export default function Example(props) {
             <li>
               <a
                 href={`https://www.x.com/${props.socials.twitter}`}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-gray-500"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -79,7 +79,7 @@ export default function Example(props) {
             <li>
               <a
                 href={`https://www.youtube.com/${props.socials.youtube}`}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-gray-500"
                 target="_blank"
                 rel="noreferrer"
               >
