@@ -90,6 +90,9 @@ const { article, canonicalUrl, description, error, image, title, type } =
       title={site.name}
       href={new URL("rss.xml", Astro.site)}
     />
+    <title>
+      {title} | {site.name}
+    </title>
   </Fragment>
   <Fragment>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -178,9 +181,6 @@ const { article, canonicalUrl, description, error, image, title, type } =
         <meta property="og:type" content={type} />
 
         <meta property="og:url" content={canonicalUrl} />
-        <title>
-          {title} | {site.name}
-        </title>
         <meta property="twitter:card" content="summary_large_image" />
         <meta
           property="twitter:creator"
