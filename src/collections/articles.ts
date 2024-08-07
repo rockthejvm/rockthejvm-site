@@ -35,5 +35,11 @@ export default defineCollection({
         updatedDate: z.date().optional(),
         video: reference("videos").optional(),
       })
-      .strict(),
+      .strict()
+      .refine(
+        (data) => !data.updatedDate || data.updatedDate >= data.publishedDate,
+        {
+          message: "Updated date must be on or after the published date",
+        },
+      ),
 });
