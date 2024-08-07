@@ -5,7 +5,7 @@ import Testimonial from "./Testimonial.astro";
 const testimonials = await getCollection("testimonials");
 ---
 
-<section class="text-white">
-  <h2 class="text-white text-center mb-12">Testimonials</h2>
+<section class="text-content">
+  <h2 class="text-content text-center mb-12">Testimonials</h2>
   {testimonials.map((testimonial) => <Testimonial {testimonial} />)}
 </section>

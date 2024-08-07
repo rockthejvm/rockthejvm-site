@@ -2,7 +2,7 @@ export default function Example(props) {
   return (
     <article className="bg-secondary rounded-3xl pt-12 pb-24 ">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <h3 className="text-center text-2xl font-semibold leading-8 text-gray-900">
+        <h3 className="text-center text-2xl font-semibold leading-8 text-content">
           I've taught Scala, Kotlin, Akka, Spark and more in live trainings at
           some of the best companies in the world.
         </h3>
