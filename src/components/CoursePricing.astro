@@ -20,8 +20,8 @@ const membershipLinesOfCode = (await getCollection("courses"))
 const membershipNumExamples = (await getCollection("courses"))
   .map((e) => e.data.benefits?.numExamples ?? 0)
   .reduce((b, a) => b + a);
-const categories = (await getCollection("courseCategories)).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1
+const categories = (await getCollection("courseCategories")).sort((a, b) =>
+  a.data.ordinal <= b.data.ordinal ? -1 : 1,
 );
 ---
 
