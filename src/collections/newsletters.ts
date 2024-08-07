@@ -1,3 +1,4 @@
+import { unique } from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
@@ -5,8 +6,8 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        articles: z.array(reference("articles")),
-        courses: z.array(reference("courses")),
+        articles: unique(z.array(reference("articles")), "articles"),
+        courses: unique(z.array(reference("courses")), "courses"),
         description: z
           .string()
           .max(200, "Description must be at most 200 characters"),
@@ -28,7 +29,7 @@ export default defineCollection({
           .string()
           .min(30, "Title must be at least 30 characters")
           .max(70, "Title must be at most 70 characters"),
-        videos: z.array(reference("videos")),
+        videos: unique(z.array(reference("videos")), "videos"),
       })
       .strict(),
 });

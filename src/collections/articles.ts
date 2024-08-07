@@ -1,3 +1,4 @@
+import { unique } from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
@@ -7,7 +8,7 @@ export default defineCollection({
       .object({
         author: reference("authors").default("daniel-ciocirlan"),
         canonicalUrl: z.string().url().optional(),
-        category: reference("article-categories"),
+        category: reference("articleCategories"),
         description: z
           .string()
           .max(200, "Description must be at most 200 characters")
@@ -27,7 +28,12 @@ export default defineCollection({
           .strict()
           .optional(),
         publishedDate: z.date(),
-        tags: z.array(z.string()),
+        tags: unique(
+          z
+            .array(reference("tags"))
+            .min(1, "Article must have at least one tag"),
+          "tags",
+        ),
         title: z
           .string()
           .min(30, "Title must be at least 30 characters")
