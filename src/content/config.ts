@@ -9,6 +9,7 @@ import memberships from "@collections/memberships";
 import newsletters from "@collections/newsletters";
 import seriess from "@collections/seriess";
 import socials from "@collections/socials";
+import tags from "@collections/tags";
 import testimonials from "@collections/testimonials";
 import videos from "@collections/videos";
 
@@ -24,6 +25,7 @@ export const collections = {
   newsletters,
   seriess,
   socials,
+  tags,
   testimonials,
   videos,
 };
