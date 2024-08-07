@@ -22,7 +22,7 @@
     --color-accent2: 168deg 83.8% 48.2%;
     --color-primary: 223deg 100% 50%;
     /* --color-secondary: 223deg, 87%, 54%; */
-    --color-secondary: 240deg 83.5% 66.7%;
+    --color-secondary: 221deg 39.3% 11%;
   }
 
   :root[data-theme="light"] body:before {
