@@ -22,7 +22,7 @@ export default function Example() {
   const [agreed, setAgreed] = useState(false);
 
   return (
-    <div className="isolate my-16 bg-white px-6 py-8 lg:mx-32 rounded-3xl sm:py-12">
+    <div className="isolate my-16 bg-secondary px-6 py-8 lg:mx-32 rounded-3xl sm:py-12">
       <div className="mx-auto max-w-xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Need a course or training session?
