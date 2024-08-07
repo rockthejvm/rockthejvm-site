@@ -6,14 +6,14 @@ export default function Example(props) {
       <div className="md:flex my-auto mx-8 md:mx-24">
         <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">{props.logo}</div>
         <div>
-          <h1 className="font-extrabold text-white text-5xl sm:text-6xl md:text-7xl my-6">
+          <h1 className="font-extrabold text-content text-5xl sm:text-6xl md:text-7xl my-6">
             {site.name.toUpperCase()}
           </h1>
-          <p className="mb-5 text-white">
+          <p className="mb-5 text-content">
             The zero-to-master online courses and hands-on training for Scala,
             Kotlin, Spark, Flink, ZIO, Akka and more.
           </p>
-          <p className="mb-5 text-white">
+          <p className="mb-5 text-content">
             No more mindless browsing, obscure blog posts and blurry videos.
             Save yourself the time and frustration and follow a smooth learning
             curve where code is king.
