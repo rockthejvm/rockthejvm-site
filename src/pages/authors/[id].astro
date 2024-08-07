@@ -21,13 +21,13 @@ export async function getStaticPaths() {
 }
 
 const { articles, author } = Astro.props;
-const name = author.data.name;
+const title = `Articles written by '${author.data.name}'`;
 ---
 
-<BaseLayout title={name} description=`Articles written by ${name}`>
+<BaseLayout {title} description={title}>
   <FullContainer>
+    <h1>{title}</h1>
     <AuthorWide {author} />
-    <h1>Articles written by {name}</h1>
     <ArticleLinks {articles} />
   </FullContainer>
 </BaseLayout>

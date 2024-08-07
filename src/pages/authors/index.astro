@@ -3,8 +3,10 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleAuthors from "../../components/ArticleAuthors.astro";
 const authors = await getCollection("authors");
+const title = "Author Index";
 ---
 
-<BaseLayout title="Author index" description="The author index">
+<BaseLayout {title} description={title}>
+  <h1>{title}</h1>
   <ArticleAuthors {authors} />
 </BaseLayout>
