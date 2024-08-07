@@ -1,6 +1,6 @@
 export default function Example(props) {
   return (
-    <article className="bg-white rounded-3xl mb-8 py-8">
+    <article className="bg-secondary rounded-3xl mb-8 py-8">
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
         <div className="mx-auto max-w-2xl">
           {props.photo}
