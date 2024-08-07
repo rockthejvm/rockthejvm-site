@@ -24,11 +24,11 @@ const { course } = Astro.props;
       />
     </div>
   </div>
-  <div class="my-8 px-8 md:px-8 md:my-auto">
-    <h3 class="text-lg font-bold text-center md:text-left">
+  <div class="my-8 px-8 md:px-8 md:my-auto bg-content">
+    <h3 class="text-lg font-bold bg-bkg text-center md:text-left">
       {course.data.title}
     </h3>
-    <p class="mt-1">
+    <p class="mt-1 bg-content">
       <!-- {course.data.excerpt} -->
       <Fragment set:html={course.data.excerpt} />
     </p>
