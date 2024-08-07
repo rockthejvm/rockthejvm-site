@@ -25,6 +25,7 @@ export default function Example(props) {
           <span className="sr-only">{site.name}</span>
           {props.logo}
         </a>
+        {props.themeToggle}
         <div className="flex lg:hidden">
           <button
             type="button"
