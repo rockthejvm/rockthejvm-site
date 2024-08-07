@@ -36,25 +36,33 @@ const { article, canonicalUrl, description, error, image, title, type } =
           ? window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
             : "light"
-          : localStorage.getItem("theme"),
+          : localStorage.getItem("theme")
       );
     };
     const setThemeToggle = () => {
-      document.getElementById("systemTheme").style.display = "none";
-      document.getElementById("lightTheme").style.display = "none";
-      document.getElementById("darkTheme").style.display = "none";
+      ["systemTheme", "lightTheme", "darkTheme"].forEach(
+        (id) => (document.getElementById(id).style.display = "none")
+      );
+      const theme = localStorage.getItem("theme");
       document.getElementById(
-        localStorage.getItem("theme") === "system"
+        theme === "system"
           ? "systemTheme"
-          : localStorage.getItem("theme") === "light"
+          : theme === "light"
             ? "lightTheme"
-            : "darkTheme",
+            : "darkTheme"
       ).style.display = "block";
+    };
+    const setProse = () => {
+      for (const element of document.getElementsByClassName("prose"))
+        document.documentElement.getAttribute("data-theme") === "dark"
+          ? element.classList.add("prose-invert")
+          : element.classList.remove("prose-invert");
     };
 
     localStorage.getItem("theme") || localStorage.setItem("theme", "system");
     setDataTheme();
     document.addEventListener("DOMContentLoaded", () => {
+      setProse();
       setThemeToggle();
       document.getElementById("themeToggle").addEventListener("click", () => {
         localStorage.setItem(
@@ -63,9 +71,10 @@ const { article, canonicalUrl, description, error, image, title, type } =
             ? "light"
             : localStorage.getItem("theme") === "light"
               ? "dark"
-              : "system",
+              : "system"
         );
         setDataTheme();
+        setProse();
         setThemeToggle();
       });
     });
