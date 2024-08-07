@@ -4,7 +4,7 @@ category: guide
 excerpt: "Scala generics are easy to understand if you come from a Java background. But what about Python or JS folks?"
 title: "Scala Generics: A Gentle Introduction"
 publishedDate: 2022-05-12
-tags: [scala, beginners]
+tags: [scala]
 ---
 
 ## Preface
