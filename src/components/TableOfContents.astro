@@ -7,7 +7,7 @@ interface Props {
 }
 
 const filteredHeadings = Astro.props.headings.filter(
-  (heading) => heading.depth === 2,
+  (heading) => heading.depth === 2
 );
 ---
 
@@ -15,11 +15,11 @@ const filteredHeadings = Astro.props.headings.filter(
   filteredHeadings.length >= 3 && (
     <nav>
       <h2 class="text-content">Table of Contents</h2>
-      <ul>
+      <ol>
         {filteredHeadings.map((heading) => (
           <TableOfContentsHeading heading={heading} />
         ))}
-      </ul>
+      </ol>
     </nav>
   )
 }

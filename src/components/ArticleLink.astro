@@ -8,4 +8,6 @@ interface Props {
 const { title, slug } = Astro.props;
 ---
 
-<li><a href={`/articles/${slug}/`}>{title}</a></li>
+<li>
+  <a href={`/articles/${slug}/`}>{title}</a>
+</li>
