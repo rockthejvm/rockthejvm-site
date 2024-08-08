@@ -32,7 +32,7 @@ const {
 } = frontmatter;
 const author = await getEntry(
   frontmatter.author.collection,
-  frontmatter.author.id
+  frontmatter.author.id,
 );
 const series = frontmatter.series
   ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
@@ -92,7 +92,7 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
         <TableOfContents {headings} />
         <slot />
       </Prose>
-      <footer>
+      <footer class="mt-16 md:mt-32">
         <AuthorWide {author} />
       </footer>
     </article>
