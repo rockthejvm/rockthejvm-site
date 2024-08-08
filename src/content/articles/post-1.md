@@ -1,5 +1,8 @@
 ---
 category: guide
+heroImage:
+  image: ./post-1.avif
+  alt: Picture of something
 title: "WebSockets in Scala, Part 2: Integrating Redis and PostgreSQL"
 publishedDate: 2024-05-23
 tags: [redis, scala]
