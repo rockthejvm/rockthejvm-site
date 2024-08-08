@@ -14,14 +14,14 @@ export default function Example({ faqs }: Props) {
     <div className="bg-bkg">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
         <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
-          <h2 className="text-2xl font-bold leading-10 tracking-tight text-ccontent">
+          <h2 className="text-2xl font-bold leading-10 tracking-tight text-content-1">
             Frequently asked questions
           </h2>
           <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
             {faqs.map((faq) => (
               <Disclosure key={faq.question} as="div" className="pt-6">
                 <dt>
-                  <DisclosureButton className="group flex w-full items-start justify-between text-left text-content">
+                  <DisclosureButton className="group flex w-full items-start justify-between text-left text-content-1">
                     <span className="text-base font-semibold leading-7">
                       {faq.question}
                     </span>
@@ -38,7 +38,7 @@ export default function Example({ faqs }: Props) {
                   </DisclosureButton>
                 </dt>
                 <DisclosurePanel as="dd" className="mt-2 pr-12">
-                  <p className="text-base leading-7 text-gray-600">
+                  <p className="text-base leading-7 text-content-2">
                     {faq.answer}
                   </p>
                 </DisclosurePanel>
