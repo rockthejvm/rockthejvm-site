@@ -100,7 +100,7 @@ export default function Example() {
             </div>
             <Label className="text-sm leading-6 text-content">
               By selecting this, you agree to our{" "}
-              <a href="#" className="font-semibold text-accent-1">
+              <a href="/legal/privacy" className="font-semibold text-accent-1">
                 privacy&nbsp;policy
               </a>
               .
