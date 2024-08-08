@@ -131,7 +131,7 @@ export default function Example(props) {
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-200">
+                <h3 className="text-sm font-semibold leading-6 text-content">
                   Content
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -139,7 +139,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-white hover:text-gray-900"
+                        className="text-sm leading-6 text-content hover:text-accent-1"
                       >
                         {item.name}
                       </a>
@@ -148,7 +148,7 @@ export default function Example(props) {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-200">
+                <h3 className="text-sm font-semibold leading-6 text-content">
                   Support
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -156,7 +156,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-white hover:text-gray-900"
+                        className="text-sm leading-6 text-content hover:text-accent-1"
                       >
                         {item.name}
                       </a>
@@ -167,7 +167,7 @@ export default function Example(props) {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-200">
+                <h3 className="text-sm font-semibold leading-6 text-content">
                   Company
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -175,7 +175,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-white hover:text-gray-900"
+                        className="text-sm leading-6 text-content hover:text-accent-1"
                       >
                         {item.name}
                       </a>
@@ -184,7 +184,7 @@ export default function Example(props) {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-200">
+                <h3 className="text-sm font-semibold leading-6 text-content">
                   Legal
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -192,7 +192,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-white hover:text-gray-900"
+                        className="text-sm leading-6 text-content hover:text-accent-1"
                       >
                         {item.name}
                       </a>
@@ -203,10 +203,10 @@ export default function Example(props) {
             </div>
           </div>
           <div className="mt-10 xl:mt-0">
-            <h3 className="text-sm font-semibold leading-6 text-gray-200">
+            <h3 className="text-sm font-semibold leading-6 text-content">
               Subscribe to our newsletter
             </h3>
-            <p className="mt-2 text-sm leading-6 text-white">TODO</p>
+            <p className="mt-2 text-sm leading-6 text-content">TODO</p>
             <form className="mt-6 sm:flex sm:max-w-md">
               <label htmlFor="email-address" className="sr-only">
                 Email address
@@ -218,12 +218,12 @@ export default function Example(props) {
                 required
                 placeholder="Enter your email"
                 autoComplete="email"
-                className="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
+                className="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-content shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-content focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
               />
               <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-content shadow-sm hover:text-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Subscribe
                 </button>
@@ -239,7 +239,7 @@ export default function Example(props) {
                 href={site.socials.facebook.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-accent-1"
               >
                 {props.facebook}
               </a>
@@ -250,7 +250,7 @@ export default function Example(props) {
                 href={site.socials.github.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-accent-1"
               >
                 {props.github}
               </a>
@@ -261,7 +261,7 @@ export default function Example(props) {
                 href={site.socials.linkedin.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-accent-1"
               >
                 {props.linkedin}
               </a>
@@ -272,7 +272,7 @@ export default function Example(props) {
                 href={site.socials.twitter.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-accent-1"
               >
                 {props.twitter}
               </a>
@@ -283,7 +283,7 @@ export default function Example(props) {
                 href={site.socials.youtube.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-accent-1"
               >
                 {props.youtube}
               </a>
@@ -294,13 +294,13 @@ export default function Example(props) {
                 href={site.socials.rss.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-gray-400 hover:text-gray-500"
+                className="text-content hover:text-accent-1"
               >
                 {props.rss}
               </a>
             </li>
           </ul>
-          <p className="mt-8 text-s leading-5 text-gray-500 md:order-1 md:mt-0">
+          <p className="mt-8 text-s leading-5 text-content md:order-1 md:mt-0">
             <small>
               &copy; {site.founded}&ndash;{new Date().getFullYear()}{" "}
               {site.legalName}
