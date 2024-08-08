@@ -8,6 +8,8 @@ export default {
       animation: {
         "spin-slower": "spin 35s ease infinite",
         "spin-slow": "spin 25s ease-in-out infinite reverse",
+        "pulse-slower": "pulse 15s ease infinite",
+        "pulse-slow": "pulse 10s ease infinite",
       },
       colors: {
         accent: {
