@@ -73,7 +73,7 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
         <Prose class="max-w-none">
           <h1>{title}</h1>
         </Prose>
-        <a href=`/authors/${frontmatter.author.id}` class="mt-auto">
+        <a href={`/authors/${frontmatter.author.id}`} class="mt-auto">
           <AuthorSmall {author} {minutesRead}>
             <p>
               Last updated: {
