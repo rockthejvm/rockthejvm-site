@@ -16,13 +16,15 @@ export default defineCollection({
         excerpt: z.string(),
         heroImage: z
           .object({
-            image: image()
-              .refine((image) => image.width >= 1200 && image.height >= 630, {
+            image: image().refine(
+              (image) => image.width >= 1200 && image.height >= 630,
+              {
                 message: "Hero image must be at least 1200x630",
-              })
-              .refine((image) => image.width / image.height === 1.91, {
-                message: "Hero image aspect ratio must be 1.91:1",
-              }),
+              },
+            ),
+            // .refine((image) => image.width / image.height === 1.91, {
+            //   message: "Hero image aspect ratio must be 1.91:1",
+            // }),
             alt: z.string(),
           })
           .strict()
@@ -31,7 +33,8 @@ export default defineCollection({
         tags: unique(
           z
             .array(reference("tags"))
-            .min(1, "Article must have at least one tag"),
+            .min(1, "Article must have at least one tag")
+            .max(3, "Article must have at most three tags"),
           "tags",
         ),
         title: z
