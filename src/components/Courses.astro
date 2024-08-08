@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import CourseEntry from "./CourseEntry.astro";
 import type { CollectionEntry } from "astro:content";
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 import CoursesHelper from "./CoursesHelper";
 
 const seriess = await getCollection("seriess");
@@ -12,10 +12,8 @@ const filteredSeriess = seriess.filter(
 const memberss = filteredSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(
   (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(
-      members.map((member) => getEntryBySlug("courses", member.slug)),
-    ),
-  ),
+    Promise.all(members.map((member) => getEntry("courses", member.slug)))
+  )
 );
 const categories = await getCollection("courseCategories");
 ---
