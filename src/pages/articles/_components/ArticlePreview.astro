@@ -1,0 +1,115 @@
+---
+import FormattedDate from "@components/FormattedDate.astro";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+import Placeholder from "@assets/images/placeholder.webp";
+import { getReadingTime } from "@utils/get-reading-time";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const { excerpt, heroImage, publishedDate, tags, title } = article.data;
+const author = await getEntry("authors", article.data.author.id);
+const category = await getEntry("articleCategories", article.data.category.id);
+const entity = author.data.company
+  ? await getEntry("companies", author.data.company.entity.id)
+  : undefined;
+---
+
+<article class="flex flex-col items-start justify-between">
+  <div class="relative w-full">
+    {
+      heroImage ? (
+        <Image
+          src={heroImage.image}
+          alt={heroImage.alt}
+          class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+        />
+      ) : (
+        <Image
+          src={Placeholder}
+          alt="Placeholder"
+          class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+        />
+      )
+    }
+    <div
+      class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
+    >
+    </div>
+  </div>
+  <div class="mt-8 flex items-center gap-x-2 text-xs">
+    <FormattedDate date={publishedDate} class="text-gray-500" />
+    <a
+    href=`/categories/article/${category.id}`
+    class="relative z-10 rounded-full bg-sky-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+    >{category.data.name}</a
+    >
+    {
+      tags.map((tag) => (
+        <p class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+          <a href=`/tags/${tag.id}`>
+            {tag.id}
+          </a>
+        </p>
+      ))
+    }
+  </div>
+  <div class="group relative">
+    <h3
+      class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
+    >
+      <a href=`/articles/${article.slug}`>
+        <span class="absolute inset-0"></span>
+        {title}
+      </a>
+    </h3>
+    <p class="mt-0.5 text-gray-600 inline-flex items-center">
+        <span class="inline-flex items-center gap-x-1.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strok-idth={1.5}
+            stroke="currentColor"
+            class="size-4 ml-1"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+          {`${getReadingTime(article.body)} min read`}
+        </span>
+      </p>
+    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+      {excerpt}
+    </p>
+  </div>
+  <div class="relative mt-8 flex items-center gap-x-4">
+    <Image
+      src={author.data.photo}
+      alt={author.data.name}
+      class="h-10 w-10 rounded-full bg-gray-100"
+    />
+    <div class="text-sm leading-6">
+      <p class="font-semibold text-gray-900">
+        <a href=`/authors/${author.id}`>
+          <span class="absolute inset-0"></span>
+          {author.data.name}
+        </a>
+      </p>
+      {
+        author.data.company && (
+          <p class="text-gray-600">
+            {author.data.company.role} | {entity?.data.title}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</article>
