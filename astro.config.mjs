@@ -47,5 +47,6 @@ export default defineConfig({
     "/p/logo-trademarks": "/legal/trademarks",
     "/p/membership": "/memberships/personal",
     "/p/team-pack": "/memberships/team",
+    "/articles": "/articles/1",
   },
 });
