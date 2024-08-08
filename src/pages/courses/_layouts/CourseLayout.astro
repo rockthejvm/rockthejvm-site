@@ -4,11 +4,11 @@ import CTA from "../../../components/CTA.astro";
 import FAQ from "../../../components/FAQ";
 import CoursePricing from "../../../components/CoursePricing.astro";
 import Feature from "@components/Feature.astro";
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 import Prose from "@components/Prose.astro";
 
 const { slug } = Astro.params;
-const course = await getEntryBySlug("courses", slug!);
+const course = await getEntry("courses", slug!);
 const frontmatter = course!.data;
 const {
   archived,
