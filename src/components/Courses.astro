@@ -5,11 +5,10 @@ import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import CoursesHelper from "./CoursesHelper";
 
-const seriess = await getCollection("seriess");
-const filteredSeriess = seriess.filter(
-  (series) => series.data.members[0]!.collection === "courses",
+const courseSeriess = (await getCollection("seriess")).filter(
+  (series) => series.data.members[0]!.collection === "courses"
 );
-const memberss = filteredSeriess.map((series) => series.data.members);
+const memberss = courseSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(
   (memberss as CollectionEntry<"courses">[][]).map((members) =>
     Promise.all(members.map((member) => getEntry("courses", member.slug)))
@@ -35,7 +34,7 @@ const categories = await getCollection("courseCategories");
                           (
                             courses[0]
                               ?.data as CollectionEntry<"courses">["data"]
-                          ).category.id === category.id,
+                          ).category.id === category.id
                       )
                       .map((courses) => (
                         <CourseEntry {courses} />

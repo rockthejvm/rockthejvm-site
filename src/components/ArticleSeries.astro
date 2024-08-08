@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const articleSeriess = (await getCollection("seriess")).filter(
+  (series) => series.data.members[0]!.collection === "articles"
+);
+const memberss = articleSeriess.map((series) => series.data.members);
+const articless = await Promise.all(
+  (memberss as CollectionEntry<"articles">[][]).map((members) =>
+    Promise.all(members.map((member) => getEntry("articles", member.slug)))
+  )
+);
+const articleSeries = articless.find((articles) =>
+  articles.map((article) => article.slug).includes(article.slug)
+);
+---
+
+{
+  articleSeries && (
+    <section>
+      <h2>Series</h2>
+      <ol>
+        {articleSeries.map((seriesArticle) =>
+          seriesArticle.slug === article.slug ? (
+            <li class="italic text-accent-1">{seriesArticle.data.title}</li>
+          ) : (
+            <li>
+              <a href={`/articles/${seriesArticle.slug}`}>
+                {seriesArticle.data.title}
+              </a>
+            </li>
+          )
+        )}
+      </ol>
+    </section>
+  )
+}
