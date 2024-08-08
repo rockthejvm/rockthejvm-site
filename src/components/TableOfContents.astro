@@ -14,7 +14,7 @@ const filteredHeadings = Astro.props.headings.filter(
 {
   filteredHeadings.length >= 3 && (
     <nav>
-      <h2>Table of Contents</h2>
+      <h2 class="text-content">Table of Contents</h2>
       <ul>
         {filteredHeadings.map((heading) => (
           <TableOfContentsHeading heading={heading} />
