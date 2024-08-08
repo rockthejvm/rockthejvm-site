@@ -15,7 +15,11 @@ export default {
           2: "hsl(var(--color-accent2) / <alpha-value>)",
         },
         bkg: "hsl(var(--color-bkg) / <alpha-value>)",
-        content: "hsl(var(--color-content) / <alpha-value>)",
+        content: {
+          1: "hsl(var(--color-content1) / <alpha-value>)",
+          2: "hsl(var(--color-content2) / <alpha-value>)",
+          DEFAULT: "hsl(var(--color-content1) / <alpha-value>)",
+        },
         primary: "hsl(var(--color-primary) / <alpha-value>)",
         secondary: "hsl(var(--color-secondary) / <alpha-value>)",
       },
