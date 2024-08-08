@@ -107,7 +107,8 @@
     "**/node_modules": true,
     "**/bower_components": true,
     "**/*.code-search": true,
-    "**/*lock*": true
+    "**/*lock*": true,
+    "public/rss/styles.xsl": true
   },
   "files.associations": {
     "*.css": "tailwindcss"
