@@ -10,11 +10,12 @@ import AuthorSmall from "../../../components/AuthorSmall.astro";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
+import ArticleSeries from "@components/ArticleSeries.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
   headings: MarkdownHeading[];
-  minutesRead?: number;
+  minutesRead: number;
 }
 
 const { article, headings, minutesRead } = Astro.props;
@@ -25,23 +26,23 @@ const {
   excerpt,
   heroImage,
   publishedDate,
-  summary,
-  tags,
   title,
   updatedDate,
 } = frontmatter;
 const author = await getEntry(
   frontmatter.author.collection,
-  frontmatter.author.id,
+  frontmatter.author.id
 );
-const series = frontmatter.series
-  ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
-  : undefined;
-const video = frontmatter.video
-  ? await getEntry(frontmatter.video.collection, frontmatter.video.id)
-  : undefined;
+const category = await getEntry("articleCategories", frontmatter.category.id);
+const tags = await getEntries(frontmatter.tags);
+// const series = frontmatter.series
+//   ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
+//   : undefined;
+// const video = frontmatter.video
+//   ? await getEntry(frontmatter.video.collection, frontmatter.video.id)
+//   : undefined;
 
-const banner: ImageMetadata = "../assets/images/banner.jpeg";
+// const banner: ImageMetadata = "../assets/images/banner.jpeg";
 ---
 
 <BaseLayout
@@ -54,10 +55,10 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
     updatedTime: updatedDate,
     publishedTime: publishedDate,
     section: "Programming",
-    tags: tags,
-    video: video?.data.canonicalUrl
-      ? new URL(video.data.canonicalUrl)
-      : undefined,
+    tags: tags.map((tag) => tag.id),
+    // video: video?.data.canonicalUrl
+    //   ? new URL(video.data.canonicalUrl)
+    //   : undefined,
   }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}
@@ -91,6 +92,7 @@ const banner: ImageMetadata = "../assets/images/banner.jpeg";
       <Prose>
         <TableOfContents {headings} />
         <slot />
+        <ArticleSeries {article} />
       </Prose>
       <footer class="mt-16 md:mt-32">
         <AuthorWide {author} />
