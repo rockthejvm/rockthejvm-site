@@ -4,20 +4,20 @@ import CTA from "../../../components/CTA.astro";
 import FAQ from "../../../components/FAQ";
 import CoursePricing from "../../../components/CoursePricing.astro";
 import Feature from "@components/Feature.astro";
-import { getEntry } from "astro:content";
 import Prose from "@components/Prose.astro";
+import { getEntry } from "astro:content";
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!);
 const frontmatter = course!.data;
 const {
   archived,
+  answer,
   featureSection1,
   featureSection2,
   featureSection3,
   featureSection4,
   featureSection5,
-  featureSection6,
   bundledCourses,
   description,
   excerpt,
@@ -36,37 +36,39 @@ const {
     <!-- <Fragment set:html={excerpt} /> -->
 
     {
-      Astro.slots.has("before") && (
+        <h2 class="hidden">Goal</h2>
         <div class="bg-bkg py-16 px-8">
           <div class="rest-wrapper max-w-2xl mx-auto">
             <Prose>
-              <slot name="before" />
+              <slot name="goal" />
             </Prose>
           </div>
         </div>
-      )
     }
 
     <h2 class={`text-center py-16 ${primaryColor}`}>
-      Is There More to Kotlin?
+      <slot name="question" />
     </h2>
     {
-      featureSection1 && (
-        <Feature section={featureSection1} flip={false}>
+        <Feature section={answer!} flip={true}>
+          <slot name="answer" />
+        </Feature>
+    }
+    <h2 class={`text-center py-16 ${primaryColor}`}>
+      How This Course Works
+    </h2>
+    {
+        <Feature section={featureSection1!} flip={false}>
           <slot name="feature1" />
         </Feature>
-      )
     }
     {
-      featureSection2 && (
+        featureSection2 && (
         <Feature section={featureSection2} flip={true}>
           <slot name="feature2" />
         </Feature>
       )
     }
-
-    <h2 class={`text-center py-16 ${primaryColor}`}>How This Course Works</h2>
-
     {
       featureSection3 && (
         <Feature section={featureSection3} flip={false}>
@@ -88,20 +90,17 @@ const {
         </Feature>
       )
     }
-    {
-      featureSection6 && (
-        <Feature section={featureSection6} flip={true}>
-          <slot name="feature6" />
-        </Feature>
-      )
-    }
+    <h2 class={`text-center py-16 ${primaryColor}`}>
+      Skills You'll Learn
+    </h2>
+    <slot name="skills" />
 
     <h2 class={`text-center py-16 ${primaryColor}`}>Meet Rock the JVM</h2>
 
     <Feature
       section={{
-        imageUrl: "https://cdn.fs.teachablecdn.com/Pv2uGaq0TV6KTYq3hodG",
-        imageAlt: "Daniel Ciocîrlan",
+        src: "https://cdn.fs.teachablecdn.com/Pv2uGaq0TV6KTYq3hodG",
+        alt: "Daniel Ciocîrlan",
       }}
       flip={true}
     >
@@ -127,19 +126,12 @@ const {
         people just like you.
       </p>
     </Feature>
-
-    {
-      Astro.slots.has("rest") && (
-        <div class="py-16 px-8">
-          <div class="rest-wrapper max-w-2xl mx-auto">
-            <Prose>
-              <slot name="rest" />
-            </Prose>
-          </div>
-        </div>
-      )
+    { Astro.slots.has("thanks") && (
+      <h3>With Special Thanks To</h3>
+      <slot name="thanks" />)
     }
-
+    <!-- <h2 class={`text-center py-16 ${primaryColor}`}>What's Included</h2> -->
+    <h2 class={`text-center py-16 ${primaryColor}`}>Take this course now!</h2>
     <CoursePricing {course} />
     {faqs && <FAQ {faqs} client:visible />}
   </article>
