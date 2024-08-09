@@ -114,6 +114,14 @@
     @apply text-accent-2 underline;
   }
 
+  .course-page-link a {
+    @apply text-accent-1 no-underline;
+  }
+
+  .course-page-link a:hover {
+    @apply text-accent-2 underline;
+  }
+
   h1,
   h2,
   h3 {
