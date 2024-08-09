@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FAQ from "../../components/FAQ";
+import Feature from "@components/Feature.astro";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import Membership from "@components/Membership.astro";
+import CourseCardVertical from "@components/CourseCardVertical.astro";
+import MembershipHelper from "@components/MembershipHelper";
+import { Image } from "astro:assets";
+import MembershipImage from "../../content/memberships/personal.png";
+import MembershipPricing from "@components/MembershipPricing.astro";
+
+// const { slug } = Astro.params;
+// const course = await getEntry("courses", slug!);
+// const frontmatter = course!.data;
+// const {
+//   archived,
+//   answer,
+//   featureSection1,
+//   featureSection2,
+//   featureSection3,
+//   featureSection4,
+//   featureSection5,
+//   bundledCourses,
+//   description,
+//   excerpt,
+//   faqs,
+//   grouping,
+//   image,
+//   price,
+//   primaryColor,
+//   title,
+// } = frontmatter;
+
+const faqs = [
+  {
+    question: "How is a typical lesson like?",
+    answer:
+      "Code is king, and we write it from scratch. In a typical lesson I'll explain some concepts, either briefly on a diagram or directly in the code. We then run live examples, and usually I'll finish the lesson with some exercises, which I then solve on camera after you've tried them yourself.",
+  },
+  {
+    question: "Does this work in real life?",
+    answer:
+      "It works. That's not for me to say, that's the 80000 people taking this material and applying it in real life. I teach the same material at Apple, Adobe and some of the best companies in the world.",
+  },
+  {
+    question: "Dude, this seems massive. How do I approach it?",
+    answer:
+      "Yes, it's massive, but it doesn't have to be intimidating. This is a buffet, you don't need to eat everything. Take Scala first. You'll probably like it, so much that I bet after 2 weeks this question won't be relevant anymore.",
+  },
+  {
+    question: "What if I don't like it?",
+    answer:
+      "Just cancel your subscription, and you'll be on your way. You will have access to everything until the next payment is due. The payments already made are not refundable, though. You'll still be a member of the Slack community - unless you want to leave us for good, which will make us all sad.",
+  },
+  {
+    question:
+      "I've never written code before, but this seems interesting. Can I enroll?",
+    answer:
+      "You can, but you probably shouldn't (yet). The courses are for people who have coded before (in some other language), and we assume general programming fundamentals. I'll probably come back with a very (very) slow and easy version for Scala as a first language, which will unlock the skills you need to take everything else.",
+  },
+  {
+    question:
+      "I already have access to some of the courses. Can I just pay the difference?",
+    answer:
+      'The mechanics for this one is different. When you buy a course, you have access to it for life. When you buy the membership, you have access to everything on the site as long as you\'re subscribed, including future courses. For that reason, I cannot accommodate a "pay the difference" request.',
+  },
+  {
+    question: "What's not included in the membership?",
+    answer:
+      "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment.",
+  },
+];
+
+const courseSeriess = (await getCollection("seriess")).filter(
+  (series) => series.data.members[0]!.collection === "courses",
+);
+const memberss = courseSeriess.map((series) => series.data.members);
+const coursess = await Promise.all(
+  (memberss as CollectionEntry<"courses">[][]).map((members) =>
+    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+  ),
+);
+
+const courseList = coursess.reduce(
+  (accumulator, value) => accumulator.concat(value),
+  [],
+);
+---
+
+<BaseLayout
+  description="All of the Rock the JVM premium content, at your service."
+  title="The Rock the JVM Membership"
+>
+  <article class="bg-bkg">
+    <section class="py-8 md:py-16">
+      <ul
+        role="list"
+        class="mx-auto px-8 my-8 md:my-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {
+          courseList.map((course) => (
+            <li class="col-span-1 divide-y rounded-lg bg-none flex center justify-center">
+              <CourseCardVertical {course} showPrice={true} />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
