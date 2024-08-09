@@ -5,14 +5,14 @@
 @layer base {
   :root[data-theme="light"] {
     color-scheme: light;
-    --color-bkg: 210deg 40% 98%;
+    --color-bkg: 42deg 79% 94%;
     --color-content1: 217deg 32.6% 17.5%;
     --color-content2: 217deg 32.6% 25%;
-    --color-accent1: 288deg 95.8% 90.6%;
-    --color-accent2: 168deg 83.8% 78.2%;
-    --color-primary: 223deg 100% 50%;
+    --color-accent1: 288deg 96% 30%;
+    --color-accent2: 168deg 84% 30%;
+    --color-primary: 221deg 90% 74%;
     /* --color-secondary: 223deg, 87%, 54%;  */
-    --color-secondary: 240deg 83.5% 100%;
+    --color-secondary: 221deg 39% 87%;
 
     /* body:before {
       background-image: linear-gradient(
@@ -47,9 +47,9 @@
     --color-content2: 217deg 32.6% 95%;
     --color-accent1: 288deg 95.8% 30.6%;
     --color-accent2: 168deg 83.8% 48.2%;
-    --color-primary: 223deg 100% 50%;
+    --color-primary: 221deg 90% 43%;
     /* --color-secondary: 223deg, 87%, 54%; */
-    --color-secondary: 221deg 39.3% 11%;
+    --color-secondary: 221deg 39% 25%;
 
     /* body:before {
       background-image: linear-gradient(
