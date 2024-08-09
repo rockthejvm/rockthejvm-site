@@ -1,8 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import Prose from "./Prose.astro";
 
 interface Props {
-  section: { imageUrl: string; imageAlt: string };
+  section: { src: string; alt: string };
   flip: boolean;
 }
 
@@ -18,7 +19,13 @@ const { section, flip } = Astro.props;
         <div
           class="relative isolateoverflow-hidden sm:mx-auto sm:max-w-xl sm:rounded-3xl lg:mx-0 lg:max-w-none"
         >
-          <img class="mx-auto" src={section.imageUrl} alt={section.imageAlt} />
+          <Image
+            class="mx-auto rounded-xl"
+            src={section.src}
+            alt={section.alt}
+            width={500}
+            height={500}
+          />
         </div>
       </div>
       <div

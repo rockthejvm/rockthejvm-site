@@ -37,45 +37,45 @@ export default defineCollection({
             })
             .strict(),
         ),
+        answer: z
+          .object({
+            src: z.string(),
+            alt: z.string(),
+          })
+          .strict()
+          .optional(),
         featureSection1: z
           .object({
-            imageUrl: z.string(),
-            imageAlt: z.string(),
+            src: z.string(),
+            alt: z.string(),
           })
           .strict()
           .optional(),
         featureSection2: z
           .object({
-            imageUrl: z.string(),
-            imageAlt: z.string(),
+            src: z.string(),
+            alt: z.string(),
           })
           .strict()
           .optional(),
         featureSection3: z
           .object({
-            imageUrl: z.string(),
-            imageAlt: z.string(),
+            src: z.string(),
+            alt: z.string(),
           })
           .strict()
           .optional(),
         featureSection4: z
           .object({
-            imageUrl: z.string(),
-            imageAlt: z.string(),
+            src: z.string(),
+            alt: z.string(),
           })
           .strict()
           .optional(),
         featureSection5: z
           .object({
-            imageUrl: z.string(),
-            imageAlt: z.string(),
-          })
-          .strict()
-          .optional(),
-        featureSection6: z
-          .object({
-            imageUrl: z.string(),
-            imageAlt: z.string(),
+            src: z.string(),
+            alt: z.string(),
           })
           .strict()
           .optional(),
