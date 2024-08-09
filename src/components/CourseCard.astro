@@ -14,21 +14,27 @@ const { course } = Astro.props;
   <div
     class="mb-4 flex-shrink-0 md:rounded-l-2xl overflow-hidden md:mb-0 md:min-h-full md:mr-4"
   >
-    <div
-      class="h-72 w-full text-gray-300 lg:w-96 md:w-64 md:h-full overflow-hidden"
-    >
-      <img
-        src={course.data.image.src}
-        alt={`${course.data.title}`}
-        class="min-w-full min-h-full object-cover object-center"
-      />
-    </div>
+    <a href={`/courses/${course.slug}`}>
+      <div
+        class="h-72 w-full text-gray-300 lg:w-96 md:w-64 md:h-full overflow-hidden"
+      >
+        <img
+          src={course.data.image.src}
+          alt={`${course.data.title}`}
+          class="min-w-full min-h-full object-cover object-center"
+        />
+      </div>
+    </a>
   </div>
   <div class="my-8 px-8 md:px-8 md:my-auto">
-    <h3 class="text-lg font-bold text-center md:text-left">
-      {course.data.title}
-    </h3>
-    <p class="mt-1">
+    <a href={`/courses/${course.slug}`}>
+      <h3
+        class="text-lg font-bold text-content-2 hover:text-accent-2 text-center md:text-left"
+      >
+        {course.data.title}
+      </h3>
+    </a>
+    <p class="mt-1 text-content-1">
       <!-- {course.data.excerpt} -->
       <Fragment set:html={course.data.excerpt} />
     </p>
