@@ -25,7 +25,6 @@ export default function Example(props) {
           <span className="sr-only">{site.name}</span>
           {props.logo}
         </a>
-        {props.themeToggle}
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -49,6 +48,7 @@ export default function Example(props) {
           <a href="#" className="text-sm font-semibold leading-6 text-content">
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
+          {props.themeToggle}
         </div>
       </nav>
       <Dialog

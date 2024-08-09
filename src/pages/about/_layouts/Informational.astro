@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Prose from "@components/Prose.astro";
+import NarrowContainer from "@containers/NarrowContainer";
+
+interface Props {
+  description: string;
+  title: string;
+}
+
+const { description, title } = Astro.props;
+---
+
+<BaseLayout {description} {title}>
+  <NarrowContainer>
+    <article>
+      <header>
+        <Prose class="max-w-none">
+          <h1>{title}</h1>
+        </Prose>
+      </header>
+      <Prose class="max-w-none">
+        <slot />
+      </Prose>
+    </article>
+  </NarrowContainer>
+</BaseLayout>
