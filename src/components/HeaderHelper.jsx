@@ -6,10 +6,10 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import site from "../data/site.json";
 
 const navigation = [
-  { name: "Articles", href: "#" },
-  { name: "Courses", href: "#" },
-  { name: "Videos", href: "#" },
-  { name: "About", href: "#" },
+  { name: "Articles", href: "/articles" },
+  { name: "Courses", href: "/courses" },
+  { name: "Videos", href: "https://www.youtube.com/rockthejvm" },
+  { name: "About", href: "/about" },
 ];
 
 export default function Example(props) {
