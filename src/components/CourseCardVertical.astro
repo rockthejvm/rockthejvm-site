@@ -13,7 +13,7 @@ interface Props {
   showPrice: boolean;
 }
 
-const { course } = Astro.props;
+const { course, showPrice } = Astro.props;
 ---
 
 <div class="shadow-2xl rounded-xl h-full max-w-sm">
@@ -43,9 +43,13 @@ const { course } = Astro.props;
           </div>
         </div>
       </div>
-      <div class="bottom-2 absolute h-10 w-full flex items-end justify-end">
-        <p class="text-content-2 pr-4 text-bold">${course.data.price}</p>
-      </div>
+      {
+        showPrice && (
+          <div class="bottom-2 absolute h-10 w-full flex items-end justify-end">
+            <p class="text-content-2 pr-4 text-bold">${course.data.price}</p>
+          </div>
+        )
+      }
     </div>
   </a>
 </div>
