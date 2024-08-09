@@ -122,6 +122,14 @@
     @apply text-accent-2 underline;
   }
 
+  .markdown-section ul {
+    @apply list-disc;
+  }
+
+  .markdown-section h3 {
+    @apply my-4;
+  }
+
   h1,
   h2,
   h3 {

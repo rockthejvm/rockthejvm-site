@@ -93,8 +93,9 @@ const {
     <h2 class={`text-center py-16 ${primaryColor}`}>
       Skills You'll Learn
     </h2>
-    <slot name="skills" />
-
+    <div class="markdown-section mx-auto max-w-[40rem] px-8 my-8 md:my-16">
+      <slot name="skills" />
+    </div>
     <h2 class={`text-center py-16 ${primaryColor}`}>Meet Rock the JVM</h2>
 
     <Feature
@@ -126,10 +127,12 @@ const {
         people just like you.
       </p>
     </Feature>
-    { Astro.slots.has("thanks") && (
-      <h3>With Special Thanks To</h3>
-      <slot name="thanks" />)
-    }
+    <div class="max-w-[40rem] mb-8 md:mb-16 mx-auto px-8">
+      { Astro.slots.has("thanks") && (
+        <h3 class="my-4">With Special Thanks To</h3>
+        <slot name="thanks" />)
+      }
+    </div>
     <!-- <h2 class={`text-center py-16 ${primaryColor}`}>What's Included</h2> -->
     <h2 class={`text-center py-16 ${primaryColor}`}>Take this course now!</h2>
     <CoursePricing {course} />
