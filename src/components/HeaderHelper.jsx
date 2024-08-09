@@ -45,7 +45,10 @@ export default function Example(props) {
               {item.name}
             </a>
           ))}
-          <a href="#" className="text-sm font-semibold leading-6 text-content">
+          <a
+            href="https://sso.teachable.com/secure/256201/identity/login/password"
+            className="text-sm font-semibold leading-6 text-content"
+          >
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
           {props.themeToggle}
