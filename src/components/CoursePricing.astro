@@ -22,7 +22,7 @@ const membershipNumExamples = (await getCollection("courses"))
   .map((e) => e.data.benefits?.numExamples ?? 0)
   .reduce((b, a) => b + a);
 const categories = (await getCollection("courseCategories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1
+  a.data.ordinal <= b.data.ordinal ? -1 : 1,
 );
 ---
 
@@ -38,13 +38,13 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
     class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2"
   >
     <div
-      class="rounded-3xl rounded-t-3xl bg-white/60 p-8 ring-1 ring-gray-900/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none"
+      class="rounded-3xl rounded-t-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none"
     >
       <h3
         id="tier-hobby"
-        class="text-base font-semibold leading-7 text-indigo-600"
+        class="text-base font-semibold leading-7 text-accent-1"
       >
-        1.0.0x {title} Lifetime License
+        {title} Lifetime License
       </h3>
       <p class="mt-4 flex items-baseline gap-x-2">
         <span class="text-5xl font-bold tracking-tight text-content"
@@ -58,7 +58,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       >
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-600"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -72,7 +72,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-600"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -86,7 +86,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-600"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -100,7 +100,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-600"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -114,7 +114,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-600"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -128,7 +128,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-600"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -142,7 +142,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-600"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -160,7 +160,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
               <Fragment>
                 <li class="flex gap-x-3">
                   <svg
-                    class="h-6 w-5 flex-none text-indigo-600"
+                    class="h-6 w-5 flex-none text-accent-1"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
@@ -180,7 +180,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       <a
         href="#"
         aria-describedby="tier-hobby"
-        class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
+        class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Get Now</a
       >
     </div>
@@ -189,13 +189,13 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
     >
       <h3
         id="tier-enterprise"
-        class="text-base font-semibold leading-7 text-indigo-400"
+        class="text-base font-semibold leading-7 text-accent-1"
       >
         All-Access Membership
       </h3>
       <p class="mt-4 flex items-baseline gap-x-2">
         <span class="text-5xl font-bold tracking-tight text-content"
-          >{
+          >${
             membership.data.packages.find((e) => e.frequency === "monthly")!
               .price
           }</span
@@ -209,7 +209,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       >
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-400"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -223,7 +223,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-400"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -237,7 +237,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         </li>
         <li class="flex gap-x-3">
           <svg
-            class="h-6 w-5 flex-none text-indigo-400"
+            class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -254,7 +254,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
             <Fragment>
               <li class="flex gap-x-3">
                 <svg
-                  class="h-6 w-5 flex-none text-indigo-400"
+                  class="h-6 w-5 flex-none text-accent-1"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   aria-hidden="true"
@@ -274,7 +274,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       <a
         href="#"
         aria-describedby="tier-enterprise"
-        class="mt-8 block rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
+        class="mt-8 block rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm text-content-1 hover:text-content-1 hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Join Now</a
       >
     </div>
