@@ -7,7 +7,7 @@ export default function Example(props) {
         <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20">
           Check out our new advanced Kotlin course{" "}
           <a href="#" className="font-semibold text-accent-1">
-            <span classNAme="absolute inset-0" aria-hidden="true"></span>Read
+            <span className="absolute inset-0" aria-hidden="true"></span>Read
             more <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
