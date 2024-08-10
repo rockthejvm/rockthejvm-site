@@ -77,9 +77,9 @@
     } */
   }
 
-  blockquote p {
+  /* blockquote p {
     color: var(--color-content);
-  }
+  } */
 
   /* body:before {
     content: "";
@@ -113,22 +113,22 @@
   a:hover {
     @apply text-accent-2 underline;
   }
-
+  /*
   .course-page-link a {
     @apply text-accent-1 no-underline;
   }
 
   .course-page-link a:hover {
     @apply text-accent-2 underline;
-  }
+  } */
 
-  .markdown-section ul {
+  /* .markdown-section ul {
     @apply list-disc;
   }
 
   .markdown-section h3 {
     @apply my-4;
-  }
+  } */
 
   h1,
   h2,

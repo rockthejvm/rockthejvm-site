@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Section from "../_layouts/Section.astro";
+import Feature from "../_components/Feature.astro";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  features: CollectionEntry<"courses">["data"]["features"];
+}
+
+const { color, features } = Astro.props;
+---
+
+<Section {color} title="How This Course Works">
+  {
+    features?.one && (
+      <Feature image={features.one} imagePosition="right">
+        <slot name="feature1" />
+      </Feature>
+    )
+  }
+  {
+    features?.two && (
+      <Feature image={features.two} imagePosition="left">
+        <slot name="feature2" />
+      </Feature>
+    )
+  }
+  {
+    features?.three && (
+      <Feature image={features.three} imagePosition="right">
+        <slot name="feature3" />
+      </Feature>
+    )
+  }
+  {
+    features?.four && (
+      <Feature image={features.four} imagePosition="left">
+        <slot name="feature4" />
+      </Feature>
+    )
+  }
+  {
+    features?.five && (
+      <Feature image={features.five} imagePosition="right">
+        <slot name="feature5" />
+      </Feature>
+    )
+  }
+</Section>

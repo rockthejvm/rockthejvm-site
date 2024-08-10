@@ -37,45 +37,13 @@ export default defineCollection({
             })
             .strict(),
         ),
-        answer: z
+        features: z
           .object({
-            src: z.string(),
-            alt: z.string(),
-          })
-          .strict()
-          .optional(),
-        featureSection1: z
-          .object({
-            src: z.string(),
-            alt: z.string(),
-          })
-          .strict()
-          .optional(),
-        featureSection2: z
-          .object({
-            src: z.string(),
-            alt: z.string(),
-          })
-          .strict()
-          .optional(),
-        featureSection3: z
-          .object({
-            src: z.string(),
-            alt: z.string(),
-          })
-          .strict()
-          .optional(),
-        featureSection4: z
-          .object({
-            src: z.string(),
-            alt: z.string(),
-          })
-          .strict()
-          .optional(),
-        featureSection5: z
-          .object({
-            src: z.string(),
-            alt: z.string(),
+            one: image(),
+            two: image().optional(),
+            three: image().optional(),
+            four: image().optional(),
+            five: image().optional(),
           })
           .strict()
           .optional(),
@@ -86,6 +54,13 @@ export default defineCollection({
           .default(["daniel-ciocirlan"]),
         price: z.number().positive().optional(),
         purchaseLink: z.string().url(),
+        question: z
+          .object({
+            image: image(),
+            text: z.string(),
+          })
+          .strict()
+          .optional(),
         title: z.string(),
       })
       .strict(),

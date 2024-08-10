@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Feature from "../_components/Feature.astro";
+import Section from "../_layouts/Section.astro";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  image: ImageMetadata;
+  question: CollectionEntry<"courses">["data"]["question"];
+}
+
+const { color, image, question } = Astro.props;
+---
+
+{
+  question && (
+    <Section {color} title={question.text}>
+      <Feature {image} imagePosition="left">
+        <slot />
+      </Feature>
+    </Section>
+  )
+}
