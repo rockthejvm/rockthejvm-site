@@ -10,6 +10,7 @@ import { getEntry } from "astro:content";
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!);
 const frontmatter = course!.data;
+const category = await getEntry("courseCategories", frontmatter.category.id);
 const {
   archived,
   answer,
@@ -25,7 +26,6 @@ const {
   grouping,
   image,
   price,
-  primaryColor,
   title,
 } = frontmatter;
 ---
@@ -46,7 +46,7 @@ const {
         </div>
     }
 
-    <h2 class={`text-center py-16 ${primaryColor}`}>
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
       <slot name="question" />
     </h2>
     {
@@ -54,7 +54,7 @@ const {
           <slot name="answer" />
         </Feature>
     }
-    <h2 class={`text-center py-16 ${primaryColor}`}>
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
       How This Course Works
     </h2>
     {
@@ -90,13 +90,13 @@ const {
         </Feature>
       )
     }
-    <h2 class={`text-center py-16 ${primaryColor}`}>
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
       Skills You'll Learn
     </h2>
     <div class="markdown-section mx-auto max-w-[40rem] px-8 my-8 md:my-16">
       <slot name="skills" />
     </div>
-    <h2 class={`text-center py-16 ${primaryColor}`}>Meet Rock the JVM</h2>
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Meet Rock the JVM</h2>
 
     <Feature
       section={{
@@ -133,8 +133,8 @@ const {
         <slot name="thanks" />)
       }
     </div>
-    <!-- <h2 class={`text-center py-16 ${primaryColor}`}>What's Included</h2> -->
-    <h2 class={`text-center py-16 ${primaryColor}`}>Take this course now!</h2>
+    <!-- <h2 class={`text-center py-16 bg-[${category.data.color}]`}>What's Included</h2> -->
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Take this course now!</h2>
     <CoursePricing {course} />
     {faqs && <FAQ faqs={[
       {question: "How is a typical lesson like?", answer: "We generally create separate mini-applications where we'll focus on a specific small subject, with examples and exercises. Each lesson is about 10-30 mins long."},
