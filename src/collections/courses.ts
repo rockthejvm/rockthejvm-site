@@ -85,7 +85,6 @@ export default defineCollection({
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
         price: z.number().positive().optional(),
-        primaryColor: z.string().optional(),
         purchaseLink: z.string().url(),
         title: z.string(),
       })
