@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
-import Feature from "./Feature.astro";
+import Feature from "../pages/courses/_components/Feature.astro";
 import MoneyBackGuarantee from "@assets/images/money-back-guarantee.svg";
 
 interface Props {
@@ -14,12 +14,12 @@ interface Props {
 const membership = await getEntry("memberships", "personal");
 
 const monthlyPrice = membership.data.packages.find(
-  (e) => e.frequency === "monthly",
+  (e) => e.frequency === "monthly"
 )!.price;
 const monthlyTitle = "Monthly Membership";
 
 const yearlyPrice = membership.data.packages.find(
-  (e) => e.frequency === "yearly",
+  (e) => e.frequency === "yearly"
 )!.price;
 const yearlyTitle = "Yearly Membership";
 
@@ -33,7 +33,7 @@ const membershipNumExamples = (await getCollection("courses"))
   .map((e) => e.data.benefits?.numExamples ?? 0)
   .reduce((b, a) => b + a);
 const categories = (await getCollection("courseCategories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1,
+  a.data.ordinal <= b.data.ordinal ? -1 : 1
 );
 ---
 

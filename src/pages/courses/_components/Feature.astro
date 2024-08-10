@@ -1,0 +1,22 @@
+---
+import Prose from "@components/Prose.astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  image: ImageMetadata;
+  imagePosition: "left" | "right";
+}
+
+const { image, imagePosition } = Astro.props;
+---
+
+<div class="sm:flex">
+  <div
+    class={`mb-4 flex-shrink-0 sm:mb-0 sm:mr-4 ${imagePosition === "left" ? "order-first" : "order-last"}`}
+  >
+    <Image class="rounded-xl w-full" src={image} alt="" />
+  </div>
+  <Prose class="mt-1">
+    <slot />
+  </Prose>
+</div>
