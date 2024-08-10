@@ -1,99 +1,57 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import CTA from "../../../components/CTA.astro";
 import FAQ from "../../../components/FAQ";
 import CoursePricing from "../../../components/CoursePricing.astro";
-import Feature from "@components/Feature.astro";
+import Feature from "@pages/courses/_components/Feature.astro";
 import Prose from "@components/Prose.astro";
 import { getEntry } from "astro:content";
+import Hero from "../_sections/Hero.astro";
+import Goal from "../_sections/Goal.astro";
+import Question from "../_sections/Question.astro";
+import Features from "../_sections/Features.astro";
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!);
 const frontmatter = course!.data;
 const category = await getEntry("courseCategories", frontmatter.category.id);
 const {
-  archived,
   answer,
-  featureSection1,
-  featureSection2,
-  featureSection3,
-  featureSection4,
-  featureSection5,
-  bundledCourses,
   description,
   excerpt,
   faqs,
+  features,
+  bundledCourses,
   grouping,
   image,
-  price,
+  question,
   title,
 } = frontmatter;
 ---
 
 <BaseLayout {description} {title}>
-  <article class="bg-bkg">
-    <CTA {description} src={image} alt={title} {title} />
-    <!-- <Fragment set:html={excerpt} /> -->
-
+  <article>
+    <Hero {description} {image} {title} />
+    <Goal>
+      <slot name="goal" />
+    </Goal>
     {
-        <h2 class="hidden">Goal</h2>
-        <div class="bg-bkg py-16 px-8">
-          <div class="rest-wrapper max-w-2xl mx-auto">
-            <Prose>
-              <slot name="goal" />
-            </Prose>
-          </div>
-        </div>
-    }
-
-    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
-      <slot name="question" />
-    </h2>
-    {
-        <Feature section={answer!} flip={true}>
-          <slot name="answer" />
-        </Feature>
-    }
-    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
-      How This Course Works
-    </h2>
-    {
-        <Feature section={featureSection1!} flip={false}>
-          <slot name="feature1" />
-        </Feature>
-    }
-    {
-        featureSection2 && (
-        <Feature section={featureSection2} flip={true}>
-          <slot name="feature2" />
-        </Feature>
+      question && (
+        <Question color={category.data.color} image={question.image} {question}>
+          <slot name="question" />
+        </Question>
       )
     }
-    {
-      featureSection3 && (
-        <Feature section={featureSection3} flip={false}>
-          <slot name="feature3" />
-        </Feature>
-      )
-    }
-    {
-      featureSection4 && (
-        <Feature section={featureSection4} flip={true}>
-          <slot name="feature4" />
-        </Feature>
-      )
-    }
-    {
-      featureSection5 && (
-        <Feature section={featureSection5} flip={false}>
-          <slot name="feature5" />
-        </Feature>
-      )
-    }
-    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
+    <Features color={category.data.color} {features}>
+      <slot name="feature1" slot="feature1" />
+      <slot name="feature2" slot="feature2" />
+      <slot name="feature3" slot="feature3" />
+      <slot name="feature4" slot="feature4" />
+      <slot name="feature5" slot="feature5" />
+    </Features>
+    <!--  <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
       Skills You'll Learn
     </h2>
-    <div class="markdown-section mx-auto max-w-[40rem] px-8 my-8 md:my-16">
+    <div class="prose mx-auto max-w-[40rem] px-8 my-8 md:my-16">
       <slot name="skills" />
     </div>
     <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Meet Rock the JVM</h2>
@@ -133,16 +91,22 @@ const {
         <slot name="thanks" />)
       }
     </div>
-    <!-- <h2 class={`text-center py-16 bg-[${category.data.color}]`}>What's Included</h2> -->
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>What's Included</h2>
     <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Take this course now!</h2>
     <CoursePricing {course} />
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Frequently Asked Questions</h2>
     {faqs && <FAQ faqs={[
       {question: "How is a typical lesson like?", answer: "We generally create separate mini-applications where we'll focus on a specific small subject, with examples and exercises. Each lesson is about 10-30 mins long."},
       {question: "Do you give a certificate?", answer: "Sure do! You'll automatically get a certificate which you can export and use this to get reimbursed or land a job."},
       {question: "Can I expense this at my company?", answer: "Of course! After you enroll, you'll automatically get a tax-compliant receipt which you can use to reimburse this course with your employer."},
-      {question: "What if I don't like the course?", answer: "Money back, easy :moneybag: Only a handful of people ever asked for a refund on the entire site of 20+ courses, just to give you an idea."},
+      {question: "What if I don't like the course?", answer: "Money back, easy 💰. Only a handful of people ever asked for a refund on the entire site of 20+ courses, just to give you an idea."},
       {question: "How long do I have access to the course?", answer: "If you're buying courses individually, you have access to them forever, including updates. If you take these courses through the membership, you'll have access as long as you're subscribed."},
       ...faqs
-      ]} client:visible />}
+      ]} client:visible />} -->
   </article>
 </BaseLayout>
+<!-- <style is:global>
+  ul {
+    @apply list-disc;
+  }
+</style> -->
