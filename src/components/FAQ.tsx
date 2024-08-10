@@ -4,9 +4,10 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  faqs: { question: string; answer: string }[]; // CollectionEntry<"courses">["data"]["faqs"]
+  faqs: CollectionEntry<"courses">["data"]["faqs"];
 }
 
 export default function Example({ faqs }: Props) {
