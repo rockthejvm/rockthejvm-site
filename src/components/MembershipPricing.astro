@@ -40,6 +40,34 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
 <div class="relative isolate bg-bkg px-6 py-1 sm:py-2 lg:px-8">
   <div class="mx-auto max-w-2xl text-center lg:max-w-4xl">
     <!-- <h2 class="text-base font-semibold leading-7 text-indigo-600">Pricing</h2> -->
+    <div class="mt-16 flex justify-center">
+      <fieldset aria-label="Payment frequency">
+        <div
+          class="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+        >
+          <!-- Checked: "bg-indigo-600 text-white", Not Checked: "text-gray-500" -->
+          <label class="cursor-pointer rounded-full px-2.5 py-1">
+            <input
+              type="radio"
+              name="frequency"
+              value="monthly"
+              class="sr-only"
+            />
+            <span>Monthly</span>
+          </label>
+          <!-- Checked: "bg-indigo-600 text-white", Not Checked: "text-gray-500" -->
+          <label class="cursor-pointer rounded-full px-2.5 py-1">
+            <input
+              type="radio"
+              name="frequency"
+              value="annually"
+              class="sr-only"
+            />
+            <span>Annually</span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
   </div>
   <!-- <p class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
     Qui iusto aut est earum eos quae. Eligendi est at nam aliquid ad quo
