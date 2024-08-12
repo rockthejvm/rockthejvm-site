@@ -22,7 +22,7 @@ const membershipNumExamples = (await getCollection("courses"))
   .map((e) => e.data.benefits?.numExamples ?? 0)
   .reduce((b, a) => b + a);
 const categories = (await getCollection("courseCategories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1
+  a.data.ordinal <= b.data.ordinal ? -1 : 1,
 );
 ---
 
@@ -299,13 +299,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
   </div>
 
   <div class="mx-auto">
-    <Feature
-      section={{
-        src: MoneyBackGuarantee,
-        alt: "Money back guarantee",
-      }}
-      flip={true}
-    >
+    <Feature image={MoneyBackGuarantee} imagePosition="left">
       <strong class="text-lg">100% Money Back Guarantee</strong>
       <p class="text-base">
         If you're not happy with this course, I want you to have your money

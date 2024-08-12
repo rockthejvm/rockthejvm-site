@@ -1,0 +1,17 @@
+---
+import CoursePricing from "@components/CoursePricing.astro";
+import type { CollectionEntry } from "astro:content";
+import Section from "../_layouts/Section.astro";
+
+interface Params {
+  course: CollectionEntry<"courses">;
+  category: CollectionEntry<"courseCategories">;
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+}
+
+const { course, category, color } = Astro.props;
+---
+
+<Section {color} title="Take this course now!">
+  <CoursePricing {course} />
+</Section>
