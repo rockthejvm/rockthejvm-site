@@ -9,6 +9,8 @@ import Hero from "../_sections/Hero.astro";
 import Goal from "../_sections/Goal.astro";
 import Question from "../_sections/Question.astro";
 import Features from "../_sections/Features.astro";
+import Skills from "../_sections/Skills.astro";
+import Pricing from "../_sections/Pricing.astro";
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!);
@@ -48,12 +50,12 @@ const {
       <slot name="feature4" slot="feature4" />
       <slot name="feature5" slot="feature5" />
     </Features>
-    <!--  <h2 class={`text-center py-16 bg-[${category.data.color}]`}>
-      Skills You'll Learn
-    </h2>
-    <div class="prose mx-auto max-w-[40rem] px-8 my-8 md:my-16">
+    <Skills>
       <slot name="skills" />
-    </div>
+    </Skills>
+    <Pricing {course} {category} color={category.data.color} />
+
+    <!--
     <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Meet Rock the JVM</h2>
 
     <Feature
@@ -94,15 +96,42 @@ const {
     <h2 class={`text-center py-16 bg-[${category.data.color}]`}>What's Included</h2>
     <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Take this course now!</h2>
     <CoursePricing {course} />
-    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Frequently Asked Questions</h2>
-    {faqs && <FAQ faqs={[
-      {question: "How is a typical lesson like?", answer: "We generally create separate mini-applications where we'll focus on a specific small subject, with examples and exercises. Each lesson is about 10-30 mins long."},
-      {question: "Do you give a certificate?", answer: "Sure do! You'll automatically get a certificate which you can export and use this to get reimbursed or land a job."},
-      {question: "Can I expense this at my company?", answer: "Of course! After you enroll, you'll automatically get a tax-compliant receipt which you can use to reimburse this course with your employer."},
-      {question: "What if I don't like the course?", answer: "Money back, easy 💰. Only a handful of people ever asked for a refund on the entire site of 20+ courses, just to give you an idea."},
-      {question: "How long do I have access to the course?", answer: "If you're buying courses individually, you have access to them forever, including updates. If you take these courses through the membership, you'll have access as long as you're subscribed."},
-      ...faqs
-      ]} client:visible />} -->
+    <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Frequently Asked Questions</h2>-->
+    <!-- {
+      faqs && (
+        <FAQ
+          faqs={[
+            {
+              question: "How is a typical lesson like?",
+              answer:
+                "We generally create separate mini-applications where we'll focus on a specific small subject, with examples and exercises. Each lesson is about 10-30 mins long.",
+            },
+            {
+              question: "Do you give a certificate?",
+              answer:
+                "Sure do! You'll automatically get a certificate which you can export and use this to get reimbursed or land a job.",
+            },
+            {
+              question: "Can I expense this at my company?",
+              answer:
+                "Of course! After you enroll, you'll automatically get a tax-compliant receipt which you can use to reimburse this course with your employer.",
+            },
+            {
+              question: "What if I don't like the course?",
+              answer:
+                "Money back, easy 💰. Only a handful of people ever asked for a refund on the entire site of 20+ courses, just to give you an idea.",
+            },
+            {
+              question: "How long do I have access to the course?",
+              answer:
+                "If you're buying courses individually, you have access to them forever, including updates. If you take these courses through the membership, you'll have access as long as you're subscribed.",
+            },
+            ...faqs,
+          ]}
+          client:visible
+        />
+      )
+    } -->
   </article>
 </BaseLayout>
 <!-- <style is:global>
