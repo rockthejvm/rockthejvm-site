@@ -12,6 +12,7 @@ import Features from "../_sections/Features.astro";
 import Skills from "../_sections/Skills.astro";
 import Pricing from "../_sections/Pricing.astro";
 import Profile from "../_sections/Profile.astro";
+import CourseFAQ from "../_sections/CourseFAQ.astro";
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!);
@@ -56,6 +57,7 @@ const {
     </Skills>
     <Profile color={category.data.color} />
     <Pricing {course} {category} color={category.data.color} />
+    <CourseFAQ {course} color={category.data.color} />
 
     <!--
     <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Meet Rock the JVM</h2>
