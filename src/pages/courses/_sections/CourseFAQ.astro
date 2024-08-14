@@ -1,14 +1,13 @@
 ---
-import type { CollectionEntry, CollectionKey } from "astro:content";
 import Section from "../_layouts/Section.astro";
 import FAQ from "@components/FAQ";
 
 interface Props {
   color: string;
-  course: CollectionEntry<"courses">;
+  faq: { question: string; answer: string }[];
 }
 
-const { color, course } = Astro.props;
+const { color, faq } = Astro.props;
 ---
 
 <Section {color} title="Meet Rock the JVM">
@@ -41,7 +40,7 @@ const { color, course } = Astro.props;
             answer:
               "If you're buying courses individually, you have access to them forever, including updates. If you take these courses through the membership, you'll have access as long as you're subscribed.",
           },
-          ...(course.data.faqs && course.data.faqs),
+          ...faq,
         ]}
         client:visible
       />
