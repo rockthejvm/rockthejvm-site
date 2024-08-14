@@ -32,6 +32,10 @@ import MembershipPricing from "@components/MembershipPricing.astro";
 //   title,
 // } = frontmatter;
 
+// const  = await getEntry("courses", slug!);
+// const frontmatter = course!.data;
+// const category = await getEntry("courseCategories", frontmatter.category.id);
+
 const faqs = [
   {question: "How is a typical lesson like?", answer: "Code is king, and we write it from scratch. In a typical lesson I'll explain some concepts, either briefly on a diagram or directly in the code. We then run live examples, and usually I'll finish the lesson with some exercises, which I then solve on camera after you've tried them yourself."},
   {question: "Does this work in real life?", answer: "It works. That's not for me to say, that's the 80000 people taking this material and applying it in real life. I teach the same material at Apple, Adobe and some of the best companies in the world."},
@@ -54,6 +58,7 @@ const coursess = await Promise.all(
 
 const courseList = coursess.reduce((accumulator, value) => accumulator.concat(value), []);
 
+const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
 <BaseLayout description="All of the Rock the JVM premium content, at your service." title="The Rock the JVM Membership">
@@ -130,11 +135,8 @@ const courseList = coursess.reduce((accumulator, value) => accumulator.concat(va
       The Instructor
     </h2>
     <Feature
-      section={{
-        src: "https://cdn.fs.teachablecdn.com/Pv2uGaq0TV6KTYq3hodG",
-        alt: "Daniel Ciocîrlan",
-      }}
-      flip={true}
+      image={author.data.photo}
+      imagePosition="left"
     >
       <h3>Daniel Ciocîrlan</h3>
       <p>I'm a software engineer and the founder of Rock the JVM.</p>
