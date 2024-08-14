@@ -9,6 +9,8 @@ import MembershipHelper from "@components/MembershipHelper";
 import { Image } from "astro:assets";
 import MembershipImage from "../../content/memberships/personal.png";
 import MembershipPricing from "@components/MembershipPricing.astro";
+import CourseFAQ from "@pages/courses/_sections/CourseFAQ.astro";
+import Description from "./_sections/Description.astro";
 
 
 // const { slug } = Astro.params;
@@ -96,6 +98,18 @@ const author = await getEntry("authors", "daniel-ciocirlan");
       </div>
     </section>
 
+    <Description>
+      <p>No need for me to say anything that I haven't said already. You have <strong>everything there is to know</strong> about Scala, functional programming with Cats/Cats Effect or ZIO, big data with Spark, distributed computing with Akka, streaming with Flink. You'll have access to a giant catalog for slow & easy or for binge learning, and you have:</p>
+      <ul class="">
+        <li>more than 230 hours of HD content (as of July 2022)</li>
+        <li>25000+ lines of code, all written live and working</li>
+        <li>500+ examples</li>
+        <li>400+ exercises</li>
+        <li>Forever access to the Rock the JVM private community (even if you cancel)</li>
+        <li>250+ cheat sheets and takeaway slides</li>
+      </ul>
+      <p>Check out the individual courses below. They are all self-contained, and I guide you every step of the way, from noob to master. <strong>I promise that you will learn in this series more life-long skills than many engineers learn in their entire careers.</strong></p>
+    </Description>
     <!-- <Fragment set:html={excerpt} /> -->
     <h2 class={`text-center py-16 bg-secondary`}>
       Learn Scala and everything else.
@@ -168,6 +182,6 @@ const author = await getEntry("authors", "daniel-ciocirlan");
     </div>
     <!-- <h2 class={`text-center py-16 ${primaryColor}`}>What's Included</h2> -->
     <!-- <CoursePricing {course} /> -->
-    {faqs && <FAQ {faqs} client:visible />}
+    <CourseFAQ faq={faqs} color="bg-secondary"/>
   </article>
 </BaseLayout>
