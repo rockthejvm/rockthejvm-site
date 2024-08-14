@@ -57,7 +57,7 @@ const {
     </Skills>
     <Profile color={category.data.color} />
     <Pricing {course} {category} color={category.data.color} />
-    <CourseFAQ {course} color={category.data.color} />
+    <CourseFAQ faq={course!.data.faqs ?? []} color={category.data.color} />
 
     <!--
     <h2 class={`text-center py-16 bg-[${category.data.color}]`}>Meet Rock the JVM</h2>
