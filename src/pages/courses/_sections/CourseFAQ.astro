@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry, CollectionKey } from "astro:content";
+import Section from "../_layouts/Section.astro";
+import FAQ from "@components/FAQ";
+
+interface Props {
+  color: string;
+  course: CollectionEntry<"courses">;
+}
+
+const { color, course } = Astro.props;
+---
+
+<Section {color} title="Meet Rock the JVM">
+  {
+    (
+      <FAQ
+        faqs={[
+          {
+            question: "How is a typical lesson like?",
+            answer:
+              "We generally create separate mini-applications where we'll focus on a specific small subject, with examples and exercises. Each lesson is about 10-30 mins long.",
+          },
+          {
+            question: "Do you give a certificate?",
+            answer:
+              "Sure do! You'll automatically get a certificate which you can export and use this to get reimbursed or land a job.",
+          },
+          {
+            question: "Can I expense this at my company?",
+            answer:
+              "Of course! After you enroll, you'll automatically get a tax-compliant receipt which you can use to reimburse this course with your employer.",
+          },
+          {
+            question: "What if I don't like the course?",
+            answer:
+              "Money back, easy 💰. Only a handful of people ever asked for a refund on the entire site of 20+ courses, just to give you an idea.",
+          },
+          {
+            question: "How long do I have access to the course?",
+            answer:
+              "If you're buying courses individually, you have access to them forever, including updates. If you take these courses through the membership, you'll have access as long as you're subscribed.",
+          },
+          ...(course.data.faqs && course.data.faqs),
+        ]}
+        client:visible
+      />
+    )
+  }
+</Section>

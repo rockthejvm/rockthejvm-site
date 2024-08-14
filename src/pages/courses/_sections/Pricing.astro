@@ -5,11 +5,10 @@ import Section from "../_layouts/Section.astro";
 
 interface Params {
   course: CollectionEntry<"courses">;
-  category: CollectionEntry<"courseCategories">;
   color: CollectionEntry<"courseCategories">["data"]["color"];
 }
 
-const { course, category, color } = Astro.props;
+const { course, color } = Astro.props;
 ---
 
 <Section {color} title="Take this course now!">
