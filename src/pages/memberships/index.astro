@@ -11,7 +11,9 @@ import MembershipImage from "../../content/memberships/personal.png";
 import MembershipPricing from "@components/MembershipPricing.astro";
 import CourseFAQ from "@pages/courses/_sections/CourseFAQ.astro";
 import Description from "./_sections/Description.astro";
-
+import MembershipPricingSection from "./_sections/MembershipPricingSection.astro";
+import Courses from "./_sections/Courses.astro";
+import Profile from "@pages/courses/_sections/Profile.astro";
 
 // const { slug } = Astro.params;
 // const course = await getEntry("courses", slug!);
@@ -39,37 +41,68 @@ import Description from "./_sections/Description.astro";
 // const category = await getEntry("courseCategories", frontmatter.category.id);
 
 const faqs = [
-  {question: "How is a typical lesson like?", answer: "Code is king, and we write it from scratch. In a typical lesson I'll explain some concepts, either briefly on a diagram or directly in the code. We then run live examples, and usually I'll finish the lesson with some exercises, which I then solve on camera after you've tried them yourself."},
-  {question: "Does this work in real life?", answer: "It works. That's not for me to say, that's the 80000 people taking this material and applying it in real life. I teach the same material at Apple, Adobe and some of the best companies in the world."},
-  {question: "Dude, this seems massive. How do I approach it?", answer: "Yes, it's massive, but it doesn't have to be intimidating. This is a buffet, you don't need to eat everything. Take Scala first. You'll probably like it, so much that I bet after 2 weeks this question won't be relevant anymore."},
-  {question: "What if I don't like it?", answer: "Just cancel your subscription, and you'll be on your way. You will have access to everything until the next payment is due. The payments already made are not refundable, though. You'll still be a member of the Slack community - unless you want to leave us for good, which will make us all sad."},
-  {question: "I've never written code before, but this seems interesting. Can I enroll?", answer: "You can, but you probably shouldn't (yet). The courses are for people who have coded before (in some other language), and we assume general programming fundamentals. I'll probably come back with a very (very) slow and easy version for Scala as a first language, which will unlock the skills you need to take everything else."},
-  {question: "I already have access to some of the courses. Can I just pay the difference?", answer: "The mechanics for this one is different. When you buy a course, you have access to it for life. When you buy the membership, you have access to everything on the site as long as you're subscribed, including future courses. For that reason, I cannot accommodate a \"pay the difference\" request."},
-  {question: "What's not included in the membership?", answer: "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment."},
-]
+  {
+    question: "How is a typical lesson like?",
+    answer:
+      "Code is king, and we write it from scratch. In a typical lesson I'll explain some concepts, either briefly on a diagram or directly in the code. We then run live examples, and usually I'll finish the lesson with some exercises, which I then solve on camera after you've tried them yourself.",
+  },
+  {
+    question: "Does this work in real life?",
+    answer:
+      "It works. That's not for me to say, that's the 80000 people taking this material and applying it in real life. I teach the same material at Apple, Adobe and some of the best companies in the world.",
+  },
+  {
+    question: "Dude, this seems massive. How do I approach it?",
+    answer:
+      "Yes, it's massive, but it doesn't have to be intimidating. This is a buffet, you don't need to eat everything. Take Scala first. You'll probably like it, so much that I bet after 2 weeks this question won't be relevant anymore.",
+  },
+  {
+    question: "What if I don't like it?",
+    answer:
+      "Just cancel your subscription, and you'll be on your way. You will have access to everything until the next payment is due. The payments already made are not refundable, though. You'll still be a member of the Slack community - unless you want to leave us for good, which will make us all sad.",
+  },
+  {
+    question:
+      "I've never written code before, but this seems interesting. Can I enroll?",
+    answer:
+      "You can, but you probably shouldn't (yet). The courses are for people who have coded before (in some other language), and we assume general programming fundamentals. I'll probably come back with a very (very) slow and easy version for Scala as a first language, which will unlock the skills you need to take everything else.",
+  },
+  {
+    question:
+      "I already have access to some of the courses. Can I just pay the difference?",
+    answer:
+      'The mechanics for this one is different. When you buy a course, you have access to it for life. When you buy the membership, you have access to everything on the site as long as you\'re subscribed, including future courses. For that reason, I cannot accommodate a "pay the difference" request.',
+  },
+  {
+    question: "What's not included in the membership?",
+    answer:
+      "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment.",
+  },
+];
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0]!.collection === "courses"
+  (series) => series.data.members[0]!.collection === "courses",
 );
 const memberss = courseSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(
   (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug)))
-  )
+    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+  ),
 );
-
-const courseList = coursess.reduce((accumulator, value) => accumulator.concat(value), []);
-
-const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
-<BaseLayout description="All of the Rock the JVM premium content, at your service." title="The Rock the JVM Membership">
+<BaseLayout
+  description="All of the Rock the JVM premium content, at your service."
+  title="The Rock the JVM Membership"
+>
   <article class="bg-bkg">
     <section class="py-8 md:py-16">
       <div class="">
         <div class="relative isolate">
           <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20">
+            <div
+              class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
+            >
               <Image
                 src={MembershipImage}
                 alt="Personal membership"
@@ -77,13 +110,17 @@ const author = await getEntry("authors", "daniel-ciocirlan");
                 slot="image"
               />
               <div class="w-full flex-auto">
-                <h1 class="text-3xl font-bold tracking-tight text-content sm:text-4xl">
+                <h1
+                  class="text-3xl font-bold tracking-tight text-content sm:text-4xl"
+                >
                   The Rock the JVM Membership
                 </h1>
                 <p class="mt-6 text-lg leading-8 text-content">
                   All of the Rock the JVM premium content, at your service.
                 </p>
-                <div class="mt-10 flex flex-row items-center justify-center gap-x-6 lg:justify-start gap-5">
+                <div
+                  class="mt-10 flex flex-row items-center justify-center gap-x-6 lg:justify-start gap-5"
+                >
                   <a
                     href="https://sso.teachable.com/secure/256201/checkout/4131055/membership"
                     class="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
@@ -99,89 +136,64 @@ const author = await getEntry("authors", "daniel-ciocirlan");
     </section>
 
     <Description>
-      <p>No need for me to say anything that I haven't said already. You have <strong>everything there is to know</strong> about Scala, functional programming with Cats/Cats Effect or ZIO, big data with Spark, distributed computing with Akka, streaming with Flink. You'll have access to a giant catalog for slow & easy or for binge learning, and you have:</p>
+      <p>
+        No need for me to say anything that I haven't said already. You have <strong
+          >everything there is to know</strong
+        > about Scala, functional programming with Cats/Cats Effect or ZIO, big data
+        with Spark, distributed computing with Akka, streaming with Flink. You'll
+        have access to a giant catalog for slow & easy or for binge learning, and
+        you have:
+      </p>
       <ul class="">
         <li>more than 230 hours of HD content (as of July 2022)</li>
         <li>25000+ lines of code, all written live and working</li>
         <li>500+ examples</li>
         <li>400+ exercises</li>
-        <li>Forever access to the Rock the JVM private community (even if you cancel)</li>
-        <li>250+ cheat sheets and takeaway slides</li>
-      </ul>
-      <p>Check out the individual courses below. They are all self-contained, and I guide you every step of the way, from noob to master. <strong>I promise that you will learn in this series more life-long skills than many engineers learn in their entire careers.</strong></p>
-    </Description>
-    <!-- <Fragment set:html={excerpt} /> -->
-    <h2 class={`text-center py-16 bg-secondary`}>
-      Learn Scala and everything else.
-    </h2>
-
-    <div class="list-disc max-w-5xl mx-auto my-8 md:my-16">
-      <p>No need for me to say anything that I haven't said already. You have <strong>everything there is to know</strong> about Scala, functional programming with Cats/Cats Effect or ZIO, big data with Spark, distributed computing with Akka, streaming with Flink. You'll have access to a giant catalog for slow & easy or for binge learning, and you have:</p>
-      <ul class="">
-        <li>more than 230 hours of HD content (as of July 2022)</li>
-        <li>25000+ lines of code, all written live and working</li>
-        <li>500+ examples</li>
-        <li>400+ exercises</li>
-        <li>Forever access to the Rock the JVM private community (even if you cancel)</li>
-        <li>250+ cheat sheets and takeaway slides</li>
-      </ul>
-      <p>Check out the individual courses below. They are all self-contained, and I guide you every step of the way, from noob to master. <strong>I promise that you will learn in this series more life-long skills than many engineers learn in their entire careers.</strong></p>
-    </div>
-
-    <h2 class={`text-center py-16 bg-secondary`}>Courses Included</h2>
-    <ul role="list" class="mx-auto px-8 my-8 md:my-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-    {
-
-      courseList.map(course =>
-        <li class="col-span-1 divide-y rounded-lg bg-none flex center justify-center">
-          <CourseCardVertical {course} showPrice={false} />
+        <li>
+          Forever access to the Rock the JVM private community (even if you
+          cancel)
         </li>
-      )
-    }
-    </ul>
-
-    <h2 class={`text-center py-16 bg-secondary`}>Get started now!</h2>
-    <MembershipPricing />
-
-
-    <h2 class={`text-center py-16 bg-secondary`}>
-      The Instructor
-    </h2>
-    <Feature
-      image={author.data.photo}
-      imagePosition="left"
-    >
-      <h3>Daniel Ciocîrlan</h3>
-      <p>I'm a software engineer and the founder of Rock the JVM.</p>
+        <li>250+ cheat sheets and takeaway slides</li>
+      </ul>
       <p>
-        I worked on my first production Kotlin server-side application in 2017
-        (when Kotlin server-side wasn't cool yet 😆), a logistics management
-        application for a big plane manufacturer. I've written a lot more code
-        since, I learned a ton, and I want to share everything.
+        Check out the individual courses below. They are all self-contained, and
+        I guide you every step of the way, from noob to master. <strong
+          >I promise that you will learn in this series more life-long skills
+          than many engineers learn in their entire careers.</strong
+        >
       </p>
-      <p>
-        As of February 2024, I've taught Kotlin, Scala and other libraries to
-        100000+ students at various levels and I've held live training sessions
-        for some of the top companies in the industry, including Adobe and
-        Apple. I've also taught university students who now work at Google and
-        Facebook (among others), I've held Hour of Code for 7-year-olds and I've
-        taught more than 35000 kids to code (not in Kotlin, yet 😆).
-      </p>
-      <p>
-        <strong>You're in good hands in this course.</strong> I'll guide you every
-        step of the way, and our private community at Rock the JVM is full of passionate
-        people just like you.
-      </p>
-    </Feature>
-    <div class="max-w-[40rem] mb-8 md:mb-16 mx-auto px-8">
-      { Astro.slots.has("thanks") && (
-        <h3 class="my-4">With Special Thanks To</h3>
-        <slot name="thanks" />)
-      }
-    </div>
-    <!-- <h2 class={`text-center py-16 ${primaryColor}`}>What's Included</h2> -->
-    <!-- <CoursePricing {course} /> -->
-    <CourseFAQ faq={faqs} color="bg-secondary"/>
+    </Description>
+
+    <Courses />
+    <MembershipPricingSection />
+
+    <Profile color="bg-secondary">
+      <div slot="bio">
+        <p>I'm a software engineer and the founder of Rock the JVM.</p>
+        <p>
+          I worked on my first production Kotlin server-side application in 2017
+          (when Kotlin server-side wasn't cool yet 😆), a logistics management
+          application for a big plane manufacturer. I've written a lot more code
+          since, I learned a ton, and I want to share everything.
+        </p>
+        <p>
+          As of February 2024, I've taught Kotlin, Scala and other libraries to
+          100000+ students at various levels and I've held live training
+          sessions for some of the top companies in the industry, including
+          Adobe and Apple. I've also taught university students who now work at
+          Google and Facebook (among others), I've held Hour of Code for
+          7-year-olds and I've taught more than 35000 kids to code (not in
+          Kotlin, yet 😆).
+        </p>
+        <p>
+          <strong>You're in good hands in this course.</strong> I'll guide you every
+          step of the way, and our private community at Rock the JVM is full of passionate
+          people just like you.
+        </p>
+      </div>
+      {Astro.slots.has("thanks") && <slot name="thanks" />}
+    </Profile>
+
+    <CourseFAQ faq={faqs} color="bg-secondary" />
   </article>
 </BaseLayout>

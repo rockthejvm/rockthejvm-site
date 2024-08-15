@@ -55,7 +55,31 @@ const {
     <Skills>
       <slot name="skills" />
     </Skills>
-    <Profile color={category.data.color} />
+    <Profile color={category.data.color}>
+      <div slot="bio">
+        <p>I'm a software engineer and the founder of Rock the JVM.</p>
+        <p>
+          I worked on my first production Kotlin server-side application in 2017
+          (when Kotlin server-side wasn't cool yet 😆), a logistics management
+          application for a big plane manufacturer. I've written a lot more code
+          since, I learned a ton, and I want to share everything.
+        </p>
+        <p>
+          As of February 2024, I've taught Kotlin, Scala and other libraries to
+          100000+ students at various levels and I've held live training
+          sessions for some of the top companies in the industry, including
+          Adobe and Apple. I've also taught university students who now work at
+          Google and Facebook (among others), I've held Hour of Code for
+          7-year-olds and I've taught more than 35000 kids to code (not in
+          Kotlin, yet 😆).
+        </p>
+        <p>
+          <strong>You're in good hands in this course.</strong> I'll guide you every
+          step of the way, and our private community at Rock the JVM is full of passionate
+          people just like you.
+        </p>
+      </div>
+    </Profile>
     <Pricing {course} {category} color={category.data.color} />
     <CourseFAQ faq={course!.data.faqs ?? []} color={category.data.color} />
 
