@@ -8,11 +8,22 @@ interface Props {
 }
 
 const { color, title } = Astro.props;
+
+const colorString =
+  color === null
+    ? null
+    : color?.substring(0, 3) === "bg-"
+      ? color
+      : `bg-[${color}]`;
+
+console.log(colorString + " " + title);
 ---
 
-<section class="py-16 px-8 max-w-7xl mx-auto">
-  <header class="mx-auto">
+<section>
+  <header class=`mx-auto ${colorString ? colorString : "hidden"}`>
     <H2 {color} class="text-center mx-auto">{title}</H2>
   </header>
-  <slot />
+  <div class="py-16 px-8 max-w-7xl mx-auto">
+    <slot />
+  </div>
 </section>
