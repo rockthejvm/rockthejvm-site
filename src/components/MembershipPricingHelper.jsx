@@ -388,7 +388,28 @@ export default function Example(props) {
             </a>
           </div>
           <div class="rounded-3xl rounded-t-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
-            <div>
+            <div class="mt-8">
+              <h3
+                id="tier-hobby"
+                class="text-base font-semibold leading-7 text-accent-1"
+              >
+                5-Team Pack
+              </h3>
+              <p class="mt-4 flex items-baseline gap-x-2">
+                <span class="text-5xl font-bold tracking-tight text-content">
+                  ${900}
+                </span>
+                <span class="text-base text-content">/year</span>
+              </p>
+              <a
+                href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
+                aria-describedby="tier-hobby"
+                class="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-4"
+              >
+                Get Now
+              </a>
+            </div>
+            <div class="mt-8">
               <h3
                 id="tier-hobby"
                 class="text-base font-semibold leading-7 text-accent-1"
@@ -401,11 +422,15 @@ export default function Example(props) {
                 </span>
                 <span class="text-base text-content">/year</span>
               </p>
-              <p class="mt-6 text-base leading-7 text-content">
-                A single yearly membership for up to 10 people
-              </p>
+              <a
+                href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
+                aria-describedby="tier-hobby"
+                class="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-4"
+              >
+                Get Now
+              </a>
             </div>
-            <div>
+            <div class="mt-8">
               <h3
                 id="tier-hobby"
                 class="text-base font-semibold leading-7 text-accent-1"
@@ -418,13 +443,10 @@ export default function Example(props) {
                 </span>
                 <span class="text-base text-content">/year</span>
               </p>
-              <p class="mt-6 text-base leading-7 text-content">
-                A single yearly membership for up to 15 people
-              </p>
               <a
                 href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
                 aria-describedby="tier-hobby"
-                class="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
+                class="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-4"
               >
                 Get Now
               </a>
