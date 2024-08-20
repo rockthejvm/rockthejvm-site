@@ -32,12 +32,12 @@ const { course, showPrice } = Astro.props;
       <div class="mx-auto w-full mb-4">
         <div class="mx-auto px-4">
           <h3
-            class="text-md text-center font-bold my-4 tracking-tight text-content-2 sm:text-4xl"
+            class="text-4xl sm:text-xl text-center font-bold my-4 tracking-tight text-content-2 lg:text-4xl"
           >
             {course.data.title}
           </h3>
           <div class="py-4 sm:py-4">
-            <p class="text-base text-content-1">
+            <p class="text-base sm:text-sm lg:text-base text-content-1">
               {course.data.description}
             </p>
           </div>
@@ -46,7 +46,9 @@ const { course, showPrice } = Astro.props;
       {
         showPrice && (
           <div class="bottom-2 absolute h-10 w-full flex items-end justify-end">
-            <p class="text-content-2 pr-4 text-bold">${course.data.price}</p>
+            <p class="text-content-2 pr-4 pt-4 font-extrabold">
+              {course.data.price ? `$${course.data.price}` : "Free"}
+            </p>
           </div>
         )
       }
