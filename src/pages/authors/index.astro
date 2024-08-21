@@ -4,10 +4,14 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleAuthors from "../../components/ArticleAuthors.astro";
 
 const authors = await getCollection("authors");
-const title = "Author Index";
+const title = "Authors";
 ---
 
 <BaseLayout {title} description={title}>
-  <h1>{title}</h1>
+  <header class="py-8 md:py-16 bg-bkg">
+    <h1 class="text-content-1 mx-6 lg:mx-8 text-center">
+      {title}
+    </h1>
+  </header>
   <ArticleAuthors {authors} />
 </BaseLayout>
