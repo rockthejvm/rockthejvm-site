@@ -88,7 +88,7 @@ const { article, canonicalUrl, description, error, image, title, type } =
       rel="alternate"
       type="application/rss+xml"
       title={site.name}
-      href={new URL("rss.xml", Astro.site)}
+      href={new URL("feed.xml", Astro.site)}
     />
     <title>
       {title} | {site.name}

@@ -30,8 +30,8 @@
       "handle": "@rockthejvm",
       "url": "https://www.youtube.com/@rockthejvm"
     },
-    "rss": {
-      "url": "rss.xml"
+    "feed": {
+      "url": "feed.xml"
     }
   }
 }
