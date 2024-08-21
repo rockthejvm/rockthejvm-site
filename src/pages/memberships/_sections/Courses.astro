@@ -1,7 +1,7 @@
 ---
 import CourseCardVertical from "@components/CourseCardVertical.astro";
 import Prose from "@components/Prose.astro";
-import Section from "@pages/courses/_layouts/Section.astro";
+import Section from "@components/Section.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
 const courseSeriess = (await getCollection("seriess")).filter(

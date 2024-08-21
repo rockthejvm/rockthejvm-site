@@ -1,6 +1,6 @@
 ---
-import Section from "../_layouts/Section.astro";
 import FAQ from "@components/FAQ";
+import Section from "@components/Section.astro";
 
 interface Props {
   color: string;
@@ -10,7 +10,7 @@ interface Props {
 const { color, faq } = Astro.props;
 ---
 
-<Section {color} title="Meet Rock the JVM">
+<Section {color} title="FAQ">
   {
     (
       <FAQ
