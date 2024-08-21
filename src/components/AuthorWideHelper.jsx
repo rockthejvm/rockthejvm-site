@@ -1,6 +1,6 @@
 export default function Example(props) {
   return (
-    <div className="sm:flex mb-2">
+    <div className="sm:flex py-4">
       <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">{props.photo}</div>
       <div>
         <p className="text-lg font-bold">{props.name}</p>
