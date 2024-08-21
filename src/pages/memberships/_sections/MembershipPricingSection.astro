@@ -2,7 +2,7 @@
 import MembershipPricing from "@components/MembershipPricing.astro";
 import MembershipPricingHelper from "@components/MembershipPricingHelper";
 import Prose from "@components/Prose.astro";
-import Section from "@pages/courses/_layouts/Section.astro";
+import Section from "@components/Section.astro";
 import { getCollection, getEntry } from "astro:content";
 
 const membership = await getEntry("memberships", "personal");
