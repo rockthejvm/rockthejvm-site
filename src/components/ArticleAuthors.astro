@@ -8,12 +8,8 @@ interface Props {
 const { authors } = Astro.props;
 ---
 
-<div>
+<div
+  class="mx-auto px-8 my-8 md:my-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+>
   {authors.map((author) => <AuthorExpanded author={author} />)}
 </div>
-<style>
-  div {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
-  }
-</style>
