@@ -72,18 +72,18 @@ const faqs = [
 ];
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0]!.collection === "courses"
+  (series) => series.data.members[0]!.collection === "courses",
 );
 const memberss = courseSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(
   (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug)))
-  )
+    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+  ),
 );
 
 const courseList = coursess.reduce(
   (accumulator, value) => accumulator.concat(value),
-  []
+  [],
 );
 ---
 
@@ -91,6 +91,11 @@ const courseList = coursess.reduce(
   description="All of the Rock the JVM premium content, at your service."
   title="The Rock the JVM Membership"
 >
+  <header class="pt-8 md:pt-16 bg-bkg">
+    <h1 class="text-content-1 mx-6 lg:mx-8 text-center">
+      Rock the JVM Courses
+    </h1>
+  </header>
   <article class="bg-bkg">
     <section class="py-8 md:py-16">
       <ul
