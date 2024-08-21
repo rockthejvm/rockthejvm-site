@@ -14,8 +14,35 @@ const membershipTypes = [
   { value: "Team", label: "Team Pack", priceSuffix: "/year" },
 ];
 
+const plans = [
+  {
+    id: "5",
+    name: "5-Team",
+    price: 900,
+    url: "https://sso.teachable.com/secure/256201/checkout/3514312/team-pack",
+  },
+  {
+    id: "10",
+    name: "10-Team",
+    price: 1800,
+    url: "https://checkout.teachable.com/secure/256201/checkout/order_7cwql1yy",
+  },
+  {
+    id: "15",
+    name: "15-Team",
+    price: 2700,
+    url: "https://checkout.teachable.com/secure/256201/checkout/order_109tpxld",
+  },
+];
+
 export default function Example(props) {
   const [membership, setMembership] = useState(membershipTypes[0]);
+  const [teamPack, setTeamPack] = useState(plans[0]);
+
+  const handleHandleTeamPackChange = (event) => {
+    console.log(event.target.value);
+    setTeamPack(event.target.value);
+  };
 
   return (
     <div className="relative isolate bg-bkg px-6 py-1 sm:py-2 lg:px-8">
@@ -70,9 +97,9 @@ export default function Example(props) {
                   aria-hidden="true"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
                 A single Netflix-style monthly subscription for everything in
@@ -388,69 +415,58 @@ export default function Example(props) {
             </a>
           </div>
           <div className="rounded-3xl rounded-t-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
-            <div className="mt-8">
-              <h3
-                id="tier-hobby"
-                className="text-base font-semibold leading-7 text-accent-1"
-              >
-                5-Team Pack
-              </h3>
-              <p className="mt-4 flex items-baseline gap-x-2">
-                <span className="text-5xl font-bold tracking-tight text-content">
-                  ${900}
-                </span>
-                <span className="text-base text-content">/year</span>
-              </p>
-              <a
-                href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
-                aria-describedby="tier-hobby"
-                className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-4"
-              >
-                Get Now
-              </a>
+            <RadioGroup
+              value={teamPack}
+              onChange={setTeamPack}
+              className="mb-8"
+            >
+              <div className="space-y-5">
+                {plans.map((plan) => (
+                  <div key={plan.id} className="relative flex items-start">
+                    <div className="flex h-6 items-center my-auto">
+                      <Radio
+                        key={plan.name}
+                        value={plan}
+                        aria-label={plan.name}
+                        aria-describedby={`${plan.id}-description`}
+                        className="h-6 w-6"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={`flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white ${teamPack.name === plan.name ? "bg-accent-1" : ""}`}
+                        >
+                          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                        </span>
+                      </Radio>
+                    </div>
+                    <div className="mt-8 ml-8 text-sm leading-6">
+                      <h3
+                        id="tier-hobby"
+                        className="text-base font-semibold leading-7 text-accent-1"
+                      >
+                        {plan.name} Pack
+                      </h3>
+                      <p className="mt-4 flex items-baseline gap-x-2">
+                        <span className="text-5xl font-bold tracking-tight text-content">
+                          ${plan.price}
+                        </span>
+                        <span className="text-base text-content">/year</span>
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </RadioGroup>
+            <div className="mt-4">
+              Selected option: <strong>{teamPack.name}</strong>
             </div>
-            <div className="mt-8">
-              <h3
-                id="tier-hobby"
-                className="text-base font-semibold leading-7 text-accent-1"
-              >
-                10-Team Pack
-              </h3>
-              <p className="mt-4 flex items-baseline gap-x-2">
-                <span className="text-5xl font-bold tracking-tight text-content">
-                  ${1800}
-                </span>
-                <span className="text-base text-content">/year</span>
-              </p>
-              <a
-                href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
-                aria-describedby="tier-hobby"
-                className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-4"
-              >
-                Get Now
-              </a>
-            </div>
-            <div className="mt-8">
-              <h3
-                id="tier-hobby"
-                className="text-base font-semibold leading-7 text-accent-1"
-              >
-                15-Team Pack
-              </h3>
-              <p className="mt-4 flex items-baseline gap-x-2">
-                <span className="text-5xl font-bold tracking-tight text-content">
-                  ${2700}
-                </span>
-                <span className="text-base text-content">/year</span>
-              </p>
-              <a
-                href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
-                aria-describedby="tier-hobby"
-                className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-4"
-              >
-                Get Now
-              </a>
-            </div>
+            <a
+              href={teamPack.url}
+              aria-describedby="tier-hobby"
+              className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-4"
+            >
+              Get Now
+            </a>
           </div>
         </div>
       </div>
