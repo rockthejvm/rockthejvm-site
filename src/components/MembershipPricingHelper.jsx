@@ -84,7 +84,6 @@ export default function Example(props) {
               </span>
               <span className="text-base text-content">/month</span>
             </p>
-            <p className="mt-6 text-base leading-7 text-content">You get:</p>
             <ul
               role="list"
               className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
@@ -212,10 +211,6 @@ export default function Example(props) {
                 {props.membershipLinesOfCode}+ lines of code from scratch!
               </li>
             </ul>
-            <p className="text-sm mt-8 text-content-1">
-              This is a subscription product billed on a monthly basis until you
-              cancel. Cancel anytime from the account management page.
-            </p>
             <a
               href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
               aria-describedby="tier-hobby"
@@ -223,6 +218,12 @@ export default function Example(props) {
             >
               Get Now
             </a>
+            <small className="text-sm mt-16 text-content-1">
+              <i class="mt-8">
+                This is a subscription product billed on a monthly basis until
+                you cancel. Cancel anytime from the account management page.
+              </i>
+            </small>
           </div>
           <div className="relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
             <h3
@@ -371,6 +372,12 @@ export default function Example(props) {
             >
               Join Now
             </a>
+            <small className="text-sm mt-16 text-content-1">
+              <i class="mt-8">
+                This is a subscription product billed on a yearly basis until
+                you cancel. Cancel anytime from the account management page.
+              </i>
+            </small>
           </div>
         </div>
       </div>
@@ -413,6 +420,12 @@ export default function Example(props) {
             >
               Get Now
             </a>
+            <small className="text-sm mt-16 text-content-1">
+              <i class="mt-8">
+                This is a subscription product billed on a yearly basis until
+                you cancel. Cancel anytime from the account management page.
+              </i>
+            </small>
           </div>
           <div className="rounded-3xl rounded-t-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
             <RadioGroup
@@ -467,6 +480,12 @@ export default function Example(props) {
             >
               Get Now
             </a>
+            <small className="text-sm mt-16 text-content-1">
+              <i class="mt-8">
+                This is a subscription product billed on a yearly basis until
+                you cancel. Cancel anytime from the account management page.
+              </i>
+            </small>
           </div>
         </div>
       </div>
