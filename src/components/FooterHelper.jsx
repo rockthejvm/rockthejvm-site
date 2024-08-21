@@ -96,7 +96,7 @@ const navigation = {
     },
     {
       name: "RSS",
-      href: "/rss.xml",
+      href: "/feed.xml",
       icon: (props) => (
         <svg
           fill="none"
@@ -291,7 +291,7 @@ export default function Example(props) {
             <li>
               <a
                 key="RSS"
-                href={site.socials.rss.url}
+                href={site.socials.feed.url}
                 target="_blank"
                 rel="noreferrer"
                 className="text-content hover:text-accent-1"
