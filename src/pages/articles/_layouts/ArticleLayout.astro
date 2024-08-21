@@ -31,7 +31,7 @@ const {
 } = frontmatter;
 const author = await getEntry(
   frontmatter.author.collection,
-  frontmatter.author.id
+  frontmatter.author.id,
 );
 const category = await getEntry("articleCategories", frontmatter.category.id);
 const tags = await getEntries(frontmatter.tags);
@@ -69,7 +69,7 @@ const tags = await getEntries(frontmatter.tags);
   type="article"
 >
   <NarrowContainer>
-    <article class="mt-16 md:mt-8">
+    <article class="pt-16 md:pt-8">
       <header>
         <Prose class="max-w-none">
           <h1>{title}</h1>
@@ -94,7 +94,7 @@ const tags = await getEntries(frontmatter.tags);
         <slot />
         <ArticleSeries {article} />
       </Prose>
-      <footer class="mt-16 md:mt-32">
+      <footer>
         <AuthorWide {author} />
       </footer>
     </article>
