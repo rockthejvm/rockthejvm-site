@@ -5,7 +5,7 @@ import Section from "@components/Section.astro";
 const { color } = Astro.props;
 ---
 
-<Section {color} title="Skills You'll Learn">
+<Section showGradient={true} {color} title="Skills You'll Learn">
   <div class="max-w-3xl mx-auto">
     <Prose>
       <slot />

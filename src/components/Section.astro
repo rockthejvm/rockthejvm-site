@@ -1,13 +1,15 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import H2 from "./H2.astro";
+import BackgroundGradient from "./BackgroundGradient.astro";
 
 interface Props {
   color?: CollectionEntry<"courseCategories">["data"]["color"];
   title: string;
+  showGradient?: boolean;
 }
 
-const { color, title } = Astro.props;
+const { color, title, showGradient } = Astro.props;
 
 const colorString =
   color === null
@@ -23,7 +25,12 @@ console.log(colorString + " " + title);
   <header class=`mx-auto ${colorString ? colorString : "hidden"}`>
     <H2 {color} class="text-center mx-auto">{title}</H2>
   </header>
-  <div class="py-16 px-8 max-w-7xl mx-auto">
-    <slot />
+  <div
+    class="py-16 px-8 w-full relative mx-auto overflow-y-hidden overflow-x-visible"
+  >
+    {showGradient && <BackgroundGradient />}
+    <div class="max-w-7xl z-10 mx-auto">
+      <slot />
+    </div>
   </div>
 </section>
