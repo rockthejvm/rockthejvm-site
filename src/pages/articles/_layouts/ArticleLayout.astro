@@ -89,11 +89,18 @@ const tags = await getEntries(frontmatter.tags);
         </a>
         <TagList {tags} />
       </header>
-      <Prose>
-        <TableOfContents {headings} />
-        <slot />
-        <ArticleSeries {article} />
-      </Prose>
+      <div class="flex flex-row">
+        <Prose>
+          <div class="xl:hidden"><TableOfContents {headings} /></div>
+          <slot />
+          <ArticleSeries {article} />
+        </Prose>
+        <div
+          class="hidden sticky max-w-sm top-0 self-start left-full xl:block justify-end"
+        >
+          <Prose><TableOfContents {headings} /></Prose>
+        </div>
+      </div>
       <footer>
         <AuthorWide {author} />
       </footer>
