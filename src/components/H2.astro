@@ -6,13 +6,11 @@ interface Props {
   color?: string;
 }
 
-const { class: additionalClasses, color } = Astro.props;
+const { class: additionalClasses } = Astro.props;
 ---
 
 <Prose class="mx-auto">
-  <h2
-    class={`text-center py-16 ${color ? `bg-[${color}]` : "hidden"} ${additionalClasses}`}
-  >
+  <h2 class={`text-center py-16 bg-transparent ${additionalClasses}`}>
     <slot />
   </h2>
 </Prose>

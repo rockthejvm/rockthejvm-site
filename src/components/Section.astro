@@ -11,18 +11,20 @@ interface Props {
 
 const { color, title, showGradient } = Astro.props;
 
-const colorString =
-  color === null
-    ? null
-    : color?.substring(0, 3) === "bg-"
-      ? color
-      : `bg-[${color}]`;
+// const colorString =
+//   color === null
+//     ? null
+//     : color?.substring(0, 3) === "bg-"
+//       ? color
+//       : `bg-[${color}]`;
 
-console.log(colorString + " " + title);
+const colorClass = color ? color : "hidden";
+
+console.log(colorClass + " " + title);
 ---
 
 <section>
-  <header class=`mx-auto ${colorString ? colorString : "hidden"}`>
+  <header class:list={["mx-auto", "bg-secondary"]}>
     <H2 {color} class="text-center mx-auto">{title}</H2>
   </header>
   <div
