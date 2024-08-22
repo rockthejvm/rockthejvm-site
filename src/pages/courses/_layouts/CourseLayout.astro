@@ -40,23 +40,30 @@ const {
     </Goal>
     {
       question && (
-        <Question color="bg-secondary" image={question.image} {question}>
+        <Question
+          color={`bg-[${category.data.color}]`}
+          image={question.image}
+          {question}
+        >
           <slot name="question" />
         </Question>
       )
     }
-    <Features color="bg-secondary" {features}>
+    <Features color={`bg-[${category.data.color}]`} {features}>
       <slot name="feature1" slot="feature1" />
       <slot name="feature2" slot="feature2" />
       <slot name="feature3" slot="feature3" />
       <slot name="feature4" slot="feature4" />
       <slot name="feature5" slot="feature5" />
     </Features>
-    <Skills color="bg-secondary">
+    <Skills color={`bg-[${category.data.color}]`}>
       <slot name="skills" />
     </Skills>
-    <Profile color="bg-secondary" />
-    <Pricing {course} {category} color="bg-secondary" />
-    <CourseFAQ faq={course!.data.faqs ?? []} color="bg-secondary" />
+    <Profile color={`bg-[${category.data.color}]`} />
+    <Pricing {course} {category} color={`bg-[${category.data.color}]`} />
+    <CourseFAQ
+      faq={course!.data.faqs ?? []}
+      color={`bg-[${category.data.color}]`}
+    />
   </article>
 </BaseLayout>
