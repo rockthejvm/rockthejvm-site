@@ -1,9 +1,5 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import FAQ from "../../../components/FAQ";
-import CoursePricing from "../../../components/CoursePricing.astro";
-import Feature from "@pages/courses/_components/Feature.astro";
-import Prose from "@components/Prose.astro";
 import { getEntry } from "astro:content";
 import Hero from "../_sections/Hero.astro";
 import Goal from "../_sections/Goal.astro";
@@ -13,6 +9,7 @@ import Skills from "../_sections/Skills.astro";
 import Pricing from "../_sections/Pricing.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import Profile from "@components/Profile.astro";
+
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!);
@@ -30,6 +27,19 @@ const {
   question,
   title,
 } = frontmatter;
+
+interface Comment {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+}
+
+const response = await fetch(
+  "https://jsonplaceholder.typicode.com/posts/1/comments"
+);
+const data: Comment[] = await response.json();
 ---
 
 <BaseLayout {description} {title}>
@@ -57,6 +67,16 @@ const {
       <slot name="feature5" slot="feature5" />
     </Features>
     <Skills color={`bg-[${category.data.color}]`}>
+    {
+      data.map((comment) => (
+        <ul>
+          <h2>{comment.name}</h2>
+          <h3>{comment.email}</h3>
+          <p>{comment.body}</p>
+        </ul>
+      ))
+    }
+    <Skills color="bg-secondary">
       <slot name="skills" />
     </Skills>
     <Profile color={`bg-[${category.data.color}]`} />
