@@ -47,7 +47,7 @@ const cardData = [
             ? window.matchMedia("(prefers-color-scheme: dark)").matches
               ? "dark"
               : "light"
-            : localStorage.getItem("theme")
+            : localStorage.getItem("theme"),
         );
       };
       const setThemeToggle = () => {
@@ -59,7 +59,7 @@ const cardData = [
             ? "systemTheme"
             : localStorage.getItem("theme") === "light"
               ? "lightTheme"
-              : "darkTheme"
+              : "darkTheme",
         ).style.display = "block";
       };
 
@@ -74,7 +74,7 @@ const cardData = [
               ? "light"
               : localStorage.getItem("theme") === "light"
                 ? "dark"
-                : "system"
+                : "system",
           );
           setDataTheme();
           setThemeToggle();

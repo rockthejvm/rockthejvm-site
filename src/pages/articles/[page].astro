@@ -7,7 +7,7 @@ import Pagination from "@components/Pagination.astro";
 
 export async function getStaticPaths({ paginate }: any) {
   const articles = (await getCollection("articles")).sort((a, b) =>
-    b.data.publishedDate.getTime() <= a.data.publishedDate.getTime() ? -1 : 1
+    b.data.publishedDate.getTime() <= a.data.publishedDate.getTime() ? -1 : 1,
   );
 
   return paginate(articles, { pageSize: 6 });
@@ -22,11 +22,11 @@ const title = "Article Index";
 ---
 
 <BaseLayout {title} description={title}>
-  <header class="pt-8 md:pt-16 bg-bkg">
+  <header class="pt-8 md:pt-16">
     <h1 class="text-content-1 mx-6 lg:mx-8 text-center">Rock the JVM Blog</h1>
   </header>
   <Articles articles={page.data} />
-  <footer class="bg-bkg pb-4">
+  <footer class="pb-4">
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} {page} />
   </footer>
 </BaseLayout>

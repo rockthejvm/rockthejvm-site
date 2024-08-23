@@ -12,7 +12,7 @@ interface Props {
 
 export default function Example({ faqs }: Props) {
   return (
-    <div className="bg-bkg">
+    <div>
       <div className="mx-auto max-w-7xl px-6 py-1 sm:py-2 lg:px-8 lg:py-3">
         {/* <div className="mx-auto max-w-4xl divide-y divide-gray-900/10"> */}
         {/* <h2 className="text-2xl font-bold leading-10 tracking-tight text-content-1">
