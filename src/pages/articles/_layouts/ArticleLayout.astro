@@ -89,7 +89,7 @@ const tags = await getEntries(frontmatter.tags);
         </a>
         <TagList {tags} />
       </header>
-      <div class="flex flex-row">
+      <div class="xl:flex xl:flex-row">
         <Prose>
           <div class="xl:hidden"><TableOfContents {headings} /></div>
           <slot />
