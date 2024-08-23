@@ -45,7 +45,7 @@ export default function Example(props) {
   };
 
   return (
-    <div className="relative isolate bg-bkg px-6 py-1 sm:py-2 lg:px-8">
+    <div className="relative isolate px-6 py-1 sm:py-2 lg:px-8">
       <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
         <div className="mt-16 flex justify-center">
           <fieldset aria-label="Payment frequency">
