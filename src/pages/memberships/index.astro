@@ -1,14 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import FAQ from "../../components/FAQ";
-import Feature from "@pages/courses/_components/Feature.astro";
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import Membership from "@components/Membership.astro";
-import CourseCardVertical from "@components/CourseCardVertical.astro";
-import MembershipHelper from "@components/MembershipHelper";
 import { Image } from "astro:assets";
 import MembershipImage from "../../content/memberships/personal.png";
-import MembershipPricing from "@components/MembershipPricing.astro";
 import CourseFAQ from "@pages/courses/_sections/CourseFAQ.astro";
 import Description from "./_sections/Description.astro";
 import MembershipPricingSection from "./_sections/MembershipPricingSection.astro";
@@ -79,16 +72,6 @@ const faqs = [
       "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment.",
   },
 ];
-
-const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0]!.collection === "courses",
-);
-const memberss = courseSeriess.map((series) => series.data.members);
-const coursess = await Promise.all(
-  (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug))),
-  ),
-);
 ---
 
 <BaseLayout
