@@ -61,7 +61,7 @@ export default defineCollection({
           })
           .strict()
           .optional(),
-        teachable_pricing_plan_id: z.number().int(),
+        // teachable_pricing_plan_id: z.number().int(),
         title: z.string(),
       })
       .strict(),
