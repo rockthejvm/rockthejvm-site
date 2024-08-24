@@ -42,7 +42,7 @@ export default defineCollection({
           .min(30, "Title must be at least 30 characters")
           .max(70, "Title must be at most 70 characters"),
         updatedDate: z.date().optional(),
-        video: reference("videos").optional(),
+        // video: reference("videos").optional(),
       })
       .strict()
       .refine(

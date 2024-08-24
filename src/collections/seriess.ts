@@ -14,9 +14,9 @@ export default defineCollection({
           z
             .array(reference("courses"))
             .min(1, "At least 1 member is required for a series"),
-          z
-            .array(reference("videos"))
-            .min(1, "At least 1 member is required for a series"),
+          // z
+          //   .array(reference("videos"))
+          //   .min(1, "At least 1 member is required for a series"),
         ]),
         title: z.string(),
       })

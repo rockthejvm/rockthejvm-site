@@ -1,8 +1,0 @@
-canonicalUrl: https://www.youtube.com/watch?v=hHMEMRGHmAI
-excerpt: In this video we discuss recursion not so much as a programming tool, but as a thinking tool, that will allow you to read, write and understand compact code quickly, and guarantee its correctness.
-thumbnail:
-  image: ./a-remote-code-execution-system-with-apache-pekko-and-scala.jpeg
-  alt: An abstract tunnel with a light at the end.
-publishedDate: z.date(),
-title: The Power of Recursion - How To Think Code Clearly
-tags: [recursion]
