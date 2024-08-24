@@ -1,10 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import FAQ from "../../../components/FAQ";
-import CoursePricing from "../../../components/CoursePricing.astro";
-import Feature from "@pages/courses/_components/Feature.astro";
-import Prose from "@components/Prose.astro";
-import { getEntry } from "astro:content";
+import { getEntry, type CollectionEntry } from "astro:content";
 import Hero from "../_sections/Hero.astro";
 import Goal from "../_sections/Goal.astro";
 import Question from "../_sections/Question.astro";
@@ -13,20 +9,14 @@ import Skills from "../_sections/Skills.astro";
 import Pricing from "../_sections/Pricing.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import Profile from "@components/Profile.astro";
-import BackgroundGradient from "@components/BackgroundGradient.astro";
 
 const { slug } = Astro.params;
-const course = await getEntry("courses", slug!);
+const course = await getEntry("courses", slug!) as CollectionEntry<"courses">;
 const frontmatter = course!.data;
-const category = await getEntry("courseCategories", frontmatter.category.id);
+const category = await getEntry("courseCategories", frontmatter.category.id) as CollectionEntry<"courseCategories">;
 const {
-  answer,
   description,
-  excerpt,
-  faqs,
   features,
-  bundledCourses,
-  grouping,
   image,
   question,
   title,
@@ -57,7 +47,7 @@ const {
       <slot name="skills" />
     </Skills>
     <Profile color={category.data.color} />
-    <Pricing {course} {category} color={category.data.color} />
-    <CourseFAQ faq={course!.data.faqs ?? []} color={category.data.color} />
+    <Pricing {course} color={category.data.color} />
+    <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} />
   </article>
 </BaseLayout>

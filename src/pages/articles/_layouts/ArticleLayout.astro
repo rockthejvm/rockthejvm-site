@@ -33,7 +33,7 @@ const author = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
-const category = await getEntry("articleCategories", frontmatter.category.id);
+// const category = await getEntry("articleCategories", frontmatter.category.id);
 const tags = await getEntries(frontmatter.tags);
 // const series = frontmatter.series
 //   ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
