@@ -118,6 +118,26 @@ const navigation = {
 };
 
 export default function Example(props) {
+  const subscribe = async (email) => {
+    const res = await fetch(
+      `https://rockthejvm.us5.list-manage.com/subscribe/post-json?u=f7e7dcf30c1dd4f49893c696b&id=2c292e211e&f_id=003d27ebf0&c=jQuery19007926417827043355_1724459404661&EMAIL=${email}&b_f7e7dcf30c1dd4f49893c696b_2c292e211e=&subscribe=Subscribe&_=1724459404662`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return { body: await res.json(), sucessful: res.ok };
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await subscribe(event.target.email.value);
+  };
+
   return (
     <footer
       aria-labelledby="footer-heading"
@@ -207,13 +227,13 @@ export default function Example(props) {
               Subscribe to our newsletter
             </h3>
             <p className="mt-2 text-sm leading-6 text-content">TODO</p>
-            <form className="mt-6 sm:flex sm:max-w-md">
+            <form className="mt-6 sm:flex sm:max-w-md" onSubmit={handleSubmit}>
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
               <input
                 id="email-address"
-                name="email-address"
+                name="email"
                 type="email"
                 required
                 placeholder="Enter your email"
@@ -311,3 +331,7 @@ export default function Example(props) {
     </footer>
   );
 }
+
+/*
+https://rockthejvm.us5.list-manage.com/subscribe/post-json?u=f7e7dcf30c1dd4f49893c696b&id=2c292e211e&f_id=003d27ebf0&c=jQuery19007926417827043355_1724459404661&EMAIL=williamvkennedyy%40gmail.com&b_f7e7dcf30c1dd4f49893c696b_2c292e211e=&subscribe=Subscribe&_=1724459404662
+*/
