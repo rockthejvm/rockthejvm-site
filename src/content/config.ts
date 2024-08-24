@@ -11,7 +11,6 @@ import seriess from "@collections/seriess";
 import socials from "@collections/socials";
 import tags from "@collections/tags";
 import testimonials from "@collections/testimonials";
-import videos from "@collections/videos";
 
 export const collections = {
   articleCategories,
@@ -27,6 +26,5 @@ export const collections = {
   socials,
   tags,
   testimonials,
-  videos,
 };
 // TODO: auto export from src/schemas

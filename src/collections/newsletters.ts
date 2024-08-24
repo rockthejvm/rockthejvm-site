@@ -29,7 +29,7 @@ export default defineCollection({
           .string()
           .min(30, "Title must be at least 30 characters")
           .max(70, "Title must be at most 70 characters"),
-        videos: unique(z.array(reference("videos")), "videos"),
+        // videos: unique(z.array(reference("videos")), "videos"),
       })
       .strict(),
 });
