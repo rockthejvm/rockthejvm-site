@@ -1,9 +1,5 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
-import Feature from "../pages/courses/_components/Feature.astro";
-import MoneyBackGuarantee from "@assets/images/money-back-guarantee.svg";
-import MembershipPricingHelper from "./MembershipPricingHelper";
 
 // const { course } = Astro.props;
 // const { price, benefits, title } = course.data;
@@ -26,12 +22,6 @@ const membershipHours = (await getCollection("courses"))
 const membershipLinesOfCode = (await getCollection("courses"))
   .map((e) => e.data.benefits?.linesOfCode ?? 0)
   .reduce((b, a) => b + a);
-const membershipNumExamples = (await getCollection("courses"))
-  .map((e) => e.data.benefits?.numExamples ?? 0)
-  .reduce((b, a) => b + a);
-const categories = (await getCollection("courseCategories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1,
-);
 ---
 
 <div

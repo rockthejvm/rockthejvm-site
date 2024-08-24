@@ -3,7 +3,7 @@ import CoursePricing from "@components/CoursePricing.astro";
 import Section from "@components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
-interface Params {
+interface Props {
   course: CollectionEntry<"courses">;
   color: CollectionEntry<"courseCategories">["data"]["color"];
 }
