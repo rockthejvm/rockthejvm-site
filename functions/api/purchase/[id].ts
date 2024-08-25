@@ -89,6 +89,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     },
   });
 
+  if (!res.ok) {
+    throw new Error(`Pricing plan ID not found. Code: ${res.status}`);
+  }
+
   const pricingPlan: PricingPlan = (await res.json())["pricing_plan"];
   const { price, course_id: courseId } = pricingPlan;
 
