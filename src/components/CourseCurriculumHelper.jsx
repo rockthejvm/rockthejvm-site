@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 export default function Example(props) {
-  const [price, setPrice] = useState("");
+  const [lectureSections, setLectureSections] = useState([]);
 
-  const getCoursePrice = async (pricingPlanId) => {
+  const getCourseCurriculum = async (pricingPlanId) => {
     try {
       const response = await fetch(`/api/purchase/${pricingPlanId}`, {
         method: "GET",
@@ -16,7 +16,7 @@ export default function Example(props) {
 
       const course = await response.json();
 
-      setPrice(`${course.price / 100}`);
+      setLectureSections(course.updatedLectureSections);
     } catch (error) {
       console.error("Failed to fetch course price:", error);
     }
@@ -24,11 +24,22 @@ export default function Example(props) {
 
   useEffect(() => {
     const fetchPrice = async () => {
-      await getCoursePrice(props.pricingPlanId);
+      await getCourseCurriculum(props.pricingPlanId);
     };
 
     fetchPrice();
   }, []);
 
-  return <div>${price}</div>;
+  return (
+    <div>
+      {lectureSections.map((section) => (
+        <div>
+          <h3>{section.name}</h3>
+          {section.lectures.map((lecture) => {
+            <p>lecture.name</p>;
+          })}
+        </div>
+      ))}
+    </div>
+  );
 }

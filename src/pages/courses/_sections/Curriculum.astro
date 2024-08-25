@@ -1,0 +1,22 @@
+---
+import CourseCurriculum from "@components/CourseCurriculum.astro";
+import CourseCurriculumHelper from "@components/CourseCurriculumHelper";
+import Feature from "@components/Feature.astro";
+import Section from "@components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  pricingPlanId?: number;
+}
+
+const { color, pricingPlanId } = Astro.props;
+console.log(`testing: ${color}`);
+// console.log(features);
+---
+
+{pricingPlanId &&
+  <Section {color} title="How This Course Works">
+    <CourseCurriculumHelper {pricingPlanId} />
+  </Section>
+}
