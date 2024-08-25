@@ -1,9 +1,12 @@
-export const sendTeachableRequest = async (url: URL, apiKey: string) => {
+export const sendTeachableRequest = async (
+  url: URL,
+  apiKey: string,
+): Promise<Response> => {
   const response = await fetch(url, {
     method: "GET",
     headers: {
       apiKey: apiKey,
-      accept: "application/json",
+      Accept: "application/json",
     },
   });
 
@@ -11,7 +14,12 @@ export const sendTeachableRequest = async (url: URL, apiKey: string) => {
     return new Response("Failed to fetch data from API", { status: 502 });
   }
 
-  response.headers.set("Cache-Control", "public, max-age=60");
-
-  return response;
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: {
+      ...Object.fromEntries(response.headers.entries()),
+      "Cache-Control": "public, max-age=60",
+    },
+  });
 };
