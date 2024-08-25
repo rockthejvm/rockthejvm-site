@@ -42,7 +42,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       </h3>
 
         <span class="text-5xl font-bold tracking-tight text-content mt-4 flex items-baseline gap-x-2">
-          <CoursePrice pricingPlanId={5654540} client:load />
+          <CoursePrice pricingPlanId={course.data.pricingPlanId} client:load />
         </span>
       <p class="mt-6 text-base leading-7 text-content">You get:</p>
       <ul
