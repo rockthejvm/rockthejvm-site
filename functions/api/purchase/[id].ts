@@ -103,7 +103,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     },
   );
 
-  const course: Course = (await courseRes.json())["pricing_plan"];
+  const course: Course = (await courseRes.json())["course"];
   const { name, heading, lecture_sections: lectureSections } = course;
 
   for (var i = 0; i < lectureSections.length; i++) {
