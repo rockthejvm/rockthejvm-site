@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function Example(props) {
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0);
 
   const getCoursePrice = async (pricingPlanId) => {
     try {
@@ -16,7 +16,7 @@ export default function Example(props) {
 
       const course = await response.json();
 
-      setPrice(`${course.price / 100}`);
+      setPrice(course.price);
     } catch (error) {
       console.error("Failed to fetch course price:", error);
     }
@@ -30,5 +30,5 @@ export default function Example(props) {
     fetchPrice();
   }, []);
 
-  return <div>{price <= 0 ? "Free" : `$${price}`}</div>;
+  return <div>{price <= 0 ? "Free" : `$${price / 100}`}</div>;
 }
