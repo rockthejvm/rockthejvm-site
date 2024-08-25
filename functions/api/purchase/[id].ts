@@ -124,13 +124,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             .map(async (lecture) => ({
               id: lecture.id,
               name: (
-                (await (
-                  await getLecture(
-                    courseId,
-                    lecture.id,
-                    context.env.TEACHABLE_API_KEY,
-                  )
-                ).json()) as Lecture
+                (
+                  await (
+                    await getLecture(
+                      courseId,
+                      lecture.id,
+                      context.env.TEACHABLE_API_KEY,
+                    )
+                  ).json()
+                )["lecture"] as Lecture
               ).name,
             })),
         ),
