@@ -36,7 +36,7 @@ export default function Example(props) {
         <div>
           <h3>{section.name}</h3>
           {section.lectures.map((lecture) => {
-            <p>lecture.name</p>;
+            <p>{lecture.name}</p>;
           })}
         </div>
       ))}
