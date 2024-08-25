@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry } from "astro:content";
+import CoursePrice from "./CoursePrice";
 
 // const articles = await getCollection("articles");
 // const latestArticles = articles
@@ -45,7 +46,7 @@ const { course, showPrice } = Astro.props;
         showPrice && (
           <div class="bottom-2 absolute h-10 w-full flex items-end justify-end">
             <p class="text-content-2 pr-4 pt-4 font-extrabold">
-              {course.data.price ? `$${course.data.price}` : "Free"}
+              <CoursePrice pricingPlanId={course.data.pricingPlanId} client:load />
             </p>
           </div>
         )
