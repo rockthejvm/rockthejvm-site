@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import Placeholder from "@assets/images/placeholder.webp";
-import { getReadingTime } from "@utils/get-reading-time";
+import { getReadingTime } from "@utils/getReadingTime.ts";
 
 interface Props {
   article: CollectionEntry<"articles">;
