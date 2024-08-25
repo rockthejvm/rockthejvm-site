@@ -1,0 +1,11 @@
+---
+import CourseCurriculumHelper from "./CourseCurriculumHelper";
+
+interface Props {
+  teachableId: string;
+}
+
+const { teachableId } = Astro.props;
+---
+
+<CourseCurriculumHelper teachableId={teachableId} client:load />
