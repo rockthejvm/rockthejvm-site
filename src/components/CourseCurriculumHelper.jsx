@@ -35,9 +35,9 @@ export default function Example(props) {
       {lectureSections.map((section) => (
         <div>
           <h3>{section.name}</h3>
-          {section.lectures.map((lecture) => {
-            <p>{lecture.name}</p>;
-          })}
+          {section.lectures.map((lecture) => (
+            <p>{lecture.name}</p>
+          ))}
         </div>
       ))}
     </div>
