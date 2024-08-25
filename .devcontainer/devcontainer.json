@@ -12,6 +12,7 @@
   "customizations": {
     "vscode": {
       "extensions": [
+        "adpyke.codesnap",
         "astro-build.astro-vscode",
         "bradlc.vscode-tailwindcss",
         "christian-kohler.path-intellisense",

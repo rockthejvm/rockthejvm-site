@@ -1,4 +1,4 @@
-import { sendRequest } from "@utils/sendRequest";
+import { sendTeachableRequest } from "@utils/sendTeachableRequest";
 
 interface Env {
   TEACHABLE_API_KEY: string;
@@ -58,88 +58,95 @@ interface Course {
   lecture_sections: LectureSection[];
 }
 
-const getLecture = async (
-  courseId: number,
-  lecture: Lecture,
+const getPricingPlan = async (
+  pricingPlanId: number,
   apiKey: string,
-): Promise<Lecture> => {
-  const res = await fetch(
-    `https://developers.teachable.com/v1/courses/${courseId}/lectures/${lecture.id}`,
-    {
-      method: "GET",
-      headers: {
-        apiKey: apiKey,
-        accept: "application/json",
-      },
-    },
+): Promise<Response> =>
+  await sendTeachableRequest(
+    new URL(
+      `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
+    ),
+    apiKey,
   );
 
-  return await res.json();
-};
+const getCourse = async (courseId: number, apiKey: string): Promise<Response> =>
+  await sendTeachableRequest(
+    new URL(`https://developers.teachable.com/v1/courses/${courseId}`),
+    apiKey,
+  );
+
+const getLecture = async (
+  courseId: number,
+  lectureId: number,
+  apiKey: string,
+): Promise<Response> =>
+  await sendTeachableRequest(
+    new URL(
+      `https://developers.teachable.com/v1/courses/${courseId}/lectures/${lectureId}`,
+    ),
+    apiKey,
+  );
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
+  const apiKey = context.env.TEACHABLE_API_KEY;
   const { params } = context;
-  const pricingPlanId = params.id;
-  const apiUrl = `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`;
-  const res = await sendRequest(apiUrl, {
-    method: "GET",
-    headers: {
-      apiKey: `${context.env.TEACHABLE_API_KEY}`,
-      accept: "application/json",
-    },
-  });
+  const pricingPlanId = Number(params.id);
+  const pricingPlanResponse = await getPricingPlan(pricingPlanId, apiKey);
 
-  if (!res.ok) {
+  if (!pricingPlanResponse.ok) {
     return new Response(
       JSON.stringify({
-        error: `Pricing plan id not found. Code ${res.status}`,
+        error: `Teachable request failed. Couldn't find pricing plan.`,
       }),
       {
-        status: res.status,
+        status: pricingPlanResponse.status,
         headers: { "Content-Type": "application/json" },
       },
     );
   }
 
-  const pricingPlan: PricingPlan = (await res.json())["pricing_plan"];
+  const { pricing_plan: pricingPlan }: { pricing_plan: PricingPlan } =
+    await pricingPlanResponse.json();
   const { price, course_id: courseId } = pricingPlan;
-
-  const courseRes = await fetch(
-    `https://developers.teachable.com/v1/courses/${courseId}`,
-    {
-      method: "GET",
-      headers: {
-        apiKey: `${context.env.TEACHABLE_API_KEY}`,
-        accept: "application/json",
-      },
-    },
+  const courseResponse = await getCourse(courseId, apiKey);
+  const { course }: { course: Course } = await courseResponse.json();
+  const { name, heading, lecture_sections: lectureSections } = course;
+  const updatedLectureSections = await Promise.all(
+    lectureSections
+      .filter((lectureSection) => lectureSection.is_published)
+      .sort((a, b) => (a.position < b.position ? -1 : 1))
+      .map(async (lectureSection) => ({
+        name: lectureSection.name,
+        lectures: (
+          await Promise.all(
+            lectureSection.lectures
+              .filter((lecture) => lecture.is_published)
+              .sort((a, b) => (a.position < b.position ? -1 : 1))
+              .map(async (lecture) =>
+                (
+                  await getLecture(
+                    courseId,
+                    lecture.id,
+                    context.env.TEACHABLE_API_KEY,
+                  )
+                ).json(),
+              ),
+          )
+        ).map((lecture: Lecture) => ({
+          id: lecture.id,
+          name: lecture.name,
+        })),
+      })),
   );
 
-  const course: Course = (await courseRes.json())["course"];
-  const { name, heading, lecture_sections: lectureSections } = course;
-
-  for (var i = 0; i < lectureSections.length; i++) {
-    const lectureSection = lectureSections[i];
-    const lectures: Lecture[] = await Promise.all(
-      lectureSection!.lectures.map(
-        async (lecturePreview) =>
-          await getLecture(
-            courseId,
-            lecturePreview,
-            context.env.TEACHABLE_API_KEY,
-          ),
-      ),
-    );
-
-    lectureSections[i]!.lectures = lectures;
-  }
+  console.log(updatedLectureSections);
 
   return new Response(
     JSON.stringify({
       heading,
       name,
       price,
-      lectureSections,
+      updatedLectureSections,
     }),
     {
       status: 200,
