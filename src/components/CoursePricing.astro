@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { course } = Astro.props;
-const { price, benefits, title } = course.data;
+const { benefits, title } = course.data;
 const membership = await getEntry("memberships", "personal");
 
 const membershipHours = (await getCollection("courses"))
