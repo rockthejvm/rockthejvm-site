@@ -14,7 +14,7 @@ console.log(`testing: ${color}`);
 ---
 
 {pricingPlanId &&
-  <Section {color} title="How This Course Works">
-    <CourseCurriculumHelper {pricingPlanId} />
+  <Section {color} title="What's Included">
+    <CourseCurriculumHelper {pricingPlanId} client:load />
   </Section>
 }
