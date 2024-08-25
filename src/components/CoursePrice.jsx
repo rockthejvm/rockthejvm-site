@@ -30,5 +30,5 @@ export default function Example(props) {
     fetchPrice();
   }, []);
 
-  return <div>${price}</div>;
+  return <div>{price <= 0 ? "Free" : `$${price}`}</div>;
 }
