@@ -23,9 +23,8 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
   a.data.ordinal <= b.data.ordinal ? -1 : 1,
 );
 ---
-<CoursePrice client:load />
 
-<!--
+
 <div class="relative isolate w-full px-6 py-1 sm:py-2 lg:px-8">
   <div class="mx-auto max-w-2xl text-center lg:max-w-4xl">
   </div>
@@ -41,11 +40,10 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       >
         {title} Lifetime License
       </h3>
-      <p class="mt-4 flex items-baseline gap-x-2">
-        <span class="text-5xl font-bold tracking-tight text-content"
-          ><CoursePrice client:load /></span
-        >
-      </p>
+
+        <span class="text-5xl font-bold tracking-tight text-content mt-4 flex items-baseline gap-x-2">
+          <CoursePrice pricingPlanId={5654540} client:load />
+        </span>
       <p class="mt-6 text-base leading-7 text-content">You get:</p>
       <ul
         role="list"
@@ -281,4 +279,4 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       </p>
     </Feature>
   </div>
-</div> -->
+</div>
