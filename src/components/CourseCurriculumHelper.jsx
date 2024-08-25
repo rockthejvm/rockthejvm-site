@@ -84,8 +84,9 @@ export default function Example(props) {
   //     ],
   //   },
   // ];
+  // const [lectureSections, setLectureSections] = useState(localData);
 
-  const [lectureSections, setLectureSections] = useState(localData);
+  const [lectureSections, setLectureSections] = useState([]);
   const [expanded, setExpanded] = useState(false);
 
   const getCourseCurriculum = async (pricingPlanId) => {
