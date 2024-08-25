@@ -111,36 +111,36 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const courseResponse = await getCourse(courseId, apiKey);
   const { course }: { course: Course } = await courseResponse.json();
   const { name, heading, lecture_sections: lectureSections } = course;
-  const updatedLectureSections = await Promise.all(
-    lectureSections
-      .filter((lectureSection) => lectureSection.is_published)
-      .sort((a, b) => (a.position < b.position ? -1 : 1))
-      .map(async (lectureSection) => ({
-        name: lectureSection.name,
-        lectures: await Promise.all(
-          (
-            await Promise.all(
-              lectureSection.lectures
-                .filter((lecture) => lecture.is_published)
-                .sort((a, b) => (a.position < b.position ? -1 : 1))
-                .map(async (lecture) =>
-                  (
-                    await getLecture(
-                      courseId,
-                      lecture.id,
-                      context.env.TEACHABLE_API_KEY,
-                    )
-                  ).json(),
-                ),
-            )
-          ).map((lecture: Lecture) => ({
-            id: lecture.id,
-            name: lecture.name,
-          })),
-        ),
-      })),
-  );
-
+  const updatedLectureSections = lectureSections
+    .filter((lectureSection) => lectureSection.is_published)
+    .sort((a, b) => (a.position < b.position ? -1 : 1))
+    .map((lectureSection) => ({
+      name: lectureSection.name,
+      lectures: lectureSection.lectures
+        .filter((lecture) => lecture.is_published)
+        .sort((a, b) => (a.position < b.position ? -1 : 1)),
+      // await Promise.all(
+      //   (
+      //     await Promise.all(
+      //       lectureSection.lectures
+      //         .filter((lecture) => lecture.is_published)
+      //         .sort((a, b) => (a.position < b.position ? -1 : 1))
+      //         .map(async (lecture) =>
+      //           (
+      //             await getLecture(
+      //               courseId,
+      //               lecture.id,
+      //               context.env.TEACHABLE_API_KEY
+      //             )
+      //           ).json()
+      //         )
+      //     )
+      //   ).map((lecture: Lecture) => ({
+      //     id: lecture.id,
+      //     name: lecture.name,
+      //   }))
+      // ),
+    }));
   console.log(updatedLectureSections);
 
   return new Response(
