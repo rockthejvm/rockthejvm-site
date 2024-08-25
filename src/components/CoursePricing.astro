@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import MoneyBackGuarantee from "@assets/images/money-back-guarantee.svg";
 import Feature from "./Feature.astro";
+import CoursePrice from "./CoursePrice";
 
 interface Props {
   course: CollectionEntry<"courses">;
@@ -45,7 +46,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       </h3>
       <p class="mt-4 flex items-baseline gap-x-2">
         <span class="text-5xl font-bold tracking-tight text-content"
-          >${price}</span
+          ><CoursePrice baseUrl={Astro.site} pricingPlanId={course.data.pricingPlanId} client:visible /></span
         >
       </p>
       <p class="mt-6 text-base leading-7 text-content">You get:</p>
