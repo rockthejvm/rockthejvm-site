@@ -90,7 +90,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   });
 
   if (!res.ok) {
-    throw new Error(`Pricing plan ID not found. Code: ${res.status}`);
+    return new Response(
+      JSON.stringify({
+        error: `Pricing plan id not found. Code ${res.status}`,
+      }),
+      {
+        status: res.status,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   const pricingPlan: PricingPlan = (await res.json())["pricing_plan"];
@@ -133,5 +141,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       price,
       lectureSections,
     }),
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    },
   );
 };
