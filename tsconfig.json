@@ -18,5 +18,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "exactOptionalPropertyTypes": false
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["functions/**/*"]
 }
