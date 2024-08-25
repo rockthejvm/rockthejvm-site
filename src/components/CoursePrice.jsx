@@ -107,16 +107,13 @@ export default function Example(props) {
   const getCoursePrice = async (pricingPlanId) => {
     console.log("RUNNING getCoursePrice");
     try {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/users",
-      );
       // const response = await fetch(
-      //   `https://be9b12de.astro-test-86r.pages.dev/api/purchase/${pricingPlanId}`,
-      //   {
-      //     method: "GET",
-      //     headers: { "Content-Type": "application/json" },
-      //   },
+      //   "https://jsonplaceholder.typicode.com/users",
       // );
+      const response = await fetch(`/api/purchase/${pricingPlanId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -125,9 +122,9 @@ export default function Example(props) {
       const course = await response.json();
       console.log("Course data:", course);
 
-      // setPrice(`${course.price / 100}`);
+      setPrice(`${course.price / 100}`);
 
-      setPrice(`${course[0].id}`);
+      // setPrice(`${course[0].id}`);
     } catch (error) {
       console.error("Failed to fetch course price:", error);
     }
@@ -136,7 +133,7 @@ export default function Example(props) {
   useEffect(() => {
     const fetchPrice = async () => {
       console.log("RUNNING fetchPrice");
-      await getCoursePrice(5654540);
+      await getCoursePrice(props.pricingPlanId);
       console.log("Setting count to 69");
       setCount(69);
     };
@@ -144,13 +141,5 @@ export default function Example(props) {
     fetchPrice();
   }, []);
 
-  return (
-    <div>
-      <h1>
-        Counter: {count} {price}
-      </h1>
-      <p>HELLO</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
+  return <div>${price}</div>;
 }
