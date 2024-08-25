@@ -1,6 +1,6 @@
 {
   "name": "astro-test",
-  "private": true,
+  "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
@@ -36,6 +36,7 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240821.1",
     "@fec/remark-a11y-emoji": "^4.0.2",
     "@hbsnow/rehype-sectionize": "^1.0.7",
     "@tailwindcss/typography": "^0.5.14",
