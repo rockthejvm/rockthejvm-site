@@ -117,25 +117,27 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       .sort((a, b) => (a.position < b.position ? -1 : 1))
       .map(async (lectureSection) => ({
         name: lectureSection.name,
-        lectures: (
-          await Promise.all(
-            lectureSection.lectures
-              .filter((lecture) => lecture.is_published)
-              .sort((a, b) => (a.position < b.position ? -1 : 1))
-              .map(async (lecture) =>
-                (
-                  await getLecture(
-                    courseId,
-                    lecture.id,
-                    context.env.TEACHABLE_API_KEY,
-                  )
-                ).json(),
-              ),
-          )
-        ).map((lecture: Lecture) => ({
-          id: lecture.id,
-          name: lecture.name,
-        })),
+        lectures: await Promise.all(
+          (
+            await Promise.all(
+              lectureSection.lectures
+                .filter((lecture) => lecture.is_published)
+                .sort((a, b) => (a.position < b.position ? -1 : 1))
+                .map(async (lecture) =>
+                  (
+                    await getLecture(
+                      courseId,
+                      lecture.id,
+                      context.env.TEACHABLE_API_KEY,
+                    )
+                  ).json(),
+                ),
+            )
+          ).map((lecture: Lecture) => ({
+            id: lecture.id,
+            name: lecture.name,
+          })),
+        ),
       })),
   );
 
