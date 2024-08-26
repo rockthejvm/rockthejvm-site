@@ -442,11 +442,11 @@ export default function Example(props) {
                         value={plan}
                         aria-label={plan.name}
                         aria-describedby={`${plan.id}-description`}
-                        className="h-6 w-6"
+                        className="h-6 w-6 group data-[checked]:border-accent-1"
                       >
                         <span
                           aria-hidden="true"
-                          className={`flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white ${teamPack.name === plan.name ? "bg-accent-1" : ""}`}
+                          className={`flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white group-data-[checked]:bg-accent-1 ${teamPack.name === plan.name ? "bg-accent-1" : ""}`}
                         >
                           <span className="h-1.5 w-1.5 rounded-full bg-white" />
                         </span>
