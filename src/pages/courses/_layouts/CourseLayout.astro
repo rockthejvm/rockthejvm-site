@@ -9,6 +9,7 @@ import Skills from "../_sections/Skills.astro";
 import Pricing from "../_sections/Pricing.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import Profile from "@components/Profile.astro";
+import BundledCourses from "../_sections/BundledCourses.astro";
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!) as CollectionEntry<"courses">;
@@ -21,6 +22,8 @@ const {
   question,
   title,
 } = frontmatter;
+
+const courseList = course.data.bundledCourses ? await Promise.all(course.data.bundledCourses!.map(async (c) => await getEntry("courses", c.slug))) : [];
 ---
 
 <BaseLayout {description} {title}>
@@ -46,6 +49,11 @@ const {
     <Skills color={category.data.color}>
       <slot name="skills" />
     </Skills>
+    {category.id === "bundle" &&
+      (
+        <BundledCourses {courseList} />
+      )
+    }
     <Profile color={category.data.color} />
     <Pricing {course} color={category.data.color} />
     <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} />
