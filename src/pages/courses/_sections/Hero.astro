@@ -6,9 +6,11 @@ interface Props {
   description: CollectionEntry<"courses">["data"]["description"];
   image: CollectionEntry<"courses">["data"]["image"];
   title: CollectionEntry<"courses">["data"]["title"];
+  slug: CollectionEntry<"courses">["slug"];
+  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
 }
 
-const { description, image, title } = Astro.props;
+const { description, image, pricingPlanId, slug, title } = Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
@@ -29,14 +31,14 @@ const { description, image, title } = Astro.props;
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6">
         <a
-          href="#"
+          href={`https://sso.teachable.com/secure/256201/checkout/${pricingPlanId}/${slug}`}
           class="rounded-md bg-[#0b49d0] px-3.5 py-2.5 text-sm font-semibold text-gray-100 hover:text-gray-100 hover:no-underline shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Get started
+          Take this course
         </a>
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-300">
+        <!-- <a href="#" class="text-sm font-semibold leading-6 text-gray-300">
           Learn more <span aria-hidden="true">→</span>
-        </a>
+        </a> -->
       </div>
     </div>
   </div>
