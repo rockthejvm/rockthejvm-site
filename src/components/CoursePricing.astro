@@ -1,27 +1,11 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getCollection, getEntry } from "astro:content";
-import MoneyBackGuarantee from "@assets/images/money-back-guarantee.svg";
-import Feature from "./Feature.astro";
 import CoursePrice from "./CoursePrice";
 
 interface Props {
   course: CollectionEntry<"courses">;
 }
 
-const { course } = Astro.props;
-const { benefits, title } = course.data;
-const membership = await getEntry("memberships", "personal");
-
-const membershipHours = (await getCollection("courses"))
-  .map((e) => e.data.benefits?.hours ?? 0)
-  .reduce((b, a) => b + a);
-const membershipLinesOfCode = (await getCollection("courses"))
-  .map((e) => e.data.benefits?.linesOfCode ?? 0)
-  .reduce((b, a) => b + a);
-const categories = (await getCollection("courseCategories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1,
-);
 ---
 <CoursePrice client:load />
 
