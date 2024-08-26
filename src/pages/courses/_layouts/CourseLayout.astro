@@ -48,7 +48,7 @@ const {
       <slot name="skills" />
     </Skills>
     <Profile color={category.data.color} />
-    <Curriculum color={category.data.color} pricingPlanId={course.data.pricingPlanId} />
+    <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId} />
     <Pricing {course} color={category.data.color} />
     <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} />
   </article>
