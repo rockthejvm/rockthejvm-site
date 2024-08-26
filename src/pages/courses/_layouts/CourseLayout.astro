@@ -10,6 +10,7 @@ import Pricing from "../_sections/Pricing.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import Profile from "@components/Profile.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
+import Curriculum from "../_sections/Curriculum.astro";
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!) as CollectionEntry<"courses">;
@@ -55,6 +56,7 @@ const courseList = course.data.bundledCourses ? await Promise.all(course.data.bu
       )
     }
     <Profile color={category.data.color} />
+    <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId} />
     <Pricing {course} color={category.data.color} />
     <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} />
   </article>
