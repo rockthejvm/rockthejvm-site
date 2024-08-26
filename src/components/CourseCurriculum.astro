@@ -4,10 +4,9 @@ import CourseCurriculumHelper from "./CourseCurriculumHelper";
 interface Props {
   teachableId: string;
   courseSlug: string;
-  site: string;
 }
 
 const { teachableId, courseSlug } = Astro.props;
 ---
 
-<CourseCurriculumHelper teachableId={teachableId} site={Astro.site} {courseSlug} client:load />
+<CourseCurriculumHelper teachableId={teachableId} {courseSlug} client:load />
