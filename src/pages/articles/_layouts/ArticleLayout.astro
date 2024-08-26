@@ -96,7 +96,7 @@ const tags = await getEntries(frontmatter.tags);
           <ArticleSeries {article} />
         </Prose>
         <div
-          class="hidden sticky max-w-sm top-0 self-start left-full xl:block justify-end"
+          class="hidden sticky max-w-sm top-0 self-start max-h-[90vh] ml-2 px-2 overflow-y-scroll left-full xl:block justify-end"
         >
           <Prose><TableOfContents {headings} /></Prose>
         </div>
