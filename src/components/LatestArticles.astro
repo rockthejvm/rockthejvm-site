@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 const articles = await getCollection("articles");
 const latestArticles = articles
   .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
-  .slice(0, 3);
+  .slice(0, 6);
 ---
 
 <div class="shadow-2xl rounded-3xl">

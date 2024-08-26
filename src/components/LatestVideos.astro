@@ -1,16 +1,36 @@
 ---
-import { getCollection } from "astro:content";
-
-const articles = await getCollection("articles");
-const latestArticles = articles
-  .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
-  .slice(0, 3);
+const latestVideos: {title: string, url: string}[] = [
+  {
+    title: "Automatic Dependency Injection in Scala - Just the Type System!",
+    url: "https://www.youtube.com/watch?v=gLJOagwtQDw"
+  },
+  {
+    title: "A Remote Code Execution System with Apache Pekko & Scala",
+    url: "https://www.youtube.com/watch?v=1uP6FTUn8_E"
+  },
+  {
+    title: "The Power of Recursion - How To Think Code Clearly",
+    url: "https://www.youtube.com/watch?v=hHMEMRGHmAI"
+  },
+  {
+    title: "Kotlin Scope Functions for Expressiveness: let, run, with, apply",
+    url: "https://www.youtube.com/watch?v=d0BYBs4JSsE"
+  },
+  {
+    title: "htmx, ScalaTags and ZIO HTTP - Single-Page Web Applications in Scala",
+    url: "https://www.youtube.com/watch?v=xJnuXAc4siY"
+  },
+  {
+    title: "Scala PostgreSQL Integration With Skunk",
+    url: "https://www.youtube.com/watch?v=xNCCHFljwBg"
+  }
+]
 ---
 
 <div class="shadow-2xl rounded-3xl">
   <div class="bg-secondary rounded-3xl overflow-hidden">
     <div class="w-full max-h-40 max-w-7xl overflow-hidden">
-      <a href={`https://www.youtube.com/rockthejvm`}>
+      <a href={`https://www.youtube.com/@rockthejvm`}>
         <img
           src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/FRjv6EVPQkRWF1WE9QW9"
           alt="thumbnail"
@@ -32,28 +52,18 @@ const latestArticles = articles
         </a>
         <div class="py-4 sm:py-4">
           {
-            latestArticles.map(async (article) => {
-              // const author = await getEntry(
-              //   article.data.author.collection,
-              //   article.data.author.id,
-              // );
-              // const company = author.data.company
-              //   ? await getEntry(
-              //       author.data.company.entity.collection,
-              //       author.data.company.entity.id,
-              //     )
-              //   : undefined;
+            latestVideos.map(async (video) => {
               return (
                 <Fragment>
                   <article class="max-w-full border-b-2 border-content-2 hover:bg-primary hover:text-content-2">
                     <div class="group relative mx-auto">
                       <h4 class="text-lg my-1 py-2.5 font-normal leading-6 mx-auto text-center no-underline text-content group-hover:text-content-2">
                         <a
-                          href={`articles/${article.slug}`}
+                          href={video.url}
                           class="no-underline hover:no-underline text-content group-hover:text-content-2"
                         >
                           <span class="absolute inset-0" />
-                          {article.data.title}
+                          {video.title}
                         </a>
                       </h4>
                     </div>
