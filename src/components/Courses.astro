@@ -24,7 +24,7 @@ const categories = await getCollection("courseCategories");
       <div class="mx-auto max-w-6xl divide-y divide-gray-900/10">
         <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
           {
-            categories.map((category) => (
+            categories.sort((a, b) => a.data.ordinal < b.data.ordinal ? -1 : 1).map((category) => (
               <Fragment>
                 <CoursesHelper category={category} client:visible>
                   <Fragment slot="entries">
