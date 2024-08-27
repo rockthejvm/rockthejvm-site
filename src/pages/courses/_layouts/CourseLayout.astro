@@ -30,7 +30,7 @@ const courseList = course.data.bundledCourses ? await Promise.all(course.data.bu
 
 <BaseLayout {description} {title}>
   <article>
-    <Hero {description} {image} {pricingPlanId} {slug} {title} />
+    <Hero {description} {image} {pricingPlanId} slug={slug!} {title} />
     <Goal>
       <slot name="goal" />
     </Goal>
