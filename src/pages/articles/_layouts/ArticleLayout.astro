@@ -11,6 +11,7 @@ import AuthorWide from "../../../components/AuthorWide.astro";
 import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
 import ArticleSeries from "@components/ArticleSeries.astro";
+import SocialShare from "@components/SocialShare";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -88,6 +89,7 @@ const tags = await getEntries(frontmatter.tags);
           </AuthorSmall>
         </a>
         <TagList {tags} />
+        <SocialShare shareUrl={"https://rockthejvm.com/"} client:idle />
       </header>
       <div class="xl:flex xl:flex-row">
         <Prose>
@@ -103,6 +105,7 @@ const tags = await getEntries(frontmatter.tags);
       </div>
       <footer>
         <AuthorWide {author} />
+        <SocialShare shareUrl={"https://rockthejvm.com/"} client:idle />
       </footer>
     </article>
   </NarrowContainer>
