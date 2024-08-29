@@ -10,7 +10,7 @@ interface Props {
   pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
 }
 
-const { description, image, pricingPlanId, slug, title } = Astro.props;
+const { description, image, pricingPlanId, title } = Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
@@ -36,9 +36,6 @@ const { description, image, pricingPlanId, slug, title } = Astro.props;
         >
           Take this course
         </a>
-        <!-- <a href="#" class="text-sm font-semibold leading-6 text-gray-300">
-          Learn more <span aria-hidden="true">→</span>
-        </a> -->
       </div>
     </div>
   </div>
