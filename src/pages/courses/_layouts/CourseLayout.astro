@@ -60,7 +60,7 @@ const courseList = course.data.bundledCourses ? await Promise.all(course.data.bu
     {category.id !== "bundle" &&
       <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId} />
     }
-    <Pricing {course} color={category.data.color} />
+    <Pricing {course} {pricingPlanId} color={category.data.color} />
     <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} />
   </article>
 </BaseLayout>
