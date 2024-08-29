@@ -21,18 +21,18 @@ const { description, image, pricingPlanId, slug, title } = Astro.props;
     slot="image"
   />
   <div class="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"></div>
-  <div class="relative px-6 py-24 sm:px-6 sm:py-48 lg:px-8">
+  <div class="relative px-6 py-40 sm:px-6 sm:py-48 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
-      <h1 class="text-3xl font-bold tracking-tight text-gray-100 sm:text-4xl">
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-gray-100">
         {title}
       </h1>
-      <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
+      <p class="mx-auto mt-6 max-w-xl text-xl md:text-2xl leading-8 text-gray-300">
         {description}
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6">
         <a
           href={`https://rockthejvm.com/purchase?product_id=${pricingPlanId}`}
-          class="rounded-md bg-[#0b49d0] px-3.5 py-2.5 text-sm font-semibold text-gray-100 hover:text-gray-100 hover:no-underline shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="rounded-md bg-[#0b49d0] px-3.5 py-2.5 text-md font-semibold text-gray-100 hover:text-gray-100 hover:no-underline shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Take this course
         </a>
