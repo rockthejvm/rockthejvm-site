@@ -5,7 +5,7 @@ import BackgroundGradient from "./BackgroundGradient.astro";
 
 interface Props {
   color?: CollectionEntry<"courseCategories">["data"]["color"];
-  title: string;
+  title?: string;
   showGradient?: boolean;
 }
 
@@ -24,9 +24,11 @@ console.log(colorClass + " " + title);
 ---
 
 <section>
-  <header class:list={["mx-auto", "bg-secondary"]}>
-    <H2 {color} class="text-center mx-auto">{title}</H2>
-  </header>
+  {title &&
+    <header class:list={["mx-auto", "bg-secondary"]}>
+      <H2 {color} class="text-center mx-auto">{title}</H2>
+    </header>
+  }
   <div
     class="py-16 px-8 w-full relative mx-auto overflow-y-hidden overflow-x-visible"
   >
