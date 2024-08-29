@@ -25,17 +25,16 @@ const latestVideos: {title: string, url: string}[] = [
     url: "https://www.youtube.com/watch?v=xNCCHFljwBg"
   }
 ]
+
+import Photo from "../assets/images/latest/videos.png";
+import { Image } from "astro:assets";
 ---
 
 <div class="shadow-2xl rounded-3xl">
   <div class="bg-secondary rounded-3xl overflow-hidden">
     <div class="w-full max-h-40 max-w-7xl overflow-hidden">
       <a href={`https://www.youtube.com/@rockthejvm`}>
-        <img
-          src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/FRjv6EVPQkRWF1WE9QW9"
-          alt="thumbnail"
-          class="object-cover object-center"
-        />
+        <Image src={Photo} alt="videos thumbnail" class="object-cover object-center" />
       </a>
     </div>
     <div class="mx-auto max-w-7xl mb-4">
