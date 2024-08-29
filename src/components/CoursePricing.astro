@@ -7,9 +7,10 @@ import CoursePrice from "./CoursePrice";
 
 interface Props {
   course: CollectionEntry<"courses">;
+  pricingPlanId: string;
 }
 
-const { course } = Astro.props;
+const { course, pricingPlanId } = Astro.props;
 const { benefits, title } = course.data;
 const membership = await getEntry("memberships", "personal");
 
@@ -158,7 +159,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         }
       </ul>
       <a
-        href="#"
+        href={`https://rockthejvm.com/purchase?product_id=${pricingPlanId}`}
         aria-describedby="tier-hobby"
         class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Get Now</a
@@ -238,7 +239,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         }
       </ul>
       <a
-        href="#"
+        href="https://rockthejvm.com/purchase?product_id=4131055"
         aria-describedby="tier-enterprise"
         class="mt-8 block rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm text-content-1 hover:text-content-1 hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Join Now</a
