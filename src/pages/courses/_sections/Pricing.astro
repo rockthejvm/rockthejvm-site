@@ -6,11 +6,12 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   course: CollectionEntry<"courses">;
   color: CollectionEntry<"courseCategories">["data"]["color"];
+  pricingPlanId: string;
 }
 
-const { course, color } = Astro.props;
+const { course, color, pricingPlanId } = Astro.props;
 ---
 
 <Section {color} title="Take this course now!">
-  <CoursePricing {course} />
+  <CoursePricing {course} {pricingPlanId} />
 </Section>
