@@ -1,0 +1,24 @@
+---
+import Section from "@components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  video: string;
+}
+
+const { color, video } = Astro.props;
+console.log(`testing: ${color}`);
+// console.log(features);
+---
+
+<Section {color}>
+  <div class="max-w-4xl mx-auto">
+    <video
+      preload='metadata'
+      class="w-full"
+      src={`${video}`}
+      controls
+    />
+  </div>
+</Section>

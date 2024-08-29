@@ -63,6 +63,7 @@ export default defineCollection({
           .strict()
           .optional(),
         title: z.string(),
+        video: z.string().optional(),
       })
       .strict(),
 });
