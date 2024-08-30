@@ -13,6 +13,9 @@
   },
   "name": "Rock the JVM",
   "socials": {
+    "email": {
+      "url": "mailto:daniel@rockthejvm.com"
+    },
     "facebook": {
       "url": "https://www.facebook.com/@rockthejvm"
     },

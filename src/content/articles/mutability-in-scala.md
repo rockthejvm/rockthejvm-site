@@ -1,10 +1,10 @@
 ---
-title: "Mutability in Scala"
-date: 2021-02-18
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
+category: explanation
+excerpt: "Although frowned upon by FP purists, creating and managing mutable data structures is important in any language: Explore Scala's first-class mutability features"
+publishedDate: 2021-02-18
 tags: [scala]
-excerpt: "Although frowned upon by FP purists, creating and managing mutable data structures is important in any language. Scala has some first-class features."
+title: Mutability in Scala Quickly Explained
+updatedDate: 2024-09-06
 ---
 
 Scala is primarily targeted at established software engineers. That means that &mdash; with a few exceptions &mdash; most Scala developers did not pick Scala as their first language. Most of the time, that means Scala developers learned to code via the more traditional programming languages: Java, C (my case), C++, or Python.

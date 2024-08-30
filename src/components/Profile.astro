@@ -3,6 +3,7 @@
 import { getEntry } from "astro:content";
 import Feature from "./Feature.astro";
 import Section from "./Section.astro";
+import DefaultAvatar from "@assets/images/default-avatar.svg";
 
 interface Props {
   color: string;
@@ -16,7 +17,7 @@ const author = await getEntry("authors", "daniel-ciocirlan");
 <Section {color} title="Meet Rock the JVM">
 
 <Feature
-image={author.data.photo}
+image={author.data.photo ?? DefaultAvatar}
 imagePosition="left"
 >
 <h3>Daniel Ciocîrlan</h3>

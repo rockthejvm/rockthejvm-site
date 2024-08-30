@@ -1,13 +1,14 @@
 ---
+author: riccardo-cardin
+category: guide
+excerpt: "Discover how to leverage ZIO to seamlessly interact with Apache Kafka: the proven, scalable solution for reliable communication between distributed application components"
+publishedDate: 2021-08-19
+tags: [kafka, zio]
 title: "ZIO Kafka: A Practical Streaming Tutorial"
-date: 2021-08-19
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [zio, kafka]
-excerpt: "Apache Kafka has proven itself as a reliable and scalable communication bus between distributed application components. We'll learn to use ZIO to interact with it."
+updatedDate: 2024-09-06
 ---
 
-_Another great round by [Riccardo Cardin](https://github.com/rcardin), a proud student of the [Scala with Cats course](https://rockthejvm.com/p/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:_
+_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](https://rockthejvm.com/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:_
 
 Modern distributed applications need a communication system between their components that must be reliable, scalable, and efficient. Synchronous communication based on HTTP is not a choice in such applications due to latency problems, insufficient resources' management, etc... Hence, we need an asynchronous messaging system capable of quickly scaling, robust to errors, and low latency.
 

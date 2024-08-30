@@ -5,6 +5,7 @@ import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import Placeholder from "@assets/images/placeholder.webp";
 import { getReadingTime } from "@utils/getReadingTime.ts";
+import DefaultAvatar from "@assets/images/default-avatar.svg";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -89,7 +90,7 @@ const entity = author.data.company
   </div>
   <div class="relative mt-8 flex items-center gap-x-4">
     <Image
-      src={author.data.photo}
+      src={author.data.photo ?? DefaultAvatar}
       alt={author.data.name}
       class="h-10 w-10 rounded-full bg-gray-100"
     />
