@@ -45,13 +45,15 @@ const courseList = course.data.bundledCourses ? await Promise.all(course.data.bu
         </Question>
       )
     }
-    <Features color={category.data.color} {features}>
-      <slot name="feature1" slot="feature1" />
-      <slot name="feature2" slot="feature2" />
-      <slot name="feature3" slot="feature3" />
-      <slot name="feature4" slot="feature4" />
-      <slot name="feature5" slot="feature5" />
-    </Features>
+    {features && Object.keys(features).length > 0 &&
+      <Features color={category.data.color} {features}>
+        <slot name="feature1" slot="feature1" />
+        <slot name="feature2" slot="feature2" />
+        <slot name="feature3" slot="feature3" />
+        <slot name="feature4" slot="feature4" />
+        <slot name="feature5" slot="feature5" />
+      </Features>
+    }
     <Skills color={category.data.color}>
       <slot name="skills" />
     </Skills>
