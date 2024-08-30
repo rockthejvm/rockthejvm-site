@@ -1,15 +1,15 @@
 ---
-title: "Scala 3 Traits: New Features"
-date: 2020-09-29
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [scala, scala 3, traits]
-excerpt: "This article will continue some of the previous explorations of Scala 3. Here, we'll discuss some of the new functionality of traits in Scala 3."
+category: explanation
+excerpt: This article delves into Scala 3’s advanced trait functionalities, building on our previous explorations of the language’s new features
+publishedDate: 2020-09-29
+tags: [scala, scala-3, traits]
+title: "Scala 3: Traits Quickly Explained"
+updatedDate: 2024-09-06
 ---
 
 This article will continue some of the previous explorations of Scala 3. Here, we'll discuss some of the new functionality of traits in Scala 3.
 
-This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/p/scala-3-new-features) course.
+This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/courses/scala-3-new-features) course.
 
 ## 1. Background
 
@@ -21,7 +21,7 @@ That line will get even blurrier with the arrival of Scala 3.
 
 One of the practical differences between abstract classes and traits was (in Scala 2) that traits could not receive constructor arguments. Put simply, now they can:
 
-```scala3
+```scala
 trait Talker(subject: String) {
     def talkWith(another: Talker): String
 }
@@ -29,7 +29,7 @@ trait Talker(subject: String) {
 
 Extending such a trait looks just like extending a regular class:
 
-```scala3
+```scala
 class Person(name: String) extends Talker("rock")
 ```
 
@@ -37,7 +37,7 @@ Enhancing traits with parameters certainly has its advantages. However, this may
 
 The short answer is that won't compile. The rule is: if a superclass already passes an argument to the trait, if we mix it again, we must not pass any argument to that trait again.
 
-```scala3
+```scala
 class RockFan extends Talker("rock")
 class RockFanatic extends RockFan with Talker // must not pass argument here
 ```
@@ -46,7 +46,7 @@ Another problem is: what happens if we define a trait hierarchy? How should we p
 
 Again, short answer: derived traits will not pass arguments to parent traits:
 
-```scala3
+```scala
 trait BrokenRecord extends Talker
 ```
 
@@ -54,7 +54,7 @@ That's a rule. Passing arguments to parent traits will not compile.
 
 Cool, but how are we now supposed to mix this trait into one of our classes? Say we wanted to create a class which denotes this person we all have in our family or our circle of friends, who talks until they turn pale.
 
-```scala3
+```scala
 class AnnoyingFriend extends BrokenRecord("politics")
 ```
 
@@ -62,7 +62,7 @@ This is illegal, because the BrokenRecord trait doesn't take arguments. But then
 
 The answer is by mixing it again:
 
-```scala3
+```scala
 class AnnoyingFriend extends BrokenRecord with Talker("politics")
 ```
 
@@ -72,7 +72,7 @@ A bit clunky, but that's the only way to make the type system sound with respect
 
 The Scala compiler's type inference is one of its most powerful features. However, without enough information, sometimes even the compiler's type inference isn't powerful enough. Here's an example:
 
-```scala3
+```scala
 trait Color
 case object Red extends Color
 case object Green extends Color
@@ -87,7 +87,7 @@ Which is weird, right? We'd expect the inferred type to be the lowest common anc
 
 The thing is that we rarely use the traits `Product` or `Serializable` as standalone types we attach to values. So Scala 3 allows us to ignore these kinds of traits in type inference, by making them a `transparent` trait. Here's an example. Assume we have the following definitions for a graphical library:
 
-```scala3
+```scala
 trait Paintable
 trait Color
 object Red extends Color with Paintable
@@ -99,13 +99,13 @@ object Blue extends Color with Paintable
 
 Assume further that the trait `Paintable` is rarely used as a standalone trait, but rather as an auxiliary trait in our library definitions. In this case, if we were to say
 
-```scala3
+```scala
 val color = if (43 > 2) Red else Blue
 ```
 
 then we'd like the type inference to detect `color` as being of type `Color`, not `Color with Paintable`. We can suppress `Paintable` from type inference by marking it with `super`:
 
-```scala3
+```scala
 transparent trait Paintable
 ```
 

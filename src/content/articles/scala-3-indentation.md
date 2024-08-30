@@ -1,21 +1,21 @@
 ---
-title: "Let's Talk About the Scala 3 Indentation"
-date: 2020-11-02
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [scala 3]
-excerpt: "Some people love it, some hate it. Scala 3 indented syntax is not that bad, and it might actually help. Let's take a look at how Scala 3 can change the structure of our code."
+category: explanation
+excerpt: "Some people love it, some hate it: Scala 3's indented syntax might surprise you with its potential to enhance your code structure"
+publishedDate: 2020-11-02
+tags: [scala, scala-3]
+title: "Scala 3: Indentation Quickly Explained"
+updatedDate: 2024-09-06
 ---
 
 Regardless of whether you're experienced or new to Scala, you've probably been confused about Scala syntax inconsistencies and alternatives at least once. In this article, we'll take a careful, structured look at how Scala 3 adds yet another facility to our ever-expanding set of alternative code styles.
 
-This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/p/scala-3-new-features) course.
+This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/courses/scala-3-new-features) course.
 
 ## 1. If Expressions
 
 The Scala 2 syntax allows you to write if expressions on multiple lines:
 
-```scala3
+```scala
 val aCondition = if (2 > 3)
   "bigger"
   else "smaller"
@@ -23,7 +23,7 @@ val aCondition = if (2 > 3)
 
 Of course, that's not how aesthetics are generally chosen. Some styles include:
 
-```scala3
+```scala
 // one-liner
 val aCondition = if (2 > 3) "bigger" else "smaller"
 
@@ -43,7 +43,7 @@ val aCondition3 =
 
 To be clear, all the above _are still supported_ in Scala 3. However, we can make do without the braces and even the parentheses of if expressions, while _indentation becomes significant_.
 
-```scala3
+```scala
 val anIndentedCondition =
   if 2 > 3
     "bigger"
@@ -55,7 +55,7 @@ When we remove the parens around `2 > 3`, indentation becomes significant for th
 
 If we want to place the if-branch result on the same line as the condition, we need to add a `then` keyword:
 
-```scala3
+```scala
 // one-liner
 val aCondition = if 2 > 3 then "bigger" else "smaller"
 // compact
@@ -70,7 +70,7 @@ That's it!
 
 A similar change has been added to other control structures like `for` comprehensions. The idea is: if we don't add braces, indentation becomes significant. Here's what we used to write:
 
-```scala3
+```scala
 for {
   n <- List(1, 2, 3)
   c <- List('a', 'b', 'c')
@@ -79,7 +79,7 @@ for {
 
 Now, in Scala 3:
 
-```scala3
+```scala
 for
   n <- List(1, 2, 3)
   c <- List('a', 'b', 'c')
@@ -96,7 +96,7 @@ In the syntactic analysis compilation step, the compiler adds indentation region
 
 This means that methods can now be implemented without braces:
 
-```scala3
+```scala
 def computeMeaningOfLife(year: Int): Int =
   println("thinking...")
 
@@ -107,7 +107,7 @@ This part may be particularly confusing. The way I like to talk about it is: ima
 
 An indentation region is also created when we define classes, traits, objects or [enums](/enums-scala-3/) followed by a colon `:` and a line break. This token is now interpreted by the compiler as "colon at end of line", which is to say "colon then define everything indented". Examples:
 
-```scala3
+```scala
 class Animal:
   def eat(): Unit
 
@@ -120,7 +120,7 @@ object Carnivore:
 
 Similar rules apply for extension methods and given instances (we'll talk about them in a later article):
 
-```scala3
+```scala
 given myOrder as Ordering[Int]: // <-- start the indentation region
   def compare(x: Int, y: Int) =
     if x < y then 1 // notice my new syntax
@@ -138,7 +138,7 @@ Here's the bottom line: just don't mix spaces with tabs. Pick your camp, fight t
 
 There's a common style of writing Scala 2 with one-arg methods:
 
-```scala3
+```scala
 val aFuture = Future {
   // some code
 }
@@ -148,14 +148,14 @@ which is the same as `Future(/* that block of code */)`, which throws some newco
 
 Here's the thing: this one is here to stay. No significant indentation here. We could add support for it with the `-Yindent-colons` compiler option, which would allow us to add an end-of-line `:` and write the method argument indented:
 
-```scala3
+```scala
 val nextYear = Future:
   2021
 ```
 
 or
 
-```scala3
+```scala
 List(1,2,3).map:
   x => x + 1
 ```
@@ -168,7 +168,7 @@ This new concept of indentation regions can cause confusions with large blobs of
 
 To that end (pun intended), Scala 3 introduced the `end` token to differentiate which code belongs to which indentation region:
 
-```scala3
+```scala
 class Animal:
   def eat(): Unit =
     if System.currentTimeMillis() % 2 == 0

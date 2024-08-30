@@ -20,6 +20,7 @@ export default defineCollection({
           .optional(),
         category: reference("courseCategories"),
         description: z.string(),
+        difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
         excerpt: z
           .string()
           .refine(
@@ -53,7 +54,7 @@ export default defineCollection({
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
         price: z.number().int().positive().optional(),
-        pricingPlanId: z.number().int().positive().optional(),
+        pricingPlanId: z.number().int().positive(),
         purchaseLink: z.string().url(),
         question: z
           .object({

@@ -13,7 +13,10 @@ export default defineCollection({
           .string()
           .max(200, "Description must be at most 200 characters")
           .optional(),
-        excerpt: z.string(),
+        difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+        excerpt: z.string().refine((excerpt) => !excerpt.endsWith("."), {
+          message: "Excerpt must not end with a period",
+        }),
         heroImage: z
           .object({
             image: image().refine(
@@ -34,7 +37,7 @@ export default defineCollection({
           z
             .array(reference("tags"))
             .min(1, "Article must have at least one tag")
-            .max(3, "Article must have at most three tags"),
+            .max(5, "Article must have at most five tags"),
           "tags",
         ),
         title: z

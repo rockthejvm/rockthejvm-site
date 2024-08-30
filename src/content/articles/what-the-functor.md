@@ -1,21 +1,21 @@
 ---
-title: "What the Functor?"
-date: 2021-01-05
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [scala, cats]
-excerpt: "In this article, we'll explore one of the most used (and useful) concepts in pure functional programming: the Functor. Pretty abstract, so buckle up."
+category: explanation
+excerpt: "Explore one of the most essential concepts in pure functional programming: the Functor, a crucial but abstract idea that will challenge your understanding"
+publishedDate: 2021-01-05
+tags: [category-theory, cats, mathematics, scala]
+title: What the Functor? Exploring Functors in Depth
+updatedDate: 2024-09-06
 ---
 
 This article is pretty general. Although we'll write Scala, the article will focus more on the concept than on some very specific API.
 
-This is one of the lessons of the [Cats course](https://rockthejvm.com/p/cats), which we look at in general terms here.
+This is one of the lessons of the [Cats course](https://rockthejvm.com/courses/cats), which we look at in general terms here.
 
 ## 1. Background
 
 Pure functional programming deals with immutable values, and so if we want to transform a data structure, we'll need to create another one. You're probably familiar with the famous `map` method on lists:
 
-```scala3
+```scala
 val anIncrementedList = List(1,2,3).map(x => x + 1) // [2,3,4]
 ```
 
@@ -23,7 +23,7 @@ This `map` transformation concept can be applied to other data structures as wel
 
 The `map` transformation applies to `Option`, `Try` and... some others. We've covered some of those [briefly elsewhere](/monads), and they deserve more attention in a future article.
 
-```scala3
+```scala
 val aTransformedOption = Some(2).map(x => x * 2) // Some(4)
 val aTransformedTry = Try(43).map(x => x - 1) // Try(42). Don't try so hard.
 ```
@@ -34,7 +34,7 @@ The point is that this `map` concept is transferable, and it bears the name of F
 
 For purely practical reasons, let's consider the following small API for multiplying "mappable" values like lists, options or Try:
 
-```scala3
+```scala
 def do10xList(list: List[Int]): List[Int] = list.map(_ * 10)
 def do10xOption(option: Option[Int]): Option[Int] = option.map(_ * 10)
 def do10xTry(attempt: Try[Int]): Try[Int] = attempt.map(_ * 10)
@@ -44,7 +44,7 @@ Every time we'd want to support another "mappable" container (e.g. a binary tree
 
 There's no need to repeat ourselves. Since we've established that the `map` concept is transferable, we can create an interface for it. In Scala, a "transferable concept" can be easily expressed as a [type class](/why-are-typeclasses-useful). We named this concept a Functor, so we can create the following trait:
 
-```scala3
+```scala
 trait Functor[C[_]] {
   def map[A, B](container: C[A])(f: A => B): C[B]
 }
@@ -59,7 +59,7 @@ The definition is pretty compact, so let's read it slowly:
 
 In order to use the `map` concept on various data structures, we'd need to create implementations of the `Functor` trait for various structures we'd like to support. For example, on Lists, we would have:
 
-```scala3
+```scala
 given listFunctor as Functor[List] {
   override def map[A, B](container: List[A])(f: A => B) = container.map(f)
 }
@@ -69,19 +69,19 @@ Notice I've used the [given](/scala-3-given-using) syntax of Scala 3. In Scala 2
 
 The interesting thing is that once we have Functor instances for all the data structures we'd like to support, our initial "repeated" API would no longer need to be bloated or repeated, and can be generalized:
 
-```scala3
+```scala
 def do10x[C[_]](container: C[Int])(using functor: Functor[C]) = functor.map(container)(_ * 10)
 ```
 
 So we've reduced this API to a single method, which we can now use on different data structures, provided we have a `given` Functor for that data structure in scope. For example, the call
 
-```scala3
+```scala
 do10x(List(1,2,3))
 ```
 
 would "just work". Now, this example can be quickly dismissed as something simple because the `map` method exists on Lists, but let's consider a completely new data structure, such as a binary tree:
 
-```scala3
+```scala
 trait Tree[+T]
 object Tree {
   def leaf[T](value: T): Tree[T] = Leaf(value)
@@ -93,7 +93,7 @@ case class Branch[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T]
 
 If we have a functor in scope, such as
 
-```scala3
+```scala
 given treeFunctor as Functor[Tree] {
   override def map[A, B](container: Tree[A])(f: A => B) = container match {
     case Leaf(value) => Leaf(f(value))
@@ -104,7 +104,7 @@ given treeFunctor as Functor[Tree] {
 
 then for a Tree instance such as
 
-```scala3
+```scala
 val tree =
   Tree.branch(1,
     Tree.branch(2,
@@ -116,7 +116,7 @@ val tree =
 
 we can just as easily say
 
-```scala3
+```scala
 val tenxTree = do10x(tree)
 ```
 
@@ -128,14 +128,14 @@ This is the power of a Functor: it allows us to generalize an API and process an
 
 We can even go one step further. With Scala 3's extension methods (or with implicit classes in Scala 2), we can "attach" the map method to a data structure that normally does not have it, if we have a Functor for that data structure. Here's a possible implementation:
 
-```scala3
+```scala
 extension [C[_], A, B](container: C[A])(using functor: Functor[C])
     def map(f: A => B) = functor.map(container)(f)
 ```
 
 In other words, a container `C[A]` will also have access to a new `map` method if we have a functor for that data structure type `Functor[C]` in scope. With this extension method in place, we can simply call the map method on a Tree data structure, such as:
 
-```scala3
+```scala
 val tenxTree2 = tree.map(_ * 10)
 ```
 
