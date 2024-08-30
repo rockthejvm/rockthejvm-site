@@ -6,7 +6,6 @@ export default defineCollection({
     z
       .object({
         biography: z.string().optional(),
-        canonicalUrl: z.string().url().optional(),
         company: z
           .object({
             entity: reference("companies"),
@@ -23,12 +22,11 @@ export default defineCollection({
           .strict()
           .optional(),
         name: z.string(),
-        photo: image().refine(
-          (image) => image.width >= 460 && image.height >= 460,
-          {
-            message: "Photo must be at least 460x460px",
-          },
-        ),
+        photo: image()
+          .refine((image) => image.width >= 400 && image.height >= 400, {
+            message: "Photo must be at least 400x400px",
+          })
+          .optional(),
         socials: z
           .object({
             email: z.string().email().optional(),

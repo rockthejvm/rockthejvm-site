@@ -1,10 +1,10 @@
 ---
-title: "Scala 3: Extension Methods"
-date: 2021-04-06
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [scala 3]
-excerpt: "Deconstructing extension methods, one of the most exciting features of the upcoming Scala 3."
+category: explanation
+excerpt: "Deconstructing extension methods: one of the most exciting features of the upcoming Scala 3"
+publishedDate: 2021-04-06
+tags: [scala, scala-3, type-system]
+title: "Scala 3: Extension Methods Quickly Explained"
+updatedDate: 2024-09-06
 ---
 
 This article is for the curious folks going from Scala 2 to Scala 3 - we're going to explore extension methods, one of the most exciting features of the upcoming version of the language.
@@ -14,7 +14,7 @@ As for requirements, two major pieces are important:
 - how implicits work
 - how [given/using combos work](/scala-3-given-using/)
 
-This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/p/scala-3-new-features) course.
+This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/courses/scala-3-new-features) course.
 
 ## 1. Background
 
@@ -22,7 +22,7 @@ In Scala 2, we had this concept of adding methods to types that were already def
 
 In Scala 2, we can add extension methods to existing types via implicit classes. Let's say we have a case class
 
-```scala3
+```scala
 case class Person(name: String) {
     def greet: String = s"Hi, I'm $name, nice to meet you."
 }
@@ -30,7 +30,7 @@ case class Person(name: String) {
 
 In this case, then the following implicit class
 
-```scala3
+```scala
 implicit class PersonLike(string: String) {
     def greet: String = Person(string).greet
 }
@@ -38,19 +38,19 @@ implicit class PersonLike(string: String) {
 
 would enable us to call the `greet` method on a String
 
-```scala3
+```scala
 "Daniel".greet
 ```
 
 and the code would compile &mdash; that's because the compiler will silently turn that line into
 
-```scala3
+```scala
 new PersonLike("Daniel").greet
 ```
 
 In other words, the `greet` method is an extension to the String type, even though we did not touch the String type at all.
 
-Libraries like [Cats](https://typelevel.org/cats) (which I [teach](https://rockthejvm.com/p/cats) here on the site) do this all the time.
+Libraries like [Cats](https://typelevel.org/cats) (which I [teach](https://rockthejvm.com/courses/cats) here on the site) do this all the time.
 
 ## 2. Proper Extensions
 
@@ -64,14 +64,14 @@ So how are extension methods declared?
 
 For our scenario with the string taking an extra method `greet` (which is person-like), we can write an explicit `extension` clause:
 
-```scala3
+```scala
 extension (str: String)
     def greet: String = Person(str).greet
 ```
 
 And now we can call the `greet` method as before:
 
-```scala3
+```scala
 "Daniel".greet
 ```
 
@@ -79,7 +79,7 @@ And now we can call the `greet` method as before:
 
 Much like implicit classes, extension methods can be generic. Let's say somebody wrote a new binary tree data structure
 
-```scala3
+```scala
 sealed abstract class Tree[+A]
 case class Leaf[+A](value: A) extends Tree[A]
 case class Branch[+A](left: Tree[A], right: Tree[A]) extends Tree[A]
@@ -87,7 +87,7 @@ case class Branch[+A](left: Tree[A], right: Tree[A]) extends Tree[A]
 
 and we have no access to the source code. On the other hand, we want to add some methods that we normally use on lists, for example. A `filter`, for instance, would be nice. Here's how we could write it:
 
-```scala3
+```scala
 extension [A](tree: Tree[A])
   def filter(predicate: A => Boolean): Boolean = tree match {
     case Leaf(value) => predicate(value)
@@ -99,7 +99,7 @@ So the method is generic, in that it can "attach" to any `Tree[T]`.
 
 An even better feature is that the method itself can be generic. Let's see how we can write a `map` method on trees:
 
-```scala3
+```scala
 extension [A](tree: Tree[A])
   def map[B](func: A => B): Tree[B] = tree match {
     case Leaf(value) => Leaf(func(value))
@@ -109,7 +109,7 @@ extension [A](tree: Tree[A])
 
 By the way, we can group both extension methods together under a single `extension` clause:
 
-```scala3
+```scala
 extension [A] (tree: Tree[A]) {
   def filter(predicate: A => Boolean): Boolean = tree match {
     case Leaf(value) => predicate(value)
@@ -131,7 +131,7 @@ Or, more precisely, in the presence of `using` clauses.
 
 Let's see how we can attach a new method `sum` to our new binary tree data structure, if our type argument is numeric &mdash; in other words, if we have a `given Numeric[A]` in scope:
 
-```scala3
+```scala
 extension [A](tree: Tree[A])(using numeric: Numeric[A]) {
   def sum: A = tree match {
     case Leaf(value) => value
@@ -142,14 +142,14 @@ extension [A](tree: Tree[A])(using numeric: Numeric[A]) {
 
 At this point, we can safely use a `Tree[Int]` and call this `sum` method on it:
 
-```scala3
+```scala
 val tree = Branch(Leaf(1), Leaf(2))
 val three = tree.sum
 ```
 
 The `using` clause might be present in the `extension` clause, or in the method signature itself:
 
-```scala3
+```scala
 // works exactly the same
 extension [A](tree: Tree[A]) {
   def sum(using numeric: Numeric[A]): A = tree match {

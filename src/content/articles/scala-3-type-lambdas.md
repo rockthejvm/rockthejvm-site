@@ -1,15 +1,15 @@
 ---
-title: "Type Lambdas in Scala 3"
-date: 2020-10-06
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [scala, scala 3, type system]
-excerpt: "Exploring a quick but powerful structure in Scala 3 - type lambdas. This will help you think higher-level."
+category: explanation
+excerpt: "Exploring type lambdas in Scala 3: a quick yet powerful structure that will elevate your high-level thinking"
+publishedDate: 2020-10-06
+tags: [scala, scala-3, type-system]
+title: "Scala 3: Type Lambdas Quickly Explained"
+updatedDate: 2024-09-06
 ---
 
 This article is a bit more difficult &mdash; it's aimed at the experienced Scala developer who can think at a higher level. Ideally, you've read the [previous article](https://rockthejvm.com/scala-types-kinds) - it serves as a prep for this one. Type lambdas are simple to express in Scala 3, but the ramifications are deep.
 
-This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/p/scala-3-new-features) course.
+This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/courses/scala-3-new-features) course.
 
 ## 1. Background
 
@@ -29,7 +29,7 @@ As I mentioned before, generic types need the appropriate type arguments before 
 
 You can therefore think of `List` (the generic type itself) as similar to a function, which takes a level-0 type and returns a level-0 type. This "function" from level-0 types to level-0 types represents the _kind_ which `List` belongs to. In Scala 2, representing this such a type was horrible (`{ type T[A] = List[A] })#T`, yuck). In Scala 3, it looks much more similar to a function:
 
-```scala3
+```scala
 [X] =>> List[X]
 ```
 

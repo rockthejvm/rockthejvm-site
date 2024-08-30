@@ -1,15 +1,15 @@
 ---
-title: "Match Types in Scala 3"
-date: 2021-02-02
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [scala, scala 3]
-excerpt: "Scala 3 comes with lots of new features. In this episode, match types: a pattern matching on types, and a tool for more accurate type checking."
+category: explanation
+excerpt: "Scala 3 comes with lots of new features: in this episode, we dive into match types, a powerful tool for pattern matching on types and more accurate type checking"
+publishedDate: 2021-02-02
+tags: [scala, scala-3, type-system]
+title: "Scala 3: Match Types Quickly Explained"
+updatedDate: 2024-09-06
 ---
 
 This article is for the Scala programmers who are curious about the next features of Scala 3. Familiarity with some of the current Scala 2 features (e.g. generics) is assumed. This article will also involve a bit of type-level nuance, so answer to questions like "how is this useful for me?" will be more subtle.
 
-This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/p/scala-3-new-features) course.
+This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/courses/scala-3-new-features) course.
 
 ## 1. Background: First-World Problems
 
@@ -21,7 +21,7 @@ Instead of describing the feature, I want to start with the need first. Let's sa
 
 For these purposes, you might want to create the following methods:
 
-```scala3
+```scala
 def lastDigitOf(number: BigInt): Int = (number % 10).toInt
 
 def lastCharOf(string: String): Char =
@@ -43,7 +43,7 @@ Some good news and some bad news. The bad news is that you can't follow your dre
 
 In Scala 3, we can define a type member which can take different forms &mdash; i.e. reduce to different concrete types &mdash; depending on the type argument we're passing:
 
-```scala3
+```scala
 type ConstituentPartOf[T] = T match
   case BigInt => Int
   case String => Char
@@ -52,7 +52,7 @@ type ConstituentPartOf[T] = T match
 
 This is called a match type. Think of it like a pattern match done on types, by the compiler. The following expressions would all be valid:
 
-```scala3
+```scala
 val aNumber: ConstituentPartOf[BigInt] = 2
 val aCharacter: ConstituentPartOf[String] = 'a'
 val anElement: ConstituentPartOf[List[String]] = "Scala"
@@ -64,7 +64,7 @@ That `case List[t] => t` is a pattern on types, which is evaluated on variable t
 
 Now let's see how match types can help solve our first-world-DRY problem. Because all the previous methods have the meaning of "extract the last part of a bigger thing", we can use the match type we've just created to write the following all-powerful API:
 
-```scala3
+```scala
 def lastComponentOf[T](thing: T): ConstituentPartOf[T]
 ```
 
@@ -78,7 +78,7 @@ val lastElement = lastComponentOf((1 to 10).toList) // 10
 
 Now, for the implementation. There are special compiler rules for methods that return a match type. We need to use a value-level pattern matching with the exact same structure as the type-level pattern matching. Therefore, our method will look like this:
 
-```scala3
+```scala
 def lastComponentOf[T](thing: T): ConstituentPartOf[T] = thing match
   case b: BigInt => (b % 10).toInt
   case s: String =>
@@ -99,7 +99,7 @@ The general answer is: **to be able to express methods returning potentially unr
 
 **Why is this different from regular inheritance-based OOP?** Because if you write code against an interface, e.g.
 
-```scala3
+```scala
 def returnConstituentPartOf(thing: Any): ConstituentPart = ... // pattern match
 ```
 
@@ -109,7 +109,7 @@ you lose the type safety of your API, because the real instance is returned at r
 
 Take, for example, the following method:
 
-```scala3
+```scala
 def listHead[T](l: List[T]): T = l.head
 ```
 
@@ -127,7 +127,7 @@ Expressed this way, we see how we make the connection between argument and retur
 
 Match types can be recursive. For example, if we wanted to operate on nested lists, we would say something like
 
-```scala3
+```scala
 type LowestLevelPartOf[T] = T match
   case List[t] => LowestLevelPartOf[t]
   case _ => T
@@ -137,7 +137,7 @@ val lastElementOfNestedList: LowestLevelPartOf[List[List[List[Int]]]] = 2 // ok
 
 However, the compiler will detect cycles in your definition:
 
-```scala3
+```scala
 // will not compile
 type AnnoyingMatchType[T] = T match
   case _ => AnnoyingMatchType[T]
@@ -145,7 +145,7 @@ type AnnoyingMatchType[T] = T match
 
 And potential infinite recursions:
 
-```scala3
+```scala
 type InfiniteRecursiveType[T] = T match
   case Int => InfiniteRecursiveType[T]
 
@@ -157,13 +157,13 @@ val illegal: Int = aNaiveMethod[Int] // <-- error here: the compiler SO'd trying
 
 As far as I'm aware &mdash; and please correct me if I'm wrong &mdash; the utility of match types in dependent methods is conditioned by the exact signature of the dependent method. So far, only methods with the signature
 
-```scala3
+```scala
 def method[T](argument: T): MyMatchType[T]
 ```
 
 are allowed. For our use case with `ConstituentPartOf`, if we wanted to create a more useful API, e.g. for adding a value to a container, in the likes of
 
-```scala3
+```scala
 def accumulate[T](accumulator: T, value: ConstituentPartOf[T]): T
 ```
 

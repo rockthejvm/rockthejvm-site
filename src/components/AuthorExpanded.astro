@@ -8,6 +8,7 @@ import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
+import DefaultAvatar from "@assets/images/default-avatar.svg";
 
 interface Props {
   author: CollectionEntry<"authors">;
@@ -42,7 +43,7 @@ const companyWebsite = company
 >
   <a href={`/authors/${author.id}`} slot="photo">
     <Image
-      src={photo}
+      src={photo ?? DefaultAvatar}
       alt={name}
       class="mx-auto h-56 w-56 rounded-full shadow-lg"
     />

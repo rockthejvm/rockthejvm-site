@@ -1,10 +1,10 @@
 ---
-title: "Idiomatic Error Handling in Scala"
-date: 2021-02-04
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
+category: guide
+excerpt: "Error handling can be one of the most frustrating aspects of programming: let's explore how Scala offers better and worse ways to manage it"
+publishedDate: 2021-02-04
 tags: [scala]
-excerpt: "Error handling is likely one of the most frustrating part of programming, and in Scala, there are better and worse ways to do it. Let's take a look."
+title: Idiomatic Error Handling in Scala
+updatedDate: 2024-09-06
 ---
 
 This article will show you various ways of dealing with errors in Scala. Some are easy and beginner-friendly, and some are more complex, but more powerful. Let's take a look.
@@ -141,7 +141,7 @@ val aChainedComputation = for {
 
 ## 4. Advanced: `Validated`
 
-There are many data structures in various libraries with certain set goals in mind. One of the popular ones is `Validated`, which is part of the Cats library. By the way, I [teach](https://rockthejvm.com/p/cats) this here at Rock the JVM.
+There are many data structures in various libraries with certain set goals in mind. One of the popular ones is `Validated`, which is part of the Cats library. By the way, I [teach](https://rockthejvm.com/courses/cats) this here at Rock the JVM.
 
 Besides doing pretty much everything that Either does, Validated allows us to _accumulate_ errors. One obvious use case is online forms that have to meet certain criteria. If a user fails those conditions, the form should ideally show the user _all the places_ in which they filled wrong, not just a single error.
 

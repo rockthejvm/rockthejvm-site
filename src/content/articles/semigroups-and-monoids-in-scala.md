@@ -1,10 +1,10 @@
 ---
-title: "Semigroups and Monoids in Scala"
-date: 2021-03-19
-header:
-  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
-tags: [scala, cats]
-excerpt: "This article is about Monoids and Semigroups as a gentle introduction to functional abstractions and to how the Cats library works."
+category: explanation
+excerpt: This article provides a gentle introduction to Monoids and Semigroups, exploring functional abstractions and the workings of the Cats library
+publishedDate: 2021-03-19
+tags: [category-theory, cats, fp, mathematics, scala]
+title: Semigroups and Monoids in Scala
+updatedDate: 2024-09-06
 ---
 
 This article is for the comfortable Scala programmer. The code here will be written in Scala 3, but it's equally applicable in Scala 2 with some syntax adjustments &mdash; which I'm going to show you as needed.
@@ -21,7 +21,7 @@ A semigroup is defined loosely as a set + a combination function which takes two
 
 Long story short, a semigroup in Scala can be expressed as a generic trait:
 
-```scala3
+```scala
 trait Semigroup[T] {
     def combine(a: T, b: T): T
 }
@@ -29,7 +29,7 @@ trait Semigroup[T] {
 
 That's it! That's a semigroup. With this trait, we can then create instances of semigroups which are applicable for some types that we want to support:
 
-```scala3
+```scala
 val intSemigroup: Semigroup[Int] = new Semigroup[Int] {
   override def combine(a: Int, b: Int) = a + b
 }
@@ -43,7 +43,7 @@ val stringSemigroup: Semigroup[String] = new Semigroup[String] {
 
 To make these semigroups &mdash; which are essentially 2-arg combination funcitons &mdash; actually useful, we're going to follow the [type class](/why-are-typeclasses-useful/) pattern. We've already defined the general API of the type class' trait, so we're going to turn to these type class instances and turn them into [given instances](/scala-3-given-using/), or into implicit values/objects for Scala 2. For ergonomics, we'll also move them into an appropriate enclosure (usually an object):
 
-```scala3
+```scala
 object SemigroupInstances {
   given intSemigroup: Semigroup[Int] with
     override def combine(a: Int, b: Int) = a + b
@@ -57,7 +57,7 @@ object SemigroupInstances {
 
 Now, in order to be able to use these instances explicitly, we need a way to summon them, either with the `summon` method in Scala 3, or with `implicitly` in Scala 2, or with our own structure e.g. an apply method:
 
-```scala3
+```scala
 object Semigroup {
   def apply[T](using instance: Semigroup[T]): Semigroup[T] = instance
 }
@@ -65,7 +65,7 @@ object Semigroup {
 
 After that, we can use our semigroups to obtain new values:
 
-```scala3
+```scala
 import SemigroupInstances.given
 val naturalIntSemigroup = Semigroup[Int]
 val naturalStringSemigroup = Semigroup[String]
@@ -80,7 +80,7 @@ But why do we need this fancy structure, when we already have the `+` operator f
 
 Let's assume you're creating a tool for other programmers, and you want to expose the ability to collapse lists of integers into a single number (their sum), and lists of strings into a single string (their concatenation). Aside from ints and strings, you want to support many other types, and perhaps others that your users might need in the future. Without semigroups, we'd write something like
 
-```scala3
+```scala
 def reduceInts(list: List[Int]): Int = list.reduce(_ + _)
 def reduceStrings(list: List[String]): String = list.reduce(_ + _)
 ```
@@ -89,7 +89,7 @@ def reduceStrings(list: List[String]): String = list.reduce(_ + _)
 
 So, in our quest to make things general (and also extensible for the future), we can collapse the 3802358932 different API methods into a single one, of the form
 
-```scala3
+```scala
 def reduceThings[T](list: List[T])(using semigroup: Semigroup[T]): T = list.reduce(semigroup.combine)
 ```
 
@@ -97,7 +97,7 @@ def reduceThings[T](list: List[T])(using semigroup: Semigroup[T]): T = list.redu
 
 ... and you're done! Any time there's a `given` Semigroup for the type you need, you can simply call
 
-```scala3
+```scala
 reduceThings(List(1,2,3)) // 6
 reduseThings(List("i", "love", "scala")) // "ilovescala"
 ```
@@ -110,7 +110,7 @@ Long story short, a semigroup helps in creating generalizable 2-arg combinations
 
 Still, we can move further and make our API even better-looking. Because we have Semigroup as a type class, we might want to create an extension method that is applicable for any two items of type T for which there is a `Semigroup[T]` in scope:
 
-```scala3
+```scala
 object SemigroupSyntax {
   extension [T](a: T)
     def |+|(b: T)(using semigroup: Semigroup[T]): T = semigroup.combine(a, b)
@@ -119,7 +119,7 @@ object SemigroupSyntax {
 
 In Scala 2, that extension method would need to be created as a method of an implicit class:
 
-```scala3
+```scala
 object SemigroupSyntax {
   implicit class SemigroupExtension[T](a: T)(implicit semigroup: Semigroup[T]) {
     def |+|(b: T): T = semigroup.combine(a, b)
@@ -129,7 +129,7 @@ object SemigroupSyntax {
 
 Whichever version you use, this means that wherever you have a Semigroup in scope, you can simply use the extension method `|+|`, which also happens to be infix-able, i.e. you can say `x |+| y`. Our generalizable API can also be made more compact and better looking by changing it to this:
 
-```scala3
+```scala
 import SemigroupSyntax._
 def reduceCompact[T : Semigroup](list: List[T]): T = list.reduce(_ |+| _)
 ```
@@ -142,7 +142,7 @@ There's a lot happening here:
 
 But if you've followed the steps, then this `reduceCompact[T : Semigroup](list: List[T]): T` is the single API you'll ever need to be able to collapse any list to a single value. Now, you'll be able to simply write
 
-```scala3
+```scala
 val sum = reduceCompact((1 to 1000).toList)
 val text = reduceCompact(List("i", "love", "scala"))
 ```
@@ -157,7 +157,7 @@ Monoids are Semigroups with a twist: besides the 2-arg combination function, Mon
 
 In other words, Monoids share the trait
 
-```scala3
+```scala
 trait Monoid[T] extends Semigroup[T] {
     def empty: T
 }
@@ -165,7 +165,7 @@ trait Monoid[T] extends Semigroup[T] {
 
 Following the structure from Semigroups, we can follow a very similar type class pattern:
 
-```scala3
+```scala
 object MonoidInstances {
   given intMonoid: Monoid[Int] with {
     def combine(a: Int, b: Int): Int = a + b
@@ -183,7 +183,7 @@ Now, since Monoid shares the same 2-arg combination function with Semigroup, the
 
 The only thing we might want to change is the organization of `given` instances. Since we have two `given`s for Monoid and two `given`s for Semigroup, they might come into conflict if we import both (because both are also semigroups). Therefore, it's usually a good idea to organize type class instances per _supported type_ instead of per type class. So to refactor our `MonoidInstances` and `SemigroupInstances`, we'll instead have
 
-```scala3
+```scala
 object IntInstances {
   given intMonoid: Monoid[Int] with {
     def combine(a: Int, b: Int): Int = a + b
@@ -205,7 +205,7 @@ and both will serve as both Semigroups or Monoids depending on which type class 
 
 The way we organized our code is very, _very_ similar to how the Cats library organizes most type classes. In fact, both Semigroups and Monoids are already implemented in Cats and you can use them like this:
 
-```scala3
+```scala
 import cats.Semigroup // similar trait to what we wrote
 import cats.instances.int._ // analogous to our IntInstances import
 val naturalIntSemigroup = Semigroup[Int] // same apply method
@@ -216,7 +216,7 @@ import cats.syntax.semigroup._ // analogous to our SemigroupSyntax import
 val anIntSum = 2 |+| 3
 ```
 
-We dicsuss a lot of other aspects related to Semigroups (and much more) in the [Cats course](https://rockthejvm.com/p/cats) if you're interested.
+We dicsuss a lot of other aspects related to Semigroups (and much more) in the [Cats course](https://rockthejvm.com/courses/cats) if you're interested.
 
 ## 8. Conclusion
 
