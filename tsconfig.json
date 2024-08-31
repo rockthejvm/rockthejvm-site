@@ -20,5 +20,8 @@
     "exactOptionalPropertyTypes": false
   },
   "include": ["src/**/*"],
-  "exclude": ["functions/**/*"]
+  "exclude": ["functions/**/*"],
+  "mdx": {
+    "checkMdx": true
+  }
 }
