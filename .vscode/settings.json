@@ -42,10 +42,6 @@
     "editor.wordWrap": "on"
   },
   //// GitHub Codespace
-  // astro-build.astro-vscode
-  "[astro]": {
-    "editor.defaultFormatter": "astro-build.astro-vscode"
-  },
   // christian-kohler.path-intellisense
   "javascript.suggest.paths": false,
   "path-intellisense.autoSlashAfterDirectory": true,
@@ -84,7 +80,7 @@
   "yaml.format.enable": false,
   "yaml.validate": false,
   // trunk.io
-  // "editor.defaultFormatter": "trunk.io",
+  "editor.defaultFormatter": "trunk.io",
   "files.readonlyExclude": {
     ".trunk/configs/**": true,
     ".trunk/trunk.yaml": true
@@ -110,12 +106,6 @@
     "**/*lock*": true,
     "public/rss/styles.xsl": true
   },
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "editor.quickSuggestions": {
-    "strings": "on"
-  },
   "yaml.schemas": {
     "./.astro/collections/authors.schema.json": ["/src/content/authors/**"],
     "./.astro/collections/categories.schema.json": [
@@ -126,8 +116,13 @@
     "./.astro/collections/socials.schema.json": ["/src/content/socials/**"],
     "./.astro/collections/videos.schema.json": ["/src/content/videos/**"]
   },
-  "[mdx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "redhat.telemetry.enabled": false,
+  "eslint.useFlatConfig": true,
+  // bradlc.vscode-tailwindcss
+  "files.associations": {
+    "*.css": "tailwindcss"
   },
-  "redhat.telemetry.enabled": false
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }

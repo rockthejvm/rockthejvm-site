@@ -1,11 +1,11 @@
 "use client";
 
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
-import { Radio, RadioGroup } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/20/solid";
 import MembershipPricing from "./MembershipPricing.astro";
 import MembershipTeamPricing from "./MembershipTeamPricing.astro";
+import { Radio, RadioGroup } from "@headlessui/react";
+import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
 
 const benefits = ["TODO", "TODO", "TODO", "TODO", "TODO", "TODO"];
 
