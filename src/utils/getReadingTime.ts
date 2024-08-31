@@ -1,6 +1,6 @@
-import calculateReadingTime from "reading-time";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { toString } from "mdast-util-to-string";
+import calculateReadingTime from "reading-time";
 
 export const getReadingTime = (text: string): number | undefined => {
   if (!text || !text.length) return undefined;
