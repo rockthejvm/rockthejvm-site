@@ -7,7 +7,7 @@ title: Stateful Streams with Apache Pulsar and Apache Flink
 updatedDate: 2024-09-06
 ---
 
-_This article is a collaboration between myself (Daniel) and [Giannis Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. Last time we integrated [Pulsar with Spark](/pulsar-spark); in this post we combine Apache Pulsar and Apache Flink for powerful data stream processing._
+_This article is a collaboration between myself (Daniel) and [Giannis Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. Last time we integrated [Pulsar with Spark](/articles/streaming-analytics-with-apache-pulsar-and-spark-structured-streaming); in this post we combine Apache Pulsar and Apache Flink for powerful data stream processing._
 
 ![Alt text](../images/pf1.png "Unified Batch & Streaming")
 

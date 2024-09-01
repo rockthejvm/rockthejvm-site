@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 ---
 
 _This article is brought to you by [Antonio Gelameris](https://github.com/TonioGela). Antonio is an alumnus of Rock the JVM, now a senior Scala developer with his own contributions to Scala libraries and junior devs under his mentorship.
-Which brings us to this article: Antonio originally started from my [Sudoku backtracking](/sudoku-backtracking) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us._
+Which brings us to this article: Antonio originally started from my [Sudoku backtracking](/articles/a-backtracking-sudoku-solver-in-scala) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us._
 
 _Enter Antonio:_
 

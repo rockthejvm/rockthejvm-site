@@ -161,7 +161,7 @@ Let's take them in turn.
 
 ### 3.1. Producer: Pulsar
 
-We'll simulate these events as we described in the [Pulsar intro](/event-streaming-with-pulsar-and-scala/) article. First, we'll set up a Docker container that will run Pulsar:
+We'll simulate these events as we described in the [Pulsar intro](/articles/event-streaming-in-apache-pulsar-with-scala) article. First, we'll set up a Docker container that will run Pulsar:
 
 ```shell
 docker run -it \

@@ -49,7 +49,7 @@ case class Failure(reason: Throwable) extends Try[Nothing]
 
 By this definition, a computation that succeeded (and returned a value) will be wrapped in a value of type `Success`, and a crashed computation will also be a proper value of type `Failure`. Now being values instead of actual JVM crashes, we can choose what we want to do with the information we have, because crashing is also information.
 
-The `Try` type comes with a companion object with a handy `apply` method which takes a [by-name](/3-tricks-for-CBN/) argument. It looks something like this:
+The `Try` type comes with a companion object with a handy `apply` method which takes a [by-name](/articles/3-call-by-name-tricks-in-scala) argument. It looks something like this:
 
 ```scala
 object Try {

@@ -12,7 +12,7 @@ This article is for the curious folks going from Scala 2 to Scala 3 - we're goin
 As for requirements, two major pieces are important:
 
 - how implicits work
-- how [given/using combos work](/scala-3-given-using/)
+- how [given/using combos work](/articles/scala-3-given-and-using-clauses)
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
@@ -56,8 +56,8 @@ Libraries like [Cats](https://typelevel.org/cats) (which I [teach](/courses/cats
 
 In Scala 3, the `implicit` keyword, although fully supported (for this version), is being replaced:
 
-- `implicit` values and arguments replaced for [`given`/`using`](/scala-3-given-using/) clauses &mdash; see how they [compare with implicits](/givens-vs-implicits/) and how they [work in tandem with implicits](/givens-and-implicits/)
-- `implicit` defs (used for conversions) are [replaced with explicit conversions](/givens-vs-implicits/#implicit-conversions)
+- `implicit` values and arguments replaced for [`given`/`using`](/articles/scala-3-given-and-using-clauses) clauses &mdash; see how they [compare with implicits](/articles/scala-3-givens-vs-implicits) and how they [work in tandem with implicits](/articles/scala-3-givens-and-implicits)
+- `implicit` defs (used for conversions) are [replaced with explicit conversions](/articles/scala-3-givens-vs-implicits/#implicit-conversions)
 - `implicit` classes are replaced with proper extension methods &mdash; the focus of this article
 
 So how are extension methods declared?
@@ -163,6 +163,6 @@ Or even in both places, if you'd like.
 
 ## Conclusion
 
-In this article, we've deconstructed the mechanism of `extension` methods. This feature, coupled with the given/using combo, allows for some powerful abstractions including [type classes](/why-are-typeclasses-useful/), DSLs and many more.
+In this article, we've deconstructed the mechanism of `extension` methods. This feature, coupled with the given/using combo, allows for some powerful abstractions including [type classes](/articles/why-are-scala-type-classes-useful), DSLs and many more.
 
 I'm pretty confident that Scala 3 will rock. We may have some contention [here and there](/scala-3-indentation/) &mdash; and I absolutely hate the 3-spaces indentation which I will not follow if it becomes "convention" &mdash; but overall, Scala is getting more mature, more expressive, easy and fun to read and write. Which is what a language should be.

@@ -97,7 +97,7 @@ Example 1: a number of libraries use type projections for type-checking and type
 
 Example 2: [type lambdas](/scala-3-type-lambdas/) used to rely exclusively on type projections in Scala 2, and they looked pretty hideous (e.g. `{ type T[A] = List[A] }#T` ) because it was essentially the only way to do it. Thank heavens we now have a proper syntactic construct in Scala 3 for type lambdas.
 
-Example 3: you might even go bananas and write a full-blown [type-level sorter](/type-level-programming-part-1/) by abusing abstract types and instance-dependent types along with implicits (or givens in Scala 3).
+Example 3: you might even go bananas and write a full-blown [type-level sorter](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) by abusing abstract types and instance-dependent types along with implicits (or givens in Scala 3).
 
 ## 4. Methods with Dependent Types
 

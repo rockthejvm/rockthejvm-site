@@ -13,8 +13,8 @@ This will be a short article. Here, I'll demonstrate the use of given instances/
 
 First, if you're not familiar with given/using combos in Scala 3, I recommend you read these articles first:
 
-- [Given & Using Clauses in Scala 3](/scala-3-given-using/)
-- [Givens vs Implicits](/givens-vs-implicits/)
+- [Given & Using Clauses in Scala 3](/articles/scala-3-given-and-using-clauses)
+- [Givens vs Implicits](/articles/scala-3-givens-vs-implicits)
 
 The new given/using combos in Scala 3 were created to reduce some of the power of the `implicit` keyword, which may be easily misused. The main arguments for implicits include:
 

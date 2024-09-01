@@ -240,7 +240,7 @@ def findAllActorsNamesProgram: IO[List[String]] = {
 
 As it's the first query we make, the code is really verbose. However, we can analyze every aspect of a query in this way.
 
-First, the `sql` [interpolator](/how-to-create-your-own-string-interpolator/) allows us to create SQL statement fragments (more to come). Next, the method `query` lets us create a type that maps the single-row result of the query in a Scala type. The class is called `Query0[A]`. To accumulate results into a list, we use the `to[List]` method, which creates a `ConnectionIO[List[String]]`.
+First, the `sql` [interpolator](/articles/create-your-own-custom-string-interpolator) allows us to create SQL statement fragments (more to come). Next, the method `query` lets us create a type that maps the single-row result of the query in a Scala type. The class is called `Query0[A]`. To accumulate results into a list, we use the `to[List]` method, which creates a `ConnectionIO[List[String]]`.
 
 The `ConnectionIO[A]` type is interesting since it introduces a typical pattern used in the Doobie library. In fact, **Doobie defines all its most essential types as instances of the [`Free` monad](https://typelevel.org/cats/datatypes/freemonad.html)**.
 
@@ -309,7 +309,7 @@ val actorsNamesStream: fs2.Stream[doobie.ConnectionIO, String] =
   sql"select name from actors".query[String].stream
 ```
 
-The `stream` method on the type `Query0` returns a `Stream[ConnectionIO, A]` which means a stream containing instances of type `A`, wrapped in an effect of type `ConnectionIO` (for a brief explanation of the Effect pattern, please refer to [The Effect Pattern](/zio-fibers/#2-the-effect-pattern)).
+The `stream` method on the type `Query0` returns a `Stream[ConnectionIO, A]` which means a stream containing instances of type `A`, wrapped in an effect of type `ConnectionIO` (for a brief explanation of the Effect pattern, please refer to [The Effect Pattern](/articles/zio-fibers-concurrency-and-lightweight-threads#the-effect-pattern)).
 
 Once we obtained an instance of a `Stream`, we can decide to return it to the caller as it is, or to compile it into a finite type, such as `List[String]` or `Vector[String]`:
 
@@ -617,7 +617,7 @@ Doobie defines the instances of the above type classes for the following types (
 - `Instant`, `LocalDate`, `LocalTime`, `LocalDateTime`, `OffsetTime`, `OffsetDateTime` and `ZonedDateTime` from the `java.time` package; and
 - single-element case classes wrapping one of the above types.
 
-Deriving the `Get` and `Put` type classes for types that don't fit into one of the above categories is relatively easy. To create a concrete example, we introduce in our project the [estatico/scala-newtype](https://github.com/estatico/scala-newtype), which allows creating a new type that is a subtype of the original type but with a different name. The description of newtypes is far beyond the scope of this article, but you can find a good introduction on [Value Classes in Scala](/value-classes/).
+Deriving the `Get` and `Put` type classes for types that don't fit into one of the above categories is relatively easy. To create a concrete example, we introduce in our project the [estatico/scala-newtype](https://github.com/estatico/scala-newtype), which allows creating a new type that is a subtype of the original type but with a different name. The description of newtypes is far beyond the scope of this article, but you can find a good introduction on [Value Classes in Scala](/articles/value-classes-in-scala).
 
 First, let's create a newtype wrapper around an actor name:
 
@@ -852,7 +852,7 @@ In the above code, we extracted information from the `movies` table, the `direct
 
 Now that we know all the pieces of a program that connects to a database using Doobie, we can create a more complex example. For this purpose, we will use the _tagless final_ approach. Again, the details of the tagless final approach are far beyond the scope of this tutorial. In summary, it's **a technique that allows us to manage dependencies between our components and abstract away the details of the concrete effect implementation**.
 
-> More on tagless final in the [dedicated article](/tagless-final).
+> More on tagless final in the [dedicated article](/articles/tagless-final-in-scala).
 
 In a tagless final approach, we first define an _algebra_ as a `trait`, storing all the functions we implement for a type. If we take the `Director` type, we can define the following algebra:
 

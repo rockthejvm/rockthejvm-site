@@ -12,7 +12,7 @@ _This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin). 
 
 _Enter Riccardo:_
 
-This article introduces Kotlin coroutines, a powerful tool for asynchronous programming. Kotlin's coroutines fall under the umbrella of structured concurrency. They implement a model of concurrency which you can consider similar to Java virtual threads, [Cats Effect](/cats-effect-fibers/) and [ZIO fibers](/zio-fibers/). In detail, we'll present some use cases concerning the use of coroutines on backend services, not on the Android environment.
+This article introduces Kotlin coroutines, a powerful tool for asynchronous programming. Kotlin's coroutines fall under the umbrella of structured concurrency. They implement a model of concurrency which you can consider similar to Java virtual threads, [Cats Effect](/articles/cats-effect-3-introduction-to-fibers) and [ZIO fibers](/articles/zio-fibers-concurrency-and-lightweight-threads). In detail, we'll present some use cases concerning the use of coroutines on backend services, not on the Android environment.
 
 The article requires existing knowledge of Kotlin.
 
@@ -84,7 +84,7 @@ The above code simulates the run of some computation, and network request on a b
 
 Coroutines solve all the above problems. Let's see how.
 
-## 3. Suspending Functions
+## Suspending Functions
 
 To start, you can think of a coroutine as a lightweight thread, which means it's not mapped directly to an OS thread. It's a computation that can be suspended and resumed at any time. So, before we can start looking at how to build a coroutine, we need to understand how to suspend and resume a coroutine.
 
@@ -98,7 +98,7 @@ suspend fun bathTime() {
 }
 ```
 
-If you're a Scala geek and have been following us for a while, you may notice the example is the same as the [ZIO Fibers article](/zio-fibers/) - a great opportunity for you to see how coroutines are different from fibers.
+If you're a Scala geek and have been following us for a while, you may notice the example is the same as the [ZIO Fibers article](/articles/zio-fibers-concurrency-and-lightweight-threads) - a great opportunity for you to see how coroutines are different from fibers.
 
 The `delay(timeMillis: Long)` function is a `suspend` that suspends a coroutine for `timeMillis` milliseconds. A `suspend` function can be called only from a coroutine or another `suspend` function. It can be suspended and resumed. In the example above, the `bathTime` function can be suspended when the coroutine executes the `delay` function. Once resumed, the `bathTime` function will continue its execution from the line immediately after the suspension.
 
@@ -347,7 +347,7 @@ suspend fun structuralConcurrentMorningRoutineWithCoffee() {
 
 The output of the above code is the same as the previous one.
 
-### 5.2. The `async` Builder
+### The `async` Builder
 
 What if we want to return a value from the execution of a coroutine? For example, let's define two new suspending functions: The former produces the blend of the coffee we prepared. At the same time, the latter returns a toasted bread:
 
@@ -405,7 +405,7 @@ If we look at the log, we can see that the execution of the two coroutines is st
 21:56:47.263 [DefaultDispatcher-worker-1 @coroutine#2] INFO CoroutinesPlayground - Ending the morning routine
 ```
 
-## 6. Cooperative Scheduling
+## Cooperative Scheduling
 
 At this point, we should know something about the basics of coroutines. However, we still have to discuss one essential coroutines' aspect: cooperative scheduling.
 
@@ -539,7 +539,7 @@ val dispatcher = Executors.newFixedThreadPool(10).asCoroutineDispatcher()
 
 If we have both CPU-intensive and blocking parts, we must use both the `Dispatchers.Default` and the `Dispatchers.IO` and make sure to launch CPU-intensive coroutines on the default dispatchers and blocking code on the IO dispatcher.
 
-## 7. Cancellation
+## Cancellation
 
 When we reason about concurrent programming, cancellation is always a tricky topic. Killing a thread and abruptly stopping the execution of a task is not a good practice. **Before stopping a task, we must free the resources in use, avoid leaks, and leave the system in a consistent state**.
 

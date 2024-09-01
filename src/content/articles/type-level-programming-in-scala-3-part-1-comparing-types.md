@@ -9,9 +9,9 @@ updatedDate: 2024-09-06
 
 This article will introduce you to type-level programming on Scala 3 &mdash; the capability to express computations on _types_ instead of values, by making the compiler figure out some type relationships at compile time. By encoding some computational problem as a type restriction or as an enforcement of a type relationship, we can make the compiler "solve" our computation by searching, inferring or validating the proper use of types.
 
-This will be a 2-part series, specifically focused on **Scala 3**. I also published an older [type-level programming miniseries](/type-level-programming-part-1) for Scala 2, which still works on Scala 3 as because implicits are still supported. In this version, we're going to use
+This will be a 2-part series, specifically focused on **Scala 3**. I also published an older [type-level programming miniseries](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) for Scala 2, which still works on Scala 3 as because implicits are still supported. In this version, we're going to use
 
-- [givens](/scala-3-given-using)
+- [givens](/articles/scala-3-given-and-using-clauses)
 - generics
 - type members (for the next article)
 
@@ -37,7 +37,7 @@ The lines above fully represent the entire set of natural numbers: the number ze
   type _5 = Succ[_4]
 ```
 
-Note that this notation has nothing to do with the literal types [recently added in Scala 3](/new-types-scala-3). The literal types have no relationship to each other, so we'll need to model this relationship ourselves.
+Note that this notation has nothing to do with the literal types [recently added in Scala 3](/articles/scala-3-new-types). The literal types have no relationship to each other, so we'll need to model this relationship ourselves.
 
 ## 2. Ordering Numbers at the Type Level
 

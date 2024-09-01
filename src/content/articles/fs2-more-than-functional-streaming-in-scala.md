@@ -31,7 +31,7 @@ The `fs2-core` library provides the core functionalities of the library. Many ot
 
 To work well with fs2, you'll need to be comfortable with Scala, of course. Some basics of Cats Effect would be wonderful. Rock the JVM has this in-depth [Cats Effect course](/courses/cats-effect) if you're interested in mastering it, but it's not required.
 
-It's usual for us at Rock the JVM to build the examples around a concrete scenario. We can continue to refer to the _myimdb_ project that we used both in the articles on [_http4s_](http4s-unleashing-the-power-of-http-apis-library) and on [_doobie_](/doobie/).
+It's usual for us at Rock the JVM to build the examples around a concrete scenario. We can continue to refer to the _myimdb_ project that we used both in the articles on [_http4s_](http4s-unleashing-the-power-of-http-apis-library) and on [_doobie_](/articles/learning-doobie-for-the-greater-good).
 
 So, we define the Scala class that represents an actor inside a hypothetical movie database:
 

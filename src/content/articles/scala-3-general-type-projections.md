@@ -40,7 +40,7 @@ However, as we explain in the [Advanced Scala course](/courses/advanced-scala), 
 
 In Scala 2, it was also possible to express type projections based on types which were themselves abstract, i.e. abstract type members or generic type arguments. So it was possible to write something like `A#Inner`, where the compiler only knows that `A <: Outer`, for instance. This is called a "general" or "abstract" type projection, because the root `A` is not concrete.
 
-We used abstract type projections in the Scala 2 [type-level programming mini-series](/type-level-programming-part-1/) to force the compiler to make type resolutions at compile time, to a wonderful effect (sorting types at compile time)
+We used abstract type projections in the Scala 2 [type-level programming mini-series](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) to force the compiler to make type resolutions at compile time, to a wonderful effect (sorting types at compile time)
 
 The problem is, it's not quite right. Martin Odersky initially signalled this by showing [an example](https://github.com/lampepfl/dotty/issues/1050) where the general type projections leads to uncompilable code which does compile and throws an error. The example does not compile in 2.13 anymore so the issue was fixed, but the general argument remains.
 

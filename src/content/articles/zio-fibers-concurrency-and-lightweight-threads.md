@@ -12,7 +12,7 @@ _Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud stu
 
 _Enter Riccardo:_
 
-Many libraries implement the effect pattern in the Scala ecosystem: Cats Effect, Monix, and ZIO, just to list some. Each of these implements its own concurrency model. For example. Cats Effect and ZIO both rely on _fibers_. In the articles [Cats Effect 3 - Introduction to Fibers](/cats-effect-fibers/) and [Cats Effect 3 - Racing IOs](/cats-effect-racing-fibers/), we introduced the fiber model adopted by the Cats Effect library. Now, it's time to analyze the ZIO library and its implementation of the fiber model.
+Many libraries implement the effect pattern in the Scala ecosystem: Cats Effect, Monix, and ZIO, just to list some. Each of these implements its own concurrency model. For example. Cats Effect and ZIO both rely on _fibers_. In the articles [Cats Effect 3 - Introduction to Fibers](/articles/cats-effect-3-introduction-to-fibers) and [Cats Effect 3 - Racing IOs](/articles/cats-effect-3-racing-ios), we introduced the fiber model adopted by the Cats Effect library. Now, it's time to analyze the ZIO library and its implementation of the fiber model.
 
 ## 1. Background and Setup
 
@@ -24,7 +24,7 @@ libraryDependencies += "dev.zio" %% "zio" % "1.0.9"
 
 Nothing else will be required.
 
-## 2. The Effect Pattern
+## The Effect Pattern
 
 Before talking about ZIO fibers, we need to have the notion of the _Effect Pattern_. The main objective of any effect library is to deal with statements that can lead to side effects. The _substitution model_ is the fundamental building block of functional programming. Unfortunately, **it doesn't work with code that produces side effects because we cannot substitute functions with their results**. Such functions are often called _impure_:
 

@@ -9,9 +9,9 @@ updatedDate: 2024-09-06
 
 Like the previous article, this one requires you to be comfortable writing Scala (I'll write Scala 3), but with otherwise I'll assume you're just getting started with Cats Effect, along the lines of "I've spent <30 minutes on their main documentation website".
 
-## 1. Background
+## Background
 
-There's no big setup needed. I'll be writing Scala 3, although you can also write Scala 2 with the minor change of using an `implicit class` instead of an [extension method](/scala-3-extension-methods). If you want to test this code in your own project, add the following to your `build.sbt` file:
+There's no big setup needed. I'll be writing Scala 3, although you can also write Scala 2 with the minor change of using an `implicit class` instead of an [extension method](/articles/scala-3-extension-methods). If you want to test this code in your own project, add the following to your `build.sbt` file:
 
 ```scala
 libraryDependencies += "org.typelevel" %% "cats-effect" % "3.1.0"
@@ -19,7 +19,7 @@ libraryDependencies += "org.typelevel" %% "cats-effect" % "3.1.0"
 
 Nothing else will otherwise be required in terms of setup.
 
-In terms of understanding, I highly recommend checking out the [previous article](/cats-effect-fibers) because we'll be building on the ideas we discussed there. Here's the gist:
+In terms of understanding, I highly recommend checking out the [previous article](/articles/cats-effect-3-introduction-to-fibers) because we'll be building on the ideas we discussed there. Here's the gist:
 
 - Cats Effect has this general IO type which represents any computation that might have side effects.
 - Fibers are the abstraction of a lightweight thread - IOs use them for massive parallelism on an otherwise small thread pool.
@@ -36,7 +36,7 @@ extension [A] (io: IO[A]) {
 }
 ```
 
-## 2. Racing
+## Racing
 
 Once we can evaluate IOs on another thread, the immediate next question is how we can manage their lifecycle:
 
@@ -96,7 +96,7 @@ A possible output might look like this:
 
 Notice how the task IO (which is taking longer) is being cancelled. The output "task: cancelled" was shown due to the `.onCancel` callback attached to `valuableIO`. It's always good practice to have these calls for IOs handling resources, because in the case of cancellation, those resources might leak. There are many tools for handling resources, such as manually adding `.onCancel` to your IOs, using the `bracket` pattern or using the standalone `Resource` type in Cats Effect &mdash; I'll talk about all of them in detail in the upcoming Cats Effect course, which is better and when you should use each.
 
-## 3. Timeout
+## Timeout
 
 It's a common pattern to start an IO, then in parallel start a timeout IO which cancels the task if the time elapsed. The pattern is so common, that the Cats Effect library offers a dedicated method for it: `timeout`.
 
@@ -111,7 +111,7 @@ This IO will run in the following way:
 - When the time runs out, the timeout fiber will cancel the original fiber and the whole result will raise an exception.
 - If the original task completes before the timeout, the timeout fiber is cancelled and the result IO will contain the result of the task.
 
-## 4. More Control Over Races
+## More Control Over Races
 
 Cats Effect offers a much more powerful IO combinator, called `racePair`.
 
@@ -158,7 +158,7 @@ with some sample output:
 [io-compute-4] Succeeded(IO(1))
 ```
 
-## 5. Conclusion
+## Conclusion
 
 In this short beginner-friendly article, we learned how we can race IOs running concurrently, the timeout pattern and a more powerful version of racing that allows us to more flexibly process the results of the concurrent IOs.
 
