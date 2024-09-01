@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 This article is for the Spark programmers who know some fundamentals: how data is split, how Spark generally works as a computing engine, plus some essential DataFrame APIs.
 
-## 1. Essentials
+## Essentials
 
 For this article, we use Spark 3.0.1, which you can either [download](https://spark.apache.org/downloads.html) as a standalone installation on your computer, or you can import as a library definition in your Scala project, in which case you'll have to add the following lines to your build.sbt:
 
@@ -37,7 +37,7 @@ val sc = spark.sparkContext
 
 For this article, we'll be using the DataFrame API, although a very similar effect can be seen with the low-level RDD API.
 
-## 2. A Tale of an Innocent Join
+## A Tale of an Innocent Join
 
 Here's the scenario. Let's say we have a huge dataset - in practice, in the order of magnitude of billions of records or more, but here just in the order of a million rows so that we might live to see the result of our computations locally.
 
@@ -79,11 +79,11 @@ joined.show()
 
 Brilliant - all is well. Except it takes a bloody ice age to run.
 
-## 3. The Large-Small Join Problem
+## The Large-Small Join Problem
 
 Why does the above join take so long to run?
 
-If you ever want to debug performance problems with your Spark jobs, you'll need to know how to [read query plans](/reading-query-plans/), and that's what we are going to do here as well. Let's have a look at this job's query plan so that we can see the operations Spark will perform as it's computing our innocent join:
+If you ever want to debug performance problems with your Spark jobs, you'll need to know how to [read query plans](/articles/understanding-spark-query-plans), and that's what we are going to do here as well. Let's have a look at this job's query plan so that we can see the operations Spark will perform as it's computing our innocent join:
 
 ```scala
 joined.explain()
@@ -114,7 +114,7 @@ In this query plan, we read the operations in dependency order from top to botto
 
 The shuffle on the big DataFrame - the one at the middle of the query plan - is required, because a join requires matching keys to stay on the same Spark executor, so Spark needs to redistribute the records by hashing the join column. This is a shuffle. But as you may already know, a shuffle is a massively expensive operation. On billions of rows it can take hours, and on more records, it'll take... more.
 
-## 4. Enter Broadcast Joins
+## Enter Broadcast Joins
 
 Fundamentally, Spark needs to somehow guarantee the correctness of a join. Normally, Spark will redistribute the records on both DataFrames by hashing the joined column, so that the same hash implies matching keys, which implies matching rows.
 
@@ -139,7 +139,7 @@ Much to our surprise (or not), this join is pretty much instant. The query plan 
 
 It looks different this time. No more shuffles on the big DataFrame, but a BroadcastExchange on the small one. Because the small one is tiny, the cost of duplicating it across all executors is negligible.
 
-## 5. Automatic Detection
+## Automatic Detection
 
 In many cases, Spark can automatically detect whether to use a broadcast join or not, depending on the size of the data. If Spark can detect that one of the joined DataFrames is small (10 MB by default), Spark will automatically broadcast it for us. The code below:
 
@@ -169,7 +169,7 @@ Spark will perform auto-detection when
 - it constructs a DataFrame from scratch, e.g. `spark.range`
 - it reads from files with schema and/or size information, e.g. Parquet
 
-## 6. Configuring Broadcast Join Detection
+## Configuring Broadcast Join Detection
 
 The threshold for automatic broadcast join detection can be tuned or disabled. The configuration is `spark.sql.autoBroadcastJoinThreshold`, and the value is taken in bytes. If you want to configure it to another number, we can set it in the SparkSession:
 
@@ -185,6 +185,6 @@ spark.conf.set("spark.sql.autoBroadcastJoinThreshold", -1)
 
 This is also a good tip to use while testing your joins in the absence of this automatic optimization. We also use this in our [Spark Optimization course](/courses/spark-optimization) when we want to test other optimization techniques.
 
-## 7. Conclusion
+## Conclusion
 
 Broadcast joins are one of the first lines of defense when your joins take a long time and you have an intuition that the table sizes might be disproportionate. It's one of the cheapest and most impactful performance optimization techniques you can use. Broadcast joins may also have other benefits (e.g. mitigating OOMs), but that'll be the purpose of another article.
