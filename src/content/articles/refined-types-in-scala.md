@@ -158,4 +158,3 @@ You've hopefully learned a new powerful tool to test values at compile time and 
 - [part 1](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons)
 - [part 2](type-level-programming-in-scala-part-2-adding-numbers-as-types)
 - [part 3](type-level-programming-in-scala-part-3-sorting-lists)
-</ul>
