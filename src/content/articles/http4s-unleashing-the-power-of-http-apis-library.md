@@ -69,7 +69,7 @@ Now that we have the library dependencies, we will create a small HTTP server wi
 
 So, let's start the journey along with the http4s library.
 
-## 3. Http4s Basics
+## 3. http4s Basics
 
 **The http4s library is based on the concepts of `Request` and `Response`**. Indeed, we respond to a `Request` through a set of functions of type `Request => Response`. We call these functions _routes_, and **a server is nothing more than a set of routes**.
 
@@ -135,7 +135,7 @@ Then, each `case` statement represents a specific route, and it matches a `Reque
 First, the deconstructor that we can use to extract the HTTP method of a `Request`s and its path is called `->` and decomposes them as a couple containing a `Method` (i.e. `GET`,`POST`, `PUT`, and so on), and a `Path`:
 
 ```scala
-// From the Http4s DSL
+// From the http4s DSL
 object -> {
   def unapply[F[_]](req: Request[F]): Some[(Method, Path)] =
     Some((req.method, Path(req.pathInfo)))
@@ -180,7 +180,7 @@ implicit val yearQueryParamDecoder: QueryParamDecoder[Year] =
 As **the matcher types access decoders using the type classes pattern**, our custom decoder must be in the scope of the matcher as an `implicit` value. Indeed, decoders define a companion object `QueryParamDecoder` that lets a matcher type summoning the proper instance of the decoder type class:
 
 ```scala
-// From the Http4s DSL
+// From the http4s DSL
 object QueryParamDecoder {
   def apply[T](implicit ev: QueryParamDecoder[T]): QueryParamDecoder[T] = ev
 }
@@ -321,14 +321,14 @@ object YearQueryParamMatcher extends OptionalValidatingQueryParamDecoderMatcher[
 We validate the query parameter's value using the dedicated `emap` method of the type `QueryParamDecoder`:
 
 ```scala
-// From the Http4s DSL
+// From the http4s DSL
 def emap[U](f: T => Either[ParseFailure, U]): QueryParamDecoder[U] = ???
 ```
 
 The function works like a common `map` function, but it produces an `Either[ParseFailure, U]` value: If the mapping succeeds, the function outputs a `Right[U]` value, a `Left[ParseFailure]` otherwise. Furthermore, the `ParseFailure` is a type of the http4s library indicating an error parsing an HTTP Message:
 
 ```scala
-// From the Http4s DSL
+// From the http4s DSL
 final case class ParseFailure(sanitized: String, details: String)
 ```
 
@@ -441,7 +441,7 @@ Then, the `Request[F]` object has a `body` attribute of type `EntityBody[F]`, wh
 In fact, every `Request[F]` extends the more general `Media[F]` trait. This trait exposes many practical methods dealing with the body of a request, and the most interesting is the following:
 
 ```scala
-// From the Http4s DSL
+// From the http4s DSL
 final def as[A](implicit F: MonadThrow[F], decoder: EntityDecoder[F, A]): F[A] = ???
 ```
 
@@ -530,7 +530,7 @@ As for decoders, we need first to transform our class `Movie` into an instance o
 Instead, we can perform the actual conversion from the `Movie` type to `Json` using the extension method `asJson`, defined on all the types that have an instance of the `Encoder` type class:
 
 ```scala
-// From the Http4s DSL
+// From the http4s DSL
 package object syntax {
   implicit final class EncoderOps[A](private val value: A) extends AnyVal {
     final def asJson(implicit encoder: Encoder[A]): Json = encoder(value)

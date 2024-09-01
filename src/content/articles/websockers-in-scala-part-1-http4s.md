@@ -1,7 +1,7 @@
 ---
 author: herbert-kateu
 category: guide
-excerpt: Learn how to implement WebSockets in Scala with Http4s to enable seamless two-way communication between your frontend and backend
+excerpt: Learn how to implement WebSockets in Scala with http4s to enable seamless two-way communication between your frontend and backend
 publishedDate: 2024-02-19
 tags: [http4s, scala]
 title: "WebSockets in Scala: Part 1 - http4s"
@@ -14,7 +14,7 @@ The WebSocket protocol enables persistent two-way communication between a client
 
 The specification for this protocol is outlined in [RFC 6455](https://datatracker.ietf.org/doc/html/rfc6455). WebSockets are used in applications such as Instant Messaging, Gaming, Simultaneous editing, and stock tickers to mention but a few.
 
-In this article, we'll be creating a chat application using Http4s' implementation of WebSockets.
+In this article, we'll be creating a chat application using http4s' implementation of WebSockets.
 
 ## 2. Setting Up
 
@@ -48,7 +48,7 @@ lazy val root = (project in file("."))
 
 ### 2.2. Serving the Chat Page
 
-To demonstrate WebSockets, we'll be using Http4s for the WebSocket server and Javascript for the client implementation. Let's start by creating an HTML page that will be served to access the application.
+To demonstrate WebSockets, we'll be using http4s for the WebSocket server and Javascript for the client implementation. Let's start by creating an HTML page that will be served to access the application.
 
 First, create a `resources` folder under `main`, then under `resources` add a `chat.html` file with the following code:
 
@@ -185,7 +185,7 @@ A Ping frame may contain application data and when received, the endpoint must r
 
 ## 4. WebSocket Implementation
 
-To implement the WebSocket in Http4s, we'll need to add another route in `Routes.scala` as follows:
+To implement the WebSocket in http4s, we'll need to add another route in `Routes.scala` as follows:
 
 ```scala
 import org.http4s.server.websocket.WebSocketBuilder2
@@ -210,7 +210,7 @@ class Routes[F[_]: Files: MonadThrow] extends Http4sDsl[F] {
 }
 ```
 
-Http4s provides `WebSocketBuilder2` for WebSocket creation, above, we pass this as an argument in the `service()` function. The `wsb.build()` method takes two arguments, `receive` of type `Pipe[F, WebSocketFrame, Unit]`, and send of type `Stream[F, WebSocketFrame]`.
+http4s provides `WebSocketBuilder2` for WebSocket creation, above, we pass this as an argument in the `service()` function. The `wsb.build()` method takes two arguments, `receive` of type `Pipe[F, WebSocketFrame, Unit]`, and send of type `Stream[F, WebSocketFrame]`.
 
 The `receive` `Pipe`, receives a `Stream` of WebSocket frames from the client and transforms that to a `Stream` of `Unit` while `send` is a `Stream` of WebSocket Frames that's pushed to the client.
 
@@ -353,7 +353,7 @@ In this section, we build a chat application using http4s WebSocket implementati
 
 If we open two pages in our browser and navigate to `chat.html`, when we try to send messages in one, they won't appear in the other, in other words, each user is chatting with his/herself.
 
-To fix this issue we'll need a `Topic` which is a concurrency primitive from Fs2 used to implement a publish-subscribe pattern:
+To fix this issue we'll need a `Topic` which is a concurrency primitive from FS2 used to implement a publish-subscribe pattern:
 
 ```scala
 import fs2.concurrent.Topic
@@ -1689,6 +1689,6 @@ Here's sample output from `/metrics`:
 
 ## 7. Conclusion
 
-In summary, this article shows how to implement a WebSocket server and client in Http4s and Javascript respectively. We built a chat application and learned how to process multiple messages and monitor the status of our application.
+In summary, this article shows how to implement a WebSocket server and client in http4s and Javascript respectively. We built a chat application and learned how to process multiple messages and monitor the status of our application.
 
 We've only been handling text data, however many chat applications also handle other file formats like images, audio, video, and documents, this can be an area for further research. As always, the code for this application can be found [over on GitHub](https://github.com/hkateu/WebsocketChatApp).

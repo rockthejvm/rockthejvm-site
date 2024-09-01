@@ -11,7 +11,7 @@ This article is for the beginner Spark programmer. If you're just starting out a
 
 ## Setup
 
-We use Spark 3.0.1, which you can [download](https://spark.apache.org/downloads.html) to your computer or set up manually as a library in a Scala & SBT project, with the following added to your build.sbt:
+We use Spark 3.0.1, which you can [download](https://spark.apache.org/downloads.html) to your computer or set up manually as a library in a Scala & sbt project, with the following added to your build.sbt:
 
 ```scala
 val sparkVersion = "3.0.1"

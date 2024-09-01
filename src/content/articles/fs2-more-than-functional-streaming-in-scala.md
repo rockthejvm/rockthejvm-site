@@ -14,11 +14,11 @@ Nowadays, modern applications are often built on top of streaming data: Reading 
 
 However, streams in the standard library are not as powerful as they could be and don't offer concurrency, throttling, or backpressure features.
 
-Fortunately, some libraries offer more robust implementation of streams. One of these is the fs2 library, built on top of the Cats and Cats Effect libraries. Moreover, **fs2 provides an entirely functional approach to stream processing**. So, without further ado, let's dive into the details of fs2.
+Fortunately, some libraries offer more robust implementation of streams. One of these is the FS2 library, built on top of the Cats and Cats Effect libraries. Moreover, **FS2 provides an entirely functional approach to stream processing**. So, without further ado, let's dive into the details of FS2.
 
 ## 1. Set Up
 
-The fs2 library is available both for Scala 2 and for Scala 3. The following code will set up SBT to use the library for Scala 3.
+The FS2 library is available both for Scala 2 and for Scala 3. The following code will set up sbt to use the library for Scala 3.
 
 ```scala
 val Fs2Version = "3.2.4"

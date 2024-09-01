@@ -11,7 +11,7 @@ This article is for people getting started with Akka typed actors. We'll look at
 
 ## Setup
 
-This article will assume you have the Akka Typed library set up in your project. If you don't, you can create a new SBT project with your favorite tool, and add the following to your build.sbt file:
+This article will assume you have the Akka Typed library set up in your project. If you don't, you can create a new sbt project with your favorite tool, and add the following to your build.sbt file:
 
 ```scala
 val akkaVersion = "2.6.10"

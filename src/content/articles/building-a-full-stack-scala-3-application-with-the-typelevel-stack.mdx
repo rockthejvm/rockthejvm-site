@@ -1,6 +1,6 @@
 ---
 category: guide
-excerpt: "Unlock the secrets to crafting a full-stack Scala 3 application from scratch: dive into Cats Effect, Doobie, Http4s, and Tyrian and build robust, modern software with ease"
+excerpt: "Unlock the secrets to crafting a full-stack Scala 3 application from scratch: dive into Cats Effect, doobie, http4s, and Tyrian and build robust, modern software with ease"
 publishedDate: 2024-01-23
 tags: [cats-effect, doobie, http4s, scala, typelevel]
 title: Building a Full-Stack Scala 3 Application with the Typelevel Stack
@@ -21,8 +21,8 @@ This article shows you how to build a full-stack web application with some of th
 
 - Cats for FP abstractions and extension methods
 - Cats Effect for effectful operations
-- Doobie for database interactions
-- Http4s for a purely functional web server
+- doobie for database interactions
+- http4s for a purely functional web server
 
 This is on the backend. On the frontend: although not an official Typelevel library, we will use [Tyrian](https://tyrian.indigoengine.io/), a nice frontend library inspired by Elm, based on Cats Effect, for Scala 3 transpiled to JavaScript (ScalaJS).
 
@@ -36,7 +36,7 @@ Together we will build the minimal start of a full-stack application, entirely w
 
 Start by cloning [this repository](https://github.com/rockthejvm/full-stack-typelevel-demo) and checking out the `start` tag. We can also start from empty directory (like we start in the Typelevel Rite of Passage course), but this option is quicker.
 
-After you clone the repository, you will find the build.sbt file. It contains all the library definitions that you'll need to get an SBT project started with 3 modules:
+After you clone the repository, you will find the build.sbt file. It contains all the library definitions that you'll need to get an sbt project started with 3 modules:
 
 - a backend module called `server`
 - a frontend module called `app`
@@ -149,7 +149,7 @@ Once we have the Postgres ready, we can start writing code.
 
 ## Backend: Core Module
 
-In this application, we will separate the server logic from the business logic of the application. Because in this case the business logic is minimal (just retrieving and inserting things into the database), we will keep this "core" module close to the database. In the `server` SBT module, create the `src/main/scala/com/rockthejvm/livedemo` directory if you don't have it already.
+In this application, we will separate the server logic from the business logic of the application. Because in this case the business logic is minimal (just retrieving and inserting things into the database), we will keep this "core" module close to the database. In the `server` sbt module, create the `src/main/scala/com/rockthejvm/livedemo` directory if you don't have it already.
 
 Typically, a core module contains the following:
 
@@ -267,7 +267,7 @@ trait Jobs[F[_]] { // "algebra"
 }
 ```
 
-The second component is the implementation. We've talked at length about [Doobie](/articles/learning-doobie-for-the-greater-good) in another article, so the implementations of these methods are as simple as `INSERT INTO jobs(...) VALUES (...)` and `SELECT * FROM jobs`, respectively; of course, we need to express these SQL queries in terms of Doobie. The implementation looks as follows:
+The second component is the implementation. We've talked at length about [doobie](/articles/learning-doobie-for-the-greater-good) in another article, so the implementations of these methods are as simple as `INSERT INTO jobs(...) VALUES (...)` and `SELECT * FROM jobs`, respectively; of course, we need to express these SQL queries in terms of doobie. The implementation looks as follows:
 
 ```scala
 import cats.effect.*
@@ -329,7 +329,7 @@ class JobsLive[F[_]: Concurrent] private (transactor: Transactor[F]) extends Job
 }
 ```
 
-The `all` method is essentially the SQL query `SELECT * FROM jobs`, expressed as a Doobie `sql` interpolator, along with the right building methods - we return an effect `F[List[Job]]`. For the use of the `sql` interpolator, the effect type F needs to have a given `Concurrent` instance in scope, which we pass as a type bound in the definition of the `LiveJobs` implementation.
+The `all` method is essentially the SQL query `SELECT * FROM jobs`, expressed as a doobie `sql` interpolator, along with the right building methods - we return an effect `F[List[Job]]`. For the use of the `sql` interpolator, the effect type F needs to have a given `Concurrent` instance in scope, which we pass as a type bound in the definition of the `LiveJobs` implementation.
 
 The `create(Job)` method is very similar and has similar requirements. One notable difference is that we instruct the database to create the `id` column automatically, which is also supported by the table, if you remember (look at the SQL table creation above).
 
@@ -344,7 +344,7 @@ object JobsPlayground extends IOApp.Simple {
 }
 ```
 
-In order to build the `Jobs` module, we need a Postgres `Transactor`, which Doobie can provide to us as a `Resource`:
+In order to build the `Jobs` module, we need a Postgres `Transactor`, which doobie can provide to us as a `Resource`:
 
 ```scala
 import doobie.util.ExecutionContexts
@@ -397,14 +397,14 @@ It's now time to move one level up and expose an external API that a third party
 
 ## Backend: Server Module
 
-We will build the server module with Http4s. For every vertical in the app (in this case, the "jobs" vertical) it is a good idea to expose an HTTP API for whatever functionality you would like to make available to the frontend. In this case, we would like to be able to list all jobs and create a job, all from the HTTP API, so we'll need to expose some frontend endpoints.
+We will build the server module with http4s. For every vertical in the app (in this case, the "jobs" vertical) it is a good idea to expose an HTTP API for whatever functionality you would like to make available to the frontend. In this case, we would like to be able to list all jobs and create a job, all from the HTTP API, so we'll need to expose some frontend endpoints.
 
 Let's imagine the following endpoints:
 
 - a POST at `/jobs/create`, with a `Job` case class instance passed as a JSON payload
 - a GET at `/jobs` with the list of jobs returned as a JSON list
 
-We've covered [Http4s](/articles/http4s-unleashing-the-power-of-http-apis-library) in detail in another article, so we will use those lessons to build our HTTP API. In the `com.rockthejvm.livedemo.http` package, we will scaffold the `JobRoutes` class which will contain the endpoints we've discussed:
+We've covered [http4s](/articles/http4s-unleashing-the-power-of-http-apis-library) in detail in another article, so we will use those lessons to build our HTTP API. In the `com.rockthejvm.livedemo.http` package, we will scaffold the `JobRoutes` class which will contain the endpoints we've discussed:
 
 ```scala
 import cats.effect.*
@@ -426,7 +426,7 @@ object JobRoutes {
 }
 ```
 
-We're going to follow the same pattern as in the `Jobs` module and expose either a smart-effectful constructor of this class, or a resource constructor; in this case we've picked a resource constructor, because it will be more useful when we combine the resources later, at the point when we build the Http4s `Server` instance. The `Concurrent` requirement is also important for us to implement the HTTP routes. Even the `circe` library needs the `Concurrent` type class to encode and decode JSON.
+We're going to follow the same pattern as in the `Jobs` module and expose either a smart-effectful constructor of this class, or a resource constructor; in this case we've picked a resource constructor, because it will be more useful when we combine the resources later, at the point when we build the http4s `Server` instance. The `Concurrent` requirement is also important for us to implement the HTTP routes. Even the `circe` library needs the `Concurrent` type class to encode and decode JSON.
 
 Defining the endpoints is quite straightforward. For the POST endpoint, we need to parse the payload of the HTTP request as JSON and return the `Job` inside, after which we can pass it as argument to the `Jobs.create` API. The route looks as follows:
 
@@ -488,7 +488,7 @@ We now need to combine the two "layers" of our backend into one comprehensive ap
 - a Postgres `Transactor` to build the `Jobs` module
 - the `Jobs` module to build the `JobRoutes`
 - the `JobRoutes` to specify the HTTP API
-- the Http4s `Server` resource
+- the http4s `Server` resource
 - a final program to use that resource and keep the server alive
 
 If all of the above sounds like a for-comprehension, it is. First, the Postgres, just like in `JobsPlayground:
@@ -854,8 +854,8 @@ object App extends TyrianApp[Msg, Model] {
 This is a full-stack app, so we need to run many pieces for everything to work:
 
 1. We need the database to be running, so make sure you have it active or run `docker-compose up` in the `db` directory.
-1. We need the `Application` in the `server` module to run, which you can start either in IntelliJ/Metals or in SBT.
-1. We need to compile the frontend, so open an SBT console, run `project app`, then run `~fastOptJS` to continuously compile the Scala code to JS.
+1. We need the `Application` in the `server` module to run, which you can start either in IntelliJ/Metals or in sbt.
+1. We need to compile the frontend, so open an sbt console, run `project app`, then run `~fastOptJS` to continuously compile the Scala code to JS.
 1. We need to serve the resulting HTML and JS, so in the root of the `app` directory, run `npm run start`
 
 After this, navigate to `http://localhost:1234` and you should see the list of all the jobs in the database displayed on the front page. True, they're just regular strings, but you can now show them with any sort of fancy UIs, with nice layouts and CSS.
