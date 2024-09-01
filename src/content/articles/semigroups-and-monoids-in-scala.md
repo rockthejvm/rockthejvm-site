@@ -216,7 +216,7 @@ import cats.syntax.semigroup._ // analogous to our SemigroupSyntax import
 val anIntSum = 2 |+| 3
 ```
 
-We dicsuss a lot of other aspects related to Semigroups (and much more) in the [Cats course](https://rockthejvm.com/courses/cats) if you're interested.
+We dicsuss a lot of other aspects related to Semigroups (and much more) in the [Cats course](/courses/cats) if you're interested.
 
 ## 8. Conclusion
 

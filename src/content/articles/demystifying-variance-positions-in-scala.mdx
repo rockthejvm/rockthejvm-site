@@ -7,8 +7,8 @@ title: Demystifying Variance Positions in Scala
 updatedDate: 2024-09-06
 ---
 
-import { Tweet, YouTube } from "astro-embed";
 import ErrorAdmonition from "@components/ErrorAdmonition.astro";
+import { Tweet, YouTube } from "astro-embed";
 
 Variance in Scala is one of the most powerful concepts of its type system. It's simple in theory, but it can cause massive headaches when we think we got the hang of writing abstract, generic code. In this article, we'll take a careful and structured look at one of the most cryptic compiler errors you'll ever see:
 
@@ -17,7 +17,7 @@ Variance in Scala is one of the most powerful concepts of its type system. It's 
 We won't need a particular project setup for this article - a plain Scala/SBT project
 will do.
 
-> We discuss variance and variance positions in depth in the [Advanced Scala](https://rockthejvm.com/courses/advanced/scala) course. Check it out!
+> We discuss variance and variance positions in depth in the [Advanced Scala](/courses/advanced/scala) course. Check it out!
 
 ## 1. Background
 
@@ -61,7 +61,7 @@ A Vet[Animal] is a proper replacement for a Vet[Dog], because a Vet can treat an
 
 If you want to keep a good rule of thumb on how to pick variance for your new generic type, it's this:
 
-<Tweet id="https://x.com/rockthejvm/status/1316385189883453441?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1316385189883453441%7Ctwgr%5E3230befe1476cd35d3bfd44707a8e6141e84f914%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fblog.rockthejvm.com%2Fscala-variance-positions%2F" />
+<Tweet id="https://x.com/rockthejvm/status/1316385189883453441" />
 <script async src="https://platform.twitter.com/widgets.js"></script>
 
 ## 3. The Variance Positions Problem
@@ -250,7 +250,7 @@ val rescuedDog: Dog = vet.rescueAnimal[Dog] // type checking passes now
 
 ## 5. Conclusion
 
-This is one of the hardest parts of the Scala type system, even though it starts from such an innocent question (should lists of dogs be lists of animals). If you're curious, the [advanced Scala course](https://rockthejvm.com/courses/advanced-scala) contains what you've just learned (and lots more on Scala's type system) with some practice exercises.
+This is one of the hardest parts of the Scala type system, even though it starts from such an innocent question (should lists of dogs be lists of animals). If you're curious, the [advanced Scala course](/courses/advanced-scala) contains what you've just learned (and lots more on Scala's type system) with some practice exercises.
 
 This article was pretty dense, and we learned quite a bit:
 

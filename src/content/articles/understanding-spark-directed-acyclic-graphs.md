@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 This article is for the Spark programmer who has at least some fundamentals, e.g. how to create a DataFrame and how to do basic operations like selects and joins, but has not dived into how Spark works yet. Perhaps you're interested in boosting the performance out of your Spark jobs.
 
-This article follows <a href="https://rockthejvm.com/blog/reading-query-plans">the article where I discuss Spark query plans</a>, after many people requested I follow the Spark path and shed some light on other Spark functionality.
+This article follows [the article where I discuss Spark query plans](/articles/understanding-spark-query-plans), after many people requested I follow the Spark path and shed some light on other Spark functionality.
 
 ## Prerequisites
 

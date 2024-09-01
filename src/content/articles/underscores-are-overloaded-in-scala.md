@@ -27,7 +27,7 @@ val onlyFives = (1 to 10).map(_ => 5)
 
 We could have said `(1 to 10).map(x => 5)` but we don't need x and the compiler would have issued an unused variable warning anyway, so we replace with an underscore.
 
-Another scenario is when we use <a href="https://rockthejvm.com/blog/self-types-quick">self-types</a> as a type restriction, but you don't actually need to name the self-type:
+Another scenario is when we use [self-types](/articles/self-types-in-scala-overview) as a type restriction, but you don't actually need to name the self-type:
 
 ```scala
 trait Singer
@@ -90,7 +90,7 @@ val sumFunction: (Int, Int) => Int = _ + _
 
 The `_ + _` part is identical to `(a, b) => a + b`. Java programmers seeing this for the first time might find it too short, but it's really easy to get used to it.
 
-## 5. <a href="https://rockthejvm.com/blog/eta-paf">Eta-expansion</a>
+## 5. [Eta-expansion](/articles/eta-expansion-and-partially-applied-functions-in-scala)
 
 Underscores are also used to turn methods into function values. We talk about the process in detail in another article (check the link above).
 

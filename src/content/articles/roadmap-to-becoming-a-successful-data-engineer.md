@@ -83,7 +83,7 @@ Hadoop is just like learning the alphabet! Hadoop brought life into big data. It
 
 ### Spark
 
-Today in the big data world there is no escape from Spark. Spark is everywhere. You want to read data from Amazon S3 and load it to Cassandra at scale, use Spark. You want to read from Apache Kafka and run some transformation on it and store it to Mongo DB, use Spark. You want to create a streaming app on top of message queues, you use Spark there too. The cheapest, the smartest distributed computing framework ever created. The most important part of Spark that we have to learn is [Spark](https://rockthejvm.com/courses/spark) core, Spark SQL, [Structured Streaming](https://rockthejvm.com/courses/spark-streaming), [Spark Optimization](https://rockthejvm.com/courses/spark-optimization). The knowledge of tuning a Spark cluster and resources push you to become the best rated data engineer.
+Today in the big data world there is no escape from Spark. Spark is everywhere. You want to read data from Amazon S3 and load it to Cassandra at scale, use Spark. You want to read from Apache Kafka and run some transformation on it and store it to Mongo DB, use Spark. You want to create a streaming app on top of message queues, you use Spark there too. The cheapest, the smartest distributed computing framework ever created. The most important part of Spark that we have to learn is [Spark](/courses/spark) core, Spark SQL, [Structured Streaming](/courses/spark-streaming), [Spark Optimization](/courses/spark-optimization). The knowledge of tuning a Spark cluster and resources push you to become the best rated data engineer.
 
 ### Kafka
 

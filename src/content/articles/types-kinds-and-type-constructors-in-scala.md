@@ -86,7 +86,7 @@ And they would work in a similar fashion - pass a type of an inferior-kind (this
 val metaFunctor = new Meta[Functor]
 ```
 
-This example is a bit contrived, because we almost never need to use types beyond level-2. Level-2 types already pretty abstract as they are &mdash; although we do try to [smoothen the learning curve](https://rockthejvm.com/courses/cats).
+This example is a bit contrived, because we almost never need to use types beyond level-2. Level-2 types already pretty abstract as they are &mdash; although we do try to [smoothen the learning curve](/courses/cats).
 
 ## 6. More Type Constructors
 

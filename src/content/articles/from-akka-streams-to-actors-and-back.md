@@ -10,7 +10,7 @@ updatedDate: 2024-09-06
 
 _This article is brought to you by [Niklas Uhrberg](https://github.com/niklasuhrberg), a Rock the JVM alumnus who is a software architect with a focus on distributed systems. He's passionate about Scala, Akka and Kafka, and this piece is derived from his real-world experience._
 
-> If you want to learn Akka, we have more than 40 hours of training here at Rock the JVM in the [Akka Bundle](https://rockthejvm.com/courses/the-akka-bundle), which ties in very well with this article.
+> If you want to learn Akka, we have more than 40 hours of training here at Rock the JVM in the [Akka Bundle](/courses/the-akka-bundle), which ties in very well with this article.
 
 _Enter Niklas:_
 

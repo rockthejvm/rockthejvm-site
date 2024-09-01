@@ -141,7 +141,7 @@ val aChainedComputation = for {
 
 ## 4. Advanced: `Validated`
 
-There are many data structures in various libraries with certain set goals in mind. One of the popular ones is `Validated`, which is part of the Cats library. By the way, I [teach](https://rockthejvm.com/courses/cats) this here at Rock the JVM.
+There are many data structures in various libraries with certain set goals in mind. One of the popular ones is `Validated`, which is part of the Cats library. By the way, I [teach](/courses/cats) this here at Rock the JVM.
 
 Besides doing pretty much everything that Either does, Validated allows us to _accumulate_ errors. One obvious use case is online forms that have to meet certain criteria. If a user fails those conditions, the form should ideally show the user _all the places_ in which they filled wrong, not just a single error.
 

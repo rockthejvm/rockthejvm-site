@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 This article is about Scala 3. We've talked a lot about the additions in Scala 3 (which you can easily search on the blog), but it's also worth talking about the removals. In particular, this article will focus on the fact that "general type projections are unsound": what that phrase means, what that leads to, and why the feature was removed in Scala 3.
 
-This removal (along with dozens of other changes) was explained in depth in the [Scala 3 New Features](https://rockthejvm.com/courses/scala-3-new-features) course.
+This removal (along with dozens of other changes) was explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
 ## 1. Background and Context
 
@@ -36,7 +36,7 @@ The instances `o1` and `o2` result in the different _types_ `o1.Inner` and `o2.I
 val i3: o1.Inner = new o2.Inner // compiler error (type mismatch)
 ```
 
-However, as we explain in the [Advanced Scala course](https://rockthejvm.com/courses/advanced-scala), all possible `o.Inner` types are subtypes of a general type called `Outer#Inner`. This is called a _type projection_, which is a pretty cool feature of Scala's type system.
+However, as we explain in the [Advanced Scala course](/courses/advanced-scala), all possible `o.Inner` types are subtypes of a general type called `Outer#Inner`. This is called a _type projection_, which is a pretty cool feature of Scala's type system.
 
 In Scala 2, it was also possible to express type projections based on types which were themselves abstract, i.e. abstract type members or generic type arguments. So it was possible to write something like `A#Inner`, where the compiler only knows that `A <: Outer`, for instance. This is called a "general" or "abstract" type projection, because the root `A` is not concrete.
 
@@ -46,7 +46,7 @@ The problem is, it's not quite right. Martin Odersky initially signalled this by
 
 ## 2. Using General Type Projections
 
-I'll follow upon an exercise that I used in the [Advanced Scala 2 course](https://rockthejvm.com/courses/scala-advanced-old) to practice path-dependent types and type projections. The exercise sounds like this &mdash; assume we'd like to build a general library for fetching type-safe fields from a database. We have a general type that describes items in the database, along with an identifier (key) in the folloing form:
+I'll follow upon an exercise that I used in the [Advanced Scala 2 course](/courses/scala-advanced-old) to practice path-dependent types and type projections. The exercise sounds like this &mdash; assume we'd like to build a general library for fetching type-safe fields from a database. We have a general type that describes items in the database, along with an identifier (key) in the folloing form:
 
 ```scala
   trait ItemLike {

@@ -43,7 +43,7 @@ lazy val root = project
   )
 ```
 
-To follow along, we'll need `fs2`'s core and io libraries, this installs [cats](https://rockthejvm.com/courses/cats) and [cats-effect](https://rockthejvm.com/courses/cats-effect) as dependencies in our project.
+To follow along, we'll need `fs2`'s core and io libraries, this installs [cats](/courses/cats) and [cats-effect](/courses/cats-effect) as dependencies in our project.
 
 We'll also need the [FFplay](https://ffmpeg.org/ffplay.html) library which is installed as part of [FFmpeg](https://ffmpeg.org/download.html). We can confirm it's installed by running `ffplay -version`.
 

@@ -11,7 +11,7 @@ _This article is a collaboration between myself (Daniel) and [Giannis Polyzos](h
 
 ![Alt text](../images/pf1.png "Unified Batch & Streaming")
 
-Before we start, some basic familiarity with Apache Pulsar and Apache Flink is required &mdash; Rock the JVM has an [Apache Flink course](https://rockthejvm.com/courses/flink) if you're interested. To better understand the implementation in this blog post, we suggest getting familiar with the basic concepts of Apache Pulsar and Apache Flink. See the [Additional Resources](#7-additional-resources) section.
+Before we start, some basic familiarity with Apache Pulsar and Apache Flink is required &mdash; Rock the JVM has an [Apache Flink course](/courses/flink) if you're interested. To better understand the implementation in this blog post, we suggest getting familiar with the basic concepts of Apache Pulsar and Apache Flink. See the [Additional Resources](#7-additional-resources) section.
 
 The code in this article is in **Java**, although it can be adapted to Scala as well.
 For the best experience following this article, we recommend referring to [this repository](https://github.com/polyzos/pulsar-flink-stateful-streams) while replicating the project locally in your own dev environment. You can also clone the repository and work directly on the code there.
@@ -416,7 +416,7 @@ public class EnrichmentStream {
 We also need to create a `WatermarkStrategy` for our orders input data stream to handle late order events.
 Event Time with be tracked by the creation time within the `Order` event.
 
-If you need to learn about watermarks or event time/processing time, Rock the JVM's [Apache Flink course](https://rockthejvm.com/courses/flink) goes into great detail, as they are critical topics for stateful distributed data processing.
+If you need to learn about watermarks or event time/processing time, Rock the JVM's [Apache Flink course](/courses/flink) goes into great detail, as they are critical topics for stateful distributed data processing.
 
 Note that while the users and items streams already have data written to Pulsar, the orders stream does not - we will trigger the data flow in Flink by sending orders data to Pulsar from a different process (e.g. in the IDE's local run command) after we start the Flink application.
 
@@ -849,7 +849,7 @@ This means the state is restored from the checkpoint and flink knows how to rebu
 
 ## 7. Additional Resources
 
-- [Rock The JVM Apache Flink Course](https://rockthejvm.com/courses/flink)
+- [Rock The JVM Apache Flink Course](/courses/flink)
 - Apache Pulsar Documentation:
   - [Pulsar Overview](https://pulsar.apache.org/docs/concepts-overview/)
   - [Pulsar Producers](https://pulsar.apache.org/docs/concepts-messaging/)

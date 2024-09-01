@@ -17,7 +17,7 @@ If you come from Scala 2, you're familiar with implicits and need to move to giv
 
 Implicits are some of the most powerful Scala features. They allow code abstractions that sit outside the traditional OO-style type hierarchy. Implicits have demonstrated their use and have been battle-tested in many scenarios. Listing just a few:
 
-- Implicits are an essential tool for creating [type classes](/why-are-typeclasses-useful/) in Scala. Libraries like [Cats](https://typelevel.org/cats) (which we [teach](https://rockthejvm.com/courses/cats)) could not exist without them.
+- Implicits are an essential tool for creating [type classes](/why-are-typeclasses-useful/) in Scala. Libraries like [Cats](https://typelevel.org/cats) (which we [teach](/courses/cats)) could not exist without them.
 - Extending the capabilities of existing types, in expressions such as `20.seconds` (more [here](/twenty-seconds)), is possible with implicits.
 - Implicits allow the automatic creation of new types and enforcing type relationships between them at compile time. We can go as far as run [type-level computations in Scala](/type-level-programming-part-1) with implicits.
 

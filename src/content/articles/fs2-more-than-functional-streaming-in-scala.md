@@ -8,7 +8,7 @@ title: "FS2: More Than Functional Streaming in Scala"
 updatedDate: 2024-09-06
 ---
 
-_Another long-form by [Riccardo Cardin](/authors/riccardo-cardin) - having started with the [Scala with Cats course](https://rockthejvm.com/courses/cats) a while back, he's now steadily mastering all the critical pieces of the Typelevel ecosystem._
+_Another long-form by [Riccardo Cardin](/authors/riccardo-cardin) - having started with the [Scala with Cats course](/courses/cats) a while back, he's now steadily mastering all the critical pieces of the Typelevel ecosystem._
 
 Nowadays, modern applications are often built on top of streaming data: Reading from a huge file and processing information or handling continuous data from the network as WebSockets or from a message broker. Streams are the way to go in such situations, and Scala provides its own streams implementation.
 
@@ -29,7 +29,7 @@ As we said, **the fs2 streaming library is built on top of the Cats and Cats Eff
 
 The `fs2-core` library provides the core functionalities of the library. Many other plugins add more features: Reading from and writing to file, from the network, and so on. Moreover, there are a lot of projects using fs2 under the hood, such as _http4s_, _doobie_, _skunk_, to name a few. Please, refer to the [fs2 documentation](https://fs2.io/#/ecosystem) for more information.
 
-To work well with fs2, you'll need to be comfortable with Scala, of course. Some basics of Cats Effect would be wonderful. Rock the JVM has this in-depth [Cats Effect course](https://rockthejvm.com/courses/cats-effect) if you're interested in mastering it, but it's not required.
+To work well with fs2, you'll need to be comfortable with Scala, of course. Some basics of Cats Effect would be wonderful. Rock the JVM has this in-depth [Cats Effect course](/courses/cats-effect) if you're interested in mastering it, but it's not required.
 
 It's usual for us at Rock the JVM to build the examples around a concrete scenario. We can continue to refer to the _myimdb_ project that we used both in the articles on [_http4s_](http4s-unleashing-the-power-of-http-apis-library) and on [_doobie_](/doobie/).
 

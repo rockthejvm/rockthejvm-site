@@ -7,7 +7,7 @@ title: "Type-Level Programming in Scala: Part 3 - Sorting Lists"
 updatedDate: 2024-09-06
 ---
 
-In this article we will continue what we started in the [first](/type-level-programming-1) and [second](/type-level-programming-2) parts of the series and become a badass type-level programmer in Scala. This mini-series is about using the power of the Scala compiler to enforce complex relationships between types that mean something special to us. In the <a href="https://rockthejvm.com/blog/type-level-programming-1">first part</a>, we defined the "less-than" relationship between numbers as types, and in the <a href="https://rockthejvm.com/blog/type-level-programming-2">second part</a> we learned to "add" two "numbers" as types. Everything, again, at compile time.
+In this article we will continue what we started in the [first](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) and [second](/articles/type-level-programming-in-scala-part-2-adding-numbers-as-types) parts of the series and become a badass type-level programmer in Scala. This mini-series is about using the power of the Scala compiler to enforce complex relationships between types that mean something special to us. In the [first part](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons), we defined the "less-than" relationship between numbers as types, and in the [second part](/articles/type-level-programming-in-scala-part-2-adding-numbers-as-types) we learned to "add" two "numbers" as types. Everything, again, at compile time.
 
 The third time is the charm. In this third part, we're going to do something magical. We're going to rely on the first part (with number-type comparisons) and sort lists... at compile time.
 

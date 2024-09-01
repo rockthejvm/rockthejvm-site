@@ -68,7 +68,7 @@ val graph = GraphDSL.create() { implicit builder: GraphDSL.Builder[NotUsed] =>
 }
 ```
 
-The `GraphDSL.create` is a curried function. The first argument list is empty (but it also has overloads with arguments, don't worry about those) and the second argument is a function. That function takes a mutable data structure called a Builder which is typed with a <a href="https://rockthejvm.com/blog/materialized-values">materialized value</a>, which in our case will be NotUsed, as we aren't surfacing anything outside of the stream. Inside the function block, we are already importing `import GraphDSL.Implicits._` to bring some alien operators in scope.
+The `GraphDSL.create` is a curried function. The first argument list is empty (but it also has overloads with arguments, don't worry about those) and the second argument is a function. That function takes a mutable data structure called a Builder which is typed with a [materialized value](/articles/the-brilliance-of-materialized-values-in-akka-streams), which in our case will be NotUsed, as we aren't surfacing anything outside of the stream. Inside the function block, we are already importing `import GraphDSL.Implicits._` to bring some alien operators in scope.
 
 ## Step 2 - Create the Building Blocks
 

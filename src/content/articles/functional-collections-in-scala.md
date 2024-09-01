@@ -11,7 +11,7 @@ This article is more beginner-friendly, so all you need is a basic understanding
 
 These ideas are actually what sparked my interest in Scala and functional programming in the first place &mdash; when one of my friends talked about this cool language he discovered (Scala) some 10 years ago and how often his mind was blown, I couldn't resist diving into it myself.
 
-This is a compact version of a thought experiment we follow &mdash; and then write code for &mdash; in the [advanced Scala course](https://rockthejvm.com/courses/advanced-scala), once we lay some foundations of FP.
+This is a compact version of a thought experiment we follow &mdash; and then write code for &mdash; in the [advanced Scala course](/courses/advanced-scala), once we lay some foundations of FP.
 
 No libraries are required for this article, as we will write plain Scala. Both Scala 2 and Scala 3 will work just as fine.
 

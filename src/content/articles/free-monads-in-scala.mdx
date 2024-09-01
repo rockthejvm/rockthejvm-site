@@ -11,7 +11,7 @@ import { YouTube } from "astro-embed";
 
 This article describes the Free monad in Scala &mdash; how it works, what it's good for and why we need it in the first place.
 
-This piece assumes you're already very comfortable with Scala. If you know a bit of Cats (which we teach in the [Cats course](https://rockthejvm.com)), that's a bonus, but not required for this article, because we're going to lay all the groundwork for what we need here.
+This piece assumes you're already very comfortable with Scala. If you know a bit of Cats (which we teach in the [Cats course](/courses/cats)), that's a bonus, but not required for this article, because we're going to lay all the groundwork for what we need here.
 
 This post was written for Scala 3, but the concepts work almost identically for Scala 2 if you replace [givens with implicits](/givens-vs-implicits/).
 
@@ -47,7 +47,7 @@ Just from these two operations, we can describe an incredible variety of computa
 - potentially absent values, i.e. Options
 - computations that might fail, i.e. Try
 - potentially failed computations with an error type of our choosing, e.g. Either
-- computations that might perform side effects, i.e. IO from [Cats Effect](https://rockthejvm.com/courses/cats-effect)
+- computations that might perform side effects, i.e. IO from [Cats Effect](/courses/cats-effect)
 - combinations thereof, e.g. ZIO, which take dependencies, can fail, and can perform side effects in the same computation
 
 The Free monad describes a similar "sequential" capability for a wrapper type _and for a well-defined value type_.
@@ -81,7 +81,7 @@ object Free {
 }
 ```
 
-We'll leave the `pure` method unimplemented for now. The important bit is that we have the same `pure` + `flatMap` concepts here as well, even though the methods themselves are moved to different places. Now, because we have `pure` and `flatMap`, we can implement the `map` method for free &mdash; as we teach in the [Scala with Cats course](https://rockthejvm.com), the Functor's fundamental method can be expressed in terms of `pure` and `flatMap`:
+We'll leave the `pure` method unimplemented for now. The important bit is that we have the same `pure` + `flatMap` concepts here as well, even though the methods themselves are moved to different places. Now, because we have `pure` and `flatMap`, we can implement the `map` method for free &mdash; as we teach in the [Scala with Cats course](/courses/cats), the Functor's fundamental method can be expressed in terms of `pure` and `flatMap`:
 
 ```scala
 trait Free[M[_], A] {
