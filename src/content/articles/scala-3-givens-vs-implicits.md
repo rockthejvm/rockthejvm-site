@@ -123,7 +123,7 @@ Implicits are notorious in Scala 2 for being extremely hard to pin down. That me
 
 Givens attempt at solving the problem in multiple ways.
 
-Firstly, given instances need to be [explicitly imported](/scala-3-given-using/#importing-givens), so you can better track down which imported parts are actually given instances.
+Firstly, given instances need to be [explicitly imported](/articles/scala-3-given-and-using-clauses/#importing-givens), so you can better track down which imported parts are actually given instances.
 
 Secondly, givens are only used for automatic injection of arguments via a `using` clause. In this way, you can look at imported given instances for this particular issue, i.e. finding _method arguments that you aren't passing explicitly_. For the other implicit magic, the other mechanisms (clearly defined implicit conversions and extension methods) have similar track-down capabilities.
 

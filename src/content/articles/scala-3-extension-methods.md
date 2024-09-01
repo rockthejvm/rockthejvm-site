@@ -123,7 +123,7 @@ extension [A] (tree: Tree[A]) {
 }
 ```
 
-(used curly braces, but [indentation regions](/scala-3-indentation/) will also work)
+(used curly braces, but [indentation regions](/articles/scala-3-indentation) will also work)
 
 ## 4. Extensions in the Presence of Givens
 
@@ -165,4 +165,4 @@ Or even in both places, if you'd like.
 
 In this article, we've deconstructed the mechanism of `extension` methods. This feature, coupled with the given/using combo, allows for some powerful abstractions including [type classes](/articles/why-are-scala-type-classes-useful), DSLs and many more.
 
-I'm pretty confident that Scala 3 will rock. We may have some contention [here and there](/scala-3-indentation/) &mdash; and I absolutely hate the 3-spaces indentation which I will not follow if it becomes "convention" &mdash; but overall, Scala is getting more mature, more expressive, easy and fun to read and write. Which is what a language should be.
+I'm pretty confident that Scala 3 will rock. We may have some contention [here and there](/articles/scala-3-indentation) &mdash; and I absolutely hate the 3-spaces indentation which I will not follow if it becomes "convention" &mdash; but overall, Scala is getting more mature, more expressive, easy and fun to read and write. Which is what a language should be.

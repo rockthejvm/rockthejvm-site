@@ -501,7 +501,7 @@ However, if we use a job id that is not associated with any job, we get the foll
 Job not found for id JobId(value=42)
 ```
 
-However, working with pattern matching is only sometimes very convenient. A lot of time, we need to transform and combine different `Option` values. As in Scala, the `Option` type is a [monad](/an-introduction-to-monads-in-scala), so we can use the `map` and `flatMap` functions to transform and combine `Option` values. Let's see an example.
+However, working with pattern matching is only sometimes very convenient. A lot of time, we need to transform and combine different `Option` values. As in Scala, the `Option` type is a [monad](/articles/an-introduction-to-monads-in-scala), so we can use the `map` and `flatMap` functions to transform and combine `Option` values. Let's see an example.
 
 Imagine we want to create a function that returns the gap between the job salary given a job id and the maximum salary for the same company. We want to return `None` if the job doesn't exist. To implement such a function, first, we need to add a `findAll` method to our `Jobs` interface:
 
