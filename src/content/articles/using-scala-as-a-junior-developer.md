@@ -84,7 +84,7 @@ MyArray(1, 2, 3).map(x => x + 1) // MyArray(2, 3, 4)
 MyArray("a", "b", "c").map(x => x + "z") // MyArray("az", "bz", "cz")
 ```
 
-You can find a complete example in the [Scala Essential Courses](/courses/enrolled/830425)
+You can find a complete example in the [Scala Essential Courses](/courses/scala-essentials)
 
 You could ask, "why would I use `map` when I can use loops ?". Well, for each transformation, we need to manually initialize a new collection, iterate over the original one, and then apply the transformation to each element. This is not only more code, but it's also less readable (we need to read the entire block to understand it).
 
