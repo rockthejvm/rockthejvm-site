@@ -617,7 +617,7 @@ doobie defines the instances of the above type classes for the following types (
 - `Instant`, `LocalDate`, `LocalTime`, `LocalDateTime`, `OffsetTime`, `OffsetDateTime` and `ZonedDateTime` from the `java.time` package; and
 - single-element case classes wrapping one of the above types.
 
-Deriving the `Get` and `Put` type classes for types that don't fit into one of the above categories is relatively easy. To create a concrete example, we introduce in our project the [estatico/scala-newtype](https://github.com/estatico/scala-newtype), which allows creating a new type that is a subtype of the original type but with a different name. The description of newtypes is far beyond the scope of this article, but you can find a good introduction on [Value Classes in Scala](/articles/value-classes-in-scala).
+Deriving the `Get` and `Put` type classes for types that don't fit into one of the above categories is relatively easy. To create a concrete example, we introduce in our project the [estatico/scala-newtype](https://github.com/estatico/scala-newtype), which allows creating a new type that is a subtype of the original type but with a different name. The description of newtypes is far beyond the scope of this article, but you can find a good introduction on [Value Classes in Scala Explained](/articles/value-classes-in-scala).
 
 First, let's create a newtype wrapper around an actor name:
 

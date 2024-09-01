@@ -472,7 +472,7 @@ In this article, we saw how to test a function declared in a `Raise<E>` context.
 
 ## 5. Appendix
 
-As we said, Kotlin context receivers were deprecated in more recent versions of Kotlin. For the above reason, we preferred to use something other than context receivers in this article. However, context receivers almost invariably make the code cleaner and more concise. We introduced it in the article [Kotlin Context Receivers: A Comprehensive Guide](/articles/kotlin-101-context-receivers). Let's see how our example changes if we use context receivers.
+As we said, Kotlin context receivers were deprecated in more recent versions of Kotlin. For the above reason, we preferred to use something other than context receivers in this article. However, context receivers almost invariably make the code cleaner and more concise. We introduced it in the article [Kotlin 101: Context Receivers Quickly Explained](/articles/kotlin-101-context-receivers). Let's see how our example changes if we use context receivers.
 
 We need to enable the usage of context receivers since they're still an experimental feature in Kotlin 2.0.0. We need to add the following code to the `build.gradle.kts` file to do so:
 

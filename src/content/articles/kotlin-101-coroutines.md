@@ -98,7 +98,7 @@ suspend fun bathTime() {
 }
 ```
 
-If you're a Scala geek and have been following us for a while, you may notice the example is the same as the [ZIO Fibers article](/articles/zio-fibers-concurrency-and-lightweight-threads) - a great opportunity for you to see how coroutines are different from fibers.
+If you're a Scala geek and have been following us for a while, you may notice the example is the same as the [ZIO Fibers: Concurrency and Lightweight Threads](/articles/zio-fibers-concurrency-and-lightweight-threads) article - a great opportunity for you to see how coroutines are different from fibers.
 
 The `delay(timeMillis: Long)` function is a `suspend` that suspends a coroutine for `timeMillis` milliseconds. A `suspend` function can be called only from a coroutine or another `suspend` function. It can be suspended and resumed. In the example above, the `bathTime` function can be suspended when the coroutine executes the `delay` function. Once resumed, the `bathTime` function will continue its execution from the line immediately after the suspension.
 
