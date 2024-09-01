@@ -8,7 +8,7 @@ title: Creating a CLI Sudoku Solver with Scala Native
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Antonio Gelameris](https://github.com/TonioGela). Antonio is an alumnus of Rock the JVM, now a senior Scala developer with his own contributions to Scala libraries and junior devs under his mentorship.
+_This article is brought to you by [Antonio Gelameris](/authors/antonio-gelameris). Antonio is an alumnus of Rock the JVM, now a senior Scala developer with his own contributions to Scala libraries and junior devs under his mentorship.
 Which brings us to this article: Antonio originally started from my [A Backtracking Sudoku Solver in Scala](/articles/a-backtracking-sudoku-solver-in-scala) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us._
 
 _Enter Antonio:_

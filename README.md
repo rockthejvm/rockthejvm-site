@@ -24,7 +24,7 @@ akka-http-json -> akka-http-3-json-libraries
 akka-http-to-heroku-in-x-minutes -> akka-http-to-heroku-in-10-minutes
 akka-message-adapter -> akka-typed-adapting-messages
 akka-streams-backpressure -> akka-streams-backpressure
-akka-streams-graphs -> how-to-use-akka-streams-graph-dsl
+akka-streams-graphs -> use-akka-streams-graph-dsl
 Akka-Typed-incentivizes-you-to-write-good-code -> how-akka-typed-incentivizes-writing-good-code
 akkastreams-to-actors-and-back -> from-akka-streams-to-actors-and-back
 algebraic-data-types -> algebraic-data-types-in-scala
@@ -112,7 +112,7 @@ security-in-http4s -> configuring-http4s-security-handling-cors-and-csrf
 self-types -> self-types-in-scala-overview
 skunk-complete-guide -> mastering-skunk-the-scala-library-for-database-interaction
 slick -> getting-started-with-scala-slick
-snake -> how-to-make-a-snake-game-with-scala-in-10-minutes
+snake -> make-a-snake-game-with-scala-in-10-minutes
 sorting -> sort-lists-in-scala-with-tail-recursion
 spark-broadcast-joins -> broadcast-joins-in-apache-spark-an-optimization-technique
 spark-dags -> understanding-spark-directed-acyclic-graphs
