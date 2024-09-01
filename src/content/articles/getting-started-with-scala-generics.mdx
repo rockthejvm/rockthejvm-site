@@ -7,7 +7,7 @@ title: "Getting Started with Scala Generics"
 updatedDate: 2024-09-06
 ---
 
-import { YouTube } from "astro-embed";
+import { Tweet, YouTube } from "astro-embed";
 
 This beginner-friendly article will introduce you to Scala generics in a smooth, approachable way. If you're just getting started with Scala and generics seem challenging to you, we'll make everything clear. The article is aimed at people getting into Scala from other languages _with dynamic typing_, such as Python or JavaScript. In my experience teaching, I noticed that Scala's type system, particularly generics, [variance](/articles/demystifying-variance-positions-in-scala) and other bits around generics seem to be especially difficult if my students' entire programming experience was in Python, JS or other languages with dynamic type systems. That said, Java folks will also benefit from this article.
 
@@ -25,20 +25,8 @@ If you want to see this article in video form, please watch below:
 
 ## 1. Introduction to Scala Generics
 
-<blockquote class="twitter-tweet">
-  <p lang="en" dir="ltr">
-    Dynamically typed languages only work because you already have the types in
-    your head.
-  </p>
-  &mdash; Rock the JVM (@rockthejvm){" "}
-  <a href="https://twitter.com/rockthejvm/status/1519578027411349505?ref_src=twsrc%5Etfw">
-    April 28, 2022
-  </a>
-</blockquote> <script
-  async
-  src="https://platform.twitter.com/widgets.js"
-  charset="utf-8"
-></script>
+<Tweet id="https://x.com/rockthejvm/status/1519578027411349505" />
+<script async src="https://platform.twitter.com/widgets.js"></script>
 
 If you've started to learn Scala, you probably know that Scala has a _static type system_. By this we mean that the types of all the values, variables and expressions in your program are known by the compiler ahead of time, before the program runs. The compiler is therefore a tool to help us catch bugs in case we call some method or operator that is not allowed for those particular types. That's not the case for languages like Python or JavaScript; and there are lots of reasons to adopt a static or dynamic type system, and we won't need to go to deep there.
 
