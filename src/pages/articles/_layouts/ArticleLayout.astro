@@ -12,6 +12,8 @@ import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import SocialShare from "@components/SocialShare.astro";
+import TOC from "@components/icons/TOC.astro";
+import CaretUp from "@components/icons/CaretUp.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -91,9 +93,15 @@ const tags = await getEntries(frontmatter.tags);
         <TagList {tags} />
         <SocialShare />
       </header>
+      <div class="lg:hidden fixed bottom-4 right-4">
+        <a class="flex flex-col align-center justify-center content-center" href="#toc">
+          <div class="mx-auto"><CaretUp /></div>
+          <TOC />
+        </a>
+      </div>
       <div class="xl:flex xl:flex-row">
         <Prose>
-          <div class="xl:hidden"><TableOfContents {headings} /></div>
+          <div id="toc" class="xl:hidden"><TableOfContents {headings} /></div>
           <slot />
           <ArticleSeries {article} />
         </Prose>
