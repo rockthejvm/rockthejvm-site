@@ -10,10 +10,7 @@ updatedDate: 2024-09-06
 
 import { YouTube } from "astro-embed";
 
-It's time to end our journey on functional error handling in Kotlin with the new features introduced by the Arrow library in version 1.2.0, which previews the significant rewrite we'll have in version 2.0.0. We'll mainly focus on the `Raise` DSL, a new way to handle typed errors using [Kotlin contexts](/articles/kotlin-101-context-receivers). This article is part of a series. We can always reference the previous parts using these links:
-
-- [Functional Error Handling in Kotlin, Part 1: Absent values, Nullables, Options](/articles/functional-error-handling-in-kotlin-part-1-absent-values)
-- [Functional Error Handling in Kotlin, Part 2: Result and Either](/articles/functional-error-handling-in-kotlin-part-2-result-and-either)
+It's time to end our journey on functional error handling in Kotlin with the new features introduced by the Arrow library in version 1.2.0, which previews the significant rewrite we'll have in version 2.0.0. We'll mainly focus on the `Raise` DSL, a new way to handle typed errors using [Kotlin contexts](/articles/kotlin-101-context-receivers).
 
 For the video version, watch here:
 
@@ -126,9 +123,9 @@ Now that we have defined the domain model, the module containing the functions t
 
 The Raise DSL is a new way to handle typed errors in Kotlin. Instead of using a wrapper type to address both the happy path and errors, **the `Raise<E>` type describes the possibility that a function can raise a logical error of type `E`**. A function that can raise an error of type `E` must execute in a scope that can also handle the error.
 
-In this sense, the `Raise<E>` is very similar to the `CoroutineScope`, which describes the possibility for a function to execute suspending functions using structural concurrency (see the article [Kotlin Coroutines - A Comprehensive Introduction](/articles/kotlin-101-coroutines) for further details).
+In this sense, the `Raise<E>` is very similar to the `CoroutineScope`, which describes the possibility for a function to execute suspending functions using structural concurrency (see the article [Kotlin 101: Coroutines Quickly Explained](/articles/kotlin-101-coroutines) for further details).
 
-As we saw in the article [Kotlin Context Receivers: A Comprehensive Guide](/articles/kotlin-101-context-receivers), Kotlin models such scopes using receivers instead.
+As we saw in the article [Kotlin 101: Context Receivers Quickly Explained](/articles/kotlin-101-context-receivers), Kotlin models such scopes using receivers instead.
 
 The easiest way to define a function that can raise an error of type `E` is to use the `Raise<E>` type as the receiver of an extension function:
 
@@ -165,7 +162,7 @@ In fact, the compilation error is:
 Type mismatch: The inferred type is GenericError, but JobNotFound was expected
 ```
 
-At first, it could seem a limitation and a little misleading. However, it's not. In fact, the `Raise<E>` type is a **context**, giving us some capabilities once we run a function in its scope. For example, we have access to the above `raise` function. If you remember, we did the same in the article [Kotlin Context Receivers: A Comprehensive Guide](/articles/kotlin-101-context-receivers), where we defined a context in which it's possible to serialize an object to JSON:
+At first, it could seem a limitation and a little misleading. However, it's not. In fact, the `Raise<E>` type is a **context**, giving us some capabilities once we run a function in its scope. For example, we have access to the above `raise` function. If you remember, we did the same in the article [Kotlin 101: Context Receivers Quickly Explained](/articles/kotlin-101-context-receivers), where we defined a context in which it's possible to serialize an object to JSON:
 
 ```kotlin
 interface JsonScope<T> {
@@ -207,7 +204,7 @@ val consoleLogger = object : Logger {
 }
 ```
 
-As we saw in the article [Kotlin Context Receivers: A Comprehensive Guide](/articles/kotlin-101-context-receivers), we can't add the `Logger`type as a receiver of the `findById` method since the only available receiver is already taken by the `Raise<JobError>` type. Fortunately, Kotlin context receivers can rescue us. In fact, we can treat the `Raise<JobError>` receiver as a context receiver, obtaining the following equivalent code:
+As we saw in the article [Kotlin 101: Context Receivers Quickly Explained](/articles/kotlin-101-context-receivers), we can't add the `Logger`type as a receiver of the `findById` method since the only available receiver is already taken by the `Raise<JobError>` type. Fortunately, Kotlin context receivers can rescue us. In fact, we can treat the `Raise<JobError>` receiver as a context receiver, obtaining the following equivalent code:
 
 ```kotlin
 interface Jobs {

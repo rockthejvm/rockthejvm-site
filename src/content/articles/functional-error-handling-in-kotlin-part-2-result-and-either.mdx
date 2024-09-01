@@ -376,7 +376,7 @@ maybeSalary.fold({
 
 ## 3. Composing `Result` Instances
 
-As we saw in the previous article, we often deal with types (usually some containers) that are "chainable" or "monadic" in structure (more details on [Another Take at Monads: A Way to Generalize Chained Computations](/articles/a-fresh-perspective-on-monads)), so the crucial point is how we can compose and combine them. In the first part of this series, we implemented a function that returns the gap between the job salary given a job id and the maximum compensation for the same company. We called the function `getSalaryGapWithMax`.
+As we saw in the previous article, we often deal with types (usually some containers) that are "chainable" or "monadic" in structure (more details on [A Fresh Perspective on Monads: Generalizing Chained Computations](/articles/a-fresh-perspective-on-monads)), so the crucial point is how we can compose and combine them. In the first part of this series, we implemented a function that returns the gap between the job salary given a job id and the maximum compensation for the same company. We called the function `getSalaryGapWithMax`.
 
 We want to refactor the example using the `Result` type. First, we need to add the `findAll` function to the `Jobs` interface and implementation:
 
@@ -591,7 +591,7 @@ val appleJobId = JobId(1)
 val appleJob: Either<JobError, Job> = Right(JOBS_DATABASE[appleJobId]!!)
 ```
 
-Here, we forced the type of the left part of the `Either` to be `JobError`. Notice that the constructor returns an `Either` with the left part defined as `Nothing`. The compiler allows us to do this because the `Nothing` type is a subtype of any other type, and **the `Either<A, B>` is covariant on the left part since it's defined using the `out` keyword** (we already saw variance in previous articles on Scala, [Variance Positions in Scala, Demystified](/articles/demystifying-variance-positions-in-scala)).
+Here, we forced the type of the left part of the `Either` to be `JobError`. Notice that the constructor returns an `Either` with the left part defined as `Nothing`. The compiler allows us to do this because the `Nothing` type is a subtype of any other type, and **the `Either<A, B>` is covariant on the left part since it's defined using the `out` keyword** (we already saw variance in previous articles on Scala, [Demystifying Variance Positions in Scala](/articles/demystifying-variance-positions-in-scala)).
 
 Now, we can create our `Left` type instance:
 

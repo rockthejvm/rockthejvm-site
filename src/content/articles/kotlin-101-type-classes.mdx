@@ -220,7 +220,7 @@ interface ValidatorScope<T> {                        // <- dispatcher receiver
 
 We can also access the dispatcher receiver in the function body as `this`. **Kotlin can represent the `this` reference as a union type of the dispatcher receiver and the receiver of the extension function**.
 
-For those who follow the RockTheJvm blog, it's not a surprise. We already introduced scopes in [Kotlin Context Receivers: A Comprehensive Guide ](/articles/kotlin-101-context-receivers#dispatchers-and-receivers).
+For those who follow the RockTheJvm blog, it's not a surprise. We already introduced scopes in [Kotlin 101: Context Receivers Quickly Explained - Dispatchers and Receivers](/articles/kotlin-101-context-receivers#dispatchers-and-receivers).
 
 The last changes require us to change also the implementation of the validator for the `CreatePortfolioDTO` type:
 
