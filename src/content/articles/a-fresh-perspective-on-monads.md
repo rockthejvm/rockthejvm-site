@@ -7,7 +7,7 @@ title: "A Fresh Perspective on Monads: Generalizing Chained Computations"
 updatedDate: 2024-09-06
 ---
 
-Much virtual ink has been spilled talking about Monads in Scala. Even here on Rock the JVM, we've talked about Monads in a variety of ways: as a [practical necessity](an-introduction-to-monads-in-scala), or in their the most [abstract possible representation](a-monad-is-a-monoid-in-the-category-of-endofunctors-scala), or as a component of Cats, a popular FP library for Scala that we [teach here on the site](/courses/cats).
+Much virtual ink has been spilled talking about Monads in Scala. Even here on Rock the JVM, we've talked about Monads in a variety of ways: as a [practical necessity](/articles/an-introduction-to-monads-in-scala), or in their the most [abstract possible representation](a-monad-is-a-monoid-in-the-category-of-endofunctors-scala), or as a component of Cats, a popular FP library for Scala that we [teach here on the site](/courses/cats).
 
 In this article, we'll approach the M word from yet another angle: the DRY principle and how the monad abstraction ends up simplifying our code, while making it more general, more expressive and more powerful at the same time.
 
@@ -76,7 +76,7 @@ Can we do better?
 
 Guided by the DRY principle, let's abstract away this common structure.
 
-What do we need? We need to be able to write a for-comprehension for any kind of data structure that has `map` and `flatMap`. We're getting a little ahead of ourselves, so let's try simply creating a [type class](why-are-scala-type-classes-useful) that has these functionalities. We'll provide a method for
+What do we need? We need to be able to write a for-comprehension for any kind of data structure that has `map` and `flatMap`. We're getting a little ahead of ourselves, so let's try simply creating a [type class](/articles/why-are-scala-type-classes-useful) that has these functionalities. We'll provide a method for
 
 - creating an instance of this magical data type (whatever the type is) out of a plain value
 - transforming an instance to another type of instance through a function, i.e. a `map`
@@ -96,7 +96,7 @@ trait Monad[M[_]] {
 
 Notice our method signatures look a little different, because the methods do not belong to the magical data structures directly, but they belong to the type class. Otherwise, we have the same semantics as the map/flatMap combinations of standard data types.
 
-Because we structured our code in this way, we get the `map` method can be fully implemented in terms of pure + flatMap, so our Monad type is a natural and direct descendant of the [Functor](what-the-functor) type class. But that's a subject we approached in [another article](cats-essential-type-class-hierarchy).
+Because we structured our code in this way, we get the `map` method can be fully implemented in terms of pure + flatMap, so our Monad type is a natural and direct descendant of the [Functor](/articles/what-the-functor) type class. But that's a subject we approached in [another article](/articles/cats-essential-type-class-hierarchy).
 
 In any event, given the fact that we now have a type class, we need to follow the type class pattern and create some type class instances and create a single, unifying, general API that requires the presence of a type class instance for our particular type. The steps follow.
 
@@ -130,7 +130,7 @@ The Monad type class was driven, in this article, by the necessity to not duplic
 
 ## Enhancing Expressiveness
 
-That said, we can go further and make our instances of `M[_]` (whatever M is) behave like our original duplicated API. In other words, we can grant instances of `M[_]` the ability to do for comprehensions. How can we do that? Using [extension methods](scala-3-extension-methods).
+That said, we can go further and make our instances of `M[_]` (whatever M is) behave like our original duplicated API. In other words, we can grant instances of `M[_]` the ability to do for comprehensions. How can we do that? Using [extension methods](/articles/scala-3-extension-methods).
 
 For any `M[_]` for which there is a given `Monad[M]` in scope, we can enhance instances of M with the map and flatMap methods, so they behave exactly like our original lists:
 

@@ -12,7 +12,7 @@ import { YouTube } from "astro-embed";
 
 ## Introduction
 
-This is a follow-up to the [Two-Factor Authentication](authentication-with-scala-and-http4s-oauth-two-factor-authentication) article that was written earlier, and as such is the third article in the series.
+This is a follow-up to the [Two-Factor Authentication](/articles/authentication-with-scala-and-http4s-oauth-two-factor-authentication) article that was written earlier, and as such is the third article in the series.
 
 OAuth which stands for Open Authorization is an open standard framework that allows the user to permit a website or application to interact with another without giving up his or her password.
 
@@ -80,23 +80,23 @@ Follow the following steps to register our app with GitHub:
 
 1. In the upper right corner of your GitHub account, click your profile photo, then click settings.
 
-   ![step1](step1.png)
+   ![Step one to registering our app with GitHub](images/step1.png)
 
 1. Click developer settings in the left sidebar.
 
-   ![step2](step2.png)
+   ![Step two to registering our app with GitHub](images/step2.png)
 
 1. In the left sidebar, click OAuth apps. If you've never created an app before this button will say, Register a new application.
 
-   ![step3](step3.png)
+   ![Step three to registering our app with GitHub](images/step3.png)
 
 1. Fill in the necessary fields according to the image below and finally register the application.
 
-   ![step4](step4.png)
+   ![Step four to registering our app with GitHub](images/step4.png)
 
 1. Copy the Client ID somewhere safe. Also, generate a new client secret and save it in the same location.
 
-   ![step5](step5.png)
+   ![Step five to registering our app with GitHub](images/step5.png)
 
 1. Click the update application button at the bottom of the page.
 
@@ -126,7 +126,7 @@ Here we set the host to `localhost` and the port to `8080`.
 
 We will be using Ciris for configuration in the coming section. At this point, our directory structure should look like this:
 
-![directory](dir1.png)
+![Project file structure skeleton](images/project-file-structure-skeleton.png)
 
 Let's create an `ApiConfig.scala` file in the following path, `src/main/scala/com/xonal/config/ApiConfig.scala`, and add the following code.
 
@@ -652,15 +652,15 @@ Finally, we call `use()` on the `Resource` returned by the server builder which 
 
 We can now run the application and then navigate to `localhost:8080/index.html` in the browser.
 
-![index](indexpage.png)
+![Index page of our site showing text with a link](images/index-page.png)
 
 When you click the link, you will be redirected to GitHub and prompted to authorize our OauthHttp4s app.
 
-![permission](authorize.png)
+![OAuth authorization page on GitHub](images/github-oauth-page.png)
 
 Once authorization is provided, you will be redirected to our application with a similar response.
 
-![response](response.png)
+![Response page of our site showing the response](images/response-page.png)
 
 ## Conclusion
 
