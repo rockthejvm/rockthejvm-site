@@ -20,7 +20,7 @@ So, let's proceed without further ado.
 
 ## 1. Background
 
-Following this article will require a basic understanding of how Kafka works. Moreover, we should know what the effect pattern is and how ZIO implements it (refer to [ZIO: Introduction to Fibers](/articles/zio-fibers-concurrency-and-lightweight-threads), and to [Organizing Services with ZIO and ZLayers](/articles/organizing-services-with-zio-and-zlayers) for further details).
+Following this article will require a basic understanding of how Kafka works. Moreover, we should know what the effect pattern is and how ZIO implements it (refer to [ZIO Fibers: Concurrency and Lightweight Threads](/articles/zio-fibers-concurrency-and-lightweight-threads), and to [Organizing Services with ZIO and ZLayers](/articles/organizing-services-with-zio-and-zlayers) for further details).
 
 Apache Kafka is the standard de-facto within messaging systems. **Every Kafka installation has a broker, or a cluster of brokers, which allows its clients to write and read messages in a structure called _topic_, which are essentially distributed queues**. The clients writing into topics are called _producers_, whereas _consumers_ read information from topics.
 
@@ -640,7 +640,7 @@ Hence, the produced effect requests a `Producer[Any, UUID, Match]` as environmen
 producerEffect.provideSomeLayer(producer).exitCode
 ```
 
-We can compose the production of the messages and the consumption directly in one program using _fibers_ (see [ZIO: Introduction to Fibers](/articles/zio-fibers-concurrency-and-lightweight-threads) for further details on ZIO fibers):
+We can compose the production of the messages and the consumption directly in one program using _fibers_ (see [ZIO Fibers: Concurrency and Lightweight Threads](/articles/zio-fibers-concurrency-and-lightweight-threads) for further details on ZIO fibers):
 
 ```scala
 val program = for {

@@ -29,7 +29,7 @@ For a quick introduction of why we need type classes in the first place, check o
 
 ## Starting Easy: Semigroups and Monoids
 
-We've already talked a bit about [Semigroups and Monoids](/articles/semigroups-and-monoids-in-scala/) in another article. These are some of the simplest type classes in Cats.
+We've already talked a bit about [semigroups and monoids](/articles/semigroups-and-monoids-in-scala/) in another article. These are some of the simplest type classes in Cats.
 
 A Semigroup is a type class granting the capability of a type to combine two values of that type and produce another value of that same type:
 
