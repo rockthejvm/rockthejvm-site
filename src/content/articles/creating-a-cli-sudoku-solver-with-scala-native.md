@@ -89,7 +89,7 @@ and much more. For a complete reference, see [Directives](https://scala-cli.virt
 
 ### 2.2. Updating dependencies
 
-As some of you may have noticed, the `pprint` library version in the example is not the newest one: at the time of writing, the most recent version is 0.8.0. Luckily we're not forced to _check it manually on Github or Maven Central_ since scala-cli exposes the `dependency-update` command that will fetch the last version of each dependency and print a command to update them all.
+As some of you may have noticed, the `pprint` library version in the example is not the newest one: at the time of writing, the most recent version is 0.8.0. Luckily we're not forced to _check it manually on GitHub or Maven Central_ since scala-cli exposes the `dependency-update` command that will fetch the last version of each dependency and print a command to update them all.
 
 ```shell
 $ scala-cli dependency-update Maps.scala
@@ -706,7 +706,7 @@ Summary
 
 As we can see, Scala Native annihilated the application startup time (there's no JVM to startup) and reduced the whole computing time altogether by seven times.
 
-Scala Native can be used to craft NGINX Unit server applications using [Snunit](https://github.com/lolgab/snunit), and as recently a [Cats-Effect single-threaded native runtime](https://github.com/armanbilge/epollcat) was published, it's possible to use [Http4s with Ember](https://github.com/ChristopherDavenport/scala-native-ember-example) to create single-threaded native servers!
+Scala Native can be used to craft NGINX Unit server applications using [Snunit](https://github.com/lolgab/snunit), and as recently a [Cats-Effect single-threaded native runtime](https://github.com/armanbilge/epollcat) was published, it's possible to use [http4s with Ember](https://github.com/ChristopherDavenport/scala-native-ember-example) to create single-threaded native servers!
 
 ## 10. Conclusion
 

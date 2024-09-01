@@ -10,7 +10,7 @@ updatedDate: 2024-09-06
 
 ## 1. Introduction
 
-This article is a follow-up to the [websocket](/articles/websockers-in-scala-part-1-http4s) article that was published previously. To recap, we created an in-memory chat application using WebSockets with the help of the Http4s library. The chat application had a variety of features implemented through commands directly in the chat window such as the ability to create users, create chat rooms, and switch between chat rooms.
+This article is a follow-up to the [websocket](/articles/websockers-in-scala-part-1-http4s) article that was published previously. To recap, we created an in-memory chat application using WebSockets with the help of the http4s library. The chat application had a variety of features implemented through commands directly in the chat window such as the ability to create users, create chat rooms, and switch between chat rooms.
 
 In this iteration, we'll be integrating Redis to keep track of the users and rooms and we'll also be persisting messages in Postgres so that new users can have access to previous conversations. Finally, We'll get rid of `chatState` and create a new protocol that interacts with Postgres and Redis.
 
@@ -1976,4 +1976,4 @@ Now to run our application, we first need to start our Redis and Postgres Docker
 In conclusion, this article has gone in-depth on how to implement Redis and Postgres in a Scala application using the redis4cats and skunk libraries. Now we can persist our messages, and rip all the benefits of storing our information in Redis such as high availability and persistence.
 
 In this version we simply dump all the previous messages to the new user but this should be done progressively whenever the user scrolls up, however, this was beyound the scope of this tutorial.
-As always the code for this application can be found over on [Github](https://github.com/hkateu/WebSocketChatApp2).
+As always the code for this application can be found over on [GitHub](https://github.com/hkateu/WebSocketChatApp2).

@@ -13,7 +13,7 @@ _This article is brought to you by [Herbert Kateu](https://github.com/hkateu), a
 ## 1. Introduction
 
 With the growing number of cyber-attacks ever increasing, there's a growing need for security in the applications we build.
-Http4s comes with several easily configurable security features and in this article, we will cover the two most common, CORS and CSRF.
+http4s comes with several easily configurable security features and in this article, we will cover the two most common, CORS and CSRF.
 If you are not familiar with http4s, a good introduction to the library can be found [here](http4s-unleashing-the-power-of-http-apis-library)
 
 ## 2. Setting Up
@@ -44,9 +44,9 @@ Many developers have come across the CORS acronym at some point in their careers
 
 Imagine for a second that CORS didn't exist, malicious sites could easily request and acquire information from any site by making cross-origin requests. Typically a server should contain a list of approved sites to which cross-origin resource sharing is approved, any requests made from sites outside this list should be denied.
 
-## 4. CORS and Http4s
+## 4. CORS and http4s
 
-Http4s provides CORS as part of it's `middleware`, the `CORS` package comes with a number of methods that help in implementing CORS within Http4s.
+http4s provides CORS as part of it's `middleware`, the `CORS` package comes with a number of methods that help in implementing CORS within http4s.
 Let's create our minimalistic server to show how CORS works. The code that follows is written in Scala 3, but can also work with Scala 2:
 
 ```scala
@@ -357,9 +357,9 @@ If `photos.com` implemented CSRF protection correctly, this is how the above att
 1. Whenever an HTML form is used to send `POST` requests authorizing transfer photos from `photos.com`, a `CSRF token` must be inserted within a hidden field in the form.
 1. Once the `POST` request is received by the `photos.com` server, it checks and verifies the `CSRF token` against its database. If the token is present and valid, the request would go through, however, if the token is missing or wrong, the transfer request would be rejected.
 
-## 6. CSRF protection in Http4s
+## 6. CSRF protection in http4s
 
-The `CSRF` module is also part of the Http4s `middleware` package. Let's start by creating the server we shall use in this section:
+The `CSRF` module is also part of the http4s `middleware` package. Let's start by creating the server we shall use in this section:
 
 ```scala
 import cats.effect.*
@@ -607,4 +607,4 @@ object csrfExample extends IOApp {
 
 ## 7. Conclusion
 
-In this article we went through Cross-Origin Resource Sharing, what it is, and how it's implemented. We also went through Cross-site request forgery attacks, how they occur, and how to prevent them. Both these topics have well-thought-out implementations in Http4s which we covered, and I encourage you to implement them in your servers.
+In this article we went through Cross-Origin Resource Sharing, what it is, and how it's implemented. We also went through Cross-site request forgery attacks, how they occur, and how to prevent them. Both these topics have well-thought-out implementations in http4s which we covered, and I encourage you to implement them in your servers.

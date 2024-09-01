@@ -4,13 +4,13 @@ category: guide
 excerpt: "Learn how to implement HTTP authentication with Scala and http4s: basic, digest, session, and JWT tokens"
 publishedDate: 2023-05-26
 tags: [http4s, scala]
-title: Authentication with Scala and http4
+title: Authentication with Scala and http4s
 updatedDate: 2024-09-06
 ---
 
 import { YouTube } from "astro-embed";
 
-> Hey, it's Daniel here. You're reading a big article about the Http4s library. Http4s is one of the most powerful libraries in the Scala ecosystem, and it's part of the Typelevel stack. If you want to master the Typelevel Scala libraries with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
+> Hey, it's Daniel here. You're reading a big article about the http4s library. http4s is one of the most powerful libraries in the Scala ecosystem, and it's part of the Typelevel stack. If you want to master the Typelevel Scala libraries with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
 
 For the video version, watch below:
 
@@ -18,7 +18,7 @@ For the video version, watch below:
 
 ## Introduction
 
-As a backend developer, authentication is a topic you will encounter numerous times in your career. With numerous authentication methods available, it becomes a challenge not only to choose but also to implement in your application. In this article, we will go through 4 authentication methods and how to implement them in Scala using the Http4s library namely, Basic Authentication, Digest Authentication, Session Authentication, and Token Authentication.
+As a backend developer, authentication is a topic you will encounter numerous times in your career. With numerous authentication methods available, it becomes a challenge not only to choose but also to implement in your application. In this article, we will go through 4 authentication methods and how to implement them in Scala using the http4s library namely, Basic Authentication, Digest Authentication, Session Authentication, and Token Authentication.
 
 ### Requirements
 
@@ -57,7 +57,7 @@ The code in this article will be written in Scala 3 but can still be implemented
 
 ## Authentication
 
-Throughout this article, we will be using the different authentication methods to grant a user access to Http4s `Routes`. Here's a simple implementation of how this will be done.
+Throughout this article, we will be using the different authentication methods to grant a user access to http4s `Routes`. Here's a simple implementation of how this will be done.
 
 ```scala
 import cats.effect.*
@@ -87,11 +87,11 @@ object SimpleRoutes extends IOApp {
 }
 ```
 
-In this example, the routes are accessed without authentication. We define our routes using the `HttpRoutes.of` function through which `Http4s` pattern matches against each defined `case`. For our implementation, we have one `case` that accepts `GET` requests from `/welcome/user` where the server responds with `Ok(s"Welcome, ${user}")`. `user` is any alphanumeric value that's passed in the request.
+In this example, the routes are accessed without authentication. We define our routes using the `HttpRoutes.of` function through which `http4s` pattern matches against each defined `case`. For our implementation, we have one `case` that accepts `GET` requests from `/welcome/user` where the server responds with `Ok(s"Welcome, ${user}")`. `user` is any alphanumeric value that's passed in the request.
 
 We use `Ember` server through port `8080` to receive requests.
 
-For an in-depth explanation of how to use `Http4s`, there's a good explanation of most concepts [here](/articles/http4s-unleashing-the-power-of-http-apis-library).
+For an in-depth explanation of how to use `http4s`, there's a good explanation of most concepts [here](/articles/http4s-unleashing-the-power-of-http-apis-library).
 
 Let's test our server.
 
@@ -128,9 +128,9 @@ Basic authentication is an authentication scheme where user credentials are sent
 1. The `Authorization` header in the request would be defined as `Authorization:Basic Base64(username:password)`
 1. When the request is received by the server, the credentials are decoded and used to either grant access to a user with a `200 Ok Success` status code or deny access usually with a `401 Unauthorized` status.
 
-### Http4s Implementation
+### http4s Implementation
 
-Http4s provides an easy way to implement basic authentication using `Middleware` which is simply a function that takes a service and returns another service.
+http4s provides an easy way to implement basic authentication using `Middleware` which is simply a function that takes a service and returns another service.
 To begin with we will need a data structure to hold our user information.
 
 ```scala
@@ -342,7 +342,7 @@ I realize there are a lot of new words in the explanation, however, this is beyo
 
 ### Digest Authentication in http4s
 
-Digest Authentication in Http4s is easily implemented using the `DigestAuth` function, but first, we need to define our `User` case class.
+Digest Authentication in http4s is easily implemented using the `DigestAuth` function, but first, we need to define our `User` case class.
 
 ```scala
 case class User(id: Long, name: String)
@@ -367,7 +367,7 @@ val funcPass: String => IO[Option[(User, String)]] = (usr_name: String) =>
 
 The function `funcPass()` receives the username, which it matches to find the correct `User`. The resulting value `IO[Option[User,String]]` is also checked to contain to correct password. It's important to note that the `funcPass()` function can receive either a plaintext or hashed password.
 
-For this example, we decided to use a hashed password. The Http4s digest middleware will check for an `MD5` hashed password in the form `MD5(username:realm:password)` and matches it against the credentials passed in the request. We use the `Md5HashedAuthStore.precomputeHash[IO]()` function to create our hashed value, it takes the `username`, `realm`, and `password` as arguments and returns an `IO[String]`.
+For this example, we decided to use a hashed password. The http4s digest middleware will check for an `MD5` hashed password in the form `MD5(username:realm:password)` and matches it against the credentials passed in the request. We use the `Md5HashedAuthStore.precomputeHash[IO]()` function to create our hashed value, it takes the `username`, `realm`, and `password` as arguments and returns an `IO[String]`.
 
 ```scala
 import org.http4s.server.*
@@ -532,7 +532,7 @@ Session authentication is an authentication technique where the server keeps tra
 1. This cookie can also be valid for a specific amount of time, after which it expires and is automatically removed on the client side.
 1. If the client logs out, the server will remove the cookie from the client side as well.
 
-### Session Authentication in Http4s
+### Session Authentication in http4s
 
 For this implementation, we are going to reuse our code from the Digest Authentication section. We're going to illustrate this technique with an easy cipher &mdash; which should otherwise not be used in production &mdash; for you to understand the mechanics.
 
@@ -818,7 +818,7 @@ For JWT authentication to work, a payload containing information for authenticat
 
 ### JWT authentication in http4s
 
-We'll be using the `http4s-jwt-auth` library to implement JWT's in Http4s.
+We'll be using the `http4s-jwt-auth` library to implement JWT's in http4s.
 First, let's create our token that we will send to the client once he/she logs in.
 
 ```scala
@@ -910,7 +910,7 @@ AuthedRoutes.of {
 
 The middleware is defined by calling `JwtAuthMiddleware[IO, AuthUser](jwtAuth, authenticate)`. It takes the `authenticate` function and a `JwtAuth` object which holds the `key` and `algo` values.
 
-The signature for `middleware` is `Kleisli[[_] =>> cats.data.OptionT[cats.effect.IO, _], ContextRequest[cats.effect.IO, AuthUser], Response[cats.effect.IO]] => Kleisli[[_] =>> cats.data.OptionT[cats.effect.IO, _], Request[cats.effect.IO], Response[cats.effect.IO]]`. This seems daunting but it's important to remember, middleware in Http4s is a service that returns another service.
+The signature for `middleware` is `Kleisli[[_] =>> cats.data.OptionT[cats.effect.IO, _], ContextRequest[cats.effect.IO, AuthUser], Response[cats.effect.IO]] => Kleisli[[_] =>> cats.data.OptionT[cats.effect.IO, _], Request[cats.effect.IO], Response[cats.effect.IO]]`. This seems daunting but it's important to remember, middleware in http4s is a service that returns another service.
 
 In our case, this `Kleisli` receives the request, authenticates our `token` then forwards the request to `authRoutes` which is the second service that matches against the routes and returns a `Response`.
 
@@ -1074,4 +1074,4 @@ object TokenAuth extends IOApp {
 
 ## Conclusion
 
-This article taught us four different ways of implementing HTTP authentication in Scala using Http4s, these include Basic, Digest, Session, and Token authentication methods. We discovered common techniques used and the important role middleware plays when carrying our authentication in Http4s. This article mainly focused on implementation, I would encourage you to read more about the pros and cons of each authentication method to get more context for your application needs.
+This article taught us four different ways of implementing HTTP authentication in Scala using http4s, these include Basic, Digest, Session, and Token authentication methods. We discovered common techniques used and the important role middleware plays when carrying our authentication in http4s. This article mainly focused on implementation, I would encourage you to read more about the pros and cons of each authentication method to get more context for your application needs.

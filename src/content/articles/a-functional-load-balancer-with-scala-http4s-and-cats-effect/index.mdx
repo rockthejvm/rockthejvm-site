@@ -4,7 +4,7 @@ category: guide
 excerpt: "Build an application load balancer with Scala & Cats Effect: achieve efficiency and concurrency with included tests"
 publishedDate: 2023-10-30
 tags: [cats, cats-effect, fp, http4s, scala]
-title: A Functional Load Balancer with Scala, Http4s and Cats Effect
+title: A Functional Load Balancer with Scala, http4s and Cats Effect
 updatedDate: 2024-09-06
 ---
 
@@ -35,7 +35,7 @@ Our load balancer must:
 
 ## Project Structure
 
-We will use Scala 3.3.0, SBT 1.9.4 and several monumental libraries to complete our project.
+We will use Scala 3.3.0, sbt 1.9.4 and several monumental libraries to complete our project.
 
 The initial project skeleton:
 
@@ -85,7 +85,7 @@ lazy val root = (project in file("."))
 and a one line definition in `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.1") // SBT plugin for using assembly command
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.1") // sbt plugin for using assembly command
 ```
 
 Every non-trivial project must include at least two packages:
@@ -211,7 +211,7 @@ class UrlsTest extends FunSuite {
 }
 ```
 
-Let's run tests in SBT:
+Let's run tests in sbt:
 
 ```shell
 sbt:loadbalancer> test
@@ -467,7 +467,7 @@ class ParseUriTest extends FunSuite {
 }
 ```
 
-And run them via SBT:
+And run them via sbt:
 
 ```shell
 sbt:loadbalancer> test
@@ -1464,7 +1464,7 @@ Before writing the shell script for running the load balancer we need to:
 - create `lb.jar`
 - put it in the root directory
 
-So, let's do it step by step, start SBT and run `assembly`:
+So, let's do it step by step, start sbt and run `assembly`:
 
 ```shell
 sbt:loadbalancer> assembly
@@ -1498,9 +1498,9 @@ We built an HTTP load balancer that distributes incoming HTTP requests to a set 
 **Tools and Libraries Used:**
 
 - `Scala 3`: The code is written in the Scala programming language.
-- `SBT`: Build tool which helped us to `run`, `test` and `assembly` the `lb.jar`
+- `sbt`: Build tool which helped us to `run`, `test` and `assembly` the `lb.jar`
 - `Cats Effect`: We used the Cats Effect library for managing asynchronous and effectful operations using the IO monad.
-- `HTTP4s`: The HTTP4s library is used for building HTTP clients and servers, handling HTTP requests and responses, and defining routes.
+- `http4s`: The http4s library is used for building HTTP clients and servers, handling HTTP requests and responses, and defining routes.
 - `PureConfig`: PureConfig is used for loading application configuration from a configuration file.
 - `Ember`: The Ember library is used for building the HTTP client and server.
 - `Log4Cats`: Log4Cats is used for logging messages within the application.

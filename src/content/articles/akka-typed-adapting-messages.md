@@ -11,7 +11,7 @@ This article is for people comfortable with Akka Typed actors in Scala. I don't 
 
 ## Setup
 
-This article assumes you have Akka Typed in your project. If not, just create a new SBT project and add the following to your build.sbt:
+This article assumes you have Akka Typed in your project. If not, just create a new sbt project and add the following to your build.sbt:
 
 ```scala
 val akkaVersion = "2.6.13"

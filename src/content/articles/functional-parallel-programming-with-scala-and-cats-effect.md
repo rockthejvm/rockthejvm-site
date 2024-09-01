@@ -26,7 +26,7 @@ Simply put, we're creating an HTTP server to compile and organize contributors f
 
 ## 2. Project Structure
 
-We will use Scala 3.3.0, SBT 1.9.4 and a handful of useful libraries to complete our project.
+We will use Scala 3.3.0, sbt 1.9.4 and a handful of useful libraries to complete our project.
 
 The initial project skeleton looks like the following:
 
@@ -378,9 +378,9 @@ Since this is a small project, it is not required to overwhelm ourselves with th
 
 I suggest that we create a simple private methods in `Main.scala` which will be just called multiple times inside `routes` definition.
 
-### 7.1 Handling Github Token
+### 7.1 Handling GitHub Token
 
-Github token is just a string which must be attached to request headers so that Github REST API rate limiter doesn't prohibit us issuing huge amount of requests.
+GitHub token is just a string which must be attached to request headers so that GitHub REST API rate limiter doesn't prohibit us issuing huge amount of requests.
 
 Let's be simple and model that as a single field case class:
 

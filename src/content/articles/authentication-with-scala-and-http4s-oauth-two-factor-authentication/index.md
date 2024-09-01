@@ -8,9 +8,9 @@ title: "Authentication with Scala and http4s: 2FA (Two-Factor Authentication)"
 updatedDate: 2024-09-06
 ---
 
-> Hey, it's Daniel here. You're reading a big article about a real-life use of the Http4s library. Herbert outdid himself in this article!
+> Hey, it's Daniel here. You're reading a big article about a real-life use of the http4s library. Herbert outdid himself in this article!
 >
-> If you want to master the Typelevel Scala libraries (including Http4s) with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
+> If you want to master the Typelevel Scala libraries (including http4s) with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
 
 ## Introduction
 
@@ -168,7 +168,7 @@ The code or token is the One Time Password that we generated in the previous sec
 
 ### Two-Factor Authentication (2FA) Implementation in Scala
 
-In this section, we will create a small application to showcase 2FA using java-otp, Http4s, SendGrid, Google Zxing, and Google Authenticator.
+In this section, we will create a small application to showcase 2FA using java-otp, http4s, SendGrid, Google Zxing, and Google Authenticator.
 
 We will need to simulate a user database where the application retrieves information about our logged-in user, we do this by defining a `UserDB` case class with required fields. Create a `UserDB.scala` file and add the following information:
 

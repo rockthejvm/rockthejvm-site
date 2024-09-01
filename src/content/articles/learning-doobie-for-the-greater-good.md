@@ -1,10 +1,10 @@
 ---
 author: riccardo-cardin
 category: guide
-excerpt: "JDBC struggles with side effects in functional programming: Doobie offers a higher-level, effectful API through Cats and Cats Effect"
+excerpt: "JDBC struggles with side effects in functional programming: doobie offers a higher-level, effectful API through Cats and Cats Effect"
 publishedDate: 2021-12-28
 tags: [cats, doobie, scala]
-title: Learning Doobie for the Greater Good
+title: Learning doobie for the Greater Good
 updatedDate: 2024-09-06
 ---
 
@@ -12,15 +12,15 @@ _This article is brought to you by Riccardo Cardin, a proud student of the [Scal
 
 _We hope you enjoy it!_
 
-The vast majority of applications today connect with some form of a persistent layer, and, sooner or later, every developer faces the challenge of connecting to a database. We rely on the JDBC specification if we need to connect to SQL databases in the JVM ecosystem. However, JDBC is not a good fit if we use functional programming since the library performs a lot of side effects. Fortunately, a library called [Doobie](https://tpolecat.github.io/doobie/) provides a higher-level API on top of JDBC, using an effectful style through the Cats and Cats Effect libraries.
+The vast majority of applications today connect with some form of a persistent layer, and, sooner or later, every developer faces the challenge of connecting to a database. We rely on the JDBC specification if we need to connect to SQL databases in the JVM ecosystem. However, JDBC is not a good fit if we use functional programming since the library performs a lot of side effects. Fortunately, a library called [doobie](https://tpolecat.github.io/doobie/) provides a higher-level API on top of JDBC, using an effectful style through the Cats and Cats Effect libraries.
 
-So, without further ado, let's introduce the Doobie library.
+So, without further ado, let's introduce the doobie library.
 
 > This article uses advanced Scala features. We teach these in the [Advanced Scala](/courses/advanced-scala) course.
 
 ## 1. Set Up
 
-As usual, we'll start by importing the libraries we need in the SBT file. We will use Postgres as our database of reference:
+As usual, we'll start by importing the libraries we need in the sbt file. We will use Postgres as our database of reference:
 
 ```scala
 val DoobieVersion = "1.0.0-RC1"
@@ -34,7 +34,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-As we said, **Doobie is a library that lives in the Cats ecosystem**. However, the dependencies to Cats and Cats Effects are already contained in the Doobie library. Version 1.0.0-RC1 of Doobie uses the Cats Effect version 3.
+As we said, **doobie is a library that lives in the Cats ecosystem**. However, the dependencies to Cats and Cats Effects are already contained in the doobie library. Version 1.0.0-RC1 of doobie uses the Cats Effect version 3.
 
 Since we chose to use Postgres as our database, we need to spin up a Postgres instance. We will use the [Postgres Docker image](https://hub.docker.com/r/postgres/postgres/) to do this. To simplify the process, we define the Postgres image in a _docker-compose.yml_ file:
 
@@ -63,7 +63,7 @@ The above configuration defines a Postgres instance listening on port 5432 and h
 
 Moreover, we define an Adminer instance listening on port 8080. Adminer is a web interface to Postgres, which we will use to create a database, some tables, and populate them with some data.
 
-Next, we need a use case to train our skills about Doobie. We will use the same use case we introduced in the article [Unleashing the Power of HTTP Apis: The Http4s Library](http4s-unleashing-the-power-of-http-apis-library), which is implementing a small IMDB-like web service. The primary domain objects of the service are movies, actors, and directors. The goal is to use Doobie to interact with these tables through queries, insertion, and updates.
+Next, we need a use case to train our skills about doobie. We will use the same use case we introduced in the article [Unleashing the Power of HTTP Apis: The http4s Library](http4s-unleashing-the-power-of-http-apis-library), which is implementing a small IMDB-like web service. The primary domain objects of the service are movies, actors, and directors. The goal is to use doobie to interact with these tables through queries, insertion, and updates.
 
 Inside Postgres, we will model the domain objects as tables and define their relations as foreign keys. The tables will be named `movies`, `actors`, and `directors`:
 
@@ -182,11 +182,11 @@ import doobie.postgres.implicits._
 import doobie.util.transactor.Transactor._
 ```
 
-So, with the above solid background, we can now enter the world of Doobie.
+So, with the above solid background, we can now enter the world of doobie.
 
 ## 2. Getting a Connection
 
-The first thing we need to work on within a database is retrieving a connection. In Doobie, handling the connection is done with a `doobie.util.transactor.Transactor`. There are many ways to create an instance of a `Transactor`. The easiest is to use the `Transactor.fromDriverManager` method, which will create a `Transactor` from a JDBC driver manager:
+The first thing we need to work on within a database is retrieving a connection. In doobie, handling the connection is done with a `doobie.util.transactor.Transactor`. There are many ways to create an instance of a `Transactor`. The easiest is to use the `Transactor.fromDriverManager` method, which will create a `Transactor` from a JDBC driver manager:
 
 ```scala
 val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
@@ -197,17 +197,17 @@ val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
 )
 ```
 
-This approach is the most straightforward, but it is not the most efficient. The reason is that the JDBC driver manager will try to load the driver for each connection, which can be pretty expensive. Moreover, the driver manager has no upper bound on the number of connections it will create. However, while experimenting and testing Doobie features, this approach works quite well.
+This approach is the most straightforward, but it is not the most efficient. The reason is that the JDBC driver manager will try to load the driver for each connection, which can be pretty expensive. Moreover, the driver manager has no upper bound on the number of connections it will create. However, while experimenting and testing doobie features, this approach works quite well.
 
-As we said in the introduction, Doobie is just a wrapper over the JDBC specification in Java, and it uses the Cats Effect library under the hood. Since **JDBC provides only a blocking interface** to interact with SQL databases, we should be careful to also use the blocking facilities available in Cats Effect. Fortunately, **Doobie takes care of using the `Blocking` context for us**:
+As we said in the introduction, doobie is just a wrapper over the JDBC specification in Java, and it uses the Cats Effect library under the hood. Since **JDBC provides only a blocking interface** to interact with SQL databases, we should be careful to also use the blocking facilities available in Cats Effect. Fortunately, **doobie takes care of using the `Blocking` context for us**:
 
 ```scala
-// Doobie library's code
+// doobie library's code
 // The ev variable is an instance of Async[IO]
 val acquire = ev.blocking{ Class.forName(driver); conn() }
 ```
 
-In production code, as we said, we don't want to use an instance of `Transactor` coming directly from the JDBC driver manager. Instead, we will use a `Transactor` that is backed by a connection pool. Doobie integrates well with the [HikariCP](https://github.com/brettwooldridge/HikariCP) connection pool library through the `doobie-hikari` module. Since a connection pool is a resource with its own lifecycle, we will use the Cats Effect `Resource` type to manage it:
+In production code, as we said, we don't want to use an instance of `Transactor` coming directly from the JDBC driver manager. Instead, we will use a `Transactor` that is backed by a connection pool. doobie integrates well with the [HikariCP](https://github.com/brettwooldridge/HikariCP) connection pool library through the `doobie-hikari` module. Since a connection pool is a resource with its own lifecycle, we will use the Cats Effect `Resource` type to manage it:
 
 ```scala
 val postgres: Resource[IO, HikariTransactor[IO]] = for {
@@ -242,7 +242,7 @@ As it's the first query we make, the code is really verbose. However, we can ana
 
 First, the `sql` [interpolator](/articles/create-your-own-custom-string-interpolator) allows us to create SQL statement fragments (more to come). Next, the method `query` lets us create a type that maps the single-row result of the query in a Scala type. The class is called `Query0[A]`. To accumulate results into a list, we use the `to[List]` method, which creates a `ConnectionIO[List[String]]`.
 
-The `ConnectionIO[A]` type is interesting since it introduces a typical pattern used in the Doobie library. In fact, **Doobie defines all its most essential types as instances of the [`Free` monad](https://typelevel.org/cats/datatypes/freemonad.html)**.
+The `ConnectionIO[A]` type is interesting since it introduces a typical pattern used in the doobie library. In fact, **doobie defines all its most essential types as instances of the [`Free` monad](https://typelevel.org/cats/datatypes/freemonad.html)**.
 
 Although the description and profound comprehension of the free monad is behind the scope of this article, we can say that a program with the type `ConnectionIO[A]` represents a computation that, given a `Connection`, will generate a value of type `IO[A]`.
 
@@ -300,7 +300,7 @@ def findActorByIdProgram(id: Int): IO[Option[Actor]] = {
 }
 ```
 
-Although extracting actors in a `List[String]` seems legit at first sight, it's not safe in a real-world scenario. In fact, the number of extracted rows could be too much for the memory allocated to the application. For this reason, we should use a `Stream` instead of a `List`. **Doobie integrates smoothly with the functional streaming library [fs2](https://fs2.io)**. Again, describing how fs2 works is behind the scope of this article, and we just focus on how to use it with Doobie.
+Although extracting actors in a `List[String]` seems legit at first sight, it's not safe in a real-world scenario. In fact, the number of extracted rows could be too much for the memory allocated to the application. For this reason, we should use a `Stream` instead of a `List`. **doobie integrates smoothly with the functional streaming library [fs2](https://fs2.io)**. Again, describing how fs2 works is behind the scope of this article, and we just focus on how to use it with doobie.
 
 For example, let's change the above example to use the streaming API:
 
@@ -317,7 +317,7 @@ Once we obtained an instance of a `Stream`, we can decide to return it to the ca
 val actorsNamesList: IO[List[String]] = actorsNamesStream.compile.toList.transact(xa)
 ```
 
-Clearly, there are more than single-column queries. In fact, Doobie can handle multi-column queries as well. For example, let's query the ids and names of all the actors and return them as a tuple:
+Clearly, there are more than single-column queries. In fact, doobie can handle multi-column queries as well. For example, let's query the ids and names of all the actors and return them as a tuple:
 
 ```scala
 def findAllActorsIdsAndNamesProgram: IO[List[(Int, String)]] = {
@@ -337,7 +337,7 @@ def findAllActorsProgram: IO[List[Actor]] = {
 }
 ```
 
-**Doobie can map the tuple of extracted columns directly into a `case class`**. For now, let's assume that the mapping between the extracted tuple and the properties of the case class must be one-to-one. In the last part of the article, we will introduce the type classes that allow the conversion of a tuple into a case class.
+**doobie can map the tuple of extracted columns directly into a `case class`**. For now, let's assume that the mapping between the extracted tuple and the properties of the case class must be one-to-one. In the last part of the article, we will introduce the type classes that allow the conversion of a tuple into a case class.
 
 One last thing about selecting information from a table is to add parameters to the query. Fortunately, the `sql` interpolator works smoothly with parameters, using the exact mechanism used by Scala native `String` interpolation:
 
@@ -373,7 +373,7 @@ def findActorByNameUsingHCProgram(actorName: String): IO[Option[Actor]] = {
 
 First, the query becomes a plain `String` containing `?` wildcards. The `sql` interpolator is just syntactic sugar for the `HC.stream[A]` method. Leaving the comprehension of the first parameter to the reader, the second parameter has type `PreparedStatementIO[B]`. As for the `ConnectionIO[A]` type, a `PreparedStatementIO` is an instance of the free monad pattern. In this case, it describes how to inject parameters into the query. So, the interpreter of the monad, `HC`, builds a `Kleisli[IO, PreparedStatement, A]`, which is precisely a function returning an `IO[A]` given a `PreparedStatement`.
 
-The third parameter is the maximum number of rows to be fetched at a time. In fact, Doobie reads rows in chunks.
+The third parameter is the maximum number of rows to be fetched at a time. In fact, doobie reads rows in chunks.
 
 If the query has more than one parameter, we have many choices on the syntax to use:
 
@@ -408,7 +408,7 @@ def findActorsByInitialLetterUsingFragmentsProgram(initialLetter: String): IO[Li
 In the example above, we build the three parts of the SQL statements, and then we combine them to produce the final query using the `++` operator. It's easy to understand why `Fragment` is also a `Monoid` since it's possible to use the `++` operator to define the `combine` function of monoids (more on the article [Semigroups and Monoids in Scala](/semigroups-and-monoids-in-scala/)):
 
 ```scala
-// Doobie library's code
+// doobie library's code
 object fragment {
   implicit val FragmentMonoid: Monoid[Fragment] =
     new Monoid[Fragment] {
@@ -435,7 +435,7 @@ def findActorsByInitialLetterUsingFragmentsAndMonoidsProgram(initialLetter: Stri
 }
 ```
 
-As we say, fragments are helpful to build queries dynamically. One widespread use case is to create a query that uses the `IN` operator since JDBC doesn't give any built-in support for this kind of operator. Fortunately, Doobie does it, providing a reliable method in the `Fragments` object:
+As we say, fragments are helpful to build queries dynamically. One widespread use case is to create a query that uses the `IN` operator since JDBC doesn't give any built-in support for this kind of operator. Fortunately, doobie does it, providing a reliable method in the `Fragments` object:
 
 ```scala
 def findActorsByNamesProgram(actorNames: NonEmptyList[String]): IO[List[Actor]] = {
@@ -449,7 +449,7 @@ def findActorsByNamesProgram(actorNames: NonEmptyList[String]): IO[List[Actor]] 
 Indeed, the `Fragments` object contains a lot of valuable functions to implement many recurring SQL queries patterns:
 
 ```scala
-// Doobie library's code
+// doobie library's code
 val Fragments = doobie.util.fragments
 object fragments {
   /** Returns `(f1) AND (f2) AND ... (fn)`. */
@@ -507,7 +507,7 @@ Remember, You Only Load Once!
 
 ## 5. Not Only Queries: Changing the Database
 
-The other side of the moon of the database world is mutating the tables and the data they contain. Doobie offers support not only for queries but also for insertions, updates, deletions, and changes on tables' structure.
+The other side of the moon of the database world is mutating the tables and the data they contain. doobie offers support not only for queries but also for insertions, updates, deletions, and changes on tables' structure.
 
 It should not come as a surprise that **inserting follows the same pattern of selecting rows from tables**. For example, let's save a new actor inside the `actors` table:
 
@@ -550,7 +550,7 @@ def saveAndGetActorProgram(name: String): IO[Actor] = {
 
 Here, we use the fact that the type `ConnectionIO[A]` is a _monad_, which means we can chain operations on it through a sequence of calls to `flatMap` and `map` methods.
 
-Doobie allows us to insert more than one row at a time. However, to do so, we have to desugar the `sql` interpolator and the subsequent call to the `run` method. So, let's first remove the syntactic sugar:
+doobie allows us to insert more than one row at a time. However, to do so, we have to desugar the `sql` interpolator and the subsequent call to the `run` method. So, let's first remove the syntactic sugar:
 
 ```scala
 val name = "John Travolta"
@@ -573,7 +573,7 @@ def saveActorsProgram(actors: NonEmptyList[String]): IO[Int] = {
 }
 ```
 
-As we can see, Doobie gives us a method, `updateMany`, to execute a batch insertion. It takes a list of parameters and returns the number of rows inserted. Some databases, such as Postgres, can produce a list of column values of the inserted rows. In this case, we can use the method `updateManyWithGeneratedKeys`, taking as input a list of column names:
+As we can see, doobie gives us a method, `updateMany`, to execute a batch insertion. It takes a list of parameters and returns the number of rows inserted. Some databases, such as Postgres, can produce a list of column values of the inserted rows. In this case, we can use the method `updateManyWithGeneratedKeys`, taking as input a list of column names:
 
 ```scala
 def saveActorsAndReturnThemProgram(actors: NonEmptyList[String]): IO[List[Actor]] = {
@@ -595,19 +595,19 @@ def updateJLYearOfProductionProgram(): IO[Int] = {
 
 Finally, the deletion follows the same pattern. Use the keyword `delete` instead of `insert` or `update` inside the `sql` interpolator.
 
-## 6. Doobie's Type Classes
+## 6. doobie's Type Classes
 
 So far, we have seen many examples of usages of the `sql` interpolator, which magically can convert Scala types into JDBC types when reading input parameters, and vice versa when concerning mapping values extracted from the database.
 
 As we can imagine, there is no magic whatsoever. As skilled Scala developers, we should have known that **there are some type classes behind it whenever someone talks about magic**.
 
-In fact, Doobie basically uses four type classes for the conversion between Scala and JDBC types: `Get[A]`, `Put[A]`, `Read[A]` and `Write[A]`.
+In fact, doobie basically uses four type classes for the conversion between Scala and JDBC types: `Get[A]`, `Put[A]`, `Read[A]` and `Write[A]`.
 
-The `Get[A]` describes creating the Scala type `A` from a non-nullable database value. We can also apply the same type class to obtain type `Option[A]`. So, Doobie uses an instance of `Get[A]` to map the results of a query into Scala.
+The `Get[A]` describes creating the Scala type `A` from a non-nullable database value. We can also apply the same type class to obtain type `Option[A]`. So, doobie uses an instance of `Get[A]` to map the results of a query into Scala.
 
 The `Put[A]` type class describes creating a non-nullable database value from the Scala type `A`. As for the `Get[A]`, the `Put[A]` type class maps also the `Option[A]` type.
 
-Doobie defines the instances of the above type classes for the following types (directly from the [Doobie documentation](https://tpolecat.github.io/doobie/docs/12-Custom-Mappings.html)):
+doobie defines the instances of the above type classes for the following types (directly from the [doobie documentation](https://tpolecat.github.io/doobie/docs/12-Custom-Mappings.html)):
 
 - JVM numeric types `Byte`, `Short`, `Int`, `Long`, `Float`, and `Double`;
 - `BigDecimal` (both Java and Scala versions);
@@ -665,7 +665,7 @@ As we can expect, when we try to compile the above code, we get an error since t
 [error]     sql"select name from actors".query[ActorName].to[List].transact(xa)
 ```
 
-Fortunately, Doobie gives us all the tools to quickly create such type classes. The first method we can use is to **derive the `Get[ActorName]` and `Put[ActorName]` type classes from the same defined for the `String` type**:
+Fortunately, doobie gives us all the tools to quickly create such type classes. The first method we can use is to **derive the `Get[ActorName]` and `Put[ActorName]` type classes from the same defined for the `String` type**:
 
 ```scala
 object ActorName {
@@ -677,7 +677,7 @@ object ActorName {
 As we may imagine, the `map` method is defined in the `Functor[Get]` type class, whereas the `contramap` method is defined in the `Contravariant[Put]` type class:
 
 ```scala
-// Doobie library's code
+// doobie library's code
 trait GetInstances extends GetPlatform {
   implicit val FunctorGet: Functor[Get] =
     new Functor[Get] {
@@ -705,7 +705,7 @@ object ActorName {
 }
 ```
 
-Since it's widespread to derive both type classes for a type, Doobie also defines the `Meta[A]` type class, which allows us to create with a single statement both the `Get` and the `Put` type classes for a type:
+Since it's widespread to derive both type classes for a type, doobie also defines the `Meta[A]` type class, which allows us to create with a single statement both the `Get` and the `Put` type classes for a type:
 
 ```scala
 implicit val actorNameMeta: Meta[ActorName] = Meta[String].imap(ActorName(_))(_.value)
@@ -719,11 +719,11 @@ Again, since the newtype library defines the `deriving` method, we can simplify 
 implicit val actorNameMeta: Meta[ActorName] = deriving
 ```
 
-**Doobie uses the `Get` and `Put` type classes only to manage single-column schema types**. In general, we need to map more than one column directly into a Scala class or into a tuple. For this reason, Doobie defines two more type classes, `Read[A]` and `Write[A]`, which can handle heterogeneous collections of columns.
+**doobie uses the `Get` and `Put` type classes only to manage single-column schema types**. In general, we need to map more than one column directly into a Scala class or into a tuple. For this reason, doobie defines two more type classes, `Read[A]` and `Write[A]`, which can handle heterogeneous collections of columns.
 
 The `Read[A]` allows us to map a vector of schema types inside a Scala type. Vice versa, the `Write[A]` will enable us to interact with more complex types instead of plain ints, strings etc.
 
-Logically, **the `Read` and `Write` type classes are defined as a composition of `Get` and `Put` on the attributes of the referenced type**. In detail, the type can be a record (tuple), or a product type (a case class), or even an `HList`. In addition, Doobie adds the mapping of `Option[A]`.
+Logically, **the `Read` and `Write` type classes are defined as a composition of `Get` and `Put` on the attributes of the referenced type**. In detail, the type can be a record (tuple), or a product type (a case class), or even an `HList`. In addition, doobie adds the mapping of `Option[A]`.
 
 In any other case, we must define a custom mapping, as we have previously done. Starting from the definition of `Read` and `Write` for a well-known type, we use the `map` and `contramap` functions to derive the needed type classes. Speaking about our movies' database, imagine we want to read from the `directors` table. We can define the Scala type `Director` representing a single row of the table:
 
@@ -766,9 +766,9 @@ _Et voilà_, now the program runs without any error.
 
 ## 7. Handling Joins
 
-Until now, we presented some very straightforward examples of queries. However, we can also handle joins. The good news is that Doobie takes join between tables in a very natural way.
+Until now, we presented some very straightforward examples of queries. However, we can also handle joins. The good news is that doobie takes join between tables in a very natural way.
 
-Let's say we want to find a movie by its name. We want to retrieve also the director's information and the list of actors that played in the film. Using the ER model we presented at the beginning of the article, we have to join three tables: the `movies` table, the `directors` table, and the `actors` table. Here is how we can implement it in Doobie:
+Let's say we want to find a movie by its name. We want to retrieve also the director's information and the list of actors that played in the film. Using the ER model we presented at the beginning of the article, we have to join three tables: the `movies` table, the `directors` table, and the `actors` table. Here is how we can implement it in doobie:
 
 ```scala
 def findMovieByNameProgram(movieName: String): IO[Option[Movie]] = {
@@ -797,7 +797,7 @@ def findMovieByNameProgram(movieName: String): IO[Option[Movie]] = {
 
 Since the `actor` table extracts many rows for every movie, we used a `GROUP BY` operation and the `array_agg` Postgres function, which creates an array from the actors' names.
 
-However, the array type is not SQL standard. So, to let Doobie map the array type to a Scala `List`, we need to import the `doobie.postgres._` and `doobie.postgres.implicits._` packages, belonging to the `doobie-postgres` library.
+However, the array type is not SQL standard. So, to let doobie map the array type to a Scala `List`, we need to import the `doobie.postgres._` and `doobie.postgres.implicits._` packages, belonging to the `doobie-postgres` library.
 
 As we said, the array type is not standard, and the database we're using might not support arrays. In this case, the only solution left is to **perform the join manually, which means splitting the original query into three different queries and joining the data programmatically**:
 
@@ -850,7 +850,7 @@ In the above code, we extracted information from the `movies` table, the `direct
 
 ## 8. Putting Pieces Together: A Tagless Final Approach
 
-Now that we know all the pieces of a program that connects to a database using Doobie, we can create a more complex example. For this purpose, we will use the _tagless final_ approach. Again, the details of the tagless final approach are far beyond the scope of this tutorial. In summary, it's **a technique that allows us to manage dependencies between our components and abstract away the details of the concrete effect implementation**.
+Now that we know all the pieces of a program that connects to a database using doobie, we can create a more complex example. For this purpose, we will use the _tagless final_ approach. Again, the details of the tagless final approach are far beyond the scope of this tutorial. In summary, it's **a technique that allows us to manage dependencies between our components and abstract away the details of the concrete effect implementation**.
 
 > More on tagless final in the [dedicated article](/articles/tagless-final-in-scala).
 
@@ -887,7 +887,7 @@ object Directors {
 }
 ```
 
-Following the approach suggested by Gabriel Volpe in his excellent book, [Practical FP in Scala: A hands-on approach](https://leanpub.com/pfp-scala), we use a _smart constructor_ to create an instance of the interpreter that we maintain private to the rest of the world. The implementation of every single function should not surprise us at this point. It's just the same Doobie code we've seen so far.
+Following the approach suggested by Gabriel Volpe in his excellent book, [Practical FP in Scala: A hands-on approach](https://leanpub.com/pfp-scala), we use a _smart constructor_ to create an instance of the interpreter that we maintain private to the rest of the world. The implementation of every single function should not surprise us at this point. It's just the same doobie code we've seen so far.
 
 Since the `Transactor` is something our interpreter depends on, and it's not related to any feature concerning the effect `F[_]`, we can safely pass it as an explicit parameter of the smart constructor.
 
@@ -913,7 +913,7 @@ private object DirectorSQL {
 }
 ```
 
-If we want to create a concrete instance of our interpreter, we need to create an instance of the `Transactor` resource. As we saw at the beginning of this article, we can use the Hikary extension for Doobie:
+If we want to create a concrete instance of our interpreter, we need to create an instance of the `Transactor` resource. As we saw at the beginning of this article, we can use the Hikary extension for doobie:
 
 ```scala
 val postgres: Resource[IO, HikariTransactor[IO]] = for {
@@ -975,6 +975,6 @@ And that's it!
 
 ## 9. Conclusions
 
-Finally, we sum up what we've learned so far. We introduced Doobie, a JDBC functional wrapper library built upon the Cats Effect library. After defining some domain models to work with, we learned how to create a `Transactor` object to execute instructions in the database. Then, we saw how to implement queries, both with and without input parameters, and map their results back to our domain models. So, we saw how to insert and update rows in a table, and then which are the available implementation when we need a join. Since Doobie uses some type classes to map Scala type from and to schema types, we introduced them. Finally, we describe how to use Doobie in a tagless final context with all the pieces in the right places.
+Finally, we sum up what we've learned so far. We introduced doobie, a JDBC functional wrapper library built upon the Cats Effect library. After defining some domain models to work with, we learned how to create a `Transactor` object to execute instructions in the database. Then, we saw how to implement queries, both with and without input parameters, and map their results back to our domain models. So, we saw how to insert and update rows in a table, and then which are the available implementation when we need a join. Since doobie uses some type classes to map Scala type from and to schema types, we introduced them. Finally, we describe how to use doobie in a tagless final context with all the pieces in the right places.
 
-Clearly, the article is not exhaustive, but it's an excellent start understanding how to use Doobie. We left out some advanced features, like testing, error handling, type-checking, and logging. If you want to deepen your knowledge concerning the Doobie library, you can take a look at the [official documentation](https://tpolecat.github.io/doobie/).
+Clearly, the article is not exhaustive, but it's an excellent start understanding how to use doobie. We left out some advanced features, like testing, error handling, type-checking, and logging. If you want to deepen your knowledge concerning the doobie library, you can take a look at the [official documentation](https://tpolecat.github.io/doobie/).

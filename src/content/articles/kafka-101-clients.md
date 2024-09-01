@@ -35,7 +35,7 @@ We will use a file ingestion data pipeline for clickstream data as an example to
 
 The relevant e-commerce datasets can be found [here](https://www.kaggle.com/datasets/mkechinov/ecommerce-behavior-data-from-multi-category-store).
 The code samples are written in Kotlin, but the implementation should be easy to port in Java or Scala.
-You can find the source code on Github [here](https://github.com/polyzos/kafka-streaming-ledger).
+You can find the source code on GitHub [here](https://github.com/polyzos/kafka-streaming-ledger).
 
 > _To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already._
 

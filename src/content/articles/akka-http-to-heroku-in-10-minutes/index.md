@@ -9,11 +9,11 @@ updatedDate: 2024-09-06
 
 This article is for newbies to Akka HTTP and for those who have written some Akka HTTP but have never deployed their own server. Here I'll teach you what you need to know and do so that you have your first server up and running on Heroku in just a few minutes.
 
-I'll be working in IntelliJ IDEA which creates an SBT project structure quickly, but you can also use the `sbt` command line to do the same things I do here. So here goes:
+I'll be working in IntelliJ IDEA which creates an sbt project structure quickly, but you can also use the `sbt` command line to do the same things I do here. So here goes:
 
 ## Intro
 
-We'll start by creating a vanilla Scala-SBT project in intelliJ:
+We'll start by creating a vanilla Scala-sbt project in intelliJ:
 
 ![The first step in configuring project details with the option to select sbt](images/project-setup-1.png)
 
@@ -33,7 +33,7 @@ Once you've done that, it's time to "register" it as the runnable application so
 
 ## The Boilerplate
 
-IntelliJ will create a `project/` folder, where you will need to add a file called `plugins.sbt` and add an SBT plugin so you can package your application at the time you will deploy it to Heroku:
+IntelliJ will create a `project/` folder, where you will need to add a file called `plugins.sbt` and add an sbt plugin so you can package your application at the time you will deploy it to Heroku:
 
 ```scala
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.12")
@@ -65,7 +65,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-After that, IntelliJ will usually pop up a small dialog asking you to "Import Changes". Click that and wait for a minute to download and install the libraries and plugin. Otherwise, go to View -> Tool Windows -> SBT and click on the tiny refresh icon to do the same thing.
+After that, IntelliJ will usually pop up a small dialog asking you to "Import Changes". Click that and wait for a minute to download and install the libraries and plugin. Otherwise, go to View -> Tool Windows -> sbt and click on the tiny refresh icon to do the same thing.
 
 After you don't see any red in build.sbt, you're good to go and you can write the actual code of your server
 
