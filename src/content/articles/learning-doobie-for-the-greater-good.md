@@ -405,7 +405,7 @@ def findActorsByInitialLetterUsingFragmentsProgram(initialLetter: String): IO[Li
 }
 ```
 
-In the example above, we build the three parts of the SQL statements, and then we combine them to produce the final query using the `++` operator. It's easy to understand why `Fragment` is also a `Monoid` since it's possible to use the `++` operator to define the `combine` function of monoids (more on the article [Semigroups and Monoids in Scala](/semigroups-and-monoids-in-scala/)):
+In the example above, we build the three parts of the SQL statements, and then we combine them to produce the final query using the `++` operator. It's easy to understand why `Fragment` is also a `Monoid` since it's possible to use the `++` operator to define the `combine` function of monoids (more on the article [Semigroups and Monoids in Scala](/articles/semigroups-and-monoids-in-scala)):
 
 ```scala
 // doobie library's code

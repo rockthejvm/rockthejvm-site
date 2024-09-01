@@ -443,7 +443,7 @@ object Fs2Udp extends IOApp {
 }
 ```
 
-To define socket options, the `openDatagramSocket()` method allows for an options parameter that takes a `List[DatagramSocketOption]`, if we dig into this type definition, we'll find that `DatagramSocketOption` is an alias for the `SocketOption` [trait](/scala-3-traits/) from `fs2.io.net`:
+To define socket options, the `openDatagramSocket()` method allows for an options parameter that takes a `List[DatagramSocketOption]`, if we dig into this type definition, we'll find that `DatagramSocketOption` is an alias for the `SocketOption` [trait](/articles/scala-3-traits) from `fs2.io.net`:
 
 ```scala
 package object net {
