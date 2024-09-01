@@ -128,7 +128,7 @@ implicit def basicLeft[A <: Nat](implicit lt: _0 < A): +[A, _0, A] = new +[A, _0
 
 Notice that the type `+[_0, A, A]` and `+[A, _0, A]` are different - this is why we need two different methods there.
 
-At this point, you might be wondering why we need those constraints and why we can't simply say that for <em>any</em> number A, it's always true that 0 + A = A and A + 0 = A. That's true and more general, but it's also confusing to the compiler, because it would have multiple routes through which it can build an instance of +[_0, _0, _0]. We want to separate these cases so that the compiler can build each implicit instance by following exactly one induction path.
+At this point, you might be wondering why we need those constraints and why we can't simply say that for _any_ number A, it's always true that 0 + A = A and A + 0 = A. That's true and more general, but it's also confusing to the compiler, because it would have multiple routes through which it can build an instance of +[_0, _0, _0]. We want to separate these cases so that the compiler can build each implicit instance by following exactly one induction path.
 
 With these 3 implicits, we can already validate a number of sums:
 
@@ -182,7 +182,7 @@ object + {
 
 ## Supercharging Addition
 
-This is great so far! We can make the compiler validate type relationships like the "addition" of "numbers" at compile time. However, at this point we can't make the compiler <em>figure out</em> what the result of an addition should be - we need to specify the result type ourselves, and the compiler will simply show a thumbs-up if the type is good.
+This is great so far! We can make the compiler validate type relationships like the "addition" of "numbers" at compile time. However, at this point we can't make the compiler _figure out_ what the result of an addition should be - we need to specify the result type ourselves, and the compiler will simply show a thumbs-up if the type is good.
 
 The next level in this Peano arithmetic implementation would be to somehow make the compiler infer the sum type by itself. For that, we'll change the type signature of the addition:
 
@@ -200,7 +200,7 @@ object + {
 }
 ```
 
-This new type `Plus` is exactly the same as our previous `+` and we will use it in our implicit resolution. The trick here is to have the compiler automatically match the `Result` abstract type member to the `S` type <em>argument</em> of the auxiliary sum type.
+This new type `Plus` is exactly the same as our previous `+` and we will use it in our implicit resolution. The trick here is to have the compiler automatically match the `Result` abstract type member to the `S` type _argument_ of the auxiliary sum type.
 
 The next step is to change our axiom (read: implicits) definitions to use this new type:
 
@@ -229,7 +229,7 @@ At this point, we can now say
 val five: +[_2, _3] = +.apply // or +[_2, _3]
 ```
 
-and if the code compiles, then the compiler is able to validate the <em>existence</em> of a sum type between \_2 and \_3.
+and if the code compiles, then the compiler is able to validate the _existence_ of a sum type between \_2 and \_3.
 
 But what's the result?
 

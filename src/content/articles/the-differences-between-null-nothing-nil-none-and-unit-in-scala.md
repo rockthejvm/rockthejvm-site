@@ -27,7 +27,7 @@ anAbsentString.length() // triggers the famous NullPointerException
 
 This one is easy.
 
-## The Null <em>type</em>
+## The Null _type_
 
 Now, in Scala, the null reference belongs to its own distinct type, which is called `Null` with a capital N.
 

@@ -75,7 +75,7 @@ source.via(flow).to(sink).run()
 
 the Jedi value of this graph is of type NotUsed, which is a bit like Unit and not useful for processing. Now here's the thing with Jedi values: ALL streaming components in Akka Streams have a Jedi value when plugged into a living breathing graph, so in the above code we have 3 components and thus 3 Jedi values somewhere. However, the graph itself can only return ONE. So then the question becomes, which Jedi value does the graph return?
 
-When you run something like source.via(flow).to(sink), the <em>left-most</em> Jedi value will be picked. In our case, the Jedi value of the source. You can change that.
+When you run something like source.via(flow).to(sink), the _left-most_ Jedi value will be picked. In our case, the Jedi value of the source. You can change that.
 
 ```scala
 source.via(flow).toMat(sink)((leftJediValue, rightJediValue) => rightJediValue).run()
@@ -91,7 +91,7 @@ val future = source.via(flow).toMat(sink)((leftJediValue, rightJediValue) => rig
 future.onComplete(_ => println("Stream is done!"))
 ```
 
-Notice that the Jedi value has a <em>meaning</em>, which is that the future can be monitored for completion and you can tell when the stream has finished running. Also notice that the Jedi value has <em>no connection whatsoever</em> with the elements being shoved into the stream. That function that picks the right argument from the two arguments supplied to it can also be written as:
+Notice that the Jedi value has a _meaning_, which is that the future can be monitored for completion and you can tell when the stream has finished running. Also notice that the Jedi value has _no connection whatsoever_ with the elements being shoved into the stream. That function that picks the right argument from the two arguments supplied to it can also be written as:
 
 ```scala
 source.via(flow).toMat(sink)(Keep.right).run() // Keep.right is exactly (a, b) => b
@@ -120,6 +120,6 @@ Jedi values are awesome, because without them, once you start the graph, your pi
 
 Various streaming components in Akka streams can offer various Jedi values. Sinks usually offer Futures, which often allow you to combine the values inside the streams into one, and tell if/when the stream has finished. Some flows offer control mechanisms - like KillSwitches which allow you to stop the stream at any point. Some sources offer entry points through which you can send the data inside the stream.
 
-I call them Jedi values because they are powerful. The Akka Streams library calls them <em>materialized values</em>. That's because, when you plug components together, you have an inert graph, but when you call the run method, the graph comes alive, or is <em>materialized</em>. The Jedi value returned by materializing a graph is called a materialized value. The value may or may not be connected to the actual elements that flow through the stream, and the value can be of any type - which again, may or may not be different from the types of elements flowing through the graph.
+I call them Jedi values because they are powerful. The Akka Streams library calls them _materialized values_. That's because, when you plug components together, you have an inert graph, but when you call the run method, the graph comes alive, or is _materialized_. The Jedi value returned by materializing a graph is called a materialized value. The value may or may not be connected to the actual elements that flow through the stream, and the value can be of any type - which again, may or may not be different from the types of elements flowing through the graph.
 
 I hope this article saved you the many hours it took me to internalize this abstract and often confusing concept.
