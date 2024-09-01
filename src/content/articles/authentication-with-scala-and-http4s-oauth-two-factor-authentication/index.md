@@ -14,7 +14,7 @@ updatedDate: 2024-09-06
 
 ## Introduction
 
-This article is a continuation of the authentication methods that were covered in [the other article on http4s authentication](../authentication-with-scala-and-http4s). Here we will cover two more advanced authentication methods which include One Time Password (OTP) and Two-Factor Authentication (2FA).
+This article is a continuation of the authentication methods that were covered in [the other article on http4s authentication](/articles/authentication-with-scala-and-http4s). Here we will cover two more advanced authentication methods which include One Time Password (OTP) and Two-Factor Authentication (2FA).
 
 You can find the entire code on [GitHub](https://github.com/hkateu/MyHttp4sCode/tree/main/otpauth/src/main/scala/com/xonal).
 
@@ -517,59 +517,59 @@ Follow these steps to get your API Key
    SendGrid offers 100 emails per day for free, which is more than enough for this tutorial.
    Click the Start for free button to register
 
-   ![SendGrid Pricing](step1.png)
+   ![Step 1 - SendGrid Pricing](images/step-1-sendgrid-pricing.png)
 
 1. Fill in your email address and password and create the account.
 
-   ![Register](step2.png)
+   ![Step 2 - Register](images/step-2-register.png)
 
 1. Fill in the required information and click get started.
 
-   ![Get Started](step3.png)
+   ![Step 3 - Get Started](images/step-3-get-started.png)
 
 1. Check your inbox and click the link to set up 2FA.
 
 1. Select the Text Messages option and click Next.
 
-   ![SetUp 2FA](step5.png)
+   ![Step 5 - SetUp 2FA](images/step-5-setup-2fa.png)
 
 1. Select your country code and input your mobile number then click next.
 
-   ![Contacts](step6.png)
+   ![Step 6 - Contacts](images/step-6-contacts.png)
 
 1. Check your sms and fill in the authentication code and save.
 
-   ![Contacts](step7.png)
+   ![Step 7 - SMS](images/step-7-sms.png)
 
 1. Log back into SendGrid, You will be prompted for another authentication code.
    Sometimes it's not sent, your can resend it with the link provided. Then click continue.
    After which you will be sent to a welcome screen.
 
-   ![Contacts](step8.png)
+   ![Step 8 - Code](images/step-8-code.png)
 
 1. Click the create identity button.
 
-   ![Contacts](step9.png)
+   ![Step 9 - Identity](images/step-9-identity.png)
 
 1. Fill in the details and create a sender
 
-   ![Contacts](step10.png)
+   ![Step 10 - Sender](images/step-10-sender.png)
 
 1. Check the sender email you supplied to verify the single sender.
 
-   ![Contacts](step11.png)
+   ![Step 11 - Email](images/step-11-email.png)
 
 1. Under Email Api and Integration Guide, select Web API, then choose JAVA
 
-   ![Contacts](step12.png)
+   ![Step 12 - Email API](images/step-12-email-api.png)
 
 1. Add an API key name then click the Create Key button.
 
-   ![Contacts](step13.png)
+   ![Step 13 - Key](images/step-13-key.png)
 
 1. Finally follow the steps in part 3 to add your key as an environment variable in the root of our project.
 
-   ![Contacts](step14.png)
+   ![Step 14 - Environment Variable](images/step-14-environment-variable.png)
 
 Now let's define our `send2FA()` function:
 

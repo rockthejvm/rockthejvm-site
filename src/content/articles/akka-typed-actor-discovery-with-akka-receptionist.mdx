@@ -183,7 +183,7 @@ def apply(id: String): Behavior[SensorCommand] = Behaviors.setup { context =>
 
 We would like to be automatically notified if there is any change in the association to the `ServiceKey`. The API allows us to pass the `ServiceKey` instance in question and an actor which can handle a `Listing` message that the receptionist will send with every update.
 
-However, because our Sensor actor is typed with `SensorCommand` and we also need to handle the listing message, we will need a message adapter. We discussed the message adapter technique in [another article](akka-typed-adapting-messages), so we will use it here. We will need to wrap the listing message into some other `SensorCommand` that we can handle later:
+However, because our Sensor actor is typed with `SensorCommand` and we also need to handle the listing message, we will need a message adapter. We discussed the message adapter technique in [another article](/articles/akka-typed-adapting-messages), so we will use it here. We will need to wrap the listing message into some other `SensorCommand` that we can handle later:
 
 ```scala
 // new message
@@ -248,7 +248,7 @@ object Sensor {
 
 ## The Other Actors
 
-We need to finish off the `DataAggregator` and the sensor controller. The data aggregator will keep track of all the readings received so far from all the sensors, using a ["stateless"](akka-typed-actors-stateful-and-stateless) approach, which we also describe in another article:
+We need to finish off the `DataAggregator` and the sensor controller. The data aggregator will keep track of all the readings received so far from all the sensors, using a ["stateless"](/articles/akka-typed-actors-stateful-and-stateless) approach, which we also describe in another article:
 
 ```scala
   def apply(): Behavior[SensorReading] = active(Map())

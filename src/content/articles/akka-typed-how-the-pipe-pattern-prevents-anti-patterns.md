@@ -21,7 +21,7 @@ libraryDependencies += "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion
 
 ## Background
 
-This piece assumes you know the first principles of Akka actors (check the intro of [this article](akka-typed-actors-stateful-and-stateless) for an introduction). In particular for this article, we care most about actor **encapsulation**: the state of an actor is inaccessible from the outside, even in a multithreaded/distributed environment. We can only communicate with an actor via message exchanges.
+This piece assumes you know the first principles of Akka actors (check the intro of [this article](/articles/akka-typed-actors-stateful-and-stateless) for an introduction). In particular for this article, we care most about actor **encapsulation**: the state of an actor is inaccessible from the outside, even in a multithreaded/distributed environment. We can only communicate with an actor via message exchanges.
 
 However, in "real life", our actor may not necessarily block on resources while handling a message. We often make our actors interact with otherwise asynchronous services. These asynchronous services can break actor encapsulation, because handling an asynchronous response happens on some thread &mdash; potentially a different thread than the one that just took control of the actor.
 
@@ -86,7 +86,7 @@ So what's the problem?
 
 `Future` callbacks, as well as transformations, are evaluated on _some_ thread. This thread may or may not be the one that's handling the message. In other words, each line with "please cringe here" is a race condition. **We've broken the actor encapsulation.**
 
-A second drawback is that, since changing actor state happens in a `Future` callback, we can't make this actor [stateless](akka-typed-actors-stateful-and-stateless).
+A second drawback is that, since changing actor state happens in a `Future` callback, we can't make this actor [stateless](/articles/akka-typed-actors-stateful-and-stateless).
 
 ## Enter Pipes
 
