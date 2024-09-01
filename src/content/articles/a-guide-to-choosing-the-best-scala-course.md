@@ -91,9 +91,9 @@ Once you have a solid foundation in Scala and functional programming, it's time 
 
 At this point, you can already write and read just about 75% of existing Scala code. The areas that will get you to 95% are concurrency, contextual abstractions and mastering the type system. Let's take them in turn.
 
-**Concurrency**. Scala's strength lies is its support for concurrent and parallel programming. Because Scala was primarily built for the JVM, you will need to understand the JVM threading model. Java developers are at an advantage here, because they've had more time to get accustomed to the mechanics of the JVM. But after you go through the initial mechanics, and with the FP principles you learned in the Scala essentials course, you are ready to discover Scala Futures, which are a functional way of dealing with asynchronous code. You'll compose Futures like you do with regular data types, and you'll learn about [controllable Futures](controllable-futures-in-scala), aka Promises.
+**Concurrency**. Scala's strength lies is its support for concurrent and parallel programming. Because Scala was primarily built for the JVM, you will need to understand the JVM threading model. Java developers are at an advantage here, because they've had more time to get accustomed to the mechanics of the JVM. But after you go through the initial mechanics, and with the FP principles you learned in the Scala essentials course, you are ready to discover Scala Futures, which are a functional way of dealing with asynchronous code. You'll compose Futures like you do with regular data types, and you'll learn about [controllable Futures](/articles/controllable-futures-in-scala), aka Promises.
 
-**Contextual Abstractions**: This is a set of powerful features in Scala that allow you to define context-specific behavior. You'll be able to [pass arguments automatically](scala-3-given-and-using-clauses), you'll be able to decorate existing types with [new methods](scala-3-extension-methods), and you'll learn about implicit conversions. These constructs are at the foundation of popular libraries in the Scala ecosystem, like Cats Effect, ZIO and Akka.
+**Contextual Abstractions**: This is a set of powerful features in Scala that allow you to define context-specific behavior. You'll be able to [pass arguments automatically](/articles/scala-3-given-and-using-clauses), you'll be able to decorate existing types with [new methods](/articles/scala-3-extension-methods), and you'll learn about implicit conversions. These constructs are at the foundation of popular libraries in the Scala ecosystem, like Cats Effect, ZIO and Akka.
 
 **Type System**: Scala has a sophisticated and expressive type system. To become an advanced Scala developer, you should explore advanced type system features such as higher-kinded types, type projections and variance. Understanding these concepts will allow you to write more general and powerful code, while being type-safe 100% of the time.
 
@@ -121,7 +121,7 @@ If you want to learn Cats Effect, I have a long-form [Cats Effect course for Sca
 
 [ZIO](https://zio.dev) is another powerful functional effect library for Scala. It's built on similar principles as Cats Effect, although it diverges in a few fundamental aspects.
 
-First, it doesn't use type classes. The ZIO philosophy avoids capability declaration by implicit type class instances (a form of the [tagless final pattern](tagless-final-in-scala)). Instead, the ZIO effect already declares all it can do by just looking at its type (dependencies, errors, values).
+First, it doesn't use type classes. The ZIO philosophy avoids capability declaration by implicit type class instances (a form of the [tagless final pattern](/articles/tagless-final-in-scala)). Instead, the ZIO effect already declares all it can do by just looking at its type (dependencies, errors, values).
 
 Second, it opts for more practicality with layers. With the Typelevel ecosystem, as I argued in my conference talk as well, you need a high amount of discipline to organize your code properly. If you have it or it comes natural to you, you're set; not everyone feels like that, and we crave the removal of mental burdens. ZIO embraces the concept of layers, whereby all dependencies for effects are merely declared, and at the end of the application the ZIO library checks if you've passed all dependencies in one big declaration called `provide`. The library takes care to pass the right instance to the right module, freeing your memory from having to remember which module depends on what.
 
@@ -146,7 +146,7 @@ If you're interested in learning Spark, I recommend the following Spark courses,
 
 ### Honorable mentions
 
-[Akka](https://akka.io) is a set of libraries for building highly concurrent, distributed, and fault-tolerant applications. I am personally a big fan of Akka because of scalability potential and maturity, but since Lightbend's OSS license reversal, I can only recommend studying Akka if you need it for your work, in which case I have a whole bundle of [Akka courses](/courses/the-akka-bundle).
+[Akka](https://akka.io) is a set of libraries for building highly concurrent, distributed, and fault-tolerant applications. I am personally a big fan of Akka because of scalability potential and maturity, but since Lightbend's OSS license reversal, I can only recommend studying Akka if you need it for your work, in which case I have a whole bundle of [Akka courses](/courses/the-akka-pekko-bundle).
 
 [Play](https://playframework.com/) is a powerful framework that allows you to build web applications quickly. I have not covered Play in my courses here at Rock the JVM, and the most recent Play books are 5+ years old, so the only true resource is documentation.
 

@@ -29,7 +29,7 @@ while (reader.hasNextLine) {
 }
 ```
 
-However, this is stateful and employs the abhorrent [while loops](things-that-dont-make-sense-scala-loops). Although this could be way uglier, we can do better.
+However, this is stateful and employs the abhorrent [while loops](/articles/things-that-dont-make-sense-scala-loops). Although this could be way uglier, we can do better.
 
 ## Method 2: Java-Style, Friendlier, and with Cheats
 
@@ -51,7 +51,7 @@ and then:
 val fileContents = FileUtils.readLines(file) // a list of lines that you can now process freely
 ```
 
-This returns a Java list of lines that you can now process as you see fit. It's much better, because you can now operate with values and expressions rather than [variables and instructions](things-that-dont-make-sense-scala-variables). However, still not enough as this is a Java collection, which doesn't have the necessary niceties that play with Scala so well.
+This returns a Java list of lines that you can now process as you see fit. It's much better, because you can now operate with values and expressions rather than [variables and instructions](/articles/things-that-dont-make-sense-scala-variables). However, still not enough as this is a Java collection, which doesn't have the necessary niceties that play with Scala so well.
 
 ## Method 3: The Scala Way
 

@@ -28,11 +28,11 @@ If you want the shortest version possible, check out this [Twitter thread](https
 
 We're going to write some pretty abstract Scala. Some topics are required, but the following will be sufficient for you to understand everything:
 
-- [Higher-Kinded Types](types-kinds-and-type-constructors-in-scala)
-- [Type Lambdas in Scala 3](scala-3-type-lambdas) - we're going to use this syntactic structure once
-- [Semigroups and Monoids](semigroups-and-monoids-in-scala) - we're going to need monoids (obviously)
-- [Functors](what-the-functor) - obviously
-- [Monads](an-introduction-to-monads-in-scala) - at least in the practical sense
+- [Higher-Kinded Types](/articles/types-kinds-and-type-constructors-in-scala)
+- [Type Lambdas in Scala 3](/articles/scala-3-type-lambdas) - we're going to use this syntactic structure once
+- [Semigroups and Monoids](/articles/semigroups-and-monoids-in-scala) - we're going to need monoids (obviously)
+- [Functors](/articles/what-the-functor) - obviously
+- [Monads](/articles/an-introduction-to-monads-in-scala) - at least in the practical sense
 
 We're also going to use some notations that are popular within the Cats library. The students of the [Cats course](/courses/cats) and Scala folks familiar to Cats are going to find this very natural.
 
@@ -40,7 +40,7 @@ We're not going to need any library dependencies for this article (no Cats or an
 
 ## MICE, a.k.a. Monoids in the Category of Everything
 
-If you remember monoids, either from the [article](semigroups-and-monoids-in-scala/), the [video](https://www.youtube.com/watch?v=LmBTiFYa-V4) or from [Cats](/courses/cats), you'll remember that we write it like a simple trait:
+If you remember monoids, either from the [article](/articles/semigroups-and-monoids-in-scala/), the [video](https://www.youtube.com/watch?v=LmBTiFYa-V4) or from [Cats](/courses/cats), you'll remember that we write it like a simple trait:
 
 ```scala
 trait Monoid[T] {
@@ -146,7 +146,7 @@ trait MonoidInCategoryK2[T[_], ~>[_[_], _[_]], U[_], P[_]] {
 
 ## (Endo)Functors
 
-Another known topic that I've talked about &mdash; in an [article](what-the-functor), a [video](https://www.youtube.com/watch?v=aSnY2JBzjUw) and in the [Cats](/courses/cats) course &mdash; is functors. They have this structure:
+Another known topic that I've talked about &mdash; in an [article](/articles/what-the-functor), a [video](https://www.youtube.com/watch?v=aSnY2JBzjUw) and in the [Cats](/courses/cats) course &mdash; is functors. They have this structure:
 
 ```scala
 trait Functor[F[_]] {
@@ -254,7 +254,7 @@ extends MonoidInCategoryK2[F, FunctorNatTrans, Id, [A] =>> F[F[A]]] {
 }
 ```
 
-Where that final functor composition needs to be written as a generic type, so we express that as a [type lambda](scala-3-type-lambdas/).
+Where that final functor composition needs to be written as a generic type, so we express that as a [type lambda](/articles/scala-3-type-lambdas/).
 
 Take a break until you can mentally fit the pieces inside the type arguments of `MonoidInCategoryK2`. I'll explain what the implications are if they work.
 
@@ -317,7 +317,7 @@ extends MonoidInCategoryK2[F, FunctorNatTrans, Id, [A] =>> F[F[A]]] {
 }
 ```
 
-These two methods are much closer to what we use in real life, because we wrap values and process these [special structures](an-introduction-to-monads-in-scala) all the time with for-comprehensions.
+These two methods are much closer to what we use in real life, because we wrap values and process these [special structures](/articles/an-introduction-to-monads-in-scala) all the time with for-comprehensions.
 
 A bit of explanation on that one-liner `flatMap`:
 

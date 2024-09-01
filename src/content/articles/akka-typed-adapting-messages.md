@@ -125,7 +125,7 @@ This solution is a quick way to ensure that the Checkout actor _is only responsi
 
 ## Using Message Adapters
 
-At this point, we can implement the rest of the logic of the Checkout actor, which is beyond the scope of the adapting technique. Let's assume we're keeping track of multiple users checking out at the same time (we're async, of course), so we can define a [stateless](akka-typed-actors-stateful-and-stateless) behavior:
+At this point, we can implement the rest of the logic of the Checkout actor, which is beyond the scope of the adapting technique. Let's assume we're keeping track of multiple users checking out at the same time (we're async, of course), so we can define a [stateless](/articles/akka-typed-actors-stateful-and-stateless) behavior:
 
 ```scala
 def handlingCheckouts(checkoutsInProgress: Map[String, ActorRef[Response]]): Behavior[Request] = {
