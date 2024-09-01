@@ -21,7 +21,7 @@ UDP has the following characteristics:
 
 UDP is mainly used for time-sensitive communications where occasionally dropping packets is better than waiting, such applications include live video streaming and VoIP, online gaming, and live broadcast streams.
 
-In this article, we will first understand how to implement UDP with Java NIO and gradually transition to [Fs2's](/fs2/) io library which provides binding for UDP networking. In the last section, we'll create a live audio streaming server with the knowledge we've gained.
+In this article, we will first understand how to implement UDP with Java NIO and gradually transition to [Fs2's](/articles/fs2-more-than-functional-streaming-in-scala) io library which provides binding for UDP networking. In the last section, we'll create a live audio streaming server with the knowledge we've gained.
 
 ## 2. Setting Up
 

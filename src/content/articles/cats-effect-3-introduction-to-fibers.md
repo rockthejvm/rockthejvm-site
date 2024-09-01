@@ -11,7 +11,7 @@ Cats Effect 3 has just been launched, with a lot of exciting changes and simplif
 
 This article is for the comfortable Scala programmer, but with otherwise limited exposure to Cats Effect. If you've just browsed through the Cats Effect documentation page and at least heard about the IO monad for Scala &mdash; perhaps from the first few pieces of the "getting started" section &mdash; this article is for you.
 
-## 1. Background and Setup
+## Background and Setup
 
 The code I'll show here is entirely written in Scala 3 &mdash; I'm a bit impatient and I'm using Scala 3 RC2, but the code is 100% compatible with the final Scala 3. If you want to test this code in your Scala 3 project, you'll need to add this library to your `build.sbt` file:
 
@@ -21,7 +21,7 @@ libraryDependencies += "org.typelevel" %% "cats-effect" % "3.1.0"
 
 Nothing else will otherwise be required.
 
-## 2. Running Things on Other Threads
+## Running Things on Other Threads
 
 Cats Effect's core data structure is its main effect type, `IO`. `IO[A]` instances describe computations that (if finished) evaluate to a value of type A, and which can perform arbitrary side effects (e.g. printing things, acquiring/releasing resources, etc). IOs can take many shapes and sizes, but I'll use the simple ones for the async stuff I'll show you later:
 
@@ -106,7 +106,7 @@ If we call this method from main (or `run`), we indeed see different threads:
 [io-compute-11] Scala
 ```
 
-## 3. Gathering Results from Fibers
+## Gathering Results from Fibers
 
 Much like we wait for a thread to join to make sure a variable was updated, and we `Await` a Future to compute a result, we also have the concept of joinin a Fiber, except in this case, it's all done in a purely functional way.
 
@@ -127,7 +127,7 @@ If we run this method in our main with our `meaningOfLife` IO instance, we'll ge
 
 Notice that the result of joining a fiber is not a value, but something that wraps an IO which wraps a value. In this case, it's a `Succeeded` instance, much like a `Success` case in running a Future. We get this kind of data (called an Outcome) after the fiber finishes.
 
-## 4. The End States of a Fiber
+## The End States of a Fiber
 
 A fiber can terminate in one of 3 states:
 
@@ -187,7 +187,7 @@ The result looks like this:
 [io-compute-0] Canceled() // the result of the fiber
 ```
 
-## 5. To Be Continued
+## To Be Continued
 
 This was a beginner-friendly introduction to Cats Effect fibers and asynchronous IO execution. We've covered what fibers are and how they work, how we can start them, wait for them to finish, and how to obtain the different end states they might find themselves in.
 

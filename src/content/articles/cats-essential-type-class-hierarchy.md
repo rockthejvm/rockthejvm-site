@@ -11,9 +11,9 @@ _This article is about the Cats Scala library. For lots of in-depth explanations
 
 This article is for the comfortable Scala programmer. We'll discuss the essential type classes in the Cats library, why we need them, how they're related and how you should think about them so that you're not tangled in all the abstractions.
 
-The code we'll write here is for **Scala 3**, but with a [minor adjustment](/givens-and-implicits/) it will work with Scala 2 as well.
+The code we'll write here is for **Scala 3**, but with a [minor adjustment](/articles/scala-3-givens-and-implicits) it will work with Scala 2 as well.
 
-## 1. Setup and Background
+## Setup and Background
 
 You've surely heard (or even read) about Cats: it's a library for functional programming abstractions, going beyond what Scala brings with its standard library. Cats offers (offer?) a range of type classes, extension methods and general FP primitives that allow us to write very general and extensible code very quickly (if we know what we're doing).
 
@@ -25,11 +25,11 @@ Cats needs to be added to your `build.sbt` file for us to work with it:
 libraryDependencies += "org.typelevel" %% "cats-core" % "2.6.1"
 ```
 
-For a quick introduction of why we need type classes in the first place, check out [this piece](/why-are-typeclasses-useful/).
+For a quick introduction of why we need type classes in the first place, check out [this piece](/articles/why-are-scala-type-classes-useful).
 
-## 2. Starting Easy: Semigroups and Monoids
+## Starting Easy: Semigroups and Monoids
 
-We've already talked a bit about [Semigroups and Monoids](/semigroups-and-monoids-in-scala/) in another article. These are some of the simplest type classes in Cats.
+We've already talked a bit about [Semigroups and Monoids](/articles/semigroups-and-monoids-in-scala/) in another article. These are some of the simplest type classes in Cats.
 
 A Semigroup is a type class granting the capability of a type to combine two values of that type and produce another value of that same type:
 
@@ -63,9 +63,9 @@ trait Monoid[A] extends Semigroup[A] {
 
 So we have our first relationship: Monoids extend Semigroups.
 
-## 2. Functors
+## Functors
 
-We also talked about [functors](/what-the-functor/) in another article and video. In there, we talked about why we need functors, with lots more examples. As a summary, functors describe the capability to "map" containers, such as lists, options, sets, futures, etc. The functor trait looks like this:
+We also talked about [functors](/articles/what-the-functor/) in another article and video. In there, we talked about why we need functors, with lots more examples. As a summary, functors describe the capability to "map" containers, such as lists, options, sets, futures, etc. The functor trait looks like this:
 
 ```scala
 trait Functor[F[_]] {
@@ -77,9 +77,9 @@ Notice it's higher-kinded, because the types which can be "mapped" are also gene
 
 At this point, it's worth mentioning that Cats has a rule of thumb when it deconstructs type classes: in general, _each type class has **one** fundamental method_. In the case of functors here, the fundamental method is `map`.
 
-## 3. Monads
+## Monads
 
-Monads are the sweet spot of pure FP. They encapsulate chainable computations, and we talked more about the [practical side of monads](/monads/) and the [_very_ theoretical side of monads](/monads-are-monoids-in-the-category-of-endofunctors/) in other articles here on the blog, but never about monads as a type class.
+Monads are the sweet spot of pure FP. They encapsulate chainable computations, and we talked more about the [practical side of monads](/an-introduction-to-monads-in-scala) and the [_very_ theoretical side of monads](/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala) in other articles here on the blog, but never about monads as a type class.
 
 For those of you who have read about Cats and experimented with monads, you know that monads have two capabilities:
 
@@ -114,7 +114,7 @@ Therefore, Monad should extend Functor, because we can implement the `map` metho
   Monoid               Monad
 ```
 
-## 4. Applicatives and Weaker Monads
+## Applicatives and Weaker Monads
 
 The thing is, I mentioned earlier that Cats' rule of thumb is one fundamental capability for each type class. Monad has two. Which of these two should be in a separate type class?
 
@@ -168,7 +168,7 @@ So the hierarchy looks like this:
 
 ```
 
-## 5. Semigroupals
+## Semigroupals
 
 This is one of the type classes which are harder to get into and rarely used directly.
 
@@ -182,7 +182,7 @@ trait Semigroupal[F[_]] {
 
 Semigroupal has a method that takes two wrapped values and returns a wrapped value of tuple(s). This is the (very general) concept of a cartesian product over any type F. Semigroupal doesn't have a parent type class in our hierarchy here.
 
-## 6. Weaker Applicatives
+## Weaker Applicatives
 
 Here's where it gets tricky. Cats has a bunch of type classes that seem unnecessarily abstract and without correspondent in real life. Apply is one of them.
 
@@ -233,7 +233,7 @@ The `mapN` method not only does a (cartesian) product between two wrapped values
                        Monad
 ```
 
-## 7. Error Types
+## Error Types
 
 Besides Applicatives which can wrap successful values of type `A` into a wrapped type `F[A]`, we can also wrap error types and treat them in the same way:
 
@@ -275,7 +275,7 @@ And thus, the final type class hierarchy looks like this:
                           MonadError
 ```
 
-## 8. Conclusion
+## Conclusion
 
 In this article, we've gone over the major type classes in Cats and established the basic relationship between them. The deep reasoning behind them is complex and way outside the scope of this piece, but hopefully you got the main intuition behind most (maybe all) of the type classes and relationships above.
 

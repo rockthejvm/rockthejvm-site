@@ -94,7 +94,7 @@ The `flatMap` method is a bit more difficult, but it resembles the list `flatMap
 val aTransformedOption_v2: Option[Int] = anOption.flatMap(x => Option(x * 10)) // Some(420)
 ```
 
-However, in this case, the `flatMap` method doesn't have the _meaning_ of concatenation (as was the case for lists), because here there's either a single value, or nothing. For Option, the `flatMap` method is a way of _chaining_ computations that may either produce a value or nothing. This general idea of sequencing computations is [immensely powerful](/monads/).
+However, in this case, the `flatMap` method doesn't have the _meaning_ of concatenation (as was the case for lists), because here there's either a single value, or nothing. For Option, the `flatMap` method is a way of _chaining_ computations that may either produce a value or nothing. This general idea of sequencing computations is [immensely powerful](/an-introduction-to-monads-in-scala).
 
 Finally, the `filter` method retains the original value of the Option if it passes a predicate, or it discards it otherwise, turning the original Option into None. Of course, if the original Option was empty to begin with, there's nothing to filter, hence nothing to process.
 

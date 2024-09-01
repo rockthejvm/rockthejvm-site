@@ -11,7 +11,7 @@ This article is for the comfortable Scala programmer. The code here will be writ
 
 ## 1. Objective
 
-The goal of Monoids, Semigroups, [Monads](/monads/) and other abstractions in functional programming is not so that we can inject more math into an already pretty abstract branch of computer science, but because these abstractions can be incredibly useful. As I hope the following code examples will demonstrate, many high-level constructs expressed as type classes can help make our API more general, expressive and concise at the same time, which is almost impossible without them.
+The goal of Monoids, Semigroups, [Monads](/an-introduction-to-monads-in-scala) and other abstractions in functional programming is not so that we can inject more math into an already pretty abstract branch of computer science, but because these abstractions can be incredibly useful. As I hope the following code examples will demonstrate, many high-level constructs expressed as type classes can help make our API more general, expressive and concise at the same time, which is almost impossible without them.
 
 This article will focus on Semigroups and Monoids.
 
@@ -41,7 +41,7 @@ val stringSemigroup: Semigroup[String] = new Semigroup[String] {
 
 ## 3. Semigroups as a Type Class
 
-To make these semigroups &mdash; which are essentially 2-arg combination funcitons &mdash; actually useful, we're going to follow the [type class](/why-are-typeclasses-useful/) pattern. We've already defined the general API of the type class' trait, so we're going to turn to these type class instances and turn them into [given instances](/scala-3-given-using/), or into implicit values/objects for Scala 2. For ergonomics, we'll also move them into an appropriate enclosure (usually an object):
+To make these semigroups &mdash; which are essentially 2-arg combination funcitons &mdash; actually useful, we're going to follow the [type class](/articles/why-are-scala-type-classes-useful) pattern. We've already defined the general API of the type class' trait, so we're going to turn to these type class instances and turn them into [given instances](/articles/scala-3-given-and-using-clauses), or into implicit values/objects for Scala 2. For ergonomics, we'll also move them into an appropriate enclosure (usually an object):
 
 ```scala
 object SemigroupInstances {

@@ -7,7 +7,7 @@ title: "Type-Level Programming in Scala 3: Part 2 - A Quicksort on Types"
 updatedDate: 2024-09-06
 ---
 
-This article is the part 2 of the mini-series of type-level programming in Scala 3. If you want an introduction to type-level programming and a gentle tutorial of how we can encapsulate a computational problem as a relationships between types which the compiler can solve, [read the first part here](/type-level-programming-scala-3).
+This article is the part 2 of the mini-series of type-level programming in Scala 3. If you want an introduction to type-level programming and a gentle tutorial of how we can encapsulate a computational problem as a relationships between types which the compiler can solve, [read the first part here](/articles/type-level-programming-in-scala-3-part-1-comparing-types).
 
 In this article, we're going to use the skills we learned in the previous part, and take them to level 90: we're going to write a quicksort algorithm on lists, at the type level, which the compiler can solve at compile time.
 

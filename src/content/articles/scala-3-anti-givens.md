@@ -7,13 +7,13 @@ title: "Scala 3: Anti-Givens Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-The Scala 3 [given/using combos](/scala-3-given-using/) have enormous expressive power. Just by themselves, they can synthesize new types and prove relationships between types, much like the old Scala 2 [implicits](/givens-vs-implicits).
+The Scala 3 [given/using combos](/articles/scala-3-given-and-using-clauses) have enormous expressive power. Just by themselves, they can synthesize new types and prove relationships between types, much like the old Scala 2 [implicits](/articles/scala-3-givens-vs-implicits).
 
 In this article, I'll show you a trick that few Scala developers know: making the compiler exploit the _absence_ of a given instance for enforcing type relationships.
 
 ## 1. Background
 
-This article is exclusive to Scala 3. So grab your dev environment and create a new Scala 3 project (no libraries are required). Also, some knowledge of [givens](/scala-3-given-using/) is going to prove useful.
+This article is exclusive to Scala 3. So grab your dev environment and create a new Scala 3 project (no libraries are required). Also, some knowledge of [givens](/articles/scala-3-given-and-using-clauses) is going to prove useful.
 
 ## 2. The Smaller Problem: Proving Type Equality
 

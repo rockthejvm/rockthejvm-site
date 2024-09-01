@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 import { YouTube } from "astro-embed";
 
-This beginner-friendly article will introduce you to Scala generics in a smooth, approachable way. If you're just getting started with Scala and generics seem challenging to you, we'll make everything clear. The article is aimed at people getting into Scala from other languages _with dynamic typing_, such as Python or JavaScript. In my experience teaching, I noticed that Scala's type system, particularly generics, [variance](/scala-variance-positions/) and other bits around generics seem to be especially difficult if my students' entire programming experience was in Python, JS or other languages with dynamic type systems. That said, Java folks will also benefit from this article.
+This beginner-friendly article will introduce you to Scala generics in a smooth, approachable way. If you're just getting started with Scala and generics seem challenging to you, we'll make everything clear. The article is aimed at people getting into Scala from other languages _with dynamic typing_, such as Python or JavaScript. In my experience teaching, I noticed that Scala's type system, particularly generics, [variance](/articles/demystifying-variance-positions-in-scala) and other bits around generics seem to be especially difficult if my students' entire programming experience was in Python, JS or other languages with dynamic type systems. That said, Java folks will also benefit from this article.
 
 This is a Scala generics guide that will explain
 
@@ -210,7 +210,7 @@ We get multiple benefits by using Scala generics in this way:
 - we can reuse the same code/logic for _all_ types
 - we guarantee type safety
 
-Now, generics in Scala lead to a whole range of [features](/scala-variance-positions/) and potentially [difficult concepts](/contravariance/), but here are some features of generics that you can use right now.
+Now, generics in Scala lead to a whole range of [features](/articles/demystifying-variance-positions-in-scala) and potentially [difficult concepts](/articles/why-is-contravariance-so-hard-in-scala), but here are some features of generics that you can use right now.
 
 First, you can add type arguments to every class or trait that you want to reuse for different types, in the style shown above.
 

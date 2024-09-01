@@ -13,7 +13,7 @@ This article describes the Free monad in Scala &mdash; how it works, what it's g
 
 This piece assumes you're already very comfortable with Scala. If you know a bit of Cats (which we teach in the [Cats course](/courses/cats)), that's a bonus, but not required for this article, because we're going to lay all the groundwork for what we need here.
 
-This post was written for Scala 3, but the concepts work almost identically for Scala 2 if you replace [givens with implicits](/givens-vs-implicits/).
+This post was written for Scala 3, but the concepts work almost identically for Scala 2 if you replace [givens with implicits](/articles/scala-3-givens-vs-implicits).
 
 If you want to see this article in video form, please watch below:
 
@@ -23,9 +23,9 @@ If you want to see this article in video form, please watch below:
 
 In order to describe the Free monad, we need to understand what a Monad is. We've already written several approaches to it:
 
-- [a way to avoid cluttered code](/monads/)
-- [a type describing sequential computations](/another-take-on-monads/)
-- [a monoid in the category of endofunctors](/monads-are-monoids-in-the-category-of-endofunctors/)
+- [a way to avoid cluttered code](/an-introduction-to-monads-in-scala)
+- [a type describing sequential computations](/articles/a-fresh-perspective-on-monads)
+- [a monoid in the category of endofunctors](/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala)
 
 I encourage you to read at least the first two approaches. Monads are very powerful and form the building blocks for every useful piece of purely functional code. We describe monads as a type class, which takes a generic type argument which is itself generic (a higher-kinded type):
 
@@ -131,7 +131,7 @@ It's easy to imagine an example of an interaction with such a database:
 - associate this new value to another key
 - delete the old key
 
-This is a sequential suite of operations. Because it's sequential, a monadic data type to describe all of these operations can prove very useful. However, instead of writing a type class instance for `Monad[DBOps]` and following the [tagless-final](/tagless-final) approach, we're going to use a Free monad:
+This is a sequential suite of operations. Because it's sequential, a monadic data type to describe all of these operations can prove very useful. However, instead of writing a type class instance for `Monad[DBOps]` and following the [tagless-final](/articles/tagless-final-in-scala) approach, we're going to use a Free monad:
 
 ```scala
 type DBMonad[A] = Free[DBOps, A]
@@ -198,7 +198,7 @@ First of all, what's a `natTrans` and the `~>` symbol? The concept of "natural t
   }
 ```
 
-So instead of a regular Function1 taking value types as type parameters, now we operate at a higher kind. We used this concept in our demonstration for why [monads are monoids in the category of endofunctors](/monads-are-monoids-in-the-category-of-endofunctors/). Examples of natural transformations in real life include:
+So instead of a regular Function1 taking value types as type parameters, now we operate at a higher kind. We used this concept in our demonstration for why [monads are monoids in the category of endofunctors](/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala). Examples of natural transformations in real life include:
 
 - `Try[A].toOption`: this is an example of an implementation of a natural transformation between `Try` and `Option`
 - `List[A].headOption` which returns the head of the list, if it exists: an example of an implementation of a natural transformation between `List` and `Option`
