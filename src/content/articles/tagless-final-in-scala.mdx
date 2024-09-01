@@ -31,7 +31,7 @@ Special thanks to
 
 ## 1. The Expression Problem
 
-Because we write FP, we think in terms of expressions. In fact, a purely functional program is nothing else but a single expression (if quite big) that computes a value (albeit quite complex, e.g. a server or a data pipeline). This is what I teach in both my [Scala](https://rockthejvm.com/courses/scala) [courses](https://rockthejvm.com/courses/advanced-scala) here at Rock the JVM.
+Because we write FP, we think in terms of expressions. In fact, a purely functional program is nothing else but a single expression (if quite big) that computes a value (albeit quite complex, e.g. a server or a data pipeline). This is what I teach in both my [Scala](/courses/scala-essentials) [courses](/courses/advanced-scala) here at Rock the JVM.
 
 For pure FP to work properly in a strongly typed language like Scala, we immediately get into the _expression problem_. Namely, if we're given an expression computing a value, we would like to be able to evaluate it and return the proper value of the right _type_ for that expression.
 
@@ -289,7 +289,7 @@ def demoFinalTagless_v2(): Unit = {
 }
 ```
 
-This is what we end up with in libraries such as Cats Effect. We write very general code in terms of an effect type, and finally we plug it in at the "end of the world", where the type class instances for that effect type are brought into scope. I show that in the [Cats Effect course](https://rockthejvm.com/courses/cats-effect), by the way.
+This is what we end up with in libraries such as Cats Effect. We write very general code in terms of an effect type, and finally we plug it in at the "end of the world", where the type class instances for that effect type are brought into scope. I show that in the [Cats Effect course](/courses/cats-effect), by the way.
 
 However, using this style is not a requirement for a solution to be "tagless final".
 

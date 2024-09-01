@@ -8,7 +8,7 @@ title: "http4s: Unleashing the Power of HTTP APIs Library"
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](https://rockthejvm.com/courses/cats). For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming. Riccardo is a senior developer, a teacher and a passionate technical blogger._
+_This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming. Riccardo is a senior developer, a teacher and a passionate technical blogger._
 
 _Enter Riccardo:_
 
@@ -42,7 +42,7 @@ Without dwelling on the details, we can identify the following APIs among the ot
 - Getting the list of actors of a movie
 - Adding a new director to the application
 
-As we just finished the \[Riccardo speaking here\] fantastic [Cats course on Rock The JVM](https://rockthejvm.com/courses/cats), we want to use a library built on the Cats ecosystem. Fortunately, the [http4s](https://http4s.org/) library is what we are looking for. So, let's get a deep breath and start diving into the world of functional programming applied to HTTP APIs development.
+As we just finished the \[Riccardo speaking here\] fantastic [Cats course on Rock The JVM](/courses/cats), we want to use a library built on the Cats ecosystem. Fortunately, the [http4s](https://http4s.org/) library is what we are looking for. So, let's get a deep breath and start diving into the world of functional programming applied to HTTP APIs development.
 
 ## 2. Library Setup
 

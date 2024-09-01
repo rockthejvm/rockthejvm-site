@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 This article is pretty general. Although we'll write Scala, the article will focus more on the concept than on some very specific API.
 
-This is one of the lessons of the [Cats course](https://rockthejvm.com/courses/cats), which we look at in general terms here.
+This is one of the lessons of the [Cats course](/courses/cats), which we look at in general terms here.
 
 ## 1. Background
 

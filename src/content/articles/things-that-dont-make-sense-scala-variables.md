@@ -72,7 +72,7 @@ That's not to say that variables are bad all the time. I'll probably talk about 
 
 ## The contrarian
 
-So I've stopped teaching people about variables, and my recent trainings at Adobe and the <a href="https://rockthejvm.com/course/scala-at-light speed">Scala at Light Speed</a> embody that belief. I start with values and just carry on with expressions, then functions and then teach people how to build moroe complex things. Some trainees and students sometimes ask me, "Daniel, isn't there some variable or something?" at which I tell a lie and say "Nope. You'll have to use what you have.". And they always do, they find a way, and after the training or the class they tell me they understand Scala as a different way of thinking, which is my main goal. Only then do I tell them that there is such a thing as a variable in Scala, but by that time, nobody even cares.
+So I've stopped teaching people about variables, and my recent trainings at Adobe and the [Scala at Light Speed](/courses/scala-at-light speed) embody that belief. I start with values and just carry on with expressions, then functions and then teach people how to build moroe complex things. Some trainees and students sometimes ask me, "Daniel, isn't there some variable or something?" at which I tell a lie and say "Nope. You'll have to use what you have.". And they always do, they find a way, and after the training or the class they tell me they understand Scala as a different way of thinking, which is my main goal. Only then do I tell them that there is such a thing as a variable in Scala, but by that time, nobody even cares.
 
 Rule of thumb:
 

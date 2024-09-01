@@ -8,7 +8,7 @@ title: Learning Doobie for the Greater Good
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](https://rockthejvm.com/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post._
+_This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post._
 
 _We hope you enjoy it!_
 
@@ -16,7 +16,7 @@ The vast majority of applications today connect with some form of a persistent l
 
 So, without further ado, let's introduce the Doobie library.
 
-> This article uses advanced Scala features. We teach these in the [Advanced Scala](https://rockthejvm.com/courses/advanced-scala) course.
+> This article uses advanced Scala features. We teach these in the [Advanced Scala](/courses/advanced-scala) course.
 
 ## 1. Set Up
 
@@ -246,7 +246,7 @@ The `ConnectionIO[A]` type is interesting since it introduces a typical pattern 
 
 Although the description and profound comprehension of the free monad is behind the scope of this article, we can say that a program with the type `ConnectionIO[A]` represents a computation that, given a `Connection`, will generate a value of type `IO[A]`.
 
-Every free monad is only a description of a program. It's not executable at all since it requires an interpreter. The interpreter, in this case, is the `Transactor` we created. Its role is to compile the program into a `Kleisli[IO, Connection, A]`. The course on [Cats](https://rockthejvm.com/courses/cats) explains `Kleisli` in depth, but in short, the previous `Kleisli` is another representation of the function `Connection => IO[A]`.
+Every free monad is only a description of a program. It's not executable at all since it requires an interpreter. The interpreter, in this case, is the `Transactor` we created. Its role is to compile the program into a `Kleisli[IO, Connection, A]`. The course on [Cats](/courses/cats) explains `Kleisli` in depth, but in short, the previous `Kleisli` is another representation of the function `Connection => IO[A]`.
 
 So, given an instance of `IO[Connection]` to the `Kleisli` through the `transact` method, we can execute the compiled program into the desired `IO[A]`, and then run it using the Cats Effect library:
 

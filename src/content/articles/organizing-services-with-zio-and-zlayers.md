@@ -50,7 +50,7 @@ val greetingZio =
   for {
     _    <- putStrLn("Hi! What is your name?")
     name <- getStrLn
-    _    <- putStrLn(s"Hello, $name, welcome to Rock the JVM!")
+    _    <- putStrLn(s"Hello, $name, welcome to Rock the JVM")
   } yield ()
 ```
 
@@ -160,7 +160,7 @@ Here's how we can directly use this in a main app:
 object ZLayerPlayground extends zio.App {
   override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, ExitCode] =
     UserEmailer
-      .notify(User("Daniel", "daniel@rockthejvm.com"), "Welcome to Rock the JVM!") // the specification of the action
+      .notify(User("Daniel", "daniel@rockthejvm.com"), "Welcome to Rock the JVM") // the specification of the action
       .provideLayer(UserEmailer.live) // plugging in a real layer/implementation to run on
       .exitCode // trigger the effect
 }
@@ -245,7 +245,7 @@ Remember what we wrote earlier when we used the email notification service direc
 ```scala
 override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, ExitCode] =
   UserEmailer
-    .notify(User("Daniel", "daniel@rockthejvm.com"), "Welcome to Rock the JVM!")
+    .notify(User("Daniel", "daniel@rockthejvm.com"), "Welcome to Rock the JVM")
     .provideLayer(UserEmailer.live) // <--- this is where we plug a ZLayer containing a real service implementation
     .exitCode
 ```

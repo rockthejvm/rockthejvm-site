@@ -43,7 +43,7 @@ The `given` mechanism works in the same way as the `implicit` mechanism, for the
 - the scope of the companion object of the class whose method you're invoking
 - the scope of the companion objects of all the types involved in the method call, if the method is generic
 
-I talk more in depth about this mechanism in the [advanced Scala course](https://rockthejvm.com/courses/advanced-scala), but it should suffice for this article.
+I talk more in depth about this mechanism in the [advanced Scala course](/courses/advanced-scala), but it should suffice for this article.
 
 For example, let's consider a simple no-arg method which requires a `given` instance:
 

@@ -27,7 +27,7 @@ This guide is for developers with some experience with some other language, and 
 
 I also made a video version of this guide as a YouTube playlist which you can watch [here](https://www.youtube.com/playlist?list=PLmtsMNDRU0BwGCBDIKKQNLYycRTnQzMfp).
 
-> If you go through this guide saying "hmm, Kotlin looks cool", I encourage you to go _deep_. For that, I think you'll like [Kotlin Essentials](https://rockthejvm.com/courses/kotlin-essentials). It's a jam-packed, long-form, hands-on course where you'll write not hundreds but _thousands_ of lines of code from scratch in dozens of examples and exercises, including an _image processing project_ that you can use for your own pictures.
+> If you go through this guide saying "hmm, Kotlin looks cool", I encourage you to go _deep_. For that, I think you'll like [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed, long-form, hands-on course where you'll write not hundreds but _thousands_ of lines of code from scratch in dozens of examples and exercises, including an _image processing project_ that you can use for your own pictures.
 
 [^time]: Don't be fooled by the estimated "read time". If you can go through this guide at 200 words per minute as this blog is usually set up to estimate, then you're either a genius or a Kotlin expert already. My advice: take about 2-3x the estimated time here, to understand the code examples as well.
 
@@ -979,6 +979,6 @@ Nicely done, Kotlin!
 
 In this long-form guide, we went through a crash course in Kotlin. We explored the basic syntax structures, control flow, looping, functions, values and types, along with the compiler type inference. We covered the major object-oriented features of the language, including classes, instances, methods, properties, along with the inheritance model and the rules we must follow. We showed examples of generics and the important collections in the standard library, and then we looked into a different mode of thinking with functional programming and the functional API of collections. Finally, we saw some nice Kotlin-specific features that make programming fun and bug-safe at the same time.
 
-I hope you enjoyed this fast-track guide to Kotlin. If you're interested in Kotlin in a deeper way, I highly recommend the [Kotlin Essentials](https://rockthejvm.com/courses/kotlin-essentials) course to get some practical experience and a few thousand lines of code under your belt.
+I hope you enjoyed this fast-track guide to Kotlin. If you're interested in Kotlin in a deeper way, I highly recommend the [Kotlin Essentials](/courses/kotlin-essentials) course to get some practical experience and a few thousand lines of code under your belt.
 
 If you'd like to see the code for this written guide, it is available [on GitHub](https://github.com/rockthejvm/kotlin-at-light-speed).

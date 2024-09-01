@@ -10,7 +10,7 @@ updatedDate: 2024-09-06
 
 > Hey everyone, Daniel here. Lucas' story is shared by lots of beginner Scala developers, which is why I wanted to post it here on the blog. I've watched thousands of developers learn Scala from scratch, and, like Lucas, they love it!
 >
-> If you want to learn Scala well **and** fast, take a look at my [Scala Essentials](https://rockthejvm.com/courses/scala) course at Rock the JVM.
+> If you want to learn Scala well **and** fast, take a look at my [Scala Essentials](/courses/scala-essentials) course at Rock the JVM.
 > Enjoy!
 
 ## 1. Why Scala?
@@ -84,7 +84,7 @@ MyArray(1, 2, 3).map(x => x + 1) // MyArray(2, 3, 4)
 MyArray("a", "b", "c").map(x => x + "z") // MyArray("az", "bz", "cz")
 ```
 
-You can find a complete example in the [Scala Essential Courses](https://rockthejvm.com/courses/enrolled/830425)
+You can find a complete example in the [Scala Essential Courses](/courses/enrolled/830425)
 
 You could ask, "why would I use `map` when I can use loops ?". Well, for each transformation, we need to manually initialize a new collection, iterate over the original one, and then apply the transformation to each element. This is not only more code, but it's also less readable (we need to read the entire block to understand it).
 
@@ -268,7 +268,7 @@ In 2021, I started looking at the Scala language, and since I became quite inter
 
 That's how I landed on Scala and started going "in depth". Before the internship, I learned the basics of the language and functional programming, but I was far from using it efficiently. During it, I learned quite a lot: the basics of pure functional programming with the `Cats-effect` framework, the difference between `map` and `flatMap` (which was not easy at first), for-comprehensions, and even a bit about variance...
 
-Once it was finished, I was a little bit frustrated not to have been able to do more, but it motivated me to keep learning Scala. I did this by following both the beginner and advanced courses on [RockTheJVM!](https://rockthejvm.com/) and by doing some puzzles with Scala on [CodinGame](https://www.codingame.com/). Even though I had the initial motivation, I was surprised not to have many difficulties following these video-based courses and keeping a certain rhythm in it (I had lots of difficulties following online courses during the COVID pandemic).
+Once it was finished, I was a little bit frustrated not to have been able to do more, but it motivated me to keep learning Scala. I did this by following both the beginner and advanced courses on [Rock The JVM](/) and by doing some puzzles with Scala on [CodinGame](https://www.codingame.com/). Even though I had the initial motivation, I was surprised not to have many difficulties following these video-based courses and keeping a certain rhythm in it (I had lots of difficulties following online courses during the COVID pandemic).
 
 #### 2.1.2 Internship at the [Scala Center](https://scala.epfl.ch/)
 

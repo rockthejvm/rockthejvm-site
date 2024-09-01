@@ -7,7 +7,7 @@ title: "Things That Don't Make Sense: Scala Loops"
 updatedDate: 2024-09-06
 ---
 
-I wrote an article not too long ago on why <a href="https://rockthejvm.com/blog/variables">learning variables in Scala doesn't make sense</a>, and likewise teaching variables as one of the first concepts also doesn't make sense. In this article I'm going to expand that idea to the lovely loops.
+I wrote an article not too long ago on why [learning variables in Scala doesn't make sense](/articles/things-that-dont-make-sense-scala-variables), and likewise teaching variables as one of the first concepts also doesn't make sense. In this article I'm going to expand that idea to the lovely loops.
 
 This article is for 1) programmers who are just getting started with Scala and 2) for Scala teachers.
 
@@ -88,7 +88,7 @@ for (int x: list) {
 }
 ```
 
-But it's not. Foreach is not built into the Scala language. Foreach is one of the <a href="https://rockthejvm.com/blog/hof-for-oop">higher-order functions</a> that are part of every standard collection. It's particularly confusing given Scala's alternative lambda syntax with curly braces, but the "x =>" that follows the curly braces is an anonymous function, nothing more.
+But it's not. Foreach is not built into the Scala language. Foreach is one of the [higher-order functions](/articles/higher-order-functions-for-object-oriented-programmers) that are part of every standard collection. It's particularly confusing given Scala's alternative lambda syntax with curly braces, but the "x =>" that follows the curly braces is an anonymous function, nothing more.
 
 ## The for "loop"
 
