@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 This short article is for the Scala developer who is curious about the capabilities of its type system. What I'm about to describe is not used very often, but when you need something like this, it can prove pretty powerful.
 
-If you want to understand why abstract type projections are unsound and were removed in Scala 3, check [this article](/scala-3-type-projections/).
+If you want to understand why abstract type projections are unsound and were removed in Scala 3, check [this article](/articles/scala-3-general-type-projections).
 
 ## 1. Nesting Types
 
@@ -95,7 +95,7 @@ Here are a few examples where path-dependent types type projections are useful.
 
 Example 1: a number of libraries use type projections for type-checking and type inference. [Akka Streams](https://doc.akka.io/docs/akka/current/stream/index.html), for example, uses path-dependent types to automatically determine the appropriate stream type when you plug components together: for example, you might see things like `Flow[Int, Int, NotUsed]#Repr` in the type inferrer.
 
-Example 2: [type lambdas](/scala-3-type-lambdas/) used to rely exclusively on type projections in Scala 2, and they looked pretty hideous (e.g. `{ type T[A] = List[A] }#T` ) because it was essentially the only way to do it. Thank heavens we now have a proper syntactic construct in Scala 3 for type lambdas.
+Example 2: [type lambdas](/articles/scala-3-type-lambdas) used to rely exclusively on type projections in Scala 2, and they looked pretty hideous (e.g. `{ type T[A] = List[A] }#T` ) because it was essentially the only way to do it. Thank heavens we now have a proper syntactic construct in Scala 3 for type lambdas.
 
 Example 3: you might even go bananas and write a full-blown [type-level sorter](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) by abusing abstract types and instance-dependent types along with implicits (or givens in Scala 3).
 

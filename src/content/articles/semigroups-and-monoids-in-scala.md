@@ -11,7 +11,7 @@ This article is for the comfortable Scala programmer. The code here will be writ
 
 ## 1. Objective
 
-The goal of Monoids, Semigroups, [Monads](/an-introduction-to-monads-in-scala) and other abstractions in functional programming is not so that we can inject more math into an already pretty abstract branch of computer science, but because these abstractions can be incredibly useful. As I hope the following code examples will demonstrate, many high-level constructs expressed as type classes can help make our API more general, expressive and concise at the same time, which is almost impossible without them.
+The goal of Monoids, Semigroups, [Monads](/articles/an-introduction-to-monads-in-scala) and other abstractions in functional programming is not so that we can inject more math into an already pretty abstract branch of computer science, but because these abstractions can be incredibly useful. As I hope the following code examples will demonstrate, many high-level constructs expressed as type classes can help make our API more general, expressive and concise at the same time, which is almost impossible without them.
 
 This article will focus on Semigroups and Monoids.
 

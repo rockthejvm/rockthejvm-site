@@ -8,7 +8,7 @@ title: "Kafka 101: Streams Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a frequent contributor to the Rock the JVM blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's well versed with Apache Kafka; he recently published an article on [how to integrate ZIO and Kafka](/zio-kafka). So now he rolled up his sleeves in the quest of writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you enjoy it! Enter Riccardo:_
+_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a frequent contributor to the Rock the JVM blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's well versed with Apache Kafka; he recently published an article on [how to integrate ZIO and Kafka](/articles/zio-kafka). So now he rolled up his sleeves in the quest of writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you enjoy it! Enter Riccardo:_
 
 Apache Kafka nowadays is clearly the leading technology concerning message brokers. It's scalable, resilient, and easy to use. Moreover, it leverages a bunch of exciting client libraries that offer a vast set of additional features. One of these libraries is _Kafka Streams_.
 
@@ -55,7 +55,7 @@ import java.util.Properties
 import scala.concurrent.duration._
 ```
 
-We will use version 2.8.0 of Kafka. As we've done in the article [ZIO Kafka: A Practical Streaming Tutorial](/zio-kafka/), we will start the Kafka broker using a Docker container, declared through a `docker-compose.yml` file:
+We will use version 2.8.0 of Kafka. As we've done in the article [ZIO Kafka: A Practical Streaming Tutorial](/articles/zio-kafka), we will start the Kafka broker using a Docker container, declared through a `docker-compose.yml` file:
 
 ```yaml
 version: "2"

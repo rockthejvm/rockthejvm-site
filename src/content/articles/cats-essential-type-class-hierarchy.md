@@ -79,7 +79,7 @@ At this point, it's worth mentioning that Cats has a rule of thumb when it decon
 
 ## Monads
 
-Monads are the sweet spot of pure FP. They encapsulate chainable computations, and we talked more about the [practical side of monads](/an-introduction-to-monads-in-scala) and the [_very_ theoretical side of monads](/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala) in other articles here on the blog, but never about monads as a type class.
+Monads are the sweet spot of pure FP. They encapsulate chainable computations, and we talked more about the [practical side of monads](/articles/an-introduction-to-monads-in-scala) and the [_very_ theoretical side of monads](/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala) in other articles here on the blog, but never about monads as a type class.
 
 For those of you who have read about Cats and experimented with monads, you know that monads have two capabilities:
 
