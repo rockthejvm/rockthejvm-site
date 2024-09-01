@@ -8,7 +8,7 @@ title: Roadmap to Becoming a Successful Data Engineer
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Anirban Goswami](https://www.linkedin.com/in/anigos/) a.k.a. Ani, one of the earliest Rock the JVM students and fans, now a big data architect. Here, Ani shares his stories and tips for aspiring data engineers. Ani is mega-passionate about what he's doing, which is reflected in the slightly different, more conversational style of this article._
+_This article is brought to you by [Anirban Goswami](/authors/anirban-goswami) a.k.a. Ani, one of the earliest Rock the JVM students and fans, now a big data architect. Here, Ani shares his stories and tips for aspiring data engineers. Ani is mega-passionate about what he's doing, which is reflected in the slightly different, more conversational style of this article._
 
 > “Data! Data! Data! I can’t make bricks without clay!” - Arthur Conan Doyle
 
