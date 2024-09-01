@@ -13,7 +13,7 @@ This article follows [the article where I discuss Spark query plans](/articles/u
 
 ## Prerequisites
 
-The code I'll be writing is inside a Spark shell with version 3.0.0, which you can find <a href = "https://spark.apache.org/downloads.html">here</a> for download. The default choices in the dropdown selectors will give you a pre-compiled Spark distribution. Just download, unzip, navigate to the bin folder, then run the spark-shell executable.
+The code I'll be writing is inside a Spark shell with version 3.0.0, which you can find [here](https://spark.apache.org/downloads.html) for download. The default choices in the dropdown selectors will give you a pre-compiled Spark distribution. Just download, unzip, navigate to the bin folder, then run the spark-shell executable.
 
 That is, if you've never installed Spark before.
 
@@ -34,7 +34,7 @@ That times5 DataFrame will not actually get evaluated until you call an action, 
 times5.show()
 ```
 
-Only at this point will Spark be performing the actual computations. An action will trigger a Spark job, which will be visible in the Spark UI. If you run this locally, either in your IDE or on your Spark Shell, usually the Spark UI will be at <a href="http://localhost:4040">localhost:4040</a>. When you go to the Spark UI, you'll see a table with all the jobs that the application has completed and is currently running. If you click on the one you just ran, you'll see something like this:
+Only at this point will Spark be performing the actual computations. An action will trigger a Spark job, which will be visible in the Spark UI. If you run this locally, either in your IDE or on your Spark Shell, usually the Spark UI will be at [localhost:4040](http://localhost:4040). When you go to the Spark UI, you'll see a table with all the jobs that the application has completed and is currently running. If you click on the one you just ran, you'll see something like this:
 
 <img src="https://www.filepicker.io/api/file/tbMNIX8zSjySljz8QNWH" class="img-responsive">
 
