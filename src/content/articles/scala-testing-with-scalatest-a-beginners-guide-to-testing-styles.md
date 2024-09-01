@@ -17,7 +17,7 @@ For the longest time, I never paid any attention to ScalaTest and the various te
 
 This article makes the distinction between various testing approaches with ScalaTest, with a few clear examples for each. As much as possible, I'll keep the same examples throughout, so you can make the difference between testing styles with Scala and ScalaTest.
 
-To write code with me in this article, you'll need to add the ScalaTest libraries to your SBT project in the `build.sbt` file:
+To write code with me in this article, you'll need to add the ScalaTest libraries to your sbt project in the `build.sbt` file:
 
 ```scala
 libraryDependencies ++= Seq(
@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
 }
 ```
 
-We'll write our tests in the `src/test/scala` folder in the SBT project.
+We'll write our tests in the `src/test/scala` folder in the sbt project.
 
 For the purposes of this article, we'll be testing a simple Calculator object that we can create really quickly:
 

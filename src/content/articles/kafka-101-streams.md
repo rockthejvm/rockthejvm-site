@@ -187,7 +187,7 @@ If we want to create any structure on top of Kafka topics, such as stream, we ne
 
 What's a `Serde`? The `Serde` word stands for `Serializer` and `Deserializer`. A `Serde` provides the logic to read and write a message from and to a Kafka topic.
 
-So, if we have a `Serde[R]` instance, we can deserialize and serialize objects of the type `R`. In this article, we will use JSON format for the payload of Kafka messages. In Scala, one of the most used libraries to marshall and unmarshall JSON into objects is Circe. We already talked about Circe in the post [Unleashing the Power of HTTP Apis: The Http4s Library](http4s-unleashing-the-power-of-http-apis-library), when we used it together with the Http4s library.
+So, if we have a `Serde[R]` instance, we can deserialize and serialize objects of the type `R`. In this article, we will use JSON format for the payload of Kafka messages. In Scala, one of the most used libraries to marshall and unmarshall JSON into objects is Circe. We already talked about Circe in the post [Unleashing the Power of HTTP Apis: The http4s Library](http4s-unleashing-the-power-of-http-apis-library), when we used it together with the http4s library.
 
 ```scala
 // Scala Kafka Streams library

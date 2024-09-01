@@ -1,7 +1,7 @@
 ---
 author: herbert-kateu
 category: guide
-excerpt: Discover how to implement OAuth authentication in Scala with Http4s and GitHub as your OAuth provider
+excerpt: Discover how to implement OAuth authentication in Scala with http4s and GitHub as your OAuth provider
 publishedDate: 2023-07-27
 tags: [http4s, scala]
 title: "Authentication with Scala and http4s: OAuth"
@@ -12,7 +12,7 @@ import { YouTube } from "astro-embed";
 
 ## Introduction
 
-This is a follow-up to the [Two-Factor Authentication](/articles/authentication-with-scala-and-http4s-oauth-two-factor-authentication) article that was written earlier, and as such is the third article in the series.
+This is a follow-up to the [Authentication with Scala and http4s: 2FA (Two-Factor Authentication)](/articles/authentication-with-scala-and-http4s-oauth-two-factor-authentication) article that was written earlier, and as such is the third article in the series.
 
 OAuth which stands for Open Authorization is an open standard framework that allows the user to permit a website or application to interact with another without giving up his or her password.
 
@@ -74,7 +74,7 @@ We use Scala 3 in this tutorial, if you need to use Scala 2.13, you can do so wi
 
 ### Registering Our OAuth App on GitHub
 
-Before we dive into Scala code, we need to register our application on github.com, Github will provide us with important credentials relevant for our app to function.
+Before we dive into Scala code, we need to register our application on [github.com](https://github.com), GitHub will provide us with important credentials relevant for our app to function.
 
 Follow the following steps to register our app with GitHub:
 
@@ -102,7 +102,7 @@ Follow the following steps to register our app with GitHub:
 
 ### Configuring Our Application
 
-In the following sections, we'll build our Scala application using [Http4s](http4s-unleashing-the-power-of-http-apis-library) for the routing and serving the application, Circe for JSON parsing, and Ciris for configuration.
+In the following sections, we'll build our Scala application using [http4s](http4s-unleashing-the-power-of-http-apis-library) for the routing and serving the application, Circe for JSON parsing, and Ciris for configuration.
 
 Create a resources folder inside your main folder. Then within it create an `apiConfig.json` file and add the Client Id and Client Secret we saved earlier from GitHub in the following format.
 
@@ -582,7 +582,7 @@ Now let's create our index.html file in the following path, `oauth/src/main/scal
       href="https://github.com/login/oauth/authorize?scope=user:email&client_id=YOUR_CLIENT_ID_HERE"
       >here</a
     >
-    to view your github details.
+    to view your GitHub details.
   </p>
 </html>
 ```

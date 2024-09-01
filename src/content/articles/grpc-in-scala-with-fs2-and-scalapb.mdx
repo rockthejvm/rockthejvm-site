@@ -406,7 +406,7 @@ object AppRoutes {
 }
 ```
 
-Above we define our first route `/index.html` which serves the client with an `HTML` page where one can make orders from our online store. It uses the `fromString()` method from `Http4s`'s `StaticFile` object which takes a `URL` `String` to an `HTML` file and an `Option` of a `Request[IO]`. If the `URL` is incorrect the client receives status code `404`, meaning the page is not available.
+Above we define our first route `/index.html` which serves the client with an `HTML` page where one can make orders from our online store. It uses the `fromString()` method from `http4s`'s `StaticFile` object which takes a `URL` `String` to an `HTML` file and an `Option` of a `Request[IO]`. If the `URL` is incorrect the client receives status code `404`, meaning the page is not available.
 
 ```scala
 // ...

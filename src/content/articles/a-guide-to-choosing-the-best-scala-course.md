@@ -109,7 +109,7 @@ Scala has a rich ecosystem of libraries, each built on a radically different set
 
 [Cats Effect](https://typelevel.org/cats-effect) is a functional effect library that provides a general approach to handling side effects in a purely functional way. Besides the IO monad which gives you the power to write large-scale concurrent applications quite easily, Cats Effect also generalizes computations with type classes, making your code very clear, although it requires quite a bit of discipline to not get frustrated about compiler errors &mdash; which are good! Remember that the compiler is supposed to guard you from bugs.
 
-Cats and Cats Effect have started Typelevel, their own mini-ecosystem of libraries, including [http4s](https://http4s.org), [fs2](https://fs2.io/) and [doobie](https://tpolecat.github.io/doobie/), which are heavily used in production.
+Cats and Cats Effect have started Typelevel, their own mini-ecosystem of libraries, including [http4s](https://http4s.org), [FS2](https://fs2.io/) and [doobie](https://tpolecat.github.io/doobie/), which are heavily used in production.
 
 I talked at length about writing production apps on the Typelevel libraries at Scalar and ScalaMatsuri 2023; you can find a polished recording [here](https://youtu.be/f7IKyXmcT8w).
 
@@ -127,7 +127,7 @@ Second, it opts for more practicality with layers. With the Typelevel ecosystem,
 
 Third, type safety is guaranteed by embracing variance, one of the powerful features of the Scala type system which we explore in the advanced Scala course.
 
-ZIO is super powerful and has an emerging ecosystem of libraries that interact with databases, HTTP, ES, Cassandra, Kafka, GRPC, even Akka wrappers. If you want to learn ZIO, we have a full-blown [ZIO course here](/courses/zio).
+ZIO is super powerful and has an emerging ecosystem of libraries that interact with databases, HTTP, ES, Cassandra, Kafka, gRPC, even Akka wrappers. If you want to learn ZIO, we have a full-blown [ZIO course here](/courses/zio).
 
 ### Apache Spark
 
@@ -163,8 +163,8 @@ I'd recommend the following learning path:
   - advanced concepts that we discussed earlier in the article
 - one FP library ecosystem, either Typelevel or ZIO &mdash; don't ask which because you'll get into endless debates, pick one at random and stick with it
   - the core library (Cats Effect or ZIO)
-  - an HTTP library (Http4s or ZIO HTTP)
-  - a database/persistence library (Doobie or Quill)
+  - an HTTP library (http4s or ZIO HTTP)
+  - a database/persistence library (doobie or ZIO Quill)
   - a streaming library (FS2 or ZIO Streams)
   - a functional abstractions library (Cats or ZIO Prelude)
 

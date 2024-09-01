@@ -121,7 +121,7 @@ The main idea here is to avoid conflicts with Java 9 module system files and ens
 and a one line definition in `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.1") // SBT plugin for using assembly command
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.1") // sbt plugin for using assembly command
 ```
 
 ## Project Architecture
@@ -529,7 +529,7 @@ This file configures various settings for the Pekko application, including actor
 - `seed-port`: Default seed port is 1600. It can be overridden by the environment variable `SEED_PORT`.
 - `cluster.name`: Name of the cluster, set to `ClusterSystem`.
 
-This configuration file is designed to be flexible, allowing for environment-specific overrides while providing sensible defaults, it plays crucial role with running the pekko cluster within the containers.
+This configuration file is designed to be flexible, allowing for environment-specific overrides while providing sensible defaults, it plays crucial role with running the Pekko cluster within the containers.
 
 ### transformation.conf
 

@@ -11,7 +11,7 @@ This article is for the Scala programmer who has the very very basic familiarity
 
 ## The setup
 
-If you are curious enough to try this code for yourself, you'll need to start an SBT project. I recomment IntelliJ because it's easiest. Add the following to your build.sbt file:
+If you are curious enough to try this code for yourself, you'll need to start an sbt project. I recomment IntelliJ because it's easiest. Add the following to your build.sbt file:
 
 ```scala
 val akkaVersion = "2.6.4"

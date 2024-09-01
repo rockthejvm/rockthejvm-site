@@ -21,7 +21,7 @@ UDP has the following characteristics:
 
 UDP is mainly used for time-sensitive communications where occasionally dropping packets is better than waiting, such applications include live video streaming and VoIP, online gaming, and live broadcast streams.
 
-In this article, we will first understand how to implement UDP with Java NIO and gradually transition to [Fs2's](/articles/fs2-more-than-functional-streaming-in-scala) io library which provides binding for UDP networking. In the last section, we'll create a live audio streaming server with the knowledge we've gained.
+In this article, we will first understand how to implement UDP with Java NIO and gradually transition to [FS2's](/articles/fs2-more-than-functional-streaming-in-scala) io library which provides binding for UDP networking. In the last section, we'll create a live audio streaming server with the knowledge we've gained.
 
 ## 2. Setting Up
 
@@ -380,11 +380,11 @@ Let's recap on how we implemented UDP:
 - Then sent and received the data.
 - Lastly, close the socket in case of a client.
 
-Can we do the same with a higher-level API like Fs2?
+Can we do the same with a higher-level API like FS2?
 
-## 4. UDP with Fs2
+## 4. UDP with FS2
 
-Fs2 supports UDP through the `fs2.io.net package`, this provides abstractions on top of NIO but provides the resource safety guarantees known in fs2 streams.
+FS2 supports UDP through the `fs2.io.net package`, this provides abstractions on top of NIO but provides the resource safety guarantees known in fs2 streams.
 
 ## 4.1 The UDP Server
 
@@ -1052,9 +1052,9 @@ Here's a recap of how UDP multicasting works:
 - Start receiving data sent by the multicast server
 - Opt out of membership if needed.
 
-Let's see if we can translate this to Fs2.
+Let's see if we can translate this to FS2.
 
-## 5.3. Multicast Server in Fs2
+## 5.3. Multicast Server in FS2
 
 Let's create a new file, `Fs2UdpMulticast.scala` in the following path, `src/main/scala/com/rockthejvm/fs2Udp/Fs2UdpMulticast.scala` and add the following server code:
 
@@ -1138,7 +1138,7 @@ Before we write our values, the stream is `metered` so that any client that join
 
 We end by handling any errors with `handleErrorWith()`.
 
-## 5.4. Multicast Client in Fs2
+## 5.4. Multicast Client in FS2
 
 Append the following client code still within the `Fs2UdpMulticasting` object:
 
@@ -1351,7 +1351,7 @@ Note: The application may fail incase the online radio link is unreachable, you 
 
 ## 7. Conclusion
 
-In this article, we've learned how to implement a UDP server and client in NIO and then used that knowledge to implement the same application in Fs2.
+In this article, we've learned how to implement a UDP server and client in NIO and then used that knowledge to implement the same application in FS2.
 
 We covered what multicasting is, how it works, and we developed a UDP multicast server to stream an online radio station to multiple clients.
 
