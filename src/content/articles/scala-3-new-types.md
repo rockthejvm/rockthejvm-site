@@ -38,7 +38,7 @@ passStrict(3)
 // passStrict(aNumber) // not correct
 ```
 
-Literal types can be defined for other numerical types (e.g. doubles), for booleans or for strings. Side note: even though String is a reference type, <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.5">String interning</a> happens automatically for String literals, and Scala can take advantage of it.
+Literal types can be defined for other numerical types (e.g. doubles), for booleans or for strings. Side note: even though String is a reference type, [String interning](https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.5) happens automatically for String literals, and Scala can take advantage of it.
 
 ```scala
 val myFavoriteLanguage: "Scala" = "Scala"

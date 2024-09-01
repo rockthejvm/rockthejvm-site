@@ -11,7 +11,7 @@ This article is for the Spark programmer who has at least some fundamentals, e.g
 
 ## Prerequisites
 
-The code I'll be writing is inside a Spark shell with version 3.0.0, which you can find <a href = "https://spark.apache.org/downloads.html">here</a> for download. The default choices in the dropdowns will give you a pre-compiled Spark distribution. Just download, unzip, navigate to the bin folder, then run the spark-shell executable.
+The code I'll be writing is inside a Spark shell with version 3.0.0, which you can find [here](https://spark.apache.org/downloads.html) for download. The default choices in the dropdowns will give you a pre-compiled Spark distribution. Just download, unzip, navigate to the bin folder, then run the spark-shell executable.
 
 That is, if you've never installed Spark before.
 

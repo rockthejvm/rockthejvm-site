@@ -24,7 +24,7 @@ libraryDependencies ++= Seq(
 
 ## A 30-Second Background
 
-Akka Streams is an implementation of the <a href="https://www.reactivemanifesto.org/">Reactive Streams</a> specification for the JVM. It allows high-throughput and fault-tolerant streams of data by simply plugging in streaming components. They are sources (or publishers), flows (or transformers) and sinks (or subscribers). The names are self-explanatory: one produces elements, one transforms them along the way, and the last one consumes the data.
+Akka Streams is an implementation of the [Reactive Streams](https://www.reactivemanifesto.org) specification for the JVM. It allows high-throughput and fault-tolerant streams of data by simply plugging in streaming components. They are sources (or publishers), flows (or transformers) and sinks (or subscribers). The names are self-explanatory: one produces elements, one transforms them along the way, and the last one consumes the data.
 
 You can create streams of data in the following way:
 
