@@ -11,11 +11,11 @@ import { YouTube } from "astro-embed";
 
 <YouTube id="6NHEGejBQ0w" />
 
-## 1. Introduction
+## Introduction
 
 The Typelevel stack is one of the most powerful sets of libraries in the Scala ecosystem. They allow you to write powerful applications with pure functional programming - as of this writing, the Typelevel ecosystem is one of the biggest selling points of Scala.
 
-The Typelevel stack is based on [Cats](https://typelevel.org/cats/) and [Cats Effect](https://typelevel.org/cats-effect/). The Cats library offers general functional programming abstractions, e.g. [functors](/what-the-functor), [monads](/monads), applicatives, etc; while the Cats Effect library defines what it means to be an "effect". With these ideas we can build powerful software, with some guarantees granted by the Scala type system, some granted by the design of the abstractions, and with some guardrails over what we can and cannot do.
+The Typelevel stack is based on [Cats](https://typelevel.org/cats/) and [Cats Effect](https://typelevel.org/cats-effect/). The Cats library offers general functional programming abstractions, e.g. [functors](/articles/what-the-functor), [monads](/articles/an-introduction-to-monads-in-scala), applicatives, etc; while the Cats Effect library defines what it means to be an "effect". With these ideas we can build powerful software, with some guarantees granted by the Scala type system, some granted by the design of the abstractions, and with some guardrails over what we can and cannot do.
 
 This article shows you how to build a full-stack web application with some of these libraries. We will use some of the popular Typelevel libraries, including
 
@@ -32,7 +32,7 @@ Together we will build the minimal start of a full-stack application, entirely w
 >
 > If you're interested, check out the course [here](/courses/typelevel-rite-of-passage).
 
-## 2. Setup
+## Setup
 
 Start by cloning [this repository](https://github.com/rockthejvm/full-stack-typelevel-demo) and checking out the `start` tag. We can also start from empty directory (like we start in the Typelevel Rite of Passage course), but this option is quicker.
 
@@ -147,7 +147,7 @@ create table jobs(
 
 Once we have the Postgres ready, we can start writing code.
 
-## 3. Backend - Core Module
+## Backend: Core Module
 
 In this application, we will separate the server logic from the business logic of the application. Because in this case the business logic is minimal (just retrieving and inserting things into the database), we will keep this "core" module close to the database. In the `server` SBT module, create the `src/main/scala/com/rockthejvm/livedemo` directory if you don't have it already.
 
@@ -181,7 +181,7 @@ class DummyLive[F[_]: Applicative] private extends Dummy[F] {
 
 The Applicative type class grants the effect type F the capability of wrapping values, i.e. turning values of type `A` into `F[A]`. Examples of applicatives include Option, Try, Validated, List. All these types can "wrap" normal values into wrapper values, e.g. turning a `String` into an `Option[String]`. Given our very general type definition (with `F[_]`), we reserve the freedom to pick the effect type later, depending on the semantics of the effect: for testing, we might pick `Option`, for production, we might pick `IO`.
 
-This style is sometimes called "[tagless final](/tagless-final)", even though the original theory of Tagless Final is far more formal and separated from the concept of type classes than the representation we're picking here (`F[_]` with type class constraints). But we digress.
+This style is sometimes called "[tagless final](/articles/tagless-final-in-scala)", even though the original theory of Tagless Final is far more formal and separated from the concept of type classes than the representation we're picking here (`F[_]` with type class constraints). But we digress.
 
 We currently have 1) the trait, 2) an implementation of the trait. The third part is a companion object with some effectful smart constructors. Generally, such a companion would look like this:
 
@@ -267,7 +267,7 @@ trait Jobs[F[_]] { // "algebra"
 }
 ```
 
-The second component is the implementation. We've talked at length about [Doobie](/doobie) in another article, so the implementations of these methods are as simple as `INSERT INTO jobs(...) VALUES (...)` and `SELECT * FROM jobs`, respectively; of course, we need to express these SQL queries in terms of Doobie. The implementation looks as follows:
+The second component is the implementation. We've talked at length about [Doobie](/articles/learning-doobie-for-the-greater-good) in another article, so the implementations of these methods are as simple as `INSERT INTO jobs(...) VALUES (...)` and `SELECT * FROM jobs`, respectively; of course, we need to express these SQL queries in terms of Doobie. The implementation looks as follows:
 
 ```scala
 import cats.effect.*
@@ -395,7 +395,7 @@ At this point, we have the core module done. We can, of course, create multiple 
 
 It's now time to move one level up and expose an external API that a third party (or in our case, the frontend) can access.
 
-## 4. Backend - Server Module
+## Backend: Server Module
 
 We will build the server module with Http4s. For every vertical in the app (in this case, the "jobs" vertical) it is a good idea to expose an HTTP API for whatever functionality you would like to make available to the frontend. In this case, we would like to be able to list all jobs and create a job, all from the HTTP API, so we'll need to expose some frontend endpoints.
 
@@ -404,7 +404,7 @@ Let's imagine the following endpoints:
 - a POST at `/jobs/create`, with a `Job` case class instance passed as a JSON payload
 - a GET at `/jobs` with the list of jobs returned as a JSON list
 
-We've covered [Http4s](/http4s-tutorial) in detail in another article, so we will use those lessons to build our HTTP API. In the `com.rockthejvm.livedemo.http` package, we will scaffold the `JobRoutes` class which will contain the endpoints we've discussed:
+We've covered [Http4s](/articles/http4s-unleashing-the-power-of-http-apis-library) in detail in another article, so we will use those lessons to build our HTTP API. In the `com.rockthejvm.livedemo.http` package, we will scaffold the `JobRoutes` class which will contain the endpoints we've discussed:
 
 ```scala
 import cats.effect.*
@@ -481,7 +481,7 @@ val routes: HttpRoutes[F] = Router(
 
 And with that, we have our HTTP API.
 
-## 5. Backend - Putting it All Together
+## Backend: Putting it All Together
 
 We now need to combine the two "layers" of our backend into one comprehensive application. We need the following:
 
@@ -551,7 +551,7 @@ If you run the application, you should now be able to use cURL or httpie to inte
 
 Congratulations, we now have the server ready!
 
-## 6. Frontend
+## Frontend
 
 Before we get started on the frontend, we need to be able to share the domain model between multiple compilation modules in our project. For this, we will need to
 
@@ -849,7 +849,7 @@ object App extends TyrianApp[Msg, Model] {
 }
 ```
 
-## 6. Running Everything
+## Running Everything
 
 This is a full-stack app, so we need to run many pieces for everything to work:
 
@@ -860,7 +860,7 @@ This is a full-stack app, so we need to run many pieces for everything to work:
 
 After this, navigate to `http://localhost:1234` and you should see the list of all the jobs in the database displayed on the front page. True, they're just regular strings, but you can now show them with any sort of fancy UIs, with nice layouts and CSS.
 
-## 7. Conclusion
+## Conclusion
 
 In this article, you've learned how to build a full-stack Scala 3 application from (almost) scratch. You've learned how to use Typelevel libraries to describe effects, how to build core modules and web servers, and you've learned how to use Tyrian for a purely functional web server. Most importantly, these independent modules work with sharing code between the JVM and JS, which is one of the most underrated features of Scala, making it a truly full-stack language.
 
