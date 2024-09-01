@@ -35,7 +35,7 @@ trait MyList[+T] {
 }
 ```
 
-with a type widening `[S >: T]` to save ourselves the trouble of the [cryptic variance positions error](/scala-variance-positions/) (read that article first to understand what's happening, if you're curious about it).
+with a type widening `[S >: T]` to save ourselves the trouble of the [cryptic variance positions error](/articles/demystifying-variance-positions-in-scala) (read that article first to understand what's happening, if you're curious about it).
 
 Then the implementation would be pretty straightforward: an empty object which is a `MyList[Nothing]`, and a non-empty `Cons[+T]` &mdash; Cons stands for "constructor", an ancient primitive for lists in functional languages. So you'd end up with something like this:
 
@@ -106,7 +106,7 @@ This section assumes you know call-by-name and lazy values. A quick recap:
 - The marker `=>` attached to a method argument means that this argument will _not_ be evaluated until needed, and it will be evaluated as many times as it's used in the method body. This is a "call-by-name", or simply by-name, argument.
 - A `lazy` variable (either `val` or `var`) means that the variable will only be evaluated when used _for the first time_. After the first use, the value will be already set and won't need recomputing.
 
-These two features have pretty powerful consequences, especially [when used in conjunction](/3-tricks-for-cbn/#trick-2---manageable-infinity).
+These two features have pretty powerful consequences, especially [when used in conjunction](/articles/3-call-by-name-tricks-in-scala#trick-2---manageable-infinity).
 
 For our use-case this delayed computation allows us to use _forward references_. Here is a first stab at the non-empty doubly-linked list:
 

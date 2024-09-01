@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 This article is for the Scala programmers who have some familiarity with implicits.
 
-If you're just starting out and got to Scala 3 directly, [the essential concepts](/scala-3-given-using) of given/using will be enough. No need to read this article because implicits are phased out in Scala 3. To use some word play here, just stick to `using` `given`s.
+If you're just starting out and got to Scala 3 directly, [the essential concepts](/articles/scala-3-given-and-using-clauses) of given/using will be enough. No need to read this article because implicits are phased out in Scala 3. To use some word play here, just stick to `using` `given`s.
 
 If you come from Scala 2, you're familiar with implicits and need to move to given/using combos, read on.
 
@@ -17,9 +17,9 @@ If you come from Scala 2, you're familiar with implicits and need to move to giv
 
 Implicits are some of the most powerful Scala features. They allow code abstractions that sit outside the traditional OO-style type hierarchy. Implicits have demonstrated their use and have been battle-tested in many scenarios. Listing just a few:
 
-- Implicits are an essential tool for creating [type classes](/why-are-typeclasses-useful/) in Scala. Libraries like [Cats](https://typelevel.org/cats) (which we [teach](/courses/cats)) could not exist without them.
-- Extending the capabilities of existing types, in expressions such as `20.seconds` (more [here](/twenty-seconds)), is possible with implicits.
-- Implicits allow the automatic creation of new types and enforcing type relationships between them at compile time. We can go as far as run [type-level computations in Scala](/type-level-programming-part-1) with implicits.
+- Implicits are an essential tool for creating [type classes](/articles/why-are-scala-type-classes-useful) in Scala. Libraries like [Cats](https://typelevel.org/cats) (which we [teach](/courses/cats)) could not exist without them.
+- Extending the capabilities of existing types, in expressions such as `20.seconds` (more [here](/articles/how-does-the-20-seconds-idiom-work-in-scala)), is possible with implicits.
+- Implicits allow the automatic creation of new types and enforcing type relationships between them at compile time. We can go as far as run [type-level computations in Scala](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) with implicits.
 
 In Scala 2, this suite of capabilities is available under the same `implicit` keyword, through implicit `val`s, implicit `def`s and implicit classes. However, this unified scheme has its downsides, and implicits have garnered criticism. Some of the most important:
 

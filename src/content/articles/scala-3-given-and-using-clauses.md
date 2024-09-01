@@ -163,7 +163,7 @@ In the simplest terms, a `using` clause is a marker to the compiler, so that if 
 
 The obvious restriction is that **there cannot be two `given` instances of the same type in the same scope**, otherwise the compiler would not know which one to pick.
 
-More philosophically, a `given` proves the existence of a type. If the existence of a type can be proven by the compiler, new given instances can be constructed, if they rely on a `using` clause. If we combine given/using combos for certain types, we can prove type relationships at compile time, in a style that looks like [this](/type-level-programming-part-1). In a future article, I'll show you how we can run type-level computations with givens in Scala 3.
+More philosophically, a `given` proves the existence of a type. If the existence of a type can be proven by the compiler, new given instances can be constructed, if they rely on a `using` clause. If we combine given/using combos for certain types, we can prove type relationships at compile time, in a style that looks like [this](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons). In a future article, I'll show you how we can run type-level computations with givens in Scala 3.
 
 ## Other Niceties
 

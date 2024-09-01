@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 ## 1. Background
 
-Pattern matching is one of the most powerful features of the Scala language: it's extremely practical for quick decomposition of data, it's very powerful, easy to use and covers [a lot of use-cases](/8-pm-tricks/).
+Pattern matching is one of the most powerful features of the Scala language: it's extremely practical for quick decomposition of data, it's very powerful, easy to use and covers [a lot of use-cases](/articles/8-pattern-matching-tricks-in-scala).
 
 In this article, we'll learn how to define our own patterns and make our own types compatible with pattern matching. Both Scala 2 and Scala 3 are supported, and you don't need to install any special libraries if you want to follow along.
 
@@ -153,7 +153,7 @@ val varargCustom = myList match {
 }
 ```
 
-The mechanism behind `unapplySeq` is similar to that of `unapply`. Once you write an `unapplySeq`, you automatically unlock the vararg pattern, which is one of the less-known tricks I show you in [another article](/8-pm-tricks/).
+The mechanism behind `unapplySeq` is similar to that of `unapply`. Once you write an `unapplySeq`, you automatically unlock the vararg pattern, which is one of the less-known tricks I show you in [another article](/articles/8-pattern-matching-tricks-in-scala).
 
 ## 4. Explaining the Known & Conclusion
 

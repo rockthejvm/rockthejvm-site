@@ -49,7 +49,7 @@ We say that MyList is _covariant_ in its type argument [T], and we mark it with 
 
 But that's not the only possibility. We can also answer "no", i.e. Thing[A] and Thing[B] have no subtype relationship, i.e. we can't assign one to a value bearing the other type. In this case, we'd call Thing _invariant_ in its type argument [T], and we leave the type argument T as it is in the class declaration, i.e. `class Thing[T]`
 
-There's still one more possible answer: "hell no, it's backwards!". In other words, if A is a subtype of B, _then `Thing[B]` is a subtype of `Thing[A]`_. This is called [contravariant](/contravariance), and we mark it with a `-` sign at the class declaration. For the Animals use case, a good contravariant example would be a Vet:
+There's still one more possible answer: "hell no, it's backwards!". In other words, if A is a subtype of B, _then `Thing[B]` is a subtype of `Thing[A]`_. This is called [contravariant](/articles/why-is-contravariance-so-hard-in-scala), and we mark it with a `-` sign at the class declaration. For the Animals use case, a good contravariant example would be a Vet:
 
 ```scala
 class Vet[-T]

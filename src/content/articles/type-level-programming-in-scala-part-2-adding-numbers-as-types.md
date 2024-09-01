@@ -7,7 +7,7 @@ title: "Type-Level Programming in Scala: Part 2 - Adding Numbers as Types"
 updatedDate: 2024-09-06
 ---
 
-In this article we will continue what we started in the [first part](/type-level-programming-part-1) and enhance our type-level capabilities. As a quick reminder, in this mini-series we learn to use the power of the Scala compiler to validate complex relationships between types that mean something special to us, for example that a "number" (as a type) is "smaller than" another "number".
+In this article we will continue what we started in the [first part](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) and enhance our type-level capabilities. As a quick reminder, in this mini-series we learn to use the power of the Scala compiler to validate complex relationships between types that mean something special to us, for example that a "number" (as a type) is "smaller than" another "number".
 
 ## Background
 

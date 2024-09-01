@@ -21,7 +21,7 @@ val anIncrementedList = List(1,2,3).map(x => x + 1) // [2,3,4]
 
 This `map` transformation concept can be applied to other data structures as well. Scala programmers are all too familiar with Options &mdash; data structures which may contain zero or one values &mdash; and Try, which is similar (can hold value or exception). Java folks also use `Optional` with the same semantics to Scala's `Option`, and other typed languages have similar structures in place.
 
-The `map` transformation applies to `Option`, `Try` and... some others. We've covered some of those [briefly elsewhere](/monads), and they deserve more attention in a future article.
+The `map` transformation applies to `Option`, `Try` and... some others. We've covered some of those [briefly elsewhere](/articles/an-introduction-to-monads-in-scala), and they deserve more attention in a future article.
 
 ```scala
 val aTransformedOption = Some(2).map(x => x * 2) // Some(4)
@@ -42,7 +42,7 @@ def do10xTry(attempt: Try[Int]): Try[Int] = attempt.map(_ * 10)
 
 Every time we'd want to support another "mappable" container (e.g. a binary tree), we'd have to add another method to our API and then build our library or application again. It's a form of code duplication: if you look at the implementation of the 3 methods above, all of them look identical.
 
-There's no need to repeat ourselves. Since we've established that the `map` concept is transferable, we can create an interface for it. In Scala, a "transferable concept" can be easily expressed as a [type class](/why-are-typeclasses-useful). We named this concept a Functor, so we can create the following trait:
+There's no need to repeat ourselves. Since we've established that the `map` concept is transferable, we can create an interface for it. In Scala, a "transferable concept" can be easily expressed as a [type class](/articles/why-are-scala-type-classes-useful). We named this concept a Functor, so we can create the following trait:
 
 ```scala
 trait Functor[C[_]] {
@@ -65,7 +65,7 @@ given listFunctor as Functor[List] {
 }
 ```
 
-Notice I've used the [given](/scala-3-given-using) syntax of Scala 3. In Scala 2, that would have been an implicit value.
+Notice I've used the [given](/articles/scala-3-given-and-using-clauses) syntax of Scala 3. In Scala 2, that would have been an implicit value.
 
 The interesting thing is that once we have Functor instances for all the data structures we'd like to support, our initial "repeated" API would no longer need to be bloated or repeated, and can be generalized:
 
