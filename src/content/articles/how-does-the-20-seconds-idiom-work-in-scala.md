@@ -31,7 +31,7 @@ So how does the magical import work?
 
 ## 2. Enriching Types
 
-The answer is not in the import itself, but in <em>what's imported</em> - the types and values that are imported might as well be in scope and methods like `.seconds` would work just as fine. It's their structure that provides the magic. To understand how they work, we need to go back to implicits.
+The answer is not in the import itself, but in _what's importe_> - the types and values that are imported might as well be in scope and methods like `.seconds` would work just as fine. It's their structure that provides the magic. To understand how they work, we need to go back to implicits.
 
 I'm not going to talk about all the functionality that the `implicit` keyword does in Scala - we'll probably do that in another article - but we are going to focus on one kind of implicits: _implicit classes_. Implicit classes are one-argument wrappers, i.e. a class with one constructor argument, with regular methods, fields, etc, except that they have the `implicit` keyword in their declaration:
 
@@ -60,7 +60,7 @@ This works although the `fullStop` method doesn't exist for the String class. No
 new MyRichString("This is a sentence").fullStop
 ```
 
-which is what we (explicitly) wrote earlier. This pattern provides what we call <em>extension methods</em> - libraries like Cats use this all the time.
+which is what we (explicitly) wrote earlier. This pattern provides what we call _extension method_> - libraries like Cats use this all the time.
 
 ## 3. Importing
 

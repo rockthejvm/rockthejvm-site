@@ -23,7 +23,7 @@ def processMyList[T](list: List[T]): T = {
 }
 ```
 
-and in this function's implementation, you need a result that is obtained by processing the list argument - for the sake of example, let's say you "sum" all the elements of the list. But here's the twist: if the list is a list of integers, the "sum" should be the real sum of the elements; if the list contains strings, then the "sum" should be the <em>concatenation</em> of all the elements. For all other types, we should not be able to use this method. And we want to do everything automatically.
+and in this function's implementation, you need a result that is obtained by processing the list argument - for the sake of example, let's say you "sum" all the elements of the list. But here's the twist: if the list is a list of integers, the "sum" should be the real sum of the elements; if the list contains strings, then the "sum" should be the _concatenation_ of all the elements. For all other types, we should not be able to use this method. And we want to do everything automatically.
 
 If you're in Java, you can kiss this dream goodbye. If you're in C++, you have to resort to template specializations. In Scala, we have an elegant way of dealing with it.
 
@@ -56,7 +56,7 @@ def processMyList[T](list: List[T])(implicit summable: Summable[T]): T =
     summable.sumElements(list)
 ```
 
-If you try this, you will notice that it works for Strings and Ints, and <em>it doesn't even compile</em> for anything else:
+If you try this, you will notice that it works for Strings and Ints, and _it doesn't even compile_ for anything else:
 
 ```scala
 processMyList(List(1,2,3)) // 6
@@ -64,7 +64,7 @@ processMyList(List("Scala ", "is ", "awesome")) // "Scala is awesome"
 processMyList(List(true, true, false)) // ERROR
 ```
 
-In this way, the implicit works as both a <em>capability enhancer</em> and a type constraint, because if the compiler cannot find an implicit instance of a ListAggregation of that particular type, i.e. your specialized implementation, then it's certain that the code can't run.
+In this way, the implicit works as both a _capability enhancer_ and a type constraint, because if the compiler cannot find an implicit instance of a ListAggregation of that particular type, i.e. your specialized implementation, then it's certain that the code can't run.
 
 ## The fancy terms
 
@@ -72,7 +72,7 @@ Did you hear "type class" anywhere? You don't need to. If you absolutely must he
 
 The behavior we've just implemented is called "ad hoc polymorphism" because the `sumElements` ability is unlocked only in the presence of an implicit instance of the trait which provides the method definition, right there when it's called, hence the "ad hoc" name. "Polymorphism" because the implementations we can provide can obviously be different for different types, as we did with Int and String.
 
-The trait `Summable[T]` itself is nothing special. However, when you combine it with one/more implicit <em>instances</em> of the trait - and in our case we `IntSummable` and `StringSummable` - we have a pattern, which we generally call a "type class". This structure allows us to define specific implementations for certain types and not for others, in the "ad hoc polymorphic" style we did earlier.
+The trait `Summable[T]` itself is nothing special. However, when you combine it with one/more implicit _instances_ of the trait - and in our case we `IntSummable` and `StringSummable` - we have a pattern, which we generally call a "type class". This structure allows us to define specific implementations for certain types and not for others, in the "ad hoc polymorphic" style we did earlier.
 
 ## Capish?
 
