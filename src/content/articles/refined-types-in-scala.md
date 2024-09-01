@@ -155,7 +155,7 @@ After you've done the check, you can pattern-match the result and move along wit
 
 You've hopefully learned a new powerful tool to test values at compile time and catch nasty bugs before your application is even deployed. If you need some intuition on how Refined works, check out the type-level programming mini-series:
 
-- <a href="https://rockthejvm.com/blog/type-level-programming-1">part 1</a>
-- <a href="https://rockthejvm.com/blog/type-level-programming-2">part 2</a>
-- <a href="https://rockthejvm.com/blog/type-level-programming-3">part 3</a>
+- [part 1](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons)
+- [part 2](type-level-programming-in-scala-part-2-adding-numbers-as-types)
+- [part 3](type-level-programming-in-scala-part-3-sorting-lists)
 </ul>

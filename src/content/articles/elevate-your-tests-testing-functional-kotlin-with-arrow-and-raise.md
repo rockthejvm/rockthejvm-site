@@ -8,7 +8,7 @@ title: "Elevate Your Tests: Testing Functional Kotlin with Arrow and Raise"
 updatedDate: 2024-09-06
 ---
 
-At Rock the JVM, we deeply understand the power of the Kotlin Arrow library and the Raise DSL, and we've previously shared our insights in our article on [Functional Error Handling in Kotlin, Part 3: The Raise DSL](https://blog.rockthejvm.com/functional-error-handling-in-kotlin-part-3/). Now, we're ready to introduce the crucial topic of testing applications that use the Raise DSL. To fully grasp the concepts we'll be discussing, it's essential to have a solid understanding of Kotlin, Arrow library, and the Raise DSL. We recommend revisiting our previous posts or resources if you need to refresh your knowledge. Get ready to explore the testing world of Arrow Raise with confidence and understanding.
+At Rock the JVM, we deeply understand the power of the Kotlin Arrow library and the Raise DSL, and we've previously shared our insights in our article on [Functional Error Handling in Kotlin, Part 3: The Raise DSL](/articles/functional-error-handling-in-kotlin-part-3-the-raise-dsl). Now, we're ready to introduce the crucial topic of testing applications that use the Raise DSL. To fully grasp the concepts we'll be discussing, it's essential to have a solid understanding of Kotlin, Arrow library, and the Raise DSL. We recommend revisiting our previous posts or resources if you need to refresh your knowledge. Get ready to explore the testing world of Arrow Raise with confidence and understanding.
 
 ## 1. Setting up the project
 
@@ -49,7 +49,7 @@ sealed interface DomainError
 
 Let's analyze the above code briefly since the function's signature tells us a lot of helpful information. We can start from the name. The function creates a portfolio. It would persist in some databases. If so, we should have used the `suspend` modifier for the function. However, having a suspended function would have added much complexity unrelated to Arrow to our code. So, we will not use a suspended function. Once the new portfolio is created, the function returns its identifier, representing the happy path. Finally, the function can raise a `DomainError` in case of failure since it's declared using the type `Raise<DomainError>` as a receiver.
 
-In this article, we'll take a different approach than the one in the article [Functional Error Handling in Kotlin, Part 3: The Raise DSL](https://blog.rockthejvm.com/functional-error-handling-in-kotlin-part-3/). In fact, context receivers have been deprecated in the meantime, and they are eligible to be deleted in future versions in favor of [context parameters](https://github.com/Kotlin/KEEP/issues/367). So, it's better to use simple receivers and wait for context parameters to be released soon.
+In this article, we'll take a different approach than the one in the article [Functional Error Handling in Kotlin, Part 3: The Raise DSL](/articles/functional-error-handling-in-kotlin-part-3-the-raise-dsl). In fact, context receivers have been deprecated in the meantime, and they are eligible to be deleted in future versions in favor of [context parameters](https://github.com/Kotlin/KEEP/issues/367). So, it's better to use simple receivers and wait for context parameters to be released soon.
 
 We can start implementing the use case now that we have set up. Since we are diligent and well-behaved developers, **we want to write tests before implementing the use case**, following the Test-Driven Development (TDD) approach.
 
@@ -472,7 +472,7 @@ In this article, we saw how to test a function declared in a `Raise<E>` context.
 
 ## 5. Appendix
 
-As we said, Kotlin context receivers were deprecated in more recent versions of Kotlin. For the above reason, we preferred to use something other than context receivers in this article. However, context receivers almost invariably make the code cleaner and more concise. We introduced it in the article [Kotlin Context Receivers: A Comprehensive Guide](https://blog.rockthejvm.com/kotlin-context-receivers/). Let's see how our example changes if we use context receivers.
+As we said, Kotlin context receivers were deprecated in more recent versions of Kotlin. For the above reason, we preferred to use something other than context receivers in this article. However, context receivers almost invariably make the code cleaner and more concise. We introduced it in the article [Kotlin Context Receivers: A Comprehensive Guide](/articles/kotlin-101-context-receivers). Let's see how our example changes if we use context receivers.
 
 We need to enable the usage of context receivers since they're still an experimental feature in Kotlin 2.0.0. We need to add the following code to the `build.gradle.kts` file to do so:
 

@@ -10,7 +10,7 @@ updatedDate: 2024-09-06
 
 _This article is brought to you by [Yadu Krishnan](https://github.com/yadavan88). He's a senior developer and constantly shares his passion for new languages, libraries and technologies. After his [long-form Slick tutorial](/slick), he's coming back with a new comprehensive introduction to SBT. Please enjoy!_
 
-> _This tutorial complements Rock the JVM's premium [Scala masterclass](https://rockthejvm.com/courses/the-scala-bundle), as you learn to set up and configure your Scala projects._
+> _This tutorial complements Rock the JVM's premium [Scala masterclass](/courses/the-scala-bundle), as you learn to set up and configure your Scala projects._
 
 ## 1. Introduction
 

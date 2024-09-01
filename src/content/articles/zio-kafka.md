@@ -8,7 +8,7 @@ title: "ZIO Kafka: A Practical Streaming Tutorial"
 updatedDate: 2024-09-06
 ---
 
-_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](https://rockthejvm.com/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:_
+_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:_
 
 Modern distributed applications need a communication system between their components that must be reliable, scalable, and efficient. Synchronous communication based on HTTP is not a choice in such applications due to latency problems, insufficient resources' management, etc... Hence, we need an asynchronous messaging system capable of quickly scaling, robust to errors, and low latency.
 

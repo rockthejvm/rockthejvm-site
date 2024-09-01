@@ -253,7 +253,7 @@ Future.sequence(messageIdFutures) // turn the Seq[Future[...]] into Future[Seq[.
 
 ### 3.2. Consumer: Spark Structured Streaming
 
-Spark Structured Streaming &mdash; which we teach [here at Rock the JVM](https://rockthejvm.com/courses/spark-streaming) &mdash; is a stream computing engine provides more advanced features that are helpful to our use case:
+Spark Structured Streaming &mdash; which we teach [here at Rock the JVM](/courses/spark-streaming) &mdash; is a stream computing engine provides more advanced features that are helpful to our use case:
 
 - support for Session Windows - we can create session windows based on the eventTime and the userSession id.
 - support for groupBy aggregations - we want to aggregate the eventTypes on the user session windows.

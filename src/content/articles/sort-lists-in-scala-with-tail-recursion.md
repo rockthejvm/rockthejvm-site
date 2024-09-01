@@ -13,7 +13,7 @@ Every CS101 course is full of sorting lists. When you learn a programming langua
 - If you're more versed, you might find some extra tools here that you can use for any problem.
 - You'll learn to apply tail recursion to a real problem, before some use-case at work demands that from you "yesterday".
 
-This is one of the (dozens of) problems that we solve in the [Scala & FP practice course](https://rockthejvm.com/courses/scala-functional-programming-practice), which in rough translation is "Scala for coding interviews".
+This is one of the (dozens of) problems that we solve in the [Scala & FP practice course](/courses/scala-functional-programming-practice), which in rough translation is "Scala for coding interviews".
 
 ## 1. Introduction
 
@@ -187,6 +187,6 @@ We can of course generalize the method to work for any type `T` for which we hav
 
 ## 4. Conclusion
 
-We explored how to sort lists in Scala in just about 7-8 lines of code, how the quick and dirty solution can crash with a stack overflow, and how we can approach a tail-recursive solution that avoids the stack overflow problem. You can adapt this technique to other problems as well &mdash; and in the [course](https://rockthejvm.com/courses/scala-functional-programming-practice) we squeeze the juice out of tail recursion.
+We explored how to sort lists in Scala in just about 7-8 lines of code, how the quick and dirty solution can crash with a stack overflow, and how we can approach a tail-recursive solution that avoids the stack overflow problem. You can adapt this technique to other problems as well &mdash; and in the [course](/courses/scala-functional-programming-practice) we squeeze the juice out of tail recursion.
 
 In a future article, I'll go more philosophical as to how tailrec methods are equivalent to iterative algorithms, but more on that soon...

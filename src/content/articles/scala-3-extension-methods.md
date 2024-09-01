@@ -14,7 +14,7 @@ As for requirements, two major pieces are important:
 - how implicits work
 - how [given/using combos work](/scala-3-given-using/)
 
-This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](https://rockthejvm.com/courses/scala-3-new-features) course.
+This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
 ## 1. Background
 
@@ -50,7 +50,7 @@ new PersonLike("Daniel").greet
 
 In other words, the `greet` method is an extension to the String type, even though we did not touch the String type at all.
 
-Libraries like [Cats](https://typelevel.org/cats) (which I [teach](https://rockthejvm.com/courses/cats) here on the site) do this all the time.
+Libraries like [Cats](https://typelevel.org/cats) (which I [teach](/courses/cats) here on the site) do this all the time.
 
 ## 2. Proper Extensions
 

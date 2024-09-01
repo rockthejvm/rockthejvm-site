@@ -13,7 +13,7 @@ This article is for the beginner Scala programmer. We'll make a clear distinctio
 
 ## The null reference
 
-This is probably the most familiar. If you come to Scala from another programming language, perhaps <a href="https://rockthejvm.com/p/scala-at-light-speed">very quickly</a>, you're probably familiar with the `null` reference. It's used as an absent value.
+This is probably the most familiar. If you come to Scala from another programming language, perhaps [very quickly](/courses/scala-at-light-speed), you're probably familiar with the `null` reference. It's used as an absent value.
 
 ```scala
 val anAbsentString: String = null
@@ -101,7 +101,7 @@ If you are clear on the difference between `null` and `void` in other languages,
 
 ## Nothing
 
-Finally, let's end with the mother of nothingness. We've <a href="https://rockthejvm.com/blog/much-ado-about-nothing">spoken about Nothing before</a> so we won't spend too much time here, but Nothing is the type of no value at all. Nothing can't be instantiated and has no values of that type. Nothing truly means nothing: not even null, not Unit, not None, nothing at all. The only expressions that return Nothing are throwing exceptions:
+Finally, let's end with the mother of nothingness. We've [spoken about Nothing before](/articles/much-ado-about-nothing-in-scala) so we won't spend too much time here, but Nothing is the type of no value at all. Nothing can't be instantiated and has no values of that type. Nothing truly means nothing: not even null, not Unit, not None, nothing at all. The only expressions that return Nothing are throwing exceptions:
 
 ```scala
 val theNothing = throw new RuntimeException("Nothing to see here")

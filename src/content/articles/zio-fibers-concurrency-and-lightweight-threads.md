@@ -8,7 +8,7 @@ title: "ZIO Fibers: Concurrency and Lightweight Threads"
 updatedDate: 2024-09-06
 ---
 
-_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](https://rockthejvm.com/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO._
+_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO._
 
 _Enter Riccardo:_
 

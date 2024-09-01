@@ -16,7 +16,7 @@ This article introduces Kotlin coroutines, a powerful tool for asynchronous prog
 
 The article requires existing knowledge of Kotlin.
 
-> Coroutines can be tough. If you need to get the Kotlin fundamentals **fast** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](https://rockthejvm.com/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](https://rockthejvm.com/courses/kotlin-essentials).
+> Coroutines can be tough. If you need to get the Kotlin fundamentals **fast** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
 
 ## 1. Background and Setup
 
@@ -840,7 +840,7 @@ The only exception to the context inheritance rule is the `Job` context instance
 
 Our journey through the basics of the Kotlin coroutines library is over. We saw why coroutines matter and made a simplified explanation of how they're implemented under the hood. Then, we showed how to create coroutines, also introducing the structural concurrency topic. We saw how cooperative scheduling and cancellation work with many examples. Finally, we introduced the main features of the coroutines' context. There is a lot more to say about coroutines, but we hope this article can be a good starting point for those who want to learn more about them.
 
-If you found coroutines too difficult, you can quickly get the Kotlin basics you need by following the complete [Kotlin Essentials course](https://rockthejvm.com/courses/kotlin-essentials) on Rock the JVM.
+If you found coroutines too difficult, you can quickly get the Kotlin basics you need by following the complete [Kotlin Essentials course](/courses/kotlin-essentials) on Rock the JVM.
 
 ## 10. Appendix A
 

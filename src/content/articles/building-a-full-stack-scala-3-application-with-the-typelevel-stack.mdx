@@ -363,7 +363,7 @@ def makePostgres = for {
 } yield transactor
 ```
 
-Note how Resources can be composed very nicely with for-comprehensions &mdash; we talk in depth about Resources in the [Cats Effect course](https://rockthejvm.com/courses/cats-effect).
+Note how Resources can be composed very nicely with for-comprehensions &mdash; we talk in depth about Resources in the [Cats Effect course](/courses/cats-effect).
 
 With the Postgres resource in place, we can build a `LiveJobs` module, and we can also use it, in the same program:
 
@@ -544,7 +544,7 @@ And now we need to be able to use this resource, by keeping it alive forever:
 ```scala
 // in `Application`
 override def run: IO[Unit] =
-  makeServer.use(_ => IO.println("Rock the JVM! Server ready.") *> IO.never)
+  makeServer.use(_ => IO.println("Rock the JVM Server ready.") *> IO.never)
 ```
 
 If you run the application, you should now be able to use cURL or httpie to interact with it.
@@ -600,6 +600,7 @@ Second important thing: the main `app.js`. The JavaScript is a 2-liner and looks
 
 ```js
 import { RockTheJvmApp } from "./target/scala-3.3.1/app-fastopt.js";
+
 RockTheJvmApp.launch("app");
 ```
 

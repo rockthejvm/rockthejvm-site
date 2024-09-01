@@ -187,7 +187,7 @@ ScalaTest also has other tools to help create properties and test them automatic
 
 This testing style is rare, but it's still worth mentioning.
 
-A Scala language feature I use to make the students of my [beginners course](https://rockthejvm.com/courses/scala) shout "Scala is cool" is infix methods, which make Scala look like plain English. The thing I show right after that is multi-word variable/method names. Not all Scala devs know that we can create a variable with the name `rock the jvm`, just like this:
+A Scala language feature I use to make the students of my [beginners course](/courses/scala-essentials) shout "Scala is cool" is infix methods, which make Scala look like plain English. The thing I show right after that is multi-word variable/method names. Not all Scala devs know that we can create a variable with the name `rock the jvm`, just like this:
 
 ```scala
 val `rock the jvm` = 42
