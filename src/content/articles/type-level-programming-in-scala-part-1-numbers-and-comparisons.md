@@ -7,7 +7,7 @@ title: "Type-Level Programming in Scala: Part 1 - Numbers and Comparisons"
 updatedDate: 2024-09-06
 ---
 
-In this mini-series I'll introduce you to some advanced Scala techniques for type-level programming. In other words, you'll learn to use the power of the Scala compiler to solve problems for you and to validate properties of <em>types</em>.
+In this mini-series I'll introduce you to some advanced Scala techniques for type-level programming. In other words, you'll learn to use the power of the Scala compiler to solve problems for you and to validate properties of _types_.
 
 This article (and its subsequent parts) require an advanced Scala programmer, so you'll need to be comfortable with quite a few of the harder topics in Scala:
 
@@ -60,7 +60,7 @@ type _4 = Succ[_3]
 type _5 = Succ[_4]
 ```
 
-Essentially, the number 5 is now a <em>type</em>, and we represent it as `Succ[Succ[Succ[Succ[Succ[_0]]]]]]`. The compiler can represent any number at all in terms of this succession relationship. We'll keep the above type aliases for convenience.
+Essentially, the number 5 is now a _type_, and we represent it as `Succ[Succ[Succ[Succ[Succ[_0]]]]]]`. The compiler can represent any number at all in terms of this succession relationship. We'll keep the above type aliases for convenience.
 
 This natural number representation bears the name of the would-be-rockstar-Scala-functional-programmer-if-he-were-alive <a href="https://en.wikipedia.org/wiki/Giuseppe_Peano">Giuseppe Peano</a>, and the number relationships that we're going to transform into type constraints in the Scala compiler will be the foundation of the Peano number arithmetic.
 
@@ -86,7 +86,7 @@ But we won't need that, because the compiler will create the appropriate instanc
 
 ## 3. The Compiler Validates
 
-We'll never build instances of "less-than" ourselves, but we'll make the compiler build implicit instances of "less-than" <em>just for the right types</em>. Through these instances, we'll thus validate the existence of the "less-than" type for various numbers, and therefore prove the comparison between numbers.
+We'll never build instances of "less-than" ourselves, but we'll make the compiler build implicit instances of "less-than" _just for the right types_. Through these instances, we'll thus validate the existence of the "less-than" type for various numbers, and therefore prove the comparison between numbers.
 
 Implicit methods to the rescue:
 
