@@ -7,7 +7,7 @@ title: Lenses, Prisms, and Optics in Scala
 updatedDate: 2024-09-06
 ---
 
-This article is for Scala programmers of all levels, who are big fans of the <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY principle</a>. We're going to explore deeply nested data structures using the <a href="https://www.optics.dev/Monocle/">Monocle</a> library and the concepts of "optics" in Scala.
+This article is for Scala programmers of all levels, who are big fans of the [DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself). We're going to explore deeply nested data structures using the [Monocle](https://www.optics.dev/Monocle) library and the concepts of "optics" in Scala.
 
 ## Background
 

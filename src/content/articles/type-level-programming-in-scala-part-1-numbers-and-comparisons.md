@@ -62,7 +62,7 @@ type _5 = Succ[_4]
 
 Essentially, the number 5 is now a _type_, and we represent it as `Succ[Succ[Succ[Succ[Succ[_0]]]]]]`. The compiler can represent any number at all in terms of this succession relationship. We'll keep the above type aliases for convenience.
 
-This natural number representation bears the name of the would-be-rockstar-Scala-functional-programmer-if-he-were-alive <a href="https://en.wikipedia.org/wiki/Giuseppe_Peano">Giuseppe Peano</a>, and the number relationships that we're going to transform into type constraints in the Scala compiler will be the foundation of the Peano number arithmetic.
+This natural number representation bears the name of the would-be-rockstar-Scala-functional-programmer-if-he-were-alive [Giuseppe Peano](https://en.wikipedia.org/wiki/Giuseppe_Peano), and the number relationships that we're going to transform into type constraints in the Scala compiler will be the foundation of the Peano number arithmetic.
 
 ## 2. Number Comparison as Types
 

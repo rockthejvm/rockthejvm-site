@@ -7,7 +7,7 @@ title: Refined Types in Scala Quickly Explained
 updatedDate: 2024-09-06
 ---
 
-This article is for Scala programmers of all levels, although if you're a more advanced programmer or you watched/read the <a href="https://www.youtube.com/playlist?list=PLmtsMNDRU0ByOQoz6lnihh6CtMrErNax7">type-level programming mini-series</a>, you will get more value out of it because you'll have a good intuition for what happens behind the scenes.
+This article is for Scala programmers of all levels, although if you're a more advanced programmer or you watched/read the [type-level programming mini-series](https://www.youtube.com/playlist?list=PLmtsMNDRU0ByOQoz6lnihh6CtMrErNax7), you will get more value out of it because you'll have a good intuition for what happens behind the scenes.
 
 I'm talking about "behind the scenes" because today's topic involves lots of Scala magic: refined types.
 
@@ -45,7 +45,7 @@ If you want to write code with me in this article, I'll invite you to add the fo
 libraryDependencies += "eu.timepit" %% "refined" % "0.9.15"
 ```
 
-(of course, if you want a newer version, check the library's <a href="https://github.com/fthomas/refined/releases">releases page on GitHub</a>)
+(of course, if you want a newer version, check the library's [releases page on GitHub](https://github.com/fthomas/refined/releases))
 
 Refined is a small library for Scala that wants to help us avoid this kind of preventable crashes at compile time. We can leverage the power of the Scala compiler to validate certain predicates before our application has the chance to run and ruin our day. Let's start with something simple. Say we're using only positive numbers in our application, but there's no such thing as a positive integer type. We can use a refined type over Int, to enforce that the number is positive:
 
@@ -87,7 +87,7 @@ val anEven: Int Refined Even = 68
 
 Notice I used Refined in infix notation: `Refined[Int, Odd]` can also be written as `Int Refined Odd`.
 
-There are also some more interesting filters. For example, allow only numbers less than a certain value. This is possible at compile time with the magic provided by <a href="https://github.com/milessabin/shapeless">shapeless</a> and its macros:
+There are also some more interesting filters. For example, allow only numbers less than a certain value. This is possible at compile time with the magic provided by [shapeless](https://github.com/milessabin/shapeless) and its macros:
 
 ```scala
 import eu.timepit.refined.W

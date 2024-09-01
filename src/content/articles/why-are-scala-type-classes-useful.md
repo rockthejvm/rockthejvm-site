@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 This article is for the Scala programmer who knows what implicits are and (for the most part) how they work. This article will also involve a somewhat high degree of abstraction.
 
-Type classes are these super-abstract concepts in functional programming, which FP purists and Haskellers eat for breakfast, lunch and dinner. <a href="https://en.wikipedia.org/wiki/Type_class">Wikipedia</a> says type classes are "type system constructs that support ad hoc polymorphism". What the heck does that mean?
+Type classes are these super-abstract concepts in functional programming, which FP purists and Haskellers eat for breakfast, lunch and dinner. [Wikipedia](https://en.wikipedia.org/wiki/Type_class) says type classes are "type system constructs that support ad hoc polymorphism". What the heck does that mean?
 
 This article wants to be down to earth.
 
