@@ -76,9 +76,9 @@ A catalog can be non-persisted (In Memory Catalog) or persistent backed by an ex
 For In Memory catalogs all metadata will be available only for the lifetime of the session.
 
 In contrast, catalogs like PostgresCatalog enables users to connect the two systems and then Flink
-automatically references existing metadata by mapping them to it’s corresponding metadata.
+automatically references existing metadata by mapping them to it's corresponding metadata.
 
-For example, Flink can map Postgres tables to its own table automatically, and users don’t have to manually re-writing DDLs in Flink SQL.
+For example, Flink can map Postgres tables to its own table automatically, and users don't have to manually re-writing DDLs in Flink SQL.
 
 Within the catalogs you create databases and tables in these databases.
 
