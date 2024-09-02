@@ -8,7 +8,7 @@ title: "Kotlin 101: Coroutines Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Scala and Kotlin._
+> This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Scala and Kotlin.
 
 _Enter Riccardo:_
 

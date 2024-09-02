@@ -8,7 +8,7 @@ title: Value Classes in Scala Explained
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming._
+> This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming.
 
 _Enter Riccardo:_
 

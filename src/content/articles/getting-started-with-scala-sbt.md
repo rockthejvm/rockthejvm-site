@@ -8,9 +8,9 @@ title: Getting Started with Scala sbt
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Yadu Krishnan](/authors/yadu-krishnan). He's a senior developer and constantly shares his passion for new languages, libraries and technologies. After his [long-form Slick tutorial](/articles/getting-started-with-scala-slick), he's coming back with a new comprehensive introduction to sbt. Please enjoy!_
+> This article is brought to you by [Yadu Krishnan](/authors/yadu-krishnan). He's a senior developer and constantly shares his passion for new languages, libraries and technologies. After his [long-form Slick tutorial](/articles/getting-started-with-scala-slick), he's coming back with a new comprehensive introduction to sbt. Please enjoy!
 
-> _This tutorial complements Rock the JVM's premium [Scala masterclass](/courses/the-scala-bundle), as you learn to set up and configure your Scala projects._
+> This tutorial complements Rock the JVM's premium [Scala masterclass](/courses/the-scala-bundle), as you learn to set up and configure your Scala projects.
 
 ## 1. Introduction
 
