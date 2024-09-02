@@ -8,32 +8,19 @@ title: "ZIO Streams: A Long-Form Introduction"
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by
-[Mark Rudolph](https://github.com/alterationx10), a new contributor to Rock the
-JVM. He's a senior developer, who has been working with Scala for a number of
-years. He also has been diving into the ZIO ecosystem, and loves sharing his
-learnings. Mark has a lot to share, and this article is a comprehensive piece._
+> This article is brought to you by [Mark Rudolph](https://github.com/alterationx10), a new contributor to Rock the JVM. He's a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings. Mark has a lot to share, and this article is a comprehensive piece.
 
-In this post, we're going to go over an introduction to the main components of
-ZIO Streams, how to work with them when things go right, and what to do when
-things go wrong.
+In this post, we're going to go over an introduction to the main components of ZIO Streams, how to work with them when things go right, and what to do when things go wrong.
 
-As a toy example, we're going to take a brief foray into asynchronous
-operations, by connecting two streams to the same concurrent data structure.
+As a toy example, we're going to take a brief foray into asynchronous operations, by connecting two streams to the same concurrent data structure.
 
-For a more concrete example, we are going to write a program that will parse
-markdown files, extract words identified as tags, and then regenerate those
-files with tag-related metadata injected back into them.
+For a more concrete example, we are going to write a program that will parse markdown files, extract words identified as tags, and then regenerate those files with tag-related metadata injected back into them.
 
 If you're interested in learning the ZIO core library, check out the Rock the JVM [ZIO course](/courses/zio).
 
 ## Set up
 
-We're going to base this discussion off of the latest ZIO 2.0 code, which was
-officially released on June 24th, 2022. We're also using an `RC` of zio-json (at
-the time of writing, mid-June 2022), which is only used to pretty-print a `Map`
-as JSON in our of our examples. These are the dependencies to include for our
-walk through:
+We're going to base this discussion off of the latest ZIO 2.0 code, which was officially released on June 24th, 2022. We're also using an `RC` of zio-json (at the time of writing, mid-June 2022), which is only used to pretty-print a `Map` as JSON in our of our examples. These are the dependencies to include for our walk through:
 
 ```scala
 libraryDependencies ++= Seq(
@@ -45,8 +32,7 @@ libraryDependencies ++= Seq(
 
 ## What's a Stream?
 
-_Broadly:_ A _stream_ is a series of data elements that are made available over
-time.
+_Broadly:_ A _stream_ is a series of data elements that are made available over time.
 
 ### LazyList
 
