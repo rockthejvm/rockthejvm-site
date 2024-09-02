@@ -7,7 +7,7 @@ title: Custom Pattern Matching in Scala
 updatedDate: 2024-09-06
 ---
 
-## 1. Background
+## Background
 
 Pattern matching is one of the most powerful features of the Scala language: it's extremely practical for quick decomposition of data, it's very powerful, easy to use and covers [a lot of use-cases](/articles/8-pattern-matching-tricks-in-scala).
 
@@ -15,7 +15,7 @@ In this article, we'll learn how to define our own patterns and make our own typ
 
 This article is for Scala developers with _some_ existing experience. The techniques I'm about to show you are not rocket science, but they are nonetheless pretty useful.
 
-## 1. Pattern Matching on Any Type
+## Pattern Matching on Any Type
 
 As you well know, pattern matching is applicable to some groups of types in the Scala library:
 
@@ -81,7 +81,7 @@ In other words, the pattern match tells the compiler to invoke `Person.unapply(d
 
 This is power already: we've just enabled pattern matching on a custom data type!
 
-## 2. Custom Patterns
+## Custom Patterns
 
 A powerful property of `unapply` is that it doesn't need to be connected to
 
@@ -110,7 +110,7 @@ Making the connections again, the compiler invokes `PersonDrinkingStatus.unapply
 
 Note that the name of the pattern, the type subject to pattern matching and the values deconstructed many not have any connection to each other. It's quite common that the `unapply` methods be stored in the companion object of the class/trait in question.
 
-## 3. Matching sequences
+## Matching Sequences
 
 Ever wondered how we can write
 
@@ -155,7 +155,7 @@ val varargCustom = myList match {
 
 The mechanism behind `unapplySeq` is similar to that of `unapply`. Once you write an `unapplySeq`, you automatically unlock the vararg pattern, which is one of the less-known tricks I show you in [another article](/articles/8-pattern-matching-tricks-in-scala).
 
-## 4. Explaining the Known & Conclusion
+## Conclusion
 
 You know that case classes are automatically eligible for pattern matching. That's because the compiler automatically generates `unapply` methods in the companion objects of the class! Case classes are indeed mega-powerful.
 

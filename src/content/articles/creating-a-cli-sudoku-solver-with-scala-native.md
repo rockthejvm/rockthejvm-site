@@ -14,13 +14,13 @@ updatedDate: 2024-09-06
 
 _Enter Antonio:_
 
-## 1. Introduction
+## Introduction
 
 [Sudoku](https://en.wikipedia.org/wiki/Sudoku) is a notorious combinatorial puzzle solvable with optimised and efficient algorithms. Today we won't focus on any of those techniques, but we'll leverage the computing power of our machines to brute-force the solution in a functional immutable fashion.
 
 The Scala ecosystem has many fantastic tools and libraries to help us synthesise the solution and package our solver in an ultra-fast native executable with instant startup time using our favourite language and its expressive power. To implement our solution, I chose [scala-cli](https://scala-cli.virtuslab.org/) to structure the project and to compile it with [Scala Native](https://scala-native.org/en/stable/), [decline](https://ben.kirw.in/decline/) to parse command line arguments and [cats](https://typelevel.org/cats/) for its purely functional approach.
 
-## 2. Scala-CLI: your best command line buddy
+## Scala-CLI: Your Command-Line Best Friend
 
 [Scala CLI](https://scala-cli.virtuslab.org/) is a recent command line tool by [VirtusLab](https://virtuslab.org/) that lets you interact with Scala in multiple ways. One of its most valuable features is the support to create single-file scripts that can use any Scala dependency and be packaged in various formats to run everywhere.
 
@@ -52,9 +52,9 @@ $ scala-cli run Hello.scala --jvm "temurin:11" --scala "2.13.10"
 Hello from scala-cli
 ```
 
-The best way to customise its default behaviour is through Scala CLI's [using Directives](https://scala-cli.virtuslab.org/docs/guides/using-directives).
+The best way to customise its default behaviour is through Scala CLI's [using Directives](https://scala-cli.virtuslab.org/docs/guides/introduction/using-directives/).
 
-### 2.1 Directives
+### Directives
 
 Let's say that for the purposes of our script, a library like [PPrint](https://github.com/com-lihaoyi/PPrint) might be convenient. With directives, it's possible to declare it as our script's dependency and to specify both the JVM and Scala versions we intend to run our script with:
 
@@ -88,7 +88,7 @@ Through directives you can, for example:
 
 and much more. For a complete reference, see [Directives](https://scala-cli.virtuslab.org/docs/reference/scala-command/directives).
 
-### 2.2. Updating dependencies
+### Updating Dependencies
 
 As some of you may have noticed, the `pprint` library version in the example is not the newest one: at the time of writing, the most recent version is 0.8.0. Luckily we're not forced to _check it manually on GitHub or Maven Central_ since scala-cli exposes the `dependency-update` command that will fetch the last version of each dependency and print a command to update them all.
 
@@ -108,7 +108,7 @@ $ head -3 Maps.scala
 //> using lib "com.lihaoyi::pprint::0.8.0"
 ```
 
-### 2.3. IDE support
+### IDE support
 
 Writing Scala code without the help of a fully-fledged IDE is okay if you're writing a "Hello world" application or similar, but for a _"complete programming experience"_ using one of the IDE alternatives &mdash; at the moment either IntelliJ or a Metals-compatible one &mdash; is recommended. Scala CLI can help you set up your IDE of choice by generating the necessary files to provide full-blown IDE support.
 
@@ -131,13 +131,13 @@ resulting in the generation of 2 files that both Metals and IntelliJ use to prov
 
 Opening the _enclosing folder_ in your Metals-enabled editor or importing it in IntelliJ will provide you with the Scala IDE experience you're used to.
 
-### 2.4. Formatting
+### Formatting
 
 Our developer experience can't be complete without a properly configured formatter. Luckily scala-cli can run [scalafmt](https://scalameta.org/scalafmt/) with `scala-cli fmt Maps.scala`. A `.scalafmt.conf` file in the project's root folder will let you customize the default formatting behaviour (add `--save-scalafmt-conf` to save locally the default configuration if needed).
 
 Now that we have a working IDE, we can begin modelling the problem and its solution.
 
-## 3. Modeling a Sudoku Board
+## Modeling a Sudoku Board
 
 Since sudoku consists of 9 lines of 9 digits from 1 to 9, one of the ways to encode and store the information in a case class is wrapping a `Vector[Int]`. So in a newly created `Sudoku.scala` file, we'll define
 
@@ -216,7 +216,7 @@ Let's examine the `from` function line by line:
 
 The main strength of the `from` function is that it won't let us create a `Sudoku` if the input doesn't comply with a set of minimum requirements needed to fully and correctly describe a `Sudoku`. This approach, sometimes called ["Parse, don't validate"](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/), might not seem like a big deal. Still, it enables us to write functions and extension methods that use `Sudoku` as parameters and are not required to perform any validation. `Sudoku`s are now impossible to create without using a valid input: we made invalid `Sudoku`s impossible to represent.
 
-## 4. Adding utility methods
+## Adding Utility Methods
 
 Our `Sudoku` case class is pretty much useless without any function using it, so let's write a few methods that might help us solve the problem. Since each number in each cell is _row_, _column_ and _cell_ constrained, it makes sense to code a way to extract those pieces of information from the case class.
 
@@ -273,7 +273,7 @@ object Sudoku {
 >
 > On the other hand, defining new methods in the class (or in a trait) is easier if you intend to add new operations to that specific type (or trait). Pros and cons of the _type class_ vs _inheritance_ approach to the [Wadler's expression problem](https://en.wikipedia.org/wiki/Expression_problem) will be discussed in a future article.
 
-## 5. Testing
+## Testing
 
 Now that we have some APIs over `Sudoku`, it makes sense to test them out before trying to solve the problem further. [Scala-cli supports testing](https://scala-cli.virtuslab.org/docs/commands/test) out of the box and detects test files in several ways. The easiest one to leverage is using the `.test.scala` extension, ideal when you have a single source file like `foo.scala` and its testing companion `foo.test.scala`.
 
@@ -373,7 +373,7 @@ SudokuSpec:
   + Sudoku.getCellOf(n) should extract the correct cell 0.003s
 ```
 
-## 6. Recursive immutable solution
+## Recursive Immutable Solution
 
 To solve the sudoku, we will use a recursive brute-forcing algorithm:
 
@@ -474,7 +474,7 @@ def solve(s: Sudoku): List[Sudoku] = s.getZero.fold(s :: Nil) {
 }
 ```
 
-## 7. Creating the command line application
+## Creating the Command-Line Application
 
 Now that we've built the core of the logic, it's time to wire it to create a command line application. The chosen library for command line argument parsing is [decline](https://ben.kirw.in/decline/). We will place the argument parsing logic and the application entry point in their own `Main.scala` file.
 
@@ -598,9 +598,9 @@ object Main extends CommandApp(
 )
 ```
 
-## 8. Packaging as an executable file
+## Packaging as an Executable File
 
-It's time to use scala-cli to [package](https://scala-cli.virtuslab.org/docs/cookbooks/scala-package) our application. By default, scala-cli packages in a [lightweight format](https://scala-cli.virtuslab.org/docs/cookbooks/scala-package) that contains only your bytecode. To run the application, the `java` command needs to be available, and access to the internet, if dependencies need to be downloaded. Adding `//> using packaging.output "sudokuSolver"` to `project.scala` will let us control the filename of the produced executable file.
+It's time to use scala-cli to [package](https://scala-cli.virtuslab.org/docs/cookbooks/package/scala-package/) our application. By default, scala-cli packages in a [lightweight format](https://scala-cli.virtuslab.org/docs/cookbooks/package/scala-package/) that contains only your bytecode. To run the application, the `java` command needs to be available, and access to the internet, if dependencies need to be downloaded. Adding `//> using packaging.output "sudokuSolver"` to `project.scala` will let us control the filename of the produced executable file.
 
 ```shell
 $ scala-cli package .
@@ -634,7 +634,7 @@ Options and flags:
 
 Running `sudokuSolver` on a fresh machine featuring only a Java installation will automagically download every dependency needed to run your code, plus macOS and Linux executables are portable between these two operating systems, maximising the "shareability" of your application package 😍.
 
-## 9. Benchmarking and Scala Native
+## Benchmarking and Scala Native
 
 Now that we have a universal-ish binary that can run virtually anywhere there's a java installation, it's time for some benchmarking. To benchmark the time, our command line app takes to solve a specific sudoku we'll use [hyperfine](https://github.com/sharkdp/hyperfine), an awesome command-line benchmarking tool written in Rust.
 
@@ -709,7 +709,7 @@ As we can see, Scala Native annihilated the application startup time (there's no
 
 Scala Native can be used to craft NGINX Unit server applications using [Snunit](https://github.com/lolgab/snunit), and as recently a [Cats-Effect single-threaded native runtime](https://github.com/armanbilge/epollcat) was published, it's possible to use [http4s with Ember](https://github.com/ChristopherDavenport/scala-native-ember-example) to create single-threaded native servers!
 
-## 10. Conclusion
+## Conclusion
 
 In this article, we saw how to use [scala-cli](https://scala-cli.virtuslab.org/), [Scala Native](https://scala-native.org/en/stable/) and [decline](https://ben.kirw.in/decline/), a combination of tools that rocks when used to craft lightweight command line tools and much more. Despite not being a comprehensive guide to all their features, I hope this article will act as a starting point for ideas.
 

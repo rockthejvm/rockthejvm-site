@@ -133,6 +133,6 @@ which will (behind the scenes) invoke the "person" method from a new instance of
 
 Potential drawback: instantiation of the PersonInterpolator many times if you're doing lots of these conversions.
 
-## A Powerful tool
+## A Powerful Tool
 
 Custom interpolation is a nice tool for making various functionalities in your library seem like part of the language. It's (usually) short and straightforward, while making user code also short and self-explanatory.
