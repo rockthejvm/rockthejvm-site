@@ -6,11 +6,10 @@ publishedDate: 2024-06-14
 tags: [pekko, pekko-cluster, pekko-http, pekko-stream, scala]
 title: A Distributed Code Execution Engine in Pekko with Scala
 updatedDate: 2024-09-06
+videoId: 1uP6FTUn8_E
 ---
 
-import { YouTube } from "astro-embed";
-
-<YouTube id="1uP6FTUn8_E" />
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
 
 ## Introduction
 
@@ -42,7 +41,9 @@ Put simply, the goal of this project is to get familiar with [Apache Pekko](http
 
 Let's get started then, shall we?
 
-> Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job showcasing its features in a compact project we can explore exhaustively in this article. If you need to get started with Pekko, I've covered Pekko (and Akka) in a comprehensive bundle of courses about [Akka/Pekko Actors](/courses/akka-pekko-essentials), [Akka/Pekko Streams](/courses/akka-pekko-streams), and [Akka/Pekko HTTP](/courses/akka-pekko-http), all of which are used in this article. Check them out if you're interested.
+<NoteAdmonition>
+    Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job showcasing its features in a compact project we can explore exhaustively in this article. If you need to get started with Pekko, I've covered Pekko (and Akka) in a comprehensive bundle of courses about [Akka/Pekko Actors](/courses/akka-pekko-essentials), [Akka/Pekko Streams](/courses/akka-pekko-streams), and [Akka/Pekko HTTP](/courses/akka-pekko-http), all of which are used in this article. Check them out if you're interested.
+</NoteAdmonition>
 
 ## Project Structure
 
@@ -493,34 +494,34 @@ clustering {
 
 This file configures various settings for the Pekko application, including actor system properties, HTTP settings, remote communication, and clustering parameters:
 
-#### Pekko Actor System Configuration
+### Pekko Actor System Configuration
 
 - `provider = cluster`: This setting specifies that the actor system will use clustering capabilities.
 - `serialization-bindings`: This section defines serialization bindings for specific classes. Here, any class implementing `serialization.CborSerializable` will be serialized using the `jackson-cbor` serializer.
 
-#### HTTP Configuration
+### HTTP Configuration
 
 - `host-connection-pool.max-open-requests`: This setting specifies the maximum number of open requests in the HTTP host connection pool. It is set to 256.
 
-#### Remote Communication Configuration
+### Remote Communication Configuration
 
 - `remote.artery`: This section configures the Artery transport (a remoting mechanism in Pekko).
 - `canonical.hostname`: This sets the hostname for the actor system, which is derived from `clustering.ip`.
 - `canonical.port`: This sets the port for the actor system, which is derived from `clustering.port`.
 - `large-message-destinations`: Specifies destinations for large messages. In this case, any destination matching the pattern `/temp/load-balancer-*` will be treated as a large message destination.
 
-#### Cluster Configuration
+### Cluster Configuration
 
 - `seed-nodes`: Defines the initial contact points for the cluster, using placeholders for cluster name, seed IP, and seed port.
 - `roles`: Specifies the roles of the cluster node, derived from clustering.role.
 - `downing-provider-class`: Specifies the class for handling split-brain scenarios. Here, it's set to `SplitBrainResolverProvider`.
 
-#### Http Server Configuration
+### Http Server Configuration
 
 - `http.port`: Sets the HTTP server port to 8080.
 - `http.host`: Sets the HTTP server host to 0.0.0.0, meaning it will bind to all available network interfaces.
 
-#### Clustering Variables
+### Clustering Variables
 
 - `ip`: Default IP address for clustering is 127.0.0.1. It can be overridden by the environment variable `CLUSTER_IP`.
 - `port`: Default port for clustering is 1600. It can be overridden by the environment variable `CLUSTER_PORT`.
@@ -531,7 +532,7 @@ This file configures various settings for the Pekko application, including actor
 
 This configuration file is designed to be flexible, allowing for environment-specific overrides while providing sensible defaults, it plays crucial role with running the Pekko cluster within the containers.
 
-### transformation.conf
+### `transformation.conf`
 
 The project also requires a special configuration for capturing properties for domain objects such as `worker`, `load-balancer` and so on.
 
@@ -997,7 +998,7 @@ object CodeExecutor {
 
 Here it's worth going into details since it's the meat of the whole project.
 
-#### Constants and Imports
+### Constants and Imports
 
 1. Constants:
 
@@ -1008,7 +1009,7 @@ Here it's worth going into details since it's the meat of the whole project.
 1. Imports:
    - Imports various `Pekko` and `Scala` utilities for actor behavior, stream handling, and future operations.
 
-#### Messages (`In`)
+### Messages (`In`)
 
 The `In` enum defines messages the actor can handle:
 
@@ -1017,15 +1018,15 @@ The `In` enum defines messages the actor can handle:
 - `ExecutionFailed`: Message indicating the execution failed with a reason.
 - `ExecutionSucceeded`: Message indicating the execution succeeded with the output.
 
-#### Throwable for Large Output
+### Throwable for Large Output
 
 A custom `TooLargeOutput` throwable is defined to handle scenarios where the code output exceeds the allowed size.
 
-#### Behavior Definition
+### Behavior Definition
 
 The `apply` method defines the actor's behavior using Akka's `Behaviors.receive` method:
 
-#### `In.Execute` case
+### `In.Execute` case
 
 1. Logging: Logs that code execution has started.
 1. Running Docker Command: Constructs and runs a Docker command with a 2-second timeout and memory limits.
@@ -1037,25 +1038,25 @@ The `apply` method defines the actor's behavior using Akka's `Behaviors.receive`
    - On success, checks the exit code and constructs appropriate messages (`ExecutionFailed` for specific exit codes or `ExecutionSucceeded`).
    - On failure, logs the exception and constructs an `ExecutionFailed` message.
 
-#### `In.ExecutionSucceeded` case
+### `In.ExecutionSucceeded` case
 
 1. Logging: Logs successful execution.
 1. Replying: Sends an `ExecutionSucceeded` message to the requester.
 1. Stopping Behavior: Stops the actor.
 
-#### `In.ExecutionFailed` case
+### `In.ExecutionFailed` case
 
 1. Logging: Logs the failure reason.
 1. Replying: Sends an `ExecutionFailed` message to the requester.
 1. Stopping Behavior: Stops the actor.
 
-#### Helper Methods
+### Helper Methods
 
 1. readOutput: Defines a sink that reads ByteString input, converts it to a UTF-8 string, and checks if the output size exceeds the maximum allowed size.
 1. src: Creates a source from an input stream.
 1. run: Executes a command using `sys.runtime.exec` and returns a future of the process.
 
-#### Detailed Workflow
+### Detailed Workflow
 
 1. Execution Start: When the `Execute` message is received, the actor starts by logging the event.
 1. Docker Command: It then constructs and runs the Docker command with specified limits.
@@ -1073,7 +1074,7 @@ Now we can move on and talk about the clustering stuff.
 
 In a distributed system, efficiently managing and coordinating tasks across multiple nodes is crucial for performance and scalability. Pekko, a robust toolkit for building highly concurrent, distributed, and resilient message-driven applications, offers powerful features for creating such systems. In this context, our code should implement a cluster system with distinct roles for `worker` and `master` nodes.
 
-#### Components and Their Roles
+### Components and Their Roles
 
 1. Cluster and Node Configuration:
 
@@ -1095,7 +1096,7 @@ In a distributed system, efficiently managing and coordinating tasks across mult
    - The `master` node sets up an HTTP server to accept task submissions. It listens on a configurable host and port.
    - Incoming tasks are forwarded to a randomly selected load balancer, which then distributes them to the worker nodes.
 
-#### Justification for the Components
+### Justification for the Components
 
 1. Efficiency and Scalability:
 
@@ -1494,7 +1495,7 @@ Please, run it and share the performance details with me, feel free to play with
 
 In this blog post, we've explored the journey of building a robust, scalable, and efficient remote code execution engine using Scala 3 and Apache Pekko. Our system leverages a master-worker architecture, with one master node and three worker nodes to distribute and manage code execution tasks across a cluster. Let's recap the key components and features of our solution.
 
-#### Key Components and Features
+### Key Components and Features
 
 1. Cluster Awareness with Receptionist and Router:
 
@@ -1517,11 +1518,11 @@ In this blog post, we've explored the journey of building a robust, scalable, an
 1. Support for Multiple Languages:
    - Our engine supports six programming languages, demonstrating its versatility and adaptability to various use cases.
 
-#### Scalability and Efficiency
+### Scalability and Efficiency
 
 The design choices made in this project ensure that our remote code execution engine can scale efficiently with the demands. By distributing the workload across multiple worker nodes and dynamically managing these nodes using cluster-aware techniques, we can handle a large number of concurrent code execution requests without compromising performance.
 
-#### Final Thoughts
+### Final Thoughts
 
 Building this distributed system with Scala 3 and Apache Pekko has been an enlightening experience. We've harnessed the power of actor-based concurrency, cluster management, and containerization to create a resilient and secure remote code execution engine. This project exemplifies how modern technologies can be integrated to solve complex problems in a scalable and efficient manner.
 

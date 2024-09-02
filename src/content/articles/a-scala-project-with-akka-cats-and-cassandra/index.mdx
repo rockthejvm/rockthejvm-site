@@ -7,7 +7,9 @@ title: A Scala Project with Akka, Cats, and Cassandra
 updatedDate: 2024-09-06
 ---
 
-import { YouTube } from "astro-embed";
+import MyYouTube from "@components/MyYouTube.astro";
+
+## Introduction
 
 > This mini-project is a collaboration between me (Daniel) and [Riccardo Cardin](/authors/riccardo-cardin), one of the prominent Rock the JVM alumni. Big thanks to Riccardo for contributing with most of the code that ended up in this article and on camera.
 
@@ -108,9 +110,7 @@ We're going to split the work on this application in 4 parts:
 
 ## The Bank Accounts
 
-If you want to follow this chapter in video form, watch it below:
-
-<YouTube id="PPIPGzrc2wo" />
+<MyYouTube id="PPIPGzrc2wo" />
 
 We're going to model bank accounts as independent, persistent actors. Each bank account will be its own actor, which will be created by the "main" bank actor either
 
@@ -365,9 +365,7 @@ object PersistentBankAccount {
 
 ## The Main Bank Actor
 
-This section is also available on video:
-
-<YouTube id="NpGYj_Zpwsk" />
+<MyYouTube id="NpGYj_Zpwsk" />
 
 This actor will manage all the bank accounts, which means it will be a parent of those accounts. The bank actor will be the middle layer between the HTTP server and the actual persistent bank accounts, which will do the majority of the work.
 
@@ -604,9 +602,7 @@ Let's move on to the HTTP server.
 
 ## The HTTP Server
 
-This section is also available on video:
-
-<YouTube id="q9psVBnMqJk" />
+<MyYouTube id="q9psVBnMqJk" />
 
 For this section, we're going to use Akka HTTP (obviously), and we'll use the high-level DSL. We will expose the following endpoints:
 

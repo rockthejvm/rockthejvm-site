@@ -6,9 +6,8 @@ publishedDate: 2023-07-27
 tags: [http4s, scala]
 title: "Authentication with Scala and http4s: OAuth"
 updatedDate: 2024-09-06
+videoId: NZwnZhwVPrs
 ---
-
-import { YouTube } from "astro-embed";
 
 ## Introduction
 
@@ -24,10 +23,6 @@ OAuth which stands for Open Authorization is an open standard framework that all
 1. app1 can now request the user's information from app2's API using the access token.
 
 The OAuth standard is defined under [RFC 6749](https://www.ietf.org/rfc/rfc6749.txt), here we'll find an in-depth explanation of how the mechanism works.
-
-For the video version of this tutorial, check below:
-
-<YouTube id="NZwnZhwVPrs" />
 
 ## Accessing the GitHub API Through OAuth
 
