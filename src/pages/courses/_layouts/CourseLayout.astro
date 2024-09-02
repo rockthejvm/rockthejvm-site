@@ -27,6 +27,8 @@ const {
 } = frontmatter;
 
 const courseList = course.data.bundledCourses ? await Promise.all(course.data.bundledCourses!.map(async (c) => await getEntry("courses", c.slug))) : [];
+
+const hasGoalSlot = Astro.slots.goal !== undefined;
 ---
 
 <BaseLayout {description} {title}>
@@ -35,9 +37,11 @@ const courseList = course.data.bundledCourses ? await Promise.all(course.data.bu
     {course.data.video &&
       <CourseVideo color={category.data.color} video={course.data.video} />
     }
-    <Goal>
-      <slot name="goal" />
-    </Goal>
+    {hasGoalSlot &&
+      <Goal>
+        <slot name="goal" />
+      </Goal>
+    }
     {
       question && (
         <Question color={category.data.color} image={question.image} {question}>
