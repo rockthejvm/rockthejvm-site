@@ -1,0 +1,13 @@
+---
+interface Props {
+  color: string;
+}
+
+const { color } = Astro.props;
+---
+
+<aside class=`bg-${color}-100 border-l-4 border-${color}-500 text-${color}-700 p-4 rounded-md` role="alert">
+  <p>
+    <slot />
+  </p>
+</aside>
