@@ -19,7 +19,7 @@ val myFuture = Future {
 
 you know the value inside will be evaluated on "some" thread, at "some" point in time, without your control.
 
-## The scenario
+## The Scenario
 
 Here I will speak to the following scenario which comes up in practice. Imagine you're designing an function of the following sort:
 
@@ -55,7 +55,7 @@ def gimmeMyPreciousValue(yourArg: Int): Future[String] = Future {
 
 because spawning up the thread responsible for evaluating the production function is not up to you.
 
-## The solution
+## The Solution
 
 Introducing Promises - a "controller" and "wrapper" over a Future. Here's how it works. You create a Promise, get its Future and use it (consume it) with the assumption it will be filled in later:
 
@@ -78,7 +78,7 @@ def asyncCall(promise: Promise[String]): Unit = {
 
 And at the moment the promise contains a value, its future will automatically be fulfilled with that value, which will unlock the consumer.
 
-## How to use it
+## How to Use It
 
 For our service scenario, here's how we would implement our function:
 
