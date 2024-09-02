@@ -11,6 +11,7 @@ import AuthorWide from "../../../components/AuthorWide.astro";
 import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
 import ArticleSeries from "@components/ArticleSeries.astro";
+import MyYouTube from "@components/MyYouTube.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -28,6 +29,7 @@ const {
   publishedDate,
   title,
   updatedDate,
+  videoId,
 } = frontmatter;
 const author = await getEntry(
   frontmatter.author.collection,
@@ -88,6 +90,9 @@ const tags = await getEntries(frontmatter.tags);
           </Byline>
         </a>
         <TagList {tags} />
+        {videoId &&
+          <MyYouTube id={videoId} />
+        }
       </header>
       <div class="flex flex-row">
         <Prose>
@@ -102,6 +107,9 @@ const tags = await getEntries(frontmatter.tags);
         </div>
       </div>
       <footer>
+        {videoId &&
+          <MyYouTube id={videoId} />
+        }
         <AuthorWide {author} />
       </footer>
     </article>

@@ -5,21 +5,26 @@ publishedDate: 2020-11-10
 tags: [scala, type-system]
 title: Demystifying Variance Positions in Scala
 updatedDate: 2024-09-06
+videoId: aUmj7jnXet4
 ---
 
-import ErrorAdmonition from "@components/ErrorAdmonition.astro";
-import { Tweet, YouTube } from "astro-embed";
+import CriticalAdmonition from "@components/Admonitions/CriticalAdmonition.astro";
+import { Tweet } from "astro-embed";
+
+## Introduction
 
 Variance in Scala is one of the most powerful concepts of its type system. It's simple in theory, but it can cause massive headaches when we think we got the hang of writing abstract, generic code. In this article, we'll take a careful and structured look at one of the most cryptic compiler errors you'll ever see:
 
-<ErrorAdmonition message="covariant type T occurs in contravariant position in type T of value myArg" />
+<CriticalAdmonition>
+    covariant type T occurs in contravariant position in type T of value myArg
+</CriticalAdmonition>
 
 We won't need a particular project setup for this article - a plain Scala/sbt project
 will do.
 
 > We discuss variance and variance positions in depth in the [Advanced Scala](/courses/advanced-scala) course. Check it out!
 
-## 1. Background
+## Background
 
 This article will assume you're familiar with generics (either in Java, Scala or some other statically typed language).
 
@@ -31,7 +36,7 @@ This sounds quite complicated until we bring it back to real life. Imagine we're
 
 For a list, the answer is yes. However, this answer doesn't make sense for every type.
 
-## 2. The Variance Question
+## The Variance Question
 
 To put it another way, if we wanted to write a new `Thing[T]` generic type in our code base, the following question is important:
 
@@ -64,7 +69,7 @@ If you want to keep a good rule of thumb on how to pick variance for your new ge
 <Tweet id="https://x.com/rockthejvm/status/1316385189883453441" />
 <script async src="https://platform.twitter.com/widgets.js"></script>
 
-## 3. The Variance Positions Problem
+## The Variance Positions Problem
 
 Now that we've found that a collection should be covariant, we get to work and write our own list, because of course we can:
 
@@ -78,13 +83,15 @@ abstract class MyList[+T] {
 
 We start from the very basics. But before we even write a proper subtype for MyList, we hit a wall:
 
-<ErrorAdmonition message="covariant type T occurs in contravariant position in type T of value elem" />
+<CriticalAdmonition>
+    covariant type T occurs in contravariant position in type T of value elem
+</CriticalAdmonition>
 
 Just as we thought we understood variance, here comes the compiler trying to prove we don't know squat.
 
 We'll take a careful, structured approach of what this problem means, and then we'll learn how we can solve it. For the following examples, we'll use the same example with animals.
 
-### 3.1. Types of `val`s Are in Covariant Position
+### Types of `val`s Are in Covariant Position
 
 Let's say we had a Vet. As discussed before, a Vet should be a contravariant type. Let's also imagine this vet had a favorite animal `val` field, of the same type she can treat:
 
@@ -108,11 +115,13 @@ See any trouble here?
 
 No-no. This is a type conflict. A sound type checker will not compile this code. **We say that the types of `val` fields are in _covariant_ position**, and this is what the compiler will show you:
 
-<ErrorAdmonition message="contravariant type T occurs in covariant position in type T of value favoriteAnimal" />
+<CriticalAdmonition>
+    contravariant type T occurs in covariant position in type T of value favoriteAnimal
+</CriticalAdmonition>
 
 If the generic type was covariant (e.g. a list), then it would work. If the generic type was invariant, we wouldn't even have this problem, as we'd have the same type T everywhere.
 
-### 3.2. Types of `var`s Are Also in Contravariant Position
+### Types of `var`s Are Also in Contravariant Position
 
 If our contravariant Vet example had a `var` field, we'd have the exact same problem right at initialization. Therefore, **types of `var` members are in _covariant_ position** as well. Because `var`s can be reassigned, they come with an extra restriction.
 
@@ -175,7 +184,7 @@ lassiesVet.heal(lassie) // correct; it's a Dog, which is also an Animal; Vet[Ani
 lassiesVet.heal(garfield) // legitimate error: Lassie's vet heals Dogs, so Cats aren't allowed
 ```
 
-### 3.4. Method Return Types Are in Covariant Position
+### Method Return Types Are in Covariant Position
 
 Again, we can prove the title by trying the reverse. Assume a contravariant type (again, our favorite Vet) and write a method returning a T:
 
@@ -200,7 +209,7 @@ Again, breaking the type guarantees: we use a `Vet[Animal]` whose method returns
 
 Therefore, we say **method return types are in _covariant_ position**. A covariant example works fine for this case.
 
-## 4. How to Solve the Variance Positions Problem
+## How to Solve the Variance Positions Problem
 
 We proved that a covariant list cannot have an `add(elem: T)` method because it breaks type guarantees. However, does that forbid us from ever adding an element to a list?!
 
@@ -248,7 +257,7 @@ val lassiesVet: Vet[Dog] = new Vet[Animal]
 val rescuedDog: Dog = vet.rescueAnimal[Dog] // type checking passes now
 ```
 
-## 5. Conclusion
+## Conclusion
 
 This is one of the hardest parts of the Scala type system, even though it starts from such an innocent question (should lists of dogs be lists of animals). If you're curious, the [advanced Scala course](/courses/advanced-scala) contains what you've just learned (and lots more on Scala's type system) with some practice exercises.
 
@@ -262,7 +271,3 @@ This article was pretty dense, and we learned quite a bit:
 - method return types are in covariant position
 - we solve the "covariant type occurs in contravariant position" by "widening": we add a type argument `[S >: T]` and change the argument type to S
 - we solve the "contravariant type occurs in covariant position" by "narrowing": we add a type argument `[S <: T]` and change the method return type to S
-
-## 6. Watch on YouTube
-
-<YouTube id="aUmj7jnXet4" />
