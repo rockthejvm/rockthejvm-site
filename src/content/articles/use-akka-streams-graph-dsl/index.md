@@ -1,6 +1,6 @@
 ---
 category: guide
-excerpt: Explore Akka Streams’ powerful Graph DSL and learn how to get started quickly with our easy guide
+excerpt: Explore Akka Streams' powerful Graph DSL and learn how to get started quickly with our easy guide
 publishedDate: 2020-07-12
 tags: [akka, akka-streams]
 title: "Use Akka Streams' Graph DSL: Quickly Explained"

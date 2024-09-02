@@ -1,7 +1,7 @@
 ---
 author: riccardo-cardin
 category: guide
-excerpt: "Explore ZIO’s unique fiber model for concurrency: see how it stands out from other effect libraries in the Scala ecosystem"
+excerpt: "Explore ZIO's unique fiber model for concurrency: see how it stands out from other effect libraries in the Scala ecosystem"
 publishedDate: 2021-06-24
 tags: [concurrency, scala, zio]
 title: "ZIO Fibers: Concurrency and Lightweight Threads"

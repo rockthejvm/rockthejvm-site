@@ -26,7 +26,7 @@ A unified batch and stream processing engine requires the support from a unified
 
 In other words, the streaming system needs to not only move data in the pipelines, but to store data in streams for long periods of time and serves as the single source of truth for the processing engine.
 
-Apache Pulsar’s tiered storage architecture enables it to store data streams indefinitely.
+Apache Pulsar's tiered storage architecture enables it to store data streams indefinitely.
 
 Pulsar is a great fit for long term storage of data and can be used to store results to some downstream applications.
 
@@ -34,11 +34,11 @@ Apache Pulsar is a distributed append-only log that can easily scale out. Topics
 
 Pulsar topics also employ a segment-based architecture, which means that each of these individual topics also has a sequence of segments with segments periodically closing and becoming immutable.
 
-These segments are stored in the underlying mechanism of Apache BookKeeper, but can be offloaded to long-term, inexpensive storage, such as Amazon S3, leveraging Pulsar’s tiered storage.
+These segments are stored in the underlying mechanism of Apache BookKeeper, but can be offloaded to long-term, inexpensive storage, such as Amazon S3, leveraging Pulsar's tiered storage.
 
-This flexibility also makes Pulsar’s underlying storage architecture ideal for batch access. Historical data can be stored and accessed in a batch mechanism, with the appropriate stream processing layer on top. Pulsar offers both low-latency and high bandwidth streaming APIs, with architecture capable of supporting modern data infrastructures seeking to unify Batch and Stream Processing. Pulsar Functions is (are?) a lightweight serverless stream processing framework - but note the term **lightweight** here.
+This flexibility also makes Pulsar's underlying storage architecture ideal for batch access. Historical data can be stored and accessed in a batch mechanism, with the appropriate stream processing layer on top. Pulsar offers both low-latency and high bandwidth streaming APIs, with architecture capable of supporting modern data infrastructures seeking to unify Batch and Stream Processing. Pulsar Functions is (are?) a lightweight serverless stream processing framework - but note the term **lightweight** here.
 
-Apache Pulsar isn’t an advanced stream computing engine but gives you the flexibility to implement many common stream processing use cases; let’s zoom a little more on that.
+Apache Pulsar isn't an advanced stream computing engine but gives you the flexibility to implement many common stream processing use cases; let's zoom a little more on that.
 
 With Pulsar Functions you can implement common use cases on streaming data, like:
 
@@ -67,7 +67,7 @@ we should leverage sophisticated stream compute engines like Spark Structured St
 
 ## Example Use Case: Real-Time User Engagement
 
-Let’s take a closer look now at an example use case to better understand the role of all these different components in a streaming data pipeline.
+Let's take a closer look now at an example use case to better understand the role of all these different components in a streaming data pipeline.
 
 Imagine a popular e-commerce website; the users click on different products, add products to their carts and (hopefully) they purchase the items. From a data-driven business perspective, we can imagine a few things we can do by leveraging stream processing:
 
@@ -78,7 +78,7 @@ Here is a sample visual representation of this data pipeline:
 
 ![Data pipeline architecture diagram showing jobs](images/data-pipeline-architecture-diagram.png)
 
-We have events being generated from the website, including user information and product information, as well the user click events. Notice that the topics storing product and user information are compacted, which means that we specify a key for the topic and that key is each user’s (or product’s) unique identifier.
+We have events being generated from the website, including user information and product information, as well the user click events. Notice that the topics storing product and user information are compacted, which means that we specify a key for the topic and that key is each user's (or product's) unique identifier.
 
 We are only interested in the latest values of those records and a compacted topic provides just that: having the latest update for each record based on the key.
 
@@ -351,7 +351,7 @@ Some notes on session windows:
 
 - A Session window sizes dynamically based on the window length, depending on the inputs.
 - A Session window starts with an input, and expands itself if the following input is received within the gap duration.
-- For a static gap duration, a session window closes when there’s no input received within gap duration after receiving the latest input.
+- For a static gap duration, a session window closes when there's no input received within gap duration after receiving the latest input.
 
 By using session windows and grouping on the user sessions, we can easily see if a user has a cart event type, but no purchase event. This makes it easy to filter the events we consider as **abandoned cart** and forward them to a downstream topic for further processing. An example action could be to send out a reminder notification (via smartphone app if available, or via email) to the users after some period of time, e.g. an hour.
 
