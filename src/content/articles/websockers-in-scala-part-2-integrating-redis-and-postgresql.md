@@ -16,7 +16,7 @@ In this iteration, we'll be integrating Redis to keep track of the users and roo
 
 Since this tutorial builds on the previous article, to follow along, we'll need to clone that [GitHub repo](https://github.com/hkateu/WebsocketChatApp) where we'll be making the necessary updates to build this new version.
 
-## 2. Setting Up
+## 2. Setup
 
 We'll be using skunk and redis4Cats in our application so let's add them to our `build.sbt` file.
 

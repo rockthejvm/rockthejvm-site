@@ -8,7 +8,7 @@ title: Getting Started with Scala Slick
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Yadu Krishnan](/authors/yadu-krishnan), a new contributor to Rock the JVM. He's a senior developer and constantly shares his passion for new languages, libraries and technologies. He also loves writing Scala articles, especially for newcomers._
+> This article is brought to you by [Yadu Krishnan](/authors/yadu-krishnan), a new contributor to Rock the JVM. He's a senior developer and constantly shares his passion for new languages, libraries and technologies. He also loves writing Scala articles, especially for newcomers.
 
 This is a beginner-friendly article to get started with Slick, a popular database library in Scala. After following this post, you will be able to write Scala code to communicate with a database using SQL.
 
