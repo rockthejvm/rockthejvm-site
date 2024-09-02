@@ -836,7 +836,7 @@ The log of the above code shows the override of the parent coroutine. However, t
 
 The only exception to the context inheritance rule is the `Job` context instance. Every new coroutine creates its own `Job` instance, which is not inherited from the parent. Whereas, the other context elements, such as the `CoroutineName` or the dispatcher, are inherited from the parent.
 
-## 9. Conclusions
+## 9. Conclusion
 
 Our journey through the basics of the Kotlin coroutines library is over. We saw why coroutines matter and made a simplified explanation of how they're implemented under the hood. Then, we showed how to create coroutines, also introducing the structural concurrency topic. We saw how cooperative scheduling and cancellation work with many examples. Finally, we introduced the main features of the coroutines' context. There is a lot more to say about coroutines, but we hope this article can be a good starting point for those who want to learn more about them.
 

@@ -973,7 +973,7 @@ object TaglessApp extends IOApp {
 
 And that's it!
 
-## Conclusions
+## Conclusion
 
 Finally, we sum up what we've learned so far. We introduced doobie, a JDBC functional wrapper library built upon the Cats Effect library. After defining some domain models to work with, we learned how to create a `Transactor` object to execute instructions in the database. Then, we saw how to implement queries, both with and without input parameters, and map their results back to our domain models. So, we saw how to insert and update rows in a table, and then which are the available implementation when we need a join. Since doobie uses some type classes to map Scala type from and to schema types, we introduced them. Finally, we describe how to use doobie in a tagless final context with all the pieces in the right places.
 
