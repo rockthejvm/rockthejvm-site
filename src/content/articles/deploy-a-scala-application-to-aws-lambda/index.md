@@ -43,7 +43,7 @@ After you've created the artifact definition, you'll need to build it. Go to _Bu
 
 The JAR file will be under the _out/_ folder in your IntelliJ project. Remmeber that path, because you'll need to upload it to AWS. As a sanity check, look at the JAR's size: it should be a few MB.
 
-## Setting Up the Lambda Function
+## Setup the Lambda Function
 
 Now for the fun stuff. Go to your [AWS console](https://aws.amazon.com/console/). If you don't have an AWS account, go ahead and create one. Then select the Lambda function from the 572389057823 services Amazon offers you.
 

@@ -11,7 +11,7 @@ This article is for newbies to Akka HTTP and for those who have written some Akk
 
 I'll be working in IntelliJ IDEA which creates an sbt project structure quickly, but you can also use the `sbt` command line to do the same things I do here. So here goes:
 
-## Intro
+## Introduction
 
 We'll start by creating a vanilla Scala-sbt project in intelliJ:
 

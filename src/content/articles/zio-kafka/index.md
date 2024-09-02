@@ -8,7 +8,7 @@ title: "ZIO Kafka: A Practical Streaming Tutorial"
 updatedDate: 2024-09-06
 ---
 
-_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:_
+> Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:
 
 Modern distributed applications need a communication system between their components that must be reliable, scalable, and efficient. Synchronous communication based on HTTP is not a choice in such applications due to latency problems, insufficient resources' management, etc... Hence, we need an asynchronous messaging system capable of quickly scaling, robust to errors, and low latency.
 
@@ -18,7 +18,7 @@ In this article, we will go through some primary Kafka's use cases. First, we wi
 
 So, let's proceed without further ado.
 
-## 1. Background
+## Background
 
 Following this article will require a basic understanding of how Kafka works. Moreover, we should know what the effect pattern is and how ZIO implements it (refer to [ZIO Fibers: Concurrency and Lightweight Threads](/articles/zio-fibers-concurrency-and-lightweight-threads), and to [Organizing Services with ZIO and ZLayers](/articles/organizing-services-with-zio-and-zlayers) for further details).
 
@@ -36,7 +36,7 @@ Consumers within the same consumer groups share the partitions of a topic. So, A
 
 Now that you have a PhD in Kafka (the [docs](https://kafka.apache.org/documentation/) will also help), let's proceed to our setup.
 
-## 2. Set up
+## Setup
 
 First, we need the dependencies from the zio-kafka and zio-json libraries:
 
@@ -130,7 +130,7 @@ docker exec -it broker bash
 
 Now that everything is up and running, we can proceed with introducing the zio-kafka library.
 
-## 3. Creating a Consumer
+## Creating a Consumer
 
 First, we are going to analyze how to consume messages from a topic. As usual, we create a handy use case to work with.
 
@@ -199,7 +199,7 @@ val consumer: ZLayer[Clock with Blocking, Throwable, Consumer] =
 
 Now that we obtained a managed, injectable consumer, we can consume some message from the broker. It's time to introduce `ZStream`.
 
-## 4. Consuming Messages as a Stream
+## Consuming Messages as a Stream
 
 **The zio-kafka library allows consuming messages read from a Kafka topic as a stream. Basically, a stream is an abstraction of a possible infinite collection**. In ZIO, we model a stream using the type `ZStream[R, E, A]`, which represents an effectful stream requiring an environment `R` to execute, eventually failing with an error of type `E`, and producing values of type `A`.
 
@@ -209,7 +209,7 @@ We used the _effectful_ adjective because a `ZStream` implements the Effect Patt
 
 The `ZStream` type flattened the list of `Chunk`s for us, treating them as they were a single and continuous flux of data.
 
-### 4.1. Subscribing to Topics
+### Subscribing to Topics
 
 The creation of the stream consists of subscribing a consumer to a Kafka topic and configuring key and value bytes interpretation:
 
@@ -244,7 +244,7 @@ val partitionedMatchesStreams: SubscribedConsumerFromEnvironment =
   Consumer.subscribeAnd(Subscription.manual("updates", 1))
 ```
 
-### 4.2. Interpreting Messages: Serialization and Deserialization
+### Interpreting Messages: Serialization and Deserialization
 
 Once we subscribed to a topic, we must instruct our consumers how to interpret messages coming from it. Apache Kafka introduced the concept of _serde_, which stands for \_ser_ializer and \_de_serializer. We give the suitable `Serde` types both for messages' keys and values during the materialization of the read messages into a stream:
 
@@ -362,7 +362,7 @@ We have only mapped the `Either` object's left value resulting from the decoding
 
 Finally, it's usual to encode Kafka messages' values using some form of binary compressions, such as [Avro](https://avro.apache.org/). In this case, we can create a dedicated `Serde` directly from the raw type `org.apache.kafka.common.serialization.Serde` coming from the official Kafka client library. In fact, there are many implementations of Avro serializers and deserializer, such as [Confluent](https://docs.confluent.io/platform/current/schema-registry/serdes-develop/serdes-avro.html) `KafkaAvroSerializer` and `KafkaAvroDeserializer`.
 
-### 4.3. Consuming Messages
+### Consuming Messages
 
 We can read typed messages from a Kafka topic. As we said, the library shares the messages with developers using a `ZStream`. In our example, the produced stream has the type `ZStream[Consumer, Throwable, CommittableRecord[UUID, Match]]`:
 
@@ -481,7 +481,7 @@ matchesStreams
 
 The result of the application of the above whole pipeline of operation is a `ZIO[Console with Any with Consumer with Clock, Throwable, Unit]`, which means an effect that writes to the console something that it read from a Kafka consumer and can fail with a `Throwable`, and finally produces no value. When somebody asks why we also need a `Clock` to execute the effect, the answer is that the transducer runs operations on chunks directly using `Fiber`s, so it requires the ability to schedule them properly.
 
-### 4.4. Handling Poison Pills
+### Handling Poison Pills
 
 When we use `ZStream`, we must remember that **the default behavior for a stream when encountering a failure is to fail the stream**. Until now, we developed the _happy path_, which is when everything goes fine. However, many errors can arise during messages elaboration.
 
@@ -510,7 +510,7 @@ Consumer.subscribeAnd(Subscription.topics("updates"))
 
 Usually, a poison pill message is correctly logged as an error, and its offset is committed as a regular message.
 
-## 5. Printing Something to Console
+## Printing Something to Console
 
 Now that we have a consumer that can read messages from the `updates` topic, we are ready to execute our program and produce some messages. Summing up, the overall program is the following:
 
@@ -591,7 +591,7 @@ If everything goes well, our zio-kafka consumer should start printing to the con
 | ITA: 3 - ENG: 2 |
 ```
 
-## 6. Producing Messages
+## Producing Messages
 
 As it should be obvious, the zio-kafka library also provides Kafka producers in addition to consumers. As we made for consumers, if we want to produce some messages to a topic, the first thing to do is to create the resource and the layer associated with a producer:
 
@@ -650,6 +650,6 @@ val program = for {
 program.exitCode
 ```
 
-## 7. Conclusions
+## Conclusions
 
 In this article, we started learning the library zio-kafka introducing the basics of Kafka and how to set up a working environment using Docker. Then, we focused on the consumer part, and we learned how to subscribe to a topic. We talked about serialization and deserialization of messages, going into details of zio-json. The consumption of messages through the ZIO stream was the next issue. Finally, the article talked about producers and gave an example merging all the previous topics together. I hope you enjoyed the journey.

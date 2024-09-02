@@ -140,7 +140,7 @@ But wait, didn't we say that they were in _covariant_ position as per the earlie
 
 Yes! That's true as well. **The types of `var` fields are in _covariant AND contravariant_ position**. The only way they would work is if the generic type were invariant, which eliminates the problem (same type argument everywhere, no need for substitution).
 
-### 3.3. Types of Method Arguments Are in Contravariant Position
+### Types of Method Arguments Are in Contravariant Position
 
 This says it all. How do we prove it? We try the reverse and see how it's wrong.
 
@@ -206,7 +206,7 @@ We proved that a covariant list cannot have an `add(elem: T)` method because it 
 
 Hell, no.
 
-Let's take this back to first principles. We [said](#33-types-of-method-arguments-are-in-contravariant-position) that we can't add an `add(elem: T)` method to a list, because otherwise we could write
+Let's take this back to first principles. We [said](#types-of-method-arguments-are-in-contravariant-position) that we can't add an `add(elem: T)` method to a list, because otherwise we could write
 
 ```scala
 val animals: MyList[Animal] = new MyList[Dog]

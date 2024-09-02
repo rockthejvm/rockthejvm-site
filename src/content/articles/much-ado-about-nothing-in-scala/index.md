@@ -9,9 +9,9 @@ updatedDate: 2024-09-06
 
 I've seen quite some confusion about the Nothing type in Scala and I wanted to shed some light on it. If you're a Scala programmer, you might have seen Nothing once or twice, and you have at least the broad picture of Scala's type hierarchy.
 
-## Quick intro
+## Quick Introduction
 
-[Scala's type hierarchy showing `Any` at the top](images/scala-type-hierarchy-basic.png)
+![Scala's type hierarchy showing `Any` at the top](images/scala-type-hierarchy-basic.png)
 
 Scala is fully object-oriented, but the type hierarchy is not so standard. At the top of the hierarchy we have the Any type, which has two distinct type hierarchies below it. One starting with AnyVal, which contains all the value types (including Int, Boolean, etc), and then the AnyRef hierarchy which contains the reference types. Almost all the types we declare as programmers is a subtype of AnyRef, unless we explicitly extend AnyVal (rare and with little benefit). When we say
 
@@ -49,7 +49,7 @@ Aside from crashing your program (which is a side effect), throw expressions ret
 
 In a pretty ironic fashion, _Nothing can replace anything_, meaning that Nothing is a valid substitute for any type. In other words, Nothing is a valid _subtype_ for all types. That's why Nothing sits at the bottom of Scala's type hierarchy.
 
-[Scala's type hierarchy showing `Any` at the top and `Nothing` at the bottom](images/scala-type-hierarchy-full.png)
+![Scala's type hierarchy showing `Any` at the top and `Nothing` at the bottom](images/scala-type-hierarchy-full.png)
 
 Notice that in this picture, we also have the Null type which has the same purpose for reference types, and its only possible value is null - the same null you've been using all the time.
 

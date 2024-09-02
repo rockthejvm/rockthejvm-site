@@ -8,7 +8,7 @@ title: "Streaming SQL with Apache Flink: A Gentle Introduction"
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems._
+> This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
 
 _Enter Giannis:_
 
@@ -20,11 +20,11 @@ Flink SQL is a powerful high level API for running queries on streaming (and bat
 1. Understand different kinds of Processing Operators and Functions
 1. Different ways of running Flink SQL Queries
 
-> _Daniel here: If you need to learn the fundamentals of streaming with Flink, check out the long-form [Flink course](/courses/flink) here at Rock the JVM._
+> Daniel here: If you need to learn the fundamentals of streaming with Flink, check out the long-form [Flink course](/courses/flink) here at Rock the JVM.
 
-## 1. Streaming (and Batch) SQL
+## Streaming (and Batch) SQL
 
-### 1.1 Unified Batch and Streaming
+### Unified Batch and Streaming
 
 When we hear about SQL (referenced as batch SQL here) we think of the following tabular format you typically find in RDBMS,
 on which we operate and run computations - from simple projections (like SELECT and Filter), to Aggregations to Windowed Functions.
@@ -48,7 +48,7 @@ In practice if we follow this mental model we can think of a stream as a collect
 
 This is what is enables Unified Batch and Streaming Architecture and allows the use of a single API - like Flink SQL - to handle both Batch and Streaming data; no underlying code changes needed.
 
-### 1.2 Streaming SQL Semantics
+### Streaming SQL Semantics
 
 The rules are as follows:
 
@@ -65,7 +65,7 @@ As we keep ingesting new events, they get appended as new rows to the log. These
 
 This is called a _Dynamic Table_.
 
-## 2. Flink SQL Logical Components
+## Flink SQL Logical Components
 
 ![Flink Catalogs diagram](images/flink-catalogs-diagram.png)
 
@@ -82,10 +82,10 @@ For example, Flink can map Postgres tables to its own table automatically, and u
 
 Within the catalogs you create databases and tables in these databases.
 
-When creating a table it's full table name identifier is: _<catalog_name>.<database_name>.<table_name>_ and when a catalogs and/or database is not specified
+When creating a table it's full table name identifier is: _&lt;catalog_name&gt;.&lt;database_name&gt;.&lt;table_name&gt;_ and when a catalogs and/or database is not specified
 the default ones are used.
 
-## 3. Environment Setup
+## Environment Setup
 
 As a warmup exercise let's start the Flink SQL CLI to run a few commands; but first we need to have a Flink and a Kafka Cluster up and running.
 
@@ -142,7 +142,7 @@ services:
         taskmanager.numberOfTaskSlots: 1
 ```
 
-### 3.1 The Flink SQL Client
+### The Flink SQL Client
 
 Run `docker-compose up`, wait for a few seconds and your clusters should be up and running.
 
@@ -230,7 +230,7 @@ Topic: sensor.readings	TopicId: HGvGHOeKQQCxG3cly2R7Lw	PartitionCount: 3	Replica
 	Topic: sensor.readings	Partition: 2	Leader: 1001	Replicas: 1001	Isr: 1001
 ```
 
-### 3.2 Create Tables
+### Create Tables
 
 Let's go back to our Flink SQL cli and the first thing we need is some tables to work with.
 
@@ -343,7 +343,7 @@ to generate information for _10 sensors_ and _10.000 readings_. You can modify t
 
 _Note:_ I skipped added the implementation here since our focus is on Flink SQL.
 
-### 3.3 Run our First Query
+### Run Our First Query
 
 Let's run the following query and see an output similar to the following with information for our 10 sensors.
 
@@ -367,11 +367,11 @@ SELECT * FROM sensors;
 | +I |                             10 |                     -88.115880 |                      11.500759 |                      PROXIMITY |                              2 |        1623336384463 |
 ```
 
-## 4. Operators
+## Operators
 
 ![Flink Operators diagram](images/flink-operators-diagram.png)
 
-### 4.1 Stateless Operators
+### Stateless Operators
 
 Stateless Operators are the simplest and include common operations like Projections and Filters that require no state.
 
@@ -399,7 +399,7 @@ WHERE   reading > 40
 | +I |                              7 |                          40.92 | 2023-01-30 20:17:46.971 |
 ```
 
-### 4.2 Materializing Operators
+### Materializing Operators
 
 Materializing Operators perform computations that are not constrained by temporal conditions and thus never complete - the input / output records are constantly updated or deleted.
 
@@ -493,7 +493,7 @@ Unlike Materializing Operators, Temporal Operators (that we will see next) will 
 
 For example a time Window that is considered _complete_ doesn't need to be kept around in state.
 
-### 4.3 Temporal Operators
+### Temporal Operators
 
 Temporal Operators are constraint by time. Records and computations are associated with a temporal condition, i.e a time window of 30 seconds
 and accept new records - previously added records can not be updated or deleted.
@@ -551,7 +551,7 @@ WINDOW minuteInterval AS (
 );
 ```
 
-### 5. (Temporary) Views
+## (Temporary) Views
 
 As we mentioned Flink SQL is quite rich and provides a lot of function - so covering everything in this article is impossible.
 One more useful feature though I want to mention is _Temporary Views_.
@@ -609,7 +609,7 @@ WHERE reading > minuteAvgTemp + 2 * minuteStdevTemp
 | +I |                              1 |                           41.8 |                          41.74 |
 ```
 
-## 6. The TableEnvironment and SQL Queries
+## The TableEnvironment and SQL Queries
 
 Up to this point we have been using the Flink SQL cli to submit sql queries.
 For production cases though - or if you are running in environments like Kubernetes for example using the [Flink Operator](https://github.com/apache/flink-kubernetes-operator), you might need other ways to achieve this.
@@ -622,7 +622,7 @@ _Note 2:_ If you are running on kubernetes using the Flink Operator you might wa
 
 _Note 3:_ Seeing the sample code below might seem weird as I'm using Kotlin. Whether you are using Java, Kotlin or Scala should be exactly the same - I'm just using kotlin these days and because Java 17 is unfortunately not supported yet at Flink I wanted to leverage Kotlin for multiline strings to write my queries.
 
-### 6.1 Running SQL Queries with Code
+### Running SQL Queries with Code
 
 ```kotlin
 class EnrichmentStream {
@@ -703,7 +703,7 @@ The TableEnvironment is the entrypoint for Table API and SQL integration and is 
 The code snippet illustrated above runs the _Join Operations_ we saw before (you can find the queries [here](https://github.com/polyzos/depths-of-flink/blob/main/src/main/kotlin/io/ipolyzos/compute/Queries.kt))
 and the output should be similar.
 
-### 6.2 A Short Discussion: Checkpoints and State
+### A Short Discussion: Checkpoints and State
 
 As extras you might notice two things:
 
@@ -739,7 +739,7 @@ Also note as discussed previously since there are no time constraints you will n
 I hope I sparked some interest for those curious that want to dive deeper themselves.
 In this article though we will conclude with this high level overview.
 
-## 7. Wrap Up
+## Wrapping Up
 
 Flink is a powerful Stateful Stream Processing engine, enabling Unified Batch and Streaming architectures.
 

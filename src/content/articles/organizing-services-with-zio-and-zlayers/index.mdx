@@ -7,17 +7,23 @@ title: Organizing Services with ZIO and ZLayers
 updatedDate: 2024-09-06
 ---
 
+import { YouTube } from "astro-embed";
+
 In this article, we'll take a look at `ZLayer`s, an abstraction naturally arising from the core design of ZIO, which can greatly assist in making large code bases more understandable, composable and searchable for the human beings charged with their care.
 
 This article is for the comfortable Scala programmer. Some familiarity with ZIO basics will help, but I'll take care to outline the necessary concepts here so that the article can be as standalone as possible.
 
-If you want to code with me in the article (or the [YouTube video](https://youtu.be/PaogLRrYo64)), you'll have to add these lines to your `build.sbt` file:
+Video version:
+
+<YouTube id="PaogLRrYo64" />
+
+If you want to code with me, you'll have to add these lines to your `build.sbt` file:
 
 ```scala
 libraryDependencies ++= "dev.zio" %% "zio" % "1.0.4-2" // latest version at the moment of this writing
 ```
 
-## 1. Background
+## Background
 
 The [ZIO](https://github.com/zio/zio) library is centered around the `ZIO` type. Instances of ZIO are called "effects", which describe anything that a program normally does: printing, computing, opening connections, reading, writing etc. However it's worth pointing out that &mdash; much like other IO monads &mdash; constructing such an "effect" does not _actually_ produce it at that moment. Instead, a ZIO instance is a data structure _describing_ an effect.
 
@@ -71,7 +77,7 @@ Hello, Daniel, welcome to Rock the JVM!
 Process finished with exit code 0
 ```
 
-## 2. Services as Effects
+## Services as Effects
 
 In a real application, we often need to create heavyweight data structures which are important for various operations. The list is longer than we like to admit, but some critical operations usually include
 
@@ -92,7 +98,7 @@ This style of thinking about a service is the core idea behind a `ZLayer`.
 
 For the rest of this article, we'll write a skeleton for an email newsletter service that automatically gives a user a welcome email, once subscribed. The implementations are console-based, but they can be easily replaced by a real database or a real email service. The goal of this example is to show you how to plug together independent components of your application.
 
-## 3. The `ZLayer` Pattern
+## The `ZLayer` Pattern
 
 Let's assume we're working with user instances of the form
 
@@ -220,11 +226,11 @@ object UserDb {
 }
 ```
 
-## 4. Composing `ZLayer`s
+## Composing `ZLayer`s
 
 The two `ZLayer`s we've just defined are so far independent, but we can compose them. Because the `ZLayer` type is analogous to a function `RIn => Either[E, ROut]`, it makes sense to be able to compose `ZLayer` instances like functions.
 
-### 4.1. Horizontal Composition
+### Horizontal Composition
 
 One way of combining `ZLayers` is the so-called "horizontal" composition. If we have
 
@@ -260,7 +266,7 @@ UserDb.insert(User("Daniel", "daniel@rockthejvm.com"))
 
 so we can directly use this same "bigger" `ZLayer` in both cases because it contains live implementations of both services.
 
-### 4.2. Vertical Composition
+### Vertical Composition
 
 Another way of composing `ZLayer`s is by the so-called "vertical" composition, which is more akin to regular function composition: the output of one `ZLayer` is the input of another `ZLayer`, and the result becomes a new `ZLayer` with the input from the first and the output from the second.
 
@@ -312,7 +318,7 @@ val userSubscriptionLayer: ZLayer[Any, Throwable, UserSubscriptionEnv] =
 
 We therefore obtain a single `ZLayer` which contains the implementation of a `UserSubscription.Service`, and the creation/passing of the `UserEmailer.Service` and `UserDb.Service` happens because of the construction of `userBackendLayer` (which contains implementations for both) and the `>>>` operator, which then calls the callback from `ZLayer.fromService`. You don't need to care about that, but that's just if you're curious (I for one was when I read on ZIO).
 
-## 5. Plugging Everything Together
+## Plugging Everything Together
 
 The final program to subscribe the first fan of Rock the JVM (me) to this fictitious email newsletter looks like this:
 
@@ -408,13 +414,13 @@ The final program to subscribe the first fan of Rock the JVM (me) to this fictit
   }
 ```
 
-## 6. So What's With That `Has` Thing?
+## So What's With That `Has` Thing?
 
 We see that whenever we combine `ZLayers` horizontally, we obtain inputs and outputs of the form `Has[Service1] with Has[Service2]`. Why the `Has[_]`? Why not just `Service1 with Service2` à la cake-pattern?
 
 If we had an instance of `Service1 with Service2`, that single instance would have had both their APIs. On the other hand, `Has[_]` is cleverly built to hold each instance independently while still maintaining the formal type definition. Strictly for our use case, an instance of `Has[Service1] with Has[Service2]` has one instance of `Service1` and one instance of `Service2`, which we can surface and use independently, instead of a composite `Service1 with Service2` instance.
 
-## 7. Conclusion
+## Conclusion
 
 We went through an overview of ZIO and we covered the essence of `ZLayer`, enough to understand what it does and how it can help us build independent services, which we can plug together to create complex applications.
 

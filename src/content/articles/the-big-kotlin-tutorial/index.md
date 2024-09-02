@@ -7,7 +7,7 @@ title: "The Big Kotlin Tutorial: Comprehensive Guide"
 updatedDate: 2024-09-06
 ---
 
-## 1. Introduction
+## Introduction
 
 Kotlin is an amazing programming language. At the time of writing, Kotlin is the second most [popular language](https://survey.stackoverflow.co/2023) on the JVM (behind Java of course), the language of choice for writing Android applications &mdash; which covers about 70% of the mobile market &mdash; and it's opening new doors to other compilation targets (WASM, native) as well as multiplatform projects, targeting server-side, mobile (both iOS and Android) and the web. Kotlin is developed and maintained by a financially successful company who write their own software in it (skin in the game), its [annual conference](https://kotlinconf.com/) is sold-out months in advance, and its community is active and contributing with new libraries and tools every day.
 
@@ -31,7 +31,7 @@ I also made a video version of this guide as a YouTube playlist which you can wa
 
 [^time]: Don't be fooled by the estimated "read time". If you can go through this guide at 200 words per minute as this blog is usually set up to estimate, then you're either a genius or a Kotlin expert already. My advice: take about 2-3x the estimated time here, to understand the code examples as well.
 
-## 2. Getting Started
+## Getting Started
 
 For this guide, we will need the following:
 
@@ -67,11 +67,11 @@ and it does the same thing. You got the idea: you can now run Kotlin application
 
 Let's start talking about the Kotlin foundations.
 
-## 3. The Kotlin Basics Crash Course
+## The Kotlin Basics Crash Course
 
 For this chapter, I'll write code in a new application that I'm going to call `Basics`.
 
-### 3.1. Values, Variables, and Types
+### Values, Variables, and Types
 
 What's programming without variables? In Kotlin we have two kinds of variables: `val`s and `var`s.
 
@@ -134,7 +134,7 @@ Pretty neat!
 
 So we know how to use values, variables and types. Let's move to _expressions_.
 
-### 3.2. Expressions and Control Flow
+### Expressions and Control Flow
 
 **Expressions are structures that evaluate to a value.** The structure `2 + 5` is an expression, it has a type (Int) and reduces to a value (7). Obviously, we use expressions all the time while writing code. The other big thing we use all the time is _instructions_, which are **structures that can be executed**. Printing something is an instruction, for example.
 
@@ -185,7 +185,7 @@ val meaningOfLifeMessage = when (meaningOfLife) {
 
 So the `if` and `when` structures can be either _instructions_ ("do something") or _expressions_ ("evaluates to something").
 
-### 3.3. Looping
+### Looping
 
 Loops in Kotlin look very similar to other languages, with some small syntactic differences in between. The most common is looping through elements of a collection:
 
@@ -229,7 +229,7 @@ while (i <= 10) {
 
 The syntax of a `while` instruction is identical to the C family (including C, C++, Java, JavaScript and others).
 
-### 3.4. Functions
+### Functions
 
 The Kotlin syntax for defining functions doesn't deviate too much from the mainstream. Here is a function that concatenates a String a set number of times:
 
@@ -260,9 +260,9 @@ For single-expression functions, we may omit the return type because the compile
 
 With these basic features covered, it's time to go deeper into the multi-paradigm aspect of Kotlin, starting with object-oriented programming.
 
-## 4. OOP in Kotlin
+## OOP in Kotlin
 
-### 4.1. Classes, Instances, Properties and Methods
+### Classes, Instances, Properties and Methods
 
 Kotlin is heavily inspired by Java and Scala, so no wonder we share the same OOP essential principles. Long story short, our custom data types in Kotlin are classes:
 
@@ -297,7 +297,7 @@ aPet.eat()
 
 Java people may roll their eyes at this point, because the syntax and style is almost identical. Not going to stress the basic syntax too much.
 
-### 4.2. Inheritance
+### Inheritance
 
 Kotlin offers the concept of inheritance, much like most other OOP languages. In short, we can create derived classes that have the same properties and methods as others, simulating the relationship of "is a subtype of" with concepts in real life. For example, we say "a dog is a subtype of pet", which we model in Kotlin as
 
@@ -394,7 +394,7 @@ myPet.eat()
 
 We will see the message `I'm chewing something, whatcha lookin at?` printed to the console, not the message in the `Pet` class. This _subtype polymortphism_ is important, because in complex software, we generally choose to work with the most general API, and free our mental burden from the details of the value in question, trusting that it will perform according to its specialized implementation.
 
-### 4.3. Abstract Classes and Interfaces
+### Abstract Classes and Interfaces
 
 Once we have the concept of inheritance and this idea of "programming against the most general API", it's often useful to define an incomplete type with just behavior definitions, without implementations. This kind of class is called an _abstract class_, and it has analogues in most OOP languages. In Kotlin, just like in Java and Scala, we have this concept as well:
 
@@ -445,7 +445,7 @@ In Kotlin OOP, we also have the common access modifiers for properties and metho
 - `private`: access is allowed within the class body
 - no access modifier means _public_: access is permitted from anywhere in the code
 
-### 4.4. Objects and Companions
+### Objects and Companions
 
 For those of you coming from another OOP language, you might remember the singleton pattern: a way to restrict the creation of a single instance of a particular type &mdash; which in real-life could be some important service which allocates some resources. This pattern is not trivial to get right: we need to check the existence of another instance so that we instantiate our type just once, we may decide to instantiate the class lazily so that we don't overwhelm the system, and we might introduce multithreaded locking and additional checks for parallel applications. Taking care of all these problems can be difficult.
 
@@ -490,7 +490,7 @@ open class Pet {
 
 Now, we can write `Pet.humanLoveGuaranteed` because this property belongs to the `Pet` companion object, and we call this property "static" just like in Java. The concept of a `companion object` makes it easier for us to organize our code in terms of instance-related properties and methods on one side, and class-related properties and methods on the other (inside the companion object).
 
-### 4.5. Data Classes
+### Data Classes
 
 Because a lot of our work as engineers involves moving meaningful data around, it's useful to be able to store "bags of data" in various collections, compare them, check for duplicates, and things of this kind. Much like Scala `case class`es and Java `record`s, Kotlin also has the notion of a `data class`. Here is an example:
 
@@ -513,7 +513,7 @@ The only restrictions are that
 - a data class cannot be inherited from
 - all constructor arguments _must_ be properties, either `val` or `var`
 
-### 4.6. Basic Error Handling
+### Basic Error Handling
 
 Much like other mainstream languages, Kotlin has the same `try-catch-finally` composite structure.
 
@@ -546,7 +546,7 @@ In truth, exceptions are nothing else but normal instances of classes. They all 
 
 Of note, we can have multiple `catch` clauses, in which we can check for various exception types, one at a time. Remember to _place the most specific exception types first_, because catching a general type like `Exception` will also handle any subtype of `Exception` as well.
 
-### 4.7. Generics
+### Generics
 
 As we saw at the beginning, Kotlin is a statically typed language. In order to reuse pieces of logic for many (potentially unrelated) types, we use _generics_. The syntax for generics is very similar to other statically typed languages, like Java, C#, Scala, or TypeScript. A warning for people coming from Python, JS and other dynamically typed languages: this concept might be a bit unintuitive or tough.
 
@@ -574,7 +574,7 @@ val firstStringLength = strings[0].length // known to be a String, so can use it
 
 There is much more to generics than this explanation here, but the Kotlin Essentials course takes enough time to go through the topic in great detail.
 
-### 4.8. Collections
+### Collections
 
 We used collections superficially a few times in this guide. It's time to explore them in more details. In this section, we'll look at
 
@@ -694,7 +694,7 @@ val aliceNumber_v2 = phonebook["Alice"]
 
 Besides these, we have various utility methods to transform maps, to add/remove keys, change associations, convert a map to a list of pairs and vice-versa, etc.
 
-## 5. Functional Programming in Kotlin
+## Functional Programming in Kotlin
 
 Functional programming is as old as programming itself. In fact, at the beginning of computer science, the theory of functional programming (lambda calculus) has proven it to be computationally equivalent to the Turing machine, which models the imperative "do this, do that" style we mostly think in today. However, FP has come back with a vengeance: its abstraction power makes functional code much more compact, and comparatively easy to read and understand than imperative code, while also being safer, with the aid of static and powerful type systems like Kotlin and Scala. Kotlin has therefore embraced functional programming.
 
@@ -785,11 +785,11 @@ val evenNumbersCount = numbers.count { x -> x % 2 == 0 } // 2
 
 As we will see later in more advanced material, functional programming is one of the most powerful aspects of the Kotlin language.
 
-## 6. Kotlin-Specific Features
+## Kotlin-Specific Features
 
 All of the above features are present in other languages to some extent, including Java! One of the primary reasons why people join Kotlin is because Kotlin makes code easy, understandable, safe from bugs, and fun. In this chapter we'll demonstrate a few such features, and if you want to learn more Kotlin-specific tricks and more in-depth, you can check out Kotlin Essentials.
 
-### 6.1. Nullables
+### Nullables
 
 The null reference is probably not just a [billion-dollar mistake](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/), but many orders of magnitude bigger. Books, conferences and many hours of developer work have been spent trying to defend against nulls, dealing with nulls, and managing nulls in software.
 
@@ -850,7 +850,7 @@ val devName_definitive = devName_v2 ?: "John Doe" // this would be a nice smiley
 
 Nice funny people, these Kotlin language designers.
 
-### 6.2. Special Methods and Operators
+### Special Methods and Operators
 
 Some Kotlin methods are treated in a particular way by the Kotlin compiler, so that our code looks nicer and more "natural". One instance is _infix methods_, which allow method calls to look more like natural language than a programming language. Assume we have a class Person:
 
@@ -929,7 +929,7 @@ val ax_v2 = a[0] // same
 
 Powerful, no?
 
-### 6.3. Extension Methods
+### Extension Methods
 
 Finally, one extra bit of Kotlin nicety is extension methods. In short, _we can add new methods to existing types even after they've been defined, even outside their own definition_.
 
@@ -975,7 +975,7 @@ val kotlinx3_v2 = 3 * "Kotlin" // same
 
 Nicely done, Kotlin!
 
-## 7. Conclusion
+## Conclusion
 
 In this long-form guide, we went through a crash course in Kotlin. We explored the basic syntax structures, control flow, looping, functions, values and types, along with the compiler type inference. We covered the major object-oriented features of the language, including classes, instances, methods, properties, along with the inheritance model and the rules we must follow. We showed examples of generics and the important collections in the standard library, and then we looked into a different mode of thinking with functional programming and the functional API of collections. Finally, we saw some nice Kotlin-specific features that make programming fun and bug-safe at the same time.
 
