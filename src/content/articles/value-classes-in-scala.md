@@ -1,7 +1,7 @@
 ---
 author: riccardo-cardin
 category: explanation
-excerpt: "Discover a powerful technique for eliminating hard-to-trace bugs with ad-hoc type definitions: learn how Scala 2’s newtypes and Scala 3’s opaque types can enhance your code’s safety and maintainability"
+excerpt: "Discover a powerful technique for eliminating hard-to-trace bugs with ad-hoc type definitions: learn how Scala 2's newtypes and Scala 3's opaque types can enhance your code's safety and maintainability"
 publishedDate: 2021-02-19
 tags: [scala, type-system]
 title: Value Classes in Scala Explained

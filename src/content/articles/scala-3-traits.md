@@ -1,6 +1,6 @@
 ---
 category: explanation
-excerpt: This article delves into Scala 3’s advanced trait functionalities, building on our previous explorations of the language’s new features
+excerpt: This article delves into Scala 3's advanced trait functionalities, building on our previous explorations of the language's new features
 publishedDate: 2020-09-29
 tags: [scala, scala-3, traits]
 title: "Scala 3: Traits Quickly Explained"

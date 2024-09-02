@@ -1,6 +1,6 @@
 ---
 category: guide
-excerpt: "Harness the full power of Scala’s type system: let the compiler infer complex type relationships for you at compile time"
+excerpt: "Harness the full power of Scala's type system: let the compiler infer complex type relationships for you at compile time"
 publishedDate: 2020-08-10
 tags: [fp, scala, type-system]
 title: "Type-Level Programming in Scala: Part 1 - Numbers and Comparisons"
