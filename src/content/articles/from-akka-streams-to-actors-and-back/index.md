@@ -8,9 +8,9 @@ title: From Akka Streams to Actors and Back
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Niklas Uhrberg](/authors/niklas-uhrberg), a Rock the JVM alumnus who is a software architect with a focus on distributed systems. He's passionate about Scala, Akka and Kafka, and this piece is derived from his real-world experience._
+> This article is brought to you by [Niklas Uhrberg](/authors/niklas-uhrberg), a Rock the JVM alumnus who is a software architect with a focus on distributed systems. He's passionate about Scala, Akka and Kafka, and this piece is derived from his real-world experience.
 
-> If you want to learn Akka, we have more than 40 hours of training here at Rock the JVM in the [Akka Bundle](/courses/the-akka-bundle), which ties in very well with this article.
+> If you want to learn Akka, we have more than 40 hours of training here at Rock the JVM in the [Akka Bundle](/courses/the-akka-pekko-bundle), which ties in very well with this article.
 
 _Enter Niklas:_
 
@@ -531,7 +531,6 @@ do not integrate the failure logic as in the showcased code.
 
 ## References
 
-1. Sample applications for the ask based and stage actor based approaches described in the article:
-   https://github.com/niklasuhrberg/akka-streamtoactor-interop
-1. Frank van Meeuwen GitHub repo: https://github.com/fmeeuw/akka-playground
-1. Akka Streams documentation on actor interoperability: https://doc.akka.io/docs/akka/current/stream/actor-interop.html
+1. [Sample applications for the ask based and stage actor based approaches described in the article](https://github.com/niklasuhrberg/akka-streamtoactor-interop)
+1. [Frank van Meeuwen GitHub repo](https://github.com/fmeeuw/akka-playground)
+1. [Akka Streams documentation on actor interoperability](https://doc.akka.io/docs/akka/current/stream/actor-interop.html)

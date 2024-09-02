@@ -8,7 +8,7 @@ title: Learning doobie for the Greater Good
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post._
+> This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post.
 
 _We hope you enjoy it!_
 
@@ -18,7 +18,7 @@ So, without further ado, let's introduce the doobie library.
 
 > This article uses advanced Scala features. We teach these in the [Advanced Scala](/courses/advanced-scala) course.
 
-## 1. Set Up
+## Setup
 
 As usual, we'll start by importing the libraries we need in the sbt file. We will use Postgres as our database of reference:
 
@@ -184,7 +184,7 @@ import doobie.util.transactor.Transactor._
 
 So, with the above solid background, we can now enter the world of doobie.
 
-## 2. Getting a Connection
+## Getting a Connection
 
 The first thing we need to work on within a database is retrieving a connection. In doobie, handling the connection is done with a `doobie.util.transactor.Transactor`. There are many ways to create an instance of a `Transactor`. The easiest is to use the `Transactor.fromDriverManager` method, which will create a `Transactor` from a JDBC driver manager:
 
@@ -224,9 +224,9 @@ val postgres: Resource[IO, HikariTransactor[IO]] = for {
 
 We will directly use the `Transactor` coming from the JDBC driver manager in most article examples. In the last part, we will focus on using the `Resource` type to manage the connection pool.
 
-## 3. Querying the Database
+## Querying the Database
 
-### 3.1. High-Level Queries
+### High-Level Queries
 
 Now that we learned how to connect to a database, we can start querying it. The most straightforward query we can do is to retrieve all actors names in the database, since the query doesn't request any input parameter, and extract only one column:
 
@@ -351,7 +351,7 @@ def findActorsByNameInitialLetterProgram(initialLetter: String): IO[List[Actor]]
 
 The above program extracts all `actors` from the table whose names start with the given initial letter. As we can see, passing a parameter to a query is as simple as passing it to an interpolated string.
 
-### 3.2. The `HC` Module
+### The `HC` Module
 
 The interpolator `sql` is a very handy syntax for writing SQL queries. However, it's not the only way to write queries. In fact, it's just an API, implemented in terms of the functions available in the `doobie.hi.connection` module, aliased as `HC`.
 
@@ -387,7 +387,7 @@ HPS.set(1, 1) *> HPS.set(2, "Henry Cavill")
 // ...and many others!
 ```
 
-### 3.2. Fragments
+### Fragments
 
 Until now, we used the `sql` interpolator to build our queries. It turns out that the `sql` interpolator is an alias of the more general `fr` interpolator, whose name stands for `Fragment. **A fragment is a piece of an SQL statement that we can combine with any other fragment to build a proper SQL instruction**.
 
@@ -468,7 +468,7 @@ object fragments {
 }
 ```
 
-## 4. The YOLO Mode
+## The YOLO Mode
 
 While experimenting with the library, passing the `Transactor` instance around could seem a little overwhelming. Moreover, the syntax `transact(xa)` is a bit cumbersome. Adding that it's widespread to print out the program's results to the console, the library will help us do that. Please, welcome the YOLO mode!
 
@@ -505,7 +505,7 @@ As we can see, the program doesn't need an `IOApp` to execute. Then, the `quick`
 
 Remember, You Only Load Once!
 
-## 5. Not Only Queries: Changing the Database
+## Not Only Queries: Changing the Database
 
 The other side of the moon of the database world is mutating the tables and the data they contain. doobie offers support not only for queries but also for insertions, updates, deletions, and changes on tables' structure.
 
@@ -595,7 +595,7 @@ def updateJLYearOfProductionProgram(): IO[Int] = {
 
 Finally, the deletion follows the same pattern. Use the keyword `delete` instead of `insert` or `update` inside the `sql` interpolator.
 
-## 6. doobie's Type Classes
+## doobie's Type Classes
 
 So far, we have seen many examples of usages of the `sql` interpolator, which magically can convert Scala types into JDBC types when reading input parameters, and vice versa when concerning mapping values extracted from the database.
 
@@ -764,7 +764,7 @@ object Director {
 
 _Et voilà_, now the program runs without any error.
 
-## 7. Handling Joins
+## Handling Joins
 
 Until now, we presented some very straightforward examples of queries. However, we can also handle joins. The good news is that doobie takes join between tables in a very natural way.
 
@@ -848,7 +848,7 @@ def findMovieByNameWithoutSqlJoinProgram(movieName: String): IO[Option[Movie]] =
 
 In the above code, we extracted information from the `movies` table, the `directors` table, and the `actors` table in sequence, and then we mapped the data to a `Movie` object. The `ConnectionIO` type is a monad. We can compose the queries in a sequence using the _for-comprehension_ construct. Even though it's not the main focus of this code, as we said, the three queries are executed in a single database transaction.
 
-## 8. Putting Pieces Together: A Tagless Final Approach
+## Putting Pieces Together: A Tagless Final Approach
 
 Now that we know all the pieces of a program that connects to a database using doobie, we can create a more complex example. For this purpose, we will use the _tagless final_ approach. Again, the details of the tagless final approach are far beyond the scope of this tutorial. In summary, it's **a technique that allows us to manage dependencies between our components and abstract away the details of the concrete effect implementation**.
 
@@ -973,7 +973,7 @@ object TaglessApp extends IOApp {
 
 And that's it!
 
-## 9. Conclusions
+## Conclusions
 
 Finally, we sum up what we've learned so far. We introduced doobie, a JDBC functional wrapper library built upon the Cats Effect library. After defining some domain models to work with, we learned how to create a `Transactor` object to execute instructions in the database. Then, we saw how to implement queries, both with and without input parameters, and map their results back to our domain models. So, we saw how to insert and update rows in a table, and then which are the available implementation when we need a join. Since doobie uses some type classes to map Scala type from and to schema types, we introduced them. Finally, we describe how to use doobie in a tagless final context with all the pieces in the right places.
 

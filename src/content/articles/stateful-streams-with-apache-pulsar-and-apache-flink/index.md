@@ -7,16 +7,16 @@ title: Stateful Streams with Apache Pulsar and Apache Flink
 updatedDate: 2024-09-06
 ---
 
-_This article is a collaboration between myself (Daniel) and [Giannis Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. Last time we integrated [Pulsar with Spark](/articles/streaming-analytics-with-apache-pulsar-and-spark-structured-streaming); in this post we combine Apache Pulsar and Apache Flink for powerful data stream processing._
+> This article is a collaboration between myself (Daniel) and [Giannis Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. Last time we integrated [Pulsar with Spark](/articles/streaming-analytics-with-apache-pulsar-and-spark-structured-streaming); in this post we combine Apache Pulsar and Apache Flink for powerful data stream processing.
 
 ![Unified Batch & Streaming](images/pulsar-and-flink-stateful-streams.png)
 
-Before we start, some basic familiarity with Apache Pulsar and Apache Flink is required &mdash; Rock the JVM has an [Apache Flink course](/courses/flink) if you're interested. To better understand the implementation in this blog post, we suggest getting familiar with the basic concepts of Apache Pulsar and Apache Flink. See the [Additional Resources](#7-additional-resources) section.
+Before we start, some basic familiarity with Apache Pulsar and Apache Flink is required &mdash; Rock the JVM has an [Apache Flink course](/courses/flink) if you're interested. To better understand the implementation in this blog post, we suggest getting familiar with the basic concepts of Apache Pulsar and Apache Flink. See the [Additional Resources](#additional-resources) section.
 
 The code in this article is in **Java**, although it can be adapted to Scala as well.
 For the best experience following this article, we recommend referring to [this repository](https://github.com/polyzos/pulsar-flink-stateful-streams) while replicating the project locally in your own dev environment. You can also clone the repository and work directly on the code there.
 
-### 1. Introduction
+## Introduction
 
 Typical Streaming data architectures include a streaming storage layer like Apache Pulsar that serves as the backbone of the infrastructure.
 Stateful stream processing is also required to deliver advanced analytics for your users; a stream computing engine
@@ -28,7 +28,7 @@ We will use Apache Pulsar as our streaming storage layer.
 Apache Pulsar and Apache Flink have a strong integration together and enable a Unified Batch and Streaming Architecture.
 If you are interested about this type of architecture, [this video](https://www.youtube.com/watch?v=2MpiE238Pzw) can be helpful.
 
-## 2. The Example: Data From an Online Store
+## The Example: Data From an Online Store
 
 ![Example use case](images/example-use-case.png)
 
@@ -61,7 +61,7 @@ We will take a hands-on approach and better understand how we can:
 
 There is a lot to cover here, so we will build on them incrementally. Let's jump right into it.
 
-## 2. Pre-Flight Check
+## Pre-Flight Check
 
 Before we start with the implementation let's make sure we have our dependencies in place and our environment setup.
 The examples here will be in Java, so let's add the following dependencies to our `pom.xml` file.
@@ -191,7 +191,7 @@ docker exec -it pulsar bin/pulsar-admin topics get-retention persistent://public
 
 **Note:** We use partitioned topics in order to be able to increase the number of partitions later, in case we need to scale. Otherwise, if we had an unpartitioned topic we would have to create a new partitioned topic and transfer all the data to this new topic.
 
-## 3. Reading Data From Pulsar
+## Reading Data From Pulsar
 
 With our setup in place, let's see some data-reading code. The data model can be found [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/models) if you want to grab the same data definitions for our fictitious online store. After that, we recommend taking a look and maybe grabbing [these utility functions](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/utils) as well as the constants [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/config) as we're going to focus more on the Flink-Pulsar integration. The fictitious data we're going to push to Pulsar was generated and can be found in [these files](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/data).
 
@@ -508,7 +508,7 @@ taskmanager_1  | Order(invoiceId=343211, lineItemId=258609, userId=34502, itemId
 
 Congrats! We have successfully consumed messages from Pulsar.
 
-## 4. Performing Data Enrichment in Flink
+## Performing Data Enrichment in Flink
 
 We verified we can read our events. The next step is data enrichment, i.e "query" user and item information from the _changelog_ topics.
 To do this, we'll use the `connect` the orders stream with the user stream and (separately) with the items stream. We talk about the `connect` function in great detail in the Flink course &mdash; in short, it's similar to a "join" where the records with the same key are combined into a tuple. Each tuple is then subject to a `ProcessFunction` (the core Flink abstraction) so that we can adjust the data to a format of our choosing.
@@ -673,7 +673,7 @@ At this point there are two questions we need to address:
 
 Let's see how can achieve this.
 
-## 5. Using Side Outputs for Missing State
+## Using Side Outputs for Missing State
 
 Working with distributed systems, we want to be able to handle the "unhappy paths", i.e. an unexpected behavior within our system.
 When an order is submitted we assume the information for the user and a purchased item are always present, but can we guarantee this is always the case?
@@ -779,7 +779,7 @@ As a quick recap:
 We are left with one open question: how we can provide _fault-tolerance_ guarantees for our streaming job.
 We want to account for scenarios that our state grows quite large to fit in memory and/or our job crashes, and we need to recover fast.
 
-## 6. Making our job Fault Tolerant
+## Making Our job Fault Tolerant
 
 > Checkpoints make state in Flink Fault Tolerant by allowing state and the corresponding stream positions to be recovered, thereby giving the application the same semantics as a failure-free execution.
 
@@ -845,7 +845,7 @@ Navigate to the Flink UI and you should see something like this:
 You can see that while we consume new order events, the events actually get enriched with `user` and `item` information, even though our source streams haven't read any new records.
 This means the state is restored from the checkpoint and flink knows how to rebuild it without replaying all the events from the topics.
 
-## 7. Additional Resources
+## Additional Resources
 
 - [Rock The JVM Apache Flink Course](/courses/flink)
 - Apache Pulsar Documentation:
@@ -859,13 +859,13 @@ This means the state is restored from the checkpoint and flink knows how to rebu
 - [Apache Flink Restart Strategies](https://kartikiyer.com/2019/05/26/choosing-the-correct-flink-restart-strategy-avoiding-production-gotchas/)
 - [Apache Flink Checkpoints](https://nightlies.apache.org/flink/flink-docs-master/docs/ops/state/checkpoints/)
 
-## 8. Conclusion
+## Conclusion
 
 In this long-form article, we integrated Apache Pulsar with Apache Flink:
 
-- we learned how to read data from Pulsar topics with the Pulsar connector for Flink
-- we learned how to enrich Pulsar data with `connect` and `ProcessFunction`s in Flink
-- we learned how to save missing data for investigation using _side outputs_
-- we made our jobs fault-tolerant with checkpoints
+- We learned how to read data from Pulsar topics with the Pulsar connector for Flink
+- We learned how to enrich Pulsar data with `connect` and `ProcessFunction`s in Flink
+- We learned how to save missing data for investigation using _side outputs_
+- We made our jobs fault-tolerant with checkpoints
 
 Pulsar and Flink are a powerful combination of stateful data streaming, and we hope this article will help you make the best of both.

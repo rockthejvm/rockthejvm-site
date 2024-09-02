@@ -8,7 +8,7 @@ title: Event Streaming in Apache Pulsar with Scala
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos), one of the earliest students of Rock the JVM back in 2017. He's now a senior engineer working on Apache Pulsar, a promising new toolkit for high performance data streaming. In this article, he'll give an overview of what Pulsar is and why it's so good, and then walk you through a quick tutorial to get you started._
+> This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos), one of the earliest students of Rock the JVM back in 2017. He's now a senior engineer working on Apache Pulsar, a promising new toolkit for high performance data streaming. In this article, he'll give an overview of what Pulsar is and why it's so good, and then walk you through a quick tutorial to get you started.
 
 _Enter Giannis:_
 
@@ -20,7 +20,7 @@ Having our infrastructure on the cloud and adopting cloud-native solutions means
 
 In this blog post we will go through how you can implement cloud-native event stream processing with Apache Pulsar and Scala. We will review what Apache Pulsar has to offer in this modern data era, what makes it stand out and how you can get started with it by creating some simple Producers and Consumers using Scala and the pulsar4s library.
 
-## 1. What Is Apache Pulsar
+## What Is Apache Pulsar
 
 As described in the documentation,
 
@@ -42,7 +42,7 @@ Let’s take a closer look at what makes it stand out:
 
 There are more features of Apache Pulsar like a built-in Schema Registry, support for transactions and Pulsar SQL, but at this point let's see how you can actually get Pulsar up and running and create our very first Producers and Consumers in Scala.
 
-## 2. Example Use Case and Cluster Setup
+## Example Use Case and Cluster Setup
 
 As a simple example use case we will create a Producer that simulates sensor event readings, sends them over to a topic and then on the other end create a consumer that subscribes to that topic and just reads the incoming events. We will be using the [pulsar4s](https://github.com/sksamuel/pulsar4s) client library for our implementation and we will run a Pulsar cluster using [docker](https://www.docker.com/). In order to start a Pulsar cluster in standalone mode, run the following command within your terminal:
 
@@ -57,7 +57,7 @@ docker run -it \
 
 This command will start Pulsar and bind the necessary ports to your local machine. With our cluster up and running, let's start creating our producers and consumers.
 
-## 3. Apache Pulsar Producers
+## Apache Pulsar Producers
 
 First, we need the dependencies for the pulsar4s-core and pulsar4s-circe - so let's add the following to our `build.sbt` file:
 
@@ -135,7 +135,7 @@ There are a few things to note here:
 
 At this point we have our producer in place to start sending messages to Pulsar. A complete implementation can be found [here](https://github.com/polyzos/pulsar-scala-streams/blob/main/src/main/scala/io/ipolyzos/producers/SensorEventProducer.scala).
 
-## 4. Apache Pulsar Consumers
+## Apache Pulsar Consumers
 
 Now let’s switch our focus to the consuming side. Much like we did with the producing side, the consuming side needs to have a Pulsar Client in scope.
 
@@ -168,11 +168,11 @@ Let's take things in turn:
 - Again, first we create our consumer configuration. Here we specify a subscription name, the topic we want to subscribe to, a name for our consumer, the position we want our consumer to start consuming messages from - here we specify Earliest - which means the subscription will start reading after the last message it has acknowledged.
 - Finally, we specify the SubscriptionType - here it is of type Exclusive which is also the default subscription type (more on subscription types in a bit).
 - With our configuration in place, we set up a new Consumer using the configuration we have created and then we have a simple consumer loop - all we do is read a new message using the receive method, which blocks until a message is available, then we acknowledge the message and finally we print the total messages received so far along with the messageId that was acknowledged.
-- Note here that when a new message is received you need to acknowledge it back to the client if everything was successful, otherwise you need to provide a negative acknowledgement for the message using the negativeAcknowledge(<messageId>) method.
+- Note here that when a new message is received you need to acknowledge it back to the client if everything was successful, otherwise you need to provide a negative acknowledgement for the message using the negativeAcknowledge(&lt;messageId&gt;) method.
 - With our consuming implementation in place we have a working publish-subscribe application that generates sensor events to a pulsar topic and a consumer that subscribes to it and consumes those messages.
 - A complete implementation of the consumer can be found [here](https://github.com/polyzos/pulsar-scala-streams/blob/main/src/main/scala/io/ipolyzos/consumers/SensorEventConsumer.scala).
 
-## 5. Apache Pulsar Subscription Types
+## Apache Pulsar Subscription Types
 
 As mentioned during the blog post, Apache Pulsar provides unification of both messaging and streaming patterns and it does so, by providing different subscription types.
 
@@ -187,7 +187,7 @@ We have the following subscription types:
 
 Different Subscription types are used for different use cases. For example in order to implement a typical fan-out messaging pattern you can use the exclusive or failover subscription types. For message queueing and work queues a good candidate is Shared Subscription in order to share the work among multiple consumers. On the other hand for streaming use cases and/or key-based stream processing the Failover and KeyShared subscriptions can be a good candidate that can allow for ordered consumption or scale your processing based on some key.
 
-## 6. Conclusion and Further Reading
+## Conclusion and Further Reading
 
 In this blog post we made a brief introduction at what Apache Pulsar is, what makes it stand out as a new messaging and streaming platform alternative, how you can create some really simple producing and consuming applications and finally we highlighted how it unified messaging and streaming through different subscription modes.
 

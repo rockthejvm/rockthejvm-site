@@ -249,7 +249,7 @@ You may have different ideas as to what to configure, but I believe there are fo
 
 - `port` - load balancer port
 - `host` - load balancer host (port + host = url)
-- `backends` - this setting is crucial for a load balancer as it defines the pool of backend servers that the load balancer will distribute incoming requests to, so a collection of backend url-s
+- `backends` - this setting is crucial for a load balancer as it defines the pool of backend servers that the load balancer will distribute incoming requests to, so a collection of backend URLs
 - `health-check-interval` - this setting specifies the frequency at which the load balancer should conduct health checks on the backend servers. (`HealthCheckInterval` which we defined above)
 
 So, the actual `application.conf` may look like:
@@ -1503,7 +1503,7 @@ We built an HTTP load balancer that distributes incoming HTTP requests to a set 
 - `http4s`: The http4s library is used for building HTTP clients and servers, handling HTTP requests and responses, and defining routes.
 - `PureConfig`: PureConfig is used for loading application configuration from a configuration file.
 - `Ember`: The Ember library is used for building the HTTP client and server.
-- `Log4Cats`: Log4Cats is used for logging messages within the application.
+- `log4cats`: log4cats is used for logging messages within the application.
 
 **How We Did It:**
 
@@ -1511,7 +1511,7 @@ We built an HTTP load balancer that distributes incoming HTTP requests to a set 
 - `Health Checking`: We periodically perform health checks on the backend servers using HTTP requests. If a server is found to be unhealthy, it is temporarily removed from the pool of available backends.
 - `Functional Programming`: The code is designed using functional programming principles, leveraging the Cats Effect library for handling side effects and IO operations.
 - `Configurability`: Application configuration is loaded from a configuration file using `PureConfig`, allowing flexibility in configuring backend URLs, host, port, and other settings.
-- `Logging`: We use `Log4Cats` for logging messages, which can be helpful for monitoring and debugging.
+- `Logging`: We use `log4cats` for logging messages, which can be helpful for monitoring and debugging.
 - `Testability`: The code is designed to be testable. It uses dependency injection to pass components (e.g., HTTP clients, round-robin strategies) as arguments to functions and objects, making it easy to substitute mock implementations for testing.
 
 In this video you can see the live testing of load balancer:

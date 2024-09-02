@@ -8,13 +8,13 @@ title: The Ultimate Guide to Java Virtual Threads
 updatedDate: 2024-09-06
 ---
 
-_Another tour de force by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin._
+> Another tour de force by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin.
 
 Version 19 of Java came at the end of 2022, bringing us a lot of exciting stuff. One of the coolest is the preview of some hot topics concerning Project Loom: _virtual threads_ ([JEP 425](https://openjdk.org/jeps/425)) and _structured concurrency_ ([JEP 428](https://openjdk.org/jeps/428)). Whereas still in a preview phase (to tell the truth, structured concurrency is still in the incubator module), the two JEPs promise to bring modern concurrency paradigms that we already found in Kotlin (coroutines) and Scala (Cats Effect and ZIO fibers) also in the mainstream language of the JVM: The Java programming language.
 
 Without further ado, let's first introduce virtual threads. As we said, both projects are still evolving, so the final version of the features might differ from what we will see here. Future articles to come will focus on structured concurrency and other cool features of Project Loom.
 
-## 1. Setup
+## Setup
 
 As we said, both the JEPs are still in the preview/incubation step, so we must enable them in our project. At the end of the article, we will give an example of a Maven configuration with all the needed dependencies and configurations. Here, we will just show the most important parts.
 
@@ -63,7 +63,7 @@ module virtual.threads.playground {
 }
 ```
 
-## 2. Why Virtual Threads?
+## Why Virtual Threads?
 
 For people who already follow us, we asked the same question in the article [Kotlin 101: Coroutines Quickly Explained](/articles/kotlin-101-coroutines). However, it is essential to briefly introduce the problem virtual threads are trying to solve.
 
@@ -123,7 +123,7 @@ Also, the async/await approach, such as Kotlin coroutines, has its own problems.
 
 The above are reasons why the JVM community is looking for a better way to write concurrent programs. Project Loom is one of the attempts to solve the problem. So, let's introduce the first brick of the project: _virtual threads_.
 
-## 3. How to Create a Virtual Thread
+## How to Create a Virtual Thread
 
 As we said, virtual threads are a new type of thread that tries to overcome the resource limitation problem of platform threads. They are an alternate implementation of the `java.lang.Thread` type, which **stores the stack frames in the heap (garbage-collected memory) instead of the stack**.
 
@@ -265,7 +265,7 @@ A `ThreadFactory` is a factory that creates threads with the same configuration.
 
 Now that we know how to create virtual threads let's see how they work.
 
-## 4. How Virtual Threads Work
+## How Virtual Threads Work
 
 How do virtual threads work? The figure below shows the relationship between virtual threads and platform threads:
 
@@ -328,7 +328,7 @@ There are four carrier threads, `ForkJoinPool-1-worker-1`, `ForkJoinPool-1-worke
 
 The above log should ring a bell in the astute reader. How the JVM schedules virtual threads on their carrier threads? Is there any preemption? Does the JVM use cooperative scheduling instead? Let's answer these questions in the next session.
 
-## 5. The Scheduler and Cooperative Scheduling
+## The Scheduler and Cooperative Scheduling
 
 Virtual threads are scheduled using a FIFO queue consumed by a dedicated `ForkJoinPool`. The default scheduler is defined in the `java.lang.VirtualThread` class:
 
@@ -476,7 +476,7 @@ As we might expect, the output is the following. While the `ForkJoinPool-1-worke
 
 It's worth mentioning that cooperative scheduling is helpful when working in a highly collaborative environment. Since a virtual thread releases its carrier thread only when reaching a blocking operation, cooperative scheduling and virtual threads will not improve the performance of CPU-intensive applications. The JVM already gives us a tool for those tasks: Java parallel streams.
 
-## 6. Pinned Virtual Threads
+## Pinned Virtual Threads
 
 We said that the JVM _mounts_ a virtual thread to a platform thread, its carrier thread, and executes it until it reaches a blocking operation. Then, the virtual thread is unmounted from the carrier thread, and the scheduler decides which virtual thread to schedule on the carrier thread.
 
@@ -622,7 +622,7 @@ The execution of the `twoEmployeesInTheOfficeWithLock` produces the expected out
 
 We can run the above method also with the `jdk.tracePinnedThreads` property set to see that no thread is pinned to its carrier thread during the execution.
 
-## 7. `ThreadLocal` and Thread Pools
+## `ThreadLocal` and Thread Pools
 
 When using threads before Java 19 and Project Loom, creating a thread using the constructor was relatively uncommon. Instead, we preferred to use a thread pool or an executor service configured with a thread pool. In fact, those threads were what we now call platform threads, and the reason was that creating such threads was quite expensive operation.
 
@@ -696,7 +696,7 @@ Nice. So, is it a good idea to use `ThreadLocal` with virtual threads? Well, you
 
 However, some scenarios could be help use something similar to `ThreadLocal`. For this reason, Java 20 will introduce [scoped values](https://openjdk.org/jeps/429), which enable the sharing of immutable data within and across threads. However, this is a topic for another article.
 
-## 8. Some Virtual Threads Internals
+## Some Virtual Threads Internals
 
 In this section, we'll introduce the implementation of continuation in Java virtual threads. We're not going into too much detail, but we'll try to give a general idea of how the virtual threads are implemented.
 
@@ -926,13 +926,13 @@ private void afterYield() {
 
 This closes the circle. As we can see, it takes a lot of work to follow the life cycle of a virtual thread and its continuation. A lot of native calls are involved. We hope that the JDK team will provide better documentation of the virtual threads implementation in the future.
 
-## 9. Conclusions
+## Conclusion
 
 Finally, we come to the end of this article. In the beginning, we introduced the reason behind the introduction of virtual threads in the JVM. Then, we saw how to create and use it with some examples. We made some examples of pinned threads, and finally, we saw how some old best practices are no longer valid when using virtual threads.
 
 Project Loom is still actively under development, and there are a lot of other exciting features in it. As we said, structural concurrency and scoped values are some of them. Project Loom will be a game changer in the Java world. This article will help you better understand virtual threads and how to use them.
 
-## 10. Appendix: Maven Configuration
+## Appendix: Maven Configuration
 
 As promised, here is the `pom.xml` file that we used to run the code in this article:
 

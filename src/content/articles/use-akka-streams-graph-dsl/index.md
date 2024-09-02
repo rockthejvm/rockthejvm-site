@@ -59,7 +59,7 @@ First of all, you need to know what kind of components you will need for such a 
 
 This visual representation will be reflected in the code, much more than you think. So the above was step 0: make a mental diagram of how you want your data to move.
 
-## Step 1 - The Frame
+## Step 1: The Frame
 
 ```scala
 val graph = GraphDSL.create() { implicit builder: GraphDSL.Builder[NotUsed] =>
@@ -70,7 +70,7 @@ val graph = GraphDSL.create() { implicit builder: GraphDSL.Builder[NotUsed] =>
 
 The `GraphDSL.create` is a curried function. The first argument list is empty (but it also has overloads with arguments, don't worry about those) and the second argument is a function. That function takes a mutable data structure called a Builder which is typed with a [materialized value](/articles/the-brilliance-of-materialized-values-in-akka-streams), which in our case will be NotUsed, as we aren't surfacing anything outside of the stream. Inside the function block, we are already importing `import GraphDSL.Implicits._` to bring some alien operators in scope.
 
-## Step 2 - Create the Building Blocks
+## Step 2: Create the Building Blocks
 
 After the implicit import, still inside the block of the function, we need to add the individual components that we are going to use in the graph:
 
@@ -86,7 +86,7 @@ val zip = builder.add(Zip[Int, Int]) // fan-in operator
 
 The last two components are the most interesting. The Broadcast has the capacity to duplicate the incoming data into multiple outputs - which will be fed into our individual super-heavy computations - and the Zip will receive the results from the two flows, and whenever a value is ready at both its inputs, it will take them, tuple them and send them downstream, while keeping the order of elements.
 
-## Step 3 - Glue the Components Together
+## Step 3: Glue the Components Together
 
 This step is the most fun and also the hardest to understand if you've never seen this before.
 
@@ -99,7 +99,7 @@ broadcast.out(1) ~> multiplier  ~> zip.in1
 zip.out ~> output
 ```
 
-The squiggly arrow thing is a method which is brought in scope by our implicits import in [step 1](#step-1---the-frame) - we're of course using it infix because it looks cool. You might notice that we aren't using the result of these expressions. That's because the methods return Unit, but they take the implicit Builder (again from step 1) as argument. In other words, the squiggly arrow mutates the Builder which (internally) describes the layout of our stream. This step is one of the most powerful in Akka Streams, because the code looks visually similar to our earlier diagram. If I change some whitespace, I could make the code like this:
+The squiggly arrow thing is a method which is brought in scope by our implicits import in [step 1](#step-1-the-frame) - we're of course using it infix because it looks cool. You might notice that we aren't using the result of these expressions. That's because the methods return Unit, but they take the implicit Builder (again from step 1) as argument. In other words, the squiggly arrow mutates the Builder which (internally) describes the layout of our stream. This step is one of the most powerful in Akka Streams, because the code looks visually similar to our earlier diagram. If I change some whitespace, I could make the code like this:
 
 ```scala
                     broadcast.out(0) ~> incrementer ~> zip.in0
@@ -109,9 +109,9 @@ input ~> broadcast;                                             zip.out ~> outpu
 
 The code looks visual, all without needing to care about the internal implementation of these individual components. They're all asynchronous and backpressured, and we're getting all the benefits for free.
 
-## Step 4 - Closing
+## Step 4: Closing
 
-Still in the block of the function we opened in [step 1](#step-1---the-frame), we need to make the function return what Akka Streams calls a Shape. Because our graph is closed, i.e. has no open inputs and outputs, we're returning ClosedShape.
+Still in the block of the function we opened in [step 1](#step-1-the-frame), we need to make the function return what Akka Streams calls a Shape. Because our graph is closed, i.e. has no open inputs and outputs, we're returning ClosedShape.
 
 ```scala
 val graph = GraphDSL.create() { implicit builder: GraphDSL.Builder[NotUsed] =>

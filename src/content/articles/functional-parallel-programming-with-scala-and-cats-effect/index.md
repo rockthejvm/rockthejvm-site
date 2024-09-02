@@ -10,7 +10,7 @@ updatedDate: 2024-09-06
 
 ![Marcus Aurelius meme about parallel programming](images/marcus-aurelius-meme.png)
 
-## 1. Introduction
+## Introduction
 
 🚀 Welcome to a journey where functional programming meets the social media hub for developers - GitHub! 🌐.
 
@@ -24,7 +24,7 @@ In the vast landscape of open-source collaboration, aggregating an organization'
 
 Simply put, we're creating an HTTP server to compile and organize contributors from a specific GitHub organization, like Google or Typelevel. The response will be sorted based on the quantity of each developer's contributions.
 
-## 2. Project Structure
+## Project Structure
 
 We will use Scala 3.3.0, sbt 1.9.4 and a handful of useful libraries to complete our project.
 
@@ -63,7 +63,7 @@ lazy val root = (project in file("."))
 - `play-json` is a JSON library for Scala
 - last two libraries will be used for managing project configuration and logging respectively
 
-## 3. Prerequisites
+## Prerequisites
 
 Before doing anything, please generate personal GitHub access token and put it in `src/main/resources/application.conf`, like this:
 ![GitHub token shown in a dedicated file](images/github-token.png)
@@ -72,7 +72,7 @@ It is necessary to use GitHub token because we'll be using GitHub API for which 
 
 Please, have a look at the [GitHub docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) to do it.
 
-## 4. Planning
+## Planning
 
 What are we going to do and how exactly? To answer these questions we must investigate existing GitHub API so that we know what kind of data is exposed and how.
 
@@ -83,7 +83,7 @@ Some of the interesting questions can be:
 - What is the number of contributors for each project owned by the organization?
 - ...
 
-## 5. Quickstart
+## Quickstart
 
 Let's just create a `Main.scala` and run a basic HTTP server with health check endpoint to ensure that everything is fine.
 
@@ -135,7 +135,7 @@ To illustrate all that:
 
 Great! Now it's time to move on to some domain modeling.
 
-## 6. Domain Modeling
+## Domain Modeling
 
 It turns out that GitHub API responses support JSON format, it means that we'll need to define custom JSON deserializers for our domain models.
 
@@ -338,7 +338,7 @@ In that case class definition the `count` will be just the amount of contributor
 
 With that, we can finish the domain modeling and switch to the next part - building blocks for business logic.
 
-## 7. Building blocks for business logic
+## Building Blocks for Business Logic
 
 Our goal is to make contributors aggregation fast. We've seen that there are more than a few API requests we need to make, some of them are paginated, some of them are not. Also, it's important to define the order of execution and the general flow of the program.
 
@@ -369,7 +369,7 @@ Great!
 Here's a list of things we need to prepare before writing the main logic:
 
 - handling GitHub Token (configuration, loading, attaching to request headers)
-- mechanism to create proper GitHub REST API URL-s (parameterization, pagination)
+- mechanism to create proper GitHub REST API URLs (parameterization, pagination)
 - general approach for issuing a single HTTP request (deserialization, error handling)
 
 As soon as we have those components, we can start composing our main piece of logic.
@@ -378,7 +378,7 @@ Since this is a small project, it is not required to overwhelm ourselves with th
 
 I suggest that we create a simple private methods in `Main.scala` which will be just called multiple times inside `routes` definition.
 
-### 7.1 Handling GitHub Token
+### Handling the GitHub Token
 
 GitHub token is just a string which must be attached to request headers so that GitHub REST API rate limiter doesn't prohibit us issuing huge amount of requests.
 
@@ -439,9 +439,9 @@ object Main extends IOApp.Simple {
 
 Time to move on the next step.
 
-### 7.2 Building GitHub REST API URL-s
+### Building GitHub REST API URLs
 
-There's only a handful of URL-s we need to build for each organization:
+There's only a handful of URLs we need to build for each organization:
 
 - URL for loading the amount of public repositories (`PublicRepos`) for some organization
 - URL for loading the names of public repositories (`Vector[RepoName]`) for some organization
@@ -469,7 +469,7 @@ def contributorsUrl(repoName: String, orgName: String, page: Int): String =
 
 `repoName`, `orgName`, `page` will be injected in placeholders, yielding us URL which returns the list of paginated contributors. After processing the responses, our app will turn this data into `Vector[Contributor]`.
 
-### 7.3 HTTP request fetch functionality
+### HTTP Request Fetch Functionality
 
 In order to implement a generic `HTTP GET` we will need to have a few other things in place.
 
@@ -561,7 +561,7 @@ Explanation:
 
 With that, we can move on to the most important part of our project - business logic.
 
-## 8. Business logic
+## Business Logic
 
 We have defined the domain and several building blocks for actually implementing the business logic, however, before writing the code we need to define the flow / plan and then execute it.
 
@@ -584,7 +584,7 @@ After a few revisions and refinement this is the plan I came up with:
 
 Let's begin!
 
-### 8.1 Accept organization name and define the # of parallel requests
+### Accept Organization Name and Define the # of Parallel Requests
 
 ```scala
 object Main extends IOApp.Simple {
@@ -634,7 +634,7 @@ Below you can see how could we test this functionality:
 
 ![Output of running `curl` on parallel requests](images/curl-parallel-requests.png)
 
-### 8.2 Fetching all repository names
+### Fetching All Repository Names
 
 At this point we've already calculated the `pages` which holds the number of pages based on the number of public repositories (100 repositories per page) that is owned by some organization.
 
@@ -683,7 +683,7 @@ Let's manually test the output for different organizations:
 
 ![Output of running `curl` on different organization](images/curl-different-organization.png)
 
-### 8.3 Start fetching contributors for each project in parallel and exhaust each iteratively
+### Start Fetching Contributors for Each Project in Parallel and Exhaust Each Iteratively
 
 Since we have all the repositories, now we can start fetching the contributors of each project in parallel. We must notice that the results for this one are also paginated, however, we don't know exactly how many contributors are out there for each project, it means that we're limited in parallelism here and we have to iteratively fetch "next contributors list" until it returns the less than 100 results, indicating that it's the last one.
 
@@ -807,7 +807,7 @@ Let's also have a quick look at the first 30 lines of `typelevel.json`:
 
 ![Displaying the first thirty lines of code](images/typelevel-json-30-lines-of-code.png)
 
-## 9. Summary
+## Summary
 
 We have built together the GitHub organization contributors aggregator. Here's a summary of what we've accomplished, the tools and libraries used, and how we did it:
 

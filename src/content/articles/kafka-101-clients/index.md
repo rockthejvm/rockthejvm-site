@@ -8,11 +8,11 @@ title: "Kafka 101: Clients Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-_This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems._
+> This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
 
 _Enter Giannis:_
 
-## 1. Introduction
+## Introduction
 
 Apache Kafka is a well-known event streaming platform used in many organizations worldwide.
 It is used as the backbone of many data infrastructures, thus it's important to understand how to use it efficiently.
@@ -37,11 +37,11 @@ The relevant e-commerce datasets can be found [here](https://www.kaggle.com/data
 The code samples are written in Kotlin, but the implementation should be easy to port in Java or Scala.
 You can find the source code on GitHub [here](https://github.com/polyzos/kafka-streaming-ledger).
 
-> _To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already._
+> To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already.
 
 So, let us dive right in.
 
-## 2. Environment Setup
+## Environment Setup
 
 First, we want to have a Kafka Cluster up and running.
 Make sure you have [docker compose](https://docs.docker.com/compose/) installed on your machine, as we will use the following `docker-compose.yaml` file to set up a 3-node Kafka Cluster.
@@ -123,7 +123,7 @@ docker-compose up
 
 This command will start a 3-node Kafka Cluster.
 
-> _Note: You might want to increase your docker resources (I'm running with 6GB RAM) to make sure you don't run into any issues._
+> Note: You might want to increase your docker resources (I'm running with 6GB RAM) to make sure you don't run into any issues.
 
 Wait a bit for the cluster to start, then we will need to create our topic to store our clickstream events. For that we will create a topic with 5 partitions and a replication factor of 3 (leader + 2 replicas) using the following command:
 
@@ -148,7 +148,7 @@ Topic: ecommerce.events	TopicId: oMhOjOKcQZaoPp_8Xc27lQ	PartitionCount: 5	Replic
 	Topic: ecommerce.events	Partition: 4	Leader: 1003	Replicas: 1003,1002,1001	Isr: 1003,1002,1001
 ```
 
-## 3. Show me the Code 👀
+## Show me the Code 👀
 
 The producer will send some events to Kafka.
 
@@ -202,7 +202,7 @@ Kafka does a lot of things under the hood when the `send()` method is invoked, s
 1. If a failure occurred without receiving an ACK, we check if message retry is enabled; if so, we need to resend it.
 1. The client receives the response.
 
-## 4. Tradeoffs between Latency and Throughput
+## Tradeoffs Between Latency and Throughput
 
 In distributed systems, most things come with tradeoffs, and it’s up to the developer to find that "sweet spot" between different tradeoffs; thus it’s important to understand how things work.
 
@@ -254,7 +254,7 @@ You might also want to test against a real cluster to test the networking in pla
 
 If you are concerned with exactly-once semantics, set `enable.idempotency` to true, which will also result in ACKs set to all.
 
-## 5. Kafka Consumers: Switching to the Other Side of the Wall
+## Kafka Consumers: Switching to the Other Side of the Wall
 
 Up to this point, we have ingested clickstream events into Kafka, so let's see what reading those events looks like.
 
@@ -302,7 +302,7 @@ To make this more clear let’s assume that you fetch 500 records from the `poll
 
 So decreasing the number of records the `poll()` loop should return and/or better tuning some configurations like `heartbeat.interval.ms` and `session.timeout.ms` used for consumer group coordination might be reasonable in this case.
 
-## 6. Running the Consumer
+## Running the Consumer
 
 At this point, I will start one consuming instance on my `ecommerce.events` topic. Remember that this topic consists of 5 partitions.
 I will execute against my Kafka cluster, using the default consumer configuration options and my goal is to see how long it takes for a consumer to read 10000 messages from the topic, assuming a 20ms processing time per message.
@@ -327,23 +327,23 @@ I will execute against my Kafka cluster, using the default consumer configuratio
 
 We can see that it takes a single consumer around 4 minutes for this kind of processing. So how can we do better?
 
-## 7. Scaling the Consuming Side
+## Scaling the Consuming Side
 
 Consumer Groups are Kafka’s way of sharing the work between different consumers and also the level of parallelism. The highest level of parallelism you can achieve with Kafka is having one consumer consuming from each partition of a topic.
 
-### 7.1. #Partitions > #Consumers
+### #Partitions > #Consumers
 
 In the scenario, the available partitions will be shared equally among the available consumers of the group and each consumer will have ownership of those partitions.
 
 ![Partitions are shared among the available consumers](images/one-to-many-partitions-consumers.webp)
 
-### 7.2. #Partitions = #Consumers
+### #Partitions = #Consumers
 
 ![1:1 consumer-partition mapping](images/one-to-one-consumer-partition-mapping.webp)
 
 When the partition number is equal to the available consumers each consumer will be reading from exactly one partition. In this scenario, we also reach the maximum parallelism we can achieve on a particular topic.
 
-### 7.3. #Partitions < #Consumers
+### #Partitions < #Consumers
 
 ![#consumer > #partitions the extra consumers are idle](images/idle-consumers.webp)
 
@@ -372,7 +372,7 @@ As expected we can see that the consumption time dropped to less than a minute t
 
 But if Kafka’s maximum level of parallelism is one consumer per partition, does this mean we hit the scaling limit? Let’s see how to tackle this next.
 
-### 7.4. The Parallel Consumer Pattern
+### The Parallel Consumer Pattern
 
 Up to this point, we might have two questions in mind:
 
@@ -409,7 +409,7 @@ Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a 
 
 Makes the consuming and processing time of **10k messages** take as much as **2 seconds**.
 
-> _Notice from the logs how different batches are processed on different threads on the same consumer instance._
+> Notice from the logs how different batches are processed on different threads on the same consumer instance.
 
 and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
 
@@ -427,9 +427,9 @@ and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
 
 So basically we have accomplished getting our processing time from ~ minutes down to seconds.
 
-> _Notice in the screenshot how different batches are processed on different threads on different consumer instances._
+> Notice in the screenshot how different batches are processed on different threads on different consumer instances.
 
-## 8. Offsets and How to Handle Them
+## Offsets and How to Handle Them
 
 Up to this point, we have seen the whole message lifecycle in Kafka — PPC (Produce, Persist, Consume)
 
@@ -441,17 +441,17 @@ This is what we will see next, i.e. what do I need to take into account to get t
 
 We will take a look at a few scenarios for committing offsets and what caveats each approach might have.
 
-### 8.1. Committing Offsets Automatically
+### Committing Offsets Automatically
 
 This is the default behavior with enable.auto.commit set to true. The caveat here is that the message is consumed and the offsets will be committed periodically, BUT this doesn’t mean the message has been successfully processed. If the message fails for some reason, its offset might have been committed and as far as Kafka is concerned that message has been processed successfully.
 
-### 8.2. Committing Offsets Manually
+### Committing Offsets Manually
 
 Setting `enable.auto.commit` to false takes Kafka consumers out of the "autopilot mode" and it’s up to the application to commit the offsets. This can be achieved by using the `commitSync()` or `commitAsync()` methods on the consumer API.
 
 When committing offsets manually we can do so either when the whole batch returned from the `poll()` method has finished processing in which case all the offsets up to the highest one will be committed, or we might want to commit after each individual message is done with it’s processing for even stronger guarantees.
 
-#### 8.2.1. Commit/Message
+#### Commit/Message
 
 ```kotlin
 if (perMessageCommit) {
@@ -464,7 +464,7 @@ if (perMessageCommit) {
 }
 ```
 
-#### 8.2.2. Commit/Batch
+#### Commit/Batch
 
 ```kotlin
 // Process all the records
@@ -485,7 +485,7 @@ This gives us control over how message offsets are committed, and we can trust t
 
 For those who want to account for (or at least try to) _every unhappy_ path there is also the possibility that things fail in the commit process itself. In this case the message will be reprocessed
 
-### 8.3. Idempotency with External Storage
+### Idempotency with External Storage
 
 You can use an external data store and keep track of the offsets there (for example like Apache Cassandra).
 
@@ -495,7 +495,7 @@ One thing to note here is that offsets are now stored in an external datastore. 
 
 One way to achieve this can be adding a `ConsumerRebalanceListener` and when `onPartitionsRevoked` and `onPartitionsAssigned` methods are called store (commit) or retrieve the offsets from the external datastore.
 
-## 9. Wrapping Up
+## Wrapping Up
 
 As takeaways:
 

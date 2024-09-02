@@ -48,7 +48,7 @@ outerA.InnerObj == outerB.InnerObj
 
 would return false. Similarly, the abstract type member `InnerType` is different for every instance of `Outer`.
 
-## 2. Path-Dependent Types and Type Projections
+## Path-Dependent Types and Type Projections
 
 Let's assume we had a method in the class `Outer`, of the form
 
@@ -135,7 +135,7 @@ Function1[AbstractRow, AbstractRow#Key] {
 }
 ```
 
-which is a subtype of `Function1[AbstractRow, AbstractRow#Key]` because the `apply` method returns the type `arg.Key`, which we now [know](#2-path-dependent-types-and-type-projections) that it's a subtype of `AbstractRow#Key`, so the override is valid.
+which is a subtype of `Function1[AbstractRow, AbstractRow#Key]` because the `apply` method returns the type `arg.Key`, which we now [know](#path-dependent-types-and-type-projections) that it's a subtype of `AbstractRow#Key`, so the override is valid.
 
 ## 6. Conclusion
 
