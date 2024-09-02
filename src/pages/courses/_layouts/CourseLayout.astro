@@ -29,6 +29,7 @@ const {
 const courseList = course.data.bundledCourses ? await Promise.all(course.data.bundledCourses!.map(async (c) => await getEntry("courses", c.slug))) : [];
 
 const hasGoalSlot = Astro.slots.goal !== undefined;
+const hasSkillsSlot = Astro.slots.skills !== undefined;
 ---
 
 <BaseLayout {description} {title}>
@@ -58,9 +59,11 @@ const hasGoalSlot = Astro.slots.goal !== undefined;
         <slot name="feature5" slot="feature5" />
       </Features>
     }
-    <Skills color={category.data.color}>
-      <slot name="skills" />
-    </Skills>
+    {hasSkillsSlot &&
+      <Skills color={category.data.color}>
+        <slot name="skills" />
+      </Skills>
+    }
     <Profile color={category.data.color} />
     {category.id === "bundle" &&
       (
