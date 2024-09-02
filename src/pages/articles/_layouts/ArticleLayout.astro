@@ -6,7 +6,7 @@ import FormattedDate from "../../../components/FormattedDate.astro";
 import type { MarkdownHeading } from "astro";
 import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
-import AuthorSmall from "../../../components/AuthorSmall.astro";
+import Byline from "../../../components/Byline.astro";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
@@ -75,7 +75,7 @@ const tags = await getEntries(frontmatter.tags);
           <h1>{title}</h1>
         </Prose>
         <a href={`/authors/${frontmatter.author.id}`} class="mt-auto">
-          <AuthorSmall {author} {minutesRead}>
+          <Byline {author} {minutesRead}>
             <p>
               Last updated: {
                 updatedDate ? (
@@ -85,7 +85,7 @@ const tags = await getEntries(frontmatter.tags);
                 )
               }
             </p>
-          </AuthorSmall>
+          </Byline>
         </a>
         <TagList {tags} />
       </header>
