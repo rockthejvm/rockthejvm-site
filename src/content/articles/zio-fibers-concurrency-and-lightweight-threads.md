@@ -290,7 +290,7 @@ the `interrupt` method on it doesn't do anything, and the above code will have t
 
 Bob will make breakfast at home, no matter Alice's call. Sorry, Alice, maybe next time.
 
-## 8. Conclusions
+## 8. Conclusion
 
 In the article, we briefly introduced the concept of effect and how ZIO uses it to implement concurrent execution through fibers. Then, using a simple example, we showed how to use the three primary operations available on fibers: fork, join, and interrupt.
 

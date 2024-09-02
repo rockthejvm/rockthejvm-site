@@ -1283,7 +1283,7 @@ As expected, the output of the program contains both errors and it's the followi
 The risen errors are: NonEmptyList(NegativeAmount, InvalidCurrency(message=Currency must be not empty and valid))
 ```
 
-## 8. Conclusions
+## 8. Conclusion
 
 The long journey throughout the new error-handling style in the Arrow 1.2.0 library has ended. During the path, we introduced the central concept of this article, the `Raise<E>` context, and all its implementing flavors. We saw how to use it to transform and recover a computation in its context. Then, we saw how easy it is to pass from the `Raise<E>` context to any of the available wrapper types, like `Either<E, A>`, `Option<A>`, and `Result<A>`. We appreciated how smooth is the composition of functions defined in the `Raise<E>` context. Finally, we saw how to use the `Raise<E>` context to accumulate errors. The article should have given you a good overview of the new error handling style in Arrow and how the Arrow guys decided to get rid of a lot of category theory types (did you see any reference to a monoid, monad, applicative, or _traverse_ application?) in favor of a more straight, idiomatic and Kotlinsh approach.
 
