@@ -8,7 +8,7 @@ title: UDP with Scala and FS2 Explained
 updatedDate: 2024-09-06
 ---
 
-## 1. Introduction
+## Introduction
 
 UDP stands for User Datagram Protocol, it's a transport layer communication protocol built on top of IP that is used to transmit data across a network. It works by bundling up data in a UDP packet, adding header information, and sending these packets to the target destination.
 The UDP header is fixed at 8 bytes and contains a source port, destination port, the checksum used to verify packet integrity by the receiving device, and the length of the packet which equates to the sum of the payload and header.
@@ -23,7 +23,7 @@ UDP is mainly used for time-sensitive communications where occasionally dropping
 
 In this article, we will first understand how to implement UDP with Java NIO and gradually transition to [FS2's](/articles/fs2-more-than-functional-streaming-in-scala) io library which provides binding for UDP networking. In the last section, we'll create a live audio streaming server with the knowledge we've gained.
 
-## 2. Setting Up
+## Setup
 
 Let's create a new Scala 3 project and add the following to your `build.sbt` file.
 
@@ -47,11 +47,11 @@ To follow along, we'll need `fs2`'s core and io libraries, this installs [cats](
 
 We'll also need the [FFplay](https://ffmpeg.org/ffplay.html) library which is installed as part of [FFmpeg](https://ffmpeg.org/download.html). We can confirm it's installed by running `ffplay -version`.
 
-## 3. UDP with NIO
+## UDP with NIO
 
 In this section, we'll learn how to create a UDP echo server and client using Java NIO and get an in-depth explanation of how this API works.
 
-## 3.1 The UDP Server
+### The UDP Server
 
 To implement UDP in NIO we'll make use of the `DatagramChannel` class which supports concurrent reading and writing, however at most one thread may be reading and at most one thread may be writing at any given time. Create a `NioUdp.scala` file in the following path, `src/main/scala/com/rockthejvm/nioUdp/NioUdp.scala`, and add the following code:
 
@@ -226,7 +226,7 @@ object NioUdp extends IOApp {
 }
 ```
 
-## 3.2. The UDP Client
+### The UDP Client
 
 Creating a UDP client is very similar to creating a server, the only change is we'll be preparing the data to send to the server which we later decode and print once it's echoed back.
 Here's how it's implemented:
@@ -313,7 +313,7 @@ Here we wrap both functions in `IO` and then run them concurrently using the `pa
 
 Looking at the output everything works, notice that we didn't bind an address and port number to the `client`, this was done automatically by NIO, if we run this program again, a different address will be assigned.
 
-## 3.3 A Connected Client
+### A Connected Client
 
 NIO provides an alternative client implementation where the client first connects to the server before sending and receiving packets, there are some minor changes compared to the previous section, here's the code:
 
@@ -382,11 +382,11 @@ Let's recap on how we implemented UDP:
 
 Can we do the same with a higher-level API like FS2?
 
-## 4. UDP with FS2
+## UDP with FS2
 
 FS2 supports UDP through the `fs2.io.net package`, this provides abstractions on top of NIO but provides the resource safety guarantees known in fs2 streams.
 
-## 4.1 The UDP Server
+### The UDP Server
 
 Create `Fs2Udp.scala` in the following path, `src/main/scala/com/rockthejvm/fs2Udp/Fs2Udp.scala` and add the following code:
 
@@ -595,7 +595,7 @@ object Fs2Udp extends IOApp {
 }
 ```
 
-## 4.2 The UDP Client
+### The UDP Client
 
 The UDP client will look very similar to our server with a few minor changes. Let's define the client function:
 
@@ -732,7 +732,7 @@ Just like before we run both `server` and `client` concurrently but give the ser
 
 The `fs2.io.net` NIO abstractions use the `DatagramChannel`'s `send()` and `receive()` methods under the hood since it's possible to send and receive datagrams to and from different addresses.
 
-## 5. Multicasting
+## Multicasting
 
 Multicasting is a group communication protocol where a sender can send data to multiple receivers simultaneously. Here's how it works:
 
@@ -834,7 +834,7 @@ Here are my results:
 
 Notice `enp1s0` didn't appear since its state is `DOWN`.
 
-## 5.1. Multicast Server in NIO
+### Multicast Server in NIO
 
 For this example, we'll create a server that sends the current date and time as an endless stream to any client that connects to the multicast group. Create a file called `NioUdpMulticast.scala` in the following path, `src/main/scala/com/rockthejvm/nioUdp/NioUdpMulticast.scala` and add the following code:
 
@@ -931,7 +931,7 @@ When calling the bind method, we only provide the `port` number, the `InetSocket
 
 Lastly, we have an infinite while loop that sends a date string every 10,000 milliseconds to all members of the multicast group by calling `datagramChannel.send()` and passing it the date, and the multicast socket address got by calling `new InetSocketAddress(InetAddress.getByName(groupIp), port)`.
 
-## 5.2. Multicast Client in NIO
+### Multicast Client in NIO
 
 Let's start by creating our client function and add the following code:
 
@@ -1054,7 +1054,7 @@ Here's a recap of how UDP multicasting works:
 
 Let's see if we can translate this to FS2.
 
-## 5.3. Multicast Server in FS2
+### Multicast Server in FS2
 
 Let's create a new file, `Fs2UdpMulticast.scala` in the following path, `src/main/scala/com/rockthejvm/fs2Udp/Fs2UdpMulticast.scala` and add the following server code:
 
@@ -1138,7 +1138,7 @@ Before we write our values, the stream is `metered` so that any client that join
 
 We end by handling any errors with `handleErrorWith()`.
 
-## 5.4. Multicast Client in FS2
+### Multicast Client in FS2
 
 Append the following client code still within the `Fs2UdpMulticasting` object:
 
@@ -1227,7 +1227,7 @@ Tue Oct 24 15:22:20 EAT 2023
 
 The output is similar to our NIO example.
 
-## 6. A Practical Example
+## A Practical Example
 
 In this section, we'll cover a common use case, streaming live audio, for this build we'll be streaming audio from an online radio station and interested listeners will be able to listen through FFplay.
 
@@ -1349,7 +1349,7 @@ Here's a picture of this program running on Ubuntu 22.04 with two clients connec
 
 Note: The application may fail incase the online radio link is unreachable, you can always replace it with a working link of your choosing.
 
-## 7. Conclusion
+## Conclusion
 
 In this article, we've learned how to implement a UDP server and client in NIO and then used that knowledge to implement the same application in FS2.
 

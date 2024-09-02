@@ -8,7 +8,7 @@ title: "FS2: More Than Functional Streaming in Scala"
 updatedDate: 2024-09-06
 ---
 
-_Another long-form by [Riccardo Cardin](/authors/riccardo-cardin) - having started with the [Scala with Cats course](/courses/cats) a while back, he's now steadily mastering all the critical pieces of the Typelevel ecosystem._
+> Another long-form by [Riccardo Cardin](/authors/riccardo-cardin) - having started with the [Scala with Cats course](/courses/cats) a while back, he's now steadily mastering all the critical pieces of the Typelevel ecosystem.
 
 Nowadays, modern applications are often built on top of streaming data: Reading from a huge file and processing information or handling continuous data from the network as WebSockets or from a message broker. Streams are the way to go in such situations, and Scala provides its own streams implementation.
 
@@ -16,7 +16,7 @@ However, streams in the standard library are not as powerful as they could be an
 
 Fortunately, some libraries offer more robust implementation of streams. One of these is the FS2 library, built on top of the Cats and Cats Effect libraries. Moreover, **FS2 provides an entirely functional approach to stream processing**. So, without further ado, let's dive into the details of FS2.
 
-## 1. Set Up
+## 1. Setup
 
 The FS2 library is available both for Scala 2 and for Scala 3. The following code will set up sbt to use the library for Scala 3.
 

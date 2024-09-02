@@ -8,7 +8,7 @@ title: ADTs (Algebraic Data Types) in Scala
 updatedDate: 2024-09-06
 ---
 
-_A small note: this is the first guest post on the blog! This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming!_
+> A small note: this is the first guest post on the blog! This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming!
 
 _Enter Riccardo:_
 

@@ -8,13 +8,13 @@ title: REST APIs with Play Framework and Scala
 updatedDate: 2024-09-06
 ---
 
-## 1. Introduction
+## Introduction
 
 One of the simplest and well documented ways to build a web API is to follow the REST paradigm. REST APIs provide a simple and uniform way to
 access data and not only through URLs, across the web.
 [Play Framework](https://www.playframework.com/) "makes it easy to build web applications with Java & Scala", as it is stated on their site, and it's true. Using Akka under the hood, you get all the benefits of a Reactive system. In this article we will try to develop a basic skeleton for a REST API using Play and Scala.
 
-## 2. Setting Up
+## Setup
 
 Let's start by adding our dependencies on our sbt files.
 
@@ -51,7 +51,7 @@ lazy val root = (project in file("."))
 
 After using all this you should be ready to create the codebase for our rest api.
 
-## 3. Basic REST Api skeleton project
+## Basic REST API Project Skeleton
 
 The image below shows the basic folder and package structure for our project. It is organized based on each layer of concern.
 
@@ -59,7 +59,7 @@ The image below shows the basic folder and package structure for our project. It
 
 On each layer we define the data (models) and logic (managers, services) that can help us organize and follow the growth of our project and not get lost. This example is extremely simple but for the sake of completion we include all layers. As our project becomes more and more complex, these layers are becoming more useful. Below we will see each layer individually.
 
-## 3.1 Persistence
+## Persistence
 
 It is the layer where we define the basic persistence entities and persistence methods. We could use any method that we want, be a database, in memory, a file, should be defined and handled on this layer.
 
@@ -182,7 +182,7 @@ package com.rockthejvm.playdemo.repositories.errors
 case class RepositoryError(message: String)
 ```
 
-## 3.2 Managers
+## Managers
 
 The "managers" (or "services") layer usually contains logic to manage multiple resources e.g. repositories, transactions, connections, securitym etc. The objective of this layer is the real _business logic_ of our application. Everything else is abstracted away.
 
@@ -280,7 +280,7 @@ class CarManagerLive(repository: CarRepository) extends CarManager {
 
 As you can see, it's relatively easy to add or change implementations of business logic, because the rest of the layers are independent.
 
-## 3.3 Controllers
+## Controllers
 
 Above the business layer logic, we need to expose a public HTTP API. This is where the "controllers" live: the implementation of the public REST API.
 
@@ -442,7 +442,7 @@ POST    /car/save          controllers.HomeController.save()
 
 Here we define the HTTP method for a specific URI and the method from our controllers layer that will get called when the URI is hit.
 
-## 3.4 Application Loader
+## Application Loader
 
 Finally, we need to put all of the above together and define our main application entry.
 
@@ -500,7 +500,7 @@ class RestApiComponents(context: ApplicationLoader.Context)
 }
 ```
 
-## 4 Dependency Injection
+## Dependency Injection
 
 In this simple example we initialize all needed classes "by hand", manual Dependency injection, but as the project is getting more complex we may want to switch to a more advanced framework, like [Guice](https://github.com/google/guice) or [Macwire](https://github.com/softwaremill/macwire), included in our `build.sbt` (see the beginning of the article).
 
@@ -574,7 +574,7 @@ We combine the ManagerComponents and RepositoryComponents and we have our instan
 
 We need to add the framework dependency on build.sbt
 
-## 5 Building and running the project
+## Building and Running the Project
 
 In order to build and run our project we start an sbt compile and run our application.
 
@@ -592,7 +592,7 @@ After running sbt run you should see something like this:
 
 The app truly starts on the first request, and reloads automatically upon code changes.
 
-## 6 Conclusion
+## Conclusion
 
 Play framework is relatively straightforward to learn, compared to others, e.g. Spring MVC. It uses technologies like Akka that are established, have extensive documentation and tools to debug. It is designed so that you can use parts of the framework as you need, and this makes your applications lighter. Its integration with Scala is very good, but it follows a more Object oriented approach than a more functional one, as is the case for other libraries like http4s. You can write tests for your application using ScalaTest which for a Scala developer it is a plus.
 

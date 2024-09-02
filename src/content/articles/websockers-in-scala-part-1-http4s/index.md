@@ -8,7 +8,7 @@ title: "WebSockets in Scala: Part 1 - http4s"
 updatedDate: 2024-09-06
 ---
 
-## 1. Introduction
+## Introduction
 
 The WebSocket protocol enables persistent two-way communication between a client and a server where packets can be passed in both directions without the need for additional HTTP requests.
 
@@ -16,9 +16,9 @@ The specification for this protocol is outlined in [RFC 6455](https://datatracke
 
 In this article, we'll be creating a chat application using http4s' implementation of WebSockets.
 
-## 2. Setting Up
+## Setup
 
-### 2.1. Updating `build.sbt`
+###  Updating `build.sbt`
 
 To follow along add the following code to the `build.sbt`:
 
@@ -46,7 +46,7 @@ lazy val root = (project in file("."))
 
 ```
 
-### 2.2. Serving the Chat Page
+###  Serving the Chat Page
 
 To demonstrate WebSockets, we'll be using http4s for the WebSocket server and Javascript for the client implementation. Let's start by creating an HTML page that will be served to access the application.
 
@@ -159,11 +159,11 @@ Above, we define the `run()` function that calls `server[IO]`. Finally, we can r
 
 ![Chatbox that is prompting the user to send a message to get started](images/chatbox.png)
 
-## 3. WebSocket Introduction
+## WebSocket Introduction
 
 In this section, we'll learn some important information about WebSockets needed to understand the code in the sections to come. WebSockets send and receive data in a data structure called a WebSocket Frame that can be divided into two types, namely, **Data frames** and **Control frames**.
 
-### 3.1. Data Frames
+###  Data Frames
 
 Data Frames are used by WebSockets to carry application-layer and/or extension-layer data. There are two types of data frames, **Text** and **Binary** data frames each identified by an opcode where the most significant bit of the opcode is 0.
 
@@ -171,7 +171,7 @@ The **opcode** determines the interpretation of the data, where 0x1 and 0x2 are 
 
 The Text data frame carries its payload as text data encoded in **UTF-8 format** while the Binary data frame carries its payload as arbitrary **binary data** whose interpretation is solely up to the application layer.
 
-### 3.2. Control Frames
+### Control Frames
 
 Control frames are used to communicate the **state** of the WebSocket and can be identified by opcodes where the most significant bit of the opcode is 1. These must have a payload length of 125 bytes or less and must not be fragmented.
 
@@ -183,7 +183,7 @@ The reason may or may not be human-readable but can be used for debugging purpos
 
 A Ping frame may contain application data and when received, the endpoint must respond with a Pong frame containing the same application data that was sent. Ping frames can serve as a means to verify that the endpoint is still responsive creating a heartbeat of the WebSocket.
 
-## 4. WebSocket Implementation
+## WebSocket Implementation
 
 To implement the WebSocket in http4s, we'll need to add another route in `Routes.scala` as follows:
 
@@ -345,11 +345,11 @@ Finally, we clear the value in the input element by changing its value to an emp
 
 If we run our application at this point and try to send messages, they will be received from the server and appended to the output `<div>` proving that our WebSocket server and client are connected and working.
 
-## 5. Chat Application
+## Chat Application
 
 In this section, we build a chat application using http4s WebSocket implementation, the code in the following sections is inspired by [work](https://github.com/MartinSnyder/http4s-chatserver) done by [Martin Snyder](https://github.com/MartinSnyder).
 
-### 5.1 Topic for Message Pipeline
+### Topic for Message Pipeline
 
 If we open two pages in our browser and navigate to `chat.html`, when we try to send messages in one, they won't appear in the other, in other words, each user is chatting with his/herself.
 
@@ -442,7 +442,7 @@ Additionally, we join these two streams by calling `parJoinUnbounded`. Finally w
 
 If we run our program now, we should see the same messages received across all users who access the WebSocket.
 
-### 5.2. The Websocket Heartbeat
+### The Websocket Heartbeat
 
 When we run our WebSocket, we'll notice that after 60 seconds, we get a timeout exception on the server prompting the `socket.onclose()` function to run on the client.
 
@@ -473,13 +473,13 @@ object Program extends IOApp.Simple{
 
 Here we add a `Stream` that publishes a `WebSocketFrame.Ping()` to our `Topic` every 30 seconds. This is enough to keep our WebSocket connection alive.
 
-## 6. Advanced Chat Application Features
+## Advanced Chat Application Features
 
 In this section, we modify our application and add a lot of extra features such as user names, rooms, and metrics.
 
 To properly follow along with the code example, check out the code on [GitHub](https://github.com/hkateu/WebsocketChatApp) since this section may contain large code snippets.
 
-### 6.1. Users and Rooms
+###  Users and Rooms
 
 We want to add the ability to register and switch between rooms by use of commands. For this, we'll need to create `User` and `Room` case classes to hold the user and room names respectively.
 
@@ -538,7 +538,7 @@ Lastly, we have `ChatState`, a case class that holds all the rooms and users in 
 
 It takes two parameters, `userRooms` of type `Map[User, Room]` that shows which room each user is in, and `roomMembers` of type `Map[Room, Set[User]]` that shows all the users in each room.
 
-### 6.2. The Output Message
+###  The Output Message
 
 Next, we create an `OutputMessage` ADT to represent the messages sent to the WebSocket client. Create `OutputMessage.scala` and add the following code:
 
@@ -601,7 +601,7 @@ case class ChatMsg(from: User, to: User, msg: String) extends OutputMessage {
 
 From the top, the `UnsupportedCommand` will be used when unsupported commands are received, `KeepAlive` will represent `WebSocketFrame.Ping()`, `DiscardMessage` will be used to filter unwanted message before we send to all users, `SendToUser` will represent messages meant for a particular user and lastly, `ChatMsg` will represent regular chat messages sent by registered users.
 
-### 6.3. Protocols
+###  Protocols
 
 Next, we'll need to process commands sent through the WebSocket, in this section, we'll define a set of protocols needed to process the incoming commands. Create a file called `Protocol.scala`, and add the following code:
 
@@ -962,7 +962,7 @@ object Protocol {
 
 Finally the `disconnect()` function removes the user from the current room in case the WebSocket connection is broken or cut to reflect an up-to-date `ChatState`.
 
-### 6.4. Parsing String Inputs
+### Parsing String Inputs
 
 In this section, we'll learn how to parse the input messages we receive from the WebSocket. Create `InputMessage.scala` in `src/main/scala/rockthejvm/websockets/InputMessage.scala` and add the follwing code:
 
@@ -1323,7 +1323,7 @@ object InputMessage {
 
 In the case of unregistered users, we call `processText4UnReg(txt, protocol, userRef, r)`, passing `Default` as the entry room for new users, otherwise, we call `procesText4Reg(user, txt, protocol)` for registered users.
 
-### 6.5. Application Routes
+###  Application Routes
 
 In this section, we define all the necessary routes for the chat application. We'll now modify `Routes.scala`:
 
@@ -1687,7 +1687,7 @@ Here's sample output from `/metrics`:
 
 ![Chatbox showing the output of the `metrics` route](images/metrics-route.png)
 
-## 7. Conclusion
+## Conclusion
 
 In summary, this article shows how to implement a WebSocket server and client in http4s and Javascript respectively. We built a chat application and learned how to process multiple messages and monitor the status of our application.
 

@@ -19,7 +19,7 @@ This way of structuring the data allows for highly distributed and scalable arch
 
 From the way Kafka is organized, the API allows a Java or Scala application to interact with a Kafka cluster independently of other applications that might be using it at the same time. So this independence of applications accessing the same distributed and scalable service naturally incentivizes the use of independent microservices in your big application.
 
-## How Kafka Streams Looks Like
+## How Kafka Streams Work
 
 ```scala
 object WordCountApplication extends App {
@@ -116,7 +116,7 @@ The major strengths of Akka Streams are again _high scalability and fault tolera
 
 As I mentioned, Akka Streams is highly performant and fault-tolerant, but it was built for a different purpose. While in Kafka you used it as a message bus and your application was a client API for the Kafka cluster, in here Akka Streams is _an integral part_ of your application's logic. You can imagine Akka Streams like the circulatory system of your application, whereas Kafka is just an external well-organized blood reservoir.
 
-## How Akka Streams Looks Like
+## How Akka Streams Work
 
 ```scala
 val source1 = Source(List("Akka", "is", "awesome"))
@@ -203,7 +203,7 @@ The big strengths of Spark are the capacity to deal with _massive data_, a famil
 
 It's worth noting that Spark will need _a dedicated compute cluster_ to run, which is usually costly in production. At the same time, Spark is extremely _configurable_, and if you know how to tune Spark properly, you'll get some giant performance improvements.
 
-## How Spark Streaming Looks Like
+## How Spark Streaming Works
 
 ```scala
 val spark = SparkSession.builder()
@@ -277,7 +277,7 @@ Spark Streaming was built for _big data_ from day 1. It offers _fault-tolerance_
 
 As with the other frameworks, Spark is not perfect, though. The DataFrame and SQL APIs are cushy and familiar, but as a functional programmer I get a small stomach squeeze because _some type safety is lost_ at compile time. Of course, you have Datasets, but then you lose some performance if you pour in lambdas. Spark Streaming is very good for big data and micro-batch processing, but it's currently _not stellar at low-latency_ race unless you use the continuous mode which offers few guarantees and is experimental as we speak. Lastly, Spark _will need a dedicated cluster_ to run, so depending on your needs, you might be forced to spend a little more on compute if you go down this route.
 
-## What to use When
+## What to Use When
 
 Now the final piece: when should you use what? Naturally, every framework was built with a certain intent and we'll lay them here.
 

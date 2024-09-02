@@ -14,7 +14,7 @@ import { YouTube } from "astro-embed";
 
 In modern application development, efficient database interactions are crucial for building scalable and maintainable systems. Scala, being a versatile language, offers various tools and libraries to streamline these interactions. One such powerful tool among others ([doobie](https://index.scala-lang.org/tpolecat/doobie/artifacts/doobie-hikari/0.9.0?binary-version=_2.13), [Slick](https://index.scala-lang.org/slick/slick), [ZIO Quill](https://index.scala-lang.org/zio/zio-quill) etc) is the [Skunk Scala library](https://typelevel.org/skunk/), which provides a functional and typesafe interface for PostgreSQL databases access in Scala applications. In this article, we'll delve deep into Skunk, exploring its features and demonstrating how to interact with a database effectively in a non-blocking manner.
 
-For the video version, watch on [YouTube](https://youtu.be/xNCCHFljwBg):
+For the video version, watch below:
 
 <YouTube id="xNCCHFljwBg" />
 
@@ -133,7 +133,7 @@ services:
       - ./database/tables.sql:/docker-entrypoint-initdb.d/init.sql
 ```
 
-## 6. Setup a Database Connection
+## Setup a Database Connection
 
 To begin interacting with the database using Skunk, establish a database connection. This involves configuring the connection parameters such as host, port, username, password, and database name. Skunk provides a convenient way to manage database sessions using resources.
 
@@ -524,7 +524,7 @@ Let's discuss how the `_update` command works as it appears to be a bit differen
 
 ### 9.3 Database Connection
 
-We have created a package (`src/main/scala/com/rockthejvm/modules`) that contains an object used to establish our two different types of database connections based on the provided configuration values. We already explain this concept, please refer to [section 6](#6-setting-up-database-connection) for a refresh.
+We have created a package (`src/main/scala/com/rockthejvm/modules`) that contains an object used to establish our two different types of database connections based on the provided configuration values. We already explain this concept, please refer to [section 6](#setup-a-database-connection) for a refresh.
 
 ```scala
 import cats.effect.{Resource, Temporal}

@@ -559,7 +559,7 @@ Follow these steps to get your API Key
 
    ![Step 11: Email](images/step-11-email.png)
 
-1. Under Email Api and Integration Guide, select Web API, then choose JAVA
+1. Under Email API and Integration Guide, select Web API, then choose JAVA
 
    ![Step 12: Email API](images/step-12-email-api.png)
 

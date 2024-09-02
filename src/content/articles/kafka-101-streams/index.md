@@ -8,7 +8,7 @@ title: "Kafka 101: Streams Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-_Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a frequent contributor to the Rock the JVM blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's well versed with Apache Kafka; he recently published an article on [how to integrate ZIO and Kafka](/articles/zio-kafka). So now he rolled up his sleeves in the quest of writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you enjoy it! Enter Riccardo:_
+> Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a frequent contributor to the Rock the JVM blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's well versed with Apache Kafka; he recently published an article on [how to integrate ZIO and Kafka](/articles/zio-kafka). So now he rolled up his sleeves in the quest of writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you enjoy it! Enter Riccardo:
 
 Apache Kafka nowadays is clearly the leading technology concerning message brokers. It's scalable, resilient, and easy to use. Moreover, it leverages a bunch of exciting client libraries that offer a vast set of additional features. One of these libraries is _Kafka Streams_.
 
@@ -16,7 +16,7 @@ Kafka Streams brings a complete stateful streaming system based directly on top 
 
 Because the Kafka Streams library is quite complex, this article will introduce only its main features, such as the architecture, the Stream DSL with its basic types `KStream`, `KTable`, and `GlobalKTable`, and the transformations defined on them.
 
-## 1. Set Up
+## Setup
 
 As we said, the Kafka Streams library is implemented using a set of client libraries. In addition, we will use the Circe library to deal with JSON messages. Using Scala as the language to do some experiments, we have to declare the following dependencies in the `build.sbt` file:
 
@@ -161,7 +161,7 @@ kafka-topics \
 
 As we can see, we defined some topics as `compact`. They are a particular type of topic, and we will introduce them deeper during the article.
 
-## 2. Basics
+## Basics
 
 As we said, the Kafka Streams library is a client library, and it manages streams of messages, reading them from topics and writing the results to different topics.
 
@@ -181,7 +181,7 @@ In Kafka Streams' jargon, both source, flow, and sink are called _stream process
 
 So, with these bullets in our Kafka gun, let's proceed diving a little deeper into how we can implement some functionalities of our use case scenario using the Kafka Streams library.
 
-## 3. Messages Serialization and Deserialization
+## Messages Serialization and Deserialization
 
 If we want to create any structure on top of Kafka topics, such as stream, we need a standard way to serialize objects into a topic and deserialize messages from topic to objects. The Kafka Streams library uses the so-called `Serde` type.
 
@@ -246,7 +246,7 @@ Fortunately, we can autogenerate Circe `Encoder` and `Decoder` type classes impo
 
 Now that we presented the library's types to write and read from Kafka topics and created some utility functions to deal with such types, we can build our first stream topology.
 
-## 4. Creating the Topology
+## Creating the Topology
 
 First, we need to define the topology of our streaming application. We will use the _Stream DSL_. This DSL, built on top of the low-level [Processor API](https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html#streams-developer-guide-processor-api), is easier to use and master, having a declarative approach. Using the Stream DSL, we don't have to deal with stream processor nodes directly. The Kafka Streams library will create for us the best processors' topology reflecting the operation with need.
 
@@ -258,7 +258,7 @@ val builder = new StreamsBuilder
 
 The builder lets us create the Stream DSL's primary types, which are the`KStream`, `Ktable`, and `GlobalKTable` types. Let's see how.
 
-### 4.1. Building a `KStream`
+### Building a `KStream`
 
 To start, we need to define a source, which will read incoming messages from the Kafka topic `orders-by-user` we created. Unlike other streaming libraries, such as Akka Streams, the Kafka Streams library doesn't define any specific type for sources, pipes, and sinks:
 
@@ -295,7 +295,7 @@ Why do we need `Serde` types to be implicit? The main reason is that the Scala K
 
 As we said, a `KStream[K, V]` represents a stream of Kafka messages. This type defines many valuable functions, which we can group into two different families: stateless transformations and stateful transformations. While the former uses only in-memory data structures, the latter requires saving some information inside the so-called _state store_. We will look at transformations in a minute. But first, we need to introduce the other two basic types of the Stream DSL.
 
-### 4.2. Building `KTable` and `GlobalKTable`
+### Building `KTable` and `GlobalKTable`
 
 The Kafka Streams library also offers `KTable` and `GlobalKTable`, built both on top of a _compacted topic_. We can think of a compacted topic as a table, indexed by the messages' key. The broker doesn't delete messages in a compacted topic using a time to live policy. Every time a new message arrives, a "row" is added to the "table" if the key was not present, or the value associated with the key is updated otherwise. To delete a "row" from the "table", we just send to the topic a `null` value associated with the selected key.
 
@@ -364,11 +364,11 @@ So, which is the difference between a `KTable` and a `GlobalKTable`? The differe
 
 The `GlobalKTable` type doesn't define any method. So, why should we ever create an instance of a `GlobalKTable`? The answer is in the word "joins". But first, we need to introduce streams transformations.
 
-## 5. Streams Transformations
+## Streams Transformations
 
 Once obtained a `KStream` or a `KTable`, we can transform the information they contain using _transformations_. The Kafka Streams library offers two kinds of transformations: stateless and stateful. While the former executes only in memory, the latter requires managing a state to perform.
 
-### 5.1. Stateless Transformations
+### Stateless Transformations
 
 In the group of stateless transformations, we find the classic functions defined on streams, such as `filter`, `map`, `flatMap`, etc. Say, for example, that we want to filter all the orders with an amount greater than 1,000.00 Euro. We can use the `filter` function (the library also provides a valuable function `filterNot`):
 
@@ -456,7 +456,7 @@ In the above example, we group products by the first letter of the `UserId` of t
 
 So, suppose the marked stream will be materialized in a topic or in a state store (more to come on state stores) by the following transformation. In that case, the contained messages will be potentially moved to another node of the Kafka cluster. Re-partitioning is an operation that should be done with caution because it could generate a heavy network load.
 
-### 5.2. Stateful Transformations
+### Stateful Transformations
 
 As the name of these types of transformations suggested, the Kafka Streams library needs to maintain some kind of state to manage them, and it's called _state store_. The state store, which is automatically controlled by the library if we use the Stream DSL, can be an in-memory hashmap or an instance of [RocksDB](http://rocksdb.org/), or any other convenient data structure.
 
@@ -526,7 +526,7 @@ def aggregate[VR](initializer: => VR)(aggregator: (K, V, VR) => VR)(
 
 The library defines many other stateful transformations. Please, refer to the [official documentation](https://kafka.apache.org/28/documentation/streams/developer-guide/dsl-api.html#stateful-transformations) that lists all of them.
 
-## 6. Joining Streams
+## Joining Streams
 
 In my opinion, the most essential feature of the Kafka Streams library is the ability to join streams. The Kafka team strongly supports the [duality between streams and database tables](https://docs.confluent.io/platform/current/streams/concepts.html#duality-of-streams-and-tables). To keep it simple, we can view a stream as the changelog of a database table, whose primary keys are equal to the keys of the Kafka messages.
 
@@ -536,7 +536,7 @@ With these concepts in mind, it's easier for us to accept the existence of joins
 
 As we already said, joins are stateful operations, requiring a state store to execute.
 
-### 6.1. Joining a `KStream` and a `KTable`
+### Joining a `KStream` and a `KTable`
 
 The most accessible kind of join is between a `KStream` and a `KTable`. The join operation is on the keys of the messages. The broker has to ensure that the data is co-partitioned. To go deeper into co-partitioning, please refer to [Joining](https://docs.confluent.io/platform/current/streams/developer-guide/dsl-api.html#joining). To put it simply, if data of two topics are co-partitioned, then the Kafka broker can ensure the joining message resides on the same node of the cluster, avoiding shuffling of messages between nodes.
 
@@ -560,7 +560,7 @@ The first method's parameter is the `KTable`, whereas the second is a function t
 
 In our use case, the join produces a stream containing all the orders purchased by each user, added with the discount profile information. So, the result of a join is a set of messages having the same key as the originals and a transformation of the joined messages' payloads as value.
 
-### 6.2. Joining with a `GlobalKTable`
+### Joining with a `GlobalKTable`
 
 Another type of join is between a `KStream` (or a `KTable`) and a `GlobalKTable`. As we said, the broker replicates the information of a `GlobalKTable` in each cluster node. So, we don't need the co-partitioning property anymore because the broker ensures the locality of `GlobalKTable` messages for all the nodes.
 
@@ -588,7 +588,7 @@ val discountedOrdersStream: KStream[UserId, Order] =
 
 Obtaining the joining key is easy: We just select the `Profile` information contained in the messages' payload of the stream `ordersWithUserProfileStream`. Then, the new value of each message is the discounted amount.
 
-### 6.3. Joining `KStreams`
+### Joining `KStreams`
 
 Last but not least, we have another type of join transformation, maybe the most interesting. We're talking about the join between two streams.
 
@@ -650,7 +650,7 @@ At time 1, we receive the discounted order with id `order1`. From time 2 to 4, w
 
 The three types of join transformation we presented represent only the primary examples of the joins available in the Kafka Streams library. In fact, the library offers to developers also left join and outer joins, but their description is far beyond the scope of this article.
 
-## 7. The Kafka Streams Application
+## The Kafka Streams Application
 
 Once we have defined the desired topology for our application, it's time to materialize and execute it. Materializing the topology is easy since we only have to call the `build` method on the instance of the `StreamBuilder` we have used so far:
 
@@ -847,7 +847,7 @@ object KafkaStreamsApp {
 
 And, that's all about the Kafka Streams library, folks!
 
-## 8. Let's Run It
+## Let's Run It
 
 At this point, we defined a complete working Kafka application, which uses many transformations and joins. Now, it's time to test the developed topology, sending messages to the various Kafka topics.
 
@@ -921,7 +921,7 @@ The above command will read the following message, concluding our journey in the
 {"orderId":"order1","user":"Daniel","products":["iPhone 13","MacBook Pro 15"],"amount":2000.0}
 ```
 
-## 9. Conclusions
+## Conclusions
 
 This article introduced the Kafka Streams library, a Kafka client library based on top of the Kafka consumers and producers API. In detail, we focused on the Stream DSL part of the library, which lets us represent the stream's topology at a higher level of abstraction. After introducing the basic building blocks of the DSL, `KStream`, `KTable`, and `GlobalKTable`, we showed the primary operations defined on them, both the stateless and the stateful ones. Then, we talked about joins, one of the most relevant features of Kafka Streams. Finally, we wired all together, and we learned how to start a Kafka Streams application.
 

@@ -18,7 +18,7 @@ For a more concrete example, we are going to write a program that will parse mar
 
 If you're interested in learning the ZIO core library, check out the Rock the JVM [ZIO course](/courses/zio).
 
-## Set up
+## Setup
 
 We're going to base this discussion off of the latest ZIO 2.0 code, which was officially released on June 24th, 2022. We're also using an `RC` of zio-json (at the time of writing, mid-June 2022), which is only used to pretty-print a `Map` as JSON in our of our examples. These are the dependencies to include for our walk through:
 
@@ -771,7 +771,7 @@ tags: [generic]
 
 ## Generic Heading
 
-Even pretend blog posts need a [#generic](/tag/generic) intro.
+Even pretend blog posts need a [#generic](/tag/generic) introduction.
 ```
 
 > zio-streams.md

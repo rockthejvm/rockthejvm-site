@@ -17,7 +17,7 @@ The code I'll be writing is inside a Spark shell with version 3.0.0, which you c
 
 That is, if you've never installed Spark before.
 
-## The intro
+## Introduction
 
 You're surely aware that Spark has this lazy execution model, i.e. that you write transformations but they're not actually run until you call an action, like a show, or collect, or take, etc.
 
@@ -36,13 +36,13 @@ times5.show()
 
 Only at this point will Spark be performing the actual computations. An action will trigger a Spark job, which will be visible in the Spark UI. If you run this locally, either in your IDE or on your Spark Shell, usually the Spark UI will be at [localhost:4040](http://localhost:4040). When you go to the Spark UI, you'll see a table with all the jobs that the application has completed and is currently running. If you click on the one you just ran, you'll see something like this:
 
-[Directed acyclic graph diagram showing details such as running status and stages](images/directed-acyclic-graph-diagram.png)
+![Directed acyclic graph diagram showing details such as running status and stages](images/directed-acyclic-graph-diagram.png)
 
 The cute diagram with the blue boxes is called the Directed Acyclic Graph, or DAG for short. This is a visual description of all the steps Spark will need to perform in order to complete your computation. This particular DAG has two steps: one that is called WholeStageCodegen, which is what happens when you run computations on DataFrames and generates Java code to build underlying RDDs - the fundamental distributed data structures Spark natively understands - and a mapPartitions, which runs a serial computation over each of the RDD's partitions - in our case multiplying each element by 5.
 
 Every job will have a DAG, and usually they're more complicated than this.
 
-## Reading DAGs
+## Understanding DAGs
 
 So let's go over some examples of query plans and how to read them.
 
@@ -52,7 +52,7 @@ val split7 = moreNumbers.repartition(7)
 split7.take(2)
 ```
 
-[Directed acyclic graph diagram showing details such as running status and stages](images/directed-acyclic-graph-diagram.png)
+![Directed acyclic graph diagram showing details such as running status and stages](images/directed-acyclic-graph-diagram.png)
 
 Same operation first, but the next step is an Exchange, which is another name for a shuffle. You're probably aware - a shuffle is an operation in which data is exchanged (hence the name) between all the executors in the cluster. The more massive your data and your cluster is, the more expensive this shuffle will be, because sending data over takes time. For performance reasons, it's best to keep shuffles to a minimum.
 
@@ -73,7 +73,7 @@ val sum = joined.selectExpr("sum(id)")
 sum.show()
 ```
 
-[Directed acyclic graph diagram showing details after succeeded Exchange, resulting in many more additional stages](images/directed-acyclic-graph-diagram-succeeded.png)
+![Directed acyclic graph diagram showing details after succeeded Exchange, resulting in many more additional stages](images/directed-acyclic-graph-diagram-succeeded.png)
 
 Now that's a nasty one. Let's take a look.
 
@@ -85,7 +85,7 @@ In Stage 2, we have the end part of the Exchange and then another Exchange! This
 
 In Stage 3, we have a similar structure, but with a WholeStageCodegen in between. If you click on this stage, you'll see what this actually means:
 
-[Diagram of stage 3 that details the Exchanges](images/stage-3-diagram.png)
+![Diagram of stage 3 that details the Exchanges](images/stage-3-diagram.png)
 
 In the box where it says WholeStageCodegen, you'll actually see the RDD implementation that Spark will use. In our case, that's a MapPartitionsRDD, which simply means that a serial operation was run on the entries in each partition of this RDD, in parallel. This corresponds to the DataFrame we called ds5 in the code, because multiplying each element by 5 can be done individually on each record, in parallel. So another lesson here: this kind of select statements - where you don't do any aggregations - are highly parallelizable and good for performance.
 
@@ -93,6 +93,6 @@ Next, in Stage 4, we have the big join operation. You probably spotted it right 
 
 That's because in Stage 5, Spark will need to bring _all_ the data to a single executor in order to perform the final computation, because we're doing a massive aggregation on the entire DataFrame. So another lesson here: aggregations usually involve some form of moving data between executors, which means a shuffle. "Group by" statements are particularly sensitive here. Because shuffle is bad for perf, then it follows that groups and aggregations can be bad for perf, so use them sparingly.
 
-## Just the beginning
+## Just the Beginning
 
 This seems tedious, but in practice, the skill of reading and interpreting DAGs is invaluable for performance analysis. You might notice that in the last example, we're doing quite a few shuffles. With time, you will learn to quickly identify which transformations in your code are going to cause a lot of shuffling and thus performance issues.
