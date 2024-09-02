@@ -125,7 +125,7 @@ val sink = Sink.foreach[(String, Int)](println)
 
 val graph = GraphDSL.create() { implicit builder =>
     import GraphDSL.Implicits._
-
+
     val wordCounter = Flow[String]
         .fold[Map[String, Int]](Map()) { (map, record) =>
             map + (record -> (map.getOrElse(record, 0) + 1))
@@ -137,7 +137,7 @@ val graph = GraphDSL.create() { implicit builder =>
 
     source1 ~> merge ~> counter ~> sink
     source2 ~> merge
-    
+
     ClosedShape
 }
 
@@ -211,18 +211,18 @@ val spark = SparkSession.builder()
     .master("local[*]")
     .getOrCreate()
 
-val streamingDF = spark.readStream
+val streamingDF = spark.readStream
     .format("kafka")
     .option("kafka.bootstrap.servers", "your-kafka-broker:9092")
     .option("subscribe", "myTopic")
     .load()
 
-val wordCount = streamingDF
+val wordCount = streamingDF
     .selectExpr("cast(value as string) as word")
     .groupBy("word")
     .count()
 
-wordCount.writeStream
+wordCount.writeStream
     .format("console")
     .outputMode("append")
     .start()
