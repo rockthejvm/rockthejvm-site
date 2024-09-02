@@ -28,27 +28,29 @@ const companyWebsite = company
   : undefined;
 ---
 
-<AuthorWideHelper
-  {biography}
-  githubUrl=`https://www.github.com/${socials?.github}`
-  linkedinUrl=`https://www.linkedin.com/in/${socials?.linkedin}`
-  twitterUrl=`https://www.twitter.com/${socials?.twitter}`
-  youtubeUrl=`https://www.youtube.com/${socials?.youtube}`
-  {name}
-  {role}
-  {companyName}
-  {companyWebsite}
-  {socials}
->
-  <Image
-    src={photo}
-    alt={name}
-    class="mx-auto h-56 w-56 rounded-full shadow-lg"
-    slot="photo"
-  />
-  <Facebook slot="facebook" />
-  <GitHub slot="github" />
-  <LinkedIn slot="linkedin" />
-  <Twitter slot="twitter" />
-  <YouTube slot="youtube" />
-</AuthorWideHelper>
+<div class="my-8">
+  <AuthorWideHelper
+    {biography}
+    githubUrl=`https://www.github.com/${socials?.github}`
+    linkedinUrl=`https://www.linkedin.com/in/${socials?.linkedin}`
+    twitterUrl=`https://www.twitter.com/${socials?.twitter}`
+    youtubeUrl=`https://www.youtube.com/${socials?.youtube}`
+    {name}
+    {role}
+    {companyName}
+    {companyWebsite}
+    {socials}
+  >
+    <Image
+      src={photo}
+      alt={name}
+      class="mx-auto h-56 w-56 rounded-full shadow-lg"
+      slot="photo"
+    />
+    <Facebook slot="facebook" />
+    <GitHub slot="github" />
+    <LinkedIn slot="linkedin" />
+    <Twitter slot="twitter" />
+    <YouTube slot="youtube" />
+  </AuthorWideHelper>
+</div>

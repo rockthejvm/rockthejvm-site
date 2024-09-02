@@ -8,7 +8,7 @@ interface Props {
 const { tags } = Astro.props;
 ---
 
-<p>
+<p class="mb-12">
   {
     tags.map((tag) => (
       <a href={`/tags/${tag.id}`} class="hover:no-underline">
