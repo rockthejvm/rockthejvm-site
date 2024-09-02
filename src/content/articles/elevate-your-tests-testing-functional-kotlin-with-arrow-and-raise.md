@@ -466,7 +466,7 @@ fun `given a userId and an initial amount, when executed with error, then propag
 
 As we can see, the only part that has changed is the DSL offered by the mocking library. The rest of the test remains more or less the same.
 
-## 4. Conclusions
+## 4. Conclusion
 
 In this article, we saw how to test a function declared in a `Raise<E>` context. We introduced several approaches and used many libraries. We saw how to write a test using JUnit 5 and the Kotest testing frameworks. We saw how to use the `assertj-arrow-core` library to test functions using the Raise DSL. Then, we translated the same tests using the Kotest extension asserts for Arrow. Then, we focused on mocking. The first solution we approached was using fake objects. Despite some initial programming, the fake objects are natural and ergonomic. We also saw how to mock a function declared in a `Raise<E>` context using the MockK and Mockito libraries. Mocking feels less idiomatic and more complex due to the `Raise<E>` context, which neither libraries manage natively. As of today, we still miss some Mockito's extensions functions to handle the Raise DSL natively, which would make the mocking process more straightforward.
 
