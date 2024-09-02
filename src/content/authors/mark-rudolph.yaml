@@ -5,6 +5,7 @@ company:
 location:
   country: United States
 name: Mark Rudolph
+photo: ./mark-rudolph.png
 socials:
   email: mark@k8ty.app
   github: alterationx10
