@@ -12,6 +12,7 @@ import Profile from "@components/Profile.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import Curriculum from "../_sections/Curriculum.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
+import TechStack from "../_sections/TechStack.astro";
 
 const { slug } = Astro.params;
 const course = await getEntry("courses", slug!) as CollectionEntry<"courses">;
@@ -23,6 +24,7 @@ const {
   image,
   question,
   pricingPlanId,
+  technologies,
   title,
 } = frontmatter;
 
@@ -58,6 +60,9 @@ const hasSkillsSlot = Astro.slots.skills !== undefined;
         <slot name="feature4" slot="feature4" />
         <slot name="feature5" slot="feature5" />
       </Features>
+    }
+    {technologies &&
+      <TechStack {technologies} color={category.data.color} />
     }
     {hasSkillsSlot &&
       <Skills color={category.data.color}>

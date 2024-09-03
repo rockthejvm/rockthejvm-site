@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  title: string;
+  description: string;
+  image: ImageMetadata;
+}
+
+const { title, description, image } = Astro.props;
+
+console.log(`TITLE: ${title}`);
+---
+
+<div
+  class="md:flex mt-8 w-full rounded-2xl md:h-52 overflow-hidden"
+>
+  <div
+    class="mb-4 flex-shrink-0 md:rounded-l-2xl overflow-hidden md:mb-0 md:min-h-full md:mr-4"
+  >
+
+      <div
+        class="h-72 w-full text-gray-300 lg:w-96 md:w-64 md:h-full overflow-hidden flex justify-center md:justify-end"
+      >
+        <!-- <img
+          src={course.data.image.src}
+          alt={`${course.data.title}`}
+          class="min-w-full min-h-full object-cover object-center"
+        /> -->
+        <Image class="max-h-full w-auto" src={image} alt="" />
+      </div>
+
+  </div>
+  <div class="my-8 px-8 md:px-8 md:my-auto">
+      <h3
+        class="text-lg font-bold text-content-2 text-center md:text-left"
+      >
+        {title}
+      </h3>
+    <p class="mt-1 text-content-1">
+      <Fragment set:html={description} />
+    </p>
+  </div>
+</div>

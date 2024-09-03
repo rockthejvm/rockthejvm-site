@@ -62,6 +62,15 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        technologies: z
+          .array(
+            z.object({
+              title: z.string(),
+              description: z.string(),
+              image: image(),
+            }),
+          )
+          .optional(),
         title: z.string(),
         video: z.string().optional(),
       })
