@@ -49,7 +49,7 @@ lazy val root = (project in file("."))
 
 We also add circe core, generic and parser to `build.sbt`.
 
-## 3. Creating the Domain
+## Creating the Domain
 
 In this version, we'll add a `UUID` to the `User` and `Room` case classes and move the `validateutility` to its own file. Let's create a `validateutility.scala` in the following path, `src/main/scala/rockthejvm/websockets/domain`, and add the following code:
 
@@ -165,7 +165,7 @@ object message {
 
 The `FetchMessage` case class contains a `MessageText` and a `User` from whom the `message` was sent. The reason we need another case class is that only want to fetch two columns from Postgres.
 
-## 4. Docker for Redis and PostgreSQL
+## Docker for Redis and PostgreSQL
 
 We'll be using Docker images for Redis and Postgres. To follow along, you'll need [Docker](https://www.docker.com) and [Docker Compose](https://docs.docker.com/compose/) installed. We can install them by installing [Docker desktop](https://www.docker.com/products/docker-desktop/) on your system.
 
@@ -273,7 +273,7 @@ $ \c websocket
 $ \d
 ```
 
-## 5. Skunk for PostgreSQL Integration
+## Skunk for PostgreSQL Integration
 
 In this section, we'll implement the protocols necessary for interacting with Postgres in our application using [Skunk](/skunk-complete-guide/).
 
@@ -662,7 +662,7 @@ new PostgresProtocol[F] {
 }.pure[F]
 ```
 
-## 6. Redis and Chat Protocols
+## Redis and Chat Protocols
 
 Before we dive into the Redis implementation, we'll need an overview of how the schema will be.
 A Redis hash is a record type structured as a collection of field-value pairs, we'll need the following hashes for our application:
@@ -1483,7 +1483,7 @@ new ChatProtocol[F] {
 
 Lastly in ChatProtocol, we simply call `redisP.chatState`
 
-## 7. Getting Input
+## Getting Input
 
 Let's create an `InputMessage.scala` file in the websocket folder and add the following contents:
 
@@ -1652,7 +1652,7 @@ object InputMessage {
 
 The `procesText4Reg()` function also remains unchanged except for the new `ChatProtocol[F]` methods
 
-## 8. The Web App Routes
+## The Web App Routes
 
 In this section we'll continue to upgrade our application to the new `ChatProtocol[F]`:
 
@@ -1832,7 +1832,7 @@ class Routes[F[_]: Files: Temporal] extends Http4sDsl[F] {
 
 The rest of the above 3 functions also remain unchanged.
 
-## 9. The Server
+## The Server
 
 The server function is also now uses `ChatProtocol[F]`:
 
@@ -1871,7 +1871,7 @@ object Server {
 }
 ```
 
-## 10. The Main Program
+## The Main Program
 
 In this section, we have several updates that involve initializing Redis and Postgres:
 
@@ -1955,7 +1955,7 @@ object Program extends IOApp.Simple {
 
 Finally, in the `program` function, we took out `ChatState` and `Protocol` and added the `PostgresProtocol` and `RedisProtocol` which we provide as arguments to the `ChatProtocol` `make()` function.
 
-## 11. Serving HTML
+## Serving HTML
 
 Since we upgraded the `User` case class, we'll also need to make changes to `chat.html`:
 
@@ -1973,7 +1973,7 @@ In the `obj.ChatMsg` branch we now add `obj.ChatMsg.from.name.name` to access th
 
 Now to run our application, we first need to start our Redis and Postgres Docker containers using Docker-Compose, and finally our application server. The application should function closely to the original.
 
-## 12. Conclusion
+## Conclusion
 
 In conclusion, this article has gone in-depth on how to implement Redis and Postgres in a Scala application using the redis4cats and skunk libraries. Now we can persist our messages, and rip all the benefits of storing our information in Redis such as high availability and persistence.
 
