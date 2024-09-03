@@ -9,5 +9,29 @@ const { heading } = Astro.props;
 ---
 
 <li>
-  <a href={`#${heading.slug}`}>{heading.text}</a>
+  <a href={`${heading.slug}`}>{heading.text}</a>
 </li>
+
+<script define:vars={{ heading }}>
+  const options = {
+    root: document.querySelector(`#${heading.slug}`),
+    rootMargin: "0px",
+    threshold: 1.0,
+  };
+
+  const callback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        let elem = entry.target;
+
+        elem.style.backgroundColor = "red";
+        console.log("working");
+      }
+      else {
+        elem.style.backgroundColor = "none";
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(callback, options);
+</script>
