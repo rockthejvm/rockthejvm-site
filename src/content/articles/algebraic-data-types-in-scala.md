@@ -10,8 +10,6 @@ updatedDate: 2024-09-06
 
 > A small note: this is the first guest post on the blog! This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming!
 
-_Enter Riccardo:_
-
 Every developer using Scala meets the acronym ADT sooner or later. But, what are Algebraic Data Types? Why are they so useful? In this article, we will try to answer all of your questions about ADT.
 
 ## Introduction to Algebraic Data Types

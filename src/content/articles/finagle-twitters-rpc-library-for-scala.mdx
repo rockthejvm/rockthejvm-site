@@ -77,7 +77,7 @@ def main(args: Array[String]): Unit = {
 
 At this point, we can start our application an issue HTTP requests via cURL or HTTPie or your favorite HTTP tool (even your browser).
 
-```shell
+```console
 $ http get localhost:9090?name=daniel
 
 HTTP/1.1 200 OK
@@ -248,7 +248,7 @@ After load-balancing, the API stays consistent, and the client doesn't have (and
 
 Running the application, we'll see that the requests are cycled in between server instances:
 
-```shell
+```text
 [server-9090] received request Request("GET ?name=danieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldaniel", from /127.0.0.1:58174)
 [server-9092] received request Request("GET ?name=danieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldaniel", from /127.0.0.1:58171)
 [server-9091] received request Request("GET ?name=danieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldanieldaniel", from /127.0.0.1:58176)

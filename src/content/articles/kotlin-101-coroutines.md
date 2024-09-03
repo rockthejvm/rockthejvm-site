@@ -10,8 +10,6 @@ updatedDate: 2024-09-06
 
 > This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Scala and Kotlin.
 
-_Enter Riccardo:_
-
 This article introduces Kotlin coroutines, a powerful tool for asynchronous programming. Kotlin's coroutines fall under the umbrella of structured concurrency. They implement a model of concurrency which you can consider similar to Java virtual threads, [Cats Effect](/articles/cats-effect-3-introduction-to-fibers) and [ZIO fibers](/articles/zio-fibers-concurrency-and-lightweight-threads). In detail, we'll present some use cases concerning the use of coroutines on backend services, not on the Android environment.
 
 The article requires existing knowledge of Kotlin.

@@ -175,7 +175,7 @@ case Method.GET -> "" /: "owls" /: name  => Response.text(s"$name says: Hoot!")
 
 and if we took to `curl`:
 
-```shell
+```console
 ➜ the-rest-of-the-owl (main) ✗ curl http://localhost:9000/owls
 Hoot!%
 ➜ the-rest-of-the-owl (main) ✗ curl http://localhost:9000/owls/Hooty
@@ -297,7 +297,7 @@ could update our logic to use a built-in debug `Middleware` like so:
 and then, when running our application, we would see some debug messaging
 printed when a client interacts with our server:
 
-```shell
+```text
 [info] Starting server on http://localhost:9000
 [info] 200 GET /owls 9ms
 ```
@@ -405,7 +405,7 @@ val wrapped: Http[Any,Throwable,Request,Response] =
 and if we run our server, and make a request via curl, in our console we should
 see something like:
 
-```shell
+```text
 [info] Starting server on http://localhost:9001
 [info] > POST /owls Http_1_1
 [info] > Host: localhost:9001
@@ -459,7 +459,7 @@ if we send an `Origin` header that doesn't match our config's `allowedOrigins`,
 no CORS headers are returned - thus a browser would block the request. This
 would be the same as if we sent no `Origin` header.
 
-```shell
+```console
 ➜ the-rest-of-the-owl (main) ✗ curl -v --header "Origin: somewhere"  http://localhost:9001/owls
 *   Trying 127.0.0.1:9001...
 * Connected to localhost (127.0.0.1) port 9001 (#0)
@@ -481,7 +481,7 @@ Hoot!%
 If we make the request again, with a valid `Origin` header, we can see the CORS
 `access-control-` headers are returned.
 
-```shell
+```console
 ➜ the-rest-of-the-owl (main) ✗ curl -v --header "Origin: localhost"  http://localhost:9001/owls
 *   Trying 127.0.0.1:9001...
 * Connected to localhost (127.0.0.1) port 9001 (#0)
@@ -573,7 +573,7 @@ to out `Http` that has the `GET` routes, and the `csrfValidate` to our `POST`:
 
 Let's interact and inspect with these endpoint via curl:
 
-```shell
+```console
 ➜ ~ curl -X GET -v http://localhost:9001/owls
 Note: Unnecessary use of -X or --request, GET is already inferred.
 *   Trying 127.0.0.1:9001...
@@ -599,7 +599,7 @@ with our `x-csrf-token`.
 If we try to access our `POST` without the `token`, we will get a
 `403 Forbidden`!
 
-```shell
+```console
 ➜ ~ curl -X POST -v http://localhost:9001/owls
 *   Trying 127.0.0.1:9001...
 * Connected to localhost (127.0.0.1) port 9001 (#0)
@@ -619,7 +619,7 @@ This middleware does use the _Double Submit Cookie_ method, so if we make a
 `POST` including our `token` as a cookie, _and_ a corresponding header, then we
 can obtain access to our endpoint.
 
-```shell
+```console
 ➜ ~ curl -X POST -v --cookie "x-csrf-token=2075bc8b-c64b-494c-8249-c3a87ca72fcd" -H "x-csrf-token: 2075bc8b-c64b-494c-8249-c3a87ca72fcd" http://localhost:9001/owls
 *   Trying 127.0.0.1:9001...
 * Connected to localhost (127.0.0.1) port 9001 (#0)
@@ -694,7 +694,7 @@ Looking back at out basic auth example, if we try to access our endpoint without
 credentials, we'll get a 401 Unauthorized, and a polite `www-authenticate`
 header indicating that we may be able to access it via `Basic` auth.
 
-```shell
+```console
 ➜ ~ curl -v http://localhost:9001/secret/owls
 *   Trying 127.0.0.1:9001...
 * Connected to localhost (127.0.0.1) port 9001 (#0)
@@ -713,7 +713,7 @@ header indicating that we may be able to access it via `Basic` auth.
 
 We'll use the power of curls `--user` flag to do the encoding for us this time:
 
-```shell
+```console
 ➜ ~ curl -v --user hooty:tootie http://localhost:9001/secret/owls
 *   Trying 127.0.0.1:9001...
 * Connected to localhost (127.0.0.1) port 9001 (#0)
@@ -841,7 +841,7 @@ We will use a handy cli tool called `websocat` to test our websockets. It will
 allow us to connect to our server, send messages, and see the responses that
 come back.
 
-```shell
+```console
 ➜ ~ websocat ws://localhost:9002/ws
 Hello
 HeLlO
@@ -878,7 +878,7 @@ bulk it up a bit, being sure to use the `HTTP_CHARSET` encoding when we create a
   }
 ```
 
-## Wrapping Up
+## Conclusion
 
 Hopefully, after reading this introduction, you feel comfortable enough to spin
 up your own web server with zio-http, start adding on built in security

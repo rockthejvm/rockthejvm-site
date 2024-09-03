@@ -10,8 +10,6 @@ updatedDate: 2024-09-06
 
 > This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming. Riccardo is a senior developer, a teacher and a passionate technical blogger.
 
-_Enter Riccardo:_
-
 Once we learned how to define Monoids, Semigroups, Applicative, Monads, and so on, it's time to understand how to use them to build a production-ready application. Nowadays, many applications expose APIs over an HTTP channel. So, it's worth spending some time studying libraries implementing such use case.
 
 If we learned the basics of functional programming using the Cats ecosystem, it's straightforward to choose the _http4s_ library to implement HTTP endpoints. Let's see how.

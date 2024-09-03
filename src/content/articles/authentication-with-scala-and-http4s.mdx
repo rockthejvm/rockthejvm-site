@@ -90,7 +90,7 @@ For an in-depth explanation of how to use `http4s`, there's a good explanation o
 
 Let's test our server.
 
-```bash
+```console
  curl -vv http://localhost:8080/welcome/john
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)
@@ -212,14 +212,14 @@ override def run(args: List[String]): IO[ExitCode] = server.use(_ => IO.never).a
 Let's test our server
 First, we encode our username and password in Base64 before we put it in our request.
 
-```bash
+```console
 $ echo "username:password" | base64
 dXNlcm5hbWU6cGFzc3dvcmQK
 ```
 
 The encoded value can now be passed to the `Authorization` header with a `Basic` scheme.
 
-```bash
+```console
 $ curl -v -H "Authorization:Basic dXNlcm5hbWU6cGFzc3dvcmQK" http://localhost:8080/welcome
 
 *   Trying ::1:8080...
@@ -245,7 +245,7 @@ We can also run `curl -vv http://localhost:8080/welcome -u username:password` to
 
 Let's test the failure case.
 
-```bash
+```console
 $ curl -v http://localhost:8080/welcome
 
 *   Trying ::1:8080...
@@ -425,7 +425,7 @@ To run our server we need to call `flatMap` on `server(digestService)` then call
 
 We can now test our server.
 
-```bash
+```console
 curl -vv http://localhost:8080/welcome --digest -u username:password
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)
@@ -658,7 +658,7 @@ override def run(args: List[String]): IO[ExitCode] = server.use(_ => IO.never).a
 
 Let's test our service, first by logging in.
 
-```bash
+```console
 curl -vv http://localhost:8080/login/welcome --digest -u username:password
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)
@@ -701,7 +701,7 @@ Welcome, username⏎
 
 The sessioncookie has now been sent to the client and can be used for subsequent requests.
 
-```bash
+```console
 curl -vv --cookie "sessioncookie=dXNlcm5hbWU6ezIwMjMtMDUtMjJUMTM6Mjk6MTEuMzc5NTI4fQ==" http://localhost:8080/statement
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)
@@ -939,7 +939,7 @@ override def run(args: List[String]): IO[ExitCode] =
 
 Let's test our server.
 
-```bash
+```console
 curl -vv http://localhost:8080/login
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)
@@ -962,7 +962,7 @@ Logged In⏎
 
 First, we log into the server and receive the JSON Web Token, then we can be connected to the rest of the site as an authorized user.
 
-```bash
+```console
 curl -vv -H "Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE4NDI1NDU2NjQsImlhdCI6MTY4NDc2MDkwNCwidXNlciI6IkpvaG4iLCAibGV2ZWwiOiJiYXNpYyJ9.VjkUrL6Ud0SINNWhUV8M_fFi9YgU8zxevcasiosRIKg" http://localhost:8080/welcome
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)

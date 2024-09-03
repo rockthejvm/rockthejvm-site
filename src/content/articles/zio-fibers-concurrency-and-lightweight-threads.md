@@ -10,8 +10,6 @@ updatedDate: 2024-09-06
 
 > Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO.
 
-_Enter Riccardo:_
-
 Many libraries implement the effect pattern in the Scala ecosystem: Cats Effect, Monix, and ZIO, just to list some. Each of these implements its own concurrency model. For example. Cats Effect and ZIO both rely on _fibers_. In the articles [Cats Effect 3: Introduction to Fibers](/articles/cats-effect-3-introduction-to-fibers) and [Cats Effect 3: Racing IOs Explained](/articles/cats-effect-3-racing-ios), we introduced the fiber model adopted by the Cats Effect library. Now, it's time to analyze the ZIO library and its implementation of the fiber model.
 
 ## 1. Background and Setup
@@ -96,7 +94,7 @@ object FibersTutorial extends zio.App {
 
 As we expected, the execution of the `run` show us that ZIO executes all of the effects in the same thread sequentially:
 
-```shell
+```text
 [zio-default-async-1]: Going to bath
 [zio-default-async-1]: Boiling some water
 [zio-default-async-1]: Preparing the coffee
@@ -135,7 +133,7 @@ def concurrentBathroomTimeAndBoilingWater(): ZIO[Any, Nothing, Unit] = for {
 
 For the sake of simplicity, we forget about the preparation of the coffee for now. Once executed, the above method prints the following information:
 
-```shell
+```text
 [zio-default-async-2]: Going to the bathroom
 [zio-default-async-1]: Boiling some water
 ```
@@ -173,7 +171,7 @@ Joining a fiber lets us also gather the result of its execution. In the example,
 
 The execution of the `concurrentWakeUpRoutine` function prints precisely what we expect:
 
-```shell
+```text
 [zio-default-async-2]: Going to the bathroom
 [zio-default-async-3]: Boiling some water
 [zio-default-async-6]: (Going to the bathroom,Boiling some water)
@@ -278,7 +276,7 @@ def concurrentWakeUpRoutineWithAliceCallingUsTooLate(): ZIO[Clock, Nothing, Unit
 As we said, marking as `uninterruptible` the fiber `coffeeFiber` makes it unstoppable. The call of
 the `interrupt` method on it doesn't do anything, and the above code will have the following output:
 
-```shell
+```text
 [zio-default-async-1]: Going to the bathroom
 [zio-default-async-1]: Boiling some water
 [zio-default-async-2]: Preparing the coffee

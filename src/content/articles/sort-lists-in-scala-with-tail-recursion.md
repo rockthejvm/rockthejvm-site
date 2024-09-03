@@ -45,7 +45,7 @@ def insertSorted(element: Int, sortedList: List[Int]): List[Int] =
 
 An example, following math, inserting 3 into the list `[1,2,4]` will lead to the following pseudo-Scala:
 
-```txt
+```scala
 insertSorted(3, [1,2,4]) =
 1 :: insertSorted(3, [2,4]) =
 1 :: 2 :: insertSorted(3, [4]) =
@@ -90,7 +90,7 @@ insertionSort((1 to 100000).reverse.toList, Ordering[Int]) // using the natural 
 
 Output:
 
-```txt
+```text
 Exception in thread "main" java.lang.StackOverflowError
 	at blog.SortingDemo$.insertionSort(SortingDemo.scala:13)
 	at blog.SortingDemo$.insertionSort(SortingDemo.scala:13)
@@ -124,7 +124,7 @@ def insertTailrec(element: Int, sortedList: List[Int], accumulator: List[Int]): 
 
 This code is a bit harder to digest, and that's normal. Let's work through an example:
 
-```txt
+```scala
 insertTailrec(4, [1,2,3,5], []) ---> else branch --->
 insertTailrec(4, [2,3,5], [1]) ---> else branch --->
 insertTailrec(4, [3,5], [2,1]) ---> else branch --->
@@ -149,7 +149,7 @@ In the accumulator, we store the sorted state of the elements we've considered s
 
 Again, an example would probably illustrate this best. Assume `insertTailrec` already works correctly. Watch it carefully:
 
-```txt
+```scala
 sortTailrec([3,1,4,2,5], []) = sortTailrec([1,4,2,5], insertTailrec(3, [], [])) =
 sortTailrec([1,4,2,5], [3]) = sortTailrec([4,2,5], insertTailrec(1, [3], [])) =
 sortTailrec([4,2,5], [1,3]) = sortTailrec([2,5], insertTailrec(4, [1,3])) =
@@ -179,7 +179,7 @@ And sure enough, it works:
 println(insertSortSmarter((1 to 100000).reverse.toList))
 ```
 
-```txt
+```scala
 List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,...)
 ```
 
