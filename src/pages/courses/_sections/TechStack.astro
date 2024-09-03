@@ -1,0 +1,22 @@
+---
+import Section from "@components/Section.astro";
+import TechStackCard from "@components/TechStackCard.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  technologies: CollectionEntry<"courses">["data"]["technologies"];
+}
+
+const { color, technologies } = Astro.props;
+
+console.log(technologies);
+---
+
+<Section {color} title="The Tech Stack">
+  {
+    technologies!.map(technology =>
+      (<TechStackCard title={technology.title} description={technology.description} image={technology.image} />)
+    )
+  }
+</Section>
