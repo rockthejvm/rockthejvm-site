@@ -7,7 +7,7 @@ title: Refined Types in Scala Quickly Explained
 updatedDate: 2024-09-06
 ---
 
-This article is for Scala programmers of all levels, although if you're a more advanced programmer or you watched/read the [type-level programming mini-series](https://www.youtube.com/playlist?list=PLmtsMNDRU0ByOQoz6lnihh6CtMrErNax7), you will get more value out of it because you'll have a good intuition for what happens behind the scenes.
+This article is for Scala programmers of all levels, although if you're a more advanced programmer or you watched/read the [type-level programming mini-series playlist](https://www.youtube.com/playlist?list=PLmtsMNDRU0ByOQoz6lnihh6CtMrErNax7) or [articles](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons), you will get more value out of it because you'll have a good intuition for what happens behind the scenes.
 
 I'm talking about "behind the scenes" because today's topic involves lots of Scala magic: refined types.
 
@@ -153,8 +153,4 @@ After you've done the check, you can pattern-match the result and move along wit
 
 ## Conclusion
 
-You've hopefully learned a new powerful tool to test values at compile time and catch nasty bugs before your application is even deployed. If you need some intuition on how Refined works, check out the type-level programming mini-series:
-
-- [part 1](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons)
-- [part 2](type-level-programming-in-scala-part-2-adding-numbers-as-types)
-- [part 3](type-level-programming-in-scala-part-3-sorting-lists)
+You've hopefully learned a new powerful tool to test values at compile time and catch nasty bugs before your application is even deployed. If you need some intuition on how Refined works, [check out the type-level programming mini-series](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons)
