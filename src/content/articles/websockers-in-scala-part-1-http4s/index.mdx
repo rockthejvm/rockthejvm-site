@@ -3,6 +3,7 @@ author: herbert-kateu
 category: guide
 excerpt: Learn how to implement WebSockets in Scala with http4s to enable seamless two-way communication between your frontend and backend
 publishedDate: 2024-02-19
+repositoryUrl: https://github.com/hkateu/WebsocketChatApp
 tags: [http4s, scala]
 title: "WebSockets in Scala: Part 1 - http4s"
 updatedDate: 2024-09-06
@@ -18,7 +19,7 @@ In this article, we'll be creating a chat application using http4s' implementati
 
 ## Setup
 
-###  Updating `build.sbt`
+### Updating `build.sbt`
 
 To follow along add the following code to the `build.sbt`:
 
@@ -46,7 +47,7 @@ lazy val root = (project in file("."))
 
 ```
 
-###  Serving the Chat Page
+### Serving the Chat Page
 
 To demonstrate WebSockets, we'll be using http4s for the WebSocket server and Javascript for the client implementation. Let's start by creating an HTML page that will be served to access the application.
 
@@ -163,7 +164,7 @@ Above, we define the `run()` function that calls `server[IO]`. Finally, we can r
 
 In this section, we'll learn some important information about WebSockets needed to understand the code in the sections to come. WebSockets send and receive data in a data structure called a WebSocket Frame that can be divided into two types, namely, **Data frames** and **Control frames**.
 
-###  Data Frames
+### Data Frames
 
 Data Frames are used by WebSockets to carry application-layer and/or extension-layer data. There are two types of data frames, **Text** and **Binary** data frames each identified by an opcode where the most significant bit of the opcode is 0.
 
@@ -477,9 +478,11 @@ Here we add a `Stream` that publishes a `WebSocketFrame.Ping()` to our `Topic` e
 
 In this section, we modify our application and add a lot of extra features such as user names, rooms, and metrics.
 
-To properly follow along with the code example, check out the code on [GitHub](https://github.com/hkateu/WebsocketChatApp) since this section may contain large code snippets.
+To properly follow along with the code example, check out the code on <a href={
+// @ts-ignore
+frontmatter.repositoryUrl}>GitHub</a> since this section may contain large code snippets.
 
-###  Users and Rooms
+### Users and Rooms
 
 We want to add the ability to register and switch between rooms by use of commands. For this, we'll need to create `User` and `Room` case classes to hold the user and room names respectively.
 
@@ -538,7 +541,7 @@ Lastly, we have `ChatState`, a case class that holds all the rooms and users in 
 
 It takes two parameters, `userRooms` of type `Map[User, Room]` that shows which room each user is in, and `roomMembers` of type `Map[Room, Set[User]]` that shows all the users in each room.
 
-###  The Output Message
+### The Output Message
 
 Next, we create an `OutputMessage` ADT to represent the messages sent to the WebSocket client. Create `OutputMessage.scala` and add the following code:
 
@@ -601,7 +604,7 @@ case class ChatMsg(from: User, to: User, msg: String) extends OutputMessage {
 
 From the top, the `UnsupportedCommand` will be used when unsupported commands are received, `KeepAlive` will represent `WebSocketFrame.Ping()`, `DiscardMessage` will be used to filter unwanted message before we send to all users, `SendToUser` will represent messages meant for a particular user and lastly, `ChatMsg` will represent regular chat messages sent by registered users.
 
-###  Protocols
+### Protocols
 
 Next, we'll need to process commands sent through the WebSocket, in this section, we'll define a set of protocols needed to process the incoming commands. Create a file called `Protocol.scala`, and add the following code:
 
@@ -1323,7 +1326,7 @@ object InputMessage {
 
 In the case of unregistered users, we call `processText4UnReg(txt, protocol, userRef, r)`, passing `Default` as the entry room for new users, otherwise, we call `procesText4Reg(user, txt, protocol)` for registered users.
 
-###  Application Routes
+### Application Routes
 
 In this section, we define all the necessary routes for the chat application. We'll now modify `Routes.scala`:
 
@@ -1634,7 +1637,7 @@ Lastly, we update our WebSocket client implementation, since we now need to proc
 </script>
 ```
 
-We start by creating a `colorText()` function that creates a `<pre>` element, appends text, and styles it with the color passed in. We use a `<pre>` element since it preserves white space, this function will be used for styling messages passed to the output <div>:
+We start by creating a `colorText()` function that creates a `<pre>` element, appends text, and styles it with the color passed in. We use a `<pre>` element since it preserves white space, this function will be used for styling messages passed to the output `<div>`:
 
 ```html
 <script>
@@ -1691,4 +1694,4 @@ Here's sample output from `/metrics`:
 
 In summary, this article shows how to implement a WebSocket server and client in http4s and Javascript respectively. We built a chat application and learned how to process multiple messages and monitor the status of our application.
 
-We've only been handling text data, however many chat applications also handle other file formats like images, audio, video, and documents, this can be an area for further research. As always, the code for this application can be found [over on GitHub](https://github.com/hkateu/WebsocketChatApp).
+We've only been handling text data, however many chat applications also handle other file formats like images, audio, video, and documents, this can be an area for further research.

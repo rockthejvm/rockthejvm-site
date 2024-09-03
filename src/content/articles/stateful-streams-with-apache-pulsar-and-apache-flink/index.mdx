@@ -2,6 +2,7 @@
 category: guide
 excerpt: "Discover how to integrate Apache Pulsar with Apache Flink: perform advanced data enrichment using state from multiple topics"
 publishedDate: 2022-06-10
+repositoryUrl: https://github.com/polyzos/pulsar-flink-stateful-streams
 tags: [flink, pulsar, streaming]
 title: Stateful Streams with Apache Pulsar and Apache Flink
 updatedDate: 2024-09-06
@@ -15,7 +16,9 @@ import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
 Before we start, some basic familiarity with Apache Pulsar and Apache Flink is required &mdash; Rock the JVM has an [Apache Flink course](/courses/flink) if you're interested. To better understand the implementation in this blog post, we suggest getting familiar with the basic concepts of Apache Pulsar and Apache Flink. See the [Additional Resources](#additional-resources) section.
 
 The code in this article is in **Java**, although it can be adapted to Scala as well.
-For the best experience following this article, we recommend referring to [this repository](https://github.com/polyzos/pulsar-flink-stateful-streams) while replicating the project locally in your own dev environment. You can also clone the repository and work directly on the code there.
+For the best experience following this article, we recommend referring to <a href={
+// @ts-ignore
+frontmatter.repositoryUrl}>this repository</a> while replicating the project locally in your own dev environment. You can also clone the repository and work directly on the code there.
 
 ## Introduction
 
@@ -178,7 +181,9 @@ So let's start our clusters by running **docker-compose up**.
 
 With our clusters up and running we need to create our topics and apply some topic policies.
 Retention topic policies will also allow us to reply our events in a case of failure if required.
-We can run this [script](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/setup.sh) to perform this setup. For reference, please see it below as well.
+We can run this <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/setup.sh`}>script</a> to perform this setup. For reference, please see it below as well.
 It will create 3 partitioned topics (orders, users and items) each with one partition and set an infinite retention policy for the changelog topics.
 
 ```shell
@@ -200,10 +205,22 @@ docker exec -it pulsar bin/pulsar-admin topics get-retention persistent://public
 
 ## Reading Data From Pulsar
 
-With our setup in place, let's see some data-reading code. The data model can be found [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/models) if you want to grab the same data definitions for our fictitious online store. After that, we recommend taking a look and maybe grabbing [these utility functions](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/utils) as well as the constants [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/config) as we're going to focus more on the Flink-Pulsar integration. The fictitious data we're going to push to Pulsar was generated and can be found in [these files](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/data).
+With our setup in place, let's see some data-reading code. The data model can be found <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/java/io/ipolyzos/models`}>here</a> if you want to grab the same data definitions for our fictitious online store. After that, we recommend taking a look and maybe grabbing <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/java/io/ipolyzos/utils`
+}>these utility functions</a> as well as the constants <a href={`${
+// @ts-ignore
+    frontmatter.repostioryUrl}/blob/main/src/main/java/io/ipolyzos/config`
+}>here</a> as we're going to focus more on the Flink-Pulsar integration. The fictitious data we're going to push to Pulsar was generated and can be found in <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/data`}>these files</a>.
 
 First, we will run the producers to simulate some users and items created in our system.
-You can find the producer code [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/producers/LookupDataProducer.java). For reference, please find it below as well:
+You can find the producer code <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/java/io/ipolyzos/producers/LookupDataProducer.java`}>here</a>. For reference, please find it below as well:
 
 ```java
 import java.io.IOException;
@@ -345,7 +362,9 @@ There are a few things to highlight here:
 1. We must pass the topic name, the name of the subscription and also the _type_ of the subscription. You can find more information around Pulsar Subscription Types [here](https://pulsar.apache.org/docs/2.3.2/concepts-messaging/#subscription-types)
 1. Finally, we need to specify what type of schema we wish to consume. In the example above it's of type String, but we will use `JsonSchema` for our application.
 
-The following code snippet shows how to connect to our topics, but you can find the complete code [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/compute/v1/EnrichmentStream.java)
+The following code snippet shows how to connect to our topics, but you can find the complete code <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/java/io/ipolyzos/compute/v1/EnrichmentStream.java`}>here</a>
 
 ```java
 // import the data model as well
@@ -428,7 +447,9 @@ If you need to learn about watermarks or event time/processing time, Rock the JV
 Note that while the users and items streams already have data written to Pulsar, the orders stream does not - we will trigger the data flow in Flink by sending orders data to Pulsar from a different process (e.g. in the IDE's local run command) after we start the Flink application.
 
 The last step is to actually package and deploy our code on our cluster.
-To make it easier we can use the helper script [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/deploy.sh), which you can also find below:
+To make it easier we can use the helper script <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/deploy.sh`}>here</a>, which you can also find below:
 
 ```shell
 mvn clean package
@@ -443,7 +464,9 @@ docker exec -it pulsar-flink-stateful-streams_taskmanager_1 ./bin/flink run \
 ```
 
 Run `./deploy.sh` and navigate to the terminal we ran the `docker-compose up` command.
-Give it a few seconds and then the job should be deployed. After that, we can run the `OrdersDataSource` found [here](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/producers/OrdersDataSource.java). The code can also be found below:
+Give it a few seconds and then the job should be deployed. After that, we can run the `OrdersDataSource` found <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/java/io/ipolyzos/producers/OrdersDataSource.java`}>here</a>. The code can also be found below:
 
 ```java
 // also include the data model
@@ -520,7 +543,9 @@ Congrats! We have successfully consumed messages from Pulsar.
 We verified we can read our events. The next step is data enrichment, i.e "query" user and item information from the _changelog_ topics.
 To do this, we'll use the `connect` the orders stream with the user stream and (separately) with the items stream. We talk about the `connect` function in great detail in the Flink course &mdash; in short, it's similar to a "join" where the records with the same key are combined into a tuple. Each tuple is then subject to a `ProcessFunction` (the core Flink abstraction) so that we can adjust the data to a format of our choosing.
 
-Aside from the earlier `EnrichmentStream` class, we now add the following in [version 2](https://github.com/polyzos/pulsar-flink-stateful-streams/blob/main/src/main/java/io/ipolyzos/compute/v2/EnrichmentStream.java):
+Aside from the earlier `EnrichmentStream` class, we now add the following in <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/java/io/ipolyzos/compute/v2/EnrichmentStream.java`}>version 2</a>:
 
 ```java
 DataStream<OrderWithUserData> orderWithUserDataStream = orderStream
@@ -638,7 +663,7 @@ public class ItemLookupHandler extends CoProcessFunction<OrderWithUserData, Item
 }
 ```
 
-You can find a full implementation under the **v2** package [here](https://github.com/polyzos/pulsar-flink-stateful-streams/tree/main/src/main/java/io/ipolyzos/compute/v2).
+You can find a full implementation under the **v2** package <a href={`${frontmatter.repositoryUrl}/tree/main/src/main/java/io/ipolyzos/compute/v2`}>here</a>.
 We can now package and redeploy our application and verify it works.
 Make sure to modify the `deploy.sh` script to point to the updated **v2** version file:
 
@@ -765,7 +790,9 @@ Here we create two side outputs - one for missing user events and one for item e
 Specifying names for your operators can be considered as _best practice_ for your Flink Job.
 This is useful to more easily identify the operators in the Flink UI. This also comes in handy when you need to use _savepoints_ to resume your job, after a code modification or scaling requirement (more on that later).
 
-You can find the full implementation under the **v3** package [here](https://github.com/polyzos/pulsar-flink-stateful-streams/tree/main/src/main/java/io/ipolyzos/compute/v3)
+You can find the full implementation under the **v3** package <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/tree/main/src/main/java/io/ipolyzos/compute/v3`}>here</a>
 
 We can also run the application in the same style:
 

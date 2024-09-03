@@ -3,6 +3,7 @@ author: herbert-kateu
 category: guide
 excerpt: Discover how to implement a two-factor authentication system with one-time passwords (HOTP and TOTP) using Scala and http4s
 publishedDate: 2023-07-27
+repositoryUrl: https://github.com/hkateu/MyHttp4sCode/tree/main/otpauth/src/main/scala/com/xonal
 tags: [http4s, scala]
 title: "Authentication with Scala and http4s: 2FA (Two-Factor Authentication)"
 updatedDate: 2024-09-06
@@ -12,8 +13,6 @@ import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
 import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
 
 ## Introduction
-
-You can find the entire code on [GitHub](https://github.com/hkateu/MyHttp4sCode/tree/main/otpauth/src/main/scala/com/xonal).
 
 <NoteAdmonition>
 Hey, it's Daniel here. You're reading a big article about a real-life use of the http4s library. Herbert outdid himself in this article!
@@ -1066,5 +1065,3 @@ One may also limit the time the user takes to submit the code as an extra securi
 ## Conclusion
 
 In this tutorial we learned about One Time Password Authentication, we explored HMAC-based One Time Password (HOTP) and Time-based One Time Password (TOTP) and created a small application where we implemented Two-Factor Authentication using the knowledge we learned. 2FA has gained traction in recent years and as displayed, adds another layer of security to your application.
-
-The code for this implementation can be found on [GitHub](https://github.com/hkateu/MyHttp4sCode/tree/main/otpauth/src/main/scala/com/xonal).

@@ -3,6 +3,7 @@ author: giannis-polyzos
 category: guide
 excerpt: Discover tips and code examples to make your Kafka clients run blazing fast
 publishedDate: 2023-01-22
+repositoryUrl: https://github.com/polyzos/kafka-streaming-ledger
 tags: [kafka, kotlin, streaming]
 title: "Kafka 101: Clients Quickly Explained"
 updatedDate: 2024-09-06
@@ -34,7 +35,6 @@ We will use a file ingestion data pipeline for clickstream data as an example to
 
 The relevant e-commerce datasets can be found [here](https://www.kaggle.com/datasets/mkechinov/ecommerce-behavior-data-from-multi-category-store).
 The code samples are written in Kotlin, but the implementation should be easy to port in Java or Scala.
-You can find the source code on GitHub [here](https://github.com/polyzos/kafka-streaming-ledger).
 
 <TipAdmonition>
     To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already.
@@ -191,7 +191,7 @@ _But what actually happens when the `send()` method is called?_
 
 ![Producer internals diagram](images/producer-internals-diagram.webp)
 
-Kafka does a lot of things under the hood when the `send()` method is invoked, so let’s outline them below:
+Kafka does a lot of things under the hood when the `send()` method is invoked, so let's outline them below:
 
 1. The message is serialized using the specified serializer.
 1. The partitioner determines which partition the message should be routed to.
@@ -207,7 +207,7 @@ Kafka does a lot of things under the hood when the `send()` method is invoked, s
 
 ## Tradeoffs Between Latency and Throughput
 
-In distributed systems, most things come with tradeoffs, and it’s up to the developer to find that "sweet spot" between different tradeoffs; thus it’s important to understand how things work.
+In distributed systems, most things come with tradeoffs, and it's up to the developer to find that "sweet spot" between different tradeoffs; thus it's important to understand how things work.
 
 One important aspect might be tuning between throughput and latency. Some key configurations to that are `batch.size` and `linger.ms`. These configs work as follows: the producer will batch together records, and when the batch is full, it will send it whole. Otherwise, it will wait at most `linger.ms` to enqueue a new item, and if that time is expired, it will send a (partially full) batch.
 
@@ -217,9 +217,9 @@ On the other hand, a larger `batch.size` might use more memory (as we will alloc
 
 ![Tradeoffs everywhere meme](images/tradeoffs-meme.webp)
 
-Let’s better illustrate this with an example.
+Let's better illustrate this with an example.
 
-Our event data is stored in CSV files that we want to ingest into Kafka, and since it is not real-time data ingestion, we don’t really care about latency here, but having a good throughput so that we can ingest them fast.
+Our event data is stored in CSV files that we want to ingest into Kafka, and since it is not real-time data ingestion, we don't really care about latency here, but having a good throughput so that we can ingest them fast.
 
 Using the default configurations ingesting 5.000.000 messages takes around 119 seconds.
 
@@ -287,7 +287,7 @@ private fun consume(topic: String) {
     }
 ```
 
-Let’s try to better understand what happens here. The following diagram provides a more detailed explanation.
+Let's try to better understand what happens here. The following diagram provides a more detailed explanation.
 ![Consumer internals diagram](images/consumer-internals-diagram.webp)
 
 Kafka uses a pull-based model for data fetching. At the "heart of the consumer" sits the poll loop. The poll loop is important for two reasons:
@@ -295,13 +295,13 @@ Kafka uses a pull-based model for data fetching. At the "heart of the consumer" 
 1. It is responsible for fetching data (providing **ConsumerRecords**) for the consumer to process and
 1. Sends heartbeats and coordinates the consumers so the consumer group knows the available consumers and if a rebalancing needs to take place.
 
-The consuming applications maintain TCP connections with the brokers and sent fetch requests to fetch data. The data is cached and periodically returned from the _poll()_ method. When data is returned from the _poll()_ method the actual processing takes place and once it’s finished more data is requested and so on.
+The consuming applications maintain TCP connections with the brokers and sent fetch requests to fetch data. The data is cached and periodically returned from the _poll()_ method. When data is returned from the _poll()_ method the actual processing takes place and once it's finished more data is requested and so on.
 
-What’s important to note here (and we will dive deeper into it in the next part) is committing message offsets. This is Kafka’s way of knowing that a message has been fetched and processed successfully. By default, offsets are committed automatically at regular intervals.
+What's important to note here (and we will dive deeper into it in the next part) is committing message offsets. This is Kafka's way of knowing that a message has been fetched and processed successfully. By default, offsets are committed automatically at regular intervals.
 
-The amount of data - how much it is going to be fetched, when more data needs to be requested etc. are dictated by configuration options like, `fetch.min.bytes`, `max.partition.fetch.bytes`, `fetch.max.bytes`, `fetch.max.wait.ms`. You might think that the default options might be ok for you, but it’s important to test them out and think through your use case carefully.
+The amount of data - how much it is going to be fetched, when more data needs to be requested etc. are dictated by configuration options like, `fetch.min.bytes`, `max.partition.fetch.bytes`, `fetch.max.bytes`, `fetch.max.wait.ms`. You might think that the default options might be ok for you, but it's important to test them out and think through your use case carefully.
 
-To make this more clear let’s assume that you fetch 500 records from the `poll()` loop to process, but the processing for some reason takes too long for each message. The config `max.poll.interval.ms` dictates the maximum time a consumer can be idle before fetching more records; i.e. calling the poll method and if this threshold is reached the consumer is considered `lost` and a rebalance will be triggered — although our application was just slow on processing.
+To make this more clear let's assume that you fetch 500 records from the `poll()` loop to process, but the processing for some reason takes too long for each message. The config `max.poll.interval.ms` dictates the maximum time a consumer can be idle before fetching more records; i.e. calling the poll method and if this threshold is reached the consumer is considered `lost` and a rebalance will be triggered — although our application was just slow on processing.
 
 So decreasing the number of records the `poll()` loop should return and/or better tuning some configurations like `heartbeat.interval.ms` and `session.timeout.ms` used for consumer group coordination might be reasonable in this case.
 
@@ -332,7 +332,7 @@ We can see that it takes a single consumer around 4 minutes for this kind of pro
 
 ## Scaling the Consuming Side
 
-Consumer Groups are Kafka’s way of sharing the work between different consumers and also the level of parallelism. The highest level of parallelism you can achieve with Kafka is having one consumer consuming from each partition of a topic.
+Consumer Groups are Kafka's way of sharing the work between different consumers and also the level of parallelism. The highest level of parallelism you can achieve with Kafka is having one consumer consuming from each partition of a topic.
 
 ### #Partitions > #Consumers
 
@@ -354,7 +354,9 @@ This scenario is similar to the previous one, only now we will have one consumer
 
 When a consumer goes down or similarly a new one joins the group, Kafka will have to trigger a rebalance. This means that partitions need to be revoked and reassigned to the available consumers in the group.
 
-Let’s run again our previous example — consuming 10k messages — but this time having 5 consumers in our consumer group. I will be creating 5 consuming instances from within a single JVM (using Kotlin [coroutines](/articles/kotlin-101-coroutines), but you can easily re-adjust the code (found [here](https://github.com/polyzos/kafka-streaming-ledger/blob/main/src/main/kotlin/io/ipolyzos/consumers/PerPartitionConsumer.kt)) and just start multiple JVMs.
+Let's run again our previous example — consuming 10k messages — but this time having 5 consumers in our consumer group. I will be creating 5 consuming instances from within a single JVM (using Kotlin [coroutines](/articles/kotlin-101-coroutines), but you can easily re-adjust the code (found <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/kotlin/io/ipolyzos/consumers/PerPartitionConsumer.kt`}>here</a>) and just start multiple JVMs.
 
 ```text
 12:39:53.233 INFO  [DefaultDispatcher-worker-1] io.ipolyzos.Extensions -
@@ -373,13 +375,13 @@ Let’s run again our previous example — consuming 10k messages — but this t
 
 As expected we can see that the consumption time dropped to less than a minute time.
 
-But if Kafka’s maximum level of parallelism is one consumer per partition, does this mean we hit the scaling limit? Let’s see how to tackle this next.
+But if Kafka's maximum level of parallelism is one consumer per partition, does this mean we hit the scaling limit? Let's see how to tackle this next.
 
 ### The Parallel Consumer Pattern
 
 Up to this point, we might have two questions in mind:
 
-1. If #partitions = #consumers in the consumer group, how can I scale even further if needed? It’s not always easy to calculate the number of partitions beforehand and/or I might need to account for sudden spikes.
+1. If #partitions = #consumers in the consumer group, how can I scale even further if needed? It's not always easy to calculate the number of partitions beforehand and/or I might need to account for sudden spikes.
 1. How can I minimize rebalancing time?
 
 One solution to this can be the parallel consumer pattern. You can have consumers in your group consuming from one or more partitions of the topic, but then they propagate the actual processing to other threads.
@@ -396,7 +398,9 @@ Along with that it also provides different ways for committing offset. This is a
 
 ![The Parallel Consumer Pattern](images/the-parallel-consumer-pattern.webp)
 
-Going once more back to our example to answer the question — how can we break the scaling limit? We will be using the parallel consumer pattern — you can find the code [here](https://github.com/polyzos/kafka-streaming-ledger/blob/main/src/main/kotlin/io/ipolyzos/consumers/ParallelScalingConsumer.kt).
+Going once more back to our example to answer the question — how can we break the scaling limit? We will be using the parallel consumer pattern — you can find the code <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/src/main/kotlin/io/ipolyzos/consumers/ParallelScalingConsumer.kt`}>here</a>.
 Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a _Key Ordering_, and using a parallelism of _100 threads_
 
 ```text
@@ -450,13 +454,13 @@ We will take a look at a few scenarios for committing offsets and what caveats e
 
 ### Committing Offsets Automatically
 
-This is the default behavior with enable.auto.commit set to true. The caveat here is that the message is consumed and the offsets will be committed periodically, BUT this doesn’t mean the message has been successfully processed. If the message fails for some reason, its offset might have been committed and as far as Kafka is concerned that message has been processed successfully.
+This is the default behavior with enable.auto.commit set to true. The caveat here is that the message is consumed and the offsets will be committed periodically, BUT this doesn't mean the message has been successfully processed. If the message fails for some reason, its offset might have been committed and as far as Kafka is concerned that message has been processed successfully.
 
 ### Committing Offsets Manually
 
-Setting `enable.auto.commit` to false takes Kafka consumers out of the "autopilot mode" and it’s up to the application to commit the offsets. This can be achieved by using the `commitSync()` or `commitAsync()` methods on the consumer API.
+Setting `enable.auto.commit` to false takes Kafka consumers out of the "autopilot mode" and it's up to the application to commit the offsets. This can be achieved by using the `commitSync()` or `commitAsync()` methods on the consumer API.
 
-When committing offsets manually we can do so either when the whole batch returned from the `poll()` method has finished processing in which case all the offsets up to the highest one will be committed, or we might want to commit after each individual message is done with it’s processing for even stronger guarantees.
+When committing offsets manually we can do so either when the whole batch returned from the `poll()` method has finished processing in which case all the offsets up to the highest one will be committed, or we might want to commit after each individual message is done with it's processing for even stronger guarantees.
 
 #### Commit/Message
 
