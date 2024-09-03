@@ -8,13 +8,17 @@ title: "Configuring http4s Security: Handling CORS and CSRF"
 updatedDate: 2024-09-06
 ---
 
-> This article is brought to you by [Herbert Kateu](/authors/herbert-kateu), a new contributor. He got started after applying for the fresh new Technical Writer position at our new [Job Board](https://jobs.rockthejvm.com/)!
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
 
 ## Introduction
 
 With the growing number of cyber-attacks ever increasing, there's a growing need for security in the applications we build.
 http4s comes with several easily configurable security features and in this article, we will cover the two most common, CORS and CSRF.
 If you are not familiar with http4s, a good introduction to the library can be found [here](/articles/http4s-unleashing-the-power-of-http-apis-library)
+
+<NoteAdmonition>
+    This article is brought to you by [Herbert Kateu](/authors/herbert-kateu), a new contributor. He got started after applying for the fresh new Technical Writer position at our new [Job Board](https://jobs.rockthejvm.com/)!
+</NoteAdmonition>
 
 ## Setup
 
@@ -85,7 +89,7 @@ We use `EmberServerBuilder` to build our server on `localhost`, port `8080`. We 
 
 Now let's test the server with `curl` and see what kind of result we get:
 
-```bash
+```console
 curl -v http://localhost:8080/image/personal.jpg
 
 *   Trying ::1:8080...
@@ -127,7 +131,7 @@ val server = EmberServerBuilder
 
 Our first implementation of CORS uses the `withAllowOriginAll()` method on the `CORS.policy` object, this method opens the server to process requests from any origin as seen in the output below:
 
-```bash
+```console
 curl -v http://localhost:8080/image/personal.jpg -H 'Origin: http://img.com'
 
 *   Trying ::1:8080...
@@ -171,7 +175,7 @@ val corsService = CORS.policy
 
 The `withAllowOriginHost` method takes a Set of URLs described as `Origin` objects, the `Host` method takes a URI scheme as either `http` or `https`, a hostname and port number. Here we configured our server to only accept requests from `localhost:5000`. Non-browser requests such as those from `curl` will always go through since there's no mechanism to restrict access based on the type of CORS header returned. Let's prove this:
 
-```bash
+```console
 curl -v http://localhost:8080/image/personal.jpg -H 'Origin:http://img.com'
 
 *   Trying ::1:8080...
@@ -216,7 +220,7 @@ We embed our request code in JavaScript within the `<script>` tag. Here we use t
 
 We can serve our `test.html` page using the `serve` console command as follows:
 
-```bash
+```console
 serve testFolder
    ┌───────────────────────────────────────────────┐
    │                                               │
@@ -380,7 +384,7 @@ object csrfExample extends IOApp {
 
 If we test our server, we should receive the string `Testing`:
 
-```bash
+```console
 curl -v http://localhost:8080/testing
 
 *   Trying ::1:8080...
@@ -413,7 +417,7 @@ val photoService = HttpRoutes.of[IO]{
 }.orNotFound
 ```
 
-```bash
+```console
 curl -v -X POST http://localhost:8080/photos
 
 *   Trying ::1:8080...
@@ -477,7 +481,7 @@ The `csrfServer` now has a `validate()` method which confirms the csrf token rec
 
 Let's test our application and see how it responds to csrf attacks. First, we send a request without any csrf token:
 
-```bash
+```console
 curl -v -X POST http://localhost:8080/photos
 
 *   Trying ::1:8080...
@@ -498,7 +502,7 @@ curl -v -X POST http://localhost:8080/photos
 
 We received a `403 Forbidden error`, this is a step in the right direction. In a normal front-end application, when the page loads, a request would be sent to the server to receive the csrf token, which is then placed within a form. The `withCookiePath()` method from the `csrfBuilder` contains this path which we set to `Some("/")`, let's request for our csrf token:
 
-```bash
+```console
 curl -v http://localhost:8080
 
 *   Trying ::1:8080...
@@ -524,7 +528,7 @@ Notice that this is a `GET` request, the server sends the csrf token to the brow
 
 Now we can send a `POST` request to the server with the csrf token in order to fetch our photos:
 
-```bash
+```console
 curl -v -X POST http://localhost:8080/photos -H "Origin:http://localhost"
 -H "X-Csrf-Token:731EB4B0C3387DA4E1A99289ADEA4BB3006640EB4D0002D5F80F54E718654C7B-1681428084141-8C1AA35A16C2E13DC8AEEB4A0F680103882B4F8B"
 --cookie "csrf-token=731EB4B0C3387DA4E1A99289ADEA4BB3006640EB4D0002D5F80F54E718654C7B-1681428084141-8C1AA35A16C2E13DC8AEEB4A0F680103882B4F8B"

@@ -8,9 +8,8 @@ title: "Kafka 101: Clients Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-> This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
-
-_Enter Giannis:_
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
 
 ## Introduction
 
@@ -37,16 +36,22 @@ The relevant e-commerce datasets can be found [here](https://www.kaggle.com/data
 The code samples are written in Kotlin, but the implementation should be easy to port in Java or Scala.
 You can find the source code on GitHub [here](https://github.com/polyzos/kafka-streaming-ledger).
 
-> To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already.
+<TipAdmonition>
+    To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already.
+</TipAdmonition>
 
 So, let us dive right in.
+
+<NoteAdmonition>
+This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
+</NoteAdmonition>
 
 ## Environment Setup
 
 First, we want to have a Kafka Cluster up and running.
 Make sure you have [docker compose](https://docs.docker.com/compose/) installed on your machine, as we will use the following `docker-compose.yaml` file to set up a 3-node Kafka Cluster.
 
-```shell
+```yaml
 version: "3.7"
 services:
   zookeeper:
@@ -94,7 +99,7 @@ services:
         INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
     depends_on:
-        - zookeeper
+      - zookeeper
   kafka2:
     image: bitnami/kafka:3.3.1
     ports:
@@ -115,15 +120,13 @@ services:
       - zookeeper
 ```
 
-All you have to do is navigate to the root folder of the project where the `docker-compose.yaml` file is located and run
-
-```shell
-docker-compose up
-```
+All you have to do is navigate to the root folder of the project where the `docker-compose.yaml` file is located and run `docker-compose up`.
 
 This command will start a 3-node Kafka Cluster.
 
-> Note: You might want to increase your docker resources (I'm running with 6GB RAM) to make sure you don't run into any issues.
+<TipAdmonition>
+    You might want to increase your docker resources (I'm running with 6GB RAM) to make sure you don't run into any issues.
+</TipAdmonition>
 
 Wait a bit for the cluster to start, then we will need to create our topic to store our clickstream events. For that we will create a topic with 5 partitions and a replication factor of 3 (leader + 2 replicas) using the following command:
 
@@ -137,7 +140,7 @@ bin/kafka-topics.sh --create \
 
 Verify the topic was created successfully:
 
-```shell
+```console
 bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe ecommerce.events
 
 Topic: ecommerce.events	TopicId: oMhOjOKcQZaoPp_8Xc27lQ	PartitionCount: 5	ReplicationFactor: 3	Configs:
@@ -220,7 +223,7 @@ Our event data is stored in CSV files that we want to ingest into Kafka, and sin
 
 Using the default configurations ingesting 5.000.000 messages takes around 119 seconds.
 
-```shell
+```text
 13:17:22.885 INFO  [kafka-producer-network-thread | producer-1] io.ipolyzos.utils.LoggingUtils - Total messages sent so far 4800000.
 13:17:25.323 INFO  [kafka-producer-network-thread | producer-1] io.ipolyzos.utils.LoggingUtils - Total messages sent so far 4900000.
 13:17:27.960 INFO  [kafka-producer-network-thread | producer-1] io.ipolyzos.utils.LoggingUtils - Total messages sent so far 5000000.
@@ -239,7 +242,7 @@ Setting `batch.size` to 64Kb (16 is the default), linger.ms greater than 0 and f
 
 Has the following impact on the ingestion time.
 
-```shell
+```text
 13:18:34.377 INFO  [kafka-producer-network-thread | producer-1] io.ipolyzos.utils.LoggingUtils - Total messages sent so far 4800000.
 13:18:35.280 INFO  [kafka-producer-network-thread | producer-1] io.ipolyzos.utils.LoggingUtils - Total messages sent so far 4900000.
 13:18:35.980 INFO  [kafka-producer-network-thread | producer-1] io.ipolyzos.utils.LoggingUtils - Total messages sent so far 5000000.
@@ -307,7 +310,7 @@ So decreasing the number of records the `poll()` loop should return and/or bette
 At this point, I will start one consuming instance on my `ecommerce.events` topic. Remember that this topic consists of 5 partitions.
 I will execute against my Kafka cluster, using the default consumer configuration options and my goal is to see how long it takes for a consumer to read 10000 messages from the topic, assuming a 20ms processing time per message.
 
-```shell
+```text
 12:37:13.362 INFO  [main] io.ipolyzos.utils.LoggingUtils - [Consumer-1] Records in batch: 500 - Elapsed Time: 226 seconds - Total Consumer Processed: 9500 - Total Group Processed: 9500
 12:37:25.039 INFO  [main] io.ipolyzos.Extensions - Batch Contains: 500 records from 1 partitions.
 12:37:25.040 INFO  [main] io.ipolyzos.Extensions -
@@ -353,7 +356,7 @@ When a consumer goes down or similarly a new one joins the group, Kafka will hav
 
 Let’s run again our previous example — consuming 10k messages — but this time having 5 consumers in our consumer group. I will be creating 5 consuming instances from within a single JVM (using Kotlin [coroutines](/articles/kotlin-101-coroutines), but you can easily re-adjust the code (found [here](https://github.com/polyzos/kafka-streaming-ledger/blob/main/src/main/kotlin/io/ipolyzos/consumers/PerPartitionConsumer.kt)) and just start multiple JVMs.
 
-```shell
+```text
 12:39:53.233 INFO  [DefaultDispatcher-worker-1] io.ipolyzos.Extensions -
 +--------+------------------+-----------+---------------+-----------+----------------------------------------------+---------------+-------------------------------------------------+-------------+
 | Offset | Topic            | Partition | Timestamp     | Key       | Value                                        | TimestampType | Teaders                                         | LeaderEpoch |
@@ -396,7 +399,7 @@ Along with that it also provides different ways for committing offset. This is a
 Going once more back to our example to answer the question — how can we break the scaling limit? We will be using the parallel consumer pattern — you can find the code [here](https://github.com/polyzos/kafka-streaming-ledger/blob/main/src/main/kotlin/io/ipolyzos/consumers/ParallelScalingConsumer.kt).
 Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a _Key Ordering_, and using a parallelism of _100 threads_
 
-```shell
+```text
 12:48:42.752 INFO  [pc-pool-1-thread-87] io.ipolyzos.utils.LoggingUtils - [Consumer-0] Records in batch: 5 - Elapsed Time: 2 seconds - Total Consumer Processed: 9970 - Total Group Processed: 9970
 12:48:42.752 INFO  [pc-pool-1-thread-98] io.ipolyzos.utils.LoggingUtils - [Consumer-0] Records in batch: 5 - Elapsed Time: 2 seconds - Total Consumer Processed: 9970 - Total Group Processed: 9970
 12:48:42.758 INFO  [pc-pool-1-thread-26] io.ipolyzos.utils.LoggingUtils - [Consumer-0] Records in batch: 5 - Elapsed Time: 2 seconds - Total Consumer Processed: 9975 - Total Group Processed: 9975
@@ -409,11 +412,13 @@ Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a 
 
 Makes the consuming and processing time of **10k messages** take as much as **2 seconds**.
 
-> Notice from the logs how different batches are processed on different threads on the same consumer instance.
+<NoteAdmonition>
+    Notice from the logs how different batches are processed on different threads on the same consumer instance.
+</NoteAdmonition>
 
 and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
 
-```shell
+```text
 12:53:23.800 INFO  [pc-pool-2-thread-85] io.ipolyzos.utils.LoggingUtils - [Consumer-1] Records in batch: 5 - Elapsed Time: 672 milliseconds - Total Consumer Processed: 2031 - Total Group Processed: 10015
 12:53:23.800 INFO  [pc-pool-4-thread-11] io.ipolyzos.utils.LoggingUtils - [Consumer-3] Records in batch: 5 - Elapsed Time: 683 milliseconds - Total Consumer Processed: 1865 - Total Group Processed: 10015
 12:53:23.800 INFO  [pc-pool-5-thread-80] io.ipolyzos.utils.LoggingUtils - [Consumer-5] Records in batch: 5 - Elapsed Time: 670 milliseconds - Total Consumer Processed: 2062 - Total Group Processed: 10020
@@ -427,7 +432,9 @@ and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
 
 So basically we have accomplished getting our processing time from ~ minutes down to seconds.
 
-> Notice in the screenshot how different batches are processed on different threads on different consumer instances.
+<NoteAdmonition>
+    Notice in the screenshot how different batches are processed on different threads on different consumer instances.
+</NoteAdmonition>
 
 ## Offsets and How to Handle Them
 
@@ -495,9 +502,9 @@ One thing to note here is that offsets are now stored in an external datastore. 
 
 One way to achieve this can be adding a `ConsumerRebalanceListener` and when `onPartitionsRevoked` and `onPartitionsAssigned` methods are called store (commit) or retrieve the offsets from the external datastore.
 
-## Wrapping Up
+## Conclusion
 
-As takeaways:
+Some takeaways:
 
 - Don't rely on the default configurations; Try to fine-tune between throughput and latency
 - Partitions play an important role in scaling Kafka.

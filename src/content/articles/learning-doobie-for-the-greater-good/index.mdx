@@ -8,15 +8,23 @@ title: Learning doobie for the Greater Good
 updatedDate: 2024-09-06
 ---
 
-> This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post.
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
+import WarningAdmonition from "@components/Admonitions/WarningAdmonition.astro";
 
-_We hope you enjoy it!_
+## Introduction
 
 The vast majority of applications today connect with some form of a persistent layer, and, sooner or later, every developer faces the challenge of connecting to a database. We rely on the JDBC specification if we need to connect to SQL databases in the JVM ecosystem. However, JDBC is not a good fit if we use functional programming since the library performs a lot of side effects. Fortunately, a library called [doobie](https://tpolecat.github.io/doobie/) provides a higher-level API on top of JDBC, using an effectful style through the Cats and Cats Effect libraries.
 
 So, without further ado, let's introduce the doobie library.
 
-> This article uses advanced Scala features. We teach these in the [Advanced Scala](/courses/advanced-scala) course.
+<NoteAdmonition>
+    This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post.
+</NoteAdmonition>
+
+<WarningAdmonition>
+    This article uses advanced Scala features. We teach these in the [Advanced Scala](/courses/advanced-scala) course.
+</WarningAdmonition>
 
 ## Setup
 
@@ -852,7 +860,9 @@ In the above code, we extracted information from the `movies` table, the `direct
 
 Now that we know all the pieces of a program that connects to a database using doobie, we can create a more complex example. For this purpose, we will use the _tagless final_ approach. Again, the details of the tagless final approach are far beyond the scope of this tutorial. In summary, it's **a technique that allows us to manage dependencies between our components and abstract away the details of the concrete effect implementation**.
 
-> More on tagless final in the [dedicated article](/articles/tagless-final-in-scala).
+<TipAdmonition>
+    More on tagless final in the [dedicated article](/articles/tagless-final-in-scala).
+</TipAdmonition>
 
 In a tagless final approach, we first define an _algebra_ as a `trait`, storing all the functions we implement for a type. If we take the `Director` type, we can define the following algebra:
 

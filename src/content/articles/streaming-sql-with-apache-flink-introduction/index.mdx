@@ -8,9 +8,10 @@ title: "Streaming SQL with Apache Flink: A Gentle Introduction"
 updatedDate: 2024-09-06
 ---
 
-> This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
 
-_Enter Giannis:_
+## Introduction
 
 Flink SQL is a powerful high level API for running queries on streaming (and batch) datasets. In this article we will see:
 
@@ -20,7 +21,13 @@ Flink SQL is a powerful high level API for running queries on streaming (and bat
 1. Understand different kinds of Processing Operators and Functions
 1. Different ways of running Flink SQL Queries
 
-> Daniel here: If you need to learn the fundamentals of streaming with Flink, check out the long-form [Flink course](/courses/flink) here at Rock the JVM.
+<NoteAdmonition>
+    This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
+</NoteAdmonition>
+
+<TipAdmonition>
+    If you need to learn the fundamentals of streaming with Flink, check out the long-form [Flink course](/courses/flink) here at Rock the JVM.
+</TipAdmonition>
 
 ## Streaming (and Batch) SQL
 
@@ -148,7 +155,7 @@ Run `docker-compose up`, wait for a few seconds and your clusters should be up a
 
 Let's start the Flink SQL CLI by running `docker exec -it jobmanager ./bin/sql-client.sh` and then execute the following commands as a warmup with the sql client:
 
-```shell
+```console
 Flink SQL> SHOW CATALOGS;
 +-----------------+
 |    catalog name |
@@ -206,7 +213,7 @@ Flink SQL> SHOW FUNCTIONS;
 
 It's time now to get into some interesting stuff, but before that let's also create the Kafka topics we will be using for our examples.
 
-```shell
+```console
 docker exec -it depths-of-flink-kafka-1 kafka-topics.sh --create \
   --topic sensor.info \
   --partitions 1 \
@@ -239,7 +246,7 @@ The following block shows how to create a table from a Kafka topic.
 
 _Note:_ We will be using the default catalogs as well as the default database.
 
-```shell
+```console
 CREATE TABLE readings (
   sensorId STRING,
   reading DOUBLE,
@@ -285,7 +292,7 @@ _Note:_ Specifying a Time attributes (here _eventTime_ltz_) and watermarks is wh
 
 Let's also create a table for our sensor information topic.
 
-```shell
+```console
 CREATE TABLE sensors (
   sensorId STRING,
   latitude String,
@@ -325,7 +332,7 @@ information to perform event enrichment later (when we will discuss joins.)
 
 At this point we have two tables created within our default database.
 
-```shell
+```console
 Flink SQL> SHOW TABLES;
 >
 +------------+
@@ -347,7 +354,7 @@ _Note:_ I skipped added the implementation here since our focus is on Flink SQL.
 
 Let's run the following query and see an output similar to the following with information for our 10 sensors.
 
-```shell
+```console
 SELECT * FROM sensors;
 
 ------- Sample Output -------
@@ -377,7 +384,7 @@ Stateless Operators are the simplest and include common operations like Projecti
 
 _Query_ Only Sensor Readings > 40
 
-```shell
+```console
 SELECT  sensorId, reading, eventTime_ltz
 FROM    readings
 WHERE   reading > 40
@@ -409,7 +416,7 @@ This means the state is kept around forever and constantly growing with every ne
 
 _Query:_ Total readings per Sensor
 
-```shell
+```console
 SELECT   sensorId, COUNT(reading) as totalReadings
 FROM     readings
 GROUP BY sensorId
@@ -442,7 +449,7 @@ GROUP BY sensorId
 _Notice the op column_ - when we have an update for a given _key_ the previous row is deleted and updated to the new value.
 For example
 
-```shell
+```text
 | +I |                              4 |                    1 |
 | -D |                              4 |                    1 |
 | +I |                              4 |                    2 |
@@ -452,7 +459,7 @@ Now consider a query that joins the _sensor information_ and _sensor readings_ t
 
 _Query:_ Enrich Sensor readings with Sensor Information (Regular Join)
 
-```shell
+```console
 SELECT
   sensors.sensorId,
   reading,
@@ -502,7 +509,7 @@ As we previously mentioned they hold records and/or results in state, but only u
 
 _Query:_ Find the 1 minute average value for each sensor
 
-```shell
+```console
 SELECT
   sensorId,
   window_start,
@@ -567,7 +574,7 @@ of the query and reuse it the calculated statistics to filter readings; for exam
 
 That's a simple example that can be used to build more sophisticated outlier detection logic.
 
-```shell
+```console
 --- Create a Temporary View -- CREATE [TEMPORARY] VIEW
 CREATE VIEW readings_stats AS
 SELECT
@@ -719,7 +726,7 @@ store state for each of the three tasks.
 
 You can use a sample code file I have added [here](https://github.com/polyzos/depths-of-flink/blob/main/src/main/kotlin/io/ipolyzos/inspect/RocksDBInspect.kt) to see what gets written in state.
 
-```shell
+```console
 Processing state of operator: job_848920cbd5178c2a525827b244d1e530_op_StreamingJoinOperator_8b481b930a189b6b1762a9d95a61ada1__2_3__uuid_97fb2e4b-e6f4-413e-98a5-0c4ad24ed20e}
 	Column Family 'right-records' has 3 entries.
 	Column Family 'left-records' has 670 entries.
@@ -739,7 +746,7 @@ Also note as discussed previously since there are no time constraints you will n
 I hope I sparked some interest for those curious that want to dive deeper themselves.
 In this article though we will conclude with this high level overview.
 
-## Wrapping Up
+## Conclusion
 
 Flink is a powerful Stateful Stream Processing engine, enabling Unified Batch and Streaming architectures.
 

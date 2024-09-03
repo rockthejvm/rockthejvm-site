@@ -577,7 +577,7 @@ kafka-console-producer \
 
 As we can see, we are creating a producer that will send messages to the broker listening on port 9092 at localhost, and we will use the `','` character to separate the key from the payload of each message. Once entered the command, the shell waits for us to type the first message. Let's proceed typing the following messages:
 
-```shell
+```text
 b91a7348-f9f0-4100-989a-cbdd2a198096,{"players":[{"name":"ITA","score":0},{"name":"ENG","score":1}]}
 b26c1b21-41d9-4697-97c1-2a8d4313ae53,{"players":[{"name":"ITA","score":1},{"name":"ENG","score":1}]}
 2a90a703-0be8-471b-a64c-3ea25861094c,{"players":[{"name":"ITA","score":3},{"name":"ENG","score":2}]}]}

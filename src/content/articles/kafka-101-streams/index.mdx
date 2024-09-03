@@ -8,13 +8,19 @@ title: "Kafka 101: Streams Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-> Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a frequent contributor to the Rock the JVM blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's well versed with Apache Kafka; he recently published an article on [how to integrate ZIO and Kafka](/articles/zio-kafka). So now he rolled up his sleeves in the quest of writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you enjoy it! Enter Riccardo:
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+
+## Introduction
 
 Apache Kafka nowadays is clearly the leading technology concerning message brokers. It's scalable, resilient, and easy to use. Moreover, it leverages a bunch of exciting client libraries that offer a vast set of additional features. One of these libraries is _Kafka Streams_.
 
 Kafka Streams brings a complete stateful streaming system based directly on top of Kafka. Moreover, it introduces many exciting concepts, like the duality between topics and database tables. Implementing such ideas, Kafka Streams provides us many valuable operations on topics, such as joins, grouping capabilities, and so on.
 
 Because the Kafka Streams library is quite complex, this article will introduce only its main features, such as the architecture, the Stream DSL with its basic types `KStream`, `KTable`, and `GlobalKTable`, and the transformations defined on them.
+
+<NoteAdmonition>
+Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a frequent contributor to the Rock the JVM blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's well versed with Apache Kafka; he recently published an article on [how to integrate ZIO and Kafka](/articles/zio-kafka). So now he rolled up his sleeves in the quest of writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you enjoy it!
+</NoteAdmonition>
 
 ## Setup
 
@@ -853,7 +859,7 @@ At this point, we defined a complete working Kafka application, which uses many 
 
 First, let's fill the tables, starting from the topic `discounts`. We have to send some messages associating a profile with a discount:
 
-```shell
+```console
 kafka-console-producer \
    --topic discounts \
    --broker-list localhost:9092 \
@@ -869,7 +875,7 @@ We created three profiles in the above command with a discount of 50%, 25%, and 
 
 The next step is to create some users and associated them with a discount profile in the topic `discount-profiles-by-user`:
 
-```shell
+```console
 kafka-console-producer \
    --topic discount-profiles-by-user \
    --broker-list localhost:9092 \
@@ -882,7 +888,7 @@ Riccardo,profile2
 
 We are ready to insert our first order into the system, using the topic `orders-by-user`. As the name of the topic said, the keys of the following messages are user-ids:
 
-```shell
+```console
 kafka-console-producer \
    --topic orders-by-user \
    --broker-list localhost:9092 \
@@ -895,7 +901,7 @@ Riccardo,{"orderId":"order2","user":"Riccardo","products":["iPhone 11"],"amount"
 
 Now, we must pay the above orders. So, we send the messages representing the payment transaction. The topic storing such messages is called `payments`:
 
-```shell
+```console
 kafka-console-producer \
    --topic payments \
    --broker-list localhost:9092 \

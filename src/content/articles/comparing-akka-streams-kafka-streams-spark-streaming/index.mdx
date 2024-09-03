@@ -7,6 +7,8 @@ title: Comparing Akka Streams, Kafka Streams and Spark Streaming
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article is for the Java/Scala programmer who wants to decide which framework to use for the streaming part of a massive application, or simply wants to know the fundamental differences between them, just in case. I'm going to write Scala, but all the frameworks I'm going to describe also have Java APIs.
 
 I'm going to discuss the main strengths and weaknesses of _Akka Streams, Kafka Streams and Spark Streaming_, and I'm going to give you a feel of how you would use them in a very simple word-counting application, which is one of the basic things to start with when one learns any distributed programming tool.
@@ -277,7 +279,7 @@ Spark Streaming was built for _big data_ from day 1. It offers _fault-tolerance_
 
 As with the other frameworks, Spark is not perfect, though. The DataFrame and SQL APIs are cushy and familiar, but as a functional programmer I get a small stomach squeeze because _some type safety is lost_ at compile time. Of course, you have Datasets, but then you lose some performance if you pour in lambdas. Spark Streaming is very good for big data and micro-batch processing, but it's currently _not stellar at low-latency_ race unless you use the continuous mode which offers few guarantees and is experimental as we speak. Lastly, Spark _will need a dedicated cluster_ to run, so depending on your needs, you might be forced to spend a little more on compute if you go down this route.
 
-## What to Use When
+## Conclusion
 
 Now the final piece: when should you use what? Naturally, every framework was built with a certain intent and we'll lay them here.
 
