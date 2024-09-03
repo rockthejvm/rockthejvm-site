@@ -19,6 +19,7 @@ export default defineCollection({
           .strict()
           .optional(),
         category: reference("courseCategories"),
+        collaborator: reference("authors").optional(),
         description: z.string(),
         excerpt: z
           .string()

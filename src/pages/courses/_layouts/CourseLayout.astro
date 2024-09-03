@@ -32,6 +32,8 @@ const courseList = course.data.bundledCourses ? await Promise.all(course.data.bu
 
 const hasGoalSlot = Astro.slots.goal !== undefined;
 const hasSkillsSlot = Astro.slots.skills !== undefined;
+
+const collaborator = course.data.collaborator ? await getEntry("authors", course.data.collaborator!.id) : null;
 ---
 
 <BaseLayout {description} {title}>
@@ -69,7 +71,7 @@ const hasSkillsSlot = Astro.slots.skills !== undefined;
         <slot name="skills" />
       </Skills>
     }
-    <Profile color={category.data.color} />
+    <Profile color={category.data.color} {collaborator} />
     {category.id === "bundle" &&
       (
         <BundledCourses {courseList} />
