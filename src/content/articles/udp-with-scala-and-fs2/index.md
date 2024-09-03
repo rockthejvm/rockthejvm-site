@@ -3,6 +3,7 @@ author: herbert-kateu
 category: guide
 excerpt: Learn how UDP works and discover how to transition from an old Java NIO implementation to a more modern and expressive API like FS2 in Scala
 publishedDate: 2023-12-18
+repositoryUrl: https://github.com/hkateu/fs2Udp/tree/main
 tags: [fs2, scala]
 title: UDP with Scala and FS2 Explained
 updatedDate: 2024-09-06
@@ -1357,4 +1358,4 @@ We covered what multicasting is, how it works, and we developed a UDP multicast 
 
 We've seen that the `fs2.io.net` package provides an easier purely functional interface for building UDP applications, the implementation is shorter, more concise, and readable code compared to NIO.
 
-I encourage you to dive more into `fs2.io.net` package to see what it offers as well as the `com.comcast.ip4s` package documentation that provided some of the important data structures that we used in this article. As always this code will be available on my [GitHub](https://github.com/hkateu/fs2Udp/tree/main) page.
+I encourage you to dive more into `fs2.io.net` package to see what it offers as well as the `com.comcast.ip4s` package documentation that provided some of the important data structures that we used in this article.

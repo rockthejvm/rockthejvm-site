@@ -3,6 +3,7 @@ author: herbert-kateu
 category: guide
 excerpt: Learn how to integrate Redis with Scala using redis4cats and persist records in Postgres with skunk, enhancing your chatroom application with powerful new features
 publishedDate: 2024-05-23
+repositoryUrl: https://github.com/hkateu/WebSocketChatApp2
 tags: [postgresql, redis, scala]
 title: "WebSockets in Scala: Part 2 - Integrating Redis and PostgreSQL"
 updatedDate: 2024-09-06
@@ -1976,4 +1977,3 @@ Now to run our application, we first need to start our Redis and Postgres Docker
 In conclusion, this article has gone in-depth on how to implement Redis and Postgres in a Scala application using the redis4cats and skunk libraries. Now we can persist our messages, and rip all the benefits of storing our information in Redis such as high availability and persistence.
 
 In this version we simply dump all the previous messages to the new user but this should be done progressively whenever the user scrolls up, however, this was beyound the scope of this tutorial.
-As always the code for this application can be found over on [GitHub](https://github.com/hkateu/WebSocketChatApp2).

@@ -3,6 +3,7 @@ author: derick-bomen
 category: guide
 excerpt: Learn how to use the Skunk library for type-safe, non-blocking PostgreSQL database interactions
 publishedDate: 2024-04-25
+repositoryUrl: https://github.com/bomenderick/skunk_a-comprehensive-guide
 tags: [scala, skunk]
 title: "Mastering Skunk: The Scala Library for Database Interaction"
 updatedDate: 2024-09-06
@@ -242,7 +243,7 @@ object main extends IOApp {
 
 We first load configuration values from `application.conf`. If values are properly set up, we pass the config values to both methods `singleSession` and `pooledSession` to establish our database connections with the help of `DbConnection` object we previously created and run both connections in a sequence. Otherwise, we print errors to the console to better understand what went wrong. We now test our database connections by fetching the current date and time of our system, and if our connections was succesfully established, we should have an output similar to the following.
 
-```
+```text
 Using a single session...
 Current date and time is 2024-02-20T17:29:20.972023Z.
 Using a pooled session...
@@ -336,7 +337,7 @@ With our command and data in place, we can use our database session previously e
 
 After calling `Session.prepare`, a prepared command is created using our defined command to be executed on `userData`. Following this, the `execute` method is used, and the number of affected rows is returned. Finally, we print the user-created ID to the console. When this command is executed, the output will be similar to the following.
 
-```
+```text
 Inserted Insert(1) row(s) with id: b68f2676-611e-4db2-af80-0458e9c52bd3
 ```
 
@@ -370,7 +371,7 @@ resource.use { session =>
 
 After preparing our query, we fetch a maximum of one row by using the `option` method along with the provided id as an argument. If a user is found, we'll print the result to the console. However, if no user is found, we'll raise an error with a message indicating that no user was found. Executing this query in our `main.scala` file with a known user id should give an output similar to the following
 
-```
+```text
 User found: User(b68f2676-611e-4db2-af80-0458e9c52bd3,Jacob,jacob@email.com)
 ```
 
@@ -610,7 +611,7 @@ object main extends IOApp {
 
 Our main file now appears cleaner because we have abstracted our logic and provided only useful methods to interact with the database session. Upon running the file, you should see an output similar to the following.
 
-```
+```text
 Creating users__________________________________________________
 John created with id: d2daebdb-008c-4fd5-a61d-1d0ba933994a
 Jacob created with id: b45ec9e4-4d2f-47fe-b5aa-e28da60aa3ed
@@ -632,5 +633,3 @@ Please ensure that your Docker container is running before executing your `main.
 In this comprehensive guide, we've explored the Skunk Scala library and its features for interacting with PostgreSQL databases by creating a reusable application that performs basic CRUD operations. Skunk's type-safe SQL interpolation, automatic type mapping, and resource-safe session management make it an excellent choice for building robust and scalable Scala applications. By mastering Skunk's core concepts and leveraging its features effectively, you can streamline PostgreSQL database interactions and focus on building innovative features for their applications.
 Happy coding with Skunk!
 Please note that for more detailed information, you can visit the [official documentation of Skunk](https://typelevel.org/skunk/tutorial/Setup.html).
-
-GitHub repository: [skunk a comprehensive guide](https://github.com/bomenderick/skunk_a-comprehensive-guide).
