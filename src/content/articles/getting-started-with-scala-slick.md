@@ -3,6 +3,7 @@ author: yadu-krishnan
 category: guide
 excerpt: "Discover Slick: The popular Scala library for seamless database interactions"
 publishedDate: 2022-06-21
+repositoryUrl: https://github.com/rockthejvm/slick-demo
 tags: [scala, slick]
 title: Getting Started with Scala Slick
 updatedDate: 2024-09-06
@@ -548,4 +549,4 @@ We can also customise the code generator class to use advanced features like sli
 
 ## 8. Conclusion
 
-In this article, we looked at Slick and how we can execute different types of queries using it. We also introduced some advanced features using `slick-pg`. The sample code used in this article is available [in GitHub](https://github.com/rockthejvm/slick-demo).
+In this article, we looked at Slick and how we can execute different types of queries using it. We also introduced some advanced features using `slick-pg`.

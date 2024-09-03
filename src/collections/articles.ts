@@ -33,6 +33,7 @@ export default defineCollection({
           .strict()
           .optional(),
         publishedDate: z.date(),
+        repositoryUrl: z.string().url().optional(),
         tags: unique(
           z
             .array(reference("tags"))
