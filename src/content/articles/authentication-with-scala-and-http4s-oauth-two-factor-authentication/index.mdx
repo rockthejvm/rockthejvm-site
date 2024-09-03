@@ -8,17 +8,22 @@ title: "Authentication with Scala and http4s: 2FA (Two-Factor Authentication)"
 updatedDate: 2024-09-06
 ---
 
-> Hey, it's Daniel here. You're reading a big article about a real-life use of the http4s library. Herbert outdid himself in this article!
->
-> If you want to master the Typelevel Scala libraries (including http4s) with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
 
 ## Introduction
 
-This article is a continuation of the authentication methods that were covered in [the other article on http4s authentication](/articles/authentication-with-scala-and-http4s). Here we will cover two more advanced authentication methods which include One Time Password (OTP) and Two-Factor Authentication (2FA).
-
 You can find the entire code on [GitHub](https://github.com/hkateu/MyHttp4sCode/tree/main/otpauth/src/main/scala/com/xonal).
 
-### Requirements
+<NoteAdmonition>
+Hey, it's Daniel here. You're reading a big article about a real-life use of the http4s library. Herbert outdid himself in this article!
+</NoteAdmonition>
+
+<TipAdmonition>
+    If you want to master the Typelevel Scala libraries (including http4s) with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
+</TipAdmonition>
+
+## Requirements
 
 To follow along with this tutorial, you will need to add the following to your build.sbt file:
 
@@ -980,7 +985,7 @@ tokenService.otpService
 
 And finally, make sure you run the following in your root folder:
 
-```bash
+```shell
 source sendgrid.env
 ```
 
@@ -988,7 +993,7 @@ So that the environmental variables are present.
 
 Now let's test our application.
 
-```bash
+```console
 curl -vv http://localhost:8080/login
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)
@@ -1010,7 +1015,7 @@ We sent you an email, please follow the steps to complete the signin process.⏎
 
 Here's what we printed to the console.
 
-```bash
+```text
 829449
 
 202
@@ -1026,7 +1031,7 @@ Here's what we printed to the console.
 We can see that SendGrid successfully sent our email.
 You can now open your mail and scan the BarCode image with Google Authenticator then pass the 6-digit code to the verification URL. The code outputted by Google Authenticator should be the same as what's displayed in your console.
 
-```bash
+```console
 curl -vv http://localhost:8080/code/486981
 *   Trying ::1:8080...
 * Connected to localhost (::1) port 8080 (#0)

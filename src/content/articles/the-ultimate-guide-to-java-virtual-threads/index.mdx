@@ -8,11 +8,17 @@ title: The Ultimate Guide to Java Virtual Threads
 updatedDate: 2024-09-06
 ---
 
-> Another tour de force by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin.
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+
+## Introduction
 
 Version 19 of Java came at the end of 2022, bringing us a lot of exciting stuff. One of the coolest is the preview of some hot topics concerning Project Loom: _virtual threads_ ([JEP 425](https://openjdk.org/jeps/425)) and _structured concurrency_ ([JEP 428](https://openjdk.org/jeps/428)). Whereas still in a preview phase (to tell the truth, structured concurrency is still in the incubator module), the two JEPs promise to bring modern concurrency paradigms that we already found in Kotlin (coroutines) and Scala (Cats Effect and ZIO fibers) also in the mainstream language of the JVM: The Java programming language.
 
 Without further ado, let's first introduce virtual threads. As we said, both projects are still evolving, so the final version of the features might differ from what we will see here. Future articles to come will focus on structured concurrency and other cool features of Project Loom.
+
+<NoteAdmonition>
+    Another tour de force by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin.
+</NoteAdmonition>
 
 ## Setup
 
@@ -89,7 +95,7 @@ private static void stackOverFlowErrorExample() {
 
 The results depend on the OS and the hardware, but we can easily reach an `OutOfMemoryError` in a few seconds:
 
-```
+```text
 [0.949s][warning][os,thread] Failed to start thread "Unknown thread" - pthread_create failed (EAGAIN) for attributes: stacksize: 1024k, guardsize: 4k, detached.
 [0.949s][warning][os,thread] Failed to start the native thread for java.lang.Thread "Thread-4073"
 Exception in thread "main" java.lang.OutOfMemoryError: unable to create native thread: possibly out of memory or process/resource limits reached
@@ -181,7 +187,7 @@ static void concurrentMorningRoutine() {
 
 We joined both virtual threads, so we can be sure that the `main` thread will not terminate before the two virtual threads. Let's run the program:
 
-```
+```text
 08:34:46.217 [boilWater] INFO in.rcard.virtual.threads.App - VirtualThread[#21,boilWater]/runnable@ForkJoinPool-1-worker-1 | I'm going to take a bath
 08:34:46.218 [boilWater] INFO in.rcard.virtual.threads.App - VirtualThread[#23,boilWater]/runnable@ForkJoinPool-1-worker-2 | I'm going to boil some water
 08:34:46.732 [bath-time] INFO in.rcard.virtual.threads.App - VirtualThread[#21,boilWater]/runnable@ForkJoinPool-1-worker-2 | I'm done with the bath
@@ -220,7 +226,7 @@ The way we start threads is a little different since we're using the `ExecutorSe
 
 The output is more or less the same as before:
 
-```
+```text
 08:42:09.164 [] INFO in.rcard.virtual.threads.App - VirtualThread[#21]/runnable@ForkJoinPool-1-worker-1 | I'm going to take a bath
 08:42:09.164 [] INFO in.rcard.virtual.threads.App - VirtualThread[#23]/runnable@ForkJoinPool-1-worker-2 | I'm going to boil some water
 08:42:09.676 [] INFO in.rcard.virtual.threads.App - VirtualThread[#21]/runnable@ForkJoinPool-1-worker-2 | I'm done with the bath
@@ -256,7 +262,7 @@ static void concurrentMorningRoutineUsingExecutorsWithName() {
 
 A `ThreadFactory` is a factory that creates threads with the same configuration. In our case, we give the prefix `routine-` to the name of the threads, and we start the counter from 0. The output is the same as before, but now we can see the name of the threads:
 
-```
+```text
 08:44:35.390 [routine-1] INFO in.rcard.virtual.threads.App - VirtualThread[#23,routine-1]/runnable@ForkJoinPool-1-worker-2 | I'm going to boil some water
 08:44:35.390 [routine-0] INFO in.rcard.virtual.threads.App - VirtualThread[#21,routine-0]/runnable@ForkJoinPool-1-worker-1 | I'm going to take a bath
 08:44:35.900 [routine-0] INFO in.rcard.virtual.threads.App - VirtualThread[#21,routine-0]/runnable@ForkJoinPool-1-worker-1 | I'm done with the bath
@@ -277,7 +283,7 @@ For each created virtual thread, the JVM schedules its execution on a platform t
 
 The logs we've seen so far showed us precisely the above situation. Let's analyze one of them:
 
-```
+```text
 08:44:35.390 [routine-1] INFO in.rcard.virtual.threads.App - VirtualThread[#23,routine-1]/runnable@ForkJoinPool-1-worker-2 | I'm going to boil some water
 ```
 
@@ -287,7 +293,7 @@ The exciting part is on the left side of the `|` character. The first part ident
 
 We can easily see that the number of available carrier threads is equal to the number of CPU cores by default running a program that creates and starts a number of virtual threads greater than the number of cores. On a Mac, you can retrieve the number of cores by running the following command:
 
-```bash
+```shell
 sysctl hw.physicalcpu hw.logicalcpu
 ```
 
@@ -316,7 +322,7 @@ static void viewCarrierThreadPoolSize() {
 
 We expect the 5 virtual threads to be executed on 4 carrier threads, and one of the carrier threads should be reused at least once. Running the program, we can see that our hypothesis is correct:
 
-```
+```text
 08:44:54.849 [routine-0] INFO in.rcard.virtual.threads.App - VirtualThread[#21,routine-0]/runnable@ForkJoinPool-1-worker-1 | Hello, I'm a virtual thread number 0
 08:44:54.849 [routine-1] INFO in.rcard.virtual.threads.App - VirtualThread[#23,routine-1]/runnable@ForkJoinPool-1-worker-2 | Hello, I'm a virtual thread number 1
 08:44:54.849 [routine-2] INFO in.rcard.virtual.threads.App - VirtualThread[#24,routine-2]/runnable@ForkJoinPool-1-worker-3 | Hello, I'm a virtual thread number 2
@@ -403,7 +409,7 @@ static void workingHardRoutine() {
 
 Before running the `workingHardRoutine()` function, we set the three system properties:
 
-```
+```text
 -Djdk.virtualThreadScheduler.parallelism=1
 -Djdk.virtualThreadScheduler.maxPoolSize=1
 -Djdk.virtualThreadScheduler.minRunnable=1
@@ -411,7 +417,7 @@ Before running the `workingHardRoutine()` function, we set the three system prop
 
 The above settings force the scheduler to use a pool configured with only one carrier thread. Since the `workingHard` virtual thread never reaches a blocking operation, it will never yield the execution to the `takeABreak"` virtual thread. In fact, the output is the following:
 
-```
+```text
 21:28:35.702 [Working hard] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Working hard]/runnable@ForkJoinPool-1-worker-1 | I'm working hard
 --- Running forever ---
 ```
@@ -448,7 +454,7 @@ static void workingConsciousnessRoutine() {
 
 This time, we expect the `takeABreak` virtual thread to be scheduled and executed on the only carrier thread when the `workingConsciousness` reaches the blocking operation. The output confirms our expectations:
 
-```
+```text
 21:30:51.677 [Working consciousness] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Working consciousness]/runnable@ForkJoinPool-1-worker-1 | I'm working hard
 21:30:51.682 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#23,Take a break]/runnable@ForkJoinPool-1-worker-1 | I'm going to take a break
 21:30:52.688 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#23,Take a break]/runnable@ForkJoinPool-1-worker-1 | I'm done with the break
@@ -459,7 +465,7 @@ As expected, the two virtual threads share the same carrier thread.
 
 Let's go back to the `workingHardRoutine()` function. If we change the carrier pool size to 2, we can see that both the `workingHard` and the `takeABreak` virtual threads are scheduled on the two carrier threads so they can run concurrently. The new setup is the following:
 
-```
+```text
 -Djdk.virtualThreadScheduler.parallelism=2
 -Djdk.virtualThreadScheduler.maxPoolSize=2
 -Djdk.virtualThreadScheduler.minRunnable=2
@@ -467,7 +473,7 @@ Let's go back to the `workingHardRoutine()` function. If we change the carrier p
 
 As we might expect, the output is the following. While the `ForkJoinPool-1-worker-1` is stuck in the infinite loop, the `ForkJoinPool-1-worker-2` is executing the `takeABreak` virtual thread:
 
-```
+```text
 21:33:43.641 [Working hard] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Working hard]/runnable@ForkJoinPool-1-worker-1 | I'm working hard
 21:33:43.641 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#24,Take a break]/runnable@ForkJoinPool-1-worker-2 | I'm going to take a break
 21:33:44.655 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#24,Take a break]/runnable@ForkJoinPool-1-worker-2 | I'm done with the break
@@ -525,7 +531,7 @@ static void twoEmployeesInTheOffice() {
 
 To see the effect of synchronization and the pinning of the associated `riccardo` virtual thread, we limit the carrier pool to one thread, as we did previously. The execution of the `twoEmployeesInTheOffice` produces the following output:
 
-```
+```text
 16:29:05.548 [Go to the toilet] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Go to the toilet]/runnable@ForkJoinPool-1-worker-1 | I'm going to use the toilet
 16:29:06.558 [Go to the toilet] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Go to the toilet]/runnable@ForkJoinPool-1-worker-1 | I'm done with the toilet
 16:29:06.559 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#23,Take a break]/runnable@ForkJoinPool-1-worker-1 | I'm going to take a break
@@ -536,13 +542,13 @@ As we can see, the tasks are entirely linearized by the JVM. As we said, the blo
 
 It's possible to trace these situations during the execution of a program by adding a property to the run configuration:
 
-```
+```text
 -Djdk.tracePinnedThreads=full/short
 ```
 
 The `full` value prints the full stack trace of the pinned virtual thread, while the `short` value prints only less information. The execution of the `twoEmployeesInTheOffice` with the above configuration set to the `short` value produces the following interesting output:
 
-```
+```text
 16:29:05.548 [Go to the toilet] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Go to the toilet]/runnable@ForkJoinPool-1-worker-1 | I'm going to use the toilet
 Thread[#22,ForkJoinPool-1-worker-1,5,CarrierThreads]
     virtual.threads.playground/in.rcard.virtual.threads.App$Bathroom.useTheToilet(App.java:188) <== monitors:1
@@ -555,7 +561,7 @@ As we guessed, the `riccardo` virtual thread was pinned to its carrier thread. W
 
 We can change the configuration of the carrier pool to allow the JVM to add a new carrier thread to the pool when needed:
 
-```
+```text
 -Djdk.virtualThreadScheduler.parallelism=1
 -Djdk.virtualThreadScheduler.maxPoolSize=2
 -Djdk.virtualThreadScheduler.minRunnable=1
@@ -563,7 +569,7 @@ We can change the configuration of the carrier pool to allow the JVM to add a ne
 
 We also removed the property `jdk.tracePinnedThreads` to avoid printing the pinned stacktrace. Execution with the new configuration produces the following output:
 
-```
+```text
 16:32:05.235 [Go to the toilet] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Go to the toilet]/runnable@ForkJoinPool-1-worker-1 | I'm going to use the toilet
 16:32:05.235 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#23,Take a break]/runnable@ForkJoinPool-1-worker-2 | I'm going to take a break
 16:32:06.243 [Go to the toilet] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Go to the toilet]/runnable@ForkJoinPool-1-worker-1 | I'm done with the toilet
@@ -613,7 +619,7 @@ static void twoEmployeesInTheOfficeWithLock() {
 
 The execution of the `twoEmployeesInTheOfficeWithLock` produces the expected output, which shows the two threads running concurrently:
 
-```
+```text
 16:35:58.921 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#23,Take a break]/runnable@ForkJoinPool-1-worker-2 | I'm going to take a break
 16:35:58.921 [Go to the toilet] INFO in.rcard.virtual.threads.App - VirtualThread[#21,Go to the toilet]/runnable@ForkJoinPool-1-worker-1 | I'm going to use the toilet
 16:35:59.932 [Take a break] INFO in.rcard.virtual.threads.App - VirtualThread[#23,Take a break]/runnable@ForkJoinPool-1-worker-1 | I'm done with the break

@@ -7,6 +7,8 @@ title: "The Big Kotlin Tutorial: Comprehensive Guide"
 updatedDate: 2024-09-06
 ---
 
+import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
+
 ## Introduction
 
 Kotlin is an amazing programming language. At the time of writing, Kotlin is the second most [popular language](https://survey.stackoverflow.co/2023) on the JVM (behind Java of course), the language of choice for writing Android applications &mdash; which covers about 70% of the mobile market &mdash; and it's opening new doors to other compilation targets (WASM, native) as well as multiplatform projects, targeting server-side, mobile (both iOS and Android) and the web. Kotlin is developed and maintained by a financially successful company who write their own software in it (skin in the game), its [annual conference](https://kotlinconf.com/) is sold-out months in advance, and its community is active and contributing with new libraries and tools every day.
@@ -25,9 +27,13 @@ This is your guide. In about the time it takes to watch a movie[^time] you'll ge
 
 This guide is for developers with some experience with some other language, and I'll skip general CS fundamentals. I will make connections to many programming languages, not least because Kotlin took inspiration from many other languages. By the end of this course, expect to write 300-400 lines of code.
 
-I also made a video version of this guide as a YouTube playlist which you can watch [here](https://www.youtube.com/playlist?list=PLmtsMNDRU0BwGCBDIKKQNLYycRTnQzMfp).
+<TipAdmonition>
+    I also made a video version of this guide as a YouTube playlist which you can watch [here](https://www.youtube.com/playlist?list=PLmtsMNDRU0BwGCBDIKKQNLYycRTnQzMfp).
+</TipAdmonition>
 
-> If you go through this guide saying "hmm, Kotlin looks cool", I encourage you to go _deep_. For that, I think you'll like [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed, long-form, hands-on course where you'll write not hundreds but _thousands_ of lines of code from scratch in dozens of examples and exercises, including an _image processing project_ that you can use for your own pictures.
+<TipAdmonition>
+    If you go through this guide saying "hmm, Kotlin looks cool", I encourage you to go _deep_. For that, I think you'll like [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed, long-form, hands-on course where you'll write not hundreds but _thousands_ of lines of code from scratch in dozens of examples and exercises, including an _image processing project_ that you can use for your own pictures.
+</TipAdmonition>
 
 [^time]: Don't be fooled by the estimated "read time". If you can go through this guide at 200 words per minute as this blog is usually set up to estimate, then you're either a genius or a Kotlin expert already. My advice: take about 2-3x the estimated time here, to understand the code examples as well.
 
@@ -63,7 +69,9 @@ fun main() {
 
 and it does the same thing. You got the idea: you can now run Kotlin applications.
 
-> A note: for every chapter of this guide, I recommend you create a fresh application just to keep your code nice and organized.
+<TipAdmonition>
+    For every chapter of this guide, I recommend you create a fresh application just to keep your code nice and organized.
+</TipAdmonition>
 
 Let's start talking about the Kotlin foundations.
 

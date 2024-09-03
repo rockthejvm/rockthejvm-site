@@ -7,11 +7,10 @@ title: A Scala Project with Akka, Cats, and Cassandra
 updatedDate: 2024-09-06
 ---
 
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 
 ## Introduction
-
-> This mini-project is a collaboration between me (Daniel) and [Riccardo Cardin](/authors/riccardo-cardin), one of the prominent Rock the JVM alumni. Big thanks to Riccardo for contributing with most of the code that ended up in this article and on camera.
 
 This article will show you how to write a bigger project involving multiple libraries and tools in the Scala world. We're going to use:
 
@@ -32,6 +31,10 @@ This article assumes that you're familiar with the basics of Akka Typed, Akka HT
 We're going to write Scala 2 in this article for library compatibility reasons, although the exact same code will work on Scala 3 as well once the libraries have been updated. We're also going to need [Docker](https://docker.com) to start a Cassandra instance.
 
 The entire code is available [on GitHub](https://github.com/rockthejvm/akka-cassandra-demo).
+
+<NoteAdmonition>
+    This mini-project is a collaboration between me (Daniel) and [Riccardo Cardin](/authors/riccardo-cardin), one of the prominent Rock the JVM alumni. Big thanks to Riccardo for contributing with most of the code that ended up in this article and on camera.
+</NoteAdmonition>
 
 ## Setup
 
@@ -110,7 +113,9 @@ We're going to split the work on this application in 4 parts:
 
 ## The Bank Accounts
 
-<MyYouTube id="PPIPGzrc2wo" />
+<aside>
+    <MyYouTube id="PPIPGzrc2wo" />
+</aside>
 
 We're going to model bank accounts as independent, persistent actors. Each bank account will be its own actor, which will be created by the "main" bank actor either
 
@@ -365,7 +370,9 @@ object PersistentBankAccount {
 
 ## The Main Bank Actor
 
-<MyYouTube id="NpGYj_Zpwsk" />
+<aside>
+    <MyYouTube id="NpGYj_Zpwsk" />
+</aside>
 
 This actor will manage all the bank accounts, which means it will be a parent of those accounts. The bank actor will be the middle layer between the HTTP server and the actual persistent bank accounts, which will do the majority of the work.
 
@@ -573,13 +580,13 @@ For this live test, we're first going to send a creation message and check that 
 
 Sure enough, we can also inspect Cassandra for the relevant events. While Cassandra is running, from another terminal we can run
 
-```bash
+```shell
 docker ps
 ```
 
 and look at the container name, copy it, and then run
 
-```bash
+```shell
 docker exec -it akka-cassandra-demo_cassandra_1 cqlsh
 ```
 
@@ -602,7 +609,9 @@ Let's move on to the HTTP server.
 
 ## The HTTP Server
 
-<MyYouTube id="q9psVBnMqJk" />
+<aside>
+    <MyYouTube id="q9psVBnMqJk" />
+</aside>
 
 For this section, we're going to use Akka HTTP (obviously), and we'll use the high-level DSL. We will expose the following endpoints:
 

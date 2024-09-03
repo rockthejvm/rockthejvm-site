@@ -3,6 +3,7 @@ author: anzori-nika-ghurtchumelia
 category: guide
 excerpt: "A practical guide to building a distributed system with Scala and Pekko: learn how to run other people's code in a real-world scenario"
 publishedDate: 2024-06-14
+repositoryUrl: https://github.com/ghurtchu/braindrill
 tags: [pekko, pekko-cluster, pekko-http, pekko-stream, scala]
 title: A Distributed Code Execution Engine in Pekko with Scala
 updatedDate: 2024-09-06
@@ -10,6 +11,7 @@ videoId: 1uP6FTUn8_E
 ---
 
 import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
 
 ## Introduction
 
@@ -42,12 +44,18 @@ Put simply, the goal of this project is to get familiar with [Apache Pekko](http
 Let's get started then, shall we?
 
 <NoteAdmonition>
-    Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job showcasing its features in a compact project we can explore exhaustively in this article. If you need to get started with Pekko, I've covered Pekko (and Akka) in a comprehensive bundle of courses about [Akka/Pekko Actors](/courses/akka-pekko-essentials), [Akka/Pekko Streams](/courses/akka-pekko-streams), and [Akka/Pekko HTTP](/courses/akka-pekko-http), all of which are used in this article. Check them out if you're interested.
+    Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job showcasing its features in a compact project we can explore exhaustively in this article.
 </NoteAdmonition>
+
+<TipAdmonition>
+    If you need to get started with Pekko, I've covered Pekko (and Akka) in a comprehensive bundle of courses about [Akka/Pekko Actors](/courses/akka-pekko-essentials), [Akka/Pekko Streams](/courses/akka-pekko-streams), and [Akka/Pekko HTTP](/courses/akka-pekko-http), all of which are used in this article. Check them out if you're interested.
+</TipAdmonition>
 
 ## Project Structure
 
-To make the best of this article, I recommend checking out [the project on GitHub](https://github.com/ghurtchu/braindrill/) and following the code while reading this article, as many things will make sense along the way.
+To make the best of this article, I recommend checking out <a href={
+// @ts-ignore
+frontmatter.repositoryUrl}>the project on GitHub</a> and following the code while reading this article, as many things will make sense along the way.
 
 We will use `Scala 3.4.1`, `sbt 1.9.9`, `docker`, `pekko` and its modules to complete our project.
 
@@ -316,7 +324,7 @@ Key points include:
 
 `Dockerfile` is a declarative file for building a `docker` image.
 
-```shell
+```dockerfile
 # Use an official OpenJDK runtime as a parent image
 FROM hseeberger/scala-sbt:17.0.2_1.6.2_3.1.1
 
@@ -1240,7 +1248,9 @@ Let's move on to the final part of the project - running it all locally.
 
 To deploy the project locally we should simply run `./deploy.sh` and wait to see the logs from the `worker` and `master` nodes.
 
-For the details, please view the [README](https://github.com/Ghurtchu/braindrill/blob/main/README.md) of the original project.
+For the details, please view the <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/blob/main/README.md`}>README</a> of the original project.
 
 The only requirement is to have the docker engine installed locally.
 

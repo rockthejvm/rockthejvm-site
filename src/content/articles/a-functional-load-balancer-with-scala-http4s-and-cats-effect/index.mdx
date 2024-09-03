@@ -210,7 +210,7 @@ class UrlsTest extends FunSuite {
 
 Let's run tests in sbt:
 
-```shell
+```console
 sbt:loadbalancer> test
 [info] compiling 1 Scala source to ~/loadbalancer/target/scala-3.3.0/test-classes ...
 com.rockthejvm.loadbalancer.domain.UrlsTest:
@@ -347,7 +347,7 @@ The actual usage and behavior of these references would depend on the rest of th
 
 Before moving on let's actually make sure that our code compiles:
 
-```shell
+```console
 sbt:loadbalancer> compile
 [info] compiling 2 Scala sources to ~/loadbalancer/target/scala-3.3.0/classes ...
 [success] Total time: 1 s, completed Sep 9, 2023, 11:01:17 AM
@@ -466,7 +466,7 @@ class ParseUriTest extends FunSuite {
 
 And run them via sbt:
 
-```shell
+```console
 sbt:loadbalancer> test
 [info] compiling 1 Scala source to ~/loadbalancer/target/scala-3.3.0/classes ...
 [info] compiling 2 Scala sources to ~/loadbalancer/target/scala-3.3.0/test-classes ...
@@ -548,7 +548,7 @@ class AddRequestPathToBackendUrlTest extends FunSuite {
 
 Let's run all the tests once again:
 
-```shell
+```console
 sbt:loadbalancer> test
 [info] compiling 1 Scala source to ~/loadbalancer/target/scala-3.3.0/test-classes ...
 com.rockthejvm.loadbalancer.domain.UrlsTest:
@@ -1341,7 +1341,7 @@ hostAndPort private method - a function takes a `host` (as a string) and a `port
 
 Let's compile:
 
-```shell
+```console
 sbt:loadbalancer> compile
 [info] compiling 7 Scala sources to ~/loadbalancer/target/scala-3.3.0/classes ...
 [success] Total time: 4 s, completed Sep 9, 2023, 1:26:52 PM
@@ -1349,7 +1349,7 @@ sbt:loadbalancer> compile
 
 and test:
 
-```shell
+```console
 sbt:loadbalancer> test
 [info] compiling 2 Scala sources to ~/loadbalancer/target/scala-3.3.0/test-classes ...
 Urls(Vector(url1))
@@ -1463,7 +1463,7 @@ Before writing the shell script for running the load balancer we need to:
 
 So, let's do it step by step, start sbt and run `assembly`:
 
-```shell
+```console
 sbt:loadbalancer> assembly
 [info] compiling 2 Scala sources to ~/loadbalancer/target/scala-3.3.0/classes ...
 [info] 5 file(s) merged using strategy 'Rename' (Run the task at debug level to see the details)

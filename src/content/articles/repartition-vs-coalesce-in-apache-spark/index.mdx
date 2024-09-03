@@ -7,6 +7,8 @@ title: Repartition vs Coalesce in Apache Spark
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article is for the Scala & Spark programmers, particularly those Spark programmers that are starting to dive a little deeper into how Spark works and perhaps attempting to make it faster. I'm expecting you to be at least familiar with:
 
 - the distributed nature of Spark
@@ -103,11 +105,9 @@ The fundamental benefit of a repartition is _uniform data distribution_, which a
 
 ## Conclusion
 
-With bullets,
-
-- repartition redistributes the data evenly, but at the cost of a shuffle
-- coalesce works much faster when you reduce the number of partitions because it sticks input partitions together
-- coalesce doesn't guarantee uniform data distribution
-- coalesce is identical to a repartition when you increase the number of partitions
+- Repartition redistributes the data evenly, but at the cost of a shuffle
+- Coalesce works much faster when you reduce the number of partitions because it sticks input partitions together
+- Coalesce doesn't guarantee uniform data distribution
+- Coalesce is identical to a repartition when you increase the number of partitions
 
 And with that, massive performance benefits await if you know how to make the right tradeoffs, as with anything in life.

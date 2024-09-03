@@ -7,9 +7,10 @@ title: Stateful Streams with Apache Pulsar and Apache Flink
 updatedDate: 2024-09-06
 ---
 
-> This article is a collaboration between myself (Daniel) and [Giannis Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. Last time we integrated [Pulsar with Spark](/articles/streaming-analytics-with-apache-pulsar-and-spark-structured-streaming); in this post we combine Apache Pulsar and Apache Flink for powerful data stream processing.
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/Admonitions/TipAdmonition.astro";
 
-![Unified Batch & Streaming](images/pulsar-and-flink-stateful-streams.png)
+## Prerequisites
 
 Before we start, some basic familiarity with Apache Pulsar and Apache Flink is required &mdash; Rock the JVM has an [Apache Flink course](/courses/flink) if you're interested. To better understand the implementation in this blog post, we suggest getting familiar with the basic concepts of Apache Pulsar and Apache Flink. See the [Additional Resources](#additional-resources) section.
 
@@ -17,6 +18,8 @@ The code in this article is in **Java**, although it can be adapted to Scala as 
 For the best experience following this article, we recommend referring to [this repository](https://github.com/polyzos/pulsar-flink-stateful-streams) while replicating the project locally in your own dev environment. You can also clone the repository and work directly on the code there.
 
 ## Introduction
+
+![Unified Batch & Streaming](images/pulsar-and-flink-stateful-streams.png)
 
 Typical Streaming data architectures include a streaming storage layer like Apache Pulsar that serves as the backbone of the infrastructure.
 Stateful stream processing is also required to deliver advanced analytics for your users; a stream computing engine
@@ -27,6 +30,10 @@ In this blog post, we will walk through how you can use Apache Flink to _enrich 
 We will use Apache Pulsar as our streaming storage layer.
 Apache Pulsar and Apache Flink have a strong integration together and enable a Unified Batch and Streaming Architecture.
 If you are interested about this type of architecture, [this video](https://www.youtube.com/watch?v=2MpiE238Pzw) can be helpful.
+
+<NoteAdmonition>
+    This article is a collaboration between myself (Daniel) and [Giannis Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. Last time we integrated [Pulsar with Spark](/articles/streaming-analytics-with-apache-pulsar-and-spark-structured-streaming); in this post we combine Apache Pulsar and Apache Flink for powerful data stream processing.
+</NoteAdmonition>
 
 ## The Example: Data From an Online Store
 
@@ -118,7 +125,7 @@ The examples here will be in Java, so let's add the following dependencies to ou
 We also require an instance of Pulsar and Flink, so we will use [docker-compose](https://docs.docker.com/compose/) to create them as local services.
 Create a `docker-compose.yml` file and add the following:
 
-```shell
+```yaml
 version: '3.7'
 services:
   jobmanager:
@@ -304,7 +311,7 @@ This data producer's main function does the following:
 
 After running the producer we should see an output similar to the following:
 
-```shell
+```text
 17:35:43.861 INFO [pulsar-client-io-1-1] io.ipolyzos.producers.LookupDataProducer - ✅ Acked message 35:98:0:26 - Total 2190
 17:35:43.861 INFO [pulsar-client-io-1-1] io.ipolyzos.producers.LookupDataProducer - ✅ Acked message 35:98:0:27 - Total 2191
 17:35:43.861 INFO [pulsar-client-io-1-1] io.ipolyzos.producers.LookupDataProducer - ✅ Acked message 35:98:0:28 - Total 2192
@@ -497,7 +504,7 @@ public class OrdersDataSource {
 
 After the Flink application is running, we can trigger the application above, and we should see logs similar to this (in the docker-compose terminal):
 
-```shell
+```text
 taskmanager_1  | Order(invoiceId=44172, lineItemId=192933, userId=145493, itemId=602, itemName=prize-winning instrument, itemCategory=instrument, price=48.40000000000001, createdAt=1469834917000, paidAt=1469700797000)
 taskmanager_1  | Order(invoiceId=44172, lineItemId=385101, userId=145493, itemId=3362, itemName=matte instrument, itemCategory=instrument, price=55.0, createdAt=1469834917000, paidAt=1469700797000)
 taskmanager_1  | Order(invoiceId=44172, lineItemId=285219, userId=145493, itemId=2584, itemName=industrial-strength instrument, itemCategory=instrument, price=132.0, createdAt=1469834917000, paidAt=1469700797000)
@@ -655,7 +662,7 @@ Following our previous steps:
 
 We should see an output similar to this:
 
-```shell
+```text
 taskmanager_1  | EnrichedOrder(invoiceId=67052, lineItemId=326416, user=User(id=88300, firstName=Davis, lastName=MDavis1997@earthlink.edu, emailAddress=MDavis1997@earthlink.edu, createdAt=1441790913000, deletedAt=-1, mergedAt=-1, parentUserId=-1), item=Item(id=930, createdAt=1388876010000, adjective=, category=module, modifier=, name=module, price=100.0), createdAt=1443643093000, paidAt=1443745976000)
 taskmanager_1  | EnrichedOrder(invoiceId=67052, lineItemId=146888, user=User(id=88300, firstName=Davis, lastName=MDavis1997@earthlink.edu, emailAddress=MDavis1997@earthlink.edu, createdAt=1441790913000, deletedAt=-1, mergedAt=-1, parentUserId=-1), item=Item(id=80, createdAt=1372810111000, adjective=rechargable, category=module, modifier=cleaner, name=rechargable module cleaner, price=78.0), createdAt=1443643093000, paidAt=1443745976000)
 taskmanager_1  | EnrichedOrder(invoiceId=67052, lineItemId=204597, user=User(id=88300, firstName=Davis, lastName=MDavis1997@earthlink.edu, emailAddress=MDavis1997@earthlink.edu, createdAt=1441790913000, deletedAt=-1, mergedAt=-1, parentUserId=-1), item=Item(id=336, createdAt=1385261877000, adjective=fuzzy, category=module, modifier=, name=fuzzy module, price=100.0), createdAt=1443643093000, paidAt=1443745976000)
@@ -779,9 +786,11 @@ As a quick recap:
 We are left with one open question: how we can provide _fault-tolerance_ guarantees for our streaming job.
 We want to account for scenarios that our state grows quite large to fit in memory and/or our job crashes, and we need to recover fast.
 
-## Making Our job Fault Tolerant
+## Making Our Job Fault Tolerant
 
-> Checkpoints make state in Flink Fault Tolerant by allowing state and the corresponding stream positions to be recovered, thereby giving the application the same semantics as a failure-free execution.
+<TipAdmonition>
+    Checkpoints make state in Flink Fault Tolerant by allowing state and the corresponding stream positions to be recovered, thereby giving the application the same semantics as a failure-free execution.
+</TipAdmonition>
 
 We can easily enable checkpoints by applying some configuration option. We will enable the required configuration option and add a `RestartStrategy` to let Flink try and restart a job upon an Exception.
 Combining a `RestartStrategy` with Checkpoints gives our job the ability to recover in case of an Exception, for example due to some temporary connection error.
@@ -845,6 +854,17 @@ Navigate to the Flink UI and you should see something like this:
 You can see that while we consume new order events, the events actually get enriched with `user` and `item` information, even though our source streams haven't read any new records.
 This means the state is restored from the checkpoint and flink knows how to rebuild it without replaying all the events from the topics.
 
+## Conclusion
+
+In this long-form article, we integrated Apache Pulsar with Apache Flink:
+
+- We learned how to read data from Pulsar topics with the Pulsar connector for Flink
+- We learned how to enrich Pulsar data with `connect` and `ProcessFunction`s in Flink
+- We learned how to save missing data for investigation using _side outputs_
+- We made our jobs fault-tolerant with checkpoints
+
+Pulsar and Flink are a powerful combination of stateful data streaming, and we hope this article will help you make the best of both.
+
 ## Additional Resources
 
 - [Rock The JVM Apache Flink Course](/courses/flink)
@@ -858,14 +878,3 @@ This means the state is restored from the checkpoint and flink knows how to rebu
 - [Using RocksDB State Backend in Apache Flink - When and How](https://flink.apache.org/2021/01/18/rocksdb.html)
 - [Apache Flink Restart Strategies](https://kartikiyer.com/2019/05/26/choosing-the-correct-flink-restart-strategy-avoiding-production-gotchas/)
 - [Apache Flink Checkpoints](https://nightlies.apache.org/flink/flink-docs-master/docs/ops/state/checkpoints/)
-
-## Conclusion
-
-In this long-form article, we integrated Apache Pulsar with Apache Flink:
-
-- We learned how to read data from Pulsar topics with the Pulsar connector for Flink
-- We learned how to enrich Pulsar data with `connect` and `ProcessFunction`s in Flink
-- We learned how to save missing data for investigation using _side outputs_
-- We made our jobs fault-tolerant with checkpoints
-
-Pulsar and Flink are a powerful combination of stateful data streaming, and we hope this article will help you make the best of both.
