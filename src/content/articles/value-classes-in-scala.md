@@ -10,8 +10,6 @@ updatedDate: 2024-09-06
 
 > This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming.
 
-_Enter Riccardo:_
-
 One of the main rules of functional developers is that we should always trust a function's signature. Hence, when we use functional programming, we prefer to define _ad-hoc_ types to represent simple information such as an identifier, a description, or a currency. Ladies and gentlemen, please welcome the value classes.
 
 ## 1. The Problem
@@ -72,7 +70,7 @@ AnotherProductRepository.findByCode(anotherDescription)
 
 As desired, the compiler diligently warns us that we are bad developers:
 
-```shell
+```text
 [error] /Users/daniel/Documents/value-types/src/main/scala/ValuesTypes.scala:33:39: type mismatch;
 [error]  found   : com.rockthejvm.value.ValuesTypes.Description
 [error]  required: com.rockthejvm.value.ValuesTypes.BarCode
@@ -330,7 +328,7 @@ val anotherBarCode: BarCode = "8-000137-001620"
 
 Hence, in the above example, the compiler diligently warns us that the two types are incompatible:
 
-```shell
+```text
 [error] 20 |  val anotherBarCode: BarCode = "8-000137-001620"
 [error]    |                      ^^^^^^^
 [error]    |                      Not found: type BarCode

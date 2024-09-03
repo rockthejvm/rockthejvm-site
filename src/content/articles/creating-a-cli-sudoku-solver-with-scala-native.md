@@ -12,8 +12,6 @@ updatedDate: 2024-09-06
 >
 > Which brings us to this article: Antonio originally started from my [A Backtracking Sudoku Solver in Scala](/articles/a-backtracking-sudoku-solver-in-scala) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us.
 
-_Enter Antonio:_
-
 ## Introduction
 
 [Sudoku](https://en.wikipedia.org/wiki/Sudoku) is a notorious combinatorial puzzle solvable with optimised and efficient algorithms. Today we won't focus on any of those techniques, but we'll leverage the computing power of our machines to brute-force the solution in a functional immutable fashion.
@@ -35,7 +33,7 @@ object Hello {
 
 and run it using `scala-cli run Hello.scala`
 
-```shell
+```console
 $ scala-cli run Hello.scala
 # Compiling project (Scala 3.2.0, JVM)
 # Compiled project (Scala 3.2.0, JVM)
@@ -44,7 +42,7 @@ Hello from scala-cli
 
 Scala CLI, by default, downloads the latest scala version and uses the available JVM installed on your system unless you specify otherwise.
 
-```shell
+```console
 $ scala-cli run Hello.scala --jvm "temurin:11" --scala "2.13.10"
 # Downloading JVM temurin:11
 # Compiling project (Scala 2.13.10, JVM)
@@ -72,7 +70,7 @@ object Maps {
 
 Now it's possible to execute the script with no additional command line flags
 
-```shell
+```console
 $ scala-cli run Hello.scala
 # Compiling project (Scala 2.13.10, JVM)
 # Compiled project (Scala 2.13.10, JVM)
@@ -92,7 +90,7 @@ and much more. For a complete reference, see [Directives](https://scala-cli.virt
 
 As some of you may have noticed, the `pprint` library version in the example is not the newest one: at the time of writing, the most recent version is 0.8.0. Luckily we're not forced to _check it manually on GitHub or Maven Central_ since scala-cli exposes the `dependency-update` command that will fetch the last version of each dependency and print a command to update them all.
 
-```shell
+```console
 $ scala-cli dependency-update Maps.scala
 Updates
    * com.lihaoyi::pprint::0.6.6 -> 0.8.0
@@ -114,13 +112,13 @@ Writing Scala code without the help of a fully-fledged IDE is okay if you're wri
 
 The [setup-ide](https://scala-cli.virtuslab.org/docs/commands/setup-ide) command is run before every `run`, `compile` or `test` but it can be invoked manually like:
 
-```shell
+```console
 $ scala-cli setup-ide Maps.scala
 ```
 
 resulting in the generation of 2 files that both Metals and IntelliJ use to provide all their functionalities.
 
-```shell
+```text
 .
 ├── .bsp
 │  └── scala-cli.json
@@ -279,7 +277,7 @@ Now that we have some APIs over `Sudoku`, it makes sense to test them out before
 
 A more structured way to set up a project is to separate the source files from the test ones, maybe in different folder trees, using a slightly more complex project structure that [scala-cli supports](https://scala-cli.virtuslab.org/docs/reference/root-dir).
 
-```shell
+```text
 .
 ├── src
 │  └── Sudoku.scala
@@ -364,7 +362,7 @@ sudokuF.test("Sudoku.getCellOf(n) should extract the correct cell") { sudoku =>
 
 and test our implementation using the `test` command of scala-cli:
 
-```shell
+```console
 $ scala-cli test .
 SudokuSpec:
   + Sudoku.get(x,y) should extract the number at (x,y) (0 based, from top left) 0.037s
@@ -478,7 +476,7 @@ def solve(s: Sudoku): List[Sudoku] = s.getZero.fold(s :: Nil) {
 
 Now that we've built the core of the logic, it's time to wire it to create a command line application. The chosen library for command line argument parsing is [decline](https://ben.kirw.in/decline/). We will place the argument parsing logic and the application entry point in their own `Main.scala` file.
 
-```shell
+```text
 .
 ├── src
 │  ├── Main.scala
@@ -547,7 +545,7 @@ having this definition of `asPrettyString`:
 
 Now we can run our application using scala-cli:
 
-```shell
+```console
 $ scala-cli run .
 Missing expected positional argument!
 
@@ -602,7 +600,7 @@ object Main extends CommandApp(
 
 It's time to use scala-cli to [package](https://scala-cli.virtuslab.org/docs/cookbooks/package/scala-package/) our application. By default, scala-cli packages in a [lightweight format](https://scala-cli.virtuslab.org/docs/cookbooks/package/scala-package/) that contains only your bytecode. To run the application, the `java` command needs to be available, and access to the internet, if dependencies need to be downloaded. Adding `//> using packaging.output "sudokuSolver"` to `project.scala` will let us control the filename of the produced executable file.
 
-```shell
+```console
 $ scala-cli package .
 Wrote /Users/toniogela/repo/sudoku/sudokuSolver, run it with
   ./sudokuSolver
@@ -638,7 +636,7 @@ Running `sudokuSolver` on a fresh machine featuring only a Java installation wil
 
 Now that we have a universal-ish binary that can run virtually anywhere there's a java installation, it's time for some benchmarking. To benchmark the time, our command line app takes to solve a specific sudoku we'll use [hyperfine](https://github.com/sharkdp/hyperfine), an awesome command-line benchmarking tool written in Rust.
 
-```shell
+```console
 $ SUDOKU="....47......5.....9.483..15.19.7...4...3.9.21.3...5.7......8....78.2..3...1.5.4.."
 
 $ hyperfine --warmup 20 -N "./sudokuSolver ${SUDOKU}"
@@ -659,7 +657,7 @@ To achieve it, we can add a few directives to `project.scala`:
 
 Tweaking the `packaging.output` directive to rename the executable to `"sudokuNativeSolver"` and waiting for a while ("release-full" mode will significantly increase compilation times) will result in a native executable:
 
-```shell
+```console
 $ scala-cli package -f .
 Compiling project (Scala 3.2.1, Scala Native)
 Compiled project (Scala 3.2.1, Scala Native)
@@ -691,7 +689,7 @@ $ ./sudokuNativeSolver $SUDOKU
 
 Now that we have two versions of the app, we can compare them using hyperfine again:
 
-```shell
+```console
 $ hyperfine --warmup 20 -N "./sudokuSolver $SUDOKU" "./sudokuNativeSolver $SUDOKU"
 Benchmark 1: ./sudokuSolver
   Time (mean ± σ):     860.5 ms ±  17.9 ms    [User: 1751.0 ms, System: 103.1 ms]
