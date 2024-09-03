@@ -9,8 +9,6 @@ updatedDate: 2024-09-06
 
 This article is for the Spark programmer who has at least some fundamentals, e.g. how to create a DataFrame and how to do basic operations like selects and joins, but has not dived into how Spark works yet. Perhaps you're interested in boosting the performance out of your Spark jobs.
 
-This article follows [the article where I discuss Spark query plans](/articles/understanding-spark-query-plans), after many people requested I follow the Spark path and shed some light on other Spark functionality.
-
 ## Prerequisites
 
 The code I'll be writing is inside a Spark shell with version 3.0.0, which you can find [here](https://spark.apache.org/downloads.html) for download. The default choices in the dropdown selectors will give you a pre-compiled Spark distribution. Just download, unzip, navigate to the bin folder, then run the spark-shell executable.

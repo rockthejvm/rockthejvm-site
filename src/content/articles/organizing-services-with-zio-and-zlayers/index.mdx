@@ -8,6 +8,8 @@ updatedDate: 2024-09-06
 videoId: PaogLRrYo64
 ---
 
+## Introduction
+
 In this article, we'll take a look at `ZLayer`s, an abstraction naturally arising from the core design of ZIO, which can greatly assist in making large code bases more understandable, composable and searchable for the human beings charged with their care.
 
 This article is for the comfortable Scala programmer. Some familiarity with ZIO basics will help, but I'll take care to outline the necessary concepts here so that the article can be as standalone as possible.
@@ -22,7 +24,7 @@ libraryDependencies ++= "dev.zio" %% "zio" % "1.0.4-2" // latest version at the 
 
 The [ZIO](https://github.com/zio/zio) library is centered around the `ZIO` type. Instances of ZIO are called "effects", which describe anything that a program normally does: printing, computing, opening connections, reading, writing etc. However it's worth pointing out that &mdash; much like other IO monads &mdash; constructing such an "effect" does not _actually_ produce it at that moment. Instead, a ZIO instance is a data structure _describing_ an effect.
 
-![A meme of Captain Jack Sparrow from Pirates of the Caribbean saying, ‘The effect is not the effect. The effect is your data about the effect. Savvy?](images/the-effect-is-not-the-effect-meme.jpeg)
+![A meme of Captain Jack Sparrow from Pirates of the Caribbean saying "The effect is not the effect. The effect is your data about the effect. Savvy?"](images/the-effect-is-not-the-effect-meme.jpeg)
 
 The ZIO type describes an effect which is caused by an input, and can produce either an error or a desired value. As such, it takes 3 type arguments:
 
@@ -64,7 +66,7 @@ object ZioPlayground extends zio.App {
 }
 ```
 
-```txt
+```console
 Hello! What is your name?
 > Daniel
 Hello, Daniel, welcome to Rock the JVM!

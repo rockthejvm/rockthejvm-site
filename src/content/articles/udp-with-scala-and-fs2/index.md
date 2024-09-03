@@ -302,7 +302,7 @@ object NioUdp extends IOApp {
 
 Here we wrap both functions in `IO` and then run them concurrently using the `parMapN()` from `cats`, however, we delay the execution of the `client` by 500 milliseconds to give the `server` time to start. These are the results after running the application
 
-```bash
+```text
 [server] Udp server is successfully opened
 [server] Udp server is bound to:/127.0.0.1:5555
 [client] I have successfully sent 42 bytes to the Echo Server!
@@ -722,7 +722,7 @@ object Fs2Udp extends IOApp {
 
 Just like before we run both `server` and `client` concurrently but give the server 500 milliseconds to first start up. Here are the results:
 
-```bash
+```text
 [server] Udp server is successfully opened
 [server] Udp server is bound to: 127.0.0.1:5555
 [client] Sending 42 bytes to the Echo Server!
@@ -744,7 +744,7 @@ For Multicasting to work, we need to have a network interface capable of multica
 
 We can use the `ip link` command in the terminal to check if any is present. Here's the output from my computer:
 
-```bash
+```text
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: enp1s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
@@ -757,7 +757,7 @@ This shows I have two interfaces that I could use for multicasting, enp1s0 is th
 
 At the moment they are both in a `DOWN` state because none are connected to a network. To change this state we could connect your interface to a wifi network or securely connect your ethernet cable to an existing network.
 
-```bash
+```text
 3: wlxb4b024bc35a7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DORMANT group default qlen 1000
     link/ether b4:b0:24:bc:35:a7 brd ff:ff:ff:ff:ff:ff
 ```
@@ -803,7 +803,7 @@ object GetInterfaces extends IOApp {
 Here we call `NetworkInterface.getNetworkInterfaces()` to get `Enumeration[NetworkInterface]`, an Enumeration only traverses the collection but doesn`t allow for modifications. We traverse this using a while loop and printing out details of the `NetworkInterface` and its associated IP addresses.
 Here are my results:
 
-```bash
+```text
           Network Interface: wlxb4b024bc35a7
           - Up and running: true
           - Supports Multicasting: true
@@ -1023,7 +1023,7 @@ object NioUdpMulticast extends IOApp {
 
 Here are the results:
 
-```bash
+```text
 [multicast server] Udp server is successfully opened
 [multicast server] Udp server is bound to: /0.0.0.0:5555
 [multicast server] Udp server will start sending date time info shortly...
@@ -1210,7 +1210,7 @@ object Fs2UdpMulticasting extends IOApp {
 
 Here are the results:
 
-```bash
+```text
 [multicast server] Udp server is successfully opened
 [multicast server] Udp server is bound to: 0.0.0.0:5555
 [multicast server] Udp server will start sending date time info shortly...
@@ -1329,7 +1329,7 @@ To create our datagrams we use the `url.chunks` method and pass the data chunk t
 
 Before we run our server, we should make sure our multicast interface is connected, if everything runs correctly, we should get the following output:
 
-```bash
+```text
 [info] running com.rockthejvm.radio.RadioServer
 [multicast server] Udp server is successfully opened
 [multicast server] Udp server is bound to: 0.0.0.0:5555
@@ -1338,7 +1338,7 @@ Before we run our server, we should make sure our multicast interface is connect
 
 We can now connect to our stream using `FFplay` in the following way:
 
-```bash
+```shell
 ffplay udp://225.4.5.6:5555
 ```
 

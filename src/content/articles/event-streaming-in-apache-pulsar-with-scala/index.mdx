@@ -8,21 +8,25 @@ title: Event Streaming in Apache Pulsar with Scala
 updatedDate: 2024-09-06
 ---
 
-> This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos), one of the earliest students of Rock the JVM back in 2017. He's now a senior engineer working on Apache Pulsar, a promising new toolkit for high performance data streaming. In this article, he'll give an overview of what Pulsar is and why it's so good, and then walk you through a quick tutorial to get you started.
+import NoteAdmonition from "@components/Admonitions/NoteAdmonition.astro";
 
-_Enter Giannis:_
+## Introduction
 
 In today's modern data era there is an ever-increasing demand for delivering data insights as fast as possible. What happens “now”, might be irrelevant a few minutes or even seconds later and so there is an ever-increasing need for events to be ingested and processed as fast as possible, whether it is to improve a business and make it more competitive in a demanding market or make a system grow and adapt itself based on the environment stimulations it receives.
 
 Along with that and the evolution of containers and cloud infrastructure companies seek ways to leverage and adopt cloud-native approaches.
-Moving to the cloud and adopting containers for our system means we are most likely leveraging technologies like Kubernetes for all of it’s amazing features.
+Moving to the cloud and adopting containers for our system means we are most likely leveraging technologies like Kubernetes for all of it's amazing features.
 Having our infrastructure on the cloud and adopting cloud-native solutions means we also want our messaging and streaming solutions to be in-line with these principles.
 
 In this blog post we will go through how you can implement cloud-native event stream processing with Apache Pulsar and Scala. We will review what Apache Pulsar has to offer in this modern data era, what makes it stand out and how you can get started with it by creating some simple Producers and Consumers using Scala and the pulsar4s library.
 
+<NoteAdmonition>
+    This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos), one of the earliest students of Rock the JVM back in 2017. He's now a senior engineer working on Apache Pulsar, a promising new toolkit for high performance data streaming.
+</NoteAdmonition>
+
 ## What Is Apache Pulsar
 
-As described in the documentation,
+As described in the documentation:
 
 > Apache Pulsar is a cloud-native, distributed messaging and streaming platform that manages hundreds of billions of events per day.
 
@@ -187,8 +191,10 @@ We have the following subscription types:
 
 Different Subscription types are used for different use cases. For example in order to implement a typical fan-out messaging pattern you can use the exclusive or failover subscription types. For message queueing and work queues a good candidate is Shared Subscription in order to share the work among multiple consumers. On the other hand for streaming use cases and/or key-based stream processing the Failover and KeyShared subscriptions can be a good candidate that can allow for ordered consumption or scale your processing based on some key.
 
-## Conclusion and Further Reading
+## Conclusion
 
 In this blog post we made a brief introduction at what Apache Pulsar is, what makes it stand out as a new messaging and streaming platform alternative, how you can create some really simple producing and consuming applications and finally we highlighted how it unified messaging and streaming through different subscription modes.
+
+## Further Reading
 
 If this overview sparked your interest and want to learn more, I encourage you to take a look at [Pulsar IO](https://pulsar.apache.org/docs/en/io-overview/) (moves data in and out of Pulsar easily), [Pulsar Functions](http://pulsar.apache.org/docs/en/functions-overview/) (Pulsar’s serverless and lightweight compute framework), which you can use to apply your processing logic on your Pulsar topics, reduce all the boilerplate code needed for producing and consuming applications and combined with [Function Mesh](https://functionmesh.io/) make your event streaming truly cloud-native, by leveraging Kubernetes native features like deployments and autoscaling.

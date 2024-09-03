@@ -134,9 +134,12 @@ final case class ApiConfig(key: String, secret: Secret[String])
 
 The `ApiConfig` final case class will hold the `key` and `secret` values when retrieved from `apiConfig.json`. Ciris provides a `Secret` class that replaces our `secret` value with the first 7 characters of the SHA-1 hash, convenient for passing around sensitive details within our application.
 
-When handling configuration with Ciris, values are passed around as `ConfigValue`s. Here's how the official Ciris website defines a ConfigValue:
+When handling configuration with Ciris, values are passed around as ConfigValues. Here's how [the official Ciris website](https://cir.is/docs/configurations) defines a ConfigValue:
 
-> `ConfigValue` is the central concept in the library. It represents a single configuration value or a composition of multiple values.
+<dl>
+  <dt>ConfigValue</dt>
+  <dd>The central concept in the library. It represents a single configuration value or a composition of multiple values.</dd>
+</dl>
 
 Therefore we'll need to represent our values in this type before we start passing them around the application. Since we saved our values in `.json` files, we will need to decode the JSON strings, this is where `circe` and `ciris-circe` come into play.
 
