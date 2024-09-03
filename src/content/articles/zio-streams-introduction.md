@@ -42,7 +42,7 @@ broad definition above, because the tail isn't evaluated until accessed -
 meaning they are made available over the time. If we investigated this in a
 _repl_, we'd see :
 
-```shell
+```console
 scala> val ll = LazyList(1,2,3,4,5)
 val ll: scala.collection.immutable.LazyList[Int] = LazyList(<not computed>)
 
@@ -57,7 +57,7 @@ Once the `LazyList` has been created, we can access the `head` element, but the
 `tail` is not yet computed. This is in stark comparison to a `List`, for which
 the same exercise would yield:
 
-```shell
+```console
 scala> val l = List(1,2,3,4,5)
 val l: List[Int] = List(1, 2, 3, 4, 5)
 
@@ -72,7 +72,7 @@ Scala's `LazyList` also has the bonus of the elements being memoized - meaning
 they are only computed once. Let's go back to the _repl_, and look at our
 `LazyList` after the first two elements have been accessed.
 
-```shell
+```console
 scala> ll.tail.head
 val res3: Int = 2
 
@@ -391,7 +391,7 @@ Now let's turn our attention to the `failingStream`.
 
 The above code will fail less than gracefully, with something like
 
-```shell
+```text
 <FAIL> sink: Fail(java.io.IOException: ,StackTrace(Runtime(6,1655962329,),Chunk(com.alterationx10.zse.ZStreamExample.run(ZStreamExample.scala:53),com.alterationx10.zse.ZStreamExample.run(ZStreamExample.scala:54))))
 timestamp=2022-06-23T05:32:09.924145Z level=ERROR thread=#zio-fiber-0 message="" cause="Exception in thread "zio-fiber-6" java.io.IOException: java.io.IOException:
 	at com.alterationx10.zse.ZStreamExample.run(ZStreamExample.scala:53)

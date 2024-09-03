@@ -22,7 +22,7 @@ You can see the setup for the post in [this](https://github.com/ncreep/scala3-fl
 
 After cloning the repo, use the command
 
-```bash
+```shell
 scala-cli console .
 ```
 

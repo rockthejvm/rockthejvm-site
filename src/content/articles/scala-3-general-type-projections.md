@@ -148,7 +148,7 @@ println(anInt + 1)
 
 will run into...
 
-```txt
+```text
 Exception in thread "main" java.lang.ClassCastException: class java.lang.String cannot be cast to class scala.runtime.Nothing$ (java.lang.String is in module java.base of loader 'bootstrap'; scala.runtime.Nothing$ is in unnamed module of loader 'app')
 	at scala.Function1.$anonfun$andThen$1(Function1.scala:85)
 	at com.rockthejvm.part3removals.TypeProjections$.main(TypeProjections.scala:39)

@@ -129,7 +129,7 @@ The code is short but magical. Here's how it works in a nutshell:
 
 At this point, we should be ready to start the server and issue HTTP requests to the server. If you want to send HTTP requests easily, I really like [HTTPie](https://httpie.org) (which formats the responses much better), but you can also use cURL as well.
 
-```bash
+```shell
 echo '{"name":"Daniel", "age": 56}' | http post localhost:8081/api/user
 ```
 
@@ -148,7 +148,7 @@ Server: akka-http/10.2.0
 
 Alternatively, with cURL:
 
-```bash
+```shell
 $ curl \
       -XPOST \
       -H "Content-Type: application/json" \
@@ -204,7 +204,7 @@ object AkkaHttpCirceJson extends FailFastCirceSupport {
 
 Same requests will give us the similar responses:
 
-```bash
+```shell
 echo '{"name":"Daniel", "age": 56}' | http post localhost:8082/api/user
 ```
 
@@ -223,7 +223,7 @@ Server: akka-http/10.2.0
 
 Alternatively, with cURL:
 
-```bash
+```shell
 $ curl \
     -XPOST \
     -H "Content-Type: application/json" \
@@ -266,7 +266,7 @@ object AkkaHttpJackson extends JacksonSupport {
 
 And once you start your server, the POST commands will look the same:
 
-```bash
+```shell
 echo '{"name":"Daniel", "age": 56}' | http post localhost:8083/api/user
 ```
 
@@ -285,7 +285,7 @@ Server: akka-http/10.2.0
 
 Alternatively, with cURL:
 
-```bash
+```shell
 $ curl \
       -XPOST \
       -H "Content-Type: application/json" \

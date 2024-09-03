@@ -176,7 +176,7 @@ val savingTomHolland: Stream[IO, Unit] = Stream.eval {
 
 The fs2 library gives us the method `eval` that takes an `IO` effect and returns a `Stream` that will evaluate the `IO` effect when pulled. A question arises: How do we pull the values from an effectful stream? We cannot convert such a stream into a Scala collection using the `toList` function, and if we try, the compiler soundly yells at us:
 
-```shell
+```text
 [error] 95 |  savingTomHolland.toList
 [error]    |  ^^^^^^^^^^^^^^^^^^^^^^^
 [error]    |value toList is not a member of fs2.Stream[cats.effect.IO, Unit], but could be made available as an extension method.

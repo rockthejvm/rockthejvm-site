@@ -169,7 +169,7 @@ We'll be using Docker images for Redis and Postgres. To follow along, you'll nee
 
 After installation, we can check if we have everything installed by running the following:
 
-```bash
+```console
 $ docker -v
 Docker version 25.0.3, build 4debf41
 
@@ -248,25 +248,25 @@ Moving from the `services` to `volumes` section, we set the `postgres_volume` `d
 
 Finally, we can start our docker containers by running the following command in the root of our application.:
 
-```bash
+```console
 $ docker compose up
 ```
 
 We can confirm that our containers have been created and are running with the following command:
 
-```bash
+```console
 $ docker ps
 ```
 
 We can also confirm that our database and tables have been created by running the following:
 
-```bash
+```console
 $ docker exec -it postgres-server psql -U postgres
 ```
 
 Then connect to the database and finally list the tables by running the following:
 
-```bash
+```console
 $ \c websocket
 $ \d
 ```
