@@ -9,6 +9,7 @@ updatedDate: 2024-09-06
 ---
 
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Introduction
 
@@ -35,7 +36,11 @@ As we said, **the fs2 streaming library is built on top of the Cats and Cats Eff
 
 The `fs2-core` library provides the core functionalities of the library. Many other plugins add more features: Reading from and writing to file, from the network, and so on. Moreover, there are a lot of projects using fs2 under the hood, such as _http4s_, _doobie_, _skunk_, to name a few. Please, refer to the [fs2 documentation](https://fs2.io/#/ecosystem) for more information.
 
-To work well with fs2, you'll need to be comfortable with Scala, of course. Some basics of Cats Effect would be wonderful. Rock the JVM has this in-depth [Cats Effect course](/courses/cats-effect) if you're interested in mastering it, but it's not required.
+To work well with fs2, you'll need to be comfortable with Scala, of course. Some basics of Cats Effect would be wonderful.
+
+<TipAdmonition>
+    Rock the JVM has this in-depth [Cats Effect course](/courses/cats-effect) if you're interested in mastering it, but it's not required.
+</TipAdmonition>
 
 It's usual for us at Rock the JVM to build the examples around a concrete scenario. We can continue to refer to the _myimdb_ project that we used both in the articles on [_http4s_](http4s-unleashing-the-power-of-http-apis-library) and on [_doobie_](/articles/learning-doobie-for-the-greater-good).
 
