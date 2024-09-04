@@ -25,7 +25,7 @@ val akkaVersion = "2.6.10"
 libraryDependencies += "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion
 ```
 
-## Background
+## Prerequisites
 
 This article assumes you know the principles of Akka actors. In short:
 
@@ -33,6 +33,8 @@ This article assumes you know the principles of Akka actors. In short:
 - in Akka, we design applications in terms of actors
 - an actor is an object whose state we cannot access directly, but we can only interact with it via asynchronous messages
 - message passing and handling eliminates the need for us to manage threads & concurrency, while making it easy to write massively distributed systems
+
+## Background
 
 An actor is described by its behavior, which (among other things) is responsible for handling the messages that the actor can receive. After each message, the actor's behavior can change: given new information, the actor might change the way it handles future messages - much like us humans in real life.
 

@@ -11,7 +11,7 @@ updatedDate: 2024-09-06
 
 This article is for Scala developers with _some_ existing experience. The techniques I'm about to show you are not rocket science, but they are nonetheless pretty useful.
 
-## Background
+## Introduction
 
 Pattern matching is one of the most powerful features of the Scala language: it's extremely practical for quick decomposition of data, it's very powerful, easy to use and covers [a lot of use-cases](/articles/8-pattern-matching-tricks-in-scala).
 

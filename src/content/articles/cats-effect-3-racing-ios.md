@@ -9,7 +9,7 @@ updatedDate: 2024-09-06
 
 Like the previous article, this one requires you to be comfortable writing Scala (I'll write Scala 3), but with otherwise I'll assume you're just getting started with Cats Effect, along the lines of "I've spent <30 minutes on their main documentation website".
 
-## Background
+## Prerequisites
 
 There's no big setup needed. I'll be writing Scala 3, although you can also write Scala 2 with the minor change of using an `implicit class` instead of an [extension method](/articles/scala-3-extension-methods). If you want to test this code in your own project, add the following to your `build.sbt` file:
 

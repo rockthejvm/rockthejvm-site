@@ -21,7 +21,7 @@ val akkaVersion = "2.6.10"
 libraryDependencies += "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion
 ```
 
-## Background
+## Prerequisites
 
 This piece assumes you know the first principles of Akka actors (check the introduction of [this article](/articles/akka-typed-actors-stateful-and-stateless) for an introduction). In particular for this article, we care most about actor **encapsulation**: the state of an actor is inaccessible from the outside, even in a multithreaded/distributed environment. We can only communicate with an actor via message exchanges.
 
