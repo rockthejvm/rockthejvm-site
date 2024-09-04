@@ -8,6 +8,8 @@ updatedDate: 2024-09-06
 videoId: EbWuiURnScw
 ---
 
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+
 ## Who This Article Is For
 
 This article is for Scala developers of all levels - you don't need any fancy Scala knowledge to make the best out of this piece.
@@ -45,7 +47,9 @@ That's it. A Service is a function that takes in an argument and returns a resul
 
 This is the single most powerful concept in Finagle.
 
-A note that the `Future` type we use in this signature is Twitter's own `Future` type, not that from `scala.concurrent`. It has the same semantics and similar transformers (e.g. `map`, `flatMap`, for-comprehensions, `onComplete`) as the built-in one. If you're wondering why Twitter isn't using the `scala.concurrent` version, it's because Twitter's Future is older than Scala's Future. It's no exaggeration that some Twitter packages inspired what's now in the Scala standard library.
+<NoteAdmonition>
+    The `Future` type we use in this signature is Twitter's own `Future` type, not that from `scala.concurrent`. It has the same semantics and similar transformers (e.g. `map`, `flatMap`, for-comprehensions, `onComplete`) as the built-in one. If you're wondering why Twitter isn't using the `scala.concurrent` version, it's because Twitter's Future is older than Scala's Future. It's no exaggeration that some Twitter packages inspired what's now in the Scala standard library.
+</NoteAdmonition>
 
 ## 2. HTTP Services and Clients
 
@@ -68,7 +72,7 @@ def stringLengthService = new Service[Request, Response] {
 }
 ```
 
-An HTTP service is a Service that takes in HTTP `Request`s and returns Futures holding HTTP `Response`s. This particular service parses the request, takes its query parameter value and computes its length, then builds a Response (note it's mutable) and returns it.
+An HTTP service is a Service that takes in HTTP `Request`s and returns Futures holding HTTP `Response`s. This particular service parses the request, takes its query parameter value and computes its length, then builds a (mutable) Response and returns it.
 
 The main application can simply say
 
@@ -108,7 +112,9 @@ object SimpleClient {
 
 Through `Http.newService(...)` we abstract away a Service, which we can now invoke like a function, _locally_, while the response is actually fetched from the other system. This is what makes Finagle an RPC system. Running this `SimpleClient` application will print the same value as the shell example.
 
-Also note how Futures can be handled by supplying callback _lambdas_, much like we now do with the Scala standard Futures.
+<NoteAdmonition>
+    Notice how Futures can be handled by supplying callback _lambdas_, much like we now do with the Scala standard Futures.
+</NoteAdmonition>
 
 ## 3. Filters
 

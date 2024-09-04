@@ -165,7 +165,7 @@ We should mention that ZIO uses pull-based streams, meaning that elements are
 processed by being "pulled through the stream" _by_ the sink. In push-based
 systems, elements would be "pushed through the stream" _to_ the sink.
 
-Referring back to the type signature, `L` deserves a dedicated note: `L`
+Referring back to the type signature, `L`
 describes values that have not been processed by the `ZSink`. For example, if
 our intent is to sum every element in the stream, then we would not expect any
 elements to be left over once processed:

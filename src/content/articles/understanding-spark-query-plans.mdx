@@ -7,6 +7,8 @@ title: Understanding Spark Query Plans
 updatedDate: 2024-09-06
 ---
 
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro"
+
 ## Who This Article Is For
 
 This article is for the Spark programmer who has at least some fundamentals, e.g. how to create a DataFrame and how to do basic operations like selects and joins, but has not dived into how Spark works yet. Perhaps you're interested in boosting the performance out of your Spark jobs.
@@ -87,7 +89,9 @@ Exchange RoundRobinPartitioning(7)
 
 Same operation first, but the next step is an Exchange, which is another name for a shuffle. You're probably aware - a shuffle is an operation in which data is exchanged (hence the name) between all the executors in the cluster. The more massive your data and your cluster is, the more expensive this shuffle will be, because sending data over takes time. For performance reasons, it's best to keep shuffles to a minimum.
 
-So a performance tip: whenever you see Exchange in a query plan, that's a perf bottleneck.
+<TipAdmonition>
+    Whenever you see Exchange in a query plan, that's a performance bottleneck.
+</TipAdmonition>
 
 Let's do one more, this time make it complex:
 

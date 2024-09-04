@@ -10,6 +10,7 @@ updatedDate: 2024-09-06
 
 import MyYouTube from "@components/MyYouTube.astro";
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Introduction
 
@@ -140,10 +141,10 @@ object PersistentBankAccount {
 
 This bank account actor will need a few pieces of data:
 
-1. the messages it can receive &mdash; in Akka Persistence-speak they're called _commands_
-1. the events it will store in Cassandra
-1. the structures to manage its internal state
-1. the responses it may send to the main bank actor
+1. The messages it can receive &mdash; in Akka Persistence-speak they're called _commands_
+1. The events it will store in Cassandra
+1. The structures to manage its internal state
+1. The responses it may send to the main bank actor
 
 The commands will look as follows:
 
@@ -158,7 +159,9 @@ object Command {
 
 Obviously a simplification to how a production application would look like, but for the scope of this project should be complete enough. Notice all the commands have a `replyTo: ActorRef[Response]` in them, so that this actor knows who to send the response back to.
 
-A note: _please don't use the `Double` type to manage money_. The floating point standard cannot fully represent tenths and hundredths and can give (very) slightly incorrect results with multiplication and division in certain cases as a result. For our convenience in this project, we'll use `Double`.
+<WarningAdmonition>
+    _Please don't use the `Double` type to manage money_. The floating point standard cannot fully represent tenths and hundredths and can give (very) slightly incorrect results with multiplication and division in certain cases as a result. For our convenience in this project, we'll use `Double`.
+</WarningAdmonition>
 
 In terms of _events_, we need to store just enough so that we can reestablish the state of the bank account from these events if the application crashed for whatever reason. The data structures we'll use will look like this:
 
@@ -196,10 +199,10 @@ An in the `GetBankAccountResponse` we use an `Option` because there are only two
 
 A persistent actor is defined in terms of four things:
 
-1. its unique persistence ID, which will be used to store data in the store and retrieve data from the store
-1. its state, which can change over time
-1. its message handler, aka _command_ handler
-1. its _event_ handler, i.e. what the actor does after storing an event to the persistent store, or _restoring_ an event after failure
+1. Its unique persistence ID, which will be used to store data in the store and retrieve data from the store
+1. Its state, which can change over time
+1. Its message handler, aka _command_ handler
+1. Its _event_ handler, i.e. what the actor does after storing an event to the persistent store, or _restoring_ an event after failure
 
 Let's take them in turn. First: the persistence ID &mdash; this one is straightforward, because the main bank actor will allocate a new UUID once it creates this actor in the first place, so we'll simply pass it on upon creation.
 
@@ -272,7 +275,9 @@ val eventHandler: (BankAccount, Event) => BankAccount = (state, event) =>
   }
 ```
 
-An important note: this same handler will be invoked both after the event is stored, and if the actor/application crashes and the actor is restarted: in such a case, the actor queries Cassandra for all events tied to its persistence ID and replays all events in sequence by invoking the `eventHandler` on each of them in turn, to recreate its latest state before crash/shutdown.
+<WarningAdmonition>
+    This same handler will be invoked both after the event is stored, and if the actor/application crashes and the actor is restarted: in such a case, the actor queries Cassandra for all events tied to its persistence ID and replays all events in sequence by invoking the `eventHandler` on each of them in turn, to recreate its latest state before crash/shutdown.
+</WarningAdmonition>
 
 The final bit ties everything together:
 
@@ -385,10 +390,10 @@ The bank actor will also have to be persistent. Why? Because if the application 
 
 Therefore, we'll also need to manage
 
-1. commands
-1. events
-1. internal state
-1. responses
+1. Commands
+1. Events
+1. Internal state
+1. Responses
 
 Thankfully, the commands will be identical to the ones from the persistent bank accounts: creation, update, retrieval, (optionally) deletion. There's no need for us to change here. Same for the responses. Therefore, we'll import the commands and responses
 
@@ -413,10 +418,10 @@ For events, we really only need to store the creation of the accounts so we know
 
 Because the bank is also a persistent actor, we'll need
 
-1. a persistence ID
-1. an empty state
-1. a command handler
-1. an event handler
+1. A persistence ID
+1. An empty state
+1. A command handler
+1. An event handler
 
 The first two are straightforward: a `"bank"` and a `State` with an empty `Map()` should suffice.
 
@@ -677,10 +682,10 @@ object BankRouter {
 
 Inside, we need to do the following:
 
-1. fetch the bank actor
-1. send it a `CreateBankAccount` _command_ &mdash; note that it's different from the HTTP request
-1. parse its reply
-1. send back an HTTP response
+1. Fetch the bank actor
+1. Send it a `CreateBankAccount` _command_[^1]
+1. Parse its reply
+1. Send back an HTTP response
 
 First, we need the bank actor, which we don't have. We can receive it as a constructor argument to this `BankRouter`, which means we'll need to make it a class. Besides, we'll also need an `ActorSystem` to be able to run the directives, so we'll pass this one too, as an `implicit` argument, or a `using` clause in Scala 3.
 
@@ -736,6 +741,8 @@ onSuccess(createBankAccount(request)) {
 
 `onSuccess` is a directive that asynchronously waits for a Future to be completed, and once it's done, the content of the Future is subject to the function below, which needs to return another directive: in our case, we'll return an HTTP 201, and will return the URI of the bank account as a `Location` HTTP header.
 
+[^1]: It's different from the HTTP request.
+
 ### Retrieving a Bank Account
 
 Our routes currently look like this:
@@ -778,9 +785,9 @@ The second endpoint is a GET on `/bank/someUUID`, so we need to add another rout
 
 We need to make Akka HTTP parse the next token after `/bank` and return that token to us as the identifier of the account. Once again, we need to
 
-1. send a command to the bank actor to retrieve the details
-1. parse the response
-1. send back an HTTP response
+1. Send a command to the bank actor to retrieve the details
+1. Parse the response
+1. Send back an HTTP response
 
 We'll follow the same pattern as before, so we'll add a method to ask the bank actor for some account details:
 

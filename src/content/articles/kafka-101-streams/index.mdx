@@ -9,6 +9,7 @@ updatedDate: 2024-09-06
 ---
 
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Introduction
 
@@ -366,7 +367,9 @@ val discountProfilesGTable: GlobalKTable[Profile, Discount] =
 
 Again, under the hood, the library creates an instance of a `Consumed` object.
 
-So, which is the difference between a `KTable` and a `GlobalKTable`? The difference is that a `KTable` is partitioned between the nodes of the Kafka cluster. However, every node of the cluster receives a full copy of a `GlobalKTable`. So, be careful with `GlobalKTable`.
+<WarningAdmonition>
+    So, what is the difference between a `KTable` and a `GlobalKTable`? The difference is that a `KTable` is partitioned between the nodes of the Kafka cluster. However, every node of the cluster receives a full copy of a `GlobalKTable`. So, be careful with `GlobalKTable`.
+</WarningAdmonition>
 
 The `GlobalKTable` type doesn't define any method. So, why should we ever create an instance of a `GlobalKTable`? The answer is in the word "joins". But first, we need to introduce streams transformations.
 

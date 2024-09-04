@@ -7,6 +7,8 @@ title: "Type-Level Programming in Scala 3: Part 2 - A Quicksort on Types"
 updatedDate: 2024-09-06
 ---
 
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro"
+
 This article is the part 2 of the mini-series of type-level programming in Scala 3. If you want an introduction to type-level programming and a gentle tutorial of how we can encapsulate a computational problem as a relationships between types which the compiler can solve, [read the first part here](/articles/type-level-programming-in-scala-3-part-1-comparing-types).
 
 In this article, we're going to use the skills we learned in the previous part, and take them to level 90: we're going to write a quicksort algorithm on lists, at the type level, which the compiler can solve at compile time.
@@ -214,21 +216,24 @@ This code compiles because the compiler:
 - Can use `basic2[_2]` to build a `Partition[_2 :: HNil, _2 :: HNil, HNil]`
 - Works backwards to build the necessary givens.
 
-Note: there are alternative partitioning schemes which the compiler will not be able to validate. This partitioning does not work, for example, although it's perfectly valid.
+<TipAdmonition>
+    There are alternative partitioning schemes which the compiler will not be able to validate. This partitioning does not work, for example, although it's perfectly valid.
 
-```scala
-  val partitionAlsoValid = Partition[_2 :: _3 :: _1 :: _4 :: HNil, _2 :: _1 :: HNil, _4 :: _3 :: HNil]
-```
+    ```scala
+    val partitionAlsoValid = Partition[_2 :: _3 :: _1 :: _4 :: HNil, _2 :: _1 :: HNil, _4 :: _3 :: HNil]
+    ```
 
-But the following does (the `_3` comes before the `_4`)
+    But the following does (the `_3` comes before the `_4`)
 
-```scala
-  val partitionAlsoValid = Partition[_2 :: _3 :: _1 :: _4 :: HNil, _2 :: _1 :: HNil, _3 :: _4 :: HNil] // works
-```
+    ```scala
+    val partitionAlsoValid = Partition[_2 :: _3 :: _1 :: _4 :: HNil, _2 :: _1 :: HNil, _3 :: _4 :: HNil] // works
+    ```
 
-because the relative order of the elements in the list is kept. For the normal quicksort, the relative order of elements inside each partition is not required.
+    because the relative order of the elements in the list is kept. For the normal quicksort, the relative order of elements inside each partition is not required.
 
-That is of no consequence for correct sorting, as the compiler will be able to find _at least one_ partitioning that works for quicksort.
+    That is of no consequence for correct sorting, as the compiler will be able to find _at least one_ partitioning that works for quicksort.
+
+</TipAdmonition>
 
 ## 5. Type-Level Quicksort: The Sorting Operation
 

@@ -157,7 +157,10 @@ Processing image: personal.jpg.⏎
 
 `Curl` can pass headers when sending requests through the `-H` flag, in our example, we passed the `Origin` header as `http://img.com`.
 Within the response, we see a new header added, `Access-Control-Allow-Origin` which is now displayed with a value `*`, the asterisk signifies that requests from all origins will be accepted by our server.
-It's important to note that the CORS configuration won't prevent non-browser requests from going through. CORS is browser specific. The server sends CORS specific headers to the browser which it uses to either block or load requests. The `Origin` header is added automatically by the browser whenever requests are sent, however since we are using `curl`, we add it in manually.
+
+<NoteAdmonition>
+    CORS configuration won't prevent non-browser requests from going through. CORS is browser specific. The server sends CORS specific headers to the browser which it uses to either block or load requests. The `Origin` header is added automatically by the browser whenever requests are sent, however since we are using `curl`, we add it in manually.
+</NoteAdmonition>
 
 With CORS implemented, we realize that even malicious sites can make requests for our `personal.jpg` image.
 

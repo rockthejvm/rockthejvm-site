@@ -10,6 +10,8 @@ updatedDate: 2024-09-06
 videoId: NZwnZhwVPrs
 ---
 
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
+
 ## Introduction
 
 This is a follow-up to the [Authentication with Scala and http4s: 2FA (Two-Factor Authentication)](/articles/authentication-with-scala-and-http4s-oauth-two-factor-authentication) article that was written earlier, and as such is the third article in the series.
@@ -309,7 +311,9 @@ object OauthImpl{
 
 `getJsonString()` is a utility method that sends a request to an API and returns its response. The `use()` method from `EmberClientBuilder` gives us access to a `Client` which submits `Request`s to a server and processes the `Response`. The `client.expect[String]()` method decodes the Response to a string on success.
 
-Note: `client.expect` could fail for several reasons and will return an appropriate status code depending on the reason, however, we'll handle these errors in the coming section.
+<WarningAdmonition>
+    `client.expect` could fail for several reasons and will return an appropriate status code depending on the reason, however, we'll handle these errors in the coming section.
+</WarningAdmonition>
 
 Since this function is polymorphic in `F`, we'll need to bind an implicit `Async` from cats effect for this function to work. All the functions in this application will be polymoprhic in `F` to allow for the use of any effect type, not necessarily `IO`.
 
