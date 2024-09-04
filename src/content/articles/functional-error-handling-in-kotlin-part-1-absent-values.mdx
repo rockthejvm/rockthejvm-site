@@ -28,7 +28,7 @@ The Kotlin language is a multi-paradigm, general-purpose programming language. W
 
 </TipAdmonition>
 
-## 1. Setup
+## Setup
 
 Let's first create the setup we'll use throughout the article as usual. We'll use the last version of Kotlin available at the moment of writing, version 1.8.20.
 
@@ -212,7 +212,7 @@ As we might guess, using checked exceptions for the function `f` is impossible s
 
 So, we understood that we need a better approach to handle errors, at least in functional programming. Let's see how we can do it.
 
-## 3. Handling Errors with Nullable Types
+## Handling Errors with Nullable Types
 
 Suppose we're not interested in the cause of the error. In that case, we can model that an operation failed by returning a `null` value. In other languages returning a `null` is not considered a best practice. However, **in Kotlin, the null check is built-in the language, and the compiler can help us to avoid errors**. In Kotlin, we have nullable types. A nullable type is a type that can be either a value of the class or `null`. For example, the type `String?` is a nullable type, and it can be either a `String` or `null`.
 
@@ -397,7 +397,7 @@ Although nullable types offer a reasonable degree of compositionality and full s
 
 Fortunately, Kotlin and the Arrow library provide a lot of alternatives to handle errors functionally. Let's start with the `Option` type.
 
-## 4. Handling Errors with `Option`
+## Handling Errors with `Option`
 
 Unlike Java, Kotlin doesn't provide a type for handling optional values. As we saw in the previous section, **Kotlin creators preferred introducing nullable values instead of having an `Option<T>` type**.
 
@@ -676,7 +676,7 @@ Searching for the job with id JobId(value=42)
 The salary gap between JobId(value=42) and the max salary is 0.0
 ```
 
-## 5. Conclusion
+## Conclusion
 
 This article introduced the meaning of functional error handling in Kotlin. We started showing why we shouldn't rely on exceptions to handle errors. Then, we introduced two strategies to handling errors that forget the cause of errors: Kotlin nullable types and the Arrow `Option` type. Moreover, we saw how the Arrow library provides useful DSL to work with both nullable types and the `Option` type.
 
@@ -684,7 +684,7 @@ In the next part of this series, we will see different strategies that allow us 
 
 If you found this article too difficult, you can quickly get the experience you need by following the complete [Kotlin Essentials course](/courses/kotlin-essentials) on Rock the JVM.
 
-## 6. Appendix: Maven Configuration
+## Appendix: Maven Configuration
 
 We give you the maven configuration we used during the examples. Here is the `pom.xml` file:
 

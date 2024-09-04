@@ -26,7 +26,7 @@ Without further ado, let's get started!
 
 </TipAdmonition>
 
-## 1. The Domain
+## The Domain
 
 We'll use extensively the domain model we introduced in the last article. We want to create an application that manages a job board. The main types of the domain are:
 
@@ -81,7 +81,7 @@ interface Jobs
 
 Now that we have defined the domain model and the module that will contain the algebra to access it, it's time to start implementing the different approaches to handle errors in a functional way.
 
-## 2. The `Result` Type: Lifting the Try-Catch Approach to a Higher Level
+## The `Result` Type: Lifting the Try-Catch Approach to a Higher Level
 
 Nullable types and the `Option` type we've seen so far are great for handling errors in a functional way. They don't store the cause of the error. In other words, they don't tell us _why_ the error happened.
 
@@ -378,7 +378,7 @@ maybeSalary.fold({
 })
 ```
 
-## 3. Composing `Result` Instances
+## Composing `Result` Instances
 
 As we saw in the previous article, we often deal with types (usually some containers) that are "chainable" or "monadic" in structure (more details on [A Fresh Perspective on Monads: Generalizing Chained Computations](/articles/a-fresh-perspective-on-monads)), so the crucial point is how we can compose and combine them. In the first part of this series, we implemented a function that returns the gap between the job salary given a job id and the maximum compensation for the same company. We called the function `getSalaryGapWithMax`.
 
@@ -567,7 +567,7 @@ fun main() {
 
 However, sometimes we want to map errors in custom types that don't belong to the `Throwable` hierarchy. For example, we can map a `NoSuchElementException` to a `JobNotFound` type or any rich and meaningful type we want. To do this, we need another strategy to handle errors. It's time to introduce the `Either` type.
 
-## 4. Type-safe Error Handling: The `Either` Type
+## Type-safe Error Handling: The `Either` Type
 
 Let's now introduce the `Either` type for error handling. Kotlin doesn't ship the `Either` type with the standard SDK. We need Arrow to add it to the game. The structure of `Either<E, A>` is that of an [Algebraic Data Type](/articles/algebraic-data-types-in-scala) (ADT). In detail, it's a sum type that can contain either a value `A` wrapped in the type `Right<A>` or a value `E` wrapped in a type `Left<E>`. It's common to associate `Left` instances with the result of a failed computation and `Right` instances with the result of a successful calculation. The `Either` type is defined as follows:
 
@@ -753,7 +753,7 @@ The same thing can be done using a composition of `map` and `getOrElse` function
 val jobSalary2: Salary = jobNotFound.map { it.salary }.getOrElse { Salary(0.0) }
 ```
 
-## 5. Composing `Either` Instances
+## Composing `Either` Instances
 
 It's time to talk about how to compose different `Either` instances. As you might imagine, since **the `Either` type is a monad on the right type**, we can use the `map` and `flatMap` functions to compose different instances (remember, monads have a single type parameters, while the `Either` type has two of them).
 
@@ -931,7 +931,7 @@ What if we have to accumulate many errors, for example, while creating an object
 
 And that's all, folks!
 
-## 6. Conclusion
+## Conclusion
 
 In this second part of the series dedicated to error handling in Kotlin, we introduced the `Result` and the `Either`type. These types represent both the happy and error paths, unlike the types we saw in the first part of the series. We explored their APIs in deep and saw which features the Arrow library offers us to simplify the composition of `Result` and `Either` instances. It's time to recap what we've learned so far. We can use nullable types and the `Option` type if we are not interested in the possible error path of a computation. In Kotlin, such types are quite similar. If we want to know the cause of an error, we can use the `Result` type. Here, we use the subclasses of the `Throwable` type to express the cause. Finally, we use the `Either` type to avoid the `Throwable` type and handle errors using a hierarchy of custom-typed errors. In the last part of this series, we will introduce the upcoming features of the next version of the Arrow library, 1.2.0, which will further simplify the functional handling of errors.
 
