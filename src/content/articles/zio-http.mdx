@@ -229,7 +229,7 @@ and `<<<`, and the behavior of each is as described from the
 
 > `++` is an alias for `defaultWith`. While using `++`, if the first HTTP application returns `None` the second HTTP application will be evaluated, ignoring the result from the first. If the first HTTP application is failing with a `Some[E]` the second HTTP application won't be evaluated.
 
-> <code>&lt;&gt;</code> is an alias for `orElse`. While using <code>&lt;&gt;</code>, if the first HTTP application fails with `Some[E]`, the second HTTP application will be evaluated, ignoring the result from the first. If the first HTTP application returns `None`, the second HTTP application won't be evaluated.
+> <code>\<\></code> is an alias for `orElse`. While using <code>\<\></code>, if the first HTTP application fails with `Some[E]`, the second HTTP application will be evaluated, ignoring the result from the first. If the first HTTP application returns `None`, the second HTTP application won't be evaluated.
 
 > `>>>` is an alias for `andThen`. It runs the first HTTP application and pipes the output into the other.
 
