@@ -8,13 +8,21 @@ updatedDate: 2024-09-06
 videoId: lzlCjgRWPDU
 ---
 
-This article describes the Free monad in Scala &mdash; how it works, what it's good for and why we need it in the first place.
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+
+## Who This Is For
 
 This piece assumes you're already very comfortable with Scala. If you know a bit of Cats (which we teach in the [Cats course](/courses/cats)), that's a bonus, but not required for this article, because we're going to lay all the groundwork for what we need here.
 
-This post was written for Scala 3, but the concepts work almost identically for Scala 2 if you replace [givens with implicits](/articles/scala-3-givens-vs-implicits).
+## Introduction
 
-## 1. Introduction
+This article describes the Free monad in Scala &mdash; how it works, what it's good for and why we need it in the first place.
+
+<NoteAdmonition>
+    This post was written for Scala 3, but the concepts work almost identically for Scala 2 if you replace [givens with implicits](/articles/scala-3-givens-vs-implicits).
+</NoteAdmonition>
+
+## Background
 
 In order to describe the Free monad, we need to understand what a Monad is. We've already written several approaches to it:
 
@@ -47,7 +55,7 @@ Just from these two operations, we can describe an incredible variety of computa
 
 The Free monad describes a similar "sequential" capability for a wrapper type _and for a well-defined value type_.
 
-## 2. Enter The Free Monad
+## Enter The Free Monad
 
 The Free monad in Scala can be described by a similar type signature, taking a type argument `M[_]` which is the container exhibiting monadic capabilities, _and_ a type argument `A` which is the value type with which that wrapper is defined. In other words, a Free monad trait can be written as
 
@@ -103,9 +111,9 @@ But... why?
 
 Before we implement an actual Free monad, we'll take a detour to explain why the Free monad is a useful concept in the first place. We'll go through an example to understand how the Free monad would be actually used.
 
-## 3. Why We Need The Free monad
+## Why We Need The Free monad
 
-### 3.1. Writing Programs with The Free Monad
+### Writing Programs With The Free Monad
 
 Let's imagine we're writing a small tool to interact with a custom database we have at work. For the sake of simplicity, we'll assume the fundamental operations of the database to be the regular CRUD:
 
@@ -163,7 +171,7 @@ This program can be completely described in terms of the Free monad, regardless 
 
 We need something to _interpret_ this program.
 
-### 3.2. Free Monad FoldMap
+### Free Monad FoldMap
 
 What does "interpretation" even mean? Interpreting a program means transforming this abstract program written in terms of the Free monad into another data type that actually performs the computations when evaluated. A good candidate for such a data structure is, for example, the Cats Effect IO. However, we can pick another data type of our choosing, with the meaning of
 
@@ -203,7 +211,7 @@ We can abstract away this concept of natural transformation by the `~>` symbol, 
 
 Back to `foldMap`. Notice that the return value of `foldMap` is `G[A]`, so a different monadic type than `M[_]`, assuming that G "is" a Monad, by the context bound `G[_]: Monad`. This is important, because the evaluation of an instance of Free can only happen if the wrapper type which we're evaluating _to_ is also a monad, i.e. exhibits monadic behavior.
 
-### 3.3. Natural Transformations
+### Natural Transformations
 
 For our little program, we can interpret it with `foldMap`, if we can create a natural transformation from our type `DBOps` to some other type that will actually perform the actions described by the program. Let's write a simple IO data type in the style of Cats Effect:
 
@@ -269,7 +277,7 @@ val dbOps2IO: DBOps ~> IO = new (DBOps ~> IO) {
 }
 ```
 
-### 3.4. Evaluating the Program
+### Evaluating the Program
 
 With all pieces in place, we can now run the interpreter of our abstract program with `foldMap` and with the natural transformation we've just implemented:
 
@@ -287,7 +295,7 @@ def main(args: Array[String]): Unit = {
 
 This will execute the IO effect, which in turn will evaluate our abstract program.
 
-### 3.5. The Free Monad Pattern
+### The Free Monad Pattern
 
 Why have we gone all this way just to insert a bunch of data into a database?
 
@@ -305,7 +313,7 @@ In other words, our abstract program is what matters for our application/busines
 
 So notice the **flexibility** we get by choosing to work on a piece of the system without affecting the others. Another benefit of this approach is **testability**, because we can always supply a "testing" monad to evaluate the program, make assertions and ensure the business logic is correct, while the interpreter itself can be independently tested.
 
-## 4. Implementing a Free Monad
+## Implementing a Free Monad
 
 You might have noticed that our current code is incomplete. We took a detour to understand the reasons why Free monads are useful and how they help with code decoupling. Let's move back to the Free monad itself, because our Free type currently looks like this:
 
@@ -400,7 +408,7 @@ trait Free[M[_], A] {
 }
 ```
 
-### 5. Final Code
+### Final Code
 
 The full program with all pieces put together looks like this:
 
@@ -523,7 +531,7 @@ object FreeMonad {
 }
 ```
 
-## 6. Conclusion
+## Conclusion
 
 In this article, we did a comprehensive overview of what a Free monad is, why it's useful, how it helps us decouple our code, how it adds flexibility and testability in our programs, and we implemented our own simple version of a Free monad along with an example abstract program and an interpreter for it in the style of Cats Effect.
 

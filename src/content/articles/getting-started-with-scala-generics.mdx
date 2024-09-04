@@ -10,6 +10,8 @@ videoId: ozcY_K-ij20
 
 import { Tweet } from "astro-embed";
 
+## Introduction
+
 This beginner-friendly article will introduce you to Scala generics in a smooth, approachable way. If you're just getting started with Scala and generics seem challenging to you, we'll make everything clear. The article is aimed at people getting into Scala from other languages _with dynamic typing_, such as Python or JavaScript. In my experience teaching, I noticed that Scala's type system, particularly generics, [variance](/articles/demystifying-variance-positions-in-scala) and other bits around generics seem to be especially difficult if my students' entire programming experience was in Python, JS or other languages with dynamic type systems. That said, Java folks will also benefit from this article.
 
 This is a Scala generics guide that will explain
@@ -20,7 +22,7 @@ This is a Scala generics guide that will explain
 
 The concept of Scala generics is explained in-depth and with practice exercises in the [Scala Essentials course](/courses/scala-essentials). The code that we write in this article works on both Scala 2 and Scala 3.
 
-## 1. Introduction to Scala Generics
+## Introduction to Scala Generics
 
 <Tweet id="https://x.com/rockthejvm/status/1519578027411349505" />
 <script async src="https://platform.twitter.com/widgets.js"></script>
@@ -55,7 +57,7 @@ For now, remember this:
 
 Scala generics were invented as an extension to this fact: by working with a `List[Int]`, for example, we can safely make the assumption that all this list will ever contain is integers. This will allow us, for instance, to sum up all the numbers in the list. This would not have been possible if we hadn't known the types of all elements.
 
-## 2. Why We Use Generics in Scala
+## Why We Use Generics in Scala
 
 There is another big reason that Scala generics are so useful:
 
@@ -153,7 +155,7 @@ However, there's a problem. Because the elements are of type `Any`, we can inser
 
 We've lost the very reason static typing exists (the ability to make assumptions about the data). In other words, we've lost _type safety_.
 
-## 3. How to Use Generics in Scala
+## How to Use Generics in Scala
 
 The best solution for this situation is to make the list data structure _generic_. Here's how we can add generics to our list:
 
@@ -225,7 +227,7 @@ Third, you can also reuse a single piece of logic (i.e. a method) by making it g
 
 and that would be a generic method in Scala.
 
-## 4. Conclusion
+## Conclusion
 
 This article was a slow and smooth introduction to Scala generics, for people who are getting started with Scala and particularly those coming from dynamically-typed languages like Python or JavaScript. We discussed why static typing is useful, how generics help us reuse code easily, and some generics features such as multiple type arguments and generic methods.
 
