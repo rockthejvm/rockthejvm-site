@@ -62,7 +62,7 @@ export default function Example(props) {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">{site.name}</span>
               {props.logo}
             </a>
@@ -90,7 +90,7 @@ export default function Example(props) {
               </div>
               <div className="py-6">
                 <a
-                  href="#"
+                  href="https://sso.teachable.com/secure/256201/identity/login/password"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-content hover:bg-gray-50"
                 >
                   Log in
