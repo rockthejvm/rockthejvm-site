@@ -41,7 +41,7 @@ what you're passing is not the value of 2 + 3, but the _expression 2 + 3, litera
 
 Anyway. I think you get the picture in a few sentences rather than from half a book on referential transparency.
 
-## Trick 1 - Reevaluation
+## Trick 1: Reevaluation
 
 So this call-by-name mechanism is actually very powerful and allows greater expressiveness in Scala. The first example I want to show is that when you pass a by-name argument, you can evaluate it as many times as you like. "Why would you want that? 2 + 3 evaluates to 5 at every hour of the day."
 
@@ -89,7 +89,7 @@ that is, two different results. You can probably guess why: because the expressi
 
 There is great power - and great responsibility - in being able to reevaluate your arguments as you see fit. But more on that, another time.
 
-## Trick 2 - Manageable Infinity
+## Trick 2: Manageable Infinity
 
 Call-by-name used in conjunction with lazy evaluation - which is another beast - allows us to manage infinite data structures in Scala:
 
@@ -118,7 +118,7 @@ class NonEmpty[+T](h: => T, t: => LazyList[T], amber: => Long = System.nanoTime(
 
 to forever hold - with some handling inside - the moment when this instance was "collapsed", or all its members evaluated. Trapped in amber.
 
-## Trick 3 - Hold the Door
+## Trick 3: Hold the Door
 
 The third and most powerful aspect of CBN is that it prevents the computation of the argument so that the expression can be handled in some other way. For example, handled safely in case it threw something:
 
