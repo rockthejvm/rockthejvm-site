@@ -8,6 +8,9 @@ title: Getting Started with Scala sbt
 updatedDate: 2024-09-06
 ---
 
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
+
 > This article is brought to you by [Yadu Krishnan](/authors/yadu-krishnan). He's a senior developer and constantly shares his passion for new languages, libraries and technologies. After his [long-form Slick tutorial](/articles/getting-started-with-scala-slick), he's coming back with a new comprehensive introduction to sbt. Please enjoy!
 
 > This tutorial complements Rock the JVM's premium [Scala masterclass](/courses/the-scala-bundle), as you learn to set up and configure your Scala projects.
@@ -16,7 +19,9 @@ updatedDate: 2024-09-06
 
 sbt is the most popular build tool in the Scala ecosystem. sbt provides a very rich DSL to configure a Scala project. It is also extensible and supports customised plugins to enhance the project.
 
-_(Daniel's note: sbt was originally an acronym for "simple build tool", but in time "simple" was replaced by "Scala". Should've been the other way around.)_
+<NoteAdmonition>
+    sbt was originally an acronym for "simple build tool", but in time "simple" was replaced by "Scala". Should've been the other way around.
+</NoteAdmonition>
 
 In this article we'll start an sbt project from scratch, and walk through essential sbt features you need.
 
@@ -42,7 +47,9 @@ In _build.sbt_, let's configure the Scala version of the project we are going to
 scalaVersion := "2.13.8"
 ```
 
-Note that sbt uses a special operator `:=` to assign the value.
+<NoteAdmonition>
+    That sbt uses a special operator `:=` to assign the value.
+</NoteAdmonition>
 
 Now, within the same directory, we can just start the sbt session by using the command `sbt`.
 If everything is fine, this will load an sbt console successfully. We can execute the command `project` within the sbt console to verify and view the sbt project name.
@@ -54,7 +61,9 @@ We can provide a version for the project using the option `version` :
 version := "1.0"
 ```
 
-> Note that if any change is made to the _build.sbt_, we need to exit the existing sbt console and restart it for the changes to take effect. Alternatively, we use the sbt command `reload` to forcefully apply the changes.
+<NoteAdmonition>
+    If any change is made to the _build.sbt_, we need to exit the existing sbt console and restart it for the changes to take effect. Alternatively, we use the sbt command `reload` to forcefully apply the changes.
+</NoteAdmonition>
 
 We can set the name of the project using `name` and set an organisation for the project:
 
@@ -136,7 +145,7 @@ The method `+=` appends the provided library to the project dependencies.
 An sbt dependency contains mainly 3 parts separated by % symbol.
 The first part is the groupId of the library. The second part is the library name(artifactId) and the third part is the version of the library to be used. If you notice, you can see that a double percentage symbol (`%%`) is used between groupId and artifactId.
 Scala is not binary compatible with different versions (such as 2.11, 2.12, 2.13 etc) except for Scala 3 series. Hence there are separate releases for each Scala libraries for each required versions. %% symbol ensures that sbt uses the same Scala version of library as the project.
-That means sbt will automatically append the Scala version of the project before trying to find the library. The above dependency code is equivalent to the following format(note that single % is used, but artifact id contains the Scala major version):
+That means sbt will automatically append the Scala version of the project before trying to find the library. The above dependency code is equivalent to the following format(notice that a single `%` is used, but artifact id contains the Scala major version):
 
 ```
 libraryDependencies += "com.lihaoyi" % "fansi_2.13" % "0.4.0"
@@ -181,7 +190,7 @@ We normally write unit test cases and places them under the relevant package in 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.13" % Test
 ```
 
-Note the special identifier _Test_ after the last % symbol. Adding `Test` informs sbt that this library is needed only for the test cases and accessible under _src/test/scala_ directory. Whenever we make the packaged application from our project, these libraries are not added to the package as they are not needed at the application run time.
+Notice the special identifier _Test_ after the last % symbol. Adding `Test` informs sbt that this library is needed only for the test cases and accessible under _src/test/scala_ directory. Whenever we make the packaged application from our project, these libraries are not added to the package as they are not needed at the application run time.
 Instead of the identifier _Test_, we can also use the string `"test"` (wrapped in double quotes). However, this practice is discouraged as it doesn't provide type safety.
 
 Now that we added the dependency, we can add a test file as:
@@ -206,7 +215,12 @@ It is also possible to run a subset of tests instead of all. For example, let's 
 test:testOnly com.rockthejvm.SimpleTest
 ```
 
-This will test only the _SimpleTest_ file. Note that we need to provide the full package path to resolve the class correctly.
+This will test only the `SimpleTest` file.
+
+<WarningAdmonition>
+    We need to provide the full package path to resolve the class correctly.
+</WarningAdmonition>
+
 We can also use a wildcard to make it easy to run the test:
 
 ```
@@ -459,7 +473,10 @@ resolvers += Resolver.url("my-company-repo", url("https://mycompany.org/repo-rel
 ```
 
 Similarly, we can add any number of resolvers.
-But note that as the number of resolvers increases, sbt might take more time to start as it might need to look at all the configured repositories before failing.
+
+<NoteAdmonition>
+    As the number of resolvers increases, sbt might take more time to start as it might need to look at all the configured repositories before failing.
+</NoteAdmonition>
 
 ## 15. Custom Tasks
 
@@ -526,7 +543,7 @@ printerTask := {
 }
 ```
 
-Note that, we used `uuidStringTas.value`. This value method takes the value from the setting and assign to the val uuid.
+Notice how we used `uuidStringTask.value`. This value method takes the value from the setting and assign to the val uuid.
 
 Now, when we run the command `printerTask`, it will first generate the UUID and then execute printerTask.
 
@@ -590,7 +607,7 @@ lazy val crossproject = (project in file("crossproject"))
   )
 ```
 
-Note that, we have mentioned the default version for this project as Scala 2.12 using `ThisBuild/scalaVersion`. So when we compile, it will use Scala 2.12. Since we have given the `crossScalaVersions`, we can ask sbt to compile in all supported versions.
+Notice that, we have mentioned the default version for this project as Scala 2.12 using `ThisBuild/scalaVersion`. So when we compile, it will use Scala 2.12. Since we have given the `crossScalaVersions`, we can ask sbt to compile in all supported versions.
 To do that, we need to add the symbol `+` before sbt command:
 
 ```

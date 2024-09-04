@@ -43,7 +43,7 @@ Pulsar topics also employ a segment-based architecture, which means that each of
 
 These segments are stored in the underlying mechanism of Apache BookKeeper, but can be offloaded to long-term, inexpensive storage, such as Amazon S3, leveraging Pulsar's tiered storage.
 
-This flexibility also makes Pulsar's underlying storage architecture ideal for batch access. Historical data can be stored and accessed in a batch mechanism, with the appropriate stream processing layer on top. Pulsar offers both low-latency and high bandwidth streaming APIs, with architecture capable of supporting modern data infrastructures seeking to unify Batch and Stream Processing. Pulsar Functions is (are?) a lightweight serverless stream processing framework - but note the term **lightweight** here.
+This flexibility also makes Pulsar's underlying storage architecture ideal for batch access. Historical data can be stored and accessed in a batch mechanism, with the appropriate stream processing layer on top. Pulsar offers both low-latency and high bandwidth streaming APIs, with architecture capable of supporting modern data infrastructures seeking to unify Batch and Stream Processing. Pulsar Functions is (are?) a **lightweight** serverless stream processing framework.
 
 Apache Pulsar isn't an advanced stream computing engine but gives you the flexibility to implement many common stream processing use cases; let's zoom a little more on that.
 

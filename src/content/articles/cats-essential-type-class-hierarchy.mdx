@@ -7,23 +7,27 @@ title: "Cats: Essential Type Class Hierarchy Explained"
 updatedDate: 2024-09-06
 ---
 
-> This article is about the Cats Scala library. For lots of in-depth explanations, examples, exercises and a hands-on experience with Cats, check out the Rock the JVM [Cats course](/courses/cats). It's going to make you a productive developer with Scala and Cats and a better engineer and thinker overall.
-
-## Who This Article Is For
-
-This article is for the comfortable Scala programmer.
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Introduction
 
 We'll discuss the essential type classes in the Cats library, why we need them, how they're related and how you should think about them so that you're not tangled in all the abstractions.
 
+<TipAdmonition>
+    This article is about the Cats Scala library. For lots of in-depth explanations, examples, exercises and a hands-on experience with Cats, check out the Rock the JVM [Cats course](/courses/cats). It's going to make you a productive developer with Scala and Cats and a better engineer and thinker overall.
+</TipAdmonition>
+
+## Prerequisites
+
 The code we'll write here is for **Scala 3**, but with a [minor adjustment](/articles/scala-3-givens-and-implicits) it will work with Scala 2 as well.
 
-## Setup and Background
+## Background
 
 You've surely heard (or even read) about Cats: it's a library for functional programming abstractions, going beyond what Scala brings with its standard library. Cats offers (offer?) a range of type classes, extension methods and general FP primitives that allow us to write very general and extensible code very quickly (if we know what we're doing).
 
-A side note: because I'm probably going to refer to Cats many times in this article, there's the problem of whether it should be singular (one library) or plural (multiple categories, playfully called "cats"). For the ease of reading, I'll just refer to Cats in the singular. Grammar be damned.
+<NoteAdmonition>
+    Because I'm probably going to refer to Cats many times in this article, there's the problem of whether it should be singular (one library) or plural (multiple categories, playfully called "cats"). For the ease of reading, I'll just refer to Cats in the singular. Grammar be damned.
+</NoteAdmonition>
 
 Cats needs to be added to your `build.sbt` file for us to work with it:
 
@@ -31,7 +35,9 @@ Cats needs to be added to your `build.sbt` file for us to work with it:
 libraryDependencies += "org.typelevel" %% "cats-core" % "2.6.1"
 ```
 
-For a quick introduction of why we need type classes in the first place, check out [this piece](/articles/why-are-scala-type-classes-useful).
+<TipAdmonition>
+    For a quick introduction of why we need type classes in the first place, check out [this piece](/articles/why-are-scala-type-classes-useful).
+</TipAdmonition>
 
 ## Starting Easy: Semigroups and Monoids
 

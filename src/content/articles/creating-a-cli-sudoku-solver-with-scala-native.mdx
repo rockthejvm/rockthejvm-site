@@ -8,6 +8,8 @@ title: Creating a CLI Sudoku Solver with Scala Native
 updatedDate: 2024-09-06
 ---
 
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro"
+
 > This article is brought to you by [Antonio Gelameris](/authors/antonio-gelameris). Antonio is an alumnus of Rock the JVM, now a senior Scala developer with his own contributions to Scala libraries and junior devs under his mentorship.
 >
 > Which brings us to this article: Antonio originally started from my [A Backtracking Sudoku Solver in Scala](/articles/a-backtracking-sudoku-solver-in-scala) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us.
@@ -208,11 +210,13 @@ Let's examine the `from` function line by line:
   }
   ```
   In this particular case, we use to check that all the characters in the string (`forall`) are digits (`isDigit`) otherwise, we return a `Left("The sudoku string doesn't contain only digits")` to signal the error, short-circuiting all the following validations.
-- `.map(_.toVector.map(_.asDigit))` maps over the `Either[String,String]` to transform its content (when it's a `Right`) and then we map every `Char` into an `Int` `map`ping over the vector. (Note: we use `asDigit` and not `toDigit` as we want to interpret the literal value of the `Char` as a digit and not its internal representation)
+- `.map(_.toVector.map(_.asDigit))` maps over the `Either[String,String]` to transform its content (when it's a `Right`) and then we map every `Char` into an `Int` `map`ping over the vector.[^1]
 - Using the same `ensure` function we check that the string has the correct length
 - Finally, we map the `Either[String, Vector[Int]]` into an `Either[String, Sudoku]` calling `Sudoku`'s constructor, that here in the companion object is accessible.
 
 The main strength of the `from` function is that it won't let us create a `Sudoku` if the input doesn't comply with a set of minimum requirements needed to fully and correctly describe a `Sudoku`. This approach, sometimes called ["Parse, don't validate"](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/), might not seem like a big deal. Still, it enables us to write functions and extension methods that use `Sudoku` as parameters and are not required to perform any validation. `Sudoku`s are now impossible to create without using a valid input: we made invalid `Sudoku`s impossible to represent.
+
+[^1]: We use `asDigit` and not `toDigit` as we want to interpret the literal value of the `Char` as a digit and not its internal representation.
 
 ## Adding Utility Methods
 
@@ -252,24 +256,25 @@ object Sudoku {
 }
 ```
 
-> Note: We added these methods to the case class itself, but another option we could have chosen is to add this logic in an [extension](https://docs.scala-lang.org/scala3/book/ca-extension-methods.html). Creating an extension over the `Sudoku` datatype will let us call the methods defined in it as if they were methods of the `Sudoku` class.
->
-> ```scala
-> object Sudoku {
->
->   extension (s: Sudoku) {
->     def get(x: Int)(y: Int): Int = /* ... */
->     def getRow(y: Int): Vector[Int] = /* ... */
->     /* ... */
->   }
-> }
->
-> sudoku.get(0)(0)
-> ```
->
-> Extending may be preferable since it keeps data separated from the logic that manipulates them (enforcing some [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)), and since it's possible over data types not part of your codebase, like standard library types or data types coming from a library. This approach shines when the extension depends on a [typeclass](https://docs.scala-lang.org/scala3/book/ca-type-classes.html), since extending the type class for a new type `T` (i.e. adding a "_case_") you get a custom syntax over `T` for free.
->
-> On the other hand, defining new methods in the class (or in a trait) is easier if you intend to add new operations to that specific type (or trait). Pros and cons of the _type class_ vs _inheritance_ approach to the [Wadler's expression problem](https://en.wikipedia.org/wiki/Expression_problem) will be discussed in a future article.
+<TipAdmonition>
+    We added these methods to the case class itself, but another option we could have chosen is to add this logic in an [extension](https://docs.scala-lang.org/scala3/book/ca-extension-methods.html). Creating an extension over the `Sudoku` datatype will let us call the methods defined in it as if they were methods of the `Sudoku` class.
+
+    ```scala
+    object Sudoku {
+    extension (s: Sudoku) {
+        def get(x: Int)(y: Int): Int = /* ... */
+        def getRow(y: Int): Vector[Int] = /* ... */
+        /* ... */
+    }
+    }
+    sudoku.get(0)(0)
+    ```
+
+    Extending may be preferable since it keeps data separated from the logic that manipulates them (enforcing some [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)), and since it's possible over data types not part of your codebase, like standard library types or data types coming from a library. This approach shines when the extension depends on a [typeclass](https://docs.scala-lang.org/scala3/book/ca-type-classes.html), since extending the type class for a new type `T` (i.e. adding a "_case_") you get a custom syntax over `T` for free.
+
+    On the other hand, defining new methods in the class (or in a trait) is easier if you intend to add new operations to that specific type (or trait). Pros and cons of the _type class_ vs _inheritance_ approach to the [Wadler's expression problem](https://en.wikipedia.org/wiki/Expression_problem) will be discussed in a future article.
+
+</TipAdmonition>
 
 ## Testing
 

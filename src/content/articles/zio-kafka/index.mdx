@@ -355,7 +355,9 @@ This time, the type class adds a method to our type that encodes it into a JSON 
 def toJson(implicit A: JsonEncoder[A]): String
 ```
 
-Note that it's best to declare the decoder and encoder type classes inside the companion object of a type.
+<TipAdmonition>
+    It's best to declare the decoder and encoder type classes inside the companion object of a type.
+</TipAdmonition>
 
 Now, we just assemble all the pieces we just created using the `inmapM` function:
 

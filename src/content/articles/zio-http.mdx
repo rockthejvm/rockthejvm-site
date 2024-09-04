@@ -10,6 +10,9 @@ updatedDate: 2024-09-06
 videoId: i__kKmwhUI4
 ---
 
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
 > This article is brought to you by
 > [Mark Rudolph](https://github.com/alterationx10) - his second contribution to Rock the JVM. Mark is a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings.
 
@@ -87,11 +90,12 @@ In `zhttp`, `Request`s are processed into `Response`s via implementations of a
 that `R` and `E` are the _resource_ and _Error_ channels of a `ZIO` effect, and
 we're going to be converting an `A` to a `B` effectually.
 
-There are some included type aliases to shorten this signature, however in this
-article we will try to stick to the full version. Also, note, that due to the
-first type alias, the official documentation tends to often refer to their code
-examples as an "http app" or "app" - this jargon might leak into this post as
-well.
+<NoteAdmonition>
+    There are some included type aliases to shorten this signature, however in this article we will try to stick to the full version.
+
+    Also, due to the first type alias, the official documentation tends to often refer to their code examples as an "http app" or "app" - this jargon might leak into this post as well.
+
+</NoteAdmonition>
 
 ```scala
 type HttpApp[-R, +E] = Http[R, E, Request, Response]
@@ -100,8 +104,9 @@ type RHttpApp[-R]    = HttpApp[R, Throwable]
 type UHttp[-A, +B]   = Http[Any, Nothing, A, B]
 ```
 
-As a quick note, this section will have `R` as `Any` and `E` as `Nothing`. We
-will discuss including resources, and error handling later in the article.
+<NoteAdmonition>
+    This section will have `R` as `Any` and `E` as `Nothing`. We will discuss including resources, and error handling later in the article.
+</NoteAdmonition>
 
 Let's take a moment to dig into our first endpoint:
 
@@ -185,8 +190,9 @@ Hooty/The/Owl says: Hoot!%
 We can see in the second, and third case, we're partially matching the remaining
 path, and it can capture more than just one segment representing a name!
 
-As a further note, you can't use `/` and `/:` in the same case statement, as
-left- and right-associative operators with same precedence may not be mixed.
+<TipAdmonition>
+    You can't use `/` and `/:` in the same case statement, as left- and right-associative operators with same precedence may not be mixed.
+</TipAdmonition>
 
 ### Composing many Http[-R, +E, -A, +B]
 
@@ -199,7 +205,7 @@ In our example, we also have:
     }
 ```
 
-Note that `Http.collectZIO[Request]` behaves just like `Http.collect[Request]`,
+`Http.collectZIO[Request]` behaves just like `Http.collect[Request]`,
 except here instead of returning a `Response`, we'll return a
 `ZIO[R, E, Response]`. Being ZIO users, it would make sense to see this form
 heavily in an app that relies on our _resourceful_ logic. In the example above,
@@ -222,10 +228,10 @@ and `<<<`, and the behavior of each is as described from the
 > result from the first. If the first HTTP application is failing with a Some[E]
 > the second HTTP application won't be evaluated.
 
-> <> is an alias for orElse. While using <>, if the first HTTP application fails
-with Some[E], the second HTTP application will be evaluated, ignoring the
-result from the first. If the first HTTP application returns None, the second
-HTTP application won't be evaluated.
+> &lt;&gt; is an alias for orElse. While using &lt;&gt;, if the first HTTP application fails
+> with Some[E], the second HTTP application will be evaluated, ignoring the
+> result from the first. If the first HTTP application returns None, the second
+> HTTP application won't be evaluated.
 
 > `>>>` is an alias for andThen. It runs the first HTTP application and pipes
 > the output into the other.
@@ -251,15 +257,13 @@ server:
 This is a simple entry point, and we only need to give `Server.start` a port
 (defined as `9000` above), and our _composed_ `Http[R, E, Request, Response]`.
 
-Note that `Server.start` internally calls `ZIO.never`, and will block your
-for-comprehension at that point. You should include it last, or append
-`.forkDaemon`, and provide your own logic afterwards.
+<WarningAdmonition>
+    `Server.start` internally calls `ZIO.never`, and will block your for-comprehension at that point. You should include it last, or append `.forkDaemon`, and provide your own logic afterwards.
+</WarningAdmonition>
 
-You can apply some configuration to the `Server` instance, however we won't
-cover this in much capacity in this article. If interested, you can see the
-official documentation
-[here](https://zio.github.io/zio-http/docs/v1.x/dsl/server/) and
-[here](https://zio.github.io/zio-http/docs/v1.x/examples/advanced-examples/advanced_server).
+<NoteAdmonition>
+    You can apply some configuration to the `Server` instance, however we won't cover this in much capacity in this article. If interested, you can see the official documentation [here](https://zio.github.io/zio-http/docs/v1.x/dsl/server/) and [here](https://zio.github.io/zio-http/docs/v1.x/examples/advanced-examples/advanced_server).
+</NoteAdmonition>
 
 ## Next Steps
 
@@ -503,8 +507,8 @@ If we make the request again, with a valid `Origin` header, we can see the CORS
 Hoot!%
 ```
 
-Note that the `CorsConfig` case class has a lot of default values provided, and
-it may be unintuitive at first:
+<NoteAdmonition>
+The `CorsConfig` case class has a lot of default values provided, and it may be unintuitive at first:
 
 ```scala
 object Cors {

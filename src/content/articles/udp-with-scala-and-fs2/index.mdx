@@ -9,6 +9,8 @@ title: UDP with Scala and FS2 Explained
 updatedDate: 2024-09-06
 ---
 
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro"
+
 ## Introduction
 
 UDP stands for User Datagram Protocol, it's a transport layer communication protocol built on top of IP that is used to transmit data across a network. It works by bundling up data in a UDP packet, adding header information, and sending these packets to the target destination.
@@ -368,7 +370,11 @@ After the `datagramChannel` is open, we connect to the server by calling `datagr
 
 Another change is the use `datagramChannel.write` and `datagramChannel.read` to send and receive our messages. In addition, we no longer need to pass the `InetSocketAddress` to the `write()` since the datagram channel is already connected to the server address and knows where the data will be sent.
 
-Why use this method? Once `datagramChannel.connect()` is called, the `read()` and `write()` methods will only send and receive datagram packets from the address it's connected to. Note that UDP is a connectionless protocol and the `connect()` method doesn't mean an actual connection is established.
+Why use this method? Once `datagramChannel.connect()` is called, the `read()` and `write()` methods will only send and receive datagram packets from the address it's connected to.
+
+<WarningAdmonition>
+    UDP is a connectionless protocol and the `connect()` method doesn't mean an actual connection is established.
+</WarningAdmonition>
 
 Lastly, we can either call `datagramChannel.disconnect()` or `datagramChanel.close()` once we are done using the channel. Calling `datagramChannel.disconnect()` on a closed channel or one that's not connected has no effect. If we call our `run` method with `connectedClient`, the results should be the same.
 
@@ -1348,7 +1354,9 @@ Here's a picture of this program running on Ubuntu 22.04 with two clients connec
 
 ![Screenshot of three terminals open and two audio visualizations](images/udp-audio-visualization.png)
 
-Note: The application may fail incase the online radio link is unreachable, you can always replace it with a working link of your choosing.
+<WarningAdmonition>
+    The application may fail incase the online radio link is unreachable, you can always replace it with a working link of your choosing.
+</WarningAdmonition>
 
 ## Conclusion
 

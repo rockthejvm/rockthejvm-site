@@ -8,6 +8,8 @@ title: REST APIs with Play Framework and Scala
 updatedDate: 2024-09-06
 ---
 
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
 ## Introduction
 
 One of the simplest and well documented ways to build a web API is to follow the REST paradigm. REST APIs provide a simple and uniform way to
@@ -420,7 +422,9 @@ class HomeController(val carManager: CarManager, val controllerComponents: Contr
 }
 ```
 
-A note: the "delete" endpoint could have been written with the same constructs (plain Actions) as the other endpoints; we wanted to show you how we can build custom actions that map HTTP requests to other types that are more relevant for our application.
+<TipAdmonition>
+    The "delete" endpoint could have been written with the same constructs (plain Actions) as the other endpoints; we wanted to show you how we can build custom actions that map HTTP requests to other types that are more relevant for our application.
+</TipAdmonition>
 
 At this point, we only have the endpoints' implementation - we also need to map them to the URIs that they will respond to.
 This is achieved through the routes file, that is placed inside our `conf` directory:

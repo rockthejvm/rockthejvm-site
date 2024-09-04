@@ -110,7 +110,9 @@ val danielsLegalStatus = daniel.age match {
 
 Making the connections again, the compiler invokes `PersonDrinkingStatus.unapply(daniel.age)`. Returning a non-empty `Option[String]` means that the pattern was matched.
 
-Note that the name of the pattern, the type subject to pattern matching and the values deconstructed many not have any connection to each other. It's quite common that the `unapply` methods be stored in the companion object of the class/trait in question.
+<NoteAdmonition>
+    The name of the pattern, the type subject to pattern matching and the values deconstructed many not have any connection to each other. It's quite common that the `unapply` methods be stored in the companion object of the class/trait in question.
+</NoteAdmonition>
 
 ## Matching Sequences
 
