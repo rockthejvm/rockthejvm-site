@@ -32,9 +32,9 @@ In Scala 2, this suite of capabilities is available under the same `implicit` ke
 1. Implicit `def`s without implicit arguments are capable of doing conversions. Most of the time, these conversions are dangerous and hard to pin down. Moreover, they're the easiest implicits feature to use, which makes them double-dangerous.
 1. Implicits are really hard to learn and therefore push many beginners away from Scala.
 1. Various annoyances, such as
-   - the need to name implicits when we often don't need them
-   - some syntax confusions if a method requires implicit parameters
-   - the discrepancy between structure and intention: for example, an `implicit def` is never used with the meaning of a "method".
+   - The need to name implicits when we often don't need them
+   - Some syntax confusions if a method requires implicit parameters
+   - The discrepancy between structure and intention: for example, an `implicit def` is never used with the meaning of a "method".
 
 ## Implicit Conversions
 
@@ -147,9 +147,9 @@ However, the current implicit resolution mechanism leaves very generic errors. A
 
 Implicit defs were never meant to be used like methods. Therefore, there's a clear discrepancy between the structure of the code (a method) and the intention (a conversion). The new Scala 3 contextual abstractions solve this problem by being very clear on the intent:
 
-- given/using clauses are used for passing "implicit" arguments
-- implicit conversions are done by creating instances of `Conversion`
-- extension methods have their first-class syntactic structure
+- Given/using clauses are used for passing "implicit" arguments
+- Implicit conversions are done by creating instances of `Conversion`
+- Extension methods have their first-class syntactic structure
 
 ## Conclusion
 

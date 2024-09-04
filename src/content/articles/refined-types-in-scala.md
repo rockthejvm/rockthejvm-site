@@ -75,10 +75,10 @@ Now that you're more familiar with the problem and how Refined can solve it, let
 
 You saw the numerical Positive predicate. There are tons of others:
 
-- allow only negative numbers
-- allow only non-negative numbers (including 0)
-- allow only odd numbers
-- allow only even numbers
+- Allow only negative numbers
+- Allow only non-negative numbers (including 0)
+- Allow only odd numbers
+- Allow only even numbers
 
 ```scala
 val aNegative: Int Refined Negative = -100
@@ -100,11 +100,11 @@ The `W` value is an alias for shapeless' Witness, which is able to generate a ty
 
 With this new tools, a whole lot of other functionalities for filtering numbers are unlocked:
 
-- less than a certain number (or less-than-or-equal)
-- greater than a certain number (or gte)
-- in an open/closed interval between numbers
-- divisible by a number
-- whose modulo is a certain number
+- Less than a certain number (or less-than-or-equal)
+- Greater than a certain number (or gte)
+- In an open/closed interval between numbers
+- Divisible by a number
+- Whose modulo is a certain number
 
 Again, all available at compile time!
 

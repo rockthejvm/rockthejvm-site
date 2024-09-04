@@ -60,9 +60,9 @@ lazy val root = (project in file("."))
   )
 ```
 
-- first three dependencies which start with `org.http4s` are concerned with the HTTP server & client and handy dsl for creating `HttpRoutes`
+- First three dependencies which start with `org.http4s` are concerned with the HTTP server & client and handy dsl for creating `HttpRoutes`
 - `play-json` is a JSON library for Scala
-- last two libraries will be used for managing project configuration and logging respectively
+- Last two libraries will be used for managing project configuration and logging respectively
 
 ## Prerequisites
 
@@ -244,10 +244,10 @@ object domain {
 
 We basically used the same mechanism as we used for `PublicRepos`:
 
-- defined `opaque type`
-- created `apply` constructor for it
-- added `extension` method
-- defined `Reads`
+- Defined `opaque type`
+- Created `apply` constructor for it
+- Added `extension` method
+- Defined `Reads`
 
 Splendid!
 
@@ -345,10 +345,10 @@ Our goal is to make contributors aggregation fast. We've seen that there are mor
 
 After a few iterations and refinements I came up with something like this:
 
-- send request to our HTTP server with organization name
-- use organization name to find out how many public repos are available for organization name (let's say 10)
-- use this number (10) to issue N amount of parallel requests so that our server starts retrieving contributors for each project in parallel
-  - since there is no way to know how many contributors are available for a project we will need to send requests iteratively until they are exhausted, meaning that at some point the JSON response will contain less than 100 contributors, assuming that we expect to retrieve 100 contributors per page.
+- Send request to our HTTP server with organization name
+- Use organization name to find out how many public repos are available for organization name (let's say 10)
+- Use this number (10) to issue N amount of parallel requests so that our server starts retrieving contributors for each project in parallel
+  - Since there is no way to know how many contributors are available for a project we will need to send requests iteratively until they are exhausted, meaning that at some point the JSON response will contain less than 100 contributors, assuming that we expect to retrieve 100 contributors per page.
 
 First of all, we will need to define a basic route which will let us accept organization name as a query parameter, so let's add a new case for our `routes` definition:
 
@@ -369,9 +369,9 @@ Great!
 
 Here's a list of things we need to prepare before writing the main logic:
 
-- handling GitHub Token (configuration, loading, attaching to request headers)
-- mechanism to create proper GitHub REST API URLs (parameterization, pagination)
-- general approach for issuing a single HTTP request (deserialization, error handling)
+- Handling GitHub Token (configuration, loading, attaching to request headers)
+- Mechanism to create proper GitHub REST API URLs (parameterization, pagination)
+- General approach for issuing a single HTTP request (deserialization, error handling)
 
 As soon as we have those components, we can start composing our main piece of logic.
 
@@ -410,14 +410,14 @@ The derives clause is part of the new Scala 3 feature called "derivation," which
 
 In general, there are a few options for managing such things:
 
-- configuration
-  - easy to set up
-- env variable
-  - easy to set up
-- key chains or secret management systems
-  - not so easy and requires some time to set up, definitely an overkill for a small project such as ours
-- hardcoding
-  - very good for prototyping and development but extremely unsafe, as soon as you publish your token, GitHub will immediately expire it so that nobody can abuse it on your behalf
+- Configuration
+  - Easy to set up
+- Env variable
+  - Easy to set up
+- Key chains or secret management systems
+  - Not so easy and requires some time to set up, definitely an overkill for a small project such as ours
+- Hardcoding
+  - Very good for prototyping and development but extremely unsafe, as soon as you publish your token, GitHub will immediately expire it so that nobody can abuse it on your behalf
 
 Since we've already seen `ConfigReader` and `pureconfig` dependency in our `build.sbt` it's fairly easy to guess which option we're using in this project, just a personal preference.
 
@@ -568,20 +568,20 @@ We have defined the domain and several building blocks for actually implementing
 
 After a few revisions and refinement this is the plan I came up with:
 
-- choose the organization (e.g `typelevel`)
-- send HTTP request to our app on `host:port/org/typelevel`
-- fetch public repositories information for `typelevel` from a GitHub API endpoint
-- calculate the number of pages based on the number of public repositories (100 repositories per page) that is owned by `typelevel`
-  - this number will let us issue N amount of parallel requests in the next step
-- use the computed number and fetch information about repositories to accumulate the list of repository names
-  - we will end up here with smth like `Vector("cats", "cats-effect", ... ,"fs2")`
-- for each repository, start fetching contributors in parallel and accumulate their contributions sequentially
+- Choose the organization (e.g `typelevel`)
+- Send HTTP request to our app on `host:port/org/typelevel`
+- Fetch public repositories information for `typelevel` from a GitHub API endpoint
+- Calculate the number of pages based on the number of public repositories (100 repositories per page) that is owned by `typelevel`
+  - This number will let us issue N amount of parallel requests in the next step
+- Use the computed number and fetch information about repositories to accumulate the list of repository names
+  - We will end up here with smth like `Vector("cats", "cats-effect", ... ,"fs2")`
+- For each repository, start fetching contributors in parallel and accumulate their contributions sequentially
   - So, if we have 3 repositories we will create 3 separate fibers and start accumulating paginated contributors sequentially until they are exhausted. It means that fiber A may take 500 millis, fiber B - 600 millis, fiber C - 300 millis. So, in total, we will have all results in 600 millis since it's based on fork-join algorithm.
   - Unfortunately there is no clear way of parallelising fetching the contributors for repository because we don't know in advance how many contributors there are. However, if you feel brave you can play with different ideas and also try parallelising that, e.g you can use `fibonacci` approach and issue N amount of request on each iteration until they are exhausted, more on that later.
-- group and sum contributions by contributor login
-- create a `Vector[Contributor]` instances sorted by contributions
-- generate a JSON response containing information about contributors and contributions
-- send back the HTTP response with the JSON content
+- Group and sum contributions by contributor login
+- Create a `Vector[Contributor]` instances sorted by contributions
+- Generate a JSON response containing information about contributors and contributions
+- Send back the HTTP response with the JSON content
 
 Let's begin!
 
@@ -626,10 +626,10 @@ As you can see, we updated `routes` definition so that it finds out how many pub
 
 The steps are:
 
-- define a `publicReposUri`
-- issue HTTP request to `publicReposUri`
-- deserialize JSON response to `PublicRepos` which is an amount of public repositories
-- send response 200 OK with computed result
+- Define a `publicReposUri`
+- Issue HTTP request to `publicReposUri`
+- Deserialize JSON response to `PublicRepos` which is an amount of public repositories
+- Send response 200 OK with computed result
 
 Below you can see how could we test this functionality:
 

@@ -8,7 +8,9 @@ updatedDate: 2024-09-06
 videoId: L5FAyCCWGL0
 ---
 
-This article is a long-overdue written analogue to [this video](https://www.youtube.com/watch?v=L5FAyCCWGL0), which discusses one of the most important aspects of a reactive system using Akka Streams.
+## Introduction
+
+This article discusses one of the most important aspects of a reactive system using Akka Streams.
 
 ## Background
 
@@ -216,10 +218,10 @@ As you can see, the natural response to a backpressure signal is to attempt _buf
 
 We can control what happens when a consumer is slow. Akka Streams components allow us to
 
-- buffer elements locally, with a configurable size
-- drop data to maintain throughput, with configurable deletion strategies
-- send backpressure signal upstream
-- fail and tear down the stream altogether
+- Buffer elements locally, with a configurable size
+- Drop data to maintain throughput, with configurable deletion strategies
+- Send backpressure signal upstream
+- Fail and tear down the stream altogether
 
 We can decorate sources and flows with a configurable buffer which has all the capabilities described above. A simple example would look like
 
@@ -231,8 +233,8 @@ def demoBackpressure(): Unit = {
 
 where `buffer(10, OverflowStrategy.backpressure)` means
 
-- an additional buffer of 10 elements
-- if the buffer is full, the decision will be to send a backpressure signal upstream to slow down the source
+- An additional buffer of 10 elements
+- If the buffer is full, the decision will be to send a backpressure signal upstream to slow down the source
 
 Some demonstrations follow.
 

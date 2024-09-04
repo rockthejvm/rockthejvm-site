@@ -123,9 +123,9 @@ Obviously, the `prepend` and `append` methods are the meat of the problem. Let's
 
 As we mentioned earlier, prepending means:
 
-- finding the "left-end" of the list
-- adding a new node
-- pointing that node's `next` reference to the rest of the list...
+- Finding the "left-end" of the list
+- Adding a new node
+- Pointing that node's `next` reference to the rest of the list...
 - ...which also needs to update its `prev` and `next` reference throughout the list
 
 ## 4. Forward References and Lazy Vals
@@ -148,9 +148,9 @@ new: 5 ← 1 ⇆ 2
 
 Think about it: this operation in Java would have been done in 3 steps:
 
-- new node
-- new node's prev is 1
-- 1's next is the new node
+- New node
+- New node's prev is 1
+- 1s next is the new node
 
 If we can execute that new `1 ⇆ 2` _in the same expression_, we've made it; we can then recursively apply this operation on the rest of the list. Strangely enough, it's possible. Here's how we can do it. We'll define two more methods in the main trait:
 

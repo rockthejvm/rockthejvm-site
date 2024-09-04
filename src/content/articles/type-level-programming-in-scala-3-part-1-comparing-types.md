@@ -11,9 +11,9 @@ This article will introduce you to type-level programming on Scala 3 &mdash; the
 
 This will be a 2-part series, specifically focused on **Scala 3**. I also published an older [type-level programming miniseries](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) for Scala 2, which still works on Scala 3 as because implicits are still supported. In this version, we're going to use
 
-- [givens](/articles/scala-3-given-and-using-clauses)
-- generics
-- type members (for the next article)
+- [Givens](/articles/scala-3-given-and-using-clauses)
+- Generics
+- Type members (for the next article)
 
 The final objective of this mini-series is to be able to _sort type-level lists at compile time_. For the sake of variety, in this series we're going to do a _type-level quicksort_ instead of a mergesort (which we did in the Scala 2 miniseries). In this article, we'll take on the much smaller problem of properly comparing numbers (as types), at compile time.
 

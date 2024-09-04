@@ -102,8 +102,8 @@ The second part was about real arithmetic between numbers. We also embedded the 
   // val invalidFour: +[_2, _3, _4] = +.apply
   /*
     - I need an implicit +[1, 3, 4] == +[Succ[0], Succ[2], Succ[Succ[2]]]
-    - can run inductive, but I ned an implicit +[0, 2, 2]
-    - can run basicRight and construct a +[0, 2, 2]
+    - Can run inductive, but I ned an implicit +[0, 2, 2]
+    - Can run basicRight and construct a +[0, 2, 2]
    */
 ```
 
@@ -123,9 +123,9 @@ You may have seen similar definitions for heterogeneous lists (hence the HList n
 
 We're going to sort these HList types into other HList types, all inferred by the compiler. For that, we're going to use a merge-sort algorithm. You must know it already. We need to
 
-- split the lists in half
-- sort the halves
-- then merge the halves back in a sorted order
+- Split the lists in half
+- Sort the halves
+- Then merge the halves back in a sorted order
 
 Every operation will be encoded as a type, and all results will be computed by the compiler via implicits.
 
@@ -179,10 +179,10 @@ val validSplit: Split[_1 :: _2 :: _3 :: HNil, _1 :: _3 :: HNil, _2 :: HNil] = Sp
 
 This works, because the compiler does the following:
 
-- it requires an implicit `Split[_1 :: _2 :: _3 :: HNil, _1 :: _3 :: HNil, _2 :: HNil]`
-- it can build that implicit by running inductive, but it needs an implicit `Split[_3 :: HNil, _3 :: HNil, HNil]`
-- it can build that implicit by running `basic2[_3]`
-- it will then build the dependent implicits as required
+- It requires an implicit `Split[_1 :: _2 :: _3 :: HNil, _1 :: _3 :: HNil, _2 :: HNil]`
+- It can build that implicit by running inductive, but it needs an implicit `Split[_3 :: HNil, _3 :: HNil, HNil]`
+- It can build that implicit by running `basic2[_3]`
+- It will then build the dependent implicits as required
 
 Conversely, the compiler will not compile your code if the split is invalid:
 
@@ -216,13 +216,13 @@ This time we need two basic axioms because the types `Merge[HNil, L, L]` and `Me
 
 The inductive implicits are interesting. Considering two lists with at least an element each, say `HA :: TA` and `HB :: TB`, we need to compare their heads HA and HB:
 
-- if HA <= HB, then HA must stay first in the result
-- if HB < HA, then HB must stay first in the result
+- If HA <= HB, then HA must stay first in the result
+- If HB < HA, then HB must stay first in the result
 
 The question is, what's the result?
 
-- if HA <= HB, then the compiler must find a merge between TA and the other list `HB :: TB`, so it'll need an implicit instance of `Merge[TA, HB :: TB, O]`, where O is some HList, and the final result will be `HA :: O`
-- if HB < HA, it's the other way around - the compiler needs to find an implicit of `Merge[HA :: TA, TB, O]` and then the final result will be `HB :: O`
+- If HA <= HB, then the compiler must find a merge between TA and the other list `HB :: TB`, so it'll need an implicit instance of `Merge[TA, HB :: TB, O]`, where O is some HList, and the final result will be `HA :: O`
+- If HB < HA, it's the other way around - the compiler needs to find an implicit of `Merge[HA :: TA, TB, O]` and then the final result will be `HB :: O`
 
 So we need to embed those rules as implicits:
 
@@ -256,11 +256,11 @@ val validMerge: Merge[_1 :: _3 :: HNil, _2 :: HNil, _1 :: _2 :: _3 :: HNil] = Me
 
 This works, because the compiler
 
-- requires an implicit `Merge[_1 :: _3 :: HNil, _2 :: HNil, _1 :: _2 :: _3 :: HNil]`
-- will run the inductiveLTE, requiring an implicit `Merge[_3 :: HNil, _2 :: HNil, _2 :: _3 :: HNil]` and an implicit `_1 < _2`, which we'll assume true by virtue of Part 1
-- will run inductiveGT, requiring an implicit `Merge[_3 :: HNil, HNil, _3 :: HNil]`
-- will run basicLeft, creating an implicit `Merge[_3 :: HNil, HNil, _3 :: HNil]`
-- will create all the dependent implicits in reverse order
+- Requires an implicit `Merge[_1 :: _3 :: HNil, _2 :: HNil, _1 :: _2 :: _3 :: HNil]`
+- Will run the inductiveLTE, requiring an implicit `Merge[_3 :: HNil, _2 :: HNil, _2 :: _3 :: HNil]` and an implicit `_1 < _2`, which we'll assume true by virtue of Part 1
+- Will run inductiveGT, requiring an implicit `Merge[_3 :: HNil, HNil, _3 :: HNil]`
+- Will run basicLeft, creating an implicit `Merge[_3 :: HNil, HNil, _3 :: HNil]`
+- Will create all the dependent implicits in reverse order
 
 Conversely, if you try an invalid merge, the compiler won't compile your code because it can't find the appropriate implicits.
 
@@ -302,10 +302,10 @@ implicit def inductive[I <: HList, L <: HList, R <: HList, SL <: HList, SR <: HL
 
 This reads as:
 
-- given a Split of the input list into left (L) and right (R)
-- given an existing instance of `Sort[L, SL]`
-- given an existing instance of `Sort[R, SR]`
-- given a Merge of SL and SR (which are sorted) into O
+- Given a Split of the input list into left (L) and right (R)
+- Given an existing instance of `Sort[L, SL]`
+- Given an existing instance of `Sort[R, SR]`
+- Given a Merge of SL and SR (which are sorted) into O
 
 then the compiler can automatically build an instance of `Sort[I, O]`. With a little bit of practice, this reads like natural language, doesn't it? Split, sort left, sort right, merge.
 

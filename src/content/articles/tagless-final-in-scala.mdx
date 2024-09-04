@@ -21,8 +21,8 @@ I'd argue TF's bad rap (if there is one) could be solved with a better learning 
 
 Special thanks to
 
-- the original [TF paper](https://okmij.org/ftp/tagless-final/JFP.pdf) formalizing the pattern with examples in Haskell
-- pretty much every other article, book or video referencing TF
+- The original [TF paper](https://okmij.org/ftp/tagless-final/JFP.pdf) formalizing the pattern with examples in Haskell
+- Pretty much every other article, book or video referencing TF
 
 ## 1. The Expression Problem
 
@@ -224,8 +224,8 @@ def myService[F[_]: Concurrent](...)
 
 and this is often called "tagless final". However, programming against type classes and the tagless final pattern have nothing to do with each other. The only overlap is in how the code ends up looking like and the functionality restriction:
 
-- type classes are a sets of functionalities which you want to offer to some types and not for others
-- tagless final wants to prove correctness of expressions of some types and not for others
+- Type classes are a sets of functionalities which you want to offer to some types and not for others
+- Tagless final wants to prove correctness of expressions of some types and not for others
 
 See the overlap?
 
@@ -362,8 +362,8 @@ Yes, it's the exact same code with different function names &mdash; we see this 
 
 In this article, we visited the tagless final approach, what it involves and what it means for us as Scala programmers. If you now know
 
-- where TF comes from
-- that TF is just an extension of "programming to interfaces"
-- that TF is not the same concept as `F[_]` + type classes, but only similar in representation
+- Where TF comes from
+- That TF is just an extension of "programming to interfaces"
+- That TF is not the same concept as `F[_]` + type classes, but only similar in representation
 
 then I've done my job and this article (and the video above) is a success.

@@ -19,8 +19,8 @@ We're going to explore extension methods, one of the most exciting features of t
 
 As for requirements, two major pieces are important:
 
-- how implicits work
-- how [given/using combos work](/articles/scala-3-given-and-using-clauses)
+- How implicits work
+- How [given/using combos work](/articles/scala-3-given-and-using-clauses)
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 

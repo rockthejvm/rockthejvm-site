@@ -50,9 +50,9 @@ val table = spark.range(1, 100000000) // column is "id"
 
 At the same time, we have a small dataset which can easily fit in memory. For some reason, we need to join these two datasets. Examples from real life include:
 
-- tagging each row with one of n possible tags, where n is small enough for most 3-year-olds to count to
-- finding the occurrences of some preferred values (so some sort of filter)
-- doing a variety of lookups with the small dataset acting as a lookup table
+- Tagging each row with one of n possible tags, where n is small enough for most 3-year-olds to count to
+- Finding the occurrences of some preferred values (so some sort of filter)
+- Doing a variety of lookups with the small dataset acting as a lookup table
 
 Regardless, we join these two datasets. Let's take a combined example and let's consider a dataset that gives medals in a competition:
 
@@ -108,11 +108,11 @@ This will give you a piece of text that looks very cryptic, but it's information
 
 In this query plan, we read the operations in dependency order from top to bottom, or in computation order from bottom to top. Let's read it top-down:
 
-- the final computation of the `id` and the `medal` obtained after the join of the two DataFrames, which requires
-- a sort-merge join on the columns `id` and `id` (with different identifiers under the hash tag), which requires
-  - a sort of the big DataFrame, which comes after
-  - **a shuffle of the big DataFrame**
-- and a sort + shuffle + small filter on the small DataFrame
+- The final computation of the `id` and the `medal` obtained after the join of the two DataFrames, which requires
+- A sort-merge join on the columns `id` and `id` (with different identifiers under the hash tag), which requires
+  - A sort of the big DataFrame, which comes after
+  - **A shuffle of the big DataFrame**
+- And a sort + shuffle + small filter on the small DataFrame
 
 The shuffle on the big DataFrame - the one at the middle of the query plan - is required, because a join requires matching keys to stay on the same Spark executor, so Spark needs to redistribute the records by hashing the join column. This is a shuffle. But as you may already know, a shuffle is a massively expensive operation. On billions of rows it can take hours, and on more records, it'll take... more.
 
@@ -168,8 +168,8 @@ However, in the previous case, Spark did not detect that the small table could b
 
 Spark will perform auto-detection when
 
-- it constructs a DataFrame from scratch, e.g. `spark.range`
-- it reads from files with schema and/or size information, e.g. Parquet
+- It constructs a DataFrame from scratch, e.g. `spark.range`
+- It reads from files with schema and/or size information, e.g. Parquet
 
 ## Configuring Broadcast Join Detection
 

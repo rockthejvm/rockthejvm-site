@@ -145,10 +145,10 @@ def newState(dir: Int): State = ???
 
 Inside the `newState` method, we have to do the following:
 
-- update the new head of the snake, given the direction
-- update the rest of the snake by placing the _last_ n-1 squares at the positions of the _first_ n-1 squares
-- check if we're out of the scene boundaries OR eating our own tail; reset the state in this case
-- check if the snake is just eating the food; re-generate food coordinates in that case
+- Update the new head of the snake, given the direction
+- Update the rest of the snake by placing the _last_ n-1 squares at the positions of the _first_ n-1 squares
+- Check if we're out of the scene boundaries OR eating our own tail; reset the state in this case
+- Check if the snake is just eating the food; re-generate food coordinates in that case
 
 Rock'n roll. Updating the snake's head needs to take into account the direction; consider directions 1,2,3,4 as up, down, left, right:
 
@@ -258,9 +258,9 @@ def rectangles: List[Rectangle] = square(food._1, food._2, Red) :: snake.map {
 
 Our pure game logic is complete, we just need to be able to use this state somewhere, and run a game loop or update function constantly and re-draw things on the stage. To that end, we're going to create 3 ScalaFX "properties" which are essentially glorified variables with `onChange` listeners:
 
-- a property that describes the current state of the game as an instance of `State`
-- a property that keeps track of the current direction, changeable by key presses
-- a property that keeps the current frame, updating every X milliseconds
+- A property that describes the current state of the game as an instance of `State`
+- A property that keeps track of the current direction, changeable by key presses
+- A property that keeps the current frame, updating every X milliseconds
 
 At the beginning of the main app's `start()` method, we're going to add the following:
 
@@ -280,9 +280,9 @@ frame.onChange {
 
 So the state will update automatically once the frame changes. So we need to make sure of 3 things:
 
-- to draw the current state's squares on the screen
-- to update the direction variable based on key presses
-- to change/increase the frame number every X milliseconds (picked 80 or 100 for smooth game play)
+- To draw the current state's squares on the screen
+- To update the direction variable based on key presses
+- To change/increase the frame number every X milliseconds (picked 80 or 100 for smooth game play)
 
 Piece 1 is easy. We need to change the `content` field of the scene to be
 

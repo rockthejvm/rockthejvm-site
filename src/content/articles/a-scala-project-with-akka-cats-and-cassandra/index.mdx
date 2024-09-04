@@ -25,9 +25,9 @@ We're going to write a **mini-bank application**, where users can create bank ac
 
 This article assumes that you're familiar with the basics of Akka Typed, Akka HTTP and Cats. We have various articles here on the blog (with corresponding videos) that will give you the essential tools, so feel free to click on the tags at the bottom, or search here on the blog, and you'll find everything you need. For in-depth mastery we have full-blown courses, so if you're interested, you can check out
 
-- the [Akka Typed course](/courses/akka-pekko-essentials)
-- the [Akka HTTP course](/courses/akka-pekko-http)
-- the [Cats course](/courses/cats)
+- The [Akka Typed course](/courses/akka-pekko-essentials)
+- The [Akka HTTP course](/courses/akka-pekko-http)
+- The [Cats course](/courses/cats)
 
 We're going to write Scala 2 in this article for library compatibility reasons, although the exact same code will work on Scala 3 as well once the libraries have been updated. We're also going to need [Docker](https://docker.com) to start a Cassandra instance.
 
@@ -86,18 +86,18 @@ This is not a production application, but we do have some moving parts.
 
 We're going to create a mini-bank application which manages people's bank accounts. We need to support the following operations:
 
-- creating a bank account
-- retrieving current bank account details
-- depositing/withdrawing money
+- Creating a bank account
+- Retrieving current bank account details
+- Depositing/withdrawing money
 
 Using Akka actors and Akka Persistence, the application will work as follows
 
-- each bank account is a persistent actor
-- all events are recorded (creation, update etc)
-- all events are replayed in case of failure/restart
-- one big bank (also persistent) actor manages all actors
-- a HTTP server with a REST API handles requests from outside
-- all events are stored in Cassandra
+- Each bank account is a persistent actor
+- All events are recorded (creation, update etc)
+- All events are replayed in case of failure/restart
+- One big bank (also persistent) actor manages all actors
+- A HTTP server with a REST API handles requests from outside
+- All events are stored in Cassandra
 
 The "architecture" therefore looks like this:
 
@@ -118,15 +118,15 @@ We're going to split the work on this application in 4 parts:
 
 We're going to model bank accounts as independent, persistent actors. Each bank account will be its own actor, which will be created by the "main" bank actor either
 
-- upon user request
-- at application restart/in case of failure
+- Upon user request
+- At application restart/in case of failure
 
 This bank account actor will also take care to treat all events strictly related to it, which are
 
-- creation
-- update
-- retrieval
-- (optionally) deletion, which we'll leave as an exercise
+- Creation
+- Update
+- Retrieval
+- (Optionally) deletion, which we'll leave as an exercise
 
 So we'll start with a plain Scala object:
 
@@ -187,8 +187,8 @@ object Response {
 
 Notice that in the `BankAccountBalanceUpdatedResponse` class we use a `Try`, because the updating might fail for different reasons, for example:
 
-- the id of the bank account requested might be different from this bank account's id
-- the amount might be illegal, e.g. trying to withdraw more than you have
+- The id of the bank account requested might be different from this bank account's id
+- The amount might be illegal, e.g. trying to withdraw more than you have
 
 An in the `GetBankAccountResponse` we use an `Option` because there are only two answers we're considering: either there is a bank account here, or it's not.
 
@@ -254,9 +254,9 @@ case GetBankAccount(_, bank) =>
 
 Following the structure of the first case,
 
-- if we attempt withdrawing more than we have available, we'll send back a response to the bank with a `Failure`
-- if the balance modification was successful, persist the appropriate event and send back a successful response
-- the "get" command simply responds with the current state of the account; can be improved with security checks, etc.
+- If we attempt withdrawing more than we have available, we'll send back a response to the bank with a `Failure`
+- If the balance modification was successful, persist the appropriate event and send back a successful response
+- The "get" command simply responds with the current state of the account; can be improved with security checks, etc.
 
 That was the command handler, the third item on the list.
 
@@ -572,10 +572,10 @@ object BankPlayground {
 
 For this live test, we're first going to send a creation message and check that there are two events in Cassandra (one from the bank and one from the account). Running this application should give us the log `successfully created bank account ...`. You can then shut down the application and run it again, this time with just the second message. A successful log with the account details proves multiple things:
 
-- that the bank actor works
-- that the account actor works
-- that the bank account can successfully respawn the account
-- that the account can successfully restore its state
+- That the bank actor works
+- That the account actor works
+- That the bank account can successfully respawn the account
+- That the account can successfully restore its state
 
 Sure enough, we can also inspect Cassandra for the relevant events. While Cassandra is running, from another terminal we can run
 
@@ -1029,8 +1029,8 @@ object Validation {
 
 In a `ValidatedNel` (Nel = non-empty list), we always have either
 
-- a value of type `A` (the desired value)
-- a non-empty list of `ValidationFailure`s
+- A value of type `A` (the desired value)
+- A non-empty list of `ValidationFailure`s
 
 This data type is extremely useful, because we can accumulate _multiple_ errors with an HTTP request and surface them out to the user, instead of a single generic error message.
 
@@ -1106,8 +1106,8 @@ def validateEntity[A](value: A)(implicit validator: Validator[A]): ValidationRes
 
 We will use this type class for our HTTP requests that we need to validate, namely
 
-- the bank account creation request
-- the bank account update request
+- The bank account creation request
+- The bank account update request
 
 We show in the [Advanced Scala course](/courses/advanced-scala) that when we have a single implicit behavior that makes sense for a type, we should place that implicit value in the companion of that type. In our case, we'll place the implicit type class instances in the companion objects of these requests:
 
@@ -1147,9 +1147,9 @@ object BankAccountUpdateRequest {
 
 And with that, we have some implicit type class instances ready for the HTTP requests that we want to check. Now, we need to introduce this validation logic in the HTTP server. Inside the `BankRouter`, we'll add a method that will
 
-- try to validate a request based on an implicit `Validator` for that type
-- if the result is valid, follow the happy path, i.e. the normal route
-- if the result is invalid, return an HTTP response with a `FailureResponse` aggregating _all_ the errors tha were discovered
+- Try to validate a request based on an implicit `Validator` for that type
+- If the result is valid, follow the happy path, i.e. the normal route
+- If the result is invalid, return an HTTP response with a `FailureResponse` aggregating _all_ the errors tha were discovered
 
 The method will look like this:
 

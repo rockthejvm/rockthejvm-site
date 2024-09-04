@@ -67,8 +67,9 @@ We read this plan backwards, bottom to top:
 
 Or we can read this plan top to bottom, like this:
 
-2. The end of the computation is a "project" (with the meaning above), which depends on
-1. A Range from 1 to 1 million in 6 partitions.
+1. The end of the computation is a "project" (with the meaning above), which depends on
+
+2. A Range from 1 to 1 million in 6 partitions.
 
 Not too hard. Let's do another:
 

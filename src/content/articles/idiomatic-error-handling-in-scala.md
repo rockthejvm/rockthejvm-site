@@ -31,9 +31,9 @@ This try/catch structure is an expression, just like anything else in Scala, and
 
 However, this straightforward approach is rarely the recommended one, for a few big reasons:
 
-- the structure is cumbersome and hard to read, particularly if the attempted code or the exception-handling code becomes big
-- nesting such structures (even at level 2) become exponentially harder to debug and understand
-- for pure functional programmers, the `finally` part doing things outside of value computations might cause a small aneurysm
+- The structure is cumbersome and hard to read, particularly if the attempted code or the exception-handling code becomes big
+- Nesting such structures (even at level 2) become exponentially harder to debug and understand
+- For pure functional programmers, the `finally` part doing things outside of value computations might cause a small aneurysm
 
 ## 2. Let's `Try` Better
 
@@ -187,15 +187,15 @@ The `validate` method can combine 3 `Validated` instances, in the sense that:
 
 `Validated` is therefore more powerful than Either, because besides giving us the freedom to pick the types for the "errors", it allows us to
 
-- combine multiple errors into one instance, thus creating a comprehensive report
-- process both values and errors, separately or at the same time
-- convert to/from Either, Try and Option
+- Combine multiple errors into one instance, thus creating a comprehensive report
+- Process both values and errors, separately or at the same time
+- Convert to/from Either, Try and Option
 
 ## 5. Conclusion
 
 In this article, you've seen a few ways to handle errors, from the most basic and limiting, to the most advanced, complex and powerful. In short:
 
-- try/catches are almost always undesirable,
+- `try`/`catches` are almost always undesirable,
 - Try wraps failed computations into values we can then process and handle as we see fit,
 - Either expands on the concept by considering errors to be valuable information of any type, and
 - Validated adds extra power by the capacity to combine errors and values.

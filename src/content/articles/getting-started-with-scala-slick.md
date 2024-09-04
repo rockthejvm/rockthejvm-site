@@ -15,10 +15,10 @@ This is a beginner-friendly article to get started with Slick, a popular databas
 
 This guide will explain
 
-- what Slick is and how to use Slick for basic CRUD operations
-- how to apply advanced concepts like join, transaction etc. using Slick
-- how to use Postgres specific data types using slick-pg
-- how to auto-generate Slick schema from database
+- What Slick is and how to use Slick for basic CRUD operations
+- How to apply advanced concepts like join, transaction etc. using Slick
+- How to use Postgres specific data types using slick-pg
+- How to auto-generate Slick schema from database
 
 For this blog, we will build a basic database for movies and related entities. We will use Slick to save and fetch rows from multiple tables related to the movies database. For explaining different features of Slick, we will make use of tables with different types of columns.
 

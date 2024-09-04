@@ -131,9 +131,9 @@ A Filter has 4 type arguments, following the flow of data in this gorgeous ASCII
 
 A Filter is placed "in front of" the service we would like to enhance. Thinking of function composition, this diagram has 3 functions:
 
-- a `ReqIn => RepOut` function which transforms the input into something that the service understands
-- the `RepOut => ReqOut` function which is the service itself (remember that Service extends Function1); technically this function is `RepOut => Future[ReqOut]`
-- the `ReqOut => RepIn` function which transforms the output of the service into another type for the outside world
+- A `ReqIn => RepOut` function which transforms the input into something that the service understands
+- The `RepOut => ReqOut` function which is the service itself (remember that Service extends Function1); technically this function is `RepOut => Future[ReqOut]`
+- The `ReqOut => RepIn` function which transforms the output of the service into another type for the outside world
 
 Compacting these 3 functions into one, this leads to a big function `(ReqIn, (RepOut => Future[ReqOut])) => Future[RepIn]` or `(ReqIn, Service[RepOut,ReqOut]) => Future[RepIn]` which is the fundamental description of a Filter:
 
@@ -281,9 +281,9 @@ This feature makes it very easy for us to spin up additional instances of a serv
 
 In this article, we've looked at the basics of the Finagle RPC library:
 
-- how services are described and consumed
-- how to build HTTP servers and clients
-- how to add filters and "middleware" on top of existing services
-- how to add load balancing while keeping the consumer API intact
+- How services are described and consumed
+- How to build HTTP servers and clients
+- How to add filters and "middleware" on top of existing services
+- How to add load balancing while keeping the consumer API intact
 
 The Finagle ecosystem of libraries is extremely powerful. I personally doubt they will cease development, given the success they've had with massively distributed systems (not just at Twitter). If nothing else, we should all learn from Finagle's philosophy for \*\*our own tools and libraries, and I hope this article helped achieve that goal.
