@@ -7,9 +7,15 @@ title: 4 Handy Ways to Read Files in Scala
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
+This is for Scala programmers of all levels and is concerned with reading _text_ files. We'll deal with binary files another time.
+
+## Introduction
+
 One of the hurdles many learners of JVM languages face is: how do I read a goddamn file? And then you have your face blasted with DataInputStreams, FileReaders, buffered this, buffered that, channels or whatever.
 
-In this article I'd like the make things clean and simple, and share code snippets that you can use directly. This is for Scala programmers of all levels and is concerned with reading _text_ files. We'll deal with binary files another time. Assume you have a file path and you want to read some text data from it:
+In this article I'd like the make things clean and simple, and share code snippets that you can use directly. Assume you have a file path and you want to read some text data from it:
 
 ```scala
 val filePath = "hating/javas/file/reading/abstractions"
@@ -87,6 +93,6 @@ So we defined a method to obtain a File object by opening the file at the given 
 val readLikeABoss = open(filePath).read()
 ```
 
-## Epilogue
+## Conclusion
 
 In the JVM world - Java in particular, but including Scala - we're still far away from having simple, elegant, intuitive and friendly standard APIs, especially for beginners who just need to read a simple file.

@@ -7,7 +7,13 @@ title: Create Your Own Custom String Interpolator
 updatedDate: 2024-09-06
 ---
 
-This article will show you a less-known customizable part of Scala that will allow you to build powerful tools that seem to be part of the language itself. The article is for intermediate to advanced Scala programmers who know how implicit classes work.
+## Who This Article Is For
+
+The article is for intermediate to advanced Scala programmers who know how implicit classes work.
+
+## Introduction
+
+This article will show you a less-known customizable part of Scala that will allow you to build powerful tools that seem to be part of the language itself.
 
 ## The Background
 
