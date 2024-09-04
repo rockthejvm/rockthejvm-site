@@ -7,6 +7,8 @@ title: "Akka Typed: How the Pipe Pattern Prevents Anti-Patterns"
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for people who are getting familiar with Akka Typed actors. You don't have to be an expert &mdash; that would certainly be a plus &mdash; but some familiarity with actor concepts is assumed.
 
 ## Setup

@@ -7,13 +7,15 @@ title: Custom Pattern Matching in Scala
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
+This article is for Scala developers with _some_ existing experience. The techniques I'm about to show you are not rocket science, but they are nonetheless pretty useful.
+
 ## Background
 
 Pattern matching is one of the most powerful features of the Scala language: it's extremely practical for quick decomposition of data, it's very powerful, easy to use and covers [a lot of use-cases](/articles/8-pattern-matching-tricks-in-scala).
 
 In this article, we'll learn how to define our own patterns and make our own types compatible with pattern matching. Both Scala 2 and Scala 3 are supported, and you don't need to install any special libraries if you want to follow along.
-
-This article is for Scala developers with _some_ existing experience. The techniques I'm about to show you are not rocket science, but they are nonetheless pretty useful.
 
 ## Pattern Matching on Any Type
 
