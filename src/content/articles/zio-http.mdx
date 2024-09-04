@@ -508,27 +508,29 @@ Hoot!%
 ```
 
 <NoteAdmonition>
-The `CorsConfig` case class has a lot of default values provided, and it may be unintuitive at first:
+    The `CorsConfig` case class has a lot of default values provided, and it may be unintuitive at first:
 
-```scala
-object Cors {
-  final case class CorsConfig(
-    anyOrigin: Boolean = true,
-    anyMethod: Boolean = true,
-    allowCredentials: Boolean = true,
-    allowedOrigins: String => Boolean = _ => false,
-    allowedMethods: Option[Set[Method]] = None,
-    allowedHeaders: Option[Set[String]] = Some(
-      Set(HttpHeaderNames.CONTENT_TYPE.toString, HttpHeaderNames.AUTHORIZATION.toString, "*"),
-    ),
-    exposedHeaders: Option[Set[String]] = Some(Set("*")),
-  )
-}
-```
+    ```scala
+    object Cors {
+    final case class CorsConfig(
+        anyOrigin: Boolean = true,
+        anyMethod: Boolean = true,
+        allowCredentials: Boolean = true,
+        allowedOrigins: String => Boolean = _ => false,
+        allowedMethods: Option[Set[Method]] = None,
+        allowedHeaders: Option[Set[String]] = Some(
+        Set(HttpHeaderNames.CONTENT_TYPE.toString, HttpHeaderNames.AUTHORIZATION.toString, "*"),
+        ),
+        exposedHeaders: Option[Set[String]] = Some(Set("*")),
+    )
+    }
+    ```
 
-For example, you might start with
-`CorsConfig(allowedOrigins = _ == "myhost.com")`, but the `anyOrigin` value is
-defaulted to `true`.
+    For example, you might start with
+    `CorsConfig(allowedOrigins = _ == "myhost.com")`, but the `anyOrigin` value is
+    defaulted to `true`.
+
+</NoteAdmonition>
 
 ### CSRF
 
