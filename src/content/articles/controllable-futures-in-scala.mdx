@@ -7,6 +7,8 @@ title: Controllable Futures in Scala Explained
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 In this article I'm going to address the problem of "deterministic" Futures. You probably know by now that Futures are inherently non-deterministic, in the sense that if you create a Future
 
 ```scala
@@ -100,6 +102,8 @@ def gimmeMyPreciousValue(yourArg: Int): Future[String] = {
 ```
 
 So we create a promise and then we return its future at the end, for whoever wants to consume it. In the middle, we submit a function which will be evaluated at some point, out of our control. At that moment, the service produces the value and fulfils the Promise, which will automatically fulfil the Future for the consumer.
+
+## Conclusion
 
 This is how we can leverage the power of Promises to create "controllable" Futures, which we can fulfil at a moment of our choosing. The Promise class also has other methods, such as failure, trySuccess/tryFailure and more.
 
