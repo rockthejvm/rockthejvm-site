@@ -7,7 +7,13 @@ title: Eta-Expansion and Partially Applied Functions in Scala
 updatedDate: 2024-09-06
 ---
 
-This article is for Scala programmers who know at least these essential concepts: what a method is and how to define a function value (lambda). Here we'll discuss the topic of eta-expansion and partially-applied functions, which are often loosely covered and piecemeal.
+## Who This Article Is For
+
+This article is for Scala programmers who know at least these essential concepts: what a method is and how to define a function value (lambda).
+
+## Introduction
+
+Here we'll discuss the topic of eta-expansion and partially-applied functions, which are often loosely covered and piecemeal.
 
 ## Background
 

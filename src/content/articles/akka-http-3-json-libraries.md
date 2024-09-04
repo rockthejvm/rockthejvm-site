@@ -7,7 +7,13 @@ title: "Akka HTTP Loves JSON: 3 Libraries You Can Integrate into Akka HTTP"
 updatedDate: 2024-09-06
 ---
 
-This article is for the Scala programmer who works with [Akka HTTP](https://doc.akka.io/docs/akka-http/current/index.html). Probably one of the most common problems for any developer writing HTTP services is, obviously, JSON manipulation.
+## Who This Article Is For
+
+This article is for the Scala programmer who works with [Akka HTTP](https://doc.akka.io/docs/akka-http/current/index.html).
+
+## Introduction
+
+Probably one of the most common problems for any developer writing HTTP services is, obviously, JSON manipulation.
 
 In this article we'll address not one, but 3 different ways to handle JSON in Akka HTTP.
 

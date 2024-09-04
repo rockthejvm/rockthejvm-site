@@ -7,6 +7,8 @@ title: "Akka Typed: Adapting Messages Explained"
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for people comfortable with Akka Typed actors in Scala. I don't require you to be an expert, though - just the basics are assumed.
 
 ## Setup

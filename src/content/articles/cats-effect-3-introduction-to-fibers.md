@@ -7,9 +7,13 @@ title: "Cats Effect 3: Introduction to Fibers"
 updatedDate: 2024-09-06
 ---
 
-Cats Effect 3 has just been launched, with a lot of exciting changes and simplifications. Some aspects have not changed, though, and for good reason. This article starts the exploration of one of them - fibers.
+## Who This Article Is For
 
 This article is for the comfortable Scala programmer, but with otherwise limited exposure to Cats Effect. If you've just browsed through the Cats Effect documentation page and at least heard about the IO monad for Scala &mdash; perhaps from the first few pieces of the "getting started" section &mdash; this article is for you.
+
+## Introduction
+
+Cats Effect 3 has just been launched, with a lot of exciting changes and simplifications. Some aspects have not changed, though, and for good reason. This article starts the exploration of one of them - fibers.
 
 ## Background and Setup
 

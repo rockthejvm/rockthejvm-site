@@ -7,7 +7,13 @@ title: 5 Fun Code Expressiveness Tricks in Scala
 updatedDate: 2024-09-06
 ---
 
-This article is for Scala programmers of all levels who are at least familiar with the absolute essentials (values, classes, functions etc.). In this post I'm going to show you a few syntax tricks and sugar elements that make Scala such a powerful, expressive language. Many of these techniques are not so well-known, so there are probably at least some of these that you may not have seen before.
+## Who This Article Is For
+
+This article is for Scala programmers of all levels who are at least familiar with the absolute essentials (values, classes, functions etc.).
+
+## Introduction
+
+In this post I'm going to show you a few syntax tricks and sugar elements that make Scala such a powerful, expressive language. Many of these techniques are not so well-known, so there are probably at least some of these that you may not have seen before.
 
 ## Trick 1 - The Single Abstract Method Pattern
 

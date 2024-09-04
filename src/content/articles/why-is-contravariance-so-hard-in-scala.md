@@ -9,6 +9,8 @@ updatedDate: 2024-09-06
 
 > We discuss variance and variance positions in depth in the [Advanced Scala](/courses/advanced-scala) course. Check it out!
 
+## Who This Article Is For
+
 This article is for the Scala programmer who's either getting started with Scala generics, OR who has been using generics in their basic form, i.e. just attach type arguments, like
 
 ```scala

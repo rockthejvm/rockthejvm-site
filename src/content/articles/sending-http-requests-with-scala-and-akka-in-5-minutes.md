@@ -7,7 +7,11 @@ title: Sending HTTP Requests with Scala and Akka in 5 Minutes
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the Scala programmer who wants to run one-off HTTP requests quickly. The thinking style assumed is "I don't want to care too much, I'll give you a payload, you just give me a future containing your response". With minimal boilerplate, we'll do exactly that with Akka HTTP in 5 minutes.
+
+## Introduction
 
 The Rock the JVM blog is built with me typing my posts in plain text with minimal Markdown formatting, and then generating a uniform HTML out of it, with a simple Scala parser (I hate typing HTML). For syntax highlighting, I use markup.su/highlighter, which happens to have a REST endpoint. Naturally, I don't want to do it by hand, so as my HTML is generated, the syntax is automatically retrieved via Akka HTTP as client, with little code. My HMTL generator currently has less than 100 lines of code in total.
 

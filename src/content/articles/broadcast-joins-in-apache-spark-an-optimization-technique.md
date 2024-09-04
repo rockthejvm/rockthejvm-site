@@ -7,6 +7,8 @@ title: "Broadcast Joins in Apache Spark: An Optimization Technique"
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the Spark programmers who know some fundamentals: how data is split, how Spark generally works as a computing engine, plus some essential DataFrame APIs.
 
 ## Essentials
