@@ -264,10 +264,10 @@ Future.sequence(messageIdFutures) // turn the Seq[Future[...]] into Future[Seq[.
 
 Spark Structured Streaming &mdash; which we teach [here at Rock the JVM](/courses/spark-streaming) &mdash; is a stream computing engine provides more advanced features that are helpful to our use case:
 
-- support for Session Windows - we can create session windows based on the eventTime and the userSession id.
-- support for groupBy aggregations - we want to aggregate the eventTypes on the user session windows.
-- watermarking support - allows for late event handling.
-- filtering on complex data types - filter rows based on a list filtering predicate.
+- Support for Session Windows - we can create session windows based on the eventTime and the userSession id.
+- Support for groupBy aggregations - we want to aggregate the eventTypes on the user session windows.
+- Watermarking support - allows for late event handling.
+- Filtering on complex data types - filter rows based on a list filtering predicate.
 
 With our dependencies in place, let's first connect to Pulsar and start reading events from our `events` topic.
 
@@ -307,10 +307,10 @@ val parsedEvents = clickEventsDF
 
 And with this Dataset in place, we can now sketch an example implementation:
 
-- discarding events older than 30 minutes
-- using session windows of 80 minutes, [now automatic in Spark 3.2](https://databricks.com/blog/2021/10/12/native-support-of-session-window-in-spark-structured-streaming.html)
-- aggregating event types
-- looking for shopping cart events
+- Discarding events older than 30 minutes
+- Using session windows of 80 minutes, [now automatic in Spark 3.2](https://databricks.com/blog/2021/10/12/native-support-of-session-window-in-spark-structured-streaming.html)
+- Aggregating event types
+- Looking for shopping cart events
 
 ```scala
 val checkoutEvents = parsedEvents

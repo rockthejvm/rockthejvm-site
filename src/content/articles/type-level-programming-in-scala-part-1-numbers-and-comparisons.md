@@ -11,10 +11,10 @@ In this mini-series I'll introduce you to some advanced Scala techniques for typ
 
 This article (and its subsequent parts) require an advanced Scala programmer, so you'll need to be comfortable with quite a few of the harder topics in Scala:
 
-- type aliases
-- type members
-- implicit methods
-- how the compiler searches for implicits
+- Type aliases
+- Type members
+- Implicit methods
+- How the compiler searches for implicits
 
 In this first part of the series, I'll introduce you the notion of values as types and I'll show how you can embed a mathematical problem as a type constraint, which the Scala compiler can happily validate or invalidate for you before the code can compile.
 
@@ -122,13 +122,13 @@ val validComparison: _2 < _3 = <[_2, _3]
 
 This compiles, because
 
-- the apply method needs an implicit instance of `<[_2, _3]`
-- to find that instance, the compiler can choose to run any of the two implicit methods - it will attempt to call the `inductive` method, but it will need an implicit instance of `<[_1, _2]`
-- in the same way, the compiler marks that it can call the `inductive` method, but it needs an implicit instance of type `<[_0, _1]`
-- in this case, the method signature of `ltBasic` signals that the compiler can build an instance of `<[_0, _1]` because `_1 = Succ[0]`
-- now, given an instance of `<[_0, _1]` the compiler can build an instance of `<[_1, _2]`
-- in the same style, given an instance of `<[_1, _2]` the compiler can build an instance of `<[_2, _3]`
-- given the instance of `<[_2, _3]`, it can safely be passed to the `apply` method and returned
+- The apply method needs an implicit instance of `<[_2, _3]`
+- To find that instance, the compiler can choose to run any of the two implicit methods - It will attempt to call the `inductive` method, but it will need an implicit instance of `<[_1, _2]`
+- In the same way, the compiler marks that it can call the `inductive` method, but it needs an implicit instance of type `<[_0, _1]`
+- In this case, the method signature of `ltBasic` signals that the compiler can build an instance of `<[_0, _1]` because `_1 = Succ[0]`
+- Now, given an instance of `<[_0, _1]` the compiler can build an instance of `<[_1, _2]`
+- In the same style, given an instance of `<[_1, _2]` the compiler can build an instance of `<[_2, _3]`
+- Given the instance of `<[_2, _3]`, it can safely be passed to the `apply` method and returned
 
 However, if you try to wrote
 

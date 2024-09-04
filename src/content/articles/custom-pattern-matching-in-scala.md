@@ -21,13 +21,13 @@ In this article, we'll learn how to define our own patterns and make our own typ
 
 As you well know, pattern matching is applicable to some groups of types in the Scala library:
 
-- constants
-- strings
-- singletons
-- case classes
-- tuples (being case classes as well)
-- some collections (you'll now understand why)
-- combinations of the above
+- Constants
+- Strings
+- Singletons
+- Case classes
+- Tuples (being case classes as well)
+- Some collections (you'll now understand why)
+- Combinations of the above
 
 What if you're dealing with types that do not belong to the list above? What if, for example, you're dealing with data structures from an old Java library that is crucial for your application? Let's say, for the sake of argument, that somebody defined a class
 
@@ -87,8 +87,8 @@ This is power already: we've just enabled pattern matching on a custom data type
 
 A powerful property of `unapply` is that it doesn't need to be connected to
 
-- the companion object of the class in question
-- the fields of the class
+- The companion object of the class in question
+- The fields of the class
 
 In other words, we can create another pattern with a totally different name, returning different things:
 

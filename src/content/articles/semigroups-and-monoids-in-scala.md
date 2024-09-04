@@ -138,7 +138,7 @@ def reduceCompact[T : Semigroup](list: List[T]): T = list.reduce(_ |+| _)
 
 There's a lot happening here:
 
-- the import adds the extension method capability, provided you also have access to instances of Semigroup for the types you want to use
+- The import adds the extension method capability, provided you also have access to instances of Semigroup for the types you want to use
 - `[T : Semigroup]` means that there's a `given` (Scala 3) or `implicit` (Scala 2) instance of `Semigroup[T]` in scope
 - `_ |+| _` is possible since the presence of the Semigroup unlocks the extension method `|+|`
 

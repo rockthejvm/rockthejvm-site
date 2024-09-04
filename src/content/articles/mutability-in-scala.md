@@ -85,9 +85,9 @@ The first line is trivial, but the other is not &mdash; the compiler rewrites it
 
 For this scheme to work, the following restrictions apply:
 
-- both the getter and setter need to be present
-- the setter needs to have the signature `def myField_=(value: MyType): Unit`
-- the getter needs to have the signature `def myField: MyType`
+- Both the getter and setter need to be present
+- The setter needs to have the signature `def myField_=(value: MyType): Unit`
+- The getter needs to have the signature `def myField: MyType`
 
 ## 4. Updating Data in Collections
 

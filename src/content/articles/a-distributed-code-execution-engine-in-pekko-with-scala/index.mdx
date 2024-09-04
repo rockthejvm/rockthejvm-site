@@ -32,14 +32,14 @@ The goal isn't to build the best one, nor it is to compete with the existing one
 
 Put simply, the goal of this project is to get familiar with [Apache Pekko](https://pekko.apache.org) (the open source version of Akka) and its modules such as `pekko-http`, `pekko-stream`, `pekko-cluster` and a few interesting concepts around actor model concurrency, such as:
 
-- cluster nodes and formation
-- cluster aware routers
-- remote worker actors
-- actor lifecycle and hierarchy
-- actor supervision strategies
-- actor location transparency
-- message serialization
-- and so on...
+- Cluster nodes and formation
+- Cluster aware routers
+- Remote worker actors
+- Actor lifecycle and hierarchy
+- Actor supervision strategies
+- Actor location transparency
+- Message serialization
+- And so on...
 
 Let's get started then, shall we?
 
@@ -110,9 +110,9 @@ lazy val root = (project in file("."))
 
 As shown:
 
-- we mainly use `pekko` libraries for main work and `logback-classic` for logging
+- We mainly use `pekko` libraries for main work and `logback-classic` for logging
 - `root` definition which defines the `name`, `assemblyJarName` and `mainClass`
-- all of which is used by `sbt assembly` to turn our code into `braindrill.jar`
+- All of which is used by `sbt assembly` to turn our code into `braindrill.jar`
 
 Also, we configure the `assemblyMergeStrategy` for `sbt-assembly` to handle file conflicts when creating a JAR. It defines how to merge files from different JARs:
 
@@ -153,7 +153,7 @@ Let's explain step by step what happens during code execution:
 
 - User sends request at POST `http://localhost/python` with `python` code attached to request body
 - `http` processes the request
-- randomly chosen `load balancer` sends message to `worker router` on some node
+- Randomly chosen `load balancer` sends message to `worker router` on some node
 - `worker router` sends message to `worker` which starts execution
 - ... skipping lots of details ...
 - `worker` responds to `load balancer` once the code is executed
@@ -169,13 +169,13 @@ Long story short, I decided to go with [DooD - Docker out of Docker](https://tdo
 
 It means that if the host machine has the docker engine installed on it:
 
-- it can start container `A` using `/var/run/docker.sock` which listens for commands
-- it can start "sibling" container `B` by executing commands such as `docker run ...` from container `A`, using `/var/run/docker.sock`
+- It can start container `A` using `/var/run/docker.sock` which listens for commands
+- It can start "sibling" container `B` by executing commands such as `docker run ...` from container `A`, using `/var/run/docker.sock`
 
 In our domain terms:
 
-- container `A` will be `worker-1` container, which will be starting sibling containers
-- sibling containers will be short-lived, limited (CPU, RAM, timeout) containers which run `python`, `java` and such processes
+- Container `A` will be `worker-1` container, which will be starting sibling containers
+- Sibling containers will be short-lived, limited (CPU, RAM, timeout) containers which run `python`, `java` and such processes
 
 Advantages of `DooD`:
 
@@ -352,10 +352,10 @@ Deployment shell script is a handy tool that enables us to run the project local
 
 The goal is to automate the following:
 
-- creating an image - `braindrill`
-- creating a volume - `engine`
-- pulling programming language runtime images (`java`, `python` and others)
-- redeploying the nodes with the new version of `braindrill` image if required
+- Creating an image - `braindrill`
+- Creating a volume - `engine`
+- Pulling programming language runtime images (`java`, `python` and others)
+- Redeploying the nodes with the new version of `braindrill` image if required
 
 So, it could look like the following:
 
@@ -856,12 +856,12 @@ The main responsibility for `CodeExecutor` is to execute code and return the out
 
 `CodeExecutor` actor is complex in nature due to the following reasons:
 
-- code must be executed in a short-lived docker container
-- code can cause memory issues
-- code can cause cpu issues
-- code can result in an accidental infinite loop
-- code can be accumulating too much output
-- and so on...
+- Code must be executed in a short-lived docker container
+- Code can cause memory issues
+- Code can cause cpu issues
+- Code can result in an accidental infinite loop
+- Code can be accumulating too much output
+- And so on...
 
 To tackle all this, we need to write a special logic and model the aforementioned concepts in a sensible way.
 
@@ -1264,10 +1264,10 @@ To some extent, testing the load on the locally deployed cluster may not be the 
 
 The goal of the simulator is to perform aggregate the statistics of things such as:
 
-- total requests in a minute
-- average response time
-- error count
-- response time percentiles: p50, p90, p99
+- Total requests in a minute
+- Average response time
+- Error count
+- Response time percentiles: p50, p90, p99
 
 With those expectations in mind, `Simulator.scala` could look like the following:
 

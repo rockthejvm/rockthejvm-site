@@ -17,9 +17,9 @@ This feature (along with dozens of other changes) is explained in depth in the [
 
 Instead of describing the feature, I want to start with the need first. Let's say you are working on a library for standard data types (e.g. Int, String, Lists), and you want to write a piece of code that extracts the last constituent part of a bigger value:
 
-- assuming BigInts are made of digits, the last part is the last digit
-- the last part of a String is a Char
-- the last part of a list is the element on its last position
+- Assuming BigInts are made of digits, the last part is the last digit
+- The last part of a String is a Char
+- The last part of a list is the element on its last position
 
 For these purposes, you might want to create the following methods:
 
@@ -119,9 +119,9 @@ From this method signature, it's clear to the compiler that the returned type mu
 
 On the other hand, our `lastComponentOf` method allows the compiler to be flexible in terms of the returned type, depending on the type definition:
 
-- if the method takes a String argument, it returns a Char
-- if it takes a BigInt argument, it returns an Int
-- if it takes a `List[T]` argument, it returns a `T`
+- If the method takes a String argument, it returns a Char
+- If it takes a BigInt argument, it returns an Int
+- If it takes a `List[T]` argument, it returns a `T`
 
 Expressed this way, we see how we make the connection between argument and return type more loose, but still properly covered.
 

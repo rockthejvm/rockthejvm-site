@@ -152,11 +152,11 @@ val five: +[_2, _3, _5] = +[_2, _3, _5]
 
 This compiles, because
 
-- the compiler needs an implicit `+[_2, _3, _5]` which is in fact `+[Succ[_1], Succ[2], Succ[Succ[_3]]]`
-- the compiler can run the inductive method, but it requires an implicit `+[_1, _2, _3]` which is `+[Succ[_0], Succ[_1], Succ[Succ[_1]]]`
-- the compiler can run the inductive method again, but it requires an implicit `+[_0, _1, _1]`
-- the compiler can run the basicRight method and build the implicit `+[_0, _1, _1]`
-- the compiler can then build all the other dependent implicits
+- The compiler needs an implicit `+[_2, _3, _5]` which is in fact `+[Succ[_1], Succ[2], Succ[Succ[_3]]]`
+- The compiler can run the inductive method, but it requires an implicit `+[_1, _2, _3]` which is `+[Succ[_0], Succ[_1], Succ[Succ[_1]]]`
+- The compiler can run the inductive method again, but it requires an implicit `+[_0, _1, _1]`
+- The compiler can run the basicRight method and build the implicit `+[_0, _1, _1]`
+- The compiler can then build all the other dependent implicits
 
 However, if we write an incorrect "statement", such as
 
@@ -214,8 +214,8 @@ implicit def inductive[A <: Nat, B <: Nat, S <: Nat](implicit plus: Plus[A, B, S
 
 Each rewrite goes as follows:
 
-- make the return type be the new `Plus` type instead of the old `+`
-- because we can't build `Plus` directly, we'll need to build an instance of `+` that has the correct type member
+- Make the return type be the new `Plus` type instead of the old `+`
+- Because we can't build `Plus` directly, we'll need to build an instance of `+` that has the correct type member
 
 Finally, the apply method will need to undergo a change as well. First of all, we'll get rid of the third type argument:
 
@@ -251,7 +251,7 @@ def apply[A <: Nat, B <: Nat](implicit plus: +[A, B]): Plus[A, B, plus.Result] =
 Instead of returning a `+[A, B]`, we return a `Plus[A, B, plus.Result]`. We can use this dirty trick because
 
 - `Plus` is nothing but a type alias
-- we can use type members in method return types
+- We can use type members in method return types
 
 With this minor change, the code still compiles, but if we show the type tag now, the tag looks different:
 

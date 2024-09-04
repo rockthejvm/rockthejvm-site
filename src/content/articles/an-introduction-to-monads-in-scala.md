@@ -67,8 +67,10 @@ This is more concise, more elegant, much safer, and more OO-encapsulated, becaus
 
 This pattern (and its refactor) is very common, and is composed of two things:
 
-    1. the ability to wrap a value into my (more interesting) type - in OO terms this is just a "constructor"; we call this _unit_, or _pure_, or _apply_
-    2. a function that transforms a wrapper into another wrapper (perhaps of another type) in the same style as the above - we usually call this _bind_ or _flatMap_
+```text
+1. The ability to wrap a value into my (more interesting) type - in OO terms this is just a "constructor"; we call this _unit_, or _pure_, or _apply_
+2. A function that transforms a wrapper into another wrapper (perhaps of another type) in the same style as the above - we usually call this _bind_ or _flatMap_
+```
 
 When you're dealing with this extract-transform-wrap pattern (I'll call this ETW), you've created the conditions for a monad.
 
@@ -223,8 +225,8 @@ MySuperMonad(x).flatMap(x => MySuperMonad(x))
 
 If it's not obvious yet, make it concrete:
 
-- example with lists: `List(x).flatMap(x => List(x)) = ?`
-- example with Futures: `Future(x).flatMap(x => Future(x))= ? `
+- Example with lists: `List(x).flatMap(x => List(x)) = ?`
+- Example with Futures: `Future(x).flatMap(x => Future(x))= ? `
 
 Nothing changes, right? An inherent property of monads is that `MySuperMonad(x).flatMap(x => MySuperMonad(x))` is the same as `MySuperMonad(x)`.
 
@@ -276,15 +278,15 @@ MyMonad(x).flatMap(f).flatMap(g) == MyMonad(x).flatMap(x => f(x).flatMap(g))
 
 The pattern goes like this:
 
-- extract
-- transform & wrap
-- extract again
-- transform & wrap
+- Extract
+- Transform & wrap
+- Extract again
+- Transform & wrap
 
 which is what the two flatMaps do; in the right hand side we're compressing the last 3 steps:
 
-- extract
-- transform & wrap & ETW
+- Extract
+- Transform & wrap & ETW
 
 ## Epilogue
 

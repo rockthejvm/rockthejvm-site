@@ -30,9 +30,9 @@ The [ZIO](https://github.com/zio/zio) library is centered around the `ZIO` type.
 
 The ZIO type describes an effect which is caused by an input, and can produce either an error or a desired value. As such, it takes 3 type arguments:
 
-- an input type `R`, also known as _environment_
-- an error type `E`, which can be anything (not necessarily a Throwable)
-- a value type `A`
+- An input type `R`, also known as _environment_
+- An error type `E`, which can be anything (not necessarily a Throwable)
+- A value type `A`
 
 and we thus have `ZIO[-R, +E, +A]`. Conceptually, a ZIO instance is equivalent to a function `R => Either[E,A]`, and there are natural conversion APIs between ZIO and the standard library structures.
 
@@ -80,18 +80,18 @@ Process finished with exit code 0
 
 In a real application, we often need to create heavyweight data structures which are important for various operations. The list is longer than we like to admit, but some critical operations usually include
 
-- interacting with a database or storage layer
-- doing business logic
-- serving a front-facing API, perhaps through HTTP
-- communicating with other services
+- Interacting with a database or storage layer
+- Doing business logic
+- Serving a front-facing API, perhaps through HTTP
+- Communicating with other services
 
 Now, if we think about it, most of these data structures are created through some sort of effect: for example, creating a connection pool, reading from some configuration file, opening network ports, etc.
 
 We can therefore conveniently think of these services as a particular kind of effect. ZIO matches this pattern perfectly:
 
-- a service may have dependencies, therefore "inputs" or "environment"
-- a service may fail with an error
-- a service, once created, may serve as dependency or input to other services
+- A service may have dependencies, therefore "inputs" or "environment"
+- A service may fail with an error
+- A service, once created, may serve as dependency or input to other services
 
 This style of thinking about a service is the core idea behind a `ZLayer`.
 
@@ -144,9 +144,9 @@ val live: ZLayer[Any, Nothing, Has[UserEmailer.Service]] = ZLayer.succeed(
 
 Much like `ZIO`, a `ZLayer` has 3 type arguments:
 
-- an input type `RIn`, aka "dependency" type
-- an error type `E`, for the error that might arise during creation of the service
-- an output type `ROut`
+- An input type `RIn`, aka "dependency" type
+- An error type `E`, for the error that might arise during creation of the service
+- An output type `ROut`
 
 Note the output type in this case: we have a `Has[UserEmailer.Service]`, not a plain `UserEmailer.Service`. We'll come back to this and show how this works and why it's needed.
 
@@ -233,8 +233,8 @@ The two `ZLayers` we've just defined are so far independent, but we can compose 
 
 One way of combining `ZLayers` is the so-called "horizontal" composition. If we have
 
-- a `ZLayer[RIn1, E1, ROut1]`
-- another `ZLayer[RIn2, E2, ROut2]`
+- A `ZLayer[RIn1, E1, ROut1]`
+- Another `ZLayer[RIn2, E2, ROut2]`
 
 we can obtain a "bigger" `ZLayer` which can take as input `RIn1 with RIn2`, and produce as output `ROut1 with ROut2`. If we suggested earlier that `RIn` is a "dependency", then this new `ZLayer` combines (sums) the dependencies of both `ZLayers`, and produces a "bigger" output, which can serve as dependency for a later `ZLayer`.
 

@@ -48,8 +48,8 @@ def yetAnotherMethodRequiringOrdering(persons: List[Person])(ordering: Ordering[
 
 When we call these methods, we first need to
 
-- find the standard ordering, without needing to re-instantiate it
-- plug it into all these methods
+- Find the standard ordering, without needing to re-instantiate it
+- Plug it into all these methods
 
 Instead of doing this explicitly every single time for every single method, we can delegate this menial task to the compiler.
 
@@ -155,11 +155,11 @@ Of course, that's not what we see (because we don't see anything), but this serv
 
 The problem we started with was pretty small, but it's also the easiest to lean into. Given/using clauses, in combination with extension methods &mdash; coming in another article &mdash; are a powerful cocktail of tools, which can be used for (among others):
 
-- type classes
-- dependency injection
-- contextual abstractions, i.e. ability to use code for some types but not for others
-- automatic type creation
-- type-level programming
+- Type classes
+- Dependency injection
+- Contextual abstractions, i.e. ability to use code for some types but not for others
+- Automatic type creation
+- Type-level programming
 
 We will explore lots of these problems and how given/using clauses + extension methods solve them as the blog evolves.
 

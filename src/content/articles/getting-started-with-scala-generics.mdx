@@ -14,9 +14,9 @@ This beginner-friendly article will introduce you to Scala generics in a smooth,
 
 This is a Scala generics guide that will explain
 
-- what generics are in Scala
-- where and how to use them
-- most importantly, _why_ they exist
+- What generics are in Scala
+- Where and how to use them
+- Most importantly, _why_ they exist
 
 The concept of Scala generics is explained in-depth and with practice exercises in the [Scala Essentials course](/courses/scala-essentials). The code that we write in this article works on both Scala 2 and Scala 3.
 
@@ -72,13 +72,13 @@ Let's assume for a moment that you're designing your own data structure. Say, a 
 
 The fundamental operations of a list are to
 
-- get the first element (head)
-- get the rest of the list, without the head (which is also a list)
+- Get the first element (head)
+- Get the rest of the list, without the head (which is also a list)
 
 We can implement this list by considering two cases
 
-- an empty list, for which both the `head` and `tail` method return nothing/throw an exception
-- a non-empty list which contain both pieces of data
+- An empty list, for which both the `head` and `tail` method return nothing/throw an exception
+- A non-empty list which contain both pieces of data
 
 Sample implementations would look like this:
 
@@ -191,9 +191,9 @@ In this case, we know for a fact that `firstNumber` must be an Int, by the defin
 
 We get multiple benefits by using Scala generics in this way:
 
-- we eliminate the need to copy and paste
-- we can reuse the same code/logic for _all_ types
-- we guarantee type safety
+- We eliminate the need to copy and paste
+- We can reuse the same code/logic for _all_ types
+- We guarantee type safety
 
 Now, generics in Scala lead to a whole range of [features](/articles/demystifying-variance-positions-in-scala) and potentially [difficult concepts](/articles/why-is-contravariance-so-hard-in-scala), but here are some features of generics that you can use right now.
 
@@ -210,9 +210,9 @@ Second, if you need _multiple_ type arguments, you can do that too. For instance
 
 and the mechanics would work in the same way:
 
-- after defining the type arguments `K, V` you can use them inside the trait body
-- the `put` method takes a key of exactly type `K` and a value of exactly type `V`, and returns a map of the same type (see type safety?)
-- the `get` method takes a key of type `K` and returns a value of type `V`, exactly the same types with which we defined the map
+- After defining the type arguments `K, V` you can use them inside the trait body
+- The `put` method takes a key of exactly type `K` and a value of exactly type `V`, and returns a map of the same type (see type safety?)
+- The `get` method takes a key of type `K` and returns a value of type `V`, exactly the same types with which we defined the map
 
 Third, you can also reuse a single piece of logic (i.e. a method) by making it generic. For instance, if you want to find the last element of a list, you can write
 

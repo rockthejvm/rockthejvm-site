@@ -296,11 +296,11 @@ Each of these can be separated as a module. Then we can combine the different pa
 
 Some good practice principles:
 
-- a single `build.sbt` file with all submodule information inside.
-- common settings at the top (e.g. Scala version, org name)
+- A single `build.sbt` file with all submodule information inside.
+- Common settings at the top (e.g. Scala version, org name)
 - `ThisBuild` to ensure the settings are applied to the entire project including submodules
-- variables for common library used across multiple sub-modules, applied as module `libraryDependencies`
-- same for common settings, applied as `settings`
+- Variables for common library used across multiple sub-modules, applied as module `libraryDependencies`
+- Same for common settings, applied as `settings`
 
 Below is a sample multi-module build.sbt:
 
@@ -388,9 +388,9 @@ Now, when we compile, only this module will get compiled. But, if this module de
 One of the most important features of sbt is its support for plugins. Plugins help extend sbt with custom features which can be published and shared between multiple teams.
 For handling plugins, a special file called as _plugins.sbt_ is used. This file is kept under the `project/` directory. Some common usages of plugins are:
 
-- packaging plugins to create jar, exe and other executables/deliverables
-- static code analysis plugins
-- code generation plugins
+- Packaging plugins to create jar, exe and other executables/deliverables
+- Static code analysis plugins
+- Code generation plugins
 
 Let's look at an example of _sbt-assembly_ plugin. This plugin helps to create an executable jar file from the sbt project.
 

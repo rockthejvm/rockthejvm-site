@@ -40,9 +40,9 @@ extension [A] (io: IO[A]) {
 
 Once we can evaluate IOs on another thread, the immediate next question is how we can manage their lifecycle:
 
-- how we can start them, wait for them and inspect their results (did that in the previous article)
-- how we can trigger many at the same time and determine the relationship between them (this article)
-- how we can coordinate between many IOs running concurrently (some future, harder article)
+- How we can start them, wait for them and inspect their results (did that in the previous article)
+- How we can trigger many at the same time and determine the relationship between them (this article)
+- How we can coordinate between many IOs running concurrently (some future, harder article)
 
 In this article, we'll focus on a part of the second bullet - racing.
 
@@ -50,8 +50,8 @@ Racing means two computations run at the same time and reach some sort of common
 
 Let's consider two IOs:
 
-- one tries to compute a result: we'll simulate that with a sleep
-- one triggers a timeout
+- One tries to compute a result: we'll simulate that with a sleep
+- One triggers a timeout
 
 ```scala
 val valuableIO: IO[Int] =
@@ -121,8 +121,8 @@ Cats Effect offers a much more powerful IO combinator, called `racePair`.
 
 Because either IO can win, the result type is a bit more complex. Instead of an `Either[A, B]` in the case of `race`, here we have
 
-- a tuple of `(OutcomeIO[A], FiberIO[B])` if the first IO wins
-- a tuple of `(FiberIO[A], OutcomeIO[B])` if the second IO wins
+- A tuple of `(OutcomeIO[A], FiberIO[B])` if the first IO wins
+- A tuple of `(FiberIO[A], OutcomeIO[B])` if the second IO wins
 
 Therefore, the result type is an Either with each: `Either[(OutcomeIO[A], FiberIO[B]), (FiberIO[A, OutcomeIO[B])]`.
 

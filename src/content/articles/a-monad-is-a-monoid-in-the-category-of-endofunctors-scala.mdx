@@ -223,11 +223,11 @@ This is the point where it's going to start getting a bit abstract.
 
 Remember what we did earlier when we generalized the monoid. We started by having a 2-arg method `combine(a: T, b: T): T`, then we generalized that as a single-arg function `((T, T)) => T`, then we generalized the concept of tupling itself, by denoting "products" under the general type P. Then we created a higher-kinded version of that, denoted `P[_]`. This product thing can mean absolutely anything at all:
 
-- tupling two values
-- cross-product between two sets
-- zipping between two lists of the same size
-- wrapping an option inside another option
-- parallelizing two futures
+- Tupling two values
+- Cross-product between two sets
+- Zipping between two lists of the same size
+- Wrapping an option inside another option
+- Parallelizing two futures
 
 For our purposes, we want to create a "product" concept between functors, by wrapping them inside one another:
 
@@ -249,10 +249,10 @@ This is probably the hardest bit. Here goes.
 
 We can write a special type of `MonoidInCategoryK2`, where
 
-1. the type `T[_]` is a type for which there is a given `Functor[T]` in scope - in other words `T` "is" a functor
-1. the type `~>` is the functor natural transformation type (see [Functor Transformation](#functor-transformations))
-1. the type `U[_]` is the identity type (see [The Id](#the-id))
-1. the type `P` is the functor composition type `F[F[_]]`
+1. The type `T[_]` is a type for which there is a given `Functor[T]` in scope - in other words `T` "is" a functor
+1. The type `~>` is the functor natural transformation type (see [Functor Transformation](#functor-transformations))
+1. The type `U[_]` is the identity type (see [The Id](#the-id))
+1. The type `P` is the functor composition type `F[F[_]]`
 
 Written in Scala, the header of this special monoid looks like this:
 
@@ -330,9 +330,9 @@ These two methods are much closer to what we use in real life, because we wrap v
 
 A bit of explanation on that one-liner `flatMap`:
 
-- we assume `F[_]` has a given `Functor[F]` in scope, so we use the `summon` method to obtain it
-- because we have a `Functor[F]`, we can say `functor.map(ma)(f)` to obtain a `F[F[B]]`
-- because we have the clunky but general `combine` method, we can turn that `F[F[B]]` into a single `F[B]`
+- We assume `F[_]` has a given `Functor[F]` in scope, so we use the `summon` method to obtain it
+- Because we have a `Functor[F]`, we can say `functor.map(ma)(f)` to obtain a `F[F[B]]`
+- Because we have the clunky but general `combine` method, we can turn that `F[F[B]]` into a single `F[B]`
 
 And of course, because we have `pure` and `flatMap` for free, we can use them directly:
 

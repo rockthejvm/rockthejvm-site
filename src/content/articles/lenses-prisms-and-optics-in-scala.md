@@ -137,8 +137,8 @@ val radius = circlePrism.getOption(aCircle) // returns Some(20)
 
 This seems complicated at first, but it clears a lot of boilerplate, for several reasons:
 
-- the prism's apply method acts as a "smart constructor" which can instances of Circle for us
-- we can safely inspect any shape's radius even if it's not a Circle - this saves us the need to repeat the earlier pattern matching
+- The prism's apply method acts as a "smart constructor" which can instances of Circle for us
+- We can safely inspect any shape's radius even if it's not a Circle - this saves us the need to repeat the earlier pattern matching
 
 Both of the above can be used at any point inside our application, without the need to type-check or pattern match every time.
 

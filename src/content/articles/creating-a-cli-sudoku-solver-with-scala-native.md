@@ -79,10 +79,10 @@ Maps in Scala have the shape Map[_, _]
 
 Through directives you can, for example:
 
-- add java options or compiler flags
-- declare tests
-- change the compilation target
-- package the application as a fat jar or as a script that downloads all the required dependencies
+- Add java options or compiler flags
+- Declare tests
+- Change the compilation target
+- Package the application as a fat jar or as a script that downloads all the required dependencies
 
 and much more. For a complete reference, see [Directives](https://scala-cli.virtuslab.org/docs/reference/scala-command/directives).
 

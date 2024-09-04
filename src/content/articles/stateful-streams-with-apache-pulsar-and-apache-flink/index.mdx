@@ -54,9 +54,9 @@ A common use case in streaming systems is combining data from different topics, 
 In our example, we can enrich the input `order` events with the _state_, for example to query the user and product information to be
 able to take actions such as
 
-- sending out an email thanking our user for their purchase
-- calculating some reward points to see if they are eligible for a discount coupon
-- recommending something similar to the product they just bought
+- Sending out an email thanking our user for their purchase
+- Calculating some reward points to see if they are eligible for a discount coupon
+- Recommending something similar to the product they just bought
 
 Our focus for this article is enriching an input event stream with information from events in other topics.
 
@@ -319,12 +319,12 @@ public class LookupDataProducer {
 
 This data producer's main function does the following:
 
-- loads the data files with one of the utilities earlier &mdash; nothing more than mere CSV parsing
-- creates a Pulsar client
-- creates data producers for users and for items
-- pushes each user and each item to Pulsar one by one
-- keeps track of the total records with an `AtomicInteger` (we're doing parallel processing, remember?)
-- closes the resources cleanly
+- Loads the data files with one of the utilities earlier &mdash; nothing more than mere CSV parsing
+- Creates a Pulsar client
+- Creates data producers for users and for items
+- Pushes each user and each item to Pulsar one by one
+- Keeps track of the total records with an `AtomicInteger` (we're doing parallel processing, remember?)
+- Closes the resources cleanly
 
 After running the producer we should see an output similar to the following:
 
@@ -798,9 +798,9 @@ You can find the full implementation under the **v3** package <a href={`${
 
 We can also run the application in the same style:
 
-- rebuild and redeploy with `deploy.sh`, making sure to point to the `v3` implementation
-- run the `EnrichmentStream` (the v3 of it as well)
-- look at the outputs
+- Rebuild and redeploy with `deploy.sh`, making sure to point to the `v3` implementation
+- Run the `EnrichmentStream` (the v3 of it as well)
+- Look at the outputs
 
 We have covered a lot so far. So let's take a moment and walk through the implementation and what we have achieved so far.
 

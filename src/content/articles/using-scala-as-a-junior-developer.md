@@ -195,8 +195,8 @@ dog.serialize // "Dog: Java, 25"
 
 We could use standard interfaces to reproduce type classes, but then we would have to manually pass the implementation each time which has 2 drawbacks:
 
-- it is cumbersome to write and it pollutes the code with "context" arguments (arguments that will always be the same in the current scope)
-- when changing the implementation, it must be done everywhere to keep the same behavior and we might forget some places, leading to unexpected behaviors
+- It is cumbersome to write and it pollutes the code with "context" arguments (arguments that will always be the same in the current scope)
+- When changing the implementation, it must be done everywhere to keep the same behavior and we might forget some places, leading to unexpected behaviors
 
 You can find more about implicits (also called given/using clauses in Scala 3) in this [article](/articles/scala-3-given-and-using-clauses)
 
@@ -276,14 +276,14 @@ As I was moving forward with Scala, I became more and more enthusiast about it, 
 
 And I got accepted for a 5-month internship on the scala implementation of the debugger in VS Code ([scala-debug-adapter](https://github.com/scalacenter/scala-debug-adapter)) ! My job was to create a new evaluation mode that would be faster, allows more expression (access to private members, access to runtime type... since we are in a debug session). There I learnt a huge amount of things about Scala and more general concepts:
 
-- quick view of how an IDE interacts with build tools (sbt...)
-- compiler concepts (type-checking, overloads resolution...)
-- scala compiler academy ([link here](https://www.scala-lang.org/blog/2022/11/02/compiler-academy.html))
-- implementation of interoperability with Java in the bytecode
-- first steps in open-source contributions
-- meta-programming & code manipulation with scalameta (AST, trees, symbols, tokens...)
-- write more expressive Scala code and my own monad
-- created a video script & slides about asynchronous programming with `Future` and made some research about Loom as it appears to be a game changer for asynchronous programming on the JVM (and at the same time realized the huge amount a work required to make a single video of 15 min :sweat_smile:)
+- Quick view of how an IDE interacts with build tools (sbt...)
+- Compiler concepts (type-checking, overloads resolution...)
+- Scala compiler academy ([link here](https://www.scala-lang.org/blog/2022/11/02/compiler-academy.html))
+- Implementation of interoperability with Java in the bytecode
+- First steps in open-source contributions
+- Meta-programming & code manipulation with scalameta (AST, trees, symbols, tokens...)
+- Write more expressive Scala code and my own monad
+- Created a video script & slides about asynchronous programming with `Future` and made some research about Loom as it appears to be a game changer for asynchronous programming on the JVM (and at the same time realized the huge amount a work required to make a single video of 15 min :sweat_smile:)
 - ...
 
 #### 2.1.3. Next steps
@@ -377,8 +377,8 @@ There are some constraints to guarantee type-safety, but the idea is here
 
 In Scala, everything is an expression, meaning that it is evaluated and has a value. It contrasts to imperative languages where everything is an instruction that may not return a value (such as `void` in Java). Scala wraps the `void` type from Java into `Unit`. Additionally, there are two modes of evaluating method/function parameters:
 
-- by-value: the value is evaluated before the method is called
-- by-name: the value is evaluated when it is used in the method (and each time it is used). It is represented by an arrow before the parameter's type: `=> ...`
+- By-value: the value is evaluated before the method is called
+- By-name: the value is evaluated when it is used in the method (and each time it is used). It is represented by an arrow before the parameter's type: `=> ...`
 
 ```scala
 import scala.util.Random
@@ -453,9 +453,9 @@ val res3: Option[String] =
 
 Each monads has its own behavior (we can not use a `Try` to handle nullability for instance), but the principle is the same: make a certain behavior explicit and force you to handle it properly:
 
-- transform the result with `map` / `recover`
-- chain operations with `flatMap` / `recoverWith`
-- filter the result with `filter` / `filterNot`
+- Transform the result with `map` / `recover`
+- Chain operations with `flatMap` / `recoverWith`
+- Filter the result with `filter` / `filterNot`
 - ...
 
 ##### 2.2.2.5. Recursion instead of loops

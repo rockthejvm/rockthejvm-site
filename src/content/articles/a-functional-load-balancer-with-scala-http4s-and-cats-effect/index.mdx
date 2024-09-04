@@ -27,9 +27,9 @@ There are different algorithms that can be used to achieve this goal, in this ca
 
 Our load balancer must:
 
-- be effective in distributing requests to the backends (Round Robin Algorithm)
-- make sure that requests are forwarded only to the available backends (Reliability)
-- manage the state safely while the backends die and come back online (Periodic health checks)
+- Be effective in distributing requests to the backends (Round Robin Algorithm)
+- Make sure that requests are forwarded only to the available backends (Reliability)
+- Manage the state safely while the backends die and come back online (Periodic health checks)
 
 ## Project Structure
 
@@ -46,9 +46,9 @@ The initial project skeleton:
 
 Let's have a look at the libraries listed in `build.sbt`:
 
-- first three dependencies which start with `org.http4s` are concerned with the HTTP server & client and handy dsl for creating `HttpRoutes`
+- First three dependencies which start with `org.http4s` are concerned with the HTTP server & client and handy dsl for creating `HttpRoutes`
 - `munit` and `munit-cats-effect-3` are libraries which will help us in testing both, synchronous and effectful (IO-based) code
-- last two libraries will be used for logging and loading project configuration respectively
+- Last two libraries will be used for logging and loading project configuration respectively
 
 ```scala
 val Http4sVersion          = "0.23.23"
@@ -326,8 +326,8 @@ It is apparent that the load balancer will have to handle concurrent requests fr
 
 For that we can make use of `cats.effect.Ref`, however we need to distinguish between two completely separate problems:
 
-- forwarding requests to the backends and returning the response to the clients (main feature)
-- checking the health of the backends (secondary feature)
+- Forwarding requests to the backends and returning the response to the clients (main feature)
+- Checking the health of the backends (secondary feature)
 
 So, clearly we see that we need to have two separate instances which wrap `cats.effect.Ref`. Let's name them as `Backends` and `HealthChecks` and put them under `domain` package:
 
@@ -360,12 +360,12 @@ With this we have finished modeling the domain and tested it. Now we can move on
 
 There are a handful of services which can be useful to abstract over to make them reusable, isolated and testable:
 
-- parsing `org.http4s.Uri`-s from strings (since we work with `http4s` we need to build `org.http4s.Uri`-s, otherwise we won't be able to make HTTP requests)
-- adding request paths to the backend urls (we may receive the request on the url: `http://localhost:8080/items/1` and the current backend url is `http://localhost:8082`, we need some piece of logic which creates the following URL: `http://localhost:8082/items/1`)
-- having the abstraction of HTTP client for sending requests which will make testing dependent services easier
-- sending requests to backends (main feature) and health checks (secondary feature)
-- applying Round Robin to `HealthChecks` and `Backends` on each request (through the `cats.effect.Ref` API)
-- updating `Backends` based on health check responses (adding or removing backends through `cats.effect.Ref` API)
+- Parsing `org.http4s.Uri`-s from strings (since we work with `http4s` we need to build `org.http4s.Uri`-s, otherwise we won't be able to make HTTP requests)
+- Adding request paths to the backend urls (we may receive the request on the url: `http://localhost:8080/items/1` and the current backend url is `http://localhost:8082`, we need some piece of logic which creates the following URL: `http://localhost:8082/items/1`)
+- Having the abstraction of HTTP client for sending requests which will make testing dependent services easier
+- Sending requests to backends (main feature) and health checks (secondary feature)
+- Applying Round Robin to `HealthChecks` and `Backends` on each request (through the `cats.effect.Ref` API)
+- Updating `Backends` based on health check responses (adding or removing backends through `cats.effect.Ref` API)
 
 Let's gradually follow the list above:
 
@@ -624,8 +624,8 @@ Now, back to `SendAndExpect[A]`,
 
 This will be a special service which:
 
-- forwards request to the backend, receives response and returns it to the client
-- pings the backend to check its health
+- Forwards request to the backend, receives response and returns it to the client
+- Pings the backend to check its health
 
 Let's translate this to code:
 
@@ -917,18 +917,18 @@ class UpdateBackendsAndGetTest extends CatsEffectSuite {
 
 With these services available we have everything we need to implement two main bosses:
 
-- load balancer
-- backend health checks
+- Load balancer
+- Backend health checks
 
 Let's start with the simpler one - `HealthCheckBackends`.
 
 This service will use definitions from `domain` and `services` to check the availability of backends, so effectively it will:
 
-- apply Round Robin to `HealthChecks`
-- parse uri string to `Uri`
-- ping the `Uri`
-- update the `Backends` based on `ServerHealthStatus`
-- sleep for the predetermined amount of time and do the same again (functional `while (true)` loop if I can say so)
+- Apply Round Robin to `HealthChecks`
+- Parse uri string to `Uri`
+- Ping the `Uri`
+- Update the `Backends` based on `ServerHealthStatus`
+- Sleep for the predetermined amount of time and do the same again (functional `while (true)` loop if I can say so)
 
 Let's express this idea as code:
 
@@ -986,11 +986,11 @@ The code above defines an object `HealthCheckBackends`, which periodically check
 
 Breaking down the algorithm of `checkHealthAndUpdateBackends`:
 
-- selects a `URL` from `healthChecks` using `healthChecksRoundRobin`.
-- parses the selected `URL` into a `org.http4s.URI`.
-- sends an HTTP request to the parsed `URI` using `sendAndExpectStatus` to determine the health status.
-- updates the `Backends` (removes or adds `currentUrl`) using `updateBackendsAndGet`.
-- returns the updated list of URLs `(Urls)`.
+- Selects a `URL` from `healthChecks` using `healthChecksRoundRobin`.
+- Parses the selected `URL` into a `org.http4s.URI`.
+- Sends an HTTP request to the parsed `URI` using `sendAndExpectStatus` to determine the health status.
+- Updates the `Backends` (removes or adds `currentUrl`) using `updateBackendsAndGet`.
+- Returns the updated list of URLs `(Urls)`.
 
 So, this piece of logic provides a mechanism for periodically checking the health of backends, and updating the `Backends` based on the results of health checks. It leverages the provided `sendAndExpectStatus` to perform the requests and `updateBackendsAndGet` to update the `Backends`. The process runs in a loop with a specified interval to ensure continuous health monitoring.
 
@@ -1049,12 +1049,12 @@ Awesome, we've come the long way and we can move to `LoadBalancer` now, finally!
 
 This will be a service which:
 
-- accepts any request (let's say `"localhost:8080/users/1"`)
-- applies Round Robin to `Backends` (let's say the current backend will be `"localhost:8083"`)
-- updates uri in the following fashion: `"localhost:8080/users/1"` => `"localhost:8083/users/1"` (so that it hits the correct backend resource)
-- parses uri
-- sends request to uri
-- sends response to the client
+- Accepts any request (let's say `"localhost:8080/users/1"`)
+- Applies Round Robin to `Backends` (let's say the current backend will be `"localhost:8083"`)
+- Updates uri in the following fashion: `"localhost:8080/users/1"` => `"localhost:8083/users/1"` (so that it hits the correct backend resource)
+- Parses uri
+- Sends request to uri
+- Sends response to the client
 
 ```scala
 package com.rockthejvm.loadbalancer.services
@@ -1095,14 +1095,14 @@ object LoadBalancer {
 
 The code above looks similar to `HealthCheckBackends` but it's a bit different and also returns `HttpRoutes[IO]`.
 
-`from` - takes several parameters, including `backends`, `sendAndExpectResponse`, `parseUri`, `addRequestPathToBackendUrl`, and `backendsRoundRobin`. It creates an HTTP route using the HttpRoutes.of[IO] constructor.
+`from` - Takes several parameters, including `backends`, `sendAndExpectResponse`, `parseUri`, `addRequestPathToBackendUrl`, and `backendsRoundRobin`. It creates an HTTP route using the HttpRoutes.of[IO] constructor.
 
-- it uses the `backendsRoundRobin` function to select a backend URL from the `Backends`.
-- if there are no active backends (i.e., no backend URL could be selected), it responds client with `"All backends are inactive"` using `Ok("All backends are inactive").`
-- of an active backend URL is selected, it constructs a new URL by adding the request path from the incoming HTTP request to the selected backend URL using the `addRequestPathToBackendUrl` function.
-- it then parses the constructed URL into a `org.http4s.Uri` using the `parseUri` function.
-- next, it sends an HTTP request to the parsed URI using the `sendAndExpectResponse` function. This function takes an HTTP request and returns a `SendAndExpect[String]`, which is expected to send the request to the selected backend and return a response.
-- finally, it responds with the received response body by wrapping it in an `Ok` response using `Ok(response)`.
+- It uses the `backendsRoundRobin` function to select a backend URL from the `Backends`.
+- If there are no active backends (i.e., no backend URL could be selected), it responds client with `"All backends are inactive"` using `Ok("All backends are inactive").`
+- Of an active backend URL is selected, it constructs a new URL by adding the request path from the incoming HTTP request to the selected backend URL using the `addRequestPathToBackendUrl` function.
+- It then parses the constructed URL into a `org.http4s.Uri` using the `parseUri` function.
+- Next, it sends an HTTP request to the parsed URI using the `sendAndExpectResponse` function. This function takes an HTTP request and returns a `SendAndExpect[String]`, which is expected to send the request to the selected backend and return a response.
+- Finally, it responds with the received response body by wrapping it in an `Ok` response using `Ok(response)`.
 
 In summary, this code defines a load balancer that routes incoming HTTP requests to one of the available backend URLs based on a round-robin selection mechanism. It assumes that the provided functions (sendAndExpectResponse, parseUri, addRequestPathToBackendUrl, and backendsRoundRobin) are correctly implemented to handle the load balancing logic and backend communication.
 
@@ -1258,10 +1258,10 @@ Let's break down what's going on up there:
 
 Inside the method, it performs the following actions:
 
-- uses the `EmberClientBuilder` to build an `HTTP` client (httpClient) for making HTTP requests to backend servers. This client is constructed using the `EmberClientBuilder.default[IO].build` method
-- defines an HTTP application (httpApp) by creating a `LoadBalancer` using the `LoadBalancer.from` method. This application routes incoming HTTP requests to available backend servers based on a round-robin selection mechanism. It also performs logging using the `Logger.httpApp` middleware.
-- configures and starts an HTTP server using EmberServerBuilder. The server listens on the specified host and port and uses the httpApp as the HTTP application.
-- sets up periodic health checks for backends using the `HealthCheckBackends.periodically` method. The health checks run at regular intervals (healthCheckInterval) and use the provided `updateBackendsAndGet` function to update the health status of backends. Health checks are performed using the `SendAndExpect.toHealthCheck(httpClient)` function.
+- Uses the `EmberClientBuilder` to build an `HTTP` client (httpClient) for making HTTP requests to backend servers. This client is constructed using the `EmberClientBuilder.default[IO].build` method
+- Defines an HTTP application (httpApp) by creating a `LoadBalancer` using the `LoadBalancer.from` method. This application routes incoming HTTP requests to available backend servers based on a round-robin selection mechanism. It also performs logging using the `Logger.httpApp` middleware.
+- Configures and starts an HTTP server using EmberServerBuilder. The server listens on the specified host and port and uses the httpApp as the HTTP application.
+- Sets up periodic health checks for backends using the `HealthCheckBackends.periodically` method. The health checks run at regular intervals (healthCheckInterval) and use the provided `updateBackendsAndGet` function to update the health status of backends. Health checks are performed using the `SendAndExpect.toHealthCheck(httpClient)` function.
 - `useForever` method is used to keep the resources acquired during server and health check setup running indefinitely.
 
 To sum up, this code sets up an HTTP server that acts as a load balancer and performs health checks on the backends it balances requests to. It uses the Ember HTTP client and server libraries and integrates them with other load balancing and health checking components to create a functioning load balancer with health monitoring.
@@ -1328,15 +1328,15 @@ object Main extends IOApp.Simple {
 Inside the run method, the following steps are performed:
 
 - It loads the application configuration from the default configuration source using `PureConfig` and stores it in the config variable.
-- the backend URLs are extracted from the configuration.
+- The backend URLs are extracted from the configuration.
 - `IO.ref` is used to create two IO references: `backends` and `healthChecks`. These references are initialized with the backend URLs from the configuration.
-- the `host` and `port` are extracted from the configuration and stored in the `(host, port)` tuple.
-- logging messages are printed to indicate that the server is starting on a specific host and port.
-- the `HttpServer.start` method is called to start the HTTP server. It is configured with various parameters, including references to the backend and health check URLs, the host, port, health check interval, and implementations for parsing URIs, updating backends, and round-robin selection.
+- The `host` and `port` are extracted from the configuration and stored in the `(host, port)` tuple.
+- Logging messages are printed to indicate that the server is starting on a specific host and port.
+- The `HttpServer.start` method is called to start the HTTP server. It is configured with various parameters, including references to the backend and health check URLs, the host, port, health check interval, and implementations for parsing URIs, updating backends, and round-robin selection.
 
 hostAndPort private method - a function takes a `host` (as a string) and a `port` (as an integer) and returns an `Either` that represents either a successful tuple of `(Host, Port)` or an `InvalidConfig` error.
 
-- uses `Host.fromString` and `Port.fromInt` to convert the host and port values into `Host` and `Port` instances, respectively.
+- Uses `Host.fromString` and `Port.fromInt` to convert the host and port values into `Host` and `Port` instances, respectively.
 - `.tupled` method combines the two `Option` values into an `Option` of a tuple.
 - `.toRight(InvalidConfig)` converts the `Option` into an `Either`, where `InvalidConfig` is returned if either the host or port conversion fails.
 
@@ -1458,9 +1458,9 @@ python3 backend.py $1
 
 Before writing the shell script for running the load balancer we need to:
 
-- compile it
-- create `lb.jar`
-- put it in the root directory
+- Compile it
+- Create `lb.jar`
+- Put it in the root directory
 
 So, let's do it step by step, start sbt and run `assembly`:
 

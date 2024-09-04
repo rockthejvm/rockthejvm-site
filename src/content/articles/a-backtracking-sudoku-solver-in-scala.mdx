@@ -34,9 +34,9 @@ The Sudoku problem is famous, but let's state it here really quick:
 You have a 9x9 board, partially filled with numbers 1-9.
 You need to fill the board with numbers 1-9, such that
 
-- every row
-- column
-- every 3x3 "box" that the big board is composed of (9 boxes in total)
+- Every row
+- Column
+- Every 3x3 "box" that the big board is composed of (9 boxes in total)
 
 must contain all numbers 1-9, exactly once. Let's call this property "the Sudoku property".
 
@@ -185,14 +185,14 @@ That's more like it - we can now identify things in the Sudoku matrix easily.
 
 The most important aspect of a constraint satisfaction problem is how to maintain the constraints _as we're building the solution_. We did something similar in the [N-Queens](/articles/n-queens-in-scala) problem. The way we're going to build up our solution will be:
 
-- on every row
-  - on every column
-    - check if there is a non-zero value there; if it is, that's part of the original puzzle
-    - if there's a zero, we'll try all numbers from 1-9:
-      - set a value
-      - _check if it satisfies the Sudoku property_
-      - move to the next cell to the right, try out all possible solutions from there
-      - unset the value and try the next one
+- On every row
+  - On every column
+    - Check if there is a non-zero value there; if it is, that's part of the original puzzle
+    - If there's a zero, we'll try all numbers from 1-9:
+      - Set a value
+      - _Check if it satisfies the Sudoku property_
+      - Move to the next cell to the right, try out all possible solutions from there
+      - Unset the value and try the next one
 
 Of course, this is an imperative style, "algorithmic" approach - we'll build up a recursive solution in Scala for Sudoku shortly, but first, we need to be able to validate whether a value we're placing in an empty cell is "correct", i.e. satisfies the Sudoku property. Of course, we don't need to check _all_ rows, columns and boxes, but just those for the cell we're filling.
 
@@ -280,8 +280,8 @@ def solve(sudoku: Board, x: Int = 0, y: Int = 0): Unit = ???
 
 When does this function end? Two cases:
 
-- we reached the end of the board, i.e. `y >= 9`, which means we've filled the board and we have a solution
-- we've exhausted all possible values
+- We reached the end of the board, i.e. `y >= 9`, which means we've filled the board and we have a solution
+- We've exhausted all possible values
 
 The second stopping condition will arise by itself, as we'll try all numbers 1-9 and this list is finite. Let's focus on the first condition:
 
@@ -311,9 +311,9 @@ else (1 to 9).filter(value => validate(sudoku, x, y, value)).foreach { value => 
 
 We keep just the values that are good candidates, i.e. pass the validation function. Inside the `foreach`, then we need to
 
-- put the value in the matrix
-- call `solve` on the next cell
-- remove the value in the matrix to make room for the new one
+- Put the value in the matrix
+- Call `solve` on the next cell
+- Remove the value in the matrix to make room for the new one
 
 ```scala
 ....foreach { value =>
