@@ -7,6 +7,8 @@ title: The Brilliance of Materialized Values in Akka Streams
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the Scala programmer who has the very very basic familiarity with Akka Streams, in the sense that you can use some already made components, glue them together and start the stream, but otherwise no knowledge of behind-the-scenes functionality is required. If you've never used Akka Streams, I'll give a brief overview.
 
 ## The setup

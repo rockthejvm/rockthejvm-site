@@ -7,7 +7,11 @@ title: Objects and Companions in Scala
 updatedDate: 2024-09-06
 ---
 
-This article is at a beginner level. If you're starting out with Scala and are interested in some of its core distinguishing features, this one is for you. Here, we'll discuss how Scala allows us to create singleton objects and how the class + singleton combo is a powerful one, including some best practices.
+## Who This Article Is For
+This article is at a beginner level. If you're starting out with Scala and are interested in some of its core distinguishing features, this one is for you.
+
+## Introduction
+Here, we'll discuss how Scala allows us to create singleton objects and how the class + singleton combo is a powerful one, including some best practices.
 
 ## 1. Singletons Just Got Easier
 

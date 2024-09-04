@@ -7,7 +7,13 @@ title: "Scala 3: New Types Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-This article is for Scala programmers of all levels, although some of the later parts and questions will be a tad more difficult. We will start exploring the new features that Scala 3 brings, as well as changes in style, syntax, or deprecations.
+## Who This Article Is For
+
+This article is for Scala programmers of all levels, although some of the later parts and questions will be a tad more difficult.
+
+## Introduction
+
+We will start exploring the new features that Scala 3 brings, as well as changes in style, syntax, or deprecations.
 
 The focus of this article is some of the new kinds of types now allowed in Scala 3.
 

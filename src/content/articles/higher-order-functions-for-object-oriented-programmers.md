@@ -7,7 +7,13 @@ title: Higher-Order Functions for Object-Oriented Programmers
 updatedDate: 2024-09-06
 ---
 
-This article is for the programmer who is familiar with Scala concepts and structure, but has the object-oriented programming principles deeply ingrained. This article will not attempt to change them, but rather show you how you can map these principles to the very abstract functional programming concept of HOF, or higher-order functions.
+## Who This Article Is For
+
+This article is for the programmer who is familiar with Scala concepts and structure, but has the object-oriented programming principles deeply ingrained.
+
+## Introduction
+
+This article will not attempt to change your deeply ingrained principles, but rather show you how you can map these principles to the very abstract functional programming concept of HOF, or higher-order functions.
 
 ## Prelude
 

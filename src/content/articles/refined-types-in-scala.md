@@ -7,11 +7,13 @@ title: Refined Types in Scala Quickly Explained
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for Scala programmers of all levels, although if you're a more advanced programmer or you watched/read the [type-level programming mini-series playlist](https://www.youtube.com/playlist?list=PLmtsMNDRU0ByOQoz6lnihh6CtMrErNax7) or [articles](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons), you will get more value out of it because you'll have a good intuition for what happens behind the scenes.
 
-I'm talking about "behind the scenes" because today's topic involves lots of Scala magic: refined types.
-
 ## Introduction
+
+I'm talking about "behind the scenes" because today's topic involves lots of Scala magic: refined types.
 
 So what's the problem?
 

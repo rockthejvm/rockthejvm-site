@@ -7,7 +7,13 @@ title: Underscores are Overloaded in Scala!
 updatedDate: 2024-09-06
 ---
 
-This article is for the curious Scala programmer who has seen underscores more times than they'd find comfortable. In this article I'll share almost all the places where you might see an underscore, so that you don't freak out when you see yet another one in a different context.
+## Who This Article Is For
+
+This article is for the curious Scala programmer who has seen underscores more times than they'd find comfortable.
+
+## Introduction
+
+In this article I'll share almost all the places where you might see an underscore, so that you don't freak out when you see yet another one in a different context.
 
 I want to get straight to the point.
 

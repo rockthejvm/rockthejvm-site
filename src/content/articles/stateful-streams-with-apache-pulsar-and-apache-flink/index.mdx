@@ -663,7 +663,9 @@ public class ItemLookupHandler extends CoProcessFunction<OrderWithUserData, Item
 }
 ```
 
-You can find a full implementation under the **v2** package <a href={`${frontmatter.repositoryUrl}/tree/main/src/main/java/io/ipolyzos/compute/v2`}>here</a>.
+You can find a full implementation under the **v2** package <a href={`${
+// @ts-ignore
+    frontmatter.repositoryUrl}/tree/main/src/main/java/io/ipolyzos/compute/v2`}>here</a>.
 We can now package and redeploy our application and verify it works.
 Make sure to modify the `deploy.sh` script to point to the updated **v2** version file:
 

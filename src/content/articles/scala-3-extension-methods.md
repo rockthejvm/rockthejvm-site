@@ -7,7 +7,15 @@ title: "Scala 3: Extension Methods Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-This article is for the curious folks going from Scala 2 to Scala 3 - we're going to explore extension methods, one of the most exciting features of the upcoming version of the language.
+## Who This Article Is For
+
+This article is for the curious folks going from Scala 2 to Scala 3.
+
+## Introduction
+
+We're going to explore extension methods, one of the most exciting features of the upcoming version of the language.
+
+## Prerequisites
 
 As for requirements, two major pieces are important:
 

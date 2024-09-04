@@ -7,6 +7,7 @@ title: Understanding Spark Query Plans
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
 This article is for the Spark programmer who has at least some fundamentals, e.g. how to create a DataFrame and how to do basic operations like selects and joins, but has not dived into how Spark works yet. Perhaps you're interested in boosting the performance out of your Spark jobs.
 
 ## Prerequisites

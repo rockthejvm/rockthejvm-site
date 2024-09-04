@@ -7,6 +7,8 @@ title: ALL the Joins in Spark DataFrames
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the beginner Spark programmer. If you're just starting out and you're curious about the kinds of operations Spark supports, this blog post is for you.
 
 ## Setup

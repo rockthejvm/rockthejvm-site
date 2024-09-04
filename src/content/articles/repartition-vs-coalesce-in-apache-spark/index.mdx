@@ -7,14 +7,18 @@ title: Repartition vs Coalesce in Apache Spark
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
+This article is for the Scala & Spark programmers, particularly those Spark programmers that are starting to dive a little deeper into how Spark works and perhaps attempting to make it faster.
+
 ## Introduction
 
-This article is for the Scala & Spark programmers, particularly those Spark programmers that are starting to dive a little deeper into how Spark works and perhaps attempting to make it faster. I'm expecting you to be at least familiar with:
-
-- the distributed nature of Spark
-- the concept of partition as a chunk of data in an RDD or DataFrame
-
 In this article, I'm going to discuss the commonalities and the differences between `repartition` and `coalesce`.
+
+## Prerequisites
+
+- Familiarity the distributed nature of Spark
+- Understanding the concept of partition as a chunk of data in an RDD or DataFrame
 
 ## The Boilerplate
 

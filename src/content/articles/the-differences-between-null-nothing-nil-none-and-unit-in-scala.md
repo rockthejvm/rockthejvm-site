@@ -7,9 +7,15 @@ title: The Differences Between Null, Nothing, Nil, None, and Unit in Scala
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
+This article is for the beginner Scala programmer.
+
+## Introduction
+
 There are lots of terms to express the lack of values in Scala. Today we're going to discuss the difference between null, Null (not a typo), None, Nil, Unit and Nothing. They all seemingly describe the lack of a meaningful value, which can definitely be confusing. Thank goodness Scala doesn't have `undefined`...
 
-This article is for the beginner Scala programmer. We'll make a clear distinction between all these terms, and by the end of this article you'll know which to use when.
+We'll make a clear distinction between all these terms, and by the end of this article you'll know which to use when.
 
 ## The null reference
 

@@ -7,13 +7,9 @@ title: Understanding Spark DAGs (Directed Acyclic Graphs)
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the Spark programmer who has at least some fundamentals, e.g. how to create a DataFrame and how to do basic operations like selects and joins, but has not dived into how Spark works yet. Perhaps you're interested in boosting the performance out of your Spark jobs.
-
-## Prerequisites
-
-The code I'll be writing is inside a Spark shell with version 3.0.0, which you can find [here](https://spark.apache.org/downloads.html) for download. The default choices in the dropdown selectors will give you a pre-compiled Spark distribution. Just download, unzip, navigate to the bin folder, then run the spark-shell executable.
-
-That is, if you've never installed Spark before.
 
 ## Introduction
 
@@ -39,6 +35,12 @@ Only at this point will Spark be performing the actual computations. An action w
 The cute diagram with the blue boxes is called the Directed Acyclic Graph, or DAG for short. This is a visual description of all the steps Spark will need to perform in order to complete your computation. This particular DAG has two steps: one that is called WholeStageCodegen, which is what happens when you run computations on DataFrames and generates Java code to build underlying RDDs - the fundamental distributed data structures Spark natively understands - and a mapPartitions, which runs a serial computation over each of the RDD's partitions - in our case multiplying each element by 5.
 
 Every job will have a DAG, and usually they're more complicated than this.
+
+## Prerequisites
+
+The code I'll be writing is inside a Spark shell with version 3.0.0, which you can find [here](https://spark.apache.org/downloads.html) for download. The default choices in the dropdown selectors will give you a pre-compiled Spark distribution. Just download, unzip, navigate to the bin folder, then run the spark-shell executable.
+
+That is, if you've never installed Spark before.
 
 ## Understanding DAGs
 
