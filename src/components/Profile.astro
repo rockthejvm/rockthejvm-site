@@ -34,14 +34,14 @@ imagePosition="left"
   </p>
 </div>
 </Feature>
-{collaborator &&
+{collaborator && collaborator.data.biographyHtml &&
   <Feature
   image={collaborator.data.photo}
   imagePosition="right"
   >
   <h3>In Collaboration with {collaborator.data.name}</h3>
   <div>
-    <p>{collaborator.data.biography}</p>
+    <Fragment set:html={collaborator.data.biographyHtml} />
   </div>
   </Feature>
 }
