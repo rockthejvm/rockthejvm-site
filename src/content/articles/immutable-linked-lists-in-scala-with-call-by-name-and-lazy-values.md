@@ -7,6 +7,8 @@ title: Immutable Linked Lists in Scala With Call-By-Name and Lazy Values
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the Scala programmers who want to brush up on their data structures. However, even seasoned developers might find the following problem challenging:
 
 > How would you write a simple, fully immutable, doubly-linked list in Scala?

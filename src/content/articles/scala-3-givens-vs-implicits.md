@@ -7,7 +7,11 @@ title: "Scala 3: Givens vs Implicits Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the Scala programmers who have some familiarity with implicits.
+
+## Introduction
 
 If you're just starting out and got to Scala 3 directly, [the essential concepts](/articles/scala-3-given-and-using-clauses) of given/using will be enough. No need to read this article because implicits are phased out in Scala 3. To use some word play here, just stick to `using` `given`s.
 
