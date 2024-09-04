@@ -7,9 +7,13 @@ title: "Things That Don't Make Sense: Scala Loops"
 updatedDate: 2024-09-06
 ---
 
-I wrote an article not too long ago on why [learning variables in Scala doesn't make sense](/articles/things-that-dont-make-sense-scala-variables), and likewise teaching variables as one of the first concepts also doesn't make sense. In this article I'm going to expand that idea to the lovely loops.
+## Who This Article Is For
 
 This article is for 1) programmers who are just getting started with Scala and 2) for Scala teachers.
+
+## Introduction
+
+I wrote an article not too long ago on why [learning variables in Scala doesn't make sense](/articles/things-that-dont-make-sense-scala-variables), and likewise teaching variables as one of the first concepts also doesn't make sense. In this article I'm going to expand that idea to the lovely loops.
 
 ## What many start with
 

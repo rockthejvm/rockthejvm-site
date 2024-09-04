@@ -7,7 +7,13 @@ title: "Akka Typed Actors: Stateful and Stateless"
 updatedDate: 2024-09-06
 ---
 
-This article is for people getting started with Akka typed actors. We'll look at how we can keep state inside an actor in a few different ways.
+## Who This Article Is For
+
+This article is for people getting started with Akka typed actors.
+
+## Introduction
+
+We'll look at how we can keep state inside an actor in a few different ways.
 
 ## Setup
 

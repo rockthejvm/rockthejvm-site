@@ -7,7 +7,13 @@ title: "Use Akka Streams' Graph DSL: Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-This article is for the Scala programmer with a little bit of Akka background, but who is utterly baffled by the seemingly magical Akka Streams Graph DSL. This article will attempt to demystify the apparent magic of the DSL into bits of Scala code that are easy to understand.
+## Who This Article Is For
+
+This article is for the Scala programmer with a little bit of Akka background, but who is utterly baffled by the seemingly magical Akka Streams Graph DSL.
+
+## Introduction
+
+This article will attempt to demystify the apparent magic of the DSL into bits of Scala code that are easy to understand.
 
 If you want to code with me, add the following to your build.sbt file:
 

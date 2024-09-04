@@ -9,7 +9,13 @@ updatedDate: 2024-09-06
 
 > This article is about the Cats Scala library. For lots of in-depth explanations, examples, exercises and a hands-on experience with Cats, check out the Rock the JVM [Cats course](/courses/cats). It's going to make you a productive developer with Scala and Cats and a better engineer and thinker overall.
 
-This article is for the comfortable Scala programmer. We'll discuss the essential type classes in the Cats library, why we need them, how they're related and how you should think about them so that you're not tangled in all the abstractions.
+## Who This Article Is For
+
+This article is for the comfortable Scala programmer.
+
+## Introduction
+
+We'll discuss the essential type classes in the Cats library, why we need them, how they're related and how you should think about them so that you're not tangled in all the abstractions.
 
 The code we'll write here is for **Scala 3**, but with a [minor adjustment](/articles/scala-3-givens-and-implicits) it will work with Scala 2 as well.
 

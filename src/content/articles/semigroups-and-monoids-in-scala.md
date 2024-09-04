@@ -7,6 +7,8 @@ title: Semigroups and Monoids in Scala
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the comfortable Scala programmer. The code here will be written in Scala 3, but it's equally applicable in Scala 2 with some syntax adjustments &mdash; which I'm going to show you as needed.
 
 ## 1. Objective

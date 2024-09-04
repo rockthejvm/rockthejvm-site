@@ -7,6 +7,8 @@ title: Types, Kinds, and Type Constructors in Scala
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the mature Scala developer. We aren't looking at the basics here, and some abstract thinking will be required for this one.
 
 ## 1. Background
