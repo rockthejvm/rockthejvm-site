@@ -7,6 +7,8 @@ title: Functional Collections in Scala
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article is more beginner-friendly, so all you need is a basic understanding of Scala syntax, (partial) functions and collections. In what follows, I'll share some ideas about functional collections that many Scala developers are unaware of.
 
 These ideas are actually what sparked my interest in Scala and functional programming in the first place &mdash; when one of my friends talked about this cool language he discovered (Scala) some 10 years ago and how often his mind was blown, I couldn't resist diving into it myself.
@@ -15,7 +17,7 @@ This is a compact version of a thought experiment we follow &mdash; and then wri
 
 No libraries are required for this article, as we will write plain Scala. Both Scala 2 and Scala 3 will work just as fine.
 
-## 1. Exploring Functional Sets
+## Exploring Functional Sets
 
 Think of sets for a moment &mdash; those well-known collections of objects that don't allow for duplicates. The implementation of sets &mdash; be it tree-sets, hash-sets, bit-sets, etc &mdash; is less important than what they _mean_.
 
@@ -70,7 +72,7 @@ trait SetOps[A, +CC[_], +C <: SetOps[A, CC, C]]
 }
 ```
 
-## 2. Writing a Small Functional Set
+## Writing a Small Functional Set
 
 Here's a small experiment &mdash; let's write a small implementation of a set that implements the functional interface `A => Boolean`:
 
@@ -164,7 +166,7 @@ val allEvens = PBSet[Int](_ % 2 == 0)
 
 You can then add other operations on sets, e.g. intersection, union, difference, concatenation (even with infinite sets). Go wild!
 
-## 3. Other Functional Collections
+## Other Functional Collections
 
 The idea above blew my mind when I first discovered it, roughly 10 years ago. I was always under the impression that a collection must hold _elements_, but here we have a completely different approach to it. Of course, nobody is naive, memory is not free: we're storing increasingly complex (and memory-occupying) properties instead of elements. But the mental model is the best value for this idea.
 
@@ -231,6 +233,6 @@ trait MapOps[K, +V, +CC[_, _] <: IterableOps[_, AnyConstr, _], +C]
 }
 ```
 
-## 4. Conclusion
+## Conclusion
 
 We've just learned that many critical Scala collections are not just "functional", but they are _actual_ functions. If your mind was at least moved a bit (not necessarily blown away), I'm really happy. These kinds of concepts make functional programming great, and Scala awesome.

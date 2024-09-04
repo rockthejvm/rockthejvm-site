@@ -22,7 +22,7 @@ As I'm writing this article, Twitter is going through a major shakeup. More than
 
 I expect this article to still be relevant, even just for you to understand some solid principles which you can use to build your applications, regardless of library or tool, even if Finagle ceases maintenance.
 
-## 1. Finagle Services
+## Finagle Services
 
 In order to add Finagle to a `build.sbt` project we'll need these definitions:
 
@@ -51,7 +51,7 @@ This is the single most powerful concept in Finagle.
     The `Future` type we use in this signature is Twitter's own `Future` type, not that from `scala.concurrent`. It has the same semantics and similar transformers (e.g. `map`, `flatMap`, for-comprehensions, `onComplete`) as the built-in one. If you're wondering why Twitter isn't using the `scala.concurrent` version, it's because Twitter's Future is older than Scala's Future. It's no exaggeration that some Twitter packages inspired what's now in the Scala standard library.
 </NoteAdmonition>
 
-## 2. HTTP Services and Clients
+## HTTP Services and Clients
 
 Let's demonstrate some Finagle services with HTTP. Let's consider a server that listens on port 9090 and receives requests at URLs of the form `localhost:9090?name=daniel` and returns HTTP responses with the length of the query parameter "name", as the payload.
 
@@ -116,7 +116,7 @@ Through `Http.newService(...)` we abstract away a Service, which we can now invo
     Notice how Futures can be handled by supplying callback _lambdas_, much like we now do with the Scala standard Futures.
 </NoteAdmonition>
 
-## 3. Filters
+## Filters
 
 Services can be easily built and used, as shown in the previous section. Often, though, we would like to build extra layers of logic on top of existing services. Examples:
 
@@ -201,7 +201,7 @@ def stringLengthService = new Service[Request, Response] {
 
 then if we restart the server, our client will now see a failed Future, and we'll see a timeout exception with a stack trace.
 
-## 4. Load Balancing
+## Load Balancing
 
 This feature of Finagle is quite spectacular. Load balancing is important in distributed systems, and if we have multiple instances of the same application hosted on many machines, it's often useful to distribute the load among them. Finagle makes this easy.
 
@@ -283,7 +283,7 @@ Running the application, we'll see that the requests are cycled in between serve
 
 This feature makes it very easy for us to spin up additional instances of a service: just start it, and add it to a configuration file (or something persistent) that a client can now use, and the client will start directing traffic towards the new instance as well.
 
-## 5. Conclusion
+## Conclusion
 
 In this article, we've looked at the basics of the Finagle RPC library:
 

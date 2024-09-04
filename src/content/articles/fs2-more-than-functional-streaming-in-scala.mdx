@@ -23,7 +23,7 @@ Fortunately, some libraries offer more robust implementation of streams. One of 
     Another long-form by [Riccardo Cardin](/authors/riccardo-cardin) - having started with the [Scala with Cats course](/courses/cats) a while back, he's now steadily mastering all the critical pieces of the Typelevel ecosystem.
 </NoteAdmonition>
 
-## 1. Setup
+## Setup
 
 The FS2 library is available both for Scala 2 and for Scala 3. The following code will set up sbt to use the library for Scala 3.
 
@@ -86,7 +86,7 @@ import cats.syntax.all.*
 import fs2.{Chunk, INothing, Pipe, Pull, Pure, Stream}
 ```
 
-## 2. Building a Stream
+## Building a Stream
 
 As the official page of the fs2 stream library reports, its main features are:
 
@@ -222,7 +222,7 @@ object Fs2Tutorial extends IOApp {
 }
 ```
 
-### 2.1. Chunks
+### Chunks
 
 Inside, every stream is made of _chunks_. A `Chunk[O]` is a finite sequence of stream elements of type `O` stored inside a structure optimized for indexed based lookup of elements. We can create a stream directly through the `Stream.chunk` method, which accepts a sequence of `Chunk`:
 
@@ -241,7 +241,7 @@ The fs2 library defines a lot of smart-constructors for the `Chunk` type, lettin
 
 Most of the functions defined on streams are `Chunk`- aware, so we don't have to worry about chunks while working with them.
 
-## 3. Transforming a Stream
+## Transforming a Stream
 
 Once we've built a Stream, we can transform its values more or less as we make in regular Scala collections. For example, let's create a stream containing all the actors whose hero belongs from the Justice League or the Avengers. We can use the `++` operator, which concatenates two streams:
 
@@ -311,7 +311,7 @@ val stringNamesOfJlActors: Stream[IO, Unit] =
 
 The `jlActors` stream represents the _source_, whereas the `fromActorToStringPipe` represents a pipe, and the `toConsole` represents the _sink_. We can conclude that a pipe is pretty much a _map_/_flatMap_ type functional operation, but the pipe concept fits nicely into the mental model of a Stream.
 
-## 4. Error Handling in Streams
+## Error Handling in Streams
 
 What if pulling a value from a stream fails with an exception? For example, let's introduce a repository persisting an `Actor`:
 
@@ -377,7 +377,7 @@ def attempt: Stream[F, Either[Throwable, O]] =
   map(Right(_): Either[Throwable, O]).handleErrorWith(e => Stream.emit(Left(e)))
 ```
 
-## 5. Resource Management
+## Resource Management
 
 As the official documentation says, we don't have to use the `handleErrorWith` method to manage the release of resources used by the stream eventually. Instead, **the fs2 library implements the _bracket_ pattern to manage resources**.
 
@@ -429,7 +429,7 @@ java.lang.RuntimeException: Something went wrong during the communication with t
 
 As we can see, the resource we created was released, even if the stream had terminated with an error. That's awesome!
 
-## 6. The `Pull` Type
+## The `Pull` Type
 
 As we said more than once, the fs2 defines streams as a _pull_ type, which means that the **stream effectively computes the next stream element just in time**.
 
@@ -564,7 +564,7 @@ val avengersActorsCalledChris: Stream[IO, Unit] =
   avengersActors.through(takeByName("Chris")).through(toConsole)
 ```
 
-## 7. Using Concurrency in Streams
+## Using Concurrency in Streams
 
 One of the most used fs2 features is using concurrency in streams. It's possible to implement many concurrency patterns using the primitives provided by the `Stream` type.
 The first function we will analyze is `merge`, which lets us run two streams concurrently, collecting the results in a single stream as they are produced. **The execution halts when both streams have halted**. For example, we can merge JLA and Avengers concurrently, adding some sleep to the execution of each stream:
@@ -715,7 +715,7 @@ We want four threads to pull concurrent values from the three streams in our exa
 As we can see, the threads used by the runtime are precisely four.
 Many other methods are available in the fs2 library concerning concurrency, such as `either` and `mergeHaltBoth`. Please, refer to the [documentation](https://oss.sonatype.org/service/local/repositories/releases/archive/co/fs2/fs2-core_2.13/3.2.0/fs2-core_2.13-3.2.0-javadoc.jar/!/fs2/index.html) for more details.
 
-## 8. Conclusion
+## Conclusion
 
 Our long journey through the main features of the fs2 library comes to an end. During the path, we introduced the concepts of `Stream` and how to declare them, both using pure values and in an effectful way. We analyzed streams internals, such as `Chunk`s and `Pull` types. We saw how to handle errors and how a stream can safely acquire and release a resource. Finally, we focused on concurrency and how streams can deal with concurrent programming.
 

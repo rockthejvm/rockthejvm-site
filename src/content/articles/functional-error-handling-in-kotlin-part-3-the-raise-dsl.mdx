@@ -22,7 +22,8 @@ Without further ado, let's start!
 
     It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
 </TipAdmonition>
-## 1. Setup
+
+## Setup
 
 We'll use version 1.9.0 of Kotlin and version 1.2.0 of the Arrow library. In fact, the Raise DSL is not available in previous versions of Arrow.
 
@@ -57,7 +58,7 @@ Since the context receivers are still experimental, we must explicitly enable th
 
 As usual, we'll put a copy of the `pom.xml` file we use at the end of the article.
 
-## 2. The Domain
+##  The Domain
 
 We'll use extensively the domain model we introduced in the first two articles of the series. We want to create an application that manages a job board. The main types of the domain are:
 
@@ -121,7 +122,7 @@ data object NegativeSalary : JobError
 
 Now that we have defined the domain model, the module containing the functions to access it and the errors we'll use along the way, it's time to show how the new Raise DSL works.
 
-## 3. The Raise DSL
+##  The Raise DSL
 
 The Raise DSL is a new way to handle typed errors in Kotlin. Instead of using a wrapper type to address both the happy path and errors, **the `Raise<E>` type describes the possibility that a function can raise a logical error of type `E`**. A function that can raise an error of type `E` must execute in a scope that can also handle the error.
 
@@ -490,7 +491,7 @@ public inline fun <Error, A> recover(
 
 As we can see, the `recover` function is just a wrapper around a `fold` function that doesn't handle exceptions or transform the result of the `block` lambda.
 
-## 4. Converting `Raise<E>` Computations to a Wrapped Type
+## Converting `Raise<E>` Computations to a Wrapped Type
 
 What if we want to convert a computation in the `Raise<E>` context to a function returning an `Either<E, A>`, a `Result<A>`, an `Option<A>`, or an `A?`? Well, nothing is more straightforward than that. The Arrow library provides all the tools to convert a computation in the `Raise<E>` context to a wrapped type. We can use the `either`, `result`, `option`, and `nullable` builders we saw in the previous articles. In fact, version 1.2.0 of Arrow thoroughly reviewed the implementation of such builders, defining them as wrappers around the `fold` function.
 
@@ -769,7 +770,7 @@ public class ResultRaise(private val raise: Raise<Throwable>) : Raise<Throwable>
 
 Here, the `fold` function is defined in the `Result<A>` type, which takes two lambdas: The first is called in case of success and the second one in case of failure.
 
-## 5. Composing `Raise<E>` Computations
+## Composing `Raise<E>` Computations
 
 We saw in the previous articles of the series that one of the main strengths of the Arrow library is the ability to compose computations returning a wrapper type without the need to use the `map` and `flatMap` functions.
 
@@ -940,7 +941,7 @@ So, the `convertUsdToEurRaisingNegativeAmount` eventually raises a `NegativeAmou
 
 Well, now, we know how to compose different functions that can raise typed errors. What if we want to accumulate more than one error in a dedicated data structure? It's time to introduce the typed error accumulation in Arrow.
 
-## 6. Typed Error Accumulation
+## Typed Error Accumulation
 
 Until now, we've seen how to raise and handle typed errors. However, we've always taken only one error at a time. What if we want to accumulate more than one error in a dedicated data structure? For example, say we have a list of `Jobs,` and we want to find the gap with the maximum available salary in the database for each one.
 
@@ -1132,7 +1133,7 @@ If we did everything correctly, we should see the following output after the exe
 The risen errors are: JobErrors(messages=JobNotFound(jobId=JobId(value=-1)), JobNotFound(jobId=JobId(value=42)))
 ```
 
-## 7. Zipping Errors
+## Zipping Errors
 
 As we said, the `mapOrAccumulate` function allows the combination of the results of a transformation applied to a collection of elements of the same type. What if we want to combine transformations applied to objects of different types?
 
@@ -1288,13 +1289,13 @@ As expected, the output of the program contains both errors and it's the followi
 The risen errors are: NonEmptyList(NegativeAmount, InvalidCurrency(message=Currency must be not empty and valid))
 ```
 
-## 8. Conclusion
+## Conclusion
 
 The long journey throughout the new error-handling style in the Arrow 1.2.0 library has ended. During the path, we introduced the central concept of this article, the `Raise<E>` context, and all its implementing flavors. We saw how to use it to transform and recover a computation in its context. Then, we saw how easy it is to pass from the `Raise<E>` context to any of the available wrapper types, like `Either<E, A>`, `Option<A>`, and `Result<A>`. We appreciated how smooth is the composition of functions defined in the `Raise<E>` context. Finally, we saw how to use the `Raise<E>` context to accumulate errors. The article should have given you a good overview of the new error handling style in Arrow and how the Arrow guys decided to get rid of a lot of category theory types (did you see any reference to a monoid, monad, applicative, or _traverse_ application?) in favor of a more straight, idiomatic and Kotlinsh approach.
 
 If you found this article (or the ones before it) too difficult, you can quickly get the experience you need by following the Rock the JVM complete [Kotlin Essentials course](/courses/kotlin-essentials).
 
-## 9. Appendix: Maven Configuration
+## Appendix: Maven Configuration
 
 As promised, here is the complete Maven configuration we used in this article:
 
