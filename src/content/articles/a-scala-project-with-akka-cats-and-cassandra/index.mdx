@@ -10,6 +10,7 @@ updatedDate: 2024-09-06
 
 import MyYouTube from "@components/MyYouTube.astro";
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Introduction
@@ -24,17 +25,19 @@ This article will show you how to write a bigger project involving multiple libr
 
 We're going to write a **mini-bank application**, where users can create bank accounts, retrieve their details and interact with their bank account to deposit/withdraw money.
 
-This article assumes that you're familiar with the basics of Akka Typed, Akka HTTP and Cats. We have various articles here on the blog (with corresponding videos) that will give you the essential tools, so feel free to click on the tags at the bottom, or search here on the blog, and you'll find everything you need. For in-depth mastery we have full-blown courses, so if you're interested, you can check out
-
-- The [Akka Typed course](/courses/akka-pekko-essentials)
-- The [Akka HTTP course](/courses/akka-pekko-http)
-- The [Cats course](/courses/cats)
-
 We're going to write Scala 2 in this article for library compatibility reasons, although the exact same code will work on Scala 3 as well once the libraries have been updated. We're also going to need [Docker](https://docker.com) to start a Cassandra instance.
 
 <NoteAdmonition>
     This mini-project is a collaboration between me (Daniel) and [Riccardo Cardin](/authors/riccardo-cardin), one of the prominent Rock the JVM alumni. Big thanks to Riccardo for contributing with most of the code that ended up in this article and on camera.
 </NoteAdmonition>
+
+<TipAdmonition>
+    This article assumes that you're familiar with the basics of Akka Typed, Akka HTTP and Cats. We have various articles here on the blog (with corresponding videos) that will give you the essential tools, so feel free to click on the tags at the bottom, or search here on the blog, and you'll find everything you need. For in-depth mastery we have full-blown courses, so if you're interested, you can check out
+
+    - The [Akka Typed course](/courses/akka-pekko-essentials)
+    - The [Akka HTTP course](/courses/akka-pekko-http)
+    - The [Cats course](/courses/cats)
+</TipAdmonition>
 
 ## Setup
 
