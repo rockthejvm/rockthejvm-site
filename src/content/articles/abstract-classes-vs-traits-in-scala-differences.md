@@ -7,7 +7,13 @@ title: "Abstract Classes vs Traits in Scala: Practical Differences"
 updatedDate: 2024-09-06
 ---
 
-This short article will compare abstract classes and traits as means of inheritance. This is for the beginner Scala programmer who is just getting started with Scala's inheritance model. If you're trying to figure out which is the best way to create OO-style type hierarchies and abstract classes seem too similar to traits, this article is for you.
+## Who This Article Is For
+
+This is for the beginner Scala programmer who is just getting started with Scala's inheritance model. If you're trying to figure out which is the best way to create OO-style type hierarchies and abstract classes seem too similar to traits, this article is for you.
+
+## Introduction
+
+This short article will compare abstract classes and traits as means of inheritance.
 
 ## Background
 

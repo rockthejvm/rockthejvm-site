@@ -7,11 +7,15 @@ title: "Scala 3: Given and Using Clauses"
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
+If you're starting out directly on Scala 3, or you're a Scala 2 developer without too much experience with implicits, this one is for you. If you happen to know how implicits work, that'll only be a plus.
+
+## Introduction
+
 In this article, we'll take a structured look at the new given/using clauses in Scala 3, which promises to be a big leap forward.
 
 Unlike other posts on the topic, this article is also approachable for Scala beginners. The given/using pair in Scala 3 is often described in comparison with implicits &mdash; which are themselves really powerful and hard to learn if you're starting out &mdash; but here I'll make no such references or assumptions.
-
-So if you're starting out directly on Scala 3, or you're a Scala 2 developer without too much experience with implicits, this one is for you. If you happen to know how implicits work, that'll only be a plus.
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
