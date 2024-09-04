@@ -93,6 +93,6 @@ Next, in Stage 4, we have the big join operation. You probably spotted it right 
 
 That's because in Stage 5, Spark will need to bring _all_ the data to a single executor in order to perform the final computation, because we're doing a massive aggregation on the entire DataFrame. So another lesson here: aggregations usually involve some form of moving data between executors, which means a shuffle. "Group by" statements are particularly sensitive here. Because shuffle is bad for perf, then it follows that groups and aggregations can be bad for perf, so use them sparingly.
 
-## Just the Beginning
+## Conclusion: This Is Just the Beginning
 
 This seems tedious, but in practice, the skill of reading and interpreting DAGs is invaluable for performance analysis. You might notice that in the last example, we're doing quite a few shuffles. With time, you will learn to quickly identify which transformations in your code are going to cause a lot of shuffling and thus performance issues.

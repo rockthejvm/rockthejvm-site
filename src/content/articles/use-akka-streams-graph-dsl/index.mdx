@@ -27,7 +27,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-## Prologue
+## Prerequisites
 
 In this article I'm assuming you know what Akka tries to do with actors and a bit of Akka Streams, at least what a Source, Sink and Flow do. To recap, a basic usage example of Akka Streams is to create some (potentially async) components that deal with receiving and/or passing data around, and plugging them together like pipes:
 
@@ -131,7 +131,7 @@ val graph = GraphDSL.create() { implicit builder: GraphDSL.Builder[NotUsed] =>
 
 ClosedShape is an object which is a marker for Akka when you will materialize this graph, to make sure you didn't leave any internal component with any input or output hanging or unconnected.
 
-## Final Code
+## Conclusion: Final Code
 
 After you are done creating the graph, you will need to materialize it to run:
 
