@@ -16,9 +16,9 @@ import { Tweet } from "astro-embed";
 
 Variance in Scala is one of the most powerful concepts of its type system. It's simple in theory, but it can cause massive headaches when we think we got the hang of writing abstract, generic code. In this article, we'll take a careful and structured look at one of the most cryptic compiler errors you'll ever see:
 
-<CriticalAdmonition>
-    covariant type T occurs in contravariant position in type T of value myArg
-</CriticalAdmonition>
+```text
+covariant type T occurs in contravariant position in type T of value myArg
+```
 
 We won't need a particular project setup for this article - a plain Scala/sbt project
 will do.
@@ -86,9 +86,9 @@ abstract class MyList[+T] {
 
 We start from the very basics. But before we even write a proper subtype for MyList, we hit a wall:
 
-<CriticalAdmonition>
-    covariant type T occurs in contravariant position in type T of value elem
-</CriticalAdmonition>
+```text
+covariant type T occurs in contravariant position in type T of value elem
+```
 
 Just as we thought we understood variance, here comes the compiler trying to prove we don't know squat.
 
@@ -118,9 +118,9 @@ See any trouble here?
 
 No-no. This is a type conflict. A sound type checker will not compile this code. **We say that the types of `val` fields are in _covariant_ position**, and this is what the compiler will show you:
 
-<CriticalAdmonition>
-    contravariant type T occurs in covariant position in type T of value favoriteAnimal
-</CriticalAdmonition>
+```text
+contravariant type T occurs in covariant position in type T of value favoriteAnimal
+```
 
 If the generic type was covariant (e.g. a list), then it would work. If the generic type was invariant, we wouldn't even have this problem, as we'd have the same type T everywhere.
 
