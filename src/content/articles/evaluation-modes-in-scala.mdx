@@ -9,9 +9,11 @@ updatedDate: 2024-09-06
 
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro"
 
+## Introduction
+
 This article is a bit shorter than usual, but I hope it will share a different kind of insight. We're not going to explore new features, external libraries, create apps or demos. We're going to take a look at some core Scala constructs and _understand_ them in a different context.
 
-## 1. The 3 Evaluation Modes
+## The 3 Evaluation Modes
 
 When we want to compute a value, we can think of two different aspects to how that value is computed. There are more, but I will focus on the following:
 
@@ -33,7 +35,7 @@ In this classification, these two orthogonal aspects give us 4 kinds of computat
 
 Arguably, type 3 isn't useful: computing a value immediately (i.e. at the point of definition) without storing the value is pure waste. So I'll consider the last type (computed later, non-memoized) as "type 3".
 
-## 2. Scala Constructs For The 4 Evaluation Modes
+## Scala Constructs For The 4 Evaluation Modes
 
 How does Scala implement this classification? Here's a quick breakdown.
 
@@ -73,7 +75,7 @@ But since our programs are not built just out of plain values, but also function
 - Computed later, non-memoized: by-name argument
 - Computed later, memoized: by name argument + lazy val (call by need)
 
-## 3. Conclusion: The Philosophy Hidden in Plain Sight
+## Conclusion: The Philosophy Hidden in Plain Sight
 
 Scala is brilliant on so many levels, but this particular aspect of Scala makes it so powerful, because it leverages concepts we (as programmers) are familiar with in different contexts, and gave them new meanings. We think of
 
