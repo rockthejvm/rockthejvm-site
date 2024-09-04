@@ -15,7 +15,7 @@ This article is for the comfortable Scala programmer, but with otherwise limited
 
 Cats Effect 3 has just been launched, with a lot of exciting changes and simplifications. Some aspects have not changed, though, and for good reason. This article starts the exploration of one of them - fibers.
 
-## Background and Setup
+## Prerequisites
 
 The code I'll show here is entirely written in Scala 3 &mdash; I'm a bit impatient and I'm using Scala 3 RC2, but the code is 100% compatible with the final Scala 3. If you want to test this code in your Scala 3 project, you'll need to add this library to your `build.sbt` file:
 
