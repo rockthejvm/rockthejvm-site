@@ -10,17 +10,20 @@ updatedDate: 2024-09-06
 videoId: xNCCHFljwBg
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro"
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## 1. Introduction
 
 In modern application development, efficient database interactions are crucial for building scalable and maintainable systems. Scala, being a versatile language, offers various tools and libraries to streamline these interactions. One such powerful tool among others ([doobie](https://index.scala-lang.org/tpolecat/doobie/artifacts/doobie-hikari/0.9.0?binary-version=_2.13), [Slick](https://index.scala-lang.org/slick/slick), [ZIO Quill](https://index.scala-lang.org/zio/zio-quill) etc) is the [Skunk Scala library](https://typelevel.org/skunk/), which provides a functional and typesafe interface for PostgreSQL databases access in Scala applications. In this article, we'll delve deep into Skunk, exploring its features and demonstrating how to interact with a database effectively in a non-blocking manner.
 
+<TipAdmonition>
+    Skunk is part of the Typelevel ecosystem of libraries. If you want some intense hands-on experience with Scala and the Typelevel stack, you'll greatly enjoy the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course. It's the biggest course on Rock the JVM, where you'll write a full-stack, production-grade application from scratch, including authentication, credit card checkout, email services, comprehensive test coverage, etc. Check it out [here](/courses/typelevel-rite-of-passage).
+</TipAdmonition>
+
 ## 2. What is Skunk?
 
 Skunk is a robust Scala library that has been specifically crafted to offer optimal database access to PostgreSQL. Its functional, typesafe, resource-safe session, and composable interface provides a high level of type-safety, ensuring that SQL queries are checked at compile-time. With Skunk, developers can expect a reliable and efficient way to interact with PostgreSQL databases. Its advanced features offer a seamless and typesafe experience that enables developers to streamline their database access and management. Skunk is the perfect choice for developers who strive to achieve efficient and secure database access while maintaining a high level of type-safety.
-
-> Skunk is part of the Typelevel ecosystem of libraries. If you want some intense hands-on experience with Scala and the Typelevel stack, you'll greatly enjoy the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course. It's the biggest course on Rock the JVM, where you'll write a full-stack, production-grade application from scratch, including authentication, credit card checkout, email services, comprehensive test coverage, etc. Check it out [here](/courses/typelevel-rite-of-passage).
 
 ## 3. Understanding Skunk Core Concepts
 
@@ -309,7 +312,9 @@ We shall soon see these conversions in use as we interact with our database thro
 
 Skunk offers type-safe SQL interpolation, enabling us to construct SQL statements with compile-time validation. It ensures that SQL statements are both syntactically correct and type-safe. There are two types of SQL statements that Skunk can build: queries and commands. In this sections, we will demonstrate both types of statements on a table of users we previously created.
 
-> `Skunk queries` are parameterized sql statements where the input and output types represent the type of parameters and the structure of the result set, respectively. While `skunk commands` are parameterized sql statements by input type only, as it does not return a result set.
+<NoteAdmonition>
+    `Skunk queries` are parameterized sql statements where the input and output types represent the type of parameters and the structure of the result set, respectively. While `skunk commands` are parameterized sql statements by input type only, as it does not return a result set.
+</NoteAdmonition>
 
 Still in our `main.scala` file, let's create an SQL statement (Skunk Command). This Skunk Command will allow us to insert user data into our `users` table. We'll define the user data to be inserted as an argument.
 

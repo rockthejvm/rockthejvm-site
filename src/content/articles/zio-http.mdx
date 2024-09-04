@@ -12,13 +12,9 @@ videoId: i__kKmwhUI4
 
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
-> This article is brought to you by
-> [Mark Rudolph](https://github.com/alterationx10) - his second contribution to Rock the JVM. Mark is a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings.
-
-> If you want to learn more about the core ZIO library, check out the [ZIO course](/courses/zio).
-
-## Outline
+## Introduction
 
 In this post, we're going to go over an introduction to the zio-http library,
 and take a look at some of the basic utilities it provides to get you up and
@@ -30,6 +26,14 @@ By the end, we'll cover
 - Built-in and custom middleware
 - Response streaming
 - Websockets
+
+<NoteAdmonition>
+    This article is brought to you by [Mark Rudolph](https://github.com/alterationx10) - his second contribution to Rock the JVM. Mark is a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings.
+</NoteAdmonition>
+
+<TipAdmonition>
+    If you want to learn more about the core ZIO library, check out the [ZIO course](/courses/zio).
+</TipAdmonition>
 
 ## Setup
 
@@ -223,21 +227,13 @@ There are four operators to compose these "HTTP applications": `++`, `<>`, `>>>`
 and `<<<`, and the behavior of each is as described from the
 [official documentation](https://zio.github.io/zio-http/docs/v1.x/dsl/http#composition-of-http-applications).
 
-> ++ is an alias for defaultWith. While using ++, if the first HTTP application
-> returns None the second HTTP application will be evaluated, ignoring the
-> result from the first. If the first HTTP application is failing with a Some[E]
-> the second HTTP application won't be evaluated.
+> `++` is an alias for `defaultWith`. While using `++`, if the first HTTP application returns `None` the second HTTP application will be evaluated, ignoring the result from the first. If the first HTTP application is failing with a `Some[E]` the second HTTP application won't be evaluated.
 
-> &lt;&gt; is an alias for orElse. While using &lt;&gt;, if the first HTTP application fails
-> with Some[E], the second HTTP application will be evaluated, ignoring the
-> result from the first. If the first HTTP application returns None, the second
-> HTTP application won't be evaluated.
+> <code>&lt;&gt;</code> is an alias for `orElse`. While using <code>&lt;&gt;</code>, if the first HTTP application fails with `Some[E]`, the second HTTP application will be evaluated, ignoring the result from the first. If the first HTTP application returns `None`, the second HTTP application won't be evaluated.
 
-> `>>>` is an alias for andThen. It runs the first HTTP application and pipes
-> the output into the other.
+> `>>>` is an alias for `andThen`. It runs the first HTTP application and pipes the output into the other.
 
-> `<<<` is the alias for compose. Compose is similar to andThen. It runs the
-> second HTTP application and pipes the output to the first HTTP application.
+> `<<<` is the alias for `compose`. Compose is similar to andThen. It runs the second HTTP application and pipes the output to the first HTTP application.
 
 ## Server
 

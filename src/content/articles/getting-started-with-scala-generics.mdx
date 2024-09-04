@@ -51,7 +51,7 @@ We say that the type of `aList` is `List[Int]`, a list of integers. The `[Int]` 
 
 For now, remember this:
 
-> The reason why we have a static type system is so that we can correctly make _assumptions_ about the data we work with.
+**The reason why we have a static type system is so that we can correctly make _assumptions_ about the data we work with.**
 
 Scala generics were invented as an extension to this fact: by working with a `List[Int]`, for example, we can safely make the assumption that all this list will ever contain is integers. This will allow us, for instance, to sum up all the numbers in the list. This would not have been possible if we hadn't known the types of all elements.
 
@@ -59,7 +59,7 @@ Scala generics were invented as an extension to this fact: by working with a `Li
 
 There is another big reason that Scala generics are so useful:
 
-> Generics allow us to reuse the same logic on many (potentially unrelated) types.
+**Generics allow us to reuse the same logic on many (potentially unrelated) types.**
 
 Let's assume for a moment that you're designing your own data structure. Say, a list. We start simple, with a definition that will allow us to store integers, because in our application we work with numbers most of the time. A definition might look something like this:
 

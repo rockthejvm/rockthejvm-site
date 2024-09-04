@@ -9,13 +9,24 @@ updatedDate: 2024-09-06
 videoId: 783eGYfsVuU
 ---
 
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
-> This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Scala and Kotlin.
+## Introduction
 
 The Kotlin language is a multi-paradigm, general-purpose programming language. Whether we develop using an object-oriented or functional approach, we always have the problem of handling errors. Kotlin offers a lot of different methods to handle errors. Still, this article will focus on the functional approaches and introduce the Arrow library. This article is the first part of a series. We'll focus on strategies that deal with the error without managing its cause, i.e., nullable types and Arrow Option types. So, without further ado, let's get started.
 
-> This article assumes you're comfortable with Kotlin. If you need to get those essential skills **as fast as possible** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+<NoteAdmonition>
+    This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Scala and Kotlin.
+</NoteAdmonition>
+
+<TipAdmonition>
+    This article assumes you're comfortable with Kotlin. If you need to get those essential skills **as fast as possible** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials).
+
+    It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+
+</TipAdmonition>
 
 ## 1. Setup
 

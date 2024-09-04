@@ -9,13 +9,22 @@ updatedDate: 2024-09-06
 videoId: C0B44WBJJmY
 ---
 
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
+## Introduction
+
 In this series [first part](/articles/functional-error-handling-in-kotlin-part-1-absent-values), we introduced some of the available strategies to handle errors in a functional fashion using Kotlin and the Arrow library. In this second part, we'll continue our journey by looking at the `Result` and `Either` data types and how to use them to handle errors in a functional way.
 
 For the project's setup, please refer to the first part of this series, in which we set up Maven and the needed dependencies.
 
 Without further ado, let's get started!
 
-> This article, as the first part, requires existing Kotlin experience. If you need to get it **fast** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+<TipAdmonition>
+    This article, as the first part, requires existing Kotlin experience. If you need to get it **fast** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials).
+
+    It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+
+</TipAdmonition>
 
 ## 1. The Domain
 
