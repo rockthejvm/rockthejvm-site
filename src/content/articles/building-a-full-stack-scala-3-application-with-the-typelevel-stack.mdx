@@ -34,7 +34,7 @@ Together we will build the minimal start of a full-stack application, entirely w
 
 Start by cloning <a href={
 // @ts-ignore
-    frontmatter.repositoryUrl}>this repository</a> and checking out the `start` tag. We can also start from empty directory (like we start in the Typelevel Rite of Passage course), but this option is quicker.
+frontmatter.repositoryUrl}>this repository</a> and checking out the `start` tag. We can also start from empty directory (like we start in the Typelevel Rite of Passage course), but this option is quicker.
 
 After you clone the repository, you will find the build.sbt file. It contains all the library definitions that you'll need to get an sbt project started with 3 modules:
 
@@ -780,7 +780,7 @@ The relevant pieces are:
 
 - `Http.send`, which takes an HTTP request and a decoder
 - the Decoder, which contains two functions: how to parse an HTTP response, and how to parse an HTTP error
-- the HTTP response parser uses Circe (manually) to `parse(resp.body)` and then pattern match on the result to build a `Msg` instance
+- the HTTP response parser uses circe (manually) to `parse(resp.body)` and then pattern match on the result to build a `Msg` instance
 
 And at this point, we have the Tyrian app ready. The full Tyrian app is below:
 

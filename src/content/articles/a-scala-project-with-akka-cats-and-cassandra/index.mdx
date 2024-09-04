@@ -638,7 +638,7 @@ Plus a failure response in case any request is not right:
 case class FailureResponse(reason: String)
 ```
 
-Awesome. Now we need to be able to automatically serialize these case classes to and from JSON, so we'll add the Circe support with the imports
+Awesome. Now we need to be able to automatically serialize these case classes to and from JSON, so we'll add the circe support with the imports
 
 ```scala
 import io.circe.generic.auto._

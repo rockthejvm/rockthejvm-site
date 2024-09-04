@@ -126,9 +126,9 @@ Let us now proceed to flat serializing a concrete class. This will allow us to d
 
 ## 2.1. Pseudocode
 
-Since we'll be dealing with JSON, we'll need a JSON library to do the JSON work for us. I'll be using [Circe](https://github.com/circe/circe), but pretty much any other Scala JSON library (of which there are plenty) will do just fine. I won't spend too much time explaining the mechanics of Circe, in the hope that the JSON code we'll be writing is sufficiently self-explanatory.
+Since we'll be dealing with JSON, we'll need a JSON library to do the JSON work for us. I'll be using [circe](https://github.com/circe/circe), but pretty much any other Scala JSON library (of which there are plenty) will do just fine. I won't spend too much time explaining the mechanics of circe, in the hope that the JSON code we'll be writing is sufficiently self-explanatory.
 
-So for this part our goal is to take any instance of the `User` class and serialize it as a flat JSON. In Circe-speak, what we need is an `Encoder` for the `User` type.
+So for this part our goal is to take any instance of the `User` class and serialize it as a flat JSON. In circe-speak, what we need is an `Encoder` for the `User` type.
 
 Because metaprogramming in most languages isn't as readable as plain code, when tackling a metaprogramming problem I find it helpful to first sketch a solution in pseudo-code. Let's do that for the JSON `Encoder`:
 
@@ -557,7 +557,7 @@ How do we prevent this failure mode?
 
 ## 2.8. JSON Objects
 
-The solution is pretty straightforward. Circe has a type called `Encoder.AsObject` which is the same as `Encoder` but additionally provides a method called `encodeObject`, which has the static return type of `JsonObject`.
+The solution is pretty straightforward. circe has a type called `Encoder.AsObject` which is the same as `Encoder` but additionally provides a method called `encodeObject`, which has the static return type of `JsonObject`.
 
 If instead of requiring an `Encoder` for every field of our class we require an `Encoder.AsObject`, then we will fail to compile if any of the fields does not correspond to a JSON object. This requires only small modifications to our previous code:
 
@@ -649,7 +649,7 @@ Now it's time to read the flat JSON back from the flat format.
 
 ## 3.1. Pseudocode
 
-To deserialize something in Circe, we will need a `Decoder` instance for the `User` type.
+To deserialize something in circe, we will need a `Decoder` instance for the `User` type.
 
 As in the last part we'll start with some pseudo-code to sketch the construction of the flat JSON `Decoder`:
 
@@ -1363,7 +1363,7 @@ frontmatter.repositoryUrl}/blob/master/flat_modular.scala`}>repo</a>.
 
 [^listAnalogy]: Keeping in mind the `List` analogy that we have with tuples.
 
-[^cats]: You don't have to use the Cats library here, any definition of `Applicative` will do. But since Circe is already bringing in Cats as a dependency, we just use that.
+[^cats]: You don't have to use the Cats library here, any definition of `Applicative` will do. But since circe is already bringing in Cats as a dependency, we just use that.
 
 [^contravariant]: Because `Encoder.AsObject` is a contravariant functor and cannot have an `Applicative` instance.
 

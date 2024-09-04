@@ -24,7 +24,7 @@ Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a freque
 
 ## Setup
 
-As we said, the Kafka Streams library is implemented using a set of client libraries. In addition, we will use the Circe library to deal with JSON messages. Using Scala as the language to do some experiments, we have to declare the following dependencies in the `build.sbt` file:
+As we said, the Kafka Streams library is implemented using a set of client libraries. In addition, we will use the circe library to deal with JSON messages. Using Scala as the language to do some experiments, we have to declare the following dependencies in the `build.sbt` file:
 
 ```scala
 libraryDependencies ++= Seq(
@@ -193,7 +193,7 @@ If we want to create any structure on top of Kafka topics, such as stream, we ne
 
 What's a `Serde`? The `Serde` word stands for `Serializer` and `Deserializer`. A `Serde` provides the logic to read and write a message from and to a Kafka topic.
 
-So, if we have a `Serde[R]` instance, we can deserialize and serialize objects of the type `R`. In this article, we will use JSON format for the payload of Kafka messages. In Scala, one of the most used libraries to marshall and unmarshall JSON into objects is Circe. We already talked about Circe in the post [http4s: Unleashing the Power of HTTP APIs Library](/articles/http4s-unleashing-the-power-of-http-apis-library), when we used it together with the http4s library.
+So, if we have a `Serde[R]` instance, we can deserialize and serialize objects of the type `R`. In this article, we will use JSON format for the payload of Kafka messages. In Scala, one of the most used libraries to marshall and unmarshall JSON into objects is circe. We already talked about circe in the post [http4s: Unleashing the Power of HTTP APIs Library](/articles/http4s-unleashing-the-power-of-http-apis-library), when we used it together with the http4s library.
 
 ```scala
 // Scala Kafka Streams library
@@ -215,7 +215,7 @@ In addition, the `Serdes` object defines the function `fromFn`, which we can use
 def fromFn[T >: Null](serializer: T => Array[Byte], deserializer: Array[Byte] => Option[T]): Serde[T]
 ```
 
-Wiring all the information together, we can use the above function to create a `Serde` using Circe:
+Wiring all the information together, we can use the above function to create a `Serde` using circe:
 
 ```scala
 object Implicits {
@@ -236,7 +236,7 @@ object Implicits {
 }
 ```
 
-The `serde` function constraints the type `A` to have a Circe `Decoder` and an `Encoder` implicitly defined in the scope. Then, it uses the type class `Encoder[A]` to create a JSON string:
+The `serde` function constraints the type `A` to have a circe `Decoder` and an `Encoder` implicitly defined in the scope. Then, it uses the type class `Encoder[A]` to create a JSON string:
 
 ```scala
 a.asJson
@@ -248,7 +248,7 @@ Moreover, the function uses the type class `Decoder[A]` to parse a JSON string i
 decode[A](aAsString)
 ```
 
-Fortunately, we can autogenerate Circe `Encoder` and `Decoder` type classes importing `io.circe.generic.auto._`.
+Fortunately, we can autogenerate circe `Encoder` and `Decoder` type classes importing `io.circe.generic.auto._`.
 
 Now that we presented the library's types to write and read from Kafka topics and created some utility functions to deal with such types, we can build our first stream topology.
 

@@ -1,6 +1,6 @@
 ---
 category: guide
-excerpt: "Akka HTTP needs JSON like humans need water: discover how to integrate Spray-Json, Circe, and Jackson into Akka HTTP"
+excerpt: "Akka HTTP needs JSON like humans need water: discover how to integrate Spray-Json, circe, and Jackson into Akka HTTP"
 publishedDate: 2020-09-16
 tags: [akka, akka-http, circe, jackson, spray]
 title: "Akka HTTP Loves JSON: 3 Libraries You Can Integrate into Akka HTTP"
@@ -165,7 +165,7 @@ $ curl \
 
 ## circe
 
-The [Circe](https://github.com/circe/circe) library is very popular within the Typelevel ecosystem. However, it only works well with the Typelevel libraries, so porting it to Akka HTTP is not straightforward. Thankfully, Heiko Seeberger created this [cute repo of JSON libraries](https://github.com/hseeberger/akka-http-json) for Akka HTTP, just in case Spray-json is not enough for you. You can also dive into the code of the libraries, it's not that long - just a few implicit wrappers over the given functionality of Circe (and other JSON libraries). The JSON libray support for Circe ships in its own distribution, so you'll need to add
+The [circe](https://github.com/circe/circe) library is very popular within the Typelevel ecosystem. However, it only works well with the Typelevel libraries, so porting it to Akka HTTP is not straightforward. Thankfully, Heiko Seeberger created this [cute repo of JSON libraries](https://github.com/hseeberger/akka-http-json) for Akka HTTP, just in case Spray-json is not enough for you. You can also dive into the code of the libraries, it's not that long - just a few implicit wrappers over the given functionality of circe (and other JSON libraries). The JSON libray support for circe ships in its own distribution, so you'll need to add
 
 ```scala
 val akkaHttpJsonSerializersVersion = "1.34.0"
@@ -178,11 +178,11 @@ libraryDependencies ++= Seq(
 }
 ```
 
-At this point, you should be ready to use Circe with Akka HTTP. Here's how you do it:
+At this point, you should be ready to use circe with Akka HTTP. Here's how you do it:
 
-Step 1. Add the `FailFastCirceSupport` trait as a mix-in to your main application object. This will bring the necessary implicits so that the directives can find the marshallers (serializers) between the HTTP entities that Akka HTTP understands and the internal formats of Circe. Pretty much similar to step 3 of the Spray-json integration.
+Step 1. Add the `FailFastCirceSupport` trait as a mix-in to your main application object. This will bring the necessary implicits so that the directives can find the marshallers (serializers) between the HTTP entities that Akka HTTP understands and the internal formats of circe. Pretty much similar to step 3 of the Spray-json integration.
 
-Step 2. Add an import so that Circe can automatically generate an implicit encoder/decoder pair for the types you want to support (case classes, usually):
+Step 2. Add an import so that circe can automatically generate an implicit encoder/decoder pair for the types you want to support (case classes, usually):
 
 ```scala
 import io.circe.generic.auto._
