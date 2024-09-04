@@ -866,7 +866,7 @@ object TokenPayLoad {
 }
 ```
 
-We can parse the JSON string with the help of `Circe`, first we define a case class named `TokenPayLoad` which will hold our payload information. The companion object `TokenPayLoad` contains a `given` or `implicit` decoder method that `yields` a `Decoder[TokenPayLoad]` object from the JSON string.
+We can parse the JSON string with the help of `circe`, first we define a case class named `TokenPayLoad` which will hold our payload information. The companion object `TokenPayLoad` contains a `given` or `implicit` decoder method that `yields` a `Decoder[TokenPayLoad]` object from the JSON string.
 Now we can define a function to authenticate the JSON Web Token when it's passed by the user.
 
 ```scala

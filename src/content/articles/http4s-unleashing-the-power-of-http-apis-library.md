@@ -434,7 +434,7 @@ def directorRoutes[F[_] : Concurrent]: HttpRoutes[F] = {
 
 Then, the `Request[F]` object has a `body` attribute of type `EntityBody[F]`, which is a type alias for `Stream[F, Byte]`. **As the HTTP protocol defines, the body of an HTTP request is a stream of bytes**. The http4s library uses the [`fs2.io`](https://fs2.io/#/) library as stream implementation. Indeed, this library also uses the Typelevel stack (Cats) to implement its functional vision of streams.
 
-### 6.2. Decoding the Request Body Using Circe
+### 6.2. Decoding the Request Body Using circe
 
 In fact, every `Request[F]` extends the more general `Media[F]` trait. This trait exposes many practical methods dealing with the body of a request, and the most interesting is the following:
 
@@ -449,15 +449,15 @@ The `as` function decodes a request body as a type `A`. using an `EntityDecoder[
 
 The http4s library ships with decoders and encoders for a limited type of contents, such as `String`, `File`, `InputStream`, and manages more complex contents using plugin libraries.
 
-In our example, the request contains a new director in JSON format. **To deal with JSON body, the most frequent choice is to use the Circe plugin**.
+In our example, the request contains a new director in JSON format. **To deal with JSON body, the most frequent choice is to use the circe plugin**.
 
-The primary type provided by the Circe library to manipulate JSON information is the `io.circe.Json` type. Hence, the `http4s-circe` module defines the types `EntityDecoder[Json]` and `EntityEncoder[Json]`, which are all we need to translate a request and a response body into an instance of `Json`.
+The primary type provided by the circe library to manipulate JSON information is the `io.circe.Json` type. Hence, the `http4s-circe` module defines the types `EntityDecoder[Json]` and `EntityEncoder[Json]`, which are all we need to translate a request and a response body into an instance of `Json`.
 
 However, the `Json` type translate directly into JSON literals, such as `json"""{"firstName": "Zack", "lastName": "Snyder"}"""`, and we don't really want to deal with them. Instead, we usually want a case class to represent JSON information.
 
-First, we decode the incoming request automatically into an instance of a `Json` object using the `EntityDecoder[Json]` type. However, we need to do a step beyond to obtain an object of type `Director`. In detail, Circe needs an instance of the type `io.circe.Decoder[Director]` to decode a `Json` object into a `Director` object.
+First, we decode the incoming request automatically into an instance of a `Json` object using the `EntityDecoder[Json]` type. However, we need to do a step beyond to obtain an object of type `Director`. In detail, circe needs an instance of the type `io.circe.Decoder[Director]` to decode a `Json` object into a `Director` object.
 
-We can provide the instance of the `io.circe.Decoder[Director]` simply adding the import to `io.circe.generic.auto._`, which lets Circe automatically derive for us encoders and decoders. The derivation uses field names of case classes as key names in JSON objects and vice-versa. As the last step, we need to connect the type `Decoder[Director]` to the type `EntityDecoder[Json]`, and this is precisely the work that the module `http4s-circe` does for us through the function `jsonOf`. Since we need the definition of the effect `F` in the scope, we will add the definition of the implicit value inside the method `directorRoutes`:
+We can provide the instance of the `io.circe.Decoder[Director]` simply adding the import to `io.circe.generic.auto._`, which lets circe automatically derive for us encoders and decoders. The derivation uses field names of case classes as key names in JSON objects and vice-versa. As the last step, we need to connect the type `Decoder[Director]` to the type `EntityDecoder[Json]`, and this is precisely the work that the module `http4s-circe` does for us through the function `jsonOf`. Since we need the definition of the effect `F` in the scope, we will add the definition of the implicit value inside the method `directorRoutes`:
 
 ```scala
 def directorRoutes[F[_] : Concurrent]: HttpRoutes[F] = {
@@ -495,7 +495,7 @@ The above code uses the _for-comprehension_ syntax making it more readable. Howe
 
 Last but not least, we changed the context-bound of the effect `F`. In fact, the `jsonOf` method requires at least an instance of `Concurrent` to execute. So, the `Monad` type class is not sufficient if we need to decode a JSON request into a `case class`.
 
-### 6.3. Encoding the Response Body Using Circe
+### 6.3. Encoding the Response Body Using circe
 
 The encoding process of a response body is very similar to the one described for decoding a request body. As the reference example, we go forward with the API getting all the films directed by a specific director during a year:
 
@@ -871,7 +871,7 @@ We can use bound to a `Monad` because no operation requests anything other than 
 def directorRoutes[F[_] : Concurrent]: HttpRoutes[F] = ???
 ```
 
-As we said, the decoding of case classes from JSON literals through the Circe library requires some concurrency, which is expressed by the `Concurrent` type class coming from the Cats Effect library.
+As we said, the decoding of case classes from JSON literals through the circe library requires some concurrency, which is expressed by the `Concurrent` type class coming from the Cats Effect library.
 
 Moreover, **using a type constructor instead of a concrete effect makes the whole architecture easier to test**. Binding to a concrete effect forces us to use it in the tests, making tests more challenging to write.
 
