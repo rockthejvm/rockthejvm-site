@@ -27,9 +27,9 @@ val aSet = Set(1,2,3,4,5)
 
 The critical API of a set consists of
 
-- the ability to tell whether an item is in the set or not
-- the ability to add an element to a set (and if it exists, don't add it again)
-- the ability to remove an element from the set (and if it doesn't exist, don't remove it again, of course)
+- The ability to tell whether an item is in the set or not
+- The ability to add an element to a set (and if it exists, don't add it again)
+- The ability to remove an element from the set (and if it doesn't exist, don't remove it again, of course)
 
 Let's concentrate on the first capability at the moment. The way we tell whether an element is in the set is by calling `contains`, or `apply`:
 
@@ -85,9 +85,9 @@ trait RSet[A] extends (A => Boolean) {
 
 The main trait implements the crucial Set API:
 
-- testing if an element is in the set
-- adding an element
-- removing an element
+- Testing if an element is in the set
+- Adding an element
+- Removing an element
 
 Let's then continue with an implementation of an empty set, correctly typed. The standard library uses an object typed with `Set[Any]` and then type-checked via casting, but let's use a small case class for our experiment:
 
@@ -101,8 +101,8 @@ case class REmpty[A]() extends RSet[A] {
 
 The implementation of 2 out of 3 methods is easy:
 
-- the set doesn't contain anything, so `contains(x) == false` for all x in A
-- the set can't remove anything, so return the same set
+- The set doesn't contain anything, so `contains(x) == false` for all x in A
+- The set can't remove anything, so return the same set
 
 We'll come back to the third method shortly.
 
@@ -120,9 +120,9 @@ case class PBSet[A](property: A => Boolean) extends RSet[A] {
 
 Let's look at the main API methods:
 
-- this set is all about the property of the elements, so `contains` returns true only if that property is satisfied
-- adding an element means adjusting the property so that it also holds true for the element we want to add
-- removing an element means adjusting the property so that it definitely returns false for the element we're removing
+- This set is all about the property of the elements, so `contains` returns true only if that property is satisfied
+- Adding an element means adjusting the property so that it also holds true for the element we want to add
+- Removing an element means adjusting the property so that it definitely returns false for the element we're removing
 
 And that's it! The set will not contain duplicates nor change if we try removing a non-existent element, because neither makes any sense now.
 

@@ -25,10 +25,10 @@ libraryDependencies += "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion
 
 While working with Akka, your Scala code might become quite verbose, because of various factors
 
-- declaring various messages actors might support
-- organizing mini-domains inside your application
-- defining behaviors and handling every type of supported message
-- the various `Behaviors` constructs need you to pass boilerplate every time
+- Declaring various messages actors might support
+- Organizing mini-domains inside your application
+- Defining behaviors and handling every type of supported message
+- The various `Behaviors` constructs need you to pass boilerplate every time
 
 Because of this, Akka code might become quite hard to read and reason about, especially if you have lots of various actors interacting with one another. Therefore, it usually pays off to follow some good code organization practices, so your logic is not swallowed inside a large amount of boilerplate.
 
@@ -38,9 +38,9 @@ This article will show you one technique. It's not perfect, but it solves one sm
 
 Assume you're working on the backend/logic of an online store. Everything is asynchronous and non-blocking (by the nature of Akka), and you're currently focusing on one piece of your logic:
 
-- a customer asks to check out their shopping cart (identified by a `cartId`)
-- there's a Checkout actor which is responsible for surfacing the total amount due
-- the Checkout actor will interact with a ShoppingCart actor, responsible for fetching the list of items in that cart
+- A customer asks to check out their shopping cart (identified by a `cartId`)
+- There's a Checkout actor which is responsible for surfacing the total amount due
+- The Checkout actor will interact with a ShoppingCart actor, responsible for fetching the list of items in that cart
 
 Let's take the following code structure to define messages. Take a moment to read this. We have a few message domains, for the ShoppingCart and Checkout actors respectively:
 
@@ -81,10 +81,10 @@ object Checkout {
 
 We want to implement the following logic:
 
-- a customer actor (of type `ActorRef[Response]`) sends a request to the Checkout actor, e.g. `InspectSummary`
-- the Checkout actor queries the ShoppingCart actor for all the items in the basket, identified by the `cartId`
-- the ShoopingCart replies with a `CurrentCart` containing all the items to the Checkout actor
-- the Checkout actor will compute a total amount due, and send it back to the customer in the form of a `Summary` message
+- A customer actor (of type `ActorRef[Response]`) sends a request to the Checkout actor, e.g. `InspectSummary`
+- The Checkout actor queries the ShoppingCart actor for all the items in the basket, identified by the `cartId`
+- The ShoopingCart replies with a `CurrentCart` containing all the items to the Checkout actor
+- The Checkout actor will compute a total amount due, and send it back to the customer in the form of a `Summary` message
 
 For our intents and purposes, the message flow is customer -> Checkout -> ShoppingCart, back to Checkout, back to customer. For this reason, the Checkout actor is called the "frontend", and the ShoppingCart actor is called the "backend".
 

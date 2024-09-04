@@ -69,15 +69,15 @@ Then we will take this to level 91 and make the compiler _infer_ the appropriate
 
 It's a long way to go. For a "normal" quicksort on a linked list, we'll need to
 
-- take the head of the list (pivot), then _partition_ the list into two parts: one with elements smaller than the pivot, and those greater than or equal to it
-- sort the partitions recursively
-- combine the sorted partitions with concatenation
+- Take the head of the list (pivot), then _partition_ the list into two parts: one with elements smaller than the pivot, and those greater than or equal to it
+- Sort the partitions recursively
+- Combine the sorted partitions with concatenation
 
 For the type-level sort, this plan corresponds to 3 type-level operations:
 
-- concatenation
-- partitioning
-- sorting
+- Concatenation
+- Partitioning
+- Sorting
 
 We'll take them all in turn.
 
@@ -89,8 +89,8 @@ We'll do the same with concatenating two lists. We'll use concatenation as a tes
 
 The axioms of concatenation are as follows:
 
-1. (basic) Concatenating the empty list with any list `L` results in that list `L`.
-1. (inductive/recursive) Concatenating any non-empty list, say `H :: T`, with any list `L` results in a new list whose head is `H` and tail is the concatenation of `T` and `L`.
+1. (Basic) Concatenating the empty list with any list `L` results in that list `L`.
+1. (Inductive/recursive) Concatenating any non-empty list, say `H :: T`, with any list `L` results in a new list whose head is `H` and tail is the concatenation of `T` and `L`.
 
 Written as `given`s, the first axiom allows the compiler to generate any `Concat[HNil, L, L]` for any list type `L`
 
@@ -123,11 +123,11 @@ To test this real quick, the concatenation of the lists `[1,2]` and `[3,4]` look
 
 The compiler successfully compiles this code because:
 
-- the apply method needs a `Concat[_0 :: _1 :: HNil, _2 :: _3 :: HNil, _0 :: _1 :: _2 :: _3 :: HNil]`
-- the compiler can use the `inductive` method, but it needs a `Concat[_1 :: HNil, _2 :: _3 :: HNil, _1 :: _2 :: _3 :: HNil]`
-- the compiler can again use `inductive` but it needs a `Concat[HNil, _2 :: _3 :: HNil, _2 :: _3 :: HNil]`
-- the compiler can use `basic` with the type `_2 :: _3 :: HNil` to create a `Concat[HNil, _2 :: _3 :: HNil, _2 :: _3 :: HNil]`
-- working backwards, the compiler can create all the necessary intermediate `given`s for the apply method
+- The apply method needs a `Concat[_0 :: _1 :: HNil, _2 :: _3 :: HNil, _0 :: _1 :: _2 :: _3 :: HNil]`
+- The compiler can use the `inductive` method, but it needs a `Concat[_1 :: HNil, _2 :: _3 :: HNil, _1 :: _2 :: _3 :: HNil]`
+- The compiler can again use `inductive` but it needs a `Concat[HNil, _2 :: _3 :: HNil, _2 :: _3 :: HNil]`
+- The compiler can use `basic` with the type `_2 :: _3 :: HNil` to create a `Concat[HNil, _2 :: _3 :: HNil, _2 :: _3 :: HNil]`
+- Working backwards, the compiler can create all the necessary intermediate `given`s for the apply method
 
 Conversely, any incorrect concatenation results in uncompilable code.
 
@@ -208,11 +208,11 @@ Testing this to see whether our `Partition` type works well:
 
 This code compiles because the compiler:
 
-- requires a `Partition[_2 :: _3 :: _1 :: HNil, _2 :: _1 :: HNil, _3 :: HNil]`
-- can use `inductive`, but it requires a `Partition[_2 :: _1 :: HNil, _2 :: _1 :: HNil, HNil]`
-- can use `inductive2`, but it requires a `Partition[_2 :: HNil, _2 :: HNil, HNil]`
-- can use `basic2[_2]` to build a `Partition[_2 :: HNil, _2 :: HNil, HNil]`
-- works backwards to build the necessary givens.
+- Requires a `Partition[_2 :: _3 :: _1 :: HNil, _2 :: _1 :: HNil, _3 :: HNil]`
+- Can use `inductive`, but it requires a `Partition[_2 :: _1 :: HNil, _2 :: _1 :: HNil, HNil]`
+- Can use `inductive2`, but it requires a `Partition[_2 :: HNil, _2 :: HNil, HNil]`
+- Can use `basic2[_2]` to build a `Partition[_2 :: HNil, _2 :: HNil, HNil]`
+- Works backwards to build the necessary givens.
 
 Note: there are alternative partitioning schemes which the compiler will not be able to validate. This partitioning does not work, for example, although it's perfectly valid.
 
@@ -240,9 +240,9 @@ The sorting axioms are as follows:
 
 - Sorting an empty list gives us back an empty list.
 - Sorting a non-empty list, say `N :: T` has several requirements:
-  - the correct partitioning of the list into a "left" `N :: L` (remember, the pivot is here) and a "right" `R`
-  - recursive sorting of `L` and `R` into, say `SL` (sorted "left") and `SR` (sorted "right")
-  - the concatenation of the results: `SL` comes first, then `N` the pivot, then `SR`
+  - The correct partitioning of the list into a "left" `N :: L` (remember, the pivot is here) and a "right" `R`
+  - Recursive sorting of `L` and `R` into, say `SL` (sorted "left") and `SR` (sorted "right")
+  - The concatenation of the results: `SL` comes first, then `N` the pivot, then `SR`
 
 The first axiom is similar to the basic axioms of the other operations:
 

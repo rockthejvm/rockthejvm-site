@@ -20,10 +20,10 @@ The time aspect divides computations into now vs later. The memory aspect divide
 
 In this classification, these two orthogonal aspects give us 4 kinds of computations:
 
-- computed now, memoized
-- computed later, memoized
-- computed now, non-memoized
-- computed later, non-memoized
+- Computed now, memoized
+- Computed later, memoized
+- Computed now, non-memoized
+- Computed later, non-memoized
 
 Arguably, type 3 isn't useful: computing a value immediately (i.e. at the point of definition) without storing the value is pure waste. So I'll consider the last type (computed later, non-memoized) as "type 3".
 
@@ -57,15 +57,15 @@ This is potentially the most surprising. But it's true: every time we use `recom
 
 So we have the following associations:
 
-- computed now, memoized: `val`
-- computed later, memoized: `lazy val`
-- computed later, non-memoized: `def`
+- Computed now, memoized: `val`
+- Computed later, memoized: `lazy val`
+- Computed later, non-memoized: `def`
 
 But since our programs are not built just out of plain values, but also functions taking arguments, we can also transfer this small classification to arguments as well:
 
-- computed now, memoized: plain argument
-- computed later, non-memoized: by-name argument
-- computed later, memoized: by name argument + lazy val (call by need)
+- Computed now, memoized: plain argument
+- Computed later, non-memoized: by-name argument
+- Computed later, memoized: by name argument + lazy val (call by need)
 
 ## 3. Conclusion: The Philosophy Hidden in Plain Sight
 

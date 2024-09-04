@@ -147,9 +147,9 @@ which is a subtype of `Function1[AbstractRow, AbstractRow#Key]` because the `app
 
 Let's recap:
 
-- we covered nested types and the need to create different types for different outer class instances
-- we explored type projections, the mother of instance-dependent types (`Outer#Inner`)
-- we went through some examples why path-dependent types and type projections are useful
-- we discussed dependent methods and dependent _functions_, the latter of which is exclusive to Scala 3
+- We covered nested types and the need to create different types for different outer class instances
+- We explored type projections, the mother of instance-dependent types (`Outer#Inner`)
+- We went through some examples why path-dependent types and type projections are useful
+- We discussed dependent methods and dependent _functions_, the latter of which is exclusive to Scala 3
 
 Hope it helps!

@@ -15,24 +15,22 @@ This article is for people getting started with Akka typed actors.
 
 We'll look at how we can keep state inside an actor in a few different ways.
 
-## Setup
+## Prerequisites
 
-This article will assume you have the Akka Typed library set up in your project. If you don't, you can create a new sbt project with your favorite tool, and add the following to your build.sbt file:
+This article assumes you know the principles of Akka actors. In short:
+
+- Standard multithreading/parallel applications are a pain to write because of concurrency issues
+- In Akka, we design applications in terms of actors
+- An actor is an object whose state we cannot access directly, but we can only interact with it via asynchronous messages
+- Message passing and handling eliminates the need for us to manage threads & concurrency, while making it easy to write massively distributed systems
+
+This article will also assume you have the Akka Typed library set up in your project. If you don't, you can create a new sbt project with your favorite tool, and add the following to your build.sbt file:
 
 ```scala
 val akkaVersion = "2.6.10"
 
 libraryDependencies += "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion
 ```
-
-## Prerequisites
-
-This article assumes you know the principles of Akka actors. In short:
-
-- standard multithreading/parallel applications are a pain to write because of concurrency issues
-- in Akka, we design applications in terms of actors
-- an actor is an object whose state we cannot access directly, but we can only interact with it via asynchronous messages
-- message passing and handling eliminates the need for us to manage threads & concurrency, while making it easy to write massively distributed systems
 
 ## Background
 

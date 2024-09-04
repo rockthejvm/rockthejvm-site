@@ -18,10 +18,10 @@ First, if you're not familiar with given/using combos in Scala 3, I recommend yo
 
 The new given/using combos in Scala 3 were created to reduce some of the power of the `implicit` keyword, which may be easily misused. The main arguments for implicits include:
 
-- implicit arguments, which are now solved with given/using
-- type classes, which are also solved with given/using
-- extension methods, which now have their own language-level constructs in Scala
-- implicit conversions, which now need to be explicitly enforced
+- Implicit arguments, which are now solved with given/using
+- Type classes, which are also solved with given/using
+- Extension methods, which now have their own language-level constructs in Scala
+- Implicit conversions, which now need to be explicitly enforced
 
 ## 2. Let's Be Friends
 
@@ -38,10 +38,10 @@ But how can you use the new givens-based mechanism with existing codebases riddl
 
 The `given` mechanism works in the same way as the `implicit` mechanism, for the purpose of finding an instance to insert into a method which requires it. Namely, if you specify a `using` clause, the compiler will look for a `given` instance defined in the following places, in order:
 
-- the local scope where the method is being defined
-- the scope of all the explicitly imported classes, objects and packages
-- the scope of the companion object of the class whose method you're invoking
-- the scope of the companion objects of all the types involved in the method call, if the method is generic
+- The local scope where the method is being defined
+- The scope of all the explicitly imported classes, objects and packages
+- The scope of the companion object of the class whose method you're invoking
+- The scope of the companion objects of all the types involved in the method call, if the method is generic
 
 I talk more in depth about this mechanism in the [advanced Scala course](/courses/advanced-scala), but it should suffice for this article.
 
@@ -53,10 +53,10 @@ def aMethodWithGivenArg[T](using instance: T) = instance
 
 This is pretty much the definition of the built-in `summon[T]` method in Scala 3. If you call `aMethodWithGivenArg[Int]`, the compiler will look for a `given` value of type `Int` in the following places:
 
-- the scope where we defined the method
-- the scope of all imports
-- the scope of the companion object of the class where this method is defined (if we defined it in a class)
-- the scope of all companions of the types involved in the call: in this case, the `Int` object
+- The scope where we defined the method
+- The scope of all imports
+- The scope of the companion object of the class where this method is defined (if we defined it in a class)
+- The scope of all companions of the types involved in the call: in this case, the `Int` object
 
 So if we define
 
@@ -78,10 +78,10 @@ def aMethodWithImplicitArg[T](implicit instance: T) = instance
 
 This is exactly the definition of the built-in `implicitly[T]` method in Scala 2 (also available in Scala 3 while implicits are still here). If you call `aMethodWithImplicitArg[Int]`, the compiler will run the exact same search for an `implicit Int`:
 
-- scope of class/object of the method
-- scope of imports
-- scope of companion
-- scope of ALL companions of the types involved, in this case the `Int` object
+- Scope of class/object of the method
+- Scope of imports
+- Scope of companion
+- Scope of ALL companions of the types involved, in this case the `Int` object
 
 So as you can see, the mechanism is identical: if we define an implicit
 

@@ -53,7 +53,7 @@ trait Functor[C[_]] {
 The definition is pretty compact, so let's read it slowly:
 
 - `Functor` takes a type argument `C` (for Container) which is itself generic &mdash; think Lists, Options and Try as examples
-- the `map` method takes an initial container `C[A]` and a transformation function `A => B`, and we obtain a new container `C[B]`
+- The `map` method takes an initial container `C[A]` and a transformation function `A => B`, and we obtain a new container `C[B]`
 
 ## 3. Transferring the `map` Concept
 

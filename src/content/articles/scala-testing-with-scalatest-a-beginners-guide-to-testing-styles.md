@@ -45,8 +45,8 @@ Because adding and subtracting are simple, we'll focus on a few examples related
 
 This style of testing is straightforward. Each test comes with its own description and its own body. This is the style of JUnit, MUnit or other unit testing frameworks that use this same structure. Here is an example of a suite that tests for
 
-- multiplication with 0 should always be 0
-- division by 0 should throw a math error
+- Multiplication with 0 should always be 0
+- Division by 0 should throw a math error
 
 ```scala
 import org.scalatest.funsuite.AnyFunSuite
@@ -73,8 +73,8 @@ In ScalaTest, `FunSuites` are used for JUnit-like, independent tests.
 
 This style of testing is focused on testing specifications, i.e. behaviors. It still doesn't use the full expressiveness of Scala, but now we have more powerful testing structures:
 
-- we can nest tests into one another
-- we can add pinpoint descriptions to particular tests
+- We can nest tests into one another
+- We can add pinpoint descriptions to particular tests
 
 ```scala
 import org.scalatest.funspec.AnyFunSpec

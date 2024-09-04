@@ -18,9 +18,9 @@ This post was written for Scala 3, but the concepts work almost identically for 
 
 In order to describe the Free monad, we need to understand what a Monad is. We've already written several approaches to it:
 
-- [a way to avoid cluttered code](/articles/an-introduction-to-monads-in-scala)
-- [a type describing sequential computations](/articles/a-fresh-perspective-on-monads)
-- [a monoid in the category of endofunctors](/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala)
+- [A way to avoid cluttered code](/articles/an-introduction-to-monads-in-scala)
+- [A type describing sequential computations](/articles/a-fresh-perspective-on-monads)
+- [A monoid in the category of endofunctors](/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala)
 
 I encourage you to read at least the first two approaches. Monads are very powerful and form the building blocks for every useful piece of purely functional code. We describe monads as a type class, which takes a generic type argument which is itself generic (a higher-kinded type):
 
@@ -33,17 +33,17 @@ trait Monad[M[_]] {
 
 Monads describe, in essence, two fundamental operations:
 
-- a way to wrap a plain value into a "wrapper" type
-- a way to obtain a wrapper type from another, through a specific kind of transformation function
+- A way to wrap a plain value into a "wrapper" type
+- A way to obtain a wrapper type from another, through a specific kind of transformation function
 
 Just from these two operations, we can describe an incredible variety of computations:
 
-- sequential collections, e.g. lists
-- potentially absent values, i.e. Options
-- computations that might fail, i.e. Try
-- potentially failed computations with an error type of our choosing, e.g. Either
-- computations that might perform side effects, i.e. IO from [Cats Effect](/courses/cats-effect)
-- combinations thereof, e.g. ZIO, which take dependencies, can fail, and can perform side effects in the same computation
+- Sequential collections, e.g. lists
+- Potentially absent values, i.e. Options
+- Computations that might fail, i.e. Try
+- Potentially failed computations with an error type of our choosing, e.g. Either
+- Computations that might perform side effects, i.e. IO from [Cats Effect](/courses/cats-effect)
+- Combinations thereof, e.g. ZIO, which take dependencies, can fail, and can perform side effects in the same computation
 
 The Free monad describes a similar "sequential" capability for a wrapper type _and for a well-defined value type_.
 
@@ -121,10 +121,10 @@ This suite of operations (some of which can wrap others in real libraries) bears
 
 It's easy to imagine an example of an interaction with such a database:
 
-- read something from a key, like the name of a person
-- change it, e.g. run a `toUppercase` on it
-- associate this new value to another key
-- delete the old key
+- Read something from a key, like the name of a person
+- Change it, e.g. run a `toUppercase` on it
+- Associate this new value to another key
+- Delete the old key
 
 This is a sequential suite of operations. Because it's sequential, a monadic data type to describe all of these operations can prove very useful. However, instead of writing a type class instance for `Monad[DBOps]` and following the [tagless-final](/articles/tagless-final-in-scala) approach, we're going to use a Free monad:
 
@@ -167,12 +167,12 @@ We need something to _interpret_ this program.
 
 What does "interpretation" even mean? Interpreting a program means transforming this abstract program written in terms of the Free monad into another data type that actually performs the computations when evaluated. A good candidate for such a data structure is, for example, the Cats Effect IO. However, we can pick another data type of our choosing, with the meaning of
 
-- potentially absent values: Option
-- potentially failed computations: Try
-- potentially failed computations with an error type of our choosing: Either
-- computations that can perform side effects: IO
-- combinations of the above: ZIO
-- aggregating values: List
+- Potentially absent values: Option
+- Potentially failed computations: Try
+- Potentially failed computations with an error type of our choosing: Either
+- Computations that can perform side effects: IO
+- Combinations of the above: ZIO
+- Aggregating values: List
 
 This is why the Free monad has another operation that can "evaluate" an instance of Free to one of these data types. The operation is called `foldMap` and looks like this:
 
@@ -293,15 +293,15 @@ Why have we gone all this way just to insert a bunch of data into a database?
 
 The Free monad is a pattern which allows us to separate
 
-- the description of fundamental operations
-- the business logic of our application
-- the evaluation of that business logic
+- The description of fundamental operations
+- The business logic of our application
+- The evaluation of that business logic
 
 In other words, our abstract program is what matters for our application/business logic. We can keep that fixed, and give it different interpreters depending on how our requirements change &mdash; e.g. perhaps we want the program to be evaluated asynchronously &mdash; or we can do the reverse. This makes it very easy to maintain, because we can work independently on either
 
-- the business logic, while keeping interpreters fixed
-- the interpreters, while keeping the business logic fixed
-- the fundamental operations and the interpreter(s), while keeping the business logic fixed
+- The business logic, while keeping interpreters fixed
+- The interpreters, while keeping the business logic fixed
+- The fundamental operations and the interpreter(s), while keeping the business logic fixed
 
 So notice the **flexibility** we get by choosing to work on a piece of the system without affecting the others. Another benefit of this approach is **testability**, because we can always supply a "testing" monad to evaluate the program, make assertions and ensure the business logic is correct, while the interpreter itself can be independently tested.
 
@@ -324,9 +324,9 @@ object Free {
 
 We're going to write actual instances of Free as case classes for all fundamental operations:
 
-- pure
-- flatMap
-- liftM
+- `pure`
+- `flatMap`
+- `liftM`
 
 ```scala
 object Free {

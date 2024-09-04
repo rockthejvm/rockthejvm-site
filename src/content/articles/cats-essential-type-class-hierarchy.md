@@ -47,10 +47,10 @@ trait Semigroup[A] {
 
 We can use Semigroups whenever we write generic code and operate with values that need to be combined:
 
-- numbers
-- strings
-- shopping carts in an online store
-- permissions in a data repository
+- Numbers
+- Strings
+- Shopping carts in an online store
+- Permissions in a data repository
 
 Monoids are a special kind of semigroups, where besides the combination function, we also have a "neutral element" of that combination function. We call that value `empty`, or "zero" (with the proper quotes because zero has a special meaning in math, you know). The property is that
 
@@ -89,8 +89,8 @@ Monads are the sweet spot of pure FP. They encapsulate chainable computations, a
 
 For those of you who have read about Cats and experimented with monads, you know that monads have two capabilities:
 
-- the capability to "lift" a plain value into a monadic type, an operation known as `pure`
-- the capability to "chain" computations of monadic types, an operation known as `flatMap` or `bind`
+- The capability to "lift" a plain value into a monadic type, an operation known as `pure`
+- The capability to "chain" computations of monadic types, an operation known as `flatMap` or `bind`
 
 The monad trait can look something like this:
 

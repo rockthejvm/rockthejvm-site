@@ -97,8 +97,8 @@ trait ItemNothing extends ItemLike {
 
 These type bounds don't really make sense, because
 
-- there's no supertype of `Any`
-- there's no subtype of `Nothing`
+- There's no supertype of `Any`
+- There's no subtype of `Nothing`
 
 However, the compiler allows setting these bounds (they're called "bad bounds" for obvious reasons) because the compiler allows setting bounds with respect to any type, as long as the bounds do reconcile in a concrete class. Of course, there is no class that is able to extend both types:
 

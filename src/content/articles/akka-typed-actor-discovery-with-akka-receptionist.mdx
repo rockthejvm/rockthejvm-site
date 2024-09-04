@@ -8,11 +8,21 @@ updatedDate: 2024-09-06
 videoId: iuq-JBUiLpI
 ---
 
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
+## Introduction
+
 In this article, we're going to take a look at Akka Discovery, a feature that allows us to locate actors that we normally don't have access to, and that no other actors can notify us for.
 
-We talk about discovery in the [Akka Typed](/courses/akka-pekko-essentials) course, in the context of routers and work distribution. It's a pretty powerful technique. This article assumes some basic familiarity with typed actors.
+<TipAdmonition>
+    We talk about discovery in the [Akka Typed](/courses/akka-pekko-essentials) course, in the context of routers and work distribution. It's a pretty powerful technique.
+</TipAdmonition>
 
-## Introduction and Setup
+## Prerequisites
+
+This article assumes some basic familiarity with typed actors.
+
+## Setup
 
 We'll use the regular Akka Typed Actors library, so in your Scala project, add the following to your `build.sbt`:
 
@@ -25,25 +35,25 @@ libraryDependencies ++= Seq(
 
 We assume some basics with Akka actors, but in a nutshell:
 
-- our application is organized in terms of independent, thread-safe entities called _actors_
-- we make our components/actors interact with each other by passing messages (asynchronously)
-- our actors are organized in a tree-like hierarchy, where each actor is responsible for its direct children
-- our actors can only receive a certain type of messages
+- Our application is organized in terms of independent, thread-safe entities called _actors_
+- We make our components/actors interact with each other by passing messages (asynchronously)
+- Our actors are organized in a tree-like hierarchy, where each actor is responsible for its direct children
+- Our actors can only receive a certain type of messages
 
 Having worked with actors, you've probably needed to pass a reference belonging to one part of the hierarchy, to another part of the hierarchy, so that these actors can communicate and exchange data. The trouble is that managing such exchanges needlessly complicates the logic of both hierarchies/departments and mixes in business logic with management logic.
 
 Akka Discovery is a feature that allows us to find actors that we cannot otherwise have access to. Its use cases include
 
-- the elimination of the above example scenario, allowing us to fully focus on business logic
-- locating an actor that we cannot possibly reach otherwise
-- notifications of actor reference changes
+- The elimination of the above example scenario, allowing us to fully focus on business logic
+- Locating an actor that we cannot possibly reach otherwise
+- Notifications of actor reference changes
 
 For this article, we'll imagine a fictitious IOT application, where we have
 
-- a bunch of sensors as independent actors
-- a sensor controller in charge of the sensors, which sends heartbeat messages to the sensors
-- a data collector/aggregator, that receives data from the sensors
-- a guardian actor in charge of everyone
+- A bunch of sensors as independent actors
+- A sensor controller in charge of the sensors, which sends heartbeat messages to the sensors
+- A data collector/aggregator, that receives data from the sensors
+- A guardian actor in charge of everyone
 
 Whenever the sensor controller sends the heartbeat message, the sensors must all send their readings to the data aggregator. At all times, the sensors must be running, but the data aggregator might change/be swapped in the meantime. Now, for some reason (logic too complicated, data privacy, impracticability etc), the guardian actor cannot directly communicate to the sensors to update them of the data aggregator change. We need to notify them in some other way.
 
@@ -111,13 +121,13 @@ def main(args: Array[String]): Unit = {
 
 The application should work as follows:
 
-- upon starting, the sensor controller would send heartbeats every second
-- with every heartbeat, the sensors would (ideally) send their sensor readings containing their id and the reading (a Double value) to the data aggregator
-- upon receiving a `SensorReading`, the data aggregator would display the latest data; in real life, this would be in a graph, or feeding in a data streaming application like Flink or Spark Streaming, but here we'll simply log the data
-- ideally, the sensors can "magically" find the data aggregator to send data to, published by the guardian actor
-- after 10 seconds of work, the guardian transparently swaps the data aggregator with a new one
-- the sensors will continue to work and push the data to the new aggregator, again, by magically being notified that the aggregator's location was changed
-- after 20 seconds, the entire application will be terminated
+- Upon starting, the sensor controller would send heartbeats every second
+- With every heartbeat, the sensors would (ideally) send their sensor readings containing their id and the reading (a Double value) to the data aggregator
+- Upon receiving a `SensorReading`, the data aggregator would display the latest data; in real life, this would be in a graph, or feeding in a data streaming application like Flink or Spark Streaming, but here we'll simply log the data
+- Ideally, the sensors can "magically" find the data aggregator to send data to, published by the guardian actor
+- After 10 seconds of work, the guardian transparently swaps the data aggregator with a new one
+- The sensors will continue to work and push the data to the new aggregator, again, by magically being notified that the aggregator's location was changed
+- After 20 seconds, the entire application will be terminated
 
 The "magical" finding of the aggregator, as well as the notification mechanism, are the two most important components in this application.
 
@@ -164,8 +174,8 @@ The protocol handled by the receptionist is pretty rich, and you can be notified
 
 The other side is a bit more involved, because we can fetch information from the receptionist in multiple ways:
 
-- we can query the receptionist and listen back for one response
-- we can _subscribe_ for updates and receive a message _every time_ the association with a `ServiceKey` was changed
+- We can query the receptionist and listen back for one response
+- We can _subscribe_ for updates and receive a message _every time_ the association with a `ServiceKey` was changed
 
 We'll need to work on the `apply()` method of the `Sensor` object:
 

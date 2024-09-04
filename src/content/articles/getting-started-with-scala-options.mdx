@@ -68,8 +68,8 @@ Let's see some operators on Options.
 
 First, let's talk about the possible cases of an Option:
 
-- an empty Option containing no value
-- an Option containing a single value
+- An empty Option containing no value
+- An Option containing a single value
 
 We can build these cases explicitly:
 
@@ -82,8 +82,8 @@ A very interesting case is when we use `Option(null)`, which gives back a `None`
 
 Much like lists, Options can be transformed with `map`, `flatMap` and `filter`. The `map` function transforms an Option by returning a new Option containing
 
-- nothing, if the original Option was empty
-- the transformed element of the original Option contained a value
+- Nothing, if the original Option was empty
+- The transformed element of the original Option contained a value
 
 ```scala
 val aTransformedOption: Option[Int] = anOption.map(x => x * 10) // Some(420)
@@ -179,9 +179,9 @@ val finalValue = betterCombinedResult.getOrElse("ERROR")
 
 The for-comprehension, because it's expressed in terms of `map` and `flatMap`, can take care automatically to check whether the Options inside are empty or not, and return the appropriate value, without us checking everything ourselves. This code offers many benefits:
 
-- much easier to understand: combine 2 Options if they're non-empty, return empty otherwise
-- easier to maintain: can easily add another Option there without blowing up the if-else conditions
-- much shorter, saving us time and (mental) space
+- Much easier to understand: combine 2 Options if they're non-empty, return empty otherwise
+- Easier to maintain: can easily add another Option there without blowing up the if-else conditions
+- Much shorter, saving us time and (mental) space
 
 With this in mind, we'll write a first piece of good practice:
 
