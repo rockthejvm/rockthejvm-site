@@ -11,6 +11,10 @@ updatedDate: 2024-09-06
 
 This article is for people who are getting familiar with Akka Typed actors. You don't have to be an expert &mdash; that would certainly be a plus &mdash; but some familiarity with actor concepts is assumed.
 
+## Introduction
+
+This article will explore how the pipe pattern can prevent an anti-pattern when handling `Future`s inside an actor's scope.
+
 ## Setup
 
 We assume you have Akka Typed in your project. If not, just create a new sbt project and add the following to your build.sbt:

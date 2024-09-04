@@ -8,11 +8,17 @@ title: ADTs (Algebraic Data Types) in Scala
 updatedDate: 2024-09-06
 ---
 
-> A small note: this is the first guest post on the blog! This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming!
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+
+## Introduction
 
 Every developer using Scala meets the acronym ADT sooner or later. But, what are Algebraic Data Types? Why are they so useful? In this article, we will try to answer all of your questions about ADT.
 
-## Introduction to Algebraic Data Types
+<NoteAdmonition>
+    This is the first guest post on the blog! This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming!
+</NoteAdmonition>
+
+## Background
 
 As the name suggested, ADTs are a data type. Hence, we can use them to structure the data used by a program. We can define ADT as a pattern because they give us a standard solution to modeling data.
 
@@ -21,6 +27,8 @@ The ideas behind the ADTs come from the Haskell programming language. As we shou
 Though ADTs are often associated with functional programming, they are not exclusive to this paradigm. Hence, many Scala libraries use them proficiently. The Akka library is one of them.
 
 So, let's have a deep dive into the world of ADTs.
+
+## Types of Algebraic Data Types
 
 ### Sum Types
 
