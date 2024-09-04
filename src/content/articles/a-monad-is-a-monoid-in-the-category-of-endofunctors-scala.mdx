@@ -7,6 +7,10 @@ title: "A Monad Is a Monoid in the Category of Endofunctors: Scala Explanation"
 updatedDate: 2024-09-06
 ---
 
+import { Tweet } from "astro-embed";
+
+## Introduction
+
 This article will attempt to demystify one of the most condensed and convoluted pieces of abstract math to ever land in functional programming.
 
 The description of monads as "just monoids in the category of endofunctors" is commonly attributed the book [Categories for the Working Mathematician](https://www.amazon.co.uk/Categories-Working-Mathematician-Graduate-Mathematics/dp/0387984038), and then appeared in many other places. Some people [made some fun of it](http://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html). There were quite a few articles on the topic, most littered with mathematical jargon, and almost none in Scala.
@@ -22,7 +26,10 @@ So this article is for
 1. Curious people wanting to learn what's with this "monoids in the category of endofunctors" psychobabble, without _using_ any psychobabble.
 1. Software engineers with a long-term vision for their skills and future.
 
-If you want the shortest version possible, check out this [Twitter thread](https://twitter.com/rockthejvm/status/1379695298365300736)
+If you want the shortest version possible, check out this Twitter thread:
+
+<Tweet id="https://x.com/rockthejvm/status/1379695298365300736" />
+<script async src="https://platform.twitter.com/widgets.js"></script>
 
 ## Background
 
@@ -198,7 +205,7 @@ trait MonoidInCategoryK2[T[_], ~>[_[_], _[_]], U[_], P[_]]
 
 Just take a look at that higher-kinded `~>` type and figure out if it matches the structure of FunctorNatTrans. Once it does, carry on with the article. Seed was planted.
 
-### The Id
+### The ID
 
 Take a really hard look at this type:
 
