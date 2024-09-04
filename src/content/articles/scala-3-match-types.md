@@ -7,6 +7,8 @@ title: "Scala 3: Match Types Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
+## Who This Article Is For
+
 This article is for the Scala programmers who are curious about the next features of Scala 3. Familiarity with some of the current Scala 2 features (e.g. generics) is assumed. This article will also involve a bit of type-level nuance, so answer to questions like "how is this useful for me?" will be more subtle.
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
