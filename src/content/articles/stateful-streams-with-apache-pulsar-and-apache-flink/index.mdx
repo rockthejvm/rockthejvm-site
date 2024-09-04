@@ -201,7 +201,9 @@ docker exec -it pulsar bin/pulsar-admin topics get-retention persistent://public
 
 ```
 
-**Note:** We use partitioned topics in order to be able to increase the number of partitions later, in case we need to scale. Otherwise, if we had an unpartitioned topic we would have to create a new partitioned topic and transfer all the data to this new topic.
+<NoteAdmonition>
+    We use partitioned topics in order to be able to increase the number of partitions later, in case we need to scale. Otherwise, if we had an unpartitioned topic we would have to create a new partitioned topic and transfer all the data to this new topic.
+</NoteAdmonition>
 
 ## Reading Data From Pulsar
 
@@ -444,7 +446,9 @@ Event Time with be tracked by the creation time within the `Order` event.
 
 If you need to learn about watermarks or event time/processing time, Rock the JVM's [Apache Flink course](/courses/flink) goes into great detail, as they are critical topics for stateful distributed data processing.
 
-Note that while the users and items streams already have data written to Pulsar, the orders stream does not - we will trigger the data flow in Flink by sending orders data to Pulsar from a different process (e.g. in the IDE's local run command) after we start the Flink application.
+<NoteAdmonition>
+    While the users and items streams already have data written to Pulsar, the orders stream does not - we will trigger the data flow in Flink by sending orders data to Pulsar from a different process (e.g. in the IDE's local run command) after we start the Flink application.
+</NoteAdmonition>
 
 The last step is to actually package and deploy our code on our cluster.
 To make it easier we can use the helper script <a href={`${
@@ -612,9 +616,9 @@ public class UserLookupHandler extends CoProcessFunction<Order, User, OrderWithU
 
 We extend the `CoProcessFunction` that processes elements of two input streams (here users and orders) and produces a single output (here `OrderWithUserData`).
 The function will be called for every event coming from each input streams, and can produce zero or more output elements.
-Note that for each user record we receive we use the `Value<User>` state in order to store it.
-Then, for every incoming order to try and "query" this state, and if there is a matching key, we enrich the order event.
-(we'll handle missing state later).
+
+Notice that for each user record we receive we use the `Value<User>` state in order to store it. Then, for every incoming order to try and "query" this state, and if there is a matching key, we enrich the order event. (we'll handle missing state later).
+
 The implementation for enriching with `Item` values is similar:
 
 ```java
@@ -788,9 +792,13 @@ We also need to modify our main `EnrichmentStream` class to support Side Outputs
 
 Here we create two side outputs - one for missing user events and one for item events. Then we extract the side outputs from our output stream and print it.
 
-**Note:** It's also worth highlighting the use of `name` and `uid` for each operator.
-Specifying names for your operators can be considered as _best practice_ for your Flink Job.
-This is useful to more easily identify the operators in the Flink UI. This also comes in handy when you need to use _savepoints_ to resume your job, after a code modification or scaling requirement (more on that later).
+<NoteAdmonition>
+    It's also worth highlighting the use of `name` and `uid` for each operator.
+
+    Specifying names for your operators can be considered as _best practice_ for your Flink Job.
+
+    This is useful to more easily identify the operators in the Flink UI. This also comes in handy when you need to use _savepoints_ to resume your job, after a code modification or scaling requirement (more on that later).
+</NoteAdmonition>
 
 You can find the full implementation under the **v3** package <a href={`${
 // @ts-ignore

@@ -987,7 +987,7 @@ To do this we remove the user from the current room by calling `removeFromCurren
 
 To remove a user from the current room, we'll need to remove the user from the Redis `room:<roomid>` set and remove the entry from the `userroomid` hash.
 
-Note that in Redis when the last member is deleted from a set, the entire set is deleted, therefore if this occurs, we'll also need to update the `rooms` hash:
+In Redis, when the last member is deleted from a set, the entire set is deleted, therefore if this occurs, we'll also need to update the `rooms` hash:
 
 ```scala
 new RedisProtocol[F] {

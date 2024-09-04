@@ -741,7 +741,7 @@ Processing state of operator: job_848920cbd5178c2a525827b244d1e530_op_StreamingJ
 You can see that we have two [column families](https://github.com/EighteenZi/rocksdb_wiki/blob/master/Column-Families.md) - one for the left side of the join (sensor readings) and one for the right (sensor information).
 Notice for example for the `right-records` since we have _10 sensor ids_ these keys are distributed among the three tasks.
 
-Also note as discussed previously since there are no time constraints you will notice the state growing indefinitely (unless `table.exec.state.ttl` is configured).
+And as discussed previously: since there are no time constraints you will notice the state growing indefinitely (unless `table.exec.state.ttl` is configured).
 
 I hope I sparked some interest for those curious that want to dive deeper themselves.
 In this article though we will conclude with this high level overview.

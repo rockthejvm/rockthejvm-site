@@ -365,7 +365,7 @@ val funcPass: String => IO[Option[(User, String)]] = (usr_name: String) =>
     }
 ```
 
-The function `funcPass()` receives the username, which it matches to find the correct `User`. The resulting value `IO[Option[User,String]]` is also checked to contain to correct password. It's important to note that the `funcPass()` function can receive either a plaintext or hashed password.
+The function `funcPass()` receives the username, which it matches to find the correct `User`. The resulting value `IO[Option[User,String]]` is also checked to contain to correct password. `funcPass()` can receive either a plaintext or hashed password.
 
 For this example, we decided to use a hashed password. The http4s digest middleware will check for an `MD5` hashed password in the form `MD5(username:realm:password)` and matches it against the credentials passed in the request. We use the `Md5HashedAuthStore.precomputeHash[IO]()` function to create our hashed value, it takes the `username`, `realm`, and `password` as arguments and returns an `IO[String]`.
 
@@ -993,7 +993,7 @@ curl -vv -H "Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiO
 Welcome, JohnDoe⏎
 ```
 
-We receive the expected welcome message `Welcome, JohnDoe⏎ `, note that the JWT token is passed as a `Bearer` token using the `Authorization` header.
+We receive the expected welcome message `Welcome, JohnDoe⏎ `, notice that the JWT token is passed as a `Bearer` token using the `Authorization` header.
 
 In case we receive a wrong token, the server will respond with a `403 Forbidden` status code and an `Invalid access token` message.
 

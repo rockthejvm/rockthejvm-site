@@ -653,7 +653,7 @@ class JobsService(private val jobs: Jobs, private val converter: CurrencyConvert
 }
 ```
 
-Working with nullable types this way becomes very easy since we don't have to deal with `?.` notation and Elvis operators. Note that we didn't need to use the `?.` operator to access the `role` property of the job since the nullability is expressed by the `NullableRaise` context.
+Working with nullable types this way becomes very easy since we don't have to deal with `?.` notation and Elvis operators. Notice how we didn't need to use the `?.` operator to access the `role` property of the job since the nullability is expressed by the `NullableRaise` context.
 
 As we did for the previous wrapper types, we can revert the conversion from a nullable object to a `NullableRaise` context using the `bind` function:
 

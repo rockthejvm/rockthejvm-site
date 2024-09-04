@@ -11,6 +11,7 @@ updatedDate: 2024-09-06
 
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Introduction
 
@@ -198,7 +199,9 @@ case class UserDB(username: String, email: String) {
 The `UserDB` case class will hold a `username` and `email`. The case class also contains a `counter` variable, `getCounter()`, and `incrementCounter()` methods that we will use in the case of `Hotp`.
 It also contains the user's secret value, stored in `encryptedSecret`, `isSecretUpdated`, a boolean variable showing if the secret value is updated or not, a `getSecret()`, and `updateSecret()` function.
 
-**Note that secret values should not be stored in plain text but should be encrypted for security reasons.**
+<WarningAdmonition>
+    Secret values should not be stored in plain text but should be encrypted for security reasons.
+</WarningAdmonition>
 
 Let's create a Generator.scala file and add the following code:
 
@@ -364,7 +367,11 @@ class OtpService(generator: Generator, user: UserDB) {
 }
 ```
 
-The `hotpGen()` and `totpGen()` are instances of `HOTPGenerator` and `TOTPGenerator` respectively. Note that Google Authenticator displays a token length of 6 therefore we supply the same value to our function implementations. We also use the same algorithm type, `SHA256` that we defined in our `URI` string. They are both created as `private` so that they are only used within this class.
+The `hotpGen()` and `totpGen()` are instances of `HOTPGenerator` and `TOTPGenerator` respectively.
+
+<NoteAdmonition>
+    Google Authenticator displays a token length of 6 therefore we supply the same value to our function implementations. We also use the same algorithm type, `SHA256` that we defined in our `URI` string. They are both created as `private` so that they are only used within this class.
+</NoteAdmonition>
 
 ```scala
 import cats.effect.IO
@@ -1058,9 +1065,11 @@ Repeat the same process for `Totp` by making the following change to OtpAuth.sca
 val tokenService = new OtpInteractiveService("Totp", user)
 ```
 
-Note that for `Totp` to work, **make sure your phone and computer date and time down to the seconds are the same and current**. You can use the network time for both devices, this should give you the same results.
+<WarningAdmonition>
+    For `Totp` to work, **make sure your phone and computer date and time down to the seconds are the same and current**. You can use the network time for both devices, this should give you the same results.
 
-One may also limit the time the user takes to submit the code as an extra security measure for the case of `Hotp`.
+    One may also limit the time the user takes to submit the code as an extra security measure for the case of `Hotp`.
+</WarningAdmonition>
 
 ## Conclusion
 

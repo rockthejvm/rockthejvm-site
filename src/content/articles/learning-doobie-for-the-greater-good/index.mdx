@@ -207,7 +207,9 @@ val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
 
 This approach is the most straightforward, but it is not the most efficient. The reason is that the JDBC driver manager will try to load the driver for each connection, which can be pretty expensive. Moreover, the driver manager has no upper bound on the number of connections it will create. However, while experimenting and testing doobie features, this approach works quite well.
 
-As we said in the introduction, doobie is just a wrapper over the JDBC specification in Java, and it uses the Cats Effect library under the hood. Since **JDBC provides only a blocking interface** to interact with SQL databases, we should be careful to also use the blocking facilities available in Cats Effect. Fortunately, **doobie takes care of using the `Blocking` context for us**:
+<WarningAdmonition>
+    As we said in the introduction, doobie is just a wrapper over the JDBC specification in Java, and it uses the Cats Effect library under the hood. Since **JDBC provides only a blocking interface** to interact with SQL databases, we should be careful to also use the blocking facilities available in Cats Effect. Fortunately, **doobie takes care of using the `Blocking` context for us**:
+</WarningAdmonition>
 
 ```scala
 // doobie library's code
@@ -542,7 +544,9 @@ def saveActorAndGetIdProgram(name: String): IO[Int] = {
 }
 ```
 
-Be careful: Only some databases natively implement this feature, such as H2 or Postgres. Moreover, the method `withUniqueGeneratedKeys` will fail if the number of modified rows is more than one.
+<WarningAdmonition>
+    Only some databases natively implement this feature, such as H2 or Postgres. Moreover, the method `withUniqueGeneratedKeys` will fail if the number of modified rows is more than one.
+</WarningAdmonition>
 
 Now that we know how to insert and retrieve information from a table, we can create a program that both inserts and retrieves an actor in sequence:
 
@@ -938,7 +942,7 @@ val postgres: Resource[IO, HikariTransactor[IO]] = for {
 } yield xa
 ```
 
-Then, we can define the last part of the tagless final approach: a _program_ using the interpreter. For example, let's define a program that inserts the director of Jurassic Park into the database and then retrieve it. Note how we're creating the `Directors[F]` instance, by calling `use` on the postgres resource, thereby reusing the transactor on all queries.
+Then, we can define the last part of the tagless final approach: a _program_ using the interpreter. For example, let's define a program that inserts the director of Jurassic Park into the database and then retrieve it. Notice how we're creating the `Directors[F]` instance, by calling `use` on the postgres resource, thereby reusing the transactor on all queries.
 
 ```scala
 val program: IO[Unit] = postgres.use { xa =>
