@@ -2039,6 +2039,7 @@ scala.compiletime.error
 [Described as](https://docs.scala-lang.org/scala3/reference/metaprogramming/compiletime-ops.html#error-1):
 
 > The `error` method is used to produce user-defined compile errors during inline expansion.
+>
 > If an inline expansion results in a call `error(msgStr)` the compiler produces an error message containing the given `msgStr`.
 
 If we try this in the REPL, we can trigger a custom error message:

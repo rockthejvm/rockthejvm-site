@@ -9,13 +9,20 @@ updatedDate: 2024-09-06
 videoId: TVdFAftHzPE
 ---
 
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
+## Introduction
+
 This article will explore a powerful feature of the Kotlin programming language called context receivers. If you're a Kotlin developer looking to write cleaner and more expressive code, context receivers are a tool you'll want in your toolbox.
 
 In Kotlin, context receivers provide a convenient way to access functions and properties of multiple receivers within a specific scope. Whether you're working with interfaces, classes, or type classes, context receivers allow you to streamline your code and enhance its maintainability.
 
 We'll dive deeply into context receivers, starting with their purpose and benefits. We'll explore practical examples and demonstrate how context receivers can make your Kotlin code more expressive and effective. So let's get started and unlock the full potential of context receivers in Kotlin!
 
-> Context Receivers are an experimental feature and requires good knowledge of Kotlin. If you need to get those skills **quickly** and with thousands of lines of code and a project under your belt, we think you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+<TipAdmonition>
+    Context Receivers are an experimental feature and requires good knowledge of Kotlin. If you need to get those skills **quickly** and with thousands of lines of code and a project under your belt, we think you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+</TipAdmonition>
 
 ## 1. Setup
 
@@ -412,7 +419,9 @@ However, the notation is very verbose and makes the code less readable. Moreover
 
 In Scala, we had a very close problem with the [Tagless Final encoding](/articles/tagless-final-in-scala) pattern.
 
-> If you don't know Scala or Tagless Final, just skip the Scala code - it's a small comparison.
+<NoteAdmonition>
+    If you don't know Scala or Tagless Final, just skip the Scala code - it's a small comparison.
+</NoteAdmonition>
 
 In the past, many Scala developers started to use the pattern to implement dependency injection. Using a similar approach to context receivers, Scala allows us to define type constraints in the type parameters definition. The `JobController` class would look like the following in Scala:
 

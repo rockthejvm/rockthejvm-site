@@ -8,10 +8,20 @@ title: Using Scala as a Junior Developer
 updatedDate: 2024-09-06
 ---
 
-> Hey everyone, Daniel here. Lucas' story is shared by lots of beginner Scala developers, which is why I wanted to post it here on the blog. I've watched thousands of developers learn Scala from scratch, and, like Lucas, they love it!
->
-> If you want to learn Scala well **and** fast, take a look at my [Scala Essentials](/courses/scala-essentials) course at Rock the JVM.
-> Enjoy!
+import NoteAdmonition from "@components/admonitions/TipAdmonition.astro"
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro"
+
+## Introduction
+
+This article is about my journey with Scala, from the first time I heard about it to my current position as a junior developer.
+
+<NoteAdmonition>
+    Hey everyone, Daniel here. Lucas' story is shared by lots of beginner Scala developers, which is why I wanted to post it here on the blog. I've watched thousands of developers learn Scala from scratch, and, like Lucas, they love it!
+</NoteAdmonition>
+
+<TipAdmonition>
+    If you want to learn Scala well **and** fast, take a look at my [Scala Essentials](/courses/scala-essentials) course at Rock the JVM.
+</TipAdmonition>
 
 ## 1. Why Scala?
 
@@ -363,10 +373,10 @@ This is possible because the return type of the function of `flatMap` is constra
 
 I had a hard time understanding variance at first because the first time I encountered it was when I got an error like `[...] is in covariance position` and had absolutely no idea what it meant. After a few researches, I understood the reason behind it. Coming from OOP, covariance felt like an extension of inheritance (with some constraints to guarantee type-safety), so it was okay. But contravariance is like "reverse inheritance," which was a disturbing concept at first (I liked the example of `Animal` and `Vet` from the courses).
 
-Given `Type[_]` a generic type and $<:$ the 'isSubtypeOf' operation, the 3 types of variances can be summarized like this:
+Given `Type[_]` a generic type and $&lt;:$ the 'isSubtypeOf' operation, the 3 types of variances can be summarized like this:
 
-- Covariance: $\forall \{A, B\},\; A <: B \Leftrightarrow Type[A] <: Type[B]$
-- Contravariance: $\forall \{A, B\},\; A <: B \Leftrightarrow Type[B] <: Type[A]$
+- Covariance: $\forall \{A, B\},\; A &lt;: B \Leftrightarrow Type[A] &lt;: Type[B]$
+- Contravariance: $\forall \{A, B\},\; A &lt;: B \Leftrightarrow Type[B] &lt;: Type[A]$
 - Invariance: $\forall \{A, B\},\; A = B \Leftrightarrow Type[A] = Type[B]$
 
 There are some constraints to guarantee type-safety, but the idea is here

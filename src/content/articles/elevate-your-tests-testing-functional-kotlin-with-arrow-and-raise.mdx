@@ -278,7 +278,7 @@ We're passing the port directly as an input parameter of the factory function `c
 
 As you might expect, we need to change our tests too. When creating the use case instance under test, we must understand what to pass to the `createPortfolioUseCase` function. As we said, we have at least two choices. The first one is called fake objects. Martin Fowler defines a fake object as follows (see the articles [Test Double](https://martinfowler.com/bliki/TestDouble.html) for further details):
 
-> Fake objects actually have working implementations, but they usually take some shortcut, which makes them unsuitable for production.
+> **Fake** objects actually have working implementations, but usually take some shortcut which makes them not suitable for production.
 
 In our case, we need to implement the port for our test. For example, we want to implement a test verifying the use case when the user already has a portfolio. We can implement the port as follows:
 
@@ -312,6 +312,7 @@ So, we didn't find many concerns about using fake objects. The only annoying thi
 We start again from the definition of mocks given by Martin Fowler to introduce stubs and mocks:
 
 > **Stubs** provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test.
+>
 > **Mocks** are pre-programmed with expectations which form a specification of the calls they are expected to receive. They can throw an exception if they receive a call they don't expect and are checked during verification to ensure they got all the calls they were expecting.
 
 For the sake of simplicity, we'll call both test doubles as _mocks_. So, **mocks are partial implementations of an interface that we can program to respond to a given set of inputs (signals), and we can verify that they received the expected signals**.
