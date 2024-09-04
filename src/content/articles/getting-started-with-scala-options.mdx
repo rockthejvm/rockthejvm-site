@@ -185,7 +185,7 @@ The for-comprehension, because it's expressed in terms of `map` and `flatMap`, c
 
 With this in mind, we'll write a first piece of good practice:
 
-> When you have APIs that risk returning nulls, wrap them in Options when you use them. Better yet, if you can change the API, return Option[YourType] instead.
+**When you have APIs that risk returning nulls, wrap them in Options when you use them. Better yet, if you can change the API, return `Option[YourType]` instead.**
 
 ## 4. Resisting the Temptation to Retrieve Option Values
 
@@ -215,7 +215,7 @@ Notice something? This is just as bad as dealing with nulls in the first place!
 
 So here's the second piece of advice:
 
-> Resist the temptation to "get" the values inside your Options. Rather, use transformations like `map`, `flatMap`, `filter`, `orElse`, etc.
+**Resist the temptation to "get" the values inside your Options. Rather, use transformations like `map`, `flatMap`, `filter`, `orElse`, etc.**
 
 ## 5. The Option Mistake of Doom
 
@@ -231,7 +231,7 @@ on the grounds that you're "sure" the expression will never return null, you can
 
 So here's the final bit of best practice:
 
-> Always use the `Option` "constructor"/apply method to build new Options. NEVER EVER use `Some(null)` or `Some(anExpressionThatCanBeNull)`, because you'll kill us all.
+**Always use the `Option` "constructor"/apply method to build new Options. NEVER EVER use `Some(null)` or `Some(anExpressionThatCanBeNull)`, because you'll kill us all.**
 
 ## 6. Conclusion
 

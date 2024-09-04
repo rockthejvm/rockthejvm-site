@@ -8,7 +8,9 @@ title: "ZIO Streams: A Long-Form Introduction"
 updatedDate: 2024-09-06
 ---
 
-> This article is brought to you by [Mark Rudolph](https://github.com/alterationx10), a new contributor to Rock the JVM. He's a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings. Mark has a lot to share, and this article is a comprehensive piece.
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+
+## Introduction
 
 In this post, we're going to go over an introduction to the main components of ZIO Streams, how to work with them when things go right, and what to do when things go wrong.
 
@@ -16,7 +18,13 @@ As a toy example, we're going to take a brief foray into asynchronous operations
 
 For a more concrete example, we are going to write a program that will parse markdown files, extract words identified as tags, and then regenerate those files with tag-related metadata injected back into them.
 
-If you're interested in learning the ZIO core library, check out the Rock the JVM [ZIO course](/courses/zio).
+<NoteAdmonition>
+    This article is brought to you by [Mark Rudolph](https://github.com/alterationx10), a new contributor to Rock the JVM. He's a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings. Mark has a lot to share, and this article is a comprehensive piece.
+</NoteAdmonition>
+
+<TipAdmonition>
+    If you're interested in learning the ZIO core library, check out the Rock the JVM [ZIO course](/courses/zio).
+</TipAdmonition>
 
 ## Setup
 

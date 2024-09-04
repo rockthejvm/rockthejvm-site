@@ -9,14 +9,19 @@ updatedDate: 2024-09-06
 videoId: pOtET_i1v-w
 ---
 
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
 ## Introduction
 
 It's time to end our journey on functional error handling in Kotlin with the new features introduced by the Arrow library in version 1.2.0, which previews the significant rewrite we'll have in version 2.0.0. We'll mainly focus on the `Raise` DSL, a new way to handle typed errors using [Kotlin contexts](/articles/kotlin-101-context-receivers).
 
 Without further ado, let's start!
 
-> This article requires existing Kotlin experience. If you need to get it **fast** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+<TipAdmonition>
+    This article requires existing Kotlin experience. If you need to get it **fast** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials).
 
+    It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+</TipAdmonition>
 ## 1. Setup
 
 We'll use version 1.9.0 of Kotlin and version 1.2.0 of the Arrow library. In fact, the Raise DSL is not available in previous versions of Arrow.
