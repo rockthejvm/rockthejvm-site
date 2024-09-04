@@ -7,7 +7,13 @@ title: "Scala 3: Mastering Path-Dependent Types and Type Projections"
 updatedDate: 2024-09-06
 ---
 
-This short article is for the Scala developer who is curious about the capabilities of its type system. What I'm about to describe is not used very often, but when you need something like this, it can prove pretty powerful.
+## Who This Article Is For
+
+This short article is for the Scala developer who is curious about the capabilities of its type system.
+
+## Introduction
+
+What I'm about to describe is not used very often, but when you need something like this, it can prove pretty powerful.
 
 If you want to understand why abstract type projections are unsound and were removed in Scala 3, check [this article](/articles/scala-3-general-type-projections).
 

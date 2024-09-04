@@ -9,7 +9,10 @@ updatedDate: 2024-09-06
 
 ## Who This Article Is For
 
-This article is for 1) programmers who are just getting started with Scala and 2) for Scala teachers.
+This article is for:
+
+- Programmers who are just getting started with Scala
+- Scala teachers
 
 ## Introduction
 

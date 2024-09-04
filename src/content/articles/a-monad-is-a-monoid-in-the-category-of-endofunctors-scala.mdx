@@ -9,6 +9,18 @@ updatedDate: 2024-09-06
 
 import { Tweet } from "astro-embed";
 
+## Who This Article Is For
+
+1. Curious people wanting to learn what's with this "monoids in the category of endofunctors" psychobabble, without _using_ any psychobabble.
+1. Software engineers with a long-term vision for their skills and future.
+
+## TL;DR
+
+If you want the shortest version possible, check out this Twitter thread:
+
+<Tweet id="https://x.com/rockthejvm/status/1379695298365300736" />
+<script async src="https://platform.twitter.com/widgets.js"></script>
+
 ## Introduction
 
 This article will attempt to demystify one of the most condensed and convoluted pieces of abstract math to ever land in functional programming.
@@ -21,17 +33,7 @@ Before we begin, let's establish some goals.
 
 _This article will have zero immediate practical application for you._ HOWEVER: the kind of mental gymnastics we'll do and the code we'll write here are both going to make a big difference in how you read, understand and reason about extremely abstract code in your library or codebase. This skill is timeless, and even transcends Scala as a language.
 
-So this article is for
-
-1. Curious people wanting to learn what's with this "monoids in the category of endofunctors" psychobabble, without _using_ any psychobabble.
-1. Software engineers with a long-term vision for their skills and future.
-
-If you want the shortest version possible, check out this Twitter thread:
-
-<Tweet id="https://x.com/rockthejvm/status/1379695298365300736" />
-<script async src="https://platform.twitter.com/widgets.js"></script>
-
-## Background
+## Prerequisites
 
 We're going to write some pretty abstract Scala. Some topics are required, but the following will be sufficient for you to understand everything:
 
