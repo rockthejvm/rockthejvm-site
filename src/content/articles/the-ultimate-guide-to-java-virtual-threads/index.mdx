@@ -708,7 +708,7 @@ In this section, we'll introduce the implementation of continuation in Java virt
 
 A virtual thread cannot run itself, but it stores the information of what must be run. In other words, **it's a pointer to the advance of an execution that can be yielded and resumed later**.
 
-The above is the definition of _continuations_. We've already seen how Kotlin coroutines implement continuations ([Kotlin 101: Coroutines Quickly Explained - Suspending Functions](/articles/kotlin-101-coroutines#3-suspending-functions)). In that case, the Kotlin compiler generates continuation from the coroutine code. Kotlin's coroutines have no direct support in the JVM, so they are supported using code generation by the compiler.
+The above is the definition of _continuations_. We've already seen how Kotlin coroutines implement continuations ([Kotlin 101: Coroutines Quickly Explained - Suspending Functions](/articles/kotlin-101-coroutines#suspending-functions)). In that case, the Kotlin compiler generates continuation from the coroutine code. Kotlin's coroutines have no direct support in the JVM, so they are supported using code generation by the compiler.
 
 However, for virtual threads, we have the JVM support directly. So, continuations execution is implemented using a lot of native calls to the JVM, and it's less understandable when looking at the JDK code. However, we can still look at some concepts at the roots of virtual threads.
 
