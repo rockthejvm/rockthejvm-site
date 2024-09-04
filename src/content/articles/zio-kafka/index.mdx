@@ -8,7 +8,10 @@ title: "ZIO Kafka: A Practical Streaming Tutorial"
 updatedDate: 2024-09-06
 ---
 
-> Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
+## Introduction
 
 Modern distributed applications need a communication system between their components that must be reliable, scalable, and efficient. Synchronous communication based on HTTP is not a choice in such applications due to latency problems, insufficient resources' management, etc... Hence, we need an asynchronous messaging system capable of quickly scaling, robust to errors, and low latency.
 
@@ -17,6 +20,10 @@ Apache Kafka is a message broker that in the last years proved to have the above
 In this article, we will go through some primary Kafka's use cases. First, we will read messages from Kafka and process them. Then, we will focus on writing some information to Kafka. In both cases, we will use the library _zio-kafka_. We will use a system handling football tournament scores as the use case to describe such features.
 
 So, let's proceed without further ado.
+
+<NoteAdmonition>
+    Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:
+</NoteAdmonition>
 
 ## Background
 
@@ -186,7 +193,9 @@ val managedConsumer: RManaged[Clock with Blocking, Consumer.Service] =
 
 In this particular case, we obtain an instance of an `RManaged`, that in the ZIO jargon is a resource that cannot fail. Moreover, we see that the consumer depends upon the `Blocking` service. As the documentation says
 
-> The Blocking module provides access to a thread pool that can be used for performing blocking operations.
+<TipAdmonition>
+    The Blocking module provides access to a thread pool that can be used for performing blocking operations.
+</TipAdmonition>
 
 In fact, ZIO internally uses such a service to manage the connection pool to the broker for a consumer.
 
