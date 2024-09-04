@@ -8,9 +8,11 @@ title: "Elevate Your Tests: Testing Functional Kotlin with Arrow and Raise"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 At Rock the JVM, we deeply understand the power of the Kotlin Arrow library and the Raise DSL, and we've previously shared our insights in our article on [Functional Error Handling in Kotlin, Part 3: The Raise DSL](/articles/functional-error-handling-in-kotlin-part-3-the-raise-dsl). Now, we're ready to introduce the crucial topic of testing applications that use the Raise DSL. To fully grasp the concepts we'll be discussing, it's essential to have a solid understanding of Kotlin, Arrow library, and the Raise DSL. We recommend revisiting our previous posts or resources if you need to refresh your knowledge. Get ready to explore the testing world of Arrow Raise with confidence and understanding.
 
-## 1. Setting up the project
+## Setting Up the project
 
 First things first, let's set up a Kotlin project. We can use Gradle or Maven, but for this article, we'll focus on Gradle. As always, use the `gradle init` command from a shell to create a Gradle application from scratch. We'll then add the following dependencies to the `build.gradle.kts` file, providing you with practical examples and clear explanations along the way:
 
@@ -53,7 +55,7 @@ In this article, we'll take a different approach than the one in the article [Fu
 
 We can start implementing the use case now that we have set up. Since we are diligent and well-behaved developers, **we want to write tests before implementing the use case**, following the Test-Driven Development (TDD) approach.
 
-## 2. Testing the use case
+## Testing the Use Case
 
 First, we want to test the happy path, meaning the use case creates a new portfolio for the user. We need to implement our use case interface with a concrete class, which we usually call a service:
 
@@ -238,7 +240,7 @@ should("create a portfolio for a user (using fold)") {
 
 So, we briefly introduce how to test a function that can raise an error of type `E`. What if the function calls another function that can raise an error, too? We should not depend on code outside the unit we're testing. At the end of the day, we focus on unit testing. Let's see what the available options are.
 
-## 3. Mocking the Raise DSL
+## Mocking the Raise DSL
 
 When dealing with unit tests and depending on a component outside our unit under test, we have at least two choices: fake objects and mocks. But before going deep into the topic, let's prepare the playground.
 
@@ -467,11 +469,11 @@ fun `given a userId and an initial amount, when executed with error, then propag
 
 As we can see, the only part that has changed is the DSL offered by the mocking library. The rest of the test remains more or less the same.
 
-## 4. Conclusion
+## Conclusion
 
 In this article, we saw how to test a function declared in a `Raise<E>` context. We introduced several approaches and used many libraries. We saw how to write a test using JUnit 5 and the Kotest testing frameworks. We saw how to use the `assertj-arrow-core` library to test functions using the Raise DSL. Then, we translated the same tests using the Kotest extension asserts for Arrow. Then, we focused on mocking. The first solution we approached was using fake objects. Despite some initial programming, the fake objects are natural and ergonomic. We also saw how to mock a function declared in a `Raise<E>` context using the MockK and Mockito libraries. Mocking feels less idiomatic and more complex due to the `Raise<E>` context, which neither libraries manage natively. As of today, we still miss some Mockito's extensions functions to handle the Raise DSL natively, which would make the mocking process more straightforward.
 
-## 5. Appendix
+## Appendix
 
 As we said, Kotlin context receivers were deprecated in more recent versions of Kotlin. For the above reason, we preferred to use something other than context receivers in this article. However, context receivers almost invariably make the code cleaner and more concise. We introduced it in the article [Kotlin 101: Context Receivers Quickly Explained](/articles/kotlin-101-context-receivers). Let's see how our example changes if we use context receivers.
 
