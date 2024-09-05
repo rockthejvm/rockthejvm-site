@@ -13,7 +13,7 @@ videoId: xNCCHFljwBg
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
-## 1. Introduction
+## Introduction
 
 In modern application development, efficient database interactions are crucial for building scalable and maintainable systems. Scala, being a versatile language, offers various tools and libraries to streamline these interactions. One such powerful tool among others ([doobie](https://index.scala-lang.org/tpolecat/doobie/artifacts/doobie-hikari/0.9.0?binary-version=_2.13), [Slick](https://index.scala-lang.org/slick/slick), [ZIO Quill](https://index.scala-lang.org/zio/zio-quill) etc) is the [Skunk Scala library](https://typelevel.org/skunk/), which provides a functional and typesafe interface for PostgreSQL databases access in Scala applications. In this article, we'll delve deep into Skunk, exploring its features and demonstrating how to interact with a database effectively in a non-blocking manner.
 
@@ -21,11 +21,11 @@ In modern application development, efficient database interactions are crucial f
     Skunk is part of the Typelevel ecosystem of libraries. If you want some intense hands-on experience with Scala and the Typelevel stack, you'll greatly enjoy the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course. It's the biggest course on Rock the JVM, where you'll write a full-stack, production-grade application from scratch, including authentication, credit card checkout, email services, comprehensive test coverage, etc. Check it out [here](/courses/typelevel-rite-of-passage).
 </TipAdmonition>
 
-## 2. What is Skunk?
+## What is Skunk?
 
 Skunk is a robust Scala library that has been specifically crafted to offer optimal database access to PostgreSQL. Its functional, typesafe, resource-safe session, and composable interface provides a high level of type-safety, ensuring that SQL queries are checked at compile-time. With Skunk, developers can expect a reliable and efficient way to interact with PostgreSQL databases. Its advanced features offer a seamless and typesafe experience that enables developers to streamline their database access and management. Skunk is the perfect choice for developers who strive to achieve efficient and secure database access while maintaining a high level of type-safety.
 
-## 3. Understanding Skunk Core Concepts
+## Understanding Skunk Core Concepts
 
 Before diving into the practical implementation, let's familiarize ourselves with Skunk's core concepts:
 
@@ -59,7 +59,7 @@ libraryDependencies ++= Seq(
 
 With our dependencies loaded to our project, we can explore each of these concepts in detail and demonstrate how to leverage Skunk effectively. However, before diving into that, Let's start by defining our domain and setting up environment variables that will be used to launch our docker container.
 
-## 4. Creating a Domain
+## Creating a Domain
 
 This guide will help us identify the data to manipulate in our database session.
 
@@ -90,7 +90,7 @@ final case class Config (
 ) derives ConfigReader
 ```
 
-## 5. Creating and Using Resources
+## Creating and Using Resources
 
 Configuration values reflecting our domain to be used throughout our project.
 
@@ -266,7 +266,7 @@ Current date and time is 2024-02-20T17:29:21.058790Z.
 | Connection Reuse      | Each call establishes a new connection.                            | Reuses existing connections from the pool.          |
 | Performance           | May have higher overhead due to frequent connection establishment. | Generally more efficient due to connection pooling. |
 
-## 7. Type Mapping in Skunk
+## Type Mapping in Skunk
 
 Let's talk about type mapping as it is an essential concept that helps us in the execution of skunk queries and commands. It's a process of converting between PostgreSQL data types and corresponding Scala types. This mapping ensures that data retrieved from the database can be represented and manipulated in a type-safe manner within Scala code. Through the use of `Codec`(encoder and decoder), we can create a mapping between fields from our `users` table and values from our `User` case class as follow. In Skunk, we can use three different techniques to form tuples during mappings: `regular tuples`, `twiddle tuples`, and the `~` operator. However, the `~` operator has been deprecated since version 0.6.
 
@@ -308,7 +308,7 @@ To keep things simple, we will use regular tuples going forward.
 Please add the above values to our `main.scala` file as it will help us set up our SQL statements.
 We shall soon see these conversions in use as we interact with our database through queries and commands.
 
-## 8. SQL Interpolation (Query and Command)
+## SQL Interpolation (Query and Command)
 
 Skunk offers type-safe SQL interpolation, enabling us to construct SQL statements with compile-time validation. It ensures that SQL statements are both syntactically correct and type-safe. There are two types of SQL statements that Skunk can build: queries and commands. In this sections, we will demonstrate both types of statements on a table of users we previously created.
 
@@ -384,12 +384,12 @@ After preparing our query, we fetch a maximum of one row by using the `option` m
 User found: User(b68f2676-611e-4db2-af80-0458e9c52bd3,Jacob,jacob@email.com)
 ```
 
-## 9. Refactoring
+## Refactoring
 
 Let's refactor our code in a functional style and add support for basic CRUD operations.
 Given we're leveraging the use of a purely functional library, we shall continue writing purely functional code throughout using the tagless final approach.
 
-### 9.1. Database Repository
+### Database Repository
 
 To prevent the need to repeatedly prepare queries and commands while interacting with our database, a `Repository` trait is introduced. This trait defines certain methods that provide a generic way to write queries and commands, which can be used to interact with the database while also offering a generic data type.
 
@@ -421,7 +421,7 @@ Our trait takes an instance of `Session[F]` useful to establish a database sessi
 We a `findOneBy` method that can be used to fetch a specific row from a table such as fetching a user given the user's id.
 An `update` method for operations that update the state of the database such as deleting from a database.
 
-### 9.2. User Repository
+### User Repository
 
 Still in the package `src/main/scala/com/rockthejvm/db`, we define a `UserRepository` class to handle the `User` domain.
 
@@ -527,7 +527,7 @@ private val _update: Command[User] =
 
 Let's discuss how the `_update` command works as it appears to be a bit different from other commands. It updates the `name` and `email` fields of a user based on their `id`. The input to this command is a `User` object. The code's `.command` part converts the SQL query into a Skunk Command object. The `.contramap` part maps the input values to the parameters expected by the SQL command and orders them according to the SQL query. In this case, it maps the properties of the `User` object to a tuple of `name`, `email`, and `id` in that order.
 
-### 9.3 Database Connection
+### Database Connection
 
 We have created a package (`src/main/scala/com/rockthejvm/modules`) that contains an object used to establish our two different types of database connections based on the provided configuration values. We already explain this concept, please refer to [section 6](#setup-a-database-connection) for a refresh.
 
@@ -562,7 +562,7 @@ object DbConnection {
 }
 ```
 
-### 9.4. Our `main.scala` file
+### Our `main.scala` file
 
 We refactored our main file and reduce boilerplate code by extracting logic into separate files. This is how our main file looks now.
 
@@ -637,7 +637,7 @@ Users found: List(User(b45ec9e4-4d2f-47fe-b5aa-e28da60aa3ed,Jacob,email@jacob.co
 
 Please ensure that your Docker container is running before executing your `main.scala` file.
 
-## 10. Conclusion
+## Conclusion
 
 In this comprehensive guide, we've explored the Skunk Scala library and its features for interacting with PostgreSQL databases by creating a reusable application that performs basic CRUD operations. Skunk's type-safe SQL interpolation, automatic type mapping, and resource-safe session management make it an excellent choice for building robust and scalable Scala applications. By mastering Skunk's core concepts and leveraging its features effectively, you can streamline PostgreSQL database interactions and focus on building innovative features for their applications.
 

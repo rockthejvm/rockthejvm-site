@@ -13,7 +13,7 @@ When learning to code, the first thing we learn is how to change a variable. We 
 
 In other words, most of us grew with mutability as a core principle of writing code.
 
-## 1. Introduction
+## Introduction
 
 Learning functional programming required us to unlearn some habits and learn new ones. Mutability is usually frowned upon in the pure FP world, because after some experience with pure FP, we understand that code using variables and mutable data structures is harder to read and understand, and more error-prone especially in a multithreaded/distributed setting.
 
@@ -21,7 +21,7 @@ However, that does not mean mutability is bad per se. It's still useful for perf
 
 The following has all been tested both on Scala 2 and Scala 3.
 
-## 2. The Simplest Mutation
+## The Simplest Mutation
 
 Scala has the concept of a changeable variable, denoted by `var`. We can say
 
@@ -34,11 +34,11 @@ which allows us to change variables over time.
 
 Chances are you find this trivial. However, for some of you, it may very well be surprising.
 
-In my first days as an instructor, I used to teach Scala `val`s and `var`s in the same lesson. But then I learned &mdash; and later [wrote about]("/variables/") &mdash; how learning variables early is not useful for learning and teaching pure functional programming, because it keeps people in their current mental model. Learning FP is a different style of thinking, and changing variables prevents unlearning.
+In my first days as an instructor, I used to teach Scala `val`s and `var`s in the same lesson. But then I learned &mdash; and later [wrote about](/articles/things-that-dont-make-sense-scala-variables) &mdash; how learning variables early is not useful for learning and teaching pure functional programming, because it keeps people in their current mental model. Learning FP is a different style of thinking, and changing variables prevents unlearning.
 
 However, after having a taste of pure FP, I then showed my audience how to mutate variables, which they can then integrate into their new mental framework.
 
-## 3. Mutating a data structure
+## Mutating a Data Structure
 
 I've never quite been fond of the Java getters and setters when all they did was to access a private field. That would be functionally identical to making that field public &mdash; perhaps except if the getters/setters were synchronized, but let's be honest, almost nobody does that.
 
@@ -89,7 +89,7 @@ For this scheme to work, the following restrictions apply:
 - The setter needs to have the signature `def myField_=(value: MyType): Unit`
 - The getter needs to have the signature `def myField: MyType`
 
-## 4. Updating Data in Collections
+## Updating Data in Collections
 
 Most of us have grown used to arrays. They're easy to use and to understand.
 
@@ -139,7 +139,7 @@ bob(1) = 24
 
 So you can mutate your data structures in the same style as arrays. The only restriction is that the `update` method needs to take two arguments, the first one being an `Int`.
 
-## 5. Conclusion
+## Conclusion
 
 This article focused on _how_ to create mutable data structures in Scala that feel "natively" mutable. Hopefully at least one of the techniques here &mdash; I'm guessing either the `age_=(a: int)` or the `update` method &mdash; were new to you and you'll find them useful the next time you'll need mutability in Scala.
 
