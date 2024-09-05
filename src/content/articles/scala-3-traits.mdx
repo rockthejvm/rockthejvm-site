@@ -7,17 +7,19 @@ title: "Scala 3: Traits Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article will continue some of the previous explorations of Scala 3. Here, we'll discuss some of the new functionality of traits in Scala 3.
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
-## 1. Background
+## Background
 
 Scala traits were originally conceived to be analogous to Java interfaces. Essentially, a trait was a type definition which wrapped a suite of abstract fields and methods. In time, traits acquired additional functionality and features, such as non-abstract fields and methods. This led to some legitimate questions around the [boundary between abstract classes and traits](https://www.youtube.com/watch?v=_7ULjOILxhI).
 
 That line will get even blurrier with the arrival of Scala 3.
 
-## 2. Trait Arguments
+## Trait Arguments
 
 One of the practical differences between abstract classes and traits was (in Scala 2) that traits could not receive constructor arguments. Put simply, now they can:
 
@@ -68,7 +70,7 @@ class AnnoyingFriend extends BrokenRecord with Talker("politics")
 
 A bit clunky, but that's the only way to make the type system sound with respect to this new capability of traits.
 
-## 3. Transparent Traits
+## Transparent Traits
 
 The Scala compiler's type inference is one of its most powerful features. However, without enough information, sometimes even the compiler's type inference isn't powerful enough. Here's an example:
 
@@ -113,6 +115,6 @@ After that we'll see that our variable `color` is now marked as `Color`.
 
 When Scala 3 comes out, the traits `Product`, `Comparable` (from Java) and `Serializable` (from Java) will be automatically be treated as transparent traits in the Scala compiler. Of course, if you mark your value as having a particular type, transparent traits will not influence the type checker.
 
-## 4. Conclusion
+## Conclusion
 
 You've learned two new features of Scala 3 regarding traits. Put them to good use when Scala 3 comes out!

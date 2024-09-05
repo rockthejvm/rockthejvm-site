@@ -7,9 +7,11 @@ title: "Scala 3: Givens and Implicits Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This will be a short article. Here, I'll demonstrate the use of given instances/using clauses combo, and how this can work with the existing implicits-based mechanism.
 
-## 1. Background & Motivation
+## Background & Motivation
 
 First, if you're not familiar with given/using combos in Scala 3, I recommend you read these articles first:
 
@@ -23,7 +25,7 @@ The new given/using combos in Scala 3 were created to reduce some of the power o
 - Extension methods, which now have their own language-level constructs in Scala
 - Implicit conversions, which now need to be explicitly enforced
 
-## 2. Let's Be Friends
+## Let's Be Friends
 
 Even as the new given instances/using clauses in Scala 3 were designed to replace the existing implicit val/object + implicit argument combos, the `implicit` keyword has not disappeared from Scala 3. It will be slowly deprecated and eventually removed from the language.
 
@@ -135,7 +137,7 @@ implicit val theOnlyInt: Int = 42
 
 This will happen regardless if your method takes an `implicit` argument or has a `using` clause.
 
-## 3. Conclusion
+## Conclusion
 
 In this article, we learned that the new `given`/`using` mechanism works in the same way as the old `implicit` val/object + `implicit` argument, and we can interoperate between them without any problems. This capability was created for our peace of mind as we move to Scala 3.
 

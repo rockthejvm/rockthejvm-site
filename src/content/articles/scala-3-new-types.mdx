@@ -7,7 +7,7 @@ title: "Scala 3: New Types Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro"
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 
 ## Who This Article Is For
 
@@ -21,7 +21,7 @@ The focus of this article is some of the new kinds of types now allowed in Scala
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
-## 1. Literal Types
+## Literal Types
 
 This feature was technically introduced in Scala 2.13, but we will explore it here in the context of the types we're going to talk about next. In short, Scala is now able to treat literal values as singletons of their own types. Remember [type-level programming](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons)? We needed to defined each "number" as its own type. Now, Scala can do this by default. The catch is that you'll now have to declare it explicitly:
 
@@ -67,7 +67,7 @@ def doSomethingWithYourLife(meaning: Option[42]): Unit =
 
 The method above will only take Some(42) or None, nothing in between. It's often a good idea to restrict your type declarations to literal types when you're certain that your particular value is critical for your application's logic. In this way, you'll avoid the error of passing an invalid value, and everything will be caught at compile time.
 
-## 2. Union Types
+## Union Types
 
 This is a completely new addition in Scala 3. It allows you to use a combined type ("either A or B") in the same declaration. However, this has nothing to do with the `Either` monadic type. Here's an example:
 
@@ -105,7 +105,7 @@ val stringOrInt = if (43 > 0) "a string" else 43 // Any, as inferred by the comp
 val aStringOrInt: String | Int = if (43 > 0) "a string" else 43 // OK
 ```
 
-## 3. Intersection Types
+## Intersection Types
 
 By way of symmetry, we also have intersection types in Scala 3 now. While you can think of union types as "either A or B", intersection types can be read as "both A and B". Here's an example:
 
