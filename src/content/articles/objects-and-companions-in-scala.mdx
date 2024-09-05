@@ -15,7 +15,7 @@ This article is at a beginner level. If you're starting out with Scala and are i
 
 Here, we'll discuss how Scala allows us to create singleton objects and how the class + singleton combo is a powerful one, including some best practices.
 
-## 1. Singletons Just Got Easier
+## Singletons Just Got Easier
 
 If you're in the process of learning Scala, you're probably well aware that Scala allows a blend of object-oriented and functional programming styles. Scala can declare classes much like Java or any other common object-oriented languages.
 
@@ -46,7 +46,7 @@ val nodesInCluster = ClusterSingleton.getNumberOfNodes()
 val maxNodes = ClusterSingleton.MAX_NODES
 ```
 
-## 2. Companions in Scala
+## Companions in Scala
 
 Objects are useful as they are, but the singleton pattern was not the main reason why this concept of an "object" was introduced into the Scala language as a first-class structure.
 
@@ -67,7 +67,7 @@ More often, we say that the object Kid is the _companion object_ of the class Ki
 
 Companions have the property that they can access each other's private fields and methods. Their fields' and methods' access modifiers are otherwise unchanged.
 
-## 3. Why We Need Companions
+## Why We Need Companions
 
 This class-object combo is very powerful, because we can use the fields and methods on the Kid _class_ for instance-related logic &mdash; e.g. a kid is introducing themselves, or they want to play a game &mdash; and then use the Kid _object_ for logic that does _not_ depend on any instance of Kid.
 
@@ -98,7 +98,7 @@ Notice how in Scala, we separated the code in the class (for instance-dependent 
 
 To further prove the equivalence, Scala code with companions is compiled to the same bytecode as a Java class with static fields and methods.
 
-## 4. A Bit of Nuance
+## A Bit of Nuance
 
 All the logic we can write in Scala (at least in Scala 2) can only exist within a class or an object. Therefore, all the logic we write belongs _to some instance of some type_, which means that Scala is purely object-oriented. Scala 3 will change that, because we'll soon be allowed to write top-level value and method declarations.
 
@@ -114,7 +114,7 @@ playAGameWith(Kid /* <-- the companion*/) // will not compile
 
 To be truly technical, the type of the Kid object is known to the compiler as `Kid.type`, which is different than `Kid` (the class name). I'll share more details about `.type` in another more advanced article, but for now, just know the class/object types are different, but they're "compatible" to the compiler (in a sense that I'll clarify when I talk about `.type`).
 
-## 5. Conclusion
+## Conclusion
 
 We discussed about Scala `object`s as implementing the singleton pattern in one line, and then we explored the concept of class/object companions in Scala and the implications. We learned a best-practice structure of our code and how to split it in between the class (for instance-dependent logic) and the companion object (for instance-independent logic).
 
