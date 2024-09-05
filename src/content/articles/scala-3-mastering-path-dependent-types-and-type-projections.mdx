@@ -17,7 +17,7 @@ What I'm about to describe is not used very often, but when you need something l
 
 If you want to understand why abstract type projections are unsound and were removed in Scala 3, check [this article](/articles/scala-3-general-type-projections).
 
-## 1. Nesting Types
+## Nesting Types
 
 You're probably well aware that classes, objects and traits can hold other classes, objects and traits, as well as define type members &mdash; abstract or concrete in the form of type aliases.
 
@@ -95,7 +95,7 @@ outerA.processGeneral(innerB) // ok
 
 The types of the style `instance.MyType` and `Outer#Inner` are called _path-dependent types_, because they depend on either an instance or an outer type (a "path"). The term is quite confusing &mdash; as some feedback to this article and the [video](https://www.youtube.com/watch?v=63syJfNoDPI) has pointed out &mdash; and I'll use the term _type projection_ to differentiate the `Outer#Inner` types from the rest.
 
-## 3. Motivation for Path-Dependent Types and Type Projections
+## Motivation for Path-Dependent Types and Type Projections
 
 Here are a few examples where path-dependent types type projections are useful.
 
@@ -105,7 +105,7 @@ Example 2: [type lambdas](/articles/scala-3-type-lambdas) used to rely exclusive
 
 Example 3: you might even go bananas and write a full-blown [type-level sorter](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) by abusing abstract types and instance-dependent types along with implicits (or givens in Scala 3).
 
-## 4. Methods with Dependent Types
+## Methods with Dependent Types
 
 Now, with this background in place, we can now explore methods that rely on the type of the argument to return the appropriate nested type. For example, if you had a data structure/record description for some data access API:
 
@@ -123,7 +123,7 @@ def getIdentifier(row: AbstractRow): row.Key = ???
 
 Besides generics, this is the only technique I know that would allow a method to return a different type depending on the value of the argument(s). This can prove really powerful in libraries.
 
-## 5. Functions with Dependent Types
+## Functions with Dependent Types
 
 This is new in Scala 3. Prior to Scala 3, it wasn't possible for us to turn methods like `getIdentifier` into function values so that we can use them in higher-order functions (e.g. pass them as arguments, return them as results etc). Now we can, by the introduction of the _dependent function types_ in Scala 3. Now we can assign the method to a function value:
 
@@ -143,7 +143,7 @@ Function1[AbstractRow, AbstractRow#Key] {
 
 which is a subtype of `Function1[AbstractRow, AbstractRow#Key]` because the `apply` method returns the type `arg.Key`, which we now [know](#path-dependent-types-and-type-projections) that it's a subtype of `AbstractRow#Key`, so the override is valid.
 
-## 6. Conclusion
+## Conclusion
 
 Let's recap:
 

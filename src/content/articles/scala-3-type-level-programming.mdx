@@ -12,13 +12,13 @@ updatedDate: 2024-09-06
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
-# 1. Introduction
+## Introduction
 
 Scala 3 boasts many features that are meant to simplify and enhance type-level programming: match types, inlines, diverse compile-time operations, and the list goes on. With all these new features it is quite easy to get lost when trying to solve a concrete problem using type-level techniques.
 
 In this article my aim is to bridge that gap by showing, step by step, how to solve a concrete problem using many of the new type-level features that Scala 3 provides. Let's dig in!
 
-## 1.1. Setup
+### Setup
 
 You can see the setup for the post in <a href={`${
 // @ts-ignore
@@ -32,7 +32,7 @@ scala-cli console .
 
 In the repo folder to start a REPL with the required dependencies.
 
-## 1.2. The Problem
+### The Problem
 
 The problem that we are going to solve is inspired by an actual use-case that I had at work. So hopefully it will be realistic enough as to be useful for your own endeavors.
 
@@ -125,9 +125,9 @@ Be warned, this is quite a long post, with many different parts. Take your time 
 
 Let us now proceed to flat serializing a concrete class. This will allow us to dip our toes into a bit of type-level programming without going into the deep end straight away.
 
-# 2. Serializing a Concrete Class
+## Serializing a Concrete Class
 
-## 2.1. Pseudocode
+### Pseudocode
 
 Since we'll be dealing with JSON, we'll need a JSON library to do the JSON work for us. I'll be using [circe](https://github.com/circe/circe), but pretty much any other Scala JSON library (of which there are plenty) will do just fine. I won't spend too much time explaining the mechanics of circe, in the hope that the JSON code we'll be writing is sufficiently self-explanatory.
 
@@ -143,7 +143,7 @@ Because metaprogramming in most languages isn't as readable as plain code, when 
 
 Short and to the point.
 
-## 2.2. Lists and Tuples
+### Lists and Tuples
 
 In the pseudo-code we are referring to the fields of a class as if it's a list, something that we can iterate on. This is of course a simplification, since the fields of a class can have different types, while lists in Scala can only contain a single (statically-known) type.
 
@@ -183,7 +183,7 @@ val fields: (Email, Phone, Address) = (
 
 Using `Tuple.fromProductTyped` we can convert a `User` value to its corresponding tuple type, without losing type information. Now all we need is to learn to operate on tuples as if they were lists.
 
-## 2.3. Tuple Iteration
+### Tuple Iteration
 
 So how do we iterate over a tuple?
 
@@ -217,7 +217,7 @@ The signature is a bit intimidating, it uses a polymorphic function as an argume
 
 I guess we have no choice but to implement our very own custom version of `map`.
 
-## 2.4. Tuple Recursion
+### Tuple Recursion
 
 To implement our own `map`-like function on tuples we are going to use the analogy between lists and tuples to inform our implementation.
 
@@ -352,7 +352,7 @@ The pattern match we are performing here is going to happen at runtime. And the 
 
 Both the fact that we can't summon anything and erasure point us to the fact that we are doing something wrong. We are running the code "at the wrong time".
 
-## 2.5. Running Code at Compile-Time
+### Running Code at Compile-Time
 
 Taking a step back we should think about how we will be using our `tupleToJson` function. The "user input" to it is not going to be some arbitrary input value from external IO. It is going to be a statically-known tuple type that we are going to provide. E.g., something like this:
 
@@ -488,7 +488,7 @@ It works! We managed to iterate the tuple and inline the `summonInline` calls as
 
 This is exactly what we needed. No runtime issues, everything happens safely at compile-time.
 
-## 2.6. Compile-Time Observations
+### Compile-Time Observations
 
 Some interesting observations about this approach:
 
@@ -527,7 +527,7 @@ Some interesting observations about this approach:
 
 But all is well, this is perfectly serviceable for our purposes.
 
-## 2.7. Once More with a Case Class
+### Once More with a Case Class
 
 With the implementation of `tupleToJson` and the knowledge of `Tuple.fromProductTyped` we can take our actual case class instance and turn it into a bunch of JSON values:
 
@@ -558,7 +558,7 @@ Recall that one of our safety requirements was:
 
 How do we prevent this failure mode?
 
-## 2.8. JSON Objects
+### JSON Objects
 
 The solution is pretty straightforward. circe has a type called `Encoder.AsObject` which is the same as `Encoder` but additionally provides a method called `encodeObject`, which has the static return type of `JsonObject`.
 
@@ -605,7 +605,7 @@ Which correctly informs us that there is no `Encoder.AsObject[Int]` in existence
 
 [^betterError]: This compilation error would be more informative if we could see what field in the class triggered the error. I'll leave this as a (difficult) exercise for the reader...
 
-## 2.9. Once More with Feeling
+### Once More with Feeling
 
 And now we are ready to put all the pieces together for our flat `Encoder`:
 
@@ -646,11 +646,11 @@ The full code for the `Encoder` can be found in the accompanying <a href={`${
 // @ts-ignore
     frontmatter.repositoryUrl}/blob/master/flat_concrete.scala`}>repo</a>.
 
-# 3. Deserializing a Concrete Class
+## Deserializing a Concrete Class
 
 Now it's time to read the flat JSON back from the flat format.
 
-## 3.1. Pseudocode
+### Pseudocode
 
 To deserialize something in circe, we will need a `Decoder` instance for the `User` type.
 
@@ -666,7 +666,7 @@ This pseudo-code is quite similar to the pseudo-code for the `Encoder`, but the 
 
 This poses a new issue: how do we get a handle on the field types of `User`?
 
-## 3.2. Mirrors
+### Mirrors
 
 Here too Scala 3 has new machinery for us to use: the [`Mirror`](https://blog.philipp-martini.de/blog/magic-mirror-scala3/) type.
 
@@ -698,7 +698,7 @@ This is exactly the representation of the `User` type as tuple of its field type
 
 But there's a wrinkle, perviously, when we iterated over a tuple, we had a tuple **value**, something concrete that we actually operate on at runtime. Here, on the other hand, all we have is a tuple **type**? What can we possibly do with just a type?
 
-## 3.3. Erased Values
+### Erased Values
 
 Actually, we can do quite a bit. Recall how we used `inline` and `inline match` to achieve compile-time evaluation of code. We can apply the same tools here as well, all we need is a way to pull a type into a value.
 
@@ -738,7 +738,7 @@ As expected the size of the tuple is `3`.
 
 Now we can use `inline`s and `erasedValue` to iterate over tuple types.
 
-## 3.4. Tuple Iteration Again
+### Tuple Iteration Again
 
 With these tools in hand we can now partially implement our pseudo-code. Ignoring for the moment the `User` type, let us solve the problem of creating a flat `Decoder` for arbitrary tuples. Having solved that, we'll use the `Mirror` to create a `User` instance from a tuple.
 
@@ -792,7 +792,7 @@ Apparently the compiler can't figure out that if we matched the branch `EmptyTup
 
 So close...
 
-## 3.5. Type Hackery
+### Type Hackery
 
 What we are lacking here is type-unification. The compiler should've figured out that it can unify the type of each case branch with the type argument `T`. I would claim that it's a bug that the compiler can't do this, but I have a hack to circumvent this issue.
 
@@ -847,7 +847,7 @@ Notice how we are using `mirror.MirroredElemTypes` as the type argument. This is
 
 We managed to decode a tuple of all the fields types of `User` directly from the flat JSON that we generated in the previous part. We're almost done, we just need to wrap this code with conversion from tuples to the `User` type.
 
-## 3.6. From Types to Values
+### From Types to Values
 
 The last piece of the puzzle is how do we convert the result of our `Decoder`, which is a tuple value back to a `User` value. It's `Mirror` to the rescue yet again: `mirror.fromTuple` will take a tuple value that matches the `User` type, and produce back a `User` instance:
 
@@ -877,7 +877,7 @@ val decoder =
 
 We first summon the `Mirror` for the `User` type (1). We then create a flat `Decoder` (2) for the field types of `User` that we fetch from the mirror. And lastly, we convert that tuple result of the `Decoder` into a `User` instance (3) using the `mirror.fromTuple` function.
 
-## 3.7. Putting It All Together
+### Putting It All Together
 
 Before we test our final `Decoder`, lets combine it together with the `Encoder` into a single `Codec`:
 
@@ -912,7 +912,7 @@ The full code for the `Decoder` and `Codec` can be found in the accompanying <a 
 // @ts-ignore
     frontmatter.repositoryUrl}/blob/master/flat_concrete.scala`}>repo</a>.
 
-# 4. A Generic Codec
+## A Generic Codec
 
 So far we focused on serializing the concrete `User` class, now it's time to take it up a notch and work with any case class.
 
@@ -1101,11 +1101,11 @@ The full code for this part can be found <a href={`${
 
 We now have a generic function that creates a flat JSON format for any case class. This almost fully fulfills our original problem statement. We are only left with one last safety requirement. But before we move on to it, we'll make a slight digression.
 
-# 5. Modularity
+## Modularity
 
 Long ago when we were just at the introduction I convinced you to use type-level programming over macros because macros are more one-off solutions, whereas type-level programming leads to reusable techniques.
 
-## 5.1. What Seems to Be the Problem Officer?
+### What Seems to Be the Problem Officer?
 
 Having done our fair share of type-level programming by now, is this really true here?
 
@@ -1136,7 +1136,7 @@ The way `decodeTuple` is currently written does not allow for such modifications
 
 One way to regain some modularity is to split things into functions and arguments. Instead of iterating a step then summoning one `Decoder`, we can pass in all the `Decoder`s as a tuple and iterate over that. This way we fully separate summoning from iteration.
 
-## 5.2. Match Types
+### Match Types
 
 A good approach though it may be, this creates a new problem, what type will the new function have?
 
@@ -1212,7 +1212,7 @@ def decodeTuple[T <: Tuple](decoders: Map[T, Decoder]): Decoder[T]
 
 This can be read as: given a tuple made up of some `Decoder`s, such that the inner types form the tuple `T`, produce a single `Decoder` for `T`.
 
-## 5.3. Tuple Iteration My Old Friend...
+### Tuple Iteration My Old Friend...
 
 Now that we have a type-signature, we can implement it by `inline match`ing on it. The implementation is similar to the previous version of `decodeTuple` except that now we no longer need to `summon` anything, we just iterate and take the current element of the tuple:
 
@@ -1292,7 +1292,7 @@ We construct our own tuple of `Decoder`s and pass it on to `decodeTuple`. Unfort
 
 Now that we successfully separated summoning from iteration, how do we actually summon the `Decoder`s we need?
 
-## 5.4. I Summon Thee
+### I Summon Thee
 
 Recall that when creating the flat `Decoder` for our case class we have an access to the class's `Mirror`, and that the field types of the class are given by `MirroredElemTypes`. What we need now is to somehow summon a tuple of `Decoder`s, where we have one `Decoder` for each element in `MirroredElemTypes`.
 
@@ -1334,7 +1334,7 @@ inline def makeDecoder[A <: Product](
 
 We first `summon` all the `Decoder`s for the class's fields (1), then we combine them into a single flat `Decoder` (2).
 
-## 5.5. Are We Reusable Yet?
+### Are We Reusable Yet?
 
 This is much more modular than what we had before. `Tuple.Map` and `summonAll` are useful tools that we can use in many other contexts. But the function `decodeTuple` is not as reusable as it can be though.
 
@@ -1378,7 +1378,7 @@ The full code for this part can be found in the <a href={`${
 // @ts-ignore
     frontmatter.repositoryUrl}/blob/master/flat_modular.scala`}>repo</a>.
 
-# 6. Safety First
+## Safety First
 
 Returning from our reusability distraction we are back to the flat JSON problem. We now have one last safety requirement to solve:
 
@@ -1450,7 +1450,7 @@ Not safe, not safe at all...
 
 Let us implement the last safety requirement, that will prevent these errors at compile-time.
 
-## 6.1. So Many Mirrors
+### So Many Mirrors
 
 <WarningAdmonition>
     This is by far the most incomprehensible part of this post as well as the most speculative. I hope we make it out okay...
@@ -1526,7 +1526,7 @@ Once we manage to compute this type, we'll be able to process it, check for dupl
 
 This leaves us with a bit of a problem.
 
-## 6.2. From Values to Types
+### From Values to Types
 
 `Mirror`s are **values** but the result we require is a **type**. So far we only computed **values** from **types** (using `inline`). How do we move from the other way around?
 
@@ -1735,7 +1735,7 @@ The full code for this part can be found in the <a href={`${
 
 Now we're ready for the real fun.
 
-## 6.3. Type-Level Programming for Real
+### Type-Level Programming for Real
 
 Up until now all our type-level manipulations involved a certain value-level component. There was always some `inline def` lurking around. Now that we have our labelling as a pure type, we are going to do some hardcore type-level manipulation over it. Using pure types and nothing else. This is Scala 3's type-level support at its shining best.
 
@@ -1767,7 +1767,7 @@ The code we'll be writing has a straightforward value-level equivalent, which yo
 
 [^notTheBest]: This is of course not the way you would solve this problem with regular Scala. The code is written in a style that conforms to the limitations of the type-level implementation.
 
-## 6.4. Finding Duplicates
+### Finding Duplicates
 
 First we'll need a way to pair each field label with its source (the class it came from). Whenever you need some non-trivial type transformation, you can define or use a match type:
 
@@ -1960,7 +1960,7 @@ The full code for `FindDuplicates` can be found in the <a href={`${
 // @ts-ignore
     frontmatter.repositoryUrl}/blob/master/find_duplicates.scala`}>repo</a>.
 
-## 6.5. Type-Level Observations
+### Type-Level Observations
 
 Before we proceed, let's review what we had did here. Here's the full code for finding the duplicates:
 
@@ -2026,7 +2026,7 @@ Some observations about this code:
 
 Cool, let's turn this into an actual compile-time error.
 
-## 6.6. The `error` Function
+### The `error` Function
 
 So now we have a type-level function that can do the heavy lifting and actually find the duplicate fields among all the `Labelling`s. How do we tie this to an actual compilation error?
 
@@ -2109,7 +2109,7 @@ This could definitely work[^exercise], but it's going to be very low-level strin
 
 [^exercise]: As per usual, feel free to make into an exercise: given the results of `FindDuplicates` turn it into a value, and then into a single error message that can be passed to `error`.
 
-## 6.7. Building Up a Compile-Time String
+### Building Up a Compile-Time String
 
 Seeing how all the information is already encoded as a type, and seeing how powerful the type "language" that we have available to us in the form of match types. We can do the string building directly at compile-time. Then, when the final string is ready, call `constValue` on that final result type.
 
@@ -2274,7 +2274,7 @@ The full code for this part can be found in the accompanying <a href={`${
 
 This concludes the last safety requirement.
 
-## 6.8. All Together For the Last Time
+### All Together For the Last Time
 
 Finally, we can put together all the different parts, to fully solve the flat JSON problem.
 
@@ -2336,7 +2336,7 @@ We get a delightful compilation error informing us that it is not safe to create
 
 Runtime crisis averted!
 
-# 7. Final Words
+## Conclusion
 
 This was a long journey. We started from "simple" type-level programming with tuples and `inline`, and we ended up with a full-blown type-level language based around match types.
 

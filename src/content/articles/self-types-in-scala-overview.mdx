@@ -7,13 +7,15 @@ title: "Self-Types in Scala: A Quick Overview"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 In this article I'm going to address self-types, which are a pretty strange piece of Scala syntax and functionality. Many Scala devs go on writing code for months without any encounter with self-types, then they get baffled by the structure when they need to dig into some library code.
 
 I'm going to address two different wildly different angles to self-types: 1) What the weird structure means 2) What do you do when you want to enforce that a trait MUST be mixed into a type you're defining.
 
 I'll start with #2 and get back to #1 into a (hopefully) logical progression.
 
-## Enforcing type constraints
+## Enforcing Type Constraints
 
 Let's say you have two separate type hierarchies:
 
@@ -82,7 +84,7 @@ trait Diet { self: Person =>
 
 Since you created Diet as a self-type, you already assume that whoever implements Diet will also implement Person, so you will have access to the Person methods. So you can directly use them ahead of time, in the Diet trait.
 
-## The Punchline
+## Conclusion: The Punchline
 
 People constantly ask me what the fundamental difference between self-types and inheritance is, aside from the scenario above. "Why can't we solve this with plain inheritance?". The fundamental difference is subtle. Here's the quick "remember this" lesson:
 

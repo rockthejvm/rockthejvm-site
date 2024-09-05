@@ -7,11 +7,13 @@ title: "Scala 3: Opaque Types Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article continues the series on Scala 3. I'll assume you're familiar with some of the Scala (version 2) foundations, such as defining basic classes, methods, type aliases.
 
 This article focuses on a small but exciting feature: opaque types. This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
-## 1. Background and Motivation
+## Background and Motivation
 
 It is often the case that we define new types as wrappers over existing types (composition). However, in many cases this mechanism will involve at least some sort of overhead, while accessing fields, methods or composing these new types.
 
@@ -25,7 +27,7 @@ case class Name(value: String) {
 
 This case is a plain wrapper over a String. Of course, we can also use things like [refined types](https://www.youtube.com/watch?v=IDrGbsupaok), but regardless of what we end up choosing, this new Name type incurs some sort of overhead. If we have millions of users, these tiny overheads will start to add up.
 
-## 2. Enter Opaque Types
+## Enter Opaque Types
 
 A name is really just a string, but due to the extra logic we attach to it, we have no choice but to incur this overhead, either by wrapping the string, or by forcing the compiler to run some extra checks at compile time. Opaque types allow us to define Name as _being_ a String, and allows us to also attach functionality to it:
 
@@ -37,7 +39,7 @@ object SocialNetwork {
 
 We've defined a type alias, which we can now freely use interchangeably with String inside the scope it's defined.
 
-## 3. Defining an Opaque Type's API
+## Defining an Opaque Type's API
 
 The benefit of an opaque type is that we can treat this new type like a standalone type, such as a class or trait. That means we can define a companion object.
 
@@ -76,7 +78,7 @@ val name: Option[Name] = Name.fromString("Daniel")
 val nameLength = name.map(_.length)
 ```
 
-## 4. Opaque Types with Bounds
+## Opaque Types with Bounds
 
 Opaque type definitions can have type restrictions, much like regular type aliases. Let's imagine we're working on a graphics library and we deal with colors:
 
@@ -102,6 +104,6 @@ case class Overlay(c: Color)
 val fadeLayer = Overlay(halfTransparency)
 ```
 
-## 5. Conclusion
+## Conclusion
 
 You've learned a new tool in the Scala 3 arsenal. It has its drawbacks - notably the inability to use the underlying type's API outside the alias definition scope - but it allows much more flexibility in what you can express in terms of existing types with zero overhead.
