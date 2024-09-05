@@ -7,11 +7,13 @@ title: "How Does the '20 Seconds' Idiom Work in Scala?"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This short article will show you how apparently magical constructs like `20.seconds` works in Scala, although the Int type doesn't have such methods natively.
 
 This article will make more sense if you know the basics of implicits, but then again, if you do know how implicits work, there's only one step to understanding how these seemingly magical methods work, so I'll cover everything you need to know.
 
-## 1. The "Problem"
+## The "Problem"
 
 The question we're addressing here is the following: the Int type has a very small set of methods and certainly the `seconds` method isn't one of them:
 
@@ -29,7 +31,7 @@ val aDuration = 20.seconds // works!
 
 So how does the magical import work?
 
-## 2. Enriching Types
+## Enriching Types
 
 The answer is not in the import itself, but in _what's importe_> - the types and values that are imported might as well be in scope and methods like `.seconds` would work just as fine. It's their structure that provides the magic. To understand how they work, we need to go back to implicits.
 
@@ -62,7 +64,7 @@ new MyRichString("This is a sentence").fullStop
 
 which is what we (explicitly) wrote earlier. This pattern provides what we call _extension method_> - libraries like Cats use this all the time.
 
-## 3. Importing
+## Importing
 
 If an implicit class like this is not written in the scope where we use the "magical" method, the code will not compile until we bring that implicit class into scope. This means an import. Usually, libraries (including the standard library) packs implicits into "Ops"-like objects:
 
@@ -93,7 +95,7 @@ import scala.concurrent.duration._
 500.millis
 ```
 
-## 4. A Bit More and Conclusion
+## A Bit More and Conclusion
 
 Some packages are automatically imported with every Scala code. Some of these packages might include extension methods like the `.seconds` one. Ever wondered how things like
 
