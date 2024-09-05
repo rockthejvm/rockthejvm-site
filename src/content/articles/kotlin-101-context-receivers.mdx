@@ -24,7 +24,7 @@ We'll dive deeply into context receivers, starting with their purpose and benefi
     Context Receivers are an experimental feature and requires good knowledge of Kotlin. If you need to get those skills **quickly** and with thousands of lines of code and a project under your belt, we think you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
 </TipAdmonition>
 
-## 1. Setup
+## Setup
 
 Let's go through the setup steps to harness the power of context receivers in your Kotlin project. **We'll use Gradle with the Kotlin DSL** and enable the context receivers compiling option. Make sure you have Kotlin version 1.8.22 or later installed before proceeding.
 
@@ -202,7 +202,7 @@ Moreover, if you have a Scala or Haskell background, you might notice some inter
 
 The difference between Kotlin and Scala/Haskell is that we do not have any implicit and automatic mechanism to find the correct type class instance. In Scala 2, we have the `implicit` classes, and in Scala 3, we have `given` classes. In Kotlin, we still do not have any auto-magic mechanism.
 
-## 3. Entering the Future: Context Receivers
+## Entering the Future: Context Receivers
 
 The approach we used so far reached the goal. However, it has some limitations.
 
@@ -361,7 +361,7 @@ fun main() {
 
 The above code opens an interesting question: should we use context receivers to implement an idiomatic form of dependency injection?
 
-## 4. What Are Context Receivers Suitable For?
+## What Are Context Receivers Suitable For?
 
 Now that we understand the basics of context receivers, we can ask ourselves: what are they suitable for? In the previous section, we already saw how to use them to implement type classes. However, the last example we made using them at the `class` definition level seems to fit quite well with the concept of dependency injection.
 
@@ -478,7 +478,7 @@ So, although it's possible to implement dependency injection through context rec
 
 The final use case for context receivers is to help with typed errors. In fact, the newer version of the Arrow library uses context receivers to implement an intelligent mechanism to handle typed errors when using functional error handling. However, we'll see this in the next series article, "Functional Error Handling in Kotlin". You can find the first two parts of the series [here](/articles/functional-error-handling-in-kotlin-part-1-absent-values) and [here](/articles/functional-error-handling-in-kotlin-part-2-result-and-either).
 
-## 5. Conclusion
+## Conclusion
 
 It's time we sum up what we saw. In this article, we introduced the experimental feature of context receivers in Kotlin. First, we saw the problem it addresses using the use case of type classes, and we first implemented it through extension functions and dispatcher receivers. Then, we saw how context receivers could improve the solution. Finally, we focused on the strengths and weaknesses of context receivers, and we proved that there are better solutions for dependency injection.
 
@@ -488,7 +488,7 @@ In the next article, we will see how context receivers can help us handle typed 
     If you felt that this article was too complex and need to ramp up on Kotlin quickly, do check out the complete [Kotlin Essentials course](/courses/kotlin-essentials).
 </TipAdmonition>
 
-## 6. Appendix: Gradle Configuration
+## Appendix: Gradle Configuration
 
 As promised, here is the Gradle configuration we used to compile the code in this article. Please, remember to set up your project using the `gradle init` command.
 
