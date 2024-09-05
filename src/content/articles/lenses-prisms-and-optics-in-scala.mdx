@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-## 1. Lenses
+## Lenses
 
 Monocle was invented because nested data structures are a pain to inspect and change. The pain increases with the depth of the data structures. Consider the following scenario: we're designing an online web compendium of rock bands (Rock the JVM, right?). We're thinking about the following data structure design:
 
@@ -91,7 +91,7 @@ Now with the lens in place, we can use it everywhere we need to run similar tran
 
 Why is this pattern called "lens"? Because it allows us to "zoom" into the deeply buried fields of data structures, then inspect or modify them there.
 
-## 2. Prisms
+## Prisms
 
 Prisms are another interesting tool for manipulating data structures. This time, we're working in the world of hierarchies, usually sealed classes/traits or enums. Here's a scenario: we're working on a visual design app and we have various built-in shapes in place. We'd like to be able to manipulate their features while still working against the main "interface".
 
@@ -144,7 +144,7 @@ Both of the above can be used at any point inside our application, without the n
 
 Why is this pattern called a "prism"? Because from the many types (facets) out of a hierarchy of data structures (prism), we're interested in manipulating a single subtype (a "face"). Together with the lens pattern above and with a bunch of others, the Monocle library describes itself as an "optics" library for Scala.
 
-## 3. Composing Optics
+## Composing Optics
 
 Probably the most powerful feature of Monocle is the ability to compose the above patterns (and others). We can inspect and/or modify nested data structures by combining the capability to zoom in (lens) and to isolate a type (prism).
 

@@ -143,3 +143,4 @@ why-are-typeclasses-useful -> why-are-scala-type-classes-useful
 why-we-use-companions -> objects-and-companions-in-scala
 zio-fibers -> zio-fibers-concurrency-and-lightweight-threads
 zio-streams -> zio-streams-introduction
+scala-functional-programming-interview-practice -> scala-and-functional-programming-interview-practice

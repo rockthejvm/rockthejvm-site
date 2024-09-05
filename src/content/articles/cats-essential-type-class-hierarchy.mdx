@@ -42,7 +42,7 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "2.6.1"
 
 ## Starting Easy: Semigroups and Monoids
 
-We've already talked a bit about [semigroups and monoids](/articles/semigroups-and-monoids-in-scala/) in another article. These are some of the simplest type classes in Cats.
+We've already talked a bit about [semigroups and monoids](/articles/semigroups-and-monoids-in-scala) in another article. These are some of the simplest type classes in Cats.
 
 A Semigroup is a type class granting the capability of a type to combine two values of that type and produce another value of that same type:
 
@@ -78,7 +78,7 @@ So we have our first relationship: Monoids extend Semigroups.
 
 ## Functors
 
-We also talked about [functors](/articles/what-the-functor/) in another article and video. In there, we talked about why we need functors, with lots more examples. As a summary, functors describe the capability to "map" containers, such as lists, options, sets, futures, etc. The functor trait looks like this:
+We also talked about [functors](/articles/what-the-functor) in another article and video. In there, we talked about why we need functors, with lots more examples. As a summary, functors describe the capability to "map" containers, such as lists, options, sets, futures, etc. The functor trait looks like this:
 
 ```scala
 trait Functor[F[_]] {
