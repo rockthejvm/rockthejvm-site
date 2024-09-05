@@ -45,7 +45,7 @@ import system.dispatcher
 
 ## Sending HTTP Requests
 
-Now we'll need to start sending HTTP requests. I'll use the exact HTTP API I'm using for the blog: <http://markup.su/highlighter/api>. The API says it needs GET or POST requests to /api/highlighter, with the parameters "language", "theme" and "source" in a request with content type application/x-www-form-urlencoded.
+Now we'll need to start sending HTTP requests. I'll use the exact HTTP API I'm using for the blog: [http://markup.su/highlighter/api](http://markup.su/highlighter/api). The API says it needs GET or POST requests to /api/highlighter, with the parameters "language", "theme" and "source" in a request with content type application/x-www-form-urlencoded.
 
 So let me create a piece of Scala code:
 
@@ -115,4 +115,8 @@ We can create a very nice method which hides this all away:
 
 And then you can go on with your day: pass a string, expect a future containing an HTML highlighting. All done!
 
-If you want to practice sending HTTP requests as an exercise, you can use <https://jsonplaceholder.typicode.com/> for dummy APIs, the same principle applies.
+If you want to practice sending HTTP requests as an exercise, you can use [https://jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com) for dummy APIs, the same principle applies.
+
+## Conclusion
+
+This concludes our 5-minute tutorial on sending HTTP requests with Scala and Akka HTTP. I hope you found it useful.

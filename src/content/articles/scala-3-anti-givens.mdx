@@ -7,15 +7,17 @@ title: "Scala 3: Anti-Givens Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 The Scala 3 [given/using combos](/articles/scala-3-given-and-using-clauses) have enormous expressive power. Just by themselves, they can synthesize new types and prove relationships between types, much like the old Scala 2 [implicits](/articles/scala-3-givens-vs-implicits).
 
 In this article, I'll show you a trick that few Scala developers know: making the compiler exploit the _absence_ of a given instance for enforcing type relationships.
 
-## 1. Background
+## Background
 
 This article is exclusive to Scala 3. So grab your dev environment and create a new Scala 3 project (no libraries are required). Also, some knowledge of [givens](/articles/scala-3-given-and-using-clauses) is going to prove useful.
 
-## 2. The Smaller Problem: Proving Type Equality
+## The Smaller Problem: Proving Type Equality
 
 Imagine you have a library API that processes two lists:
 
@@ -70,7 +72,7 @@ In the first case, the call works because the compiler can synthesize an instanc
 
 This second solution, albeit more complex, paves the way for the solution to a bigger problem.
 
-## 3. The Bigger Problem: Proving Type Difference
+## The Bigger Problem: Proving Type Difference
 
 Let's consider we have the same `processList` library API that we can't change. However, we're faced with the exact opposite constraint this time: how can we make sure that we can only call `processList` with _different_ type arguments? For whatever reason, we can only combine elements from different types in our application so we must enforce this constraint.
 
@@ -100,6 +102,6 @@ val differentListTypes = processListsDifferentType(List(1,2,3), List("black", "w
 
 The first one doesn't compile now, because the compiler can synthesize an instance of `=:=[Int, Int]` and so the `NotGiven` cannot be found, whereas the second case is the opposite.
 
-## 4. Conclusion
+## Conclusion
 
 You learned another trick for manipulating the Scala 3 compiler to enforce type relationships at compile time. More to come!

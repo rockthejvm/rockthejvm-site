@@ -24,7 +24,7 @@ As for requirements, two major pieces are important:
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
-## 1. Background
+## Background
 
 In Scala 2, we had this concept of adding methods to types that were already defined elsewhere, and which we couldn't modify (like String, or Int). This technique was called "type enrichment", which was a bit boring, so people came up with the more tongue-in-cheek "pimping", which bordered on slang-ish, so the term commonly used is "extension methods", because that's what we're doing.
 
@@ -60,7 +60,7 @@ In other words, the `greet` method is an extension to the String type, even thou
 
 Libraries like [Cats](https://typelevel.org/cats) (which I [teach](/courses/cats) here on the site) do this all the time.
 
-## 2. Proper Extensions
+## Proper Extensions
 
 In Scala 3, the `implicit` keyword, although fully supported (for this version), is being replaced:
 
@@ -83,7 +83,7 @@ And now we can call the `greet` method as before:
 "Daniel".greet
 ```
 
-## 3. Generic Extensions
+## Generic Extensions
 
 Much like implicit classes, extension methods can be generic. Let's say somebody wrote a new binary tree data structure
 
@@ -133,7 +133,7 @@ extension [A] (tree: Tree[A]) {
 
 (used curly braces, but [indentation regions](/articles/scala-3-indentation) will also work)
 
-## 4. Extensions in the Presence of Givens
+## Extensions in the Presence of Givens
 
 Or, more precisely, in the presence of `using` clauses.
 

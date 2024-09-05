@@ -7,11 +7,13 @@ title: "Scala Testing with ScalaTest: A Beginner's Guide to Testing Styles"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 In this article, we'll learn the various testing styles of Scala with ScalaTest, one of the most important testing frameworks for Scala. You'll see how to structure your tests, how to describe behaviors, and how to make the distinction between all those FlatSpecs.
 
 This article is beginner-friendly and runs on **both Scala 2 and Scala 3** exactly as it is. No modification needed.
 
-## 1. Background
+## Background
 
 For the longest time, I never paid any attention to ScalaTest and the various testing structures. Whatever I found in my project, e.g. FlatSpecs, I kept writing those. If I found FunSpecs, I kept writing those.
 
@@ -41,7 +43,7 @@ class Calculator {
 
 Because adding and subtracting are simple, we'll focus on a few examples related to multiplication and division.
 
-## 2. Simple Unit Tests: FunSuites
+## Simple Unit Tests: FunSuites
 
 This style of testing is straightforward. Each test comes with its own description and its own body. This is the style of JUnit, MUnit or other unit testing frameworks that use this same structure. Here is an example of a suite that tests for
 
@@ -69,7 +71,7 @@ class CalculatorSuite extends AnyFunSuite {
 
 In ScalaTest, `FunSuites` are used for JUnit-like, independent tests.
 
-## 3. Structured, Nested, Described Tests: FunSpecs
+## Structured, Nested, Described Tests: FunSpecs
 
 This style of testing is focused on testing specifications, i.e. behaviors. It still doesn't use the full expressiveness of Scala, but now we have more powerful testing structures:
 
@@ -101,7 +103,7 @@ class CalculatorSpec extends AnyFunSpec {
 
 In ScalaTest, `FunSpecs` are used for structured, descriptive tests. The style is still similar to the above FunSuites, but we are now moving towards testing behaviors (BDD), which is more powerful and easy to reason about in large codebases.
 
-## 4. Structured, Nested, Expressive Testing: WordSpecs
+## Structured, Nested, Expressive Testing: WordSpecs
 
 Still in the Spec world (BDD), this style of testing takes more advantage of the expressiveness of the Scala language. The tests look more like natural language through the use of "keyword"-methods e.g. `should`, `must`, etc. A test in the word-spec style looks like this:
 
@@ -129,7 +131,7 @@ The beauty of this style of testing is that we can still nest tests inside one a
 
 Expressiveness aside, this testing style enforces a relatively strict testing structure, thereby aligning all team members to the same testing convention.
 
-## 5. The Expressive Testing, No Constraints: FreeSpecs
+## The Expressive Testing, No Constraints: FreeSpecs
 
 This style of testing is very similar to word specs, in the sense that the tests can be read like natural language. Besides that, the testing structure is now free of constraints (hence the Free name prefix): we can nest them, we can create predefined test preparations, we can nest on different levels, etc. This test is still in the behavior (BDD) world, hence the Spec name.
 
@@ -155,7 +157,7 @@ class CalculatorFreeSpec extends AnyFreeSpec {
 
 In this style, the `-` operator takes the significance of any previous keyword in the word-spec style. It can mean anything, which makes this ScalaTest testing style very powerful and flexible.
 
-## 6. Property Checks: PropSpec
+## Property Checks: PropSpec
 
 ScalaTest is able to structure behavior (BDD) tests in the style of properties. Using PropSpec and some prepared examples, we can do just that:
 
@@ -183,7 +185,7 @@ In this testing style, we now have access to the `property` method which creates
 
 ScalaTest also has other tools to help create properties and test them automatically, but that's a subject for a future article.
 
-## 7. The Wonky Tests: RefSpecs
+## The Wonky Tests: RefSpecs
 
 This testing style is rare, but it's still worth mentioning.
 
@@ -219,6 +221,6 @@ class CalculatorRefSpec extends RefSpec { // based on reflection
 
 The object `A calculator` is a test suite, where each method is a test case. When we run this test, ScalaTest will inspect the RefSpec via reflection and turn the objects into test suites and methods into independent tests.
 
-## 8. Conclusion
+## Conclusion
 
 This beginner-friendly article introduced the various testing styles of Scala with ScalaTest. We learned how we can define independent tests, how to create nested tests in different styles, how to use Scala's expressiveness to write DSL-like tests, plus some wonky things at the end. Enjoy Scala testing!

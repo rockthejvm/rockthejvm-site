@@ -13,13 +13,13 @@ import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 This article is for the comfortable Scala programmer. The code here will be written in Scala 3, but it's equally applicable in Scala 2 with some syntax adjustments &mdash; which I'm going to show you as needed.
 
-## 1. Objective
+## Objective
 
 The goal of Monoids, Semigroups, [Monads](/articles/an-introduction-to-monads-in-scala) and other abstractions in functional programming is not so that we can inject more math into an already pretty abstract branch of computer science, but because these abstractions can be incredibly useful. As I hope the following code examples will demonstrate, many high-level constructs expressed as type classes can help make our API more general, expressive and concise at the same time, which is almost impossible without them.
 
 This article will focus on Semigroups and Monoids.
 
-## 2. Semigroups
+## Semigroups
 
 A semigroup is defined loosely as a set + a combination function which takes two elements of that set and produces a third, still from the set. We generally express this set as a type, so for our intents and purposes, a semigroup is defined on a type, which has a combine method taking two values of that type and producing a third.
 
@@ -43,7 +43,7 @@ val stringSemigroup: Semigroup[String] = new Semigroup[String] {
 }
 ```
 
-## 3. Semigroups as a Type Class
+## Semigroups as a Type Class
 
 To make these semigroups &mdash; which are essentially 2-arg combination funcitons &mdash; actually useful, we're going to follow the [type class](/articles/why-are-scala-type-classes-useful) pattern. We've already defined the general API of the type class' trait, so we're going to turn to these type class instances and turn them into [given instances](/articles/scala-3-given-and-using-clauses), or into implicit values/objects for Scala 2. For ergonomics, we'll also move them into an appropriate enclosure (usually an object):
 
@@ -80,7 +80,7 @@ val language = naturalStringSemigroup.combine("Sca", "la")
 
 But why do we need this fancy structure, when we already have the `+` operator for both ints and strings?
 
-## 4. The Problem Semigroups Solve
+## The Problem Semigroups Solve
 
 Let's assume you're creating a tool for other programmers, and you want to expose the ability to collapse lists of integers into a single number (their sum), and lists of strings into a single string (their concatenation). Aside from ints and strings, you want to support many other types, and perhaps others that your users might need in the future. Without semigroups, we'd write something like
 
@@ -110,7 +110,7 @@ which is not only more elegant and more compact, but this can be applied to any 
 
 Long story short, a semigroup helps in creating generalizable 2-arg combinations under a single mechanism.
 
-## 5. Semigroups as Extensions
+## Semigroups as Extensions
 
 Still, we can move further and make our API even better-looking. Because we have Semigroup as a type class, we might want to create an extension method that is applicable for any two items of type T for which there is a `Semigroup[T]` in scope:
 
@@ -153,7 +153,7 @@ val text = reduceCompact(List("i", "love", "scala"))
 
 One method to rule them all. This is one of the reasons why we use Semigroups, Monoids, Monads, Traverse, Foldable and many other type classes.
 
-## 6. Monoids
+## Monoids
 
 With the background of Semigroups, Monoids should feel like a piece of cake now.
 
@@ -205,7 +205,7 @@ object StringInstances {
 
 and both will serve as both Semigroups or Monoids depending on which type class we require; all we need to do is `import IntInstances._` and we're good to go.
 
-## 7. The Cats Library
+## The Cats Library
 
 The way we organized our code is very, _very_ similar to how the Cats library organizes most type classes. In fact, both Semigroups and Monoids are already implemented in Cats and you can use them like this:
 
@@ -224,7 +224,7 @@ val anIntSum = 2 |+| 3
     We dicsuss a lot of other aspects related to Semigroups (and much more) in the [Cats course](/courses/cats) if you're interested.
 </TipAdmonition>
 
-## 8. Conclusion
+## Conclusion
 
 In this article, we discussed two common type classes used in Cats and other FP libraries, and we showed what kind of practical problems they solve &mdash; besides the mathematical abstractions.
 

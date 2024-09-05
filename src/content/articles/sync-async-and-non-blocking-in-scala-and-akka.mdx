@@ -7,9 +7,11 @@ title: Sync, Async, and (Non-)Blocking in Scala and Akka
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article is for programmers of all levels, willing to deal with asynchronous and/or non-blocking computation. I'm going to write Scala (naturally), but the problem I'll address is general and across almost every language and tech: the difference between synchronous, asynchronous, blocking and non-blocking.
 
-## Synchronous, blocking
+## Synchronous: Blocking
 
 Without invoking any other threads, every single thing we write is serial. However, not all things are active in the sense that they perform work. Our job is to get the most out of our CPU, but some function calls invoke some sort of resource (like a database), or wait for it to start, or wait for a response. That is called a blocking call. Blocking, because when you call the function, you can't do anything until you get a result.
 
@@ -29,7 +31,7 @@ val theMeaningOfLife = 42 // I don't want to touch on the philosophical, but thi
 
 The main downside of blocking calls is that the calling thread is neither doing any work, nor is it making any progress, nor is it yielding control to something else.
 
-## Asynchronous, blocking
+## Asynchronous: Blocking
 
 If a synchronous computation performs serially, then an asynchronous expression will be evaluated in parallel. So while your main program flow carries on, your async computation also runs at the same time. This happens, of course, due to both multi-processor systems - which allow us to perform multiple computations at literally the same time - or because of smart process scheduling - which moves so fast that it gives us the impression of multiple things happening simultaneously. In Scala, an asynchronous computation is called a Future, and it can be evaluated on another thread.
 
@@ -59,7 +61,7 @@ The blocking aspect comes from the fact that these kinds of computations need to
 
 so that when you are indeed done, the parrot will say "roger that" and will fly back to you (the calling thread) to deliver the result.
 
-## Asynchronous, non-blocking
+## Asynchronous: Non-Blocking
 
 The true non-blocking power comes from actions that do not block either you (the calling thread) or someone else (some secondary thread). Best exemplified with an Akka actor. An actor, unlike what you may have read from the webs, is not something active. It's just a data structure. The power of Akka comes from the fact that you can create a huge amount of actors (millions per GB of heap), so that a small number of threads can operate on them in a smart way, via scheduling.
 
@@ -81,7 +83,7 @@ Then calling the tell method (!) on the actor is completely asynchronous _and no
 
 Asynchronous, non-blocking computation is what you want.
 
-However, even in this example we have a drawback: we aren't returning any meaningful value out of the interaction. To solve that, we could return a Future which the actor might complete manually. Check out the <a href="https://rockthejvm.com/blog/conttrollable-futures">controllable Futures article</a> for details into the reasoning.
+However, even in this example we have a drawback: we aren't returning any meaningful value out of the interaction. To solve that, we could return a Future which the actor might complete manually. Check out the [controllable Futures article](/articles/controllable-futures-in-scala) for details into the reasoning.
 
 ```scala
   val promiseResolver = ActorSystem(
@@ -113,3 +115,7 @@ asyncNonBlockingResult.onComplete(value => s"I've got a non-blocking async answe
 ```
 
 In this way, neither the calling thread, nor some other thread is immediately used by the call, and we still return meaningful values from the interaction, which we can register a callback on when complete. For some reason, the ask pattern in Akka Typed is very convoluted, but on that, another time.
+
+## Conclusion
+
+Now that you understand the trade-offs between synchronous, asynchronous, blocking and non-blocking computation, you can make informed decisions about how to structure your code.

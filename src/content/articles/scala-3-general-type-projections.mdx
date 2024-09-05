@@ -7,11 +7,13 @@ title: "Scala 3: General Type Projections"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article is about Scala 3. We've talked a lot about the additions in Scala 3 (which you can easily search on the blog), but it's also worth talking about the removals. In particular, this article will focus on the fact that "general type projections are unsound": what that phrase means, what that leads to, and why the feature was removed in Scala 3.
 
 This removal (along with dozens of other changes) was explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
-## 1. Background and Context
+## Background and Context
 
 We should know already that we can define classes, objects and traits _inside_ other classes, objects and traits.
 
@@ -44,9 +46,9 @@ We used abstract type projections in the Scala 2 [type-level programming mini-se
 
 The problem is, it's not quite right. Martin Odersky initially signalled this by showing [an example](https://github.com/lampepfl/dotty/issues/1050) where the general type projections leads to uncompilable code which does compile and throws an error. The example does not compile in 2.13 anymore so the issue was fixed, but the general argument remains.
 
-## 2. Using General Type Projections
+## Using General Type Projections
 
-I'll follow upon an exercise that I used in the [Advanced Scala 2 course](/courses/scala-advanced-old) to practice path-dependent types and type projections. The exercise sounds like this &mdash; assume we'd like to build a general library for fetching type-safe fields from a database. We have a general type that describes items in the database, along with an identifier (key) in the folloing form:
+I'll follow upon an exercise that I used in the [Advanced Scala 2 course](/courses/advanced-scala-old) to practice path-dependent types and type projections. The exercise sounds like this &mdash; assume we'd like to build a general library for fetching type-safe fields from a database. We have a general type that describes items in the database, along with an identifier (key) in the folloing form:
 
 ```scala
   trait ItemLike {
@@ -81,7 +83,7 @@ def get[I <: ItemLike](key: I#Key): I = ??? // implementation not important (and
 
 and lo and behold, the code compiles for those previous examples.
 
-## 3. Compiling Code that Breaks
+## Compiling Code that Breaks
 
 However, let me follow on the process to show you how quickly even this code can lead to trouble at runtime. Assume that we expand this suite of definitions with the following two types:
 
@@ -157,7 +159,7 @@ Exception in thread "main" java.lang.ClassCastException: class java.lang.String 
 
 And of course it does! The identity function is of type `Any => Nothing`, which means the String we pass to this function will have to be converted to `Nothing`. It doesn't make sense, and the runtime catches up to us.
 
-## 4. Explanation and Conclusion
+## Conclusion
 
 The reason is the general type projection `I#Key`. Because the compiler allows us to write an abstract type projection, the compiler cannot do any bound compatibility checks on the `Key` member of `I` because `I` is abstract, and therefore it has no information on what `I#Key` can or cannot be.
 

@@ -13,7 +13,7 @@ This article is for the Scala programmers who are curious about the next feature
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
-## 1. Background: First-World Problems
+## Background: First-World Problems
 
 Instead of describing the feature, I want to start with the need first. Let's say you are working on a library for standard data types (e.g. Int, String, Lists), and you want to write a piece of code that extracts the last constituent part of a bigger value:
 
@@ -39,7 +39,7 @@ Being the DRY maniac you are, you notice that the signatures of these methods is
 
 How can you do that in the current Scala 2 world?
 
-## 2. Enter Match Types
+## Enter Match Types
 
 Some good news and some bad news. The bad news is that you can't follow your dreams in Scala 2 (not this one at least). The good news is that it's possible in Scala 3.
 
@@ -62,7 +62,7 @@ val anElement: ConstituentPartOf[List[String]] = "Scala"
 
 That `case List[t] => t` is a pattern on types, which is evaluated on variable type arguments. The compiler figures out what the type `t` is, then proceeds to reduce the abstract `ConstituentPartOf[List[t]]` to that `t`. All done at compile time.
 
-## 3. Dependent Methods with Match Types
+## Dependent Methods with Match Types
 
 Now let's see how match types can help solve our first-world-DRY problem. Because all the previous methods have the meaning of "extract the last part of a bigger thing", we can use the match type we've just created to write the following all-powerful API:
 
@@ -93,7 +93,7 @@ def lastComponentOf[T](thing: T): ConstituentPartOf[T] = thing match
 
 And our first-world problem is done by unification.
 
-## 4. The Subtle Need for Match Types
+## The Subtle Need for Match Types
 
 Why would we need these match types to begin with?
 
@@ -125,7 +125,7 @@ On the other hand, our `lastComponentOf` method allows the compiler to be flexib
 
 Expressed this way, we see how we make the connection between argument and return type more loose, but still properly covered.
 
-## 5. Extra Power for Match Types
+## Extra Power for Match Types
 
 Match types can be recursive. For example, if we wanted to operate on nested lists, we would say something like
 
@@ -155,7 +155,7 @@ def aNaiveMethod[T]: InfiniteRecursiveType[T] = ???
 val illegal: Int = aNaiveMethod[Int] // <-- error here: the compiler SO'd trying to find your type
 ```
 
-## 6. Limitations for Match Types
+## Limitations for Match Types
 
 As far as I'm aware &mdash; and please correct me if I'm wrong &mdash; the utility of match types in dependent methods is conditioned by the exact signature of the dependent method. So far, only methods with the signature
 
@@ -171,6 +171,6 @@ def accumulate[T](accumulator: T, value: ConstituentPartOf[T]): T
 
 would be possible to define, but impossible to implement: even if the pattern match structure on `accumulator` is identical to the type-level pattern match, the compiler can't figure out that `accumulator` may have the `+` operator if it's determined to be a BigInt. Such a pattern match would be equivalent with _flow typing_, which is probably a holy grail of the future Scala type system.
 
-## 7. Conclusion
+## Conclusion
 
 We learned about match types, which are able to solve a very flexible API unification problem. I'm sure some of you will probably dispute the seriousness of the problem to begin with, but it's a powerful tool to have in your type-level arsenal, when you're defining your own APIs or libraries.

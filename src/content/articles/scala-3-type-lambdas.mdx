@@ -7,11 +7,13 @@ title: "Scala 3: Type Lambdas Quickly Explained"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article is a bit more difficult &mdash; it's aimed at the experienced Scala developer who can think at a higher level. Ideally, you've read the [previous article](/articles/types-kinds-and-type-constructors-in-scala) - it serves as a prep for this one. Type lambdas are simple to express in Scala 3, but the ramifications are deep.
 
 This feature (along with dozens of other changes) is explained in depth in the [Scala 3 New Features](/courses/scala-3-new-features) course.
 
-## 1. Background
+## Background
 
 We discussed in the [previous article](/articles/types-kinds-and-type-constructors-in-scala) about categorizing types in Scala into _kinds_. Scala 3 is no different here. However, it introduces a new concept and a syntactic structure to express it, which might look daunting and hard to wrap your head around.
 
@@ -23,7 +25,7 @@ To quickly recap:
 - Scala allows us to express higher-kinded types &mdash; generic types whose type arguments are also generic. I called this kind the level-2 kind.
 - Generic types can't be attached to values on their own; they need the right type arguments (of inferior kinds) in place. For this reason, they're called type constructors.
 
-## 2. Types Look Like Functions
+## Types Look Like Functions
 
 As I mentioned before, generic types need the appropriate type arguments before they can be attached to a value. We can never use the `List` type directly to a value, but only `List[Int]` (or some other concrete type).
 
@@ -41,7 +43,7 @@ Some more examples in increasing order of complexity:
 - `[T, E] =>> Either[Option[T], E]` is a type which takes two type arguments and gives you back a concrete `Either` type with `Option[T]` and `E`
 - `[F[_]] =>> F[Int]` is a type which takes a type argument which is itself generic (like `List`) and gives you back that type, typed with `Int` (too many types, I know)
 
-## 3. Why We Need Type Lambdas
+## Why We Need Type Lambdas
 
 Type lambdas become important as we start to work with higher-kinded types. Consider Monad, one of the most popular higher-kinded type classes. In its simplest form, it looks like this:
 
@@ -78,7 +80,7 @@ If this is really abstract and hard to wrap your head around, I feel ya.
 
 Prior to Scala 3, libraries like Cats used to resort to compiler plugins ([kind-projector](https://github.com/typelevel/kind-projector)) to achieve something akin to the `?` structure above. Now in Scala 3, it's expressly permitted in the language.
 
-## 4. Conclusion
+## Conclusion
 
 With a simple syntactic structure, Scala 3 solved a problem that API designers had been facing (and bending over backwards) for ages - how to define higher-kinded types where some type arguments are left "blank".
 
