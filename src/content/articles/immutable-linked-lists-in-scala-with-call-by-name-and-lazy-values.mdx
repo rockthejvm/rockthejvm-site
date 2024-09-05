@@ -17,7 +17,7 @@ If you're up for a challenge, try your hand at this problem before reading the r
 
 This article was inspired by a question from one of my students who got the point of my initial singly linked list implementation and wanted to move one level up. However simple a doubly-linked-list might be conceptually, this student picked quite a difficult data structure for practice.
 
-## 1. The Disclaimer
+## The Disclaimer
 
 A doubly-linked list doesn't offer too much benefit in Scala, quite the contrary. The complexity is still O(1) for accessing the "head" i.e. the current element you're pointing at, and O(n) for basically everything else. While appending was O(n) for singly-linked lists, now you'll get O(n) for _prepending_ as well for doubly-linked lists. Not to mention you'd have to replace the entire list for every modification.
 
@@ -25,7 +25,7 @@ So this data structure is pretty useless from a practical standpoint, which is w
 
 All that said, a doubly-linked list is an excellent exercise on the mental model of immutable data structures.
 
-## 2. The Challenge with a Doubly-Linked List
+## The Challenge with a Doubly-Linked List
 
 Implementing a _singly_ linked list is relatively easy. Define a list interface with some basic methods:
 
@@ -101,7 +101,7 @@ val b = Cons(4, a) // who's a?
 
 An imperative approach would quickly solve this problem because we're allowed to mutate references: for example we could start with nodes pointing at `null`, then change the references to point to the right nodes. But we're not allowed mutation, so we have our hands tied.
 
-## 3. Enter Call-By-Name and Lazy Values
+## Enter Call-By-Name and Lazy Values
 
 This section assumes you know call-by-name and lazy values. A quick recap:
 
@@ -128,7 +128,7 @@ As we mentioned earlier, prepending means:
 - Pointing that node's `next` reference to the rest of the list...
 - ...which also needs to update its `prev` and `next` reference throughout the list
 
-## 4. Forward References and Lazy Vals
+## Forward References and Lazy Vals
 
 Let's take the smaller problem of updating a node's `prev` reference. Let's say we have the list `[1,2,3,4]`, pointing at 1. We want to change this node's `left` reference to another value, say 5, so we'll end up with `[5,1,2,3,4]`.
 
@@ -193,7 +193,7 @@ class DLCons[+T](override val value: T, p: => DLList[T], n: => DLList[T]) extend
 
 Look at `updatePrev`: we're creating a new node, whose `next` reference immediately points to a recursive call; the recursive call is on the current `next` node, which will update its own previous reference to the result we're still in the process of defining! This forward reference is only possible in the presence of lazy values and the by-name arguments. The `updateNext` method is simply symmetrical.
 
-## 5. Adding Elements to a Doubly-Linked list
+## Adding Elements to a Doubly-Linked List
 
 With these methods in place, we can now use a similar technique to add another element to either ends of a doubly-linked list:
 
@@ -214,7 +214,7 @@ class DLCons[+T](override val value: T, p: => DLList[T], n: => DLList[T]) extend
 
 Look at the `prepend` method: we're creating a new node with the same value as the one we're looking at, whose previous node is a recursive call to `prepend` _with its `next` pointer updated to the node we're currently defining_ (the same forward reference technique), and the "tail" of the list simply being an update of the current "tail" with the `prev` pointer to the node we're currently defining (yet another forward reference). Again, the `append` method is symmetrical.
 
-## 6. Full Code
+## Full Code
 
 ```scala
 trait DLList[+T] {
@@ -280,6 +280,6 @@ object DLListPlayground {
 }
 ```
 
-## 7. Conclusion
+## Conclusion
 
 We learned how to use _forward references_ based on call-by-name and lazy values to implement a (pretty primitive) fully immutable doubly-linked list with proper appending and prepending. This data structure will likely not become part of the standard library too soon &mdash; we'd have to replace the whole list on every new addition &mdash; this is an excellent small exercise for the technique, that you might apply elsewhere in your libraries or custom data structures.

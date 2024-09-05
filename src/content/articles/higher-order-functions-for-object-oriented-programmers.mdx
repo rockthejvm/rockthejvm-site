@@ -78,7 +78,7 @@ def nTimes(f: Int => Int, n: Int): Int => Int =
 
 The above code is concise and often hard to read, especially if you've not done a lot of this before, so it's natural if it takes a few minutes to unpack.
 
-_FAQ 1: How do you read this? _
+> How do you read this?
 
 Let's take a look at the code. If n is zero or less, we return a function that given an argument returns the argument (the identity function). Otherwise, we return a function, that given an argument, _applies the n-1-times function to f(x)._. Look at this breakdown:
 
@@ -100,7 +100,7 @@ nTimes(f, 4) = x => nTimes(f, 3)(f(x)) = f(f(f(f(x))))
 */
 ```
 
-_FAQ 2: When are these functions created? _
+> When are these functions created?
 
 If we read the code, we can see that all these intermediate functions are not created until we actually call the result function. For example, if we said
 
@@ -116,7 +116,7 @@ val f4 = (x: Int) => nTimes(f, 3)(f(x))
 
 which is easier to see: this is not creating the rest of the functions up to n = 0. If we invoke f4, then that will be a different story, as all the intermediate functions will be created.
 
-_FAQ 3: I understand the mathematical definition. But to an OO programmer like me, how are these functions created in memory?_
+> I understand the mathematical definition. But to an OO programmer like me, how are these functions created in memory?
 
 It's worth coming back to the origins of functions. Let me rewrite the code with the original types:
 
@@ -129,3 +129,7 @@ def nTimes(f: Function1[Int, Int], n: Int): Function1[Int, Int] =
 ```
 
 Somewhat counterintuitively, it's easier for OO (especially Java) programmers to read this, whereas the more experienced you are with Scala, the more bloated this code will seem. If you come from a very heavy OO background, this code will shed some light onto how the functions are getting created, because we're now talking about plain JVM objects. If you track this down in the same style we saw above, you will see how the function objects are being spawned in memory. Being recursive, these objects are short lived, so even though they might be using more memory than necessary, they will be quickly freed by the JVM's garbage collection.
+
+## Conclusion
+
+This article was a gentle introduction to higher-order functions for object-oriented programmers. I hope you foudn it useful!

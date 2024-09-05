@@ -7,6 +7,8 @@ title: "How Akka Typed Incentivizes Writing Good Code"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 Akka Typed is widely praised for bringing compile-time checks to actors and a whole new actor API. The problem is that even this new typed API has loopholes that almost never completely close the old Akka anti-patterns. However, the 2.6 API is a big step in the right direction, because although the API is not airtight, it's extremely powerful in the way that it shapes incentives to write good code. Let me give some examples for some of the most basic things.
 
 ## Typed Messages
@@ -109,6 +111,6 @@ In the new API, we don't have that. No more system.actorOf. You are now forced t
 
 So even if your root actor doesn't handle messages itself, the fact that you can only spawn actors from a hierarchy is a huge win. It forces you to be a good citizen and embed actor hierarchy - and thus supervision - into your code.
 
-## A Way Forward
+## Conclusion: A Way Forward
 
 This new API redefines what "normal" code should look like, and for the most part, it's shepherding Akka code towards the right direction. As I mentioned earlier, the API is not airtight and it can still be circumvented, but expect to see better Akka code in the future simply by the tools we now have at our disposal.

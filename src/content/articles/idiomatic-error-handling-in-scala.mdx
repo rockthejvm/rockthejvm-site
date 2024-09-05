@@ -7,9 +7,11 @@ title: Idiomatic Error Handling in Scala
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article will show you various ways of dealing with errors in Scala. Some are easy and beginner-friendly, and some are more complex, but more powerful. Let's take a look.
 
-## 1. Throwing and Catching Exceptions
+## Throwing and Catching Exceptions
 
 Short story: Scala runs on the JVM, so it can throw and catch exceptions just like Java. There's little more to say. This leads to the first straightforward way of dealing with errors.
 
@@ -35,7 +37,7 @@ However, this straightforward approach is rarely the recommended one, for a few 
 - Nesting such structures (even at level 2) become exponentially harder to debug and understand
 - For pure functional programmers, the `finally` part doing things outside of value computations might cause a small aneurysm
 
-## 2. Let's `Try` Better
+## Let's `Try` Better
 
 Idiomatic functional programming requires us to reason with code by thinking of every piece as an expression, hence something that reduces to a value. Therefore, we need to think exception handling in much the same way: as an expression meaning a crashed computation, or a successful one.
 
@@ -95,7 +97,7 @@ val aChainedComputation = for {
 
 If you're just starting to use Scala, use Try until you never have to try/catch again. Then go to the next step.
 
-## 3. `Either` This or That
+## `Either` This or That
 
 `Try` is based on the assumption that an exception is also a valid data structure. Fundamentally, an error in an application is also valuable information. Therefore, we should treat it as such, by manipulating this information into something useful. In this way, we reduce the notion of "error" to a value.
 
@@ -191,7 +193,7 @@ The `validate` method can combine 3 `Validated` instances, in the sense that:
 - Process both values and errors, separately or at the same time
 - Convert to/from Either, Try and Option
 
-## 5. Conclusion
+## Conclusion
 
 In this article, you've seen a few ways to handle errors, from the most basic and limiting, to the most advanced, complex and powerful. In short:
 

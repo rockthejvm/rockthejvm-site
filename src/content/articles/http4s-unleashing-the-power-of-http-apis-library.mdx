@@ -20,7 +20,7 @@ If we learned the basics of functional programming using the Cats ecosystem, it'
     This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming. Riccardo is a senior developer, a teacher and a passionate technical blogger.
 </NoteAdmonition>
 
-## 1. Background
+## Background
 
 First things first, we need an excellent example to work with. In this case, we need a domain model easy enough to focus on creating of simple APIs.
 
@@ -48,7 +48,7 @@ Without dwelling on the details, we can identify the following APIs among the ot
 
 As we just finished the \[Riccardo speaking here\] fantastic [Cats course on Rock The JVM](/courses/cats), we want to use a library built on the Cats ecosystem. Fortunately, the [http4s](https://http4s.org/) library is what we are looking for. So, let's get a deep breath and start diving into the world of functional programming applied to HTTP APIs development.
 
-## 2. Library Setup
+## Library Setup
 
 The dependencies we must add in the `build.sbt` file are as follows:
 
@@ -73,7 +73,7 @@ Now that we have the library dependencies, we will create a small HTTP server wi
 
 So, let's start the journey along with the http4s library.
 
-## 3. http4s Basics
+## http4s Basics
 
 **The http4s library is based on the concepts of `Request` and `Response`**. Indeed, we respond to a `Request` through a set of functions of type `Request => Response`. We call these functions _routes_, and **a server is nothing more than a set of routes**.
 
@@ -108,7 +108,7 @@ object Http4sTutorial extends IOApp {
 
 Awesome. So, it's time to start our journey with the implementation of the endpoint returning the list of movies associated with a particular director.
 
-## 4. Route Definition
+## Route Definition
 
 We can imagine the route that returns the list of movies of a director as something similar to the following:
 
@@ -150,7 +150,7 @@ The definition of the route continues extracting the rest of the information of 
 
 Each part of the remaining `Path` is read using a specific extractor. We use the `/` extractor to pattern match each piece of the path. In this case, we match the pure `String` `"movies"`. However, we will see in a minute that it is possible to pattern match also directly in a variable.
 
-### 4.1. Handling Query Parameters
+### Handling Query Parameters
 
 The route we are matching contains some query parameters. **We can introduce the match of query parameters using the `:?` extractor**. Even though there are many ways of extracting query params, the library sponsors the use of _matchers_. In detail, extending the `abstract class QueryParamDecoderMatcher`, we can pull directly into a variable a given query parameter:
 
@@ -192,7 +192,7 @@ object QueryParamDecoder {
 
 Furthermore, the companion object `QueryParamDecoder` contains many other practical methods to create custom decoders.
 
-### 4.2. Matching Path Parameters
+### Matching Path Parameters
 
 Another everyday use case is a route that contains some path parameters. Indeed, the API of our backend isn't an exception, exposing a route that retrieves the list of actors of a movie:
 
@@ -239,7 +239,7 @@ def directorRoutes[F[_] : Monad]: HttpRoutes[F] = {
 }
 ```
 
-### 4.3. Composing Routes
+### Composing Routes
 
 **The routes defined using the http4s DSL are composable**. So, it means that we can define them in different modules and then compose them in a single `HttpRoutes[F]` object. As developers, we know how vital module compositionality is for code that is easily maintainable and evolvable.
 
@@ -266,7 +266,7 @@ def allRoutesComplete[F[_] : Monad]: HttpApp[F] = {
 
 As we can see, the method returns an instance of the type `HttpApp[F]`, which is a type alias for `Kleisli[F, Request[F], Response[F]]`. Hence, for what we said at the beginning of this article, this `Kleisli` is nothing more than a wrapper around the function `Request[G] => F[Response[G]]`. So, the difference with the `HttpRoutes[F]` type is that we removed the `OptionT` on the response.
 
-## 5. Generate Responses
+## Generate Responses
 
 As we said, **generating responses to incoming requests is an operation that could involve some side effects**. In fact, http4s handle responses with the type `F[Response]`. However, explicitly creating a response inside an effect `F` can be tedious.
 
@@ -378,7 +378,7 @@ def movieRoutes[F[_] : Monad]: HttpRoutes[F] = {
   }
 ```
 
-### 5.1. Headers and Cookies
+### Headers and Cookies
 
 In the previous section, we saw that http4s inserts some preconfigured headers in the response. However, it's possible to add many other headers during the response creation:
 
@@ -404,9 +404,9 @@ Ok().map(_.addCookie(ResponseCookie("My-Cookie", "value")))
 
 We will add more stuff to the `Ok` response later since we need to introduce objects' serialization first. So, we can instantiate a new `ResponseCookie`, giving the constructor all the additional information needed by a cookie, such as expiration, the secure flag, httpOnly, flag, etc.
 
-## 6. Encoding and Decoding Http Body
+## Encoding and Decoding HTTP Body
 
-### 6.1. Access to the Request Body
+### Access to the Request Body
 
 By now, we should know everything we need to match routes. Now, it's time to understand how to decode and encode structured information associated with the body of a `Request` or of a `Response`.
 
@@ -440,7 +440,7 @@ def directorRoutes[F[_] : Concurrent]: HttpRoutes[F] = {
 
 Then, the `Request[F]` object has a `body` attribute of type `EntityBody[F]`, which is a type alias for `Stream[F, Byte]`. **As the HTTP protocol defines, the body of an HTTP request is a stream of bytes**. The http4s library uses the [`fs2.io`](https://fs2.io/#/) library as stream implementation. Indeed, this library also uses the Typelevel stack (Cats) to implement its functional vision of streams.
 
-### 6.2. Decoding the Request Body Using circe
+### Decoding the Request Body Using circe
 
 In fact, every `Request[F]` extends the more general `Media[F]` trait. This trait exposes many practical methods dealing with the body of a request, and the most interesting is the following:
 
@@ -501,7 +501,7 @@ The above code uses the _for-comprehension_ syntax making it more readable. Howe
 
 Last but not least, we changed the context-bound of the effect `F`. In fact, the `jsonOf` method requires at least an instance of `Concurrent` to execute. So, the `Monad` type class is not sufficient if we need to decode a JSON request into a `case class`.
 
-### 6.3. Encoding the Response Body Using circe
+### Encoding the Response Body Using circe
 
 The encoding process of a response body is very similar to the one described for decoding a request body. As the reference example, we go forward with the API getting all the films directed by a specific director during a year:
 
@@ -592,7 +592,7 @@ def movieRoutes[F[_] : Monad]: HttpRoutes[F] = {
 }
 ```
 
-## 7. Wiring All Together
+## Wiring All Together
 
 We learned how to define a route, read path and parameter variables, read and write HTTP bodies, and deal with headers and cookies. Now, it's time to connect the pieces, defining and starting a server serving all our routes.
 
@@ -628,7 +628,7 @@ As we can see, the `Router` accepts a list of mappings from a `String` root to a
 
 Moreover, the builder needs an instance of a `scala.concurrent.ExecutionContext` to handle incoming requests concurrently. Finally, we need to bind the builder to an effect because the execution of the service can lead to side effects itself. In our example, we bind the effect to the `IO` monad from the library Cats Effect.
 
-### 7.1. Executing the Server
+### Executing the Server
 
 Once we configured the basic properties, we need to run the server. Since we chose to use the `IO` monad as an effect, the easier way to run an application is inside an `IOApp`, provided by the Cats Effect library, too.
 
@@ -657,7 +657,7 @@ object Http4sTutorial extends IOApp {
 
 Once we have a `Resource` to handle, we can `use` its content. In this example, we say that whatever the resource is, we want to produce an effect that never terminates. In this way, the server can accept new requests over and over. Finally, the last statement maps the result of the `IO` into the given value, `ExitCode.Success`, needed by the `IOApp`.
 
-### 7.2. Try It Out!
+### Try It Out!
 
 Eventually, all the pieces should have fallen into place, and the whole code implementing our APIs is the following:
 
@@ -830,11 +830,21 @@ Once the server is up and running, we can try our freshly new APIs with any HTTP
 ]
 ```
 
-## 8. Addendum: Why We Need to Abstract over the Effect
+## Conclusion
+
+In this article, we introduced the http4s ecosystem that helps us serving API over HTTP. The library fully embraces the functional programming paradigm, using Cats and Cats Effect as building blocks.
+
+So, we saw how easy is the definition of routes, handling path and query parameters, and how to encode and decode JSON bodies. Finally, we wired all the things up, and we showed how to define and start a server.
+
+Even though there many other features that this introductive tutorial doesn't address, such as [Middlewares](https://http4s.org/v1.0/middleware/), [Streaming](https://http4s.org/v1.0/streaming/), [Authentication](https://http4s.org/v1.0/auth/), we could now build many non-trivial use cases concerning the development of HTTP API.
+
+Hence, there is only one thing left: Try it on your own and enjoy pure functional programming HTTP APIs!
+
+## Addendum: Why We Need to Abstract over the Effect
 
 We should have kept an eye on the use of the abstract `F[_]` type constructor in the routes' definition, instead of the use of a concrete effect type, such as `IO`. Let's see why.
 
-### 8.1. A (Very) Fast Introduction to the Effect Pattern
+### A (Very) Fast Introduction to the Effect Pattern
 
 First, why do we need to use an effect in routes definition? We must remember that we are using a library that is intended to embrace the purely functional programming paradigm. Hence, our code must adhere to the [substitution model](http://www.cs.cornell.edu/courses/cs312/2008sp/lectures/lec05.html), and we know for sure that every code producing any possible side effect is not compliant with such a model. Besides, we know that reading from a database or a file system, and in general, interacting with the outside world potentially raises exceptions or produces different results every time it is executed.
 
@@ -859,7 +869,7 @@ hw.unsafeRunSync
 
 If we want the substitution model to apply to the whole part of the application, the only appropriate place to call the `unsafeRunSync` is in the `main` method, also called _the end of the world_. Indeed, it's precisely what the `IOApp.run` method does for us.
 
-### 8.2. Why Binding Route Definition to a Concrete Effect Is Awful
+### Why Binding Route Definition to a Concrete Effect Is Awful
 
 So, why don't we directly use a concrete effect, such as the `IO` effect, in the routes' definitions?
 
@@ -882,13 +892,3 @@ As we said, the decoding of case classes from JSON literals through the circe li
 Moreover, **using a type constructor instead of a concrete effect makes the whole architecture easier to test**. Binding to a concrete effect forces us to use it in the tests, making tests more challenging to write.
 
 For example, in tests, we can bind `F[_]` to the `Reader` monad, instead, or any other type constructor, eventually satisfying the constraints given within the context-bound.
-
-## 9. Conclusion
-
-In this article, we introduced the http4s ecosystem that helps us serving API over HTTP. The library fully embraces the functional programming paradigm, using Cats and Cats Effect as building blocks.
-
-So, we saw how easy is the definition of routes, handling path and query parameters, and how to encode and decode JSON bodies. Finally, we wired all the things up, and we showed how to define and start a server.
-
-Even though there many other features that this introductive tutorial doesn't address, such as [Middlewares](https://http4s.org/v1.0/middleware/), [Streaming](https://http4s.org/v1.0/streaming/), [Authentication](https://http4s.org/v1.0/auth/), we could now build many non-trivial use cases concerning the development of HTTP API.
-
-Hence, there is only one thing left: Try it on your own and enjoy pure functional programming HTTP APIs!
