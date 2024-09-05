@@ -18,7 +18,7 @@ We'll introduce Scala Options, a seemingly contrived data structure, but we'll s
 
 We teach Options in-depth in the [Scala Essentials](/courses/scala-essentials) course, along with examples and exercises, if you want to check it out. In this article, we'll introduce Options, show you how they work, and _why_ they exist.
 
-## 1. Introduction to Scala Option
+## Introduction to Scala Option
 
 The first real data structure we learn when getting started with Scala is the list. It's quick to set up, and easy to understand.
 
@@ -64,7 +64,7 @@ val anEmptyOption: Option[Int] = Option.empty // an option that doesn't contain 
 
 Let's see some operators on Options.
 
-## 2. Scala Option API
+## Scala Option API
 
 First, let's talk about the possible cases of an Option:
 
@@ -126,7 +126,7 @@ The `isEmpty` method checks whether an Option contains nothing. The `getOrElse` 
 
 There are more methods in the Option data type, but these are the most frequently used.
 
-## 3. Why We Need Options in Scala
+## Why We Need Options in Scala
 
 At this point, you might be thinking why on Earth we need this weird data structure which resembles a list, but it only contains a single value or nothing. Why can't we just use a list?
 
@@ -187,7 +187,7 @@ With this in mind, we'll write a first piece of good practice:
 
 **When you have APIs that risk returning nulls, wrap them in Options when you use them. Better yet, if you can change the API, return `Option[YourType]` instead.**
 
-## 4. Resisting the Temptation to Retrieve Option Values
+## Resisting the Temptation to Retrieve Option Values
 
 Beginning Scala programmers, upon learning about Options, can successfully navigate Option transformations in other people's code. However, when some external code hands them an Option, the immediate itch is to try to "get" the value inside the Option, so that you can do something meaningful to it.
 
@@ -217,7 +217,7 @@ So here's the second piece of advice:
 
 **Resist the temptation to "get" the values inside your Options. Rather, use transformations like `map`, `flatMap`, `filter`, `orElse`, etc.**
 
-## 5. The Option Mistake of Doom
+## The Option Mistake of Doom
 
 We mentioned at the beginning that we can build Options with the `Some` and `None` constructors explicitly. That's discouraged; you should always use the `Option` constructor/apply method all the time.
 
@@ -233,6 +233,6 @@ So here's the final bit of best practice:
 
 **Always use the `Option` "constructor"/apply method to build new Options. NEVER EVER use `Some(null)` or `Some(anExpressionThatCanBeNull)`, because you'll kill us all.**
 
-## 6. Conclusion
+## Conclusion
 
 In this article, we introduced Scala Options: how you can start thinking about them, the main API, how to transform Options, _why_ they are useful, and we also shared some bits of best practice when dealing with them.
