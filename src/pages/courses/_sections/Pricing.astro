@@ -7,11 +7,12 @@ interface Props {
   course: CollectionEntry<"courses">;
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: number;
+  category?: CollectionEntry<"courseCategories">;
 }
 
-const { course, color, pricingPlanId } = Astro.props;
+const { category, course, color, pricingPlanId } = Astro.props;
 ---
 
-<Section {color} title="Take this course now!">
+<Section {color} {category} title="Take this course now!">
   <CoursePricing {course} {pricingPlanId} />
 </Section>

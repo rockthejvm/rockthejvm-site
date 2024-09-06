@@ -1,11 +1,17 @@
 ---
 import Prose from "@components/Prose.astro";
 import Section from "@components/Section.astro";
+import type { CollectionEntry } from "astro:content";
 
-const { color } = Astro.props;
+interface Props {
+  color: string;
+  category?: CollectionEntry<"courseCategories">;
+}
+
+const { category, color } = Astro.props;
 ---
 
-<Section showGradient={true} {color} title="Skills You'll Learn">
+<Section showGradient={true} {color} {category} title="Skills You'll Learn">
   <div class="max-w-3xl mx-auto">
     <Prose>
       <slot />
