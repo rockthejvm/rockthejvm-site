@@ -5,12 +5,13 @@ import type { CollectionEntry } from 'astro:content'
 
 interface Props {
   courseList: CollectionEntry<"courses">[];
+  color: string;
 }
 
-const { courseList } = Astro.props;
+const { color, courseList } = Astro.props;
 ---
 
-<Section title="Included Courses">
+<Section {color} title="Included Courses">
   <ul
     role="list"
     class="mx-auto px-8 my-8 md:my-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"

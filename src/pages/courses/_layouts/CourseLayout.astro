@@ -55,7 +55,7 @@ const collaborator = course.data.collaborator ? await getEntry("authors", course
       )
     }
     {features && Object.keys(features).length > 0 &&
-      <Features color={category.data.color} {category} {features}>
+      <Features color={category.data.color} {features}>
         <slot name="feature1" slot="feature1" />
         <slot name="feature2" slot="feature2" />
         <slot name="feature3" slot="feature3" />
@@ -74,13 +74,13 @@ const collaborator = course.data.collaborator ? await getEntry("authors", course
     <Profile color={category.data.color} {collaborator} {category}/>
     {category.id === "bundle" &&
       (
-        <BundledCourses {courseList} />
+        <BundledCourses color={category.data.color} {courseList} />
       )
     }
     {category.id !== "bundle" &&
-      <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId} {category}/>
+      <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId}/>
     }
-    <Pricing {course} pricingPlanId={pricingPlanId!} color={category.data.color} {category}/>
+    <Pricing {course} pricingPlanId={pricingPlanId!} color={category.data.color}/>
     <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} {category}/>
   </article>
 </BaseLayout>

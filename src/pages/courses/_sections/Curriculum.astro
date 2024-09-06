@@ -7,16 +7,15 @@ interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId?: number;
   courseSlug: string;
-  category?: CollectionEntry<"courseCategories">;
 }
 
-const { category, color, pricingPlanId, courseSlug } = Astro.props;
+const { color, pricingPlanId, courseSlug } = Astro.props;
 console.log(`testing: ${color}`);
 // console.log(features);
 ---
 
 {pricingPlanId &&
-  <Section {color} {category} title="What's Included">
+  <Section {color} title="What's Included">
     <CourseCurriculumHelper {pricingPlanId} {courseSlug} client:load />
   </Section>
 }
