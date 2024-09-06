@@ -1,16 +1,18 @@
 ---
 import FAQ from "@components/FAQ";
 import Section from "@components/Section.astro";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
   color: string;
   faq: { question: string; answer: string }[];
+  category?: CollectionEntry<"courseCategories">;
 }
 
-const { color, faq } = Astro.props;
+const { category, color, faq } = Astro.props;
 ---
 
-<Section {color} title="FAQ">
+<Section {color} {category} title="FAQ">
   {
     (
       <FAQ

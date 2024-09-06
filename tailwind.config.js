@@ -24,6 +24,17 @@ export default {
         },
         primary: "hsl(var(--color-primary) / <alpha-value>)",
         secondary: "hsl(var(--color-secondary) / <alpha-value>)",
+        coursecategories: {
+          kotlin: "#6b47d2",
+          akkapekko: "#15a9ce",
+          bundle: "#003366",
+          flink: "#e6526f",
+          scala: "#dd3431",
+          spark: "#e25a1c",
+          typelevel: "#fe4559",
+          zio: "#b80000",
+          DEFAULT: "hsl(var(--color-secondary) / <alpha-value>)",
+        },
       },
       fontFamily: {
         sans: ["Montserrat", ...defaultTheme.fontFamily.sans],

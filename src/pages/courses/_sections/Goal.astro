@@ -1,9 +1,16 @@
 ---
 import Prose from "@components/Prose.astro";
 import Section from "@components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  category?: CollectionEntry<"courseCategories">;
+}
+
+const { category } = Astro.props;
 ---
 
-<Section title="Goal">
+<Section title="Goal" {category}>
   <div class="max-w-3xl mx-auto">
     <Prose>
       <slot />

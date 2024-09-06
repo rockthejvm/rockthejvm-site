@@ -7,14 +7,15 @@ interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   image: ImageMetadata;
   question: CollectionEntry<"courses">["data"]["question"];
+  category?: CollectionEntry<"courseCategories">;
 }
 
-const { color, image, question } = Astro.props;
+const { category, color, image, question } = Astro.props;
 ---
 
 {
   question && (
-    <Section {color} title={question.text}>
+    <Section {color} {category} title={question.text}>
       <Feature {image} imagePosition="left">
         <slot />
       </Feature>
