@@ -7,14 +7,15 @@ import Section from "./Section.astro";
 interface Props {
   color: string;
   collaborator?: CollectionEntry<"authors"> | null;
+  category?: CollectionEntry<"courseCategories">;
 }
 
-const {color, collaborator} = Astro.props;
+const { category, color, collaborator} = Astro.props;
 
 const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
-<Section {color} title="Meet Rock the JVM">
+<Section {color} {category} title="Meet Rock the JVM">
 
 <Feature
 image={author.data.photo}

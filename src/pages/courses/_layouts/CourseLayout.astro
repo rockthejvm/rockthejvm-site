@@ -40,22 +40,22 @@ const collaborator = course.data.collaborator ? await getEntry("authors", course
   <article>
     <Hero {description} {image} {pricingPlanId} slug={slug!} {title} />
     {course.data.video &&
-      <CourseVideo color={category.data.color} video={course.data.video} />
+      <CourseVideo color={category.data.color} {category} video={course.data.video} />
     }
     {hasGoalSlot &&
-      <Goal>
+      <Goal {category}>
         <slot name="goal" />
       </Goal>
     }
     {
       question && (
-        <Question color={category.data.color} image={question.image} {question}>
+        <Question color={category.data.color} {category} image={question.image} {question}>
           <slot name="question" />
         </Question>
       )
     }
     {features && Object.keys(features).length > 0 &&
-      <Features color={category.data.color} {features}>
+      <Features color={category.data.color} {category} {features}>
         <slot name="feature1" slot="feature1" />
         <slot name="feature2" slot="feature2" />
         <slot name="feature3" slot="feature3" />
@@ -64,23 +64,23 @@ const collaborator = course.data.collaborator ? await getEntry("authors", course
       </Features>
     }
     {technologies &&
-      <TechStack {technologies} color={category.data.color} />
+      <TechStack {technologies} color={category.data.color} {category} />
     }
     {hasSkillsSlot &&
-      <Skills color={category.data.color}>
+      <Skills color={category.data.color} {category}>
         <slot name="skills" />
       </Skills>
     }
-    <Profile color={category.data.color} {collaborator} />
+    <Profile color={category.data.color} {collaborator} {category}/>
     {category.id === "bundle" &&
       (
         <BundledCourses {courseList} />
       )
     }
     {category.id !== "bundle" &&
-      <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId} />
+      <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId} {category}/>
     }
-    <Pricing {course} pricingPlanId={pricingPlanId!} color={category.data.color} />
-    <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} />
+    <Pricing {course} pricingPlanId={pricingPlanId!} color={category.data.color} {category}/>
+    <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} {category}/>
   </article>
 </BaseLayout>
