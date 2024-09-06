@@ -11,19 +11,17 @@ import {
 
 export default function Example(props) {
   return (
-    <div className="my-4">
-      <p>Share on:</p>
-      <div className="flex flex-row gap-x-2 my-2">
-        <TwitterShareButton hashtag="rockthejvm" url={props.shareUrl}>
-          {props.twitter}
-        </TwitterShareButton>
-        <FacebookShareButton hashtag="rockthejvm" url={props.shareUrl}>
-          {props.facebook}
-        </FacebookShareButton>
-        <LinkedinShareButton hashtag="rockthejvm" url={props.shareUrl}>
-          {props.linkedin}
-        </LinkedinShareButton>
-      </div>
+    <div className="my-4 flex flex-row gap-x-2">
+      <p className="my-auto">Share on:</p>
+      <TwitterShareButton hashtag="rockthejvm" url={props.shareUrl}>
+        {props.twitter}
+      </TwitterShareButton>
+      <FacebookShareButton hashtag="rockthejvm" url={props.shareUrl}>
+        {props.facebook}
+      </FacebookShareButton>
+      <LinkedinShareButton hashtag="rockthejvm" url={props.shareUrl}>
+        {props.linkedin}
+      </LinkedinShareButton>
     </div>
   );
 }
