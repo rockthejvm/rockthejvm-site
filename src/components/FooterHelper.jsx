@@ -18,7 +18,7 @@ const navigation = {
   content: [
     { name: "Articles", href: "/articles" },
     { name: "Courses", href: "/courses" },
-    { name: "Videos", href: "/videos" },
+    { name: "Videos", href: "https://www.youtube.com/@rockthejvm" },
   ],
   support: [
     { name: "Contact", href: "/contact" },
@@ -27,14 +27,14 @@ const navigation = {
   ],
   company: [
     { name: "About", href: "/about" },
-    { name: "News", href: "/news" },
+    // { name: "News", href: "/news" },
   ],
   legal: [
     { name: "Cookies", href: "/legal/cookies" },
     { name: "Privacy", href: "/legal/privacy" },
-    { name: "Refunds", href: "/legal/refunds" },
+    // { name: "Refunds", href: "/legal/refunds" },
     { name: "Terms", href: "/legal/terms" },
-    { name: "Trademarks", href: "/legal/trademarks" },
+    // { name: "Trademarks", href: "/legal/trademarks" },
   ],
   social: [
     {
