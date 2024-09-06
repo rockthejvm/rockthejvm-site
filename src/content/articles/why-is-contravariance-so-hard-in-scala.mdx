@@ -25,7 +25,7 @@ In this article, we'll explore the concept of contravariance in Scala. We'll sta
     We discuss variance and variance positions in depth in the [Advanced Scala](/courses/advanced-scala) course. Check it out!
 </TipAdmonition>
 
-## So what's variance?
+## So What's Variance?
 
 It's that cute little question: if dogs are animals, could lists of dogs be considered lists of animals as well? This is the variance question, i.e. whether the subtype relationship can be transferred to generic types.
 
@@ -54,7 +54,7 @@ the code will not compile, because the compiler expects a List[Animal] and you'r
 
 That's not the end of it, though. There is still one more possible answer to the yes/no variance question. We dealt with the yes and no answers, but there is a third one, which sounds like "hell no" or "no, quite the opposite". This is contravariance.
 
-## Enter contravariance
+## Enter Contravariance
 
 Let's get this straight. So we have Dog subtype of Animal, and we're wondering what could be the relationship between List[Dog] and List[Animal]. In the contravariance answer, we would have a list of animals being a subtype of a list of dogs, which is the exact opposite of covariance above. The following will be very confusing.
 
@@ -65,11 +65,11 @@ val myAnimals: MyList[Dog] = MyList(crocodile, kitty, lassie) // some animals
 
 When you write a minus in the generic type, that's a marker to the compiler that the generic type will have the subtype relationship exactly opposite to the types it wraps. Namely, MyList[Animal] is a subtype of a MyList[Dog]. The code above would compile, but we would not be happy, because it makes no sense. Why would we write that for a list? Why would a list of animals be a SUBTYPE of a list of dogs?
 
-## The why
+## The Why
 
 Why do we need contravariance? When should we use it?
 
-## The because
+## The Because
 
 Many Scala developers dismiss the variance concepts (contravariance in particular) as obscure and purely academic. However, if we think about other scenarios of real life, we can actually find some meaning in variance. Let's go back to the Dog-Animal relationship and let's try to imagine something like a Vet, which can heal an animal.
 
@@ -89,7 +89,7 @@ myVet.heal(myDog)
 
 Look at the above code until it makes sense. We're declaring a Vet[Dog], and instead we have a Vet[Animal], with the meaning that the vet can heal any animal, therefore it can work on my dog as well. The code will compile, our buddy will live, and we would be happy.
 
-## The punchline
+## The Punchline
 
 So when is it best to use covariance and contravariance? Clearly a contravariant list doesn't make sense (as we saw at the beginning), and in the exact same style, a covariant vet doesn't make sense.
 

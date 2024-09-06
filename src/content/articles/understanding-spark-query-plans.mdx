@@ -7,11 +7,15 @@ title: Understanding Spark Query Plans
 updatedDate: 2024-09-06
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro"
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Who This Article Is For
 
 This article is for the Spark programmer who has at least some fundamentals, e.g. how to create a DataFrame and how to do basic operations like selects and joins, but has not dived into how Spark works yet. Perhaps you're interested in boosting the performance out of your Spark jobs.
+
+## Introduction
+
+One of the most important skills you can have as a Spark programmer is the ability to read and interpret query plans. A query plan is a blueprint of how Spark will execute your code. It's a tree of operations that Spark will perform on your data, and it's crucial to understand how to read it.
 
 ## Prerequisites
 
@@ -19,7 +23,7 @@ The code I'll be writing is inside a Spark shell with version 3.0.0, which you c
 
 That is, if you've never installed Spark before.
 
-## How Spark doesn't run
+## How Spark Doesn't Run
 
 You're probably aware that Spark has this lazy execution model, i.e. that you write transformations but they're not actually run until you call an action, like a show, or collect, or take, etc.
 
@@ -52,7 +56,7 @@ and this will give you the prettiest thing:
 
 This is a query plan. When you call the explain method, the final plan - the physical one that will actually be run on executors - will be shown here. You can inspect this plan for your massive computations before kicking off any job. This is particularly important because the ability to read and interpret query plans allows you to predict performance bottlenecks.
 
-## Reading plans
+## Reading Plans
 
 So let's go over some examples of query plans and how to read them. Let's go back to the one we've just shown:
 
@@ -151,6 +155,6 @@ Then, all the partial sums are brought to a single partition by the last exchang
 
 Finally we have a single HashAggregate operation in which all the partial sums are now combined for a single result.
 
-## Just the beginning
+## Conclusion
 
 This seems tedious, but in practice, the skill of reading and interpreting query plans is invaluable for performance analysis. You might notice that in the last example, we're doing quite a few shuffles. With time, you will learn to quickly identify which transformations in your code are going to cause a lot of shuffling and thus performance issues.

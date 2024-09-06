@@ -7,11 +7,13 @@ title: What the Functor? Exploring Functors in Depth
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 This article is pretty general. Although we'll write Scala, the article will focus more on the concept than on some very specific API.
 
 This is one of the lessons of the [Cats course](/courses/cats), which we look at in general terms here.
 
-## 1. Background
+## Background
 
 Pure functional programming deals with immutable values, and so if we want to transform a data structure, we'll need to create another one. You're probably familiar with the famous `map` method on lists:
 
@@ -30,7 +32,7 @@ val aTransformedTry = Try(43).map(x => x - 1) // Try(42). Don't try so hard.
 
 The point is that this `map` concept is transferable, and it bears the name of Functor.
 
-## 2. Enter Functors
+## Enter Functors
 
 For purely practical reasons, let's consider the following small API for multiplying "mappable" values like lists, options or Try:
 
@@ -55,7 +57,7 @@ The definition is pretty compact, so let's read it slowly:
 - `Functor` takes a type argument `C` (for Container) which is itself generic &mdash; think Lists, Options and Try as examples
 - The `map` method takes an initial container `C[A]` and a transformation function `A => B`, and we obtain a new container `C[B]`
 
-## 3. Transferring the `map` Concept
+## Transferring the `map` Concept
 
 In order to use the `map` concept on various data structures, we'd need to create implementations of the `Functor` trait for various structures we'd like to support. For example, on Lists, we would have:
 
@@ -124,7 +126,7 @@ and it would "just work" just as fine.
 
 This is the power of a Functor: it allows us to generalize an API and process any "mappable" data structures in a uniform way, without needing to repeat ourselves.
 
-## 4. Attaching the "Mappable" Concept
+## Attaching the "Mappable" Concept
 
 We can even go one step further. With Scala 3's extension methods (or with implicit classes in Scala 2), we can "attach" the map method to a data structure that normally does not have it, if we have a Functor for that data structure. Here's a possible implementation:
 
@@ -141,6 +143,6 @@ val tenxTree2 = tree.map(_ * 10)
 
 and it would "just work".
 
-## 5. Conclusion
+## Conclusion
 
 Functors embody the concept of "mappable" data structures. In Scala, we generally write it as a type class, because we'd like to attach this concept to some data structures (e.g. lists, options, binary trees) but not others. We use Functors to generalize our APIs, so that we don't have to write the same transformations on different data structures. After creating Functor instances, we can even add the `map` extension method to the data structures we would like to support, if it doesn't have it already.

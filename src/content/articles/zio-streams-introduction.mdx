@@ -9,6 +9,7 @@ updatedDate: 2024-09-06
 ---
 
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Introduction
 
@@ -94,7 +95,7 @@ you to do so. However, the most important take-away from this feature, is that
 _memoization_ is not in our broad definition above - this is not a feature of
 all streams.
 
-### Logs-As-A-Stream
+### Logs-as-a-Stream
 
 Many messaging platforms, such as Kafka, Pulsar, and/or RabbitMQ have what they
 advertise as `Stream`s. At the heart of this, there is the concept that a
@@ -295,7 +296,7 @@ logic, we need to connect streams to sinks to produce a `ZIO` we can evaluate.
 Along with the typical collection-like operations you'd expect, there are a
 number of addition ones that are available directly on `ZStream`, and can be
 referenced in the
-[official docs](https://zio.dev/next/datatypes/stream/zstream/#operations) .
+[official docs](https://zio.dev/reference/stream/zstream/operations) .
 
 ## Handling Failures
 
@@ -767,7 +768,7 @@ processing, we could do a `ZIO.foreachPar` to process files in parallel. Below
 is the content of the files we generated, and note that it's additionally
 formatted from the rules being applied to this post:
 
-> hello-world.md
+##### `hello-world.md`
 
 ```md
 ---
@@ -782,9 +783,7 @@ tags: [generic]
 Even pretend blog posts need a [#generic](/tag/generic) introduction.
 ```
 
-> zio-streams.md
-
-#####
+##### `zio-streams.md`
 
 ```md
 ---
@@ -800,7 +799,7 @@ This is a post about [#Scala](/tag/scala) and [#ZIO](/tag/zio)
 [#ZStreams!](/tag/zstreams)
 ```
 
-> scala-3-extensions.md
+##### `scala-3-extensions.md`
 
 ```md
 ---
@@ -816,7 +815,7 @@ This is a post about [#Scala](/tag/scala) and their re-work of
 [#implicits](/tag/implicits) via thing like [#extensions.](/tag/extensions)
 ```
 
-> search.json
+##### `search.json`
 
 ```json
 {
@@ -829,7 +828,7 @@ This is a post about [#Scala](/tag/scala) and their re-work of
 }
 ```
 
-## Wrapping up
+## Conclusion
 
 Hopefully, after reading through this introduction, you are now more familiar
 and comfortable with `ZStream`s, how we can process data via `ZPipeline`s, and

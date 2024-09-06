@@ -11,7 +11,10 @@ updatedDate: 2024-09-06
 
 This article is for the Scala programmer who has the very very basic familiarity with Akka Streams, in the sense that you can use some already made components, glue them together and start the stream, but otherwise no knowledge of behind-the-scenes functionality is required. If you've never used Akka Streams, I'll give a brief overview.
 
-## The setup
+## Introduction
+This article is about one of the most confusing concepts in Akka Streams: materialized values. I've seen many programmers struggle with them and would like to offer a simple explanation.
+
+## Setup
 
 If you are curious enough to try this code for yourself, you'll need to start an sbt project. I recomment IntelliJ because it's easiest. Add the following to your build.sbt file:
 
@@ -116,12 +119,14 @@ sumFuture.foreach(println)
 
 Not only will you know when the future is done, but you will also know what the sum of the elements was. Notice that in this case we can use the elements in the stream to process them in a single value that the stream will return at the end (the Jedi value).
 
-## Why are Jedi values great?
+## Why Are Jedi Values Great?
 
 Jedi values are awesome, because without them, once you start the graph, your pipes are opaque, sealed and irreversible. There's no way of controlling streams - I'll talk another time about how to shove data into a stream manually, or as a reaction to something. There's no getting any information out of the stream. There's no processing the values aside from flows. The world would be a very dark place.
 
 Various streaming components in Akka streams can offer various Jedi values. Sinks usually offer Futures, which often allow you to combine the values inside the streams into one, and tell if/when the stream has finished. Some flows offer control mechanisms - like KillSwitches which allow you to stop the stream at any point. Some sources offer entry points through which you can send the data inside the stream.
 
 I call them Jedi values because they are powerful. The Akka Streams library calls them _materialized values_. That's because, when you plug components together, you have an inert graph, but when you call the run method, the graph comes alive, or is _materialized_. The Jedi value returned by materializing a graph is called a materialized value. The value may or may not be connected to the actual elements that flow through the stream, and the value can be of any type - which again, may or may not be different from the types of elements flowing through the graph.
+
+## Conclusion
 
 I hope this article saved you the many hours it took me to internalize this abstract and often confusing concept.

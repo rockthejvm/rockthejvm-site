@@ -23,17 +23,17 @@ This article is about my journey with Scala, from the first time I heard about i
     If you want to learn Scala well **and** fast, take a look at my [Scala Essentials](/courses/scala-essentials) course at Rock the JVM.
 </TipAdmonition>
 
-## 1. Why Scala?
+## Why Scala?
 
 _"Scala is too abstract", "Scala is not for beginners", "Functional programming is like magic", etc._
 
 These are common arguments that come up when discussing Scala or functional programming in general. While some of them may be partially true, it is precisely these reasons that make Scala so interesting to me. Because of its abstraction and expressiveness capabilities, the safety brought by functional programming, and the modularity brought by object-oriented programming.
 
-### 1.1. Benefits of functional programming
+### Benefits of Functional Programming
 
 I see several benefits in using a functional programming style. Here are a few of them:
 
-#### 1.1.1. Predictability
+#### Predictability
 
 In functional programming, the result of a method only depends on the arguments passed to it, regardless of the state of the program. This helps to decouple the code, making it easier to test, maintain, and debug. For instance, let's say we want to add 1 to all the elements of a list:
 
@@ -78,7 +78,7 @@ def complicateMethod(mutableThing: Any) =
   else // do something else
 ```
 
-#### 1.1.2. Readability and reusability
+#### Readability and Reusability
 
 Being able to pass functions as arguments, and to return functions, helps to write more generic (thus reusable) code, and to focus more on the algorithm itself, rather than the implementation details. For instance, let's say we want to transform a collection. In FP, all we need to do is define a method that takes a transformation function as argument, and apply it to the collection. Then the developer can choose the transformation function they want to apply, and the method will do the rest. An example with a simple `map` method:
 
@@ -116,11 +116,11 @@ add1ToAll(List(1, 2, 3)) // List(2, 3, 4)
 addZToAll(List("a", "b", "c")) // List("az", "bz", "cz")
 ```
 
-### 1.2. Scala reasons
+### Scala Reasons
 
 Okay, so functional programming is great, but why Scala? There are many other functional programming languages, like Haskell, F#, Clojure, etc. I won't go into details here, but here are a few reasons why I chose Scala:
 
-#### 1.2.1. Type system & Type inference
+#### Type System and Type Inference
 
 Scala has a very powerful type system that allows us to express very complex types while keeping the code readable. However, sometimes we can end up with veeeery long type names, which can be a bit annoying. But since Scala has a very powerful type inference system, we can write code without having to specify the type of every variable (the compiler will determine it for us). This is very useful as we do not pollute the code with types while keeping the safety they provide.
 
@@ -145,17 +145,17 @@ val longUglyThing: Int =
 
 You can activate an option in Metals (a scala language server for IDEs) to show the inferred types as a decoration in the editor, which I now use most of the time. I recommend the "minimal" setting option because it shows only relevant types (parameters, return types...).
 
-#### 1.2.2. Mix of object-oriented programming and functional programming
+#### Mix of Object-Oriented Programming and Functional Programming
 
 Scala has been a pioneer in the mixing of these two paradigms and has been (and still is!) an inspiration for many languages. We benefit from the modularity of objects while having the safety and expressivity of functional programming. Also, unlike some other functional languages, it allows the usage of mutable variables, which can lead to performance improvements.
 
-#### 1.2.3. Multi-platform
+#### Multi-Platform
 
 Scala can now run on multiple platforms. The main one is the JVM, meaning that it benefits from the Java ecosystem (which is pretty huge) and from a performant long-term runtime environment. And it will get even more performant with the Loom project (lightweight threads).
 
 But it can also run on the browser thanks to the Scala.js project, bringing interoperability with JavaScript. And it can be run as native code (without the JVM) with Scala Native, which can be useful for low-level programming.
 
-#### 1.2.4. Implicits
+#### Implicits
 
 Implicits are specific values that will be injected by the compiler when they are required (and if they are in available in the current scope). They are very useful to keep a context and not having to write it each time (reduce boilerplate code).
 
@@ -212,7 +212,7 @@ You can find more about implicits (also called given/using clauses in Scala 3) i
 
 But implicits comes with a trade-off: they can be hard to understand at first, and might lead to unexpected behaviors where the wrong implicit is injected. Especially when there are multiple implicits of the same type in the scope (look at the implicit resolution process to avoid this). Still, it is a very powerful feature that helps in making the code more expressive by masking some boilerplates (I know that I'm giving `global` as execution context, so I don't want to see it each time).
 
-#### 1.2.5. Conciseness
+#### Conciseness
 
 While having a very robust type system, Scala is not verbose at all. The syntax is very concise and somewhat similar to Python's syntax. We can even define our own operators with special characters (`+`, `++`, `-`, `+?`...) and in infix position (e.g. `1 |& 1` instead of `1.|&(1)`), which is so cool to express logic in a readable way.
 
@@ -221,7 +221,7 @@ Lambda syntax can also very concise. For instance:
 - We can use placeholders `_` in lambdas like `.map(_ + 1)` instead of `.map(x => x + 1)`. The n-th placeholder is replaced by the n-th argument, so we can write `.map(_ + _)` instead of `.map((x, y) => x + y)`, but we cannot reuse the same placeholder twice (e.g. `.map(_ + _)` is not a valid replacement for `.map(x => x + x)`).
 - If the lambda is composed of a single method call whose arguments are the same (same type & order) as the lambda's arguments, we can define the lambda with only the method name like `.map(println)` instead of `.map(x => println(x))`.
 
-#### 1.2.6. Pattern matching
+#### Pattern Matching
 
 This is one thing I cannot not talk about. Pattern matching allows to easily control the execution flow based on patterns. A pattern can be almost anything: a type, a value, a destructured object...
 
@@ -266,13 +266,13 @@ The pattern matching is exhaustive, meaning that if you forget a case, the compi
 
 Also, the matching is done in order, so the first match will be executed. Meaning that the most specific cases must be placed on top of the list, and the most generic ones at the bottom. However, the compiler will warn you if a case is unreachable.
 
-## 2. My Story with Scala
+## My Story with Scala
 
-### 2.1. Timeline
+### Timeline
 
 It all started when I was in the third year of my master's degree. Each year, we have an internship (with increasing length over the years) to put into practice the knowledge accumulated and to set foot in the professional world.
 
-#### 2.1.1. Internship at [Teads](https://www.teads.com/)
+#### Internship at [Teads](https://www.teads.com/)
 
 In 2021, I started looking at the Scala language, and since I became quite interested in it, I decided to try it in a "real-world" case and look for a company using Scala. This way, I could evaluate my "match" with the language. There was Teads, a company that I knew was intensively using Scala (90% of their backend is Scala). Again, I would like to thank them for giving me a nice opportunity that helped open some doors later.
 
@@ -280,7 +280,7 @@ That's how I landed on Scala and started going "in depth". Before the internship
 
 Once it was finished, I was a little bit frustrated not to have been able to do more, but it motivated me to keep learning Scala. I did this by following both the beginner and advanced courses on [Rock The JVM](/) and by doing some puzzles with Scala on [CodinGame](https://www.codingame.com/). Even though I had the initial motivation, I was surprised not to have many difficulties following these video-based courses and keeping a certain rhythm in it (I had lots of difficulties following online courses during the COVID pandemic).
 
-#### 2.1.2 Internship at the [Scala Center](https://scala.epfl.ch/)
+#### Internship at the [Scala Center](https://scala.epfl.ch/)
 
 As I was moving forward with Scala, I became more and more enthusiast about it, and I wanted to learn more about it. At the same time, I thought of beginning to contribute to open source projects: to learn, help others (even though at this stage it was more learning than helping :smile:), and also for the possibilities open-source can provide. While searching for companies using Scala, a teacher of my school ([Polytech Montpellier](https://www.polytech.umontpellier.fr/english/)) in charge of the Scala/FP course told me about the Scala Center, a non-for-profit Scala language foundation, situated in the EPFL (Ecole Polytechnique Fédérale de Lausanne) aiming at promoting the language, contributing to and coordinating its ecosystem (among other things, you can find more details on their [5-year report](https://scala.epfl.ch/records/first-five-years/)). It seemed to correspond to what I was looking for, so I applied for an internship there.
 
@@ -296,7 +296,7 @@ And I got accepted for a 5-month internship on the scala implementation of the d
 - Created a video script & slides about asynchronous programming with `Future` and made some research about Loom as it appears to be a game changer for asynchronous programming on the JVM (and at the same time realized the huge amount a work required to make a single video of 15 min :sweat_smile:)
 - ...
 
-#### 2.1.3. Next steps
+#### Next steps
 
 One big default of mine is my shyness. I am not comfortable at all in entering new areas, to the point where I wait for people to come to me instead of going to them. Thankfully, on both of these internships, they all did, so it helped me a lot in integrating with the team. But still, I need to work on it, so I started participating a little bit in the organization of conferences.
 
@@ -304,11 +304,11 @@ A French Scala user Discord server was launched not long ago by some ScalaIO mem
 
 I have also had the chance to join the volunteering team of Scala Days Madrid 2023 (co-organized by the Scala Center), thanks to [Darja Jovanovic](https://www.linkedin.com/in/darjajovanovic/) (Executive Director of the Scala Center) who asked if I wanted to and transmitted my request to the organization team, after my school gave me the authorization. I will be hosting a track for the two conference days. I am really looking forward to it but also a bit stressed :upside_down_face:
 
-### 2.2. Learning process
+### Learning Process
 
-#### 2.2.1. Personal difficulties
+#### Personal Difficulties
 
-##### 2.2.1.1. Functions as value
+##### Functions as Value
 
 I was already a bit familiar with functions as parameters (callbacks in JavaScript, usage of `map`, `filter`, etc.), so this part was okay. But the one that was a bit more difficult was the usage of functions as return values. However, after a few examples and some practice, it became easier. It is another mindset, but it is so helpful once you get it. For instance when you have a method with several parameters and some of them are always the same, you can create a function that takes the "common" parameters and returns a function that takes the rest of the parameters. This way, only the "relevant" parameters appear in the call.
 
@@ -332,7 +332,7 @@ f1(3) // Int = 7
 f2(3) // Int = 10
 ```
 
-##### 2.2.1.2. `map` vs `flatMap`
+##### `map` vs `flatMap`
 
 Using `map` and `flatMap` on collections was not a problem (I knew when to use them), but when it came to using them on monads, I felt completely lost and did not understand why I had to use one instead of the other (so maybe my understanding was not that good on collections either). What helped me here was to look at the implementation of these methods, particularly the ones of `Option` (as the others are more complicated)
 
@@ -369,7 +369,7 @@ val res: Option[B] = getA.flatMap(a => getB(a))
 
 This is possible because the return type of the function of `flatMap` is constraint to be an `Option`
 
-##### 2.2.1.3 Variance
+##### Variance
 
 I had a hard time understanding variance at first because the first time I encountered it was when I got an error like `[...] is in covariance position` and had absolutely no idea what it meant. After a few researches, I understood the reason behind it. Coming from OOP, covariance felt like an extension of inheritance (with some constraints to guarantee type-safety), so it was okay. But contravariance is like "reverse inheritance," which was a disturbing concept at first (I liked the example of `Animal` and `Vet` from the courses).
 
@@ -381,9 +381,9 @@ Given `Type[_]` a generic type and $\<:$ the 'isSubtypeOf' operation, the 3 type
 
 There are some constraints to guarantee type-safety, but the idea is here
 
-#### 2.2.2. Tips
+#### Tips
 
-##### 2.2.2.1 Evaluation
+##### Evaluation
 
 In Scala, everything is an expression, meaning that it is evaluated and has a value. It contrasts to imperative languages where everything is an instruction that may not return a value (such as `void` in Java). Scala wraps the `void` type from Java into `Unit`. Additionally, there are two modes of evaluating method/function parameters:
 
@@ -409,7 +409,7 @@ byName(Random.nextInt(10000))   // : Seq[Int] = Seq(6419, 9607, 1189)
 
 It is very important to understand the difference between these two, especially when dealing with side effects or if you want to enhance performances (e.g. when a parameter is not used because of a condition, it is not necessary to evaluate it, especially if it is a long computation).
 
-##### 2.2.2.2. Immutability
+##### Immutability
 
 To guarantee immutability you obviously need a value (which is immutable otherwise it is a variable), but also immutable types. For instance
 
@@ -423,7 +423,7 @@ a.x                 // : Int = 2 <-- no immutability
 
 If you don't have these 2 criteria, then you do not have immutability, and your code is subject to side-effects
 
-##### 2.2.2.3. Implicits
+##### Implicits
 
 Implicits are awesome, they give us so much power, but they can be very confusing. So it might be a good thing to understand them properly before using them, and especially how the implicit resolution is done. And also take a few minutes to think "am I using it because it's fun / looks smart or because it will save me from passing the same arguments tens of times ?".
 
@@ -431,7 +431,7 @@ Because implicits can really help in "cleaning" the code by keeping only the rel
 
 There is an option in Metals to show the implicits as a decoration in the editor, that I use when dealing with a code with lots of implicits.
 
-##### 2.2.2.4 `Option`, `Try`... and monads in general
+##### `Option`, `Try`... and Monads In General
 
 Monads are a bit strange at first and you might feel like writing more code than necessary, but it's worth it, in both readability and maintainability. It makes a certain behavior explicit (possible nullity for `Option`, possible failure for `Try`...) and forces you to handle it, so the code is more robust.
 
@@ -468,7 +468,7 @@ Each monads has its own behavior (we can not use a `Try` to handle nullability f
 - Filter the result with `filter` / `filterNot`
 - ...
 
-##### 2.2.2.5. Recursion instead of loops
+##### Recursion Instead of Loops
 
 If you are not familiar with recursion, it is definitely worth learning it as Scala is working very nicely with recursion. They are usually more expressive and cleaner than loops, but the trade-off is that they are a bit less efficient.
 
@@ -542,7 +542,7 @@ def fiboWL(n: Int): Int = {
 
 I personally prefer the tail-rec approach as it is more expressive and easier to read. But if performances are critical, then the while-loop is the best solution.
 
-##### 2.2.2.6. `for-comprehension`
+##### `for-comprehension`
 
 `for-comprehension` is syntactic sugar for `map` / `flatMap` / `filter` and can be used with any type that has these methods. It is very useful to chain operations on collections or on monads without having to nest them. They are Scala's idiomatic way to chain operations and help a lot in making the code easy to read. Therefore, you should get familiar with them. For instance, if we want to do a cartesian product of three lists:
 
@@ -593,11 +593,11 @@ for
 yield (i, j)
 ```
 
-##### 2.2.2.7. Type Inference
+##### Type Inference
 
 Type inference is an awesome feature that makes developing much more pleasant. However, it is recommended to specify the type of public methods and fields as it helps in understanding the code. Personally, while I'm creating the method/fields, I don't specify the type, but once I'm done, I add it. This way, my screen does not turn red while coding, and if I need to refactor/correct the implementation and end up with the wrong type, the compiler will tell me instead of crashing at call-sites.
 
-## 3. Conclusion
+## Conclusion
 
 Scala is a very rich language with lots of features, and it can be a bit overwhelming at first. But it's actually all these features that attracted me to this language, for all the possibilities they offer. Thankfully, you don't need to master them all to start writing good Scala code; there are still advanced features for which I have had no usage yet, like recursive types (this one is funny)
 
