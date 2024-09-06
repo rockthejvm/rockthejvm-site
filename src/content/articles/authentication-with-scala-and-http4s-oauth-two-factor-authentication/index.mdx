@@ -200,7 +200,7 @@ The `UserDB` case class will hold a `username` and `email`. The case class also 
 It also contains the user's secret value, stored in `encryptedSecret`, `isSecretUpdated`, a boolean variable showing if the secret value is updated or not, a `getSecret()`, and `updateSecret()` function.
 
 <WarningAdmonition>
-    Secret values should not be stored in plain text but should be encrypted for security reasons.
+    Encrypt secret values instead of storing them in plain text to ensure security.
 </WarningAdmonition>
 
 Let's create a Generator.scala file and add the following code:
@@ -1069,6 +1069,7 @@ val tokenService = new OtpInteractiveService("Totp", user)
     For `Totp` to work, **make sure your phone and computer date and time down to the seconds are the same and current**. You can use the network time for both devices, this should give you the same results.
 
     One may also limit the time the user takes to submit the code as an extra security measure for the case of `Hotp`.
+
 </WarningAdmonition>
 
 ## Conclusion

@@ -9,6 +9,7 @@ updatedDate: 2024-09-06
 ---
 
 import MyYouTube from "@components/MyYouTube.astro";
+import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
@@ -37,6 +38,7 @@ We're going to write Scala 2 in this article for library compatibility reasons, 
     - The [Akka Typed course](/courses/akka-pekko-essentials)
     - The [Akka HTTP course](/courses/akka-pekko-http)
     - The [Cats course](/courses/cats)
+
 </TipAdmonition>
 
 ## Setup
@@ -163,7 +165,7 @@ object Command {
 Obviously a simplification to how a production application would look like, but for the scope of this project should be complete enough. Notice all the commands have a `replyTo: ActorRef[Response]` in them, so that this actor knows who to send the response back to.
 
 <WarningAdmonition>
-    _Please don't use the `Double` type to manage money_. The floating point standard cannot fully represent tenths and hundredths and can give (very) slightly incorrect results with multiplication and division in certain cases as a result. For our convenience in this project, we'll use `Double`.
+    **Please don't use the `Double` type to manage money**. The floating point standard cannot fully represent tenths and hundredths and can give (very) slightly incorrect results with multiplication and division in certain cases as a result. For our convenience in this project, we'll use `Double`.
 </WarningAdmonition>
 
 In terms of _events_, we need to store just enough so that we can reestablish the state of the bank account from these events if the application crashed for whatever reason. The data structures we'll use will look like this:
@@ -278,9 +280,9 @@ val eventHandler: (BankAccount, Event) => BankAccount = (state, event) =>
   }
 ```
 
-<WarningAdmonition>
+<CautionAdmonition>
     This same handler will be invoked both after the event is stored, and if the actor/application crashes and the actor is restarted: in such a case, the actor queries Cassandra for all events tied to its persistence ID and replays all events in sequence by invoking the `eventHandler` on each of them in turn, to recreate its latest state before crash/shutdown.
-</WarningAdmonition>
+</CautionAdmonition>
 
 The final bit ties everything together:
 
