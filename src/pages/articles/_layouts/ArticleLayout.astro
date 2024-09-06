@@ -90,6 +90,7 @@ const tags = await getEntries(frontmatter.tags);
             </p>
           </AuthorSmall>
         </a>
+
         <TagList {tags} />
         <SocialShare />
       </header>
@@ -100,7 +101,7 @@ const tags = await getEntries(frontmatter.tags);
         </a>
       </div>
       <div class="xl:flex xl:flex-row">
-        <Prose>
+        <Prose class="prose-h2:mt-2 my-8">
           <div id="toc" class="xl:hidden"><TableOfContents {headings} /></div>
           <slot />
           <ArticleSeries {article} />
@@ -108,12 +109,12 @@ const tags = await getEntries(frontmatter.tags);
         <div
           class="hidden sticky max-w-sm top-0 self-start no-scrollbar max-h-[90vh] ml-2 px-2 overflow-y-scroll left-full xl:block justify-end"
         >
-          <Prose><TableOfContents {headings} /></Prose>
+          <Prose class="prose-h2:mt-2"><TableOfContents {headings} /></Prose>
         </div>
       </div>
       <footer>
-        <AuthorWide {author} />
         <SocialShare/>
+        <AuthorWide {author} />
       </footer>
     </article>
   </NarrowContainer>
