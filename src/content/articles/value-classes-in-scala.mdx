@@ -7,8 +7,9 @@ tags: [scala, type-system]
 title: Value Classes in Scala Explained
 updatedDate: 2024-09-06
 ---
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro"
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro"
+
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Introduction
 
@@ -16,9 +17,9 @@ One of the main rules of functional developers is that we should always trust a 
 
 <NoteAdmonition>
     This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming.
-<NoteAdmonition>
+</NoteAdmonition>
 
-## 1. The Problem
+## The Problem
 
 First, let's define an example to work with. Imagine we have an e-commerce business and that we model a product to sell using the following representation:
 
@@ -47,7 +48,7 @@ ProductRepository.findByDescription(aCode)
 
 The compiler cannot warn us of our errors because we represent both pieces of information, i.e. the `code` and the `description`, using simple `Strings`. This fact can lead to subtle bugs, which are very difficult to intercept at runtime as well.
 
-## 2. Using Straight Case Classes
+## Using Straight Case Classes
 
 However, we are smart developers, and we want the compiler to help us identify such errors as soon as possible. Fail fast, they said. Hence, we define two dedicated types, both for the `code`, and for the `description`:
 
@@ -109,7 +110,7 @@ val theBarCode: Either[String, BarCodeWithSmartConstructor] =
 
 Awesome! We reach our primary goal. Now, we have fewer problems to worry about...or not?
 
-## 3. An Idiomatic Approach
+## An Idiomatic Approach
 
 The above approach resolves some problems, but it adds many others. In fact, since we are using a `class` to wrap `String`s, the compiler must instantiate a new `BarCode` and `Description` every single time. The over instantiation of objects can lead to a problem concerning performance and the amount of consumed memory.
 
@@ -129,7 +130,7 @@ The main characteristic of a value class is that the compiler treats it as a `ca
 
 Hence, due to the lack of runtime overhead, value classes are a valuable tool used in the SDK to define extension methods for basic types such as `Int`, `Double`, `Char`, etc.
 
-### 3.1. The Problem With the Idiomatic Approach
+### The Problem With the Idiomatic Approach
 
 We must remember that the JVM doesn't support value classes directly. So, there are cases in which the runtime environment must perform an extra allocation of memory for the wrapper type.
 
@@ -168,7 +169,7 @@ def madeInItaly(barCode: BarCodeValueClass): Boolean = barCode match {
 
 Due to these limitations, the Scala community searched for a better solution. Ladies and gentlemen, please welcome the [NewType](https://github.com/estatico/scala-newtype) library.
 
-## 4. The NewType Library
+## The NewType Library
 
 The NewType library allows us to create new types without the overhead of extra runtime allocations, avoiding the pitfalls of Scala values classes. To use it, we need to import the proper dependency in the `build.sbt` file:
 
@@ -221,7 +222,7 @@ object BarCodeWithCompanion {
 }
 ```
 
-### 4.1. Type Coercion
+### Type Coercion
 
 Wait. What is the `code.coerce` statement? Unfortunately, using a `class` instead of a `case class` removes the chance to use the `apply` method for other developers and us. So, we have to use type coercion.
 
@@ -264,7 +265,7 @@ However, [it's proven](https://github.com/estatico/scala-newtype/issues/64) that
     You generally shouldn't be creating instances of Coercible yourself. This library is designed to create the instances needed for you which are safe. If you manually create instances, you may be permitting unsafe operations which will lead to runtime casting errors.
 </WarningAdmonition>
 
-### 4.2. Automatically Deriving Type Classes
+### Automatically Deriving Type Classes
 
 The NewType library offers a very nice mechanism for deriving type classes for our `newtype`. Taking an idea coming from Haskell (as the library itself), the generated companion object of a `newtype` contains two methods, called `deriving` and `derivingK`.
 
@@ -280,7 +281,7 @@ Therefore, we can quickly implement type classes for newtypes should dispel any 
 
 However, with Dotty's advent (a.k.a. Scala 3), a new competitor came in town: The opaque types.
 
-## 5. Scala 3 Opaque Types Aliases
+## Scala 3 Opaque Types Aliases
 
 As many of us might already know, Dotty is the former name of the new major version of Scala. Dotty introduces many changes and enhancements to the language. One of these is _opaque type aliases_, which addresses the same issue as the previous value classes: Creating zero-cost abstraction.
 
@@ -345,7 +346,7 @@ Hence, in the above example, the compiler diligently warns us that the two types
 Finally, we can say that the opaque type aliases seem to be the idiomatic replacement to the NewType
 library in Dotty / Scala 3. Awesome!
 
-## 6. Conclusion
+## Conclusion
 
 Summing up, in this article, we have first introduced the reason why we need the so-called value classes. The first attempt to give a solution uses `case class`es directly. However, due to performance concerns, we introduced the idiomatic solution provided by Scala. This approach, too, had limitations due to random memory allocations.
 

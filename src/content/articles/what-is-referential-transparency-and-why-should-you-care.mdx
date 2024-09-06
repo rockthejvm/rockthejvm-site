@@ -7,11 +7,15 @@ title: What Is Referential Transparency and Why Should You Care?
 updatedDate: 2024-09-06
 ---
 
+## TL;DR
+
+Referential transparency is a fancy term for "replaceable code".
+
+## Introduction
+
 In this article, we'll talk about referential transparency and why it's useful for us as programmers. This piece is a bit more language-agnostic as it applies to any programming language where FP can work, but the examples are written in Scala.
 
-The short version is this: referential transparency is a fancy term for "replaceable code". In this article we'll understand what that means, and it applies to all levels of experience.
-
-## 1. What is Referential Transparency?
+## What IS Referentially Transparent?
 
 Referential transparency is a fancy term that is attached to a computable expression. A piece of code is referentially transparent if we can safely replace that piece of code with the value it computes and vice-versa, anywhere where that piece is used, without changing the meaning or result of our program.
 
@@ -38,7 +42,7 @@ val ten_v4 = 10
 
 An expression is referentially transparent if we can do this back-and-forth replacement anytime anywhere, without changing the meaning and output of our program. Mega powerful, as we'll see later.
 
-## 2. What is NOT Referentially Transparent?
+## What IS NOT Referentially Transparent?
 
 We can understand referential transparency both by examples of what _is_ referentially transparent, and also by contrast to expressions that are _not_ referentially transparent.
 
@@ -93,7 +97,7 @@ In these examples, not being careful about referential transparency can save you
 
 Joke aside, referential transparency can make our developers' lives much easier, because we can quickly replace referentially transparent code with the value it produced without giving second thoughts about it, therefore freeing our mental space to focus on the important work, which is to build quality software.
 
-## 3. Referential Transparency Benefit #1: Refactoring
+## Referential Transparency Benefit 1: Refactoring
 
 If we can determine that an expression is referentially transparent, we can quickly replace it with the value it produces, _and_ vice-versa. Some examples follow.
 
@@ -152,7 +156,7 @@ def bigProgram_v2() = {
 
 Referential transparency is basically a fancy term for "replaceable code". Refactoring capabilities come for free in RT code.
 
-## 4. Referential Transparency Benefit #2: Mental Space
+## Referential Transparency Benefit 2: Mental Space
 
 Let me define a small function to compute the sum of all naturals up to `n`:
 

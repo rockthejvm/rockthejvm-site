@@ -8,6 +8,8 @@ updatedDate: 2024-09-06
 videoId: m3Qh-MmWpbM
 ---
 
+## Introduction
+
 This article is about a popular topic in the Scala world, which is a very weird combination, probably the weirdest I've come across on the blog.
 
 - It's (described to be) highly abstract and solves a very general kind of problem.
@@ -24,7 +26,7 @@ Special thanks to
 - The original [TF paper](https://okmij.org/ftp/tagless-final/JFP.pdf) formalizing the pattern with examples in Haskell
 - Pretty much every other article, book or video referencing TF
 
-## 1. The Expression Problem
+## The Expression Problem
 
 Because we write FP, we think in terms of expressions. In fact, a purely functional program is nothing else but a single expression (if quite big) that computes a value (albeit quite complex, e.g. a server or a data pipeline). This is what I teach in both my [Scala](/courses/scala-essentials) [courses](/courses/advanced-scala) here at Rock the JVM.
 
@@ -84,7 +86,7 @@ not to mention that some of those expressions can have the incorrect type, e.g. 
 
 The expression problem is very general. The example we have here might look contrived, but we'll see a more realistic example later.
 
-## 2. First Solution: Tagging
+## First Solution: Tagging
 
 The expression problem reduces to differentiating numerical expressions from boolean expressions without destroying the code quality, losing type safety or using type casts everywhere.
 
@@ -120,7 +122,7 @@ case class Or(left: Expr, right: Expr) extends Expr("bool") {
 
 but this would still crash at runtime. We'd like something better
 
-## 3. Removing Tags
+## Removing Tags
 
 Why add tags and check them at runtime, when we have a strongly typed language that can do the type checks for us at compile time?
 
@@ -164,7 +166,7 @@ def demoTagless(): Unit = {
 
 it prints exactly what we're expecting: the boolean `true` and the integer `21`. As mentioned earlier, only properly-formed expressions will work, because otherwise the compiler will catch the type mismatches.
 
-## 4. Tagless Final
+## Tagless Final
 
 There is another step where we can take this. Not only can we remove tags, but we can also immediately represent these expressions in terms of the evaluated value we care about (the final value). This is tagless _final_. We'll represent our expression types a bit differently,
 
@@ -229,7 +231,7 @@ and this is often called "tagless final". However, programming against type clas
 
 See the overlap?
 
-## 5. A "Tagless Final" Refactor
+## A "Tagless Final" Refactor
 
 We can also take our own solution from the previous section and refactor it to use higher kinds.
 
@@ -358,7 +360,7 @@ object TaglessFinal_V2 {
 
 Yes, it's the exact same code with different function names &mdash; we see this all the time in service descriptions based on the Cats Effect/Typelevel stack!
 
-## 6. Conclusion
+## Conclusion
 
 In this article, we visited the tagless final approach, what it involves and what it means for us as Scala programmers. If you now know
 

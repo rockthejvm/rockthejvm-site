@@ -7,7 +7,9 @@ title: "Type-Level Programming in Scala 3: Part 1 - Comparing Types"
 updatedDate: 2024-09-06
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro"
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+
+## Introduction
 
 This article will introduce you to type-level programming on Scala 3 &mdash; the capability to express computations on _types_ instead of values, by making the compiler figure out some type relationships at compile time. By encoding some computational problem as a type restriction or as an enforcement of a type relationship, we can make the compiler "solve" our computation by searching, inferring or validating the proper use of types.
 
@@ -19,7 +21,7 @@ This will be a 2-part series, specifically focused on **Scala 3**. I also publis
 
 The final objective of this mini-series is to be able to _sort type-level lists at compile time_. For the sake of variety, in this series we're going to do a _type-level quicksort_ instead of a mergesort (which we did in the Scala 2 miniseries). In this article, we'll take on the much smaller problem of properly comparing numbers (as types), at compile time.
 
-## 1. Encoding Type-Level Numbers
+## Encoding Type-Level Numbers
 
 The natural numbers set consists of all the numbers from 0 to infinity, counted one by one. One way of thinking about the naturals set is to imagine all the numbers extending forever. An alternative way &mdash; which is also much more useful for us &mdash; is to define these numbers in terms of their _relationship_ to each other. This is called the [Peano](https://en.wikipedia.org/wiki/Giuseppe_Peano) representation of numbers.
 
@@ -43,7 +45,7 @@ The lines above fully represent the entire set of natural numbers: the number ze
     This notation has nothing to do with the literal types [recently added in Scala 3](/articles/scala-3-new-types). The literal types have no relationship to each other, so we'll need to model this relationship ourselves.
 </NoteAdmonition>
 
-## 2. Ordering Numbers at the Type Level
+## Ordering Numbers at the Type Level
 
 As in the Scala 2 version of the article, we'll create a small trait to describe the ordering relationship between types, we'll name this `<`, because we can.
 
@@ -55,7 +57,7 @@ For example, we'll say that the number 1 is less than 2 _if there exists an inst
 
 In order to model this relationship, we'll make the compiler prove the truth value of the question "is 1 less than 3" by creating `given` instances of `<`. If the compiler can have access to one &mdash; either by our explicit definition or by a synthetic construction by the compiler &mdash; then the relationship is proven. If the compiler cannot access or create a `given` instance of the appropriate type, the relationship cannot be proven and therefore is deemed to be false.
 
-## 3. Proving Ordering at the Type Level
+## Proving Ordering at the Type Level
 
 First, we need to think about how we can prove this relationship in mathematical terms. How can we determine that `_3` is "less than" `_5` when all we have is the "number" `_0` and the succession relationship between two consecutive numbers?
 
@@ -100,7 +102,7 @@ For ergonomics, we're going to store the above givens in the companion of `<`, s
 
 I also took the liberty of writing an `apply` method which simply surfaces out whatever `given` value of the requested type the compiler is able to find (or synthesize).
 
-## 4. Testing Type-Level Comparisons
+## Testing Type-Level Comparisons
 
 With the above code in place, let's see how the compiler validates (or not) the type relationships. The simple test is: does the code compile?
 
@@ -121,7 +123,7 @@ In other words, the relationship `<[_3, _5]`, or written infix `_3 < _5` can be 
 
 By the same mechanism, we can prove any less-than relationships between types that are mathematically correct. The `given`s specification is identical to the mathematical description of the axioms we outlined in the previous section. Conversely, invalid relationships, e.g. `_4 < _2` cannot be proven because the compiler cannot find (or create) a given of the appropriate type, and so it will not compile our code.
 
-## 5. Extending Type-Level Comparisons
+## Extending Type-Level Comparisons
 
 I took the liberty of using the same principle to create a "less than or equal" relationship between types. This is going to be useful for the quicksort we're going to do in the upcoming article.
 
@@ -154,7 +156,7 @@ whereas the incorrect relationships do not:
 val invalidLte = <=[_5, _3] // cannot find the appropriate given
 ```
 
-## 6. Conclusion
+## Conclusion
 
 The complete code can be found below:
 

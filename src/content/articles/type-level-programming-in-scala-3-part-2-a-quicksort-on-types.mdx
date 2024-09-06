@@ -7,13 +7,15 @@ title: "Type-Level Programming in Scala 3: Part 2 - A Quicksort on Types"
 updatedDate: 2024-09-06
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro"
+import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
+
+## Introduction
 
 This article is the part 2 of the mini-series of type-level programming in Scala 3. If you want an introduction to type-level programming and a gentle tutorial of how we can encapsulate a computational problem as a relationships between types which the compiler can solve, [read the first part here](/articles/type-level-programming-in-scala-3-part-1-comparing-types).
 
 In this article, we're going to use the skills we learned in the previous part, and take them to level 90: we're going to write a quicksort algorithm on lists, at the type level, which the compiler can solve at compile time.
 
-## 1. Where We Left Off
+## Where We Left Off
 
 In the first part of the mini-series focused on the representation of natural numbers as types, in the [Peano arithmetic](https://en.wikipedia.org/wiki/Peano_axioms). The entire set of naturals can be expressed just with the number 0 and the succession relationship between two consecutive numbers.
 
@@ -53,7 +55,7 @@ With this representation, we can demonstrate a "less than" and "less than, or eq
   val lteTest: _1 <= _1 = <=[_1, _1]
 ```
 
-## 2. A Type-Level List
+## A Type-Level List
 
 In the style of [shapeless](https://github.com/milessabin/shapeless), we'll denote a heterogeneous list (HList) at the type level as follows:
 
@@ -83,7 +85,7 @@ For the type-level sort, this plan corresponds to 3 type-level operations:
 
 We'll take them all in turn.
 
-## 3. Type-level Quicksort, Part 1: The Concatenation
+## Type-Level Quicksort: The Concatenation
 
 In the first part of the mini-series we use type-level programming as "tests". In other words, the relationship `1 < 3` is true only if there is an instance of the type `<[_1, _3]` that the compiler can either find or generate.
 
@@ -135,7 +137,7 @@ Conversely, any incorrect concatenation results in uncompilable code.
 
 Part 1 of quicksort, check.
 
-## 4. Type-level Quicksort, Part 2: The Partitioning
+## Type-Level Quicksort: The Partitioning
 
 The second phase of our type-level quicksort algorithm is a type-level partitioning. Namely, we need to pick a "head" (the pivot) off our type-level linked list and separate the elements "smaller than" and "greater than or equal to" the pivot.
 
@@ -235,7 +237,7 @@ This code compiles because the compiler:
 
 </TipAdmonition>
 
-## 5. Type-Level Quicksort: The Sorting Operation
+## Type-Level Quicksort: The Sorting Operation
 
 This will be the final step in our quicksort algorithm at the type level, which will rely on both concatenation and partitioning (the ops we did before).
 
@@ -299,7 +301,7 @@ And we can test it on a bunch of examples to see that they work:
 
 That's it, folks! Quicksort on types at compile time!
 
-## 6. Type-Level Quicksort... Auto-Inferred
+## Type-Level Quicksort: Auto-Inferred
 
 We can take this even further, though. It's one thing for us to "test" that a sorting is correct, but a whole other thing to _make the compiler figure out the correct sorting on its own!_
 
@@ -376,7 +378,7 @@ What's the resulting type? Of course, we can specify it ourselves in the `val` d
 
 We could print it to show it's the right one - but we can't simply `.toString` the value, because the generic types, as well as abstract type members, are erased.
 
-We need to save the types to runtime. Rob Norris has this amazing tiny (20-line tiny) [library](https://github.com/tpolecat/typename/tree/main/src/main) that can do that, with a bit of metaprogramming. Adding the following to `build.sbt`
+We need to save the types to runtime. Rob Norris has this amazing tiny (20-line tiny) [library](https://github.com/tpolecat/typename/tree/main) that can do that, with a bit of metaprogramming. Adding the following to `build.sbt`
 
 ```scala
   libraryDependencies += "org.tpolecat" %% "typename" % "1.0.0"
@@ -406,7 +408,7 @@ And lo and behold:
 
 In other words, the result type is `::[Succ[_0], ::[Succ[_1], ::[Succ[_2], ::[Succ[_3], ::[Succ[_4], HNil]]]]]` or `_1 :: _2 :: _4 :: _3 :: _5 :: HNil`!
 
-## 6. Conclusion
+## Conclusion
 
 If this is not the most badass quicksort you've ever seen in Scala, you can't be human.
 

@@ -7,6 +7,8 @@ title: "Type-Level Programming in Scala: Part 1 - Numbers and Comparisons"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 In this mini-series I'll introduce you to some advanced Scala techniques for type-level programming. In other words, you'll learn to use the power of the Scala compiler to solve problems for you and to validate properties of _types_.
 
 This article (and its subsequent parts) require an advanced Scala programmer, so you'll need to be comfortable with quite a few of the harder topics in Scala:
@@ -18,7 +20,7 @@ This article (and its subsequent parts) require an advanced Scala programmer, so
 
 In this first part of the series, I'll introduce you the notion of values as types and I'll show how you can embed a mathematical problem as a type constraint, which the Scala compiler can happily validate or invalidate for you before the code can compile.
 
-## Prologue
+## Background
 
 This article series is applicable to Scala 2.12 and 2.13 - when Scala 3 arrives, I'll release an updated Scala 3 version of this series. If you're following this article series on Scala 2.13, make sure you add the scala-reflect package to your build.sbt file:
 
@@ -40,7 +42,7 @@ object TypeLevelProgramming { // this is where I'll store my main method
 
 With that, we're ready to dive into type-level programming with Scala.
 
-## 1. Numbers as Types
+## Numbers as Types
 
 We're going to start easy. We're going to declare a type that will represent natural numbers. However, we aren't going to use the plain Int type, but rather we'll represent the relationship between numbers as a succession.
 
@@ -64,7 +66,7 @@ Essentially, the number 5 is now a _type_, and we represent it as `Succ[Succ[Suc
 
 This natural number representation bears the name of the would-be-rockstar-Scala-functional-programmer-if-he-were-alive [Giuseppe Peano](https://en.wikipedia.org/wiki/Giuseppe_Peano), and the number relationships that we're going to transform into type constraints in the Scala compiler will be the foundation of the Peano number arithmetic.
 
-## 2. Number Comparison as Types
+## Number Comparison as Types
 
 The first part was gentle enough. If I've caught your attention and curiosity, then do stick around - we're in for quite a ride.
 
@@ -84,7 +86,7 @@ val someComparison: _2 < _3 = ???
 
 But we won't need that, because the compiler will create the appropriate instances for us.
 
-## 3. The Compiler Validates
+## The Compiler Validates
 
 We'll never build instances of "less-than" ourselves, but we'll make the compiler build implicit instances of "less-than" _just for the right types_. Through these instances, we'll thus validate the existence of the "less-than" type for various numbers, and therefore prove the comparison between numbers.
 
@@ -138,7 +140,7 @@ val invalidComparison: _3 < _2 = <[_3, _2]
 
 this will trigger a compiler error, because no implicit instances of `<[_3, _2]` can be found.
 
-## 4. Number Comparison as Types
+## Number Comparison as Types
 
 The full code, with a shameless copy of less-than-equal, is below:
 
@@ -167,3 +169,7 @@ The full code, with a shameless copy of less-than-equal, is below:
     implicit def inductive[A <: Nat, B <: Nat](implicit lt: <=[A, B]): <=[Succ[A], Succ[B]] = new <=[Succ[A], Succ[B]] {}
   }
 ```
+
+## Conclusion
+
+In this article, we've seen how to represent numbers as types and how to compare them using the Scala compiler.
