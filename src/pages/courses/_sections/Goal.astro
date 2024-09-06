@@ -4,13 +4,14 @@ import Section from "@components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
   category?: CollectionEntry<"courseCategories">;
 }
 
-const { category } = Astro.props;
+const { category, color } = Astro.props;
 ---
 
-<Section title="Goal" {category}>
+<Section title="Goal" {category} {color}>
   <div class="max-w-3xl mx-auto">
     <Prose>
       <slot />
