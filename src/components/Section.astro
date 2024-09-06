@@ -10,45 +10,12 @@ interface Props {
   category?: CollectionEntry<"courseCategories">;
 }
 
-const { color, title, showGradient, category } = Astro.props;
-
-// const colorString =
-//   color === null
-//     ? null
-//     : color?.substring(0, 3) === "bg-"
-//       ? color
-//       : `bg-[${color}]`;
-
-const colorClass = color ? color : "hidden";
-
-const colorMap =new Map<string, string>([
-        ['kotlin',`bg-coursecategories-kotlin`],
-        ['default', "bg-coursecategories"],
-        ['akka-pekko', "bg-coursecategories-akkapekko"],
-        ["bundle", "bg-coursecategories-bundle"],
-        ["flink", "bg-coursecategories-flink"],
-        ["scala", "bg-coursecategories-scala"],
-        ["spark", "bg-coursecategories-spark"],
-        ["typelevel", "bg-coursecategories-typelevel"],
-        ["zio", "bg-coursecategories-zio"]
-    ]);
-
-const getColor = (id: string) => {
-  if (!colorMap.has(id)) {
-    return colorMap.get('default');
-  }
-
-  return colorMap.get(id);
-}
-
-
-
-console.log(colorClass + " " + title);
+const { color = "black", title, showGradient } = Astro.props;
 ---
 
 <section>
   {title &&
-    <header class:list={["mx-auto", category ? getColor(category.id) : getColor("test")]}>
+    <header class="mx-auto" style={`background: ${color}`}>
       <H2 {color} class="text-center mx-auto">{title}</H2>
     </header>
   }
