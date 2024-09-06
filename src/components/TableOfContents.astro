@@ -2,6 +2,7 @@
 import type { MarkdownHeading } from "astro";
 import TableOfContentsHeading from "./TableOfContentsHeading.astro";
 import { Icon } from "astro-icon/components";
+import SocialShare from "@components/SocialShare.astro";
 
 interface Props {
   headings: MarkdownHeading[];
@@ -29,6 +30,7 @@ const filteredHeadings = Astro.props.headings.filter(
           </span>
         </a>
       </div>
+      {/* <SocialShare/> */}
       <h2 class="text-content">Table of Contents</h2>
       <ol>
         {filteredHeadings.map((heading) => (
