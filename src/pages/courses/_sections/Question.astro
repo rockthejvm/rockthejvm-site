@@ -10,12 +10,12 @@ interface Props {
   category?: CollectionEntry<"courseCategories">;
 }
 
-const { category, color, image, question } = Astro.props;
+const { color, image, question } = Astro.props;
 ---
 
 {
   question && (
-    <Section {color} {category} title={question.text}>
+    <Section {color} title={question.text}>
       <Feature {image} imagePosition="left">
         <slot />
       </Feature>

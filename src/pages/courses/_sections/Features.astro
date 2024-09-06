@@ -6,15 +6,14 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   features: CollectionEntry<"courses">["data"]["features"];
-  category: CollectionEntry<"courseCategories">;
 }
 
-const { color, features, category } = Astro.props;
+const { color, features } = Astro.props;
 console.log(`testing: ${color}`);
 // console.log(features);
 ---
 
-<Section {color} {category} title="How This Course Works">
+<Section {color} title="How This Course Works">
   {
     features?.one && (
       <Feature image={features.one} imagePosition="right">

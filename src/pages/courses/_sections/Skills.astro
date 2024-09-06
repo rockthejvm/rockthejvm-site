@@ -8,10 +8,10 @@ interface Props {
   category?: CollectionEntry<"courseCategories">;
 }
 
-const { category, color } = Astro.props;
+const { color } = Astro.props;
 ---
 
-<Section showGradient={true} {color} {category} title="Skills You'll Learn">
+<Section showGradient={true} {color} title="Skills You'll Learn">
   <div class="max-w-3xl mx-auto">
     <Prose>
       <slot />
