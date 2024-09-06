@@ -43,7 +43,7 @@ const collaborator = course.data.collaborator ? await getEntry("authors", course
       <CourseVideo color={category.data.color} {category} video={course.data.video} />
     }
     {hasGoalSlot &&
-      <Goal {category}>
+      <Goal color={category.data.color} {category}>
         <slot name="goal" />
       </Goal>
     }
