@@ -9,8 +9,8 @@ title: "Scala 3: Type-Level Programming"
 updatedDate: 2024-09-06
 ---
 
+import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Introduction
 
@@ -1452,9 +1452,9 @@ Let us implement the last safety requirement, that will prevent these errors at 
 
 ### So Many Mirrors
 
-<WarningAdmonition>
+<CautionAdmonition>
     This is by far the most incomprehensible part of this post as well as the most speculative. I hope we make it out okay...
-</WarningAdmonition>
+</CautionAdmonition>
 
 Before we can check for duplicate fields we need to somehow get a list of all the fields we are going to write. The `Mirror`s for our types can provide us with this. Let us summon all the relevant `Mirror`s:
 
