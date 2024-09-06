@@ -19,7 +19,7 @@ Type classes are these super-abstract concepts in functional programming, which 
 
 This article wants to be down to earth.
 
-## The problem
+## The Problem
 
 Ever since generics were invented, you've surely come across the need for specialized implementations. In other words, let's say you have a method
 
@@ -33,7 +33,7 @@ and in this function's implementation, you need a result that is obtained by pro
 
 If you're in Java, you can kiss this dream goodbye. If you're in C++, you have to resort to template specializations. In Scala, we have an elegant way of dealing with it.
 
-## Plugging an implicit
+## Plugging an Implicit
 
 In Scala, we can enhance this method with implicit arguments which can enhance its capability and constrain its use at the same time. Let me give an example.
 
@@ -72,7 +72,7 @@ processMyList(List(true, true, false)) // ERROR
 
 In this way, the implicit works as both a _capability enhancer_ and a type constraint, because if the compiler cannot find an implicit instance of a ListAggregation of that particular type, i.e. your specialized implementation, then it's certain that the code can't run.
 
-## The fancy terms
+## The Fancy Terms
 
 Did you hear "type class" anywhere? You don't need to. If you absolutely must hear the terms, let me break them down:
 

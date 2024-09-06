@@ -11,13 +11,13 @@ updatedDate: 2024-09-06
 
 This article is for the mature Scala developer. We aren't looking at the basics here, and some abstract thinking will be required for this one.
 
-## 1. Background
+## Introduction
 
 What's up with these types in Scala? The truth is Scala's type system is extremely powerful, enough to confuse even some of the advanced devs.
 
 Generics in particular are one hard topic, for which we've already posted [some content](https://www.youtube.com/watch?v=b1ftkK1zhxI) (and more to come). The presence of generics in Scala has some important implications in how we think about types. Now, because one of the main strengths of Scala is the increased productivity of devs by leveraging the type system, thinking about types correctly will directly influence how we design our code.
 
-## 2. Level 0: Value Types
+## Level 0: Value Types
 
 Types in Scala can be organized into _kinds_. I'm going to start the abstract path by looking at something really simple: normal types that we can attach to values.
 
@@ -28,7 +28,7 @@ val aString: String = "Scala"
 
 Types like `Int`, `String`, or regular types that we define (e.g. case classes) can be attached to values. I'll call them level-0 types. This is the simplest _kind_ of types imaginable &mdash; we use these types every day in our Scala code.
 
-## 3. Level 1: "Generics"
+## Level 1: "Generics"
 
 As our code gets more complicated, we are increasingly interested in reusing our code for many types at once. For example, the logic of a singly linked list is identical, regardless of the type of elements it contains. As such, we attach type arguments to the new type we deeclare:
 
@@ -48,7 +48,7 @@ So notice we need to use a level-0 type as a type argument before we can use the
 
 Level-1 is the _kind_ of types which receive type arguments of the inferior level (level-0).
 
-## 4. Type Constructors
+## Type Constructors
 
 Look at how we attached the type `LinkedList[Int]` to the previous value. We used the level-1 type `LinkedList` and we used the level-0 type argument `Int` to create a new level-0 type. Does that sound similar to something else you've seen?
 
@@ -56,7 +56,7 @@ If you think about it, this mechanism looks similar to a function: take a functi
 
 For this reason, these generic types are also called type constructors, because they can _create_ level-0 types. `LinkedList` itself is a type constructor: takes a value type (e.g. `Int`) and returns a value type (e.g. `LinkedList[Int]`).
 
-## 5. Level 2 and Beyond: Higher-Kinded Types
+## Level 2 and Beyond: Higher-Kinded Types
 
 Up to this point, Scala has similar capabilities to Java. However, the Scala type system moves a step further, by allowing the definitions of generic types _whose type arguments are also generic_. We call these higher-kinded types. I'll call them level-2 types, for reasons I'm going to detail shortly. These type definitions have special syntax:
 
@@ -90,7 +90,7 @@ val metaFunctor = new Meta[Functor]
 
 This example is a bit contrived, because we almost never need to use types beyond level-2. Level-2 types already pretty abstract as they are &mdash; although we do try to [smoothen the learning curve](/courses/cats).
 
-## 6. More Type Constructors
+## More Type Constructors
 
 Now that you know what a type constructor is, we can expand the concept to types which take multiple type arguments, and perhaps of different _kinds_. Examples below:
 
@@ -111,7 +111,7 @@ Given what you've learned so far, you can read these types for what they are:
 - `ComposedFunctor` is (by itself) a type constructor taking two level-1 type arguments.
 - `Formatter` is (by itself) a type constructor taking a level-1 type argument and a level-0 type argument.
 
-## 7. Conclusion: Why Should We Care?
+## Conclusion: Why Should We Care?
 
 We've explored how types in Scala are organized and what type constructors are. Why is this important? How does it help us in real life?
 

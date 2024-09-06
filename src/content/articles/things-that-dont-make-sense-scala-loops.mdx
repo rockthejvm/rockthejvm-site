@@ -18,7 +18,7 @@ This article is for:
 
 I wrote an article not too long ago on why [learning variables in Scala doesn't make sense](/articles/things-that-dont-make-sense-scala-variables), and likewise teaching variables as one of the first concepts also doesn't make sense. In this article I'm going to expand that idea to the lovely loops.
 
-## What many start with
+## What Many Start With
 
 When learning Scala, it's very attractive, intuitive and tempting to start with what people already know. After all, Scala is mostly targeted at established programmers in other languages (especially Java), as very few instructors have attempted teaching Scala as a first language. I've yet to make this attempt myself - but I digress. So when learning Scala, people start with the familiar:
 
@@ -44,7 +44,7 @@ What I actually got: What should we use instead? If you don't want us to use the
 
 Exactly.
 
-## Make FP, not war
+## Make FP, Not War
 
 Learning loops to get familiar with Scala is bad. It's as if you wanted to learn French but still pronounce the 'h'. You need to let it go.
 
@@ -74,7 +74,7 @@ What if you don't like all the elements in your collection? Use a filter:
 
 Want a single value out of the entire list? Use fold, count, maxBy, find and a variety of other transformations. You see, every "loop" has an equivalent transformation. Newbies ask "how can I loop through this?". Terrible, albeit understandable question. Leads to ugly, unproductive code which will not pass any code review in a mature Scala team. Instead, ask "how can I transform this into what I want?". That's a better question. Leads to clean, elegant code that will stand the test of time and will help fellow developers push more robust code faster.
 
-## The foreach fallacy
+## The `foreach` Fallacy
 
 "But Daniel, I can still loop with foreach!"
 
@@ -97,7 +97,7 @@ for (int x: list) {
 
 But it's not. Foreach is not built into the Scala language. Foreach is one of the [higher-order functions](/articles/higher-order-functions-for-object-oriented-programmers) that are part of every standard collection. It's particularly confusing given Scala's alternative lambda syntax with curly braces, but the "x =>" that follows the curly braces is an anonymous function, nothing more.
 
-## The for "loop"
+## The `for` "Loop"
 
 And don't get me started with for comprehensions.
 
@@ -123,12 +123,16 @@ val allPairs = for {
 } yield (x, y)
 ```
 
-## To the Scala learner
+## To the Scala Learner
 
 If you heard about loops in Scala, try to forget them. Try to do without them. Instead of asking "how can I loop through this", ask "how can I transform this". Take this one principle to heart and you'll be ahead of many Scala programmers already.
 
-## To the Scala teacher
+## To the Scala Teacher
 
 Why are we teaching loops in Scala so early? It makes no sense. We want people to think in FP, with values, expressions, recursion and higher-order functions. So why are loops the first thing they learn?
 
 Roughly a year ago, I personally stopped even mentioning loops until people are already familiar with the different mindset of functional programming. After enough practice with FP, I tell them "oh, by the way, there's also the while loop in Scala" at which they reply "that's fine, we don't need it".
+
+## Conclusion
+
+I hope this article has shed some light on why loops in Scala don't make sense and why they shouldn't be the first thing you learn.

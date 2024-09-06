@@ -7,6 +7,8 @@ title: "Type-Level Programming in Scala: Part 2 - Adding Numbers as Types"
 updatedDate: 2024-09-06
 ---
 
+## Introduction
+
 In this article we will continue what we started in the [first part](/articles/type-level-programming-in-scala-part-1-numbers-and-comparisons) and enhance our type-level capabilities. As a quick reminder, in this mini-series we learn to use the power of the Scala compiler to validate complex relationships between types that mean something special to us, for example that a "number" (as a type) is "smaller than" another "number".
 
 ## Background
@@ -289,7 +291,7 @@ P.S. Creating a value of the sum type and then printing it will not produce the 
 TypeTag[_2 + _3]
 ```
 
-## To Be Continued
+## Conclusion
 
 I hope that by the end of this second part you're getting a sense of how you can express a mathematical problem as a set of constraints on type relationships, written as implicit definitions. The compiler "solves" the problem for you by automatically building the right implicit, whose type holds the relationship you wanted.
 
