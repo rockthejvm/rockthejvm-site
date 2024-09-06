@@ -9,10 +9,10 @@ interface Props {
   category?: CollectionEntry<"courseCategories">;
 }
 
-const { category, color, faq } = Astro.props;
+const { color, faq } = Astro.props;
 ---
 
-<Section {color} {category} title="FAQ">
+<Section {color} title="FAQ">
   {
     (
       <FAQ

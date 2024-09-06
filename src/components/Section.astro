@@ -4,13 +4,12 @@ import H2 from "./H2.astro";
 import BackgroundGradient from "./BackgroundGradient.astro";
 
 interface Props {
-  color?: CollectionEntry<"courseCategories">["data"]["color"];
+  color: CollectionEntry<"courseCategories">["data"]["color"];
   title?: string;
   showGradient?: boolean;
-  category?: CollectionEntry<"courseCategories">;
 }
 
-const { color = "black", title, showGradient } = Astro.props;
+const { color, title, showGradient } = Astro.props;
 ---
 
 <section>
