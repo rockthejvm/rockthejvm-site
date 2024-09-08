@@ -53,9 +53,7 @@ export default defineCollection({
           .array(reference("authors"))
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
-        price: z.number().int().positive().optional(),
         pricingPlanId: z.number().int().positive().optional(),
-        purchaseLink: z.string().url(),
         question: z
           .object({
             image: image(),
