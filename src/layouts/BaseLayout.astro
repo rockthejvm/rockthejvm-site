@@ -24,6 +24,7 @@ interface Props {
     alt: string;
     src: string;
   };
+  structuredData?: string;
   title: string;
   type?: string;
   error?: boolean;
@@ -35,6 +36,7 @@ const {
   description,
   error = false,
   image = site.logo,
+  structuredData,
   title,
   type = "website",
 } = Astro.props;
@@ -42,7 +44,7 @@ const {
 
 <!doctype html>
 <html lang="en">
-  <Head {article} {canonicalUrl} {description} {error} {image} {title} {type} />
+  <Head {article} {canonicalUrl} {description} {error} {image} {structuredData} {title} {type} />
   <body class="min-h-screen bg-bkg">
     <Header />
     <main>

@@ -36,16 +36,28 @@ const author = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
-// const category = await getEntry("articleCategories", frontmatter.category.id);
 const tags = await getEntries(frontmatter.tags);
-// const series = frontmatter.series
-//   ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
-//   : undefined;
-// const video = frontmatter.video
-//   ? await getEntry(frontmatter.video.collection, frontmatter.video.id)
-//   : undefined;
 
-// const banner: ImageMetadata = "../assets/images/banner.jpeg";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  // "image": heroImage.image.src,
+  "genre": "software engineering",
+  "keywords": tags.reduce(((a, b) => a + " " + b.id), ""),
+  // "wordcount": "1120",
+  "publisher": "Rock the JVM",
+  "url": Astro.site,
+  "datePublished": publishedDate,
+  "dateCreated": publishedDate,
+  "dateModified": updatedDate,
+  "description": description,
+  // "articleBody": "You can paste your entire post in here, and yes it can get really really long.",
+  "author": {
+    "@type": "Person",
+    "name": author.data.name
+  }
+}
 ---
 
 <BaseLayout
@@ -68,6 +80,7 @@ const tags = await getEntries(frontmatter.tags);
   image={heroImage
     ? { alt: heroImage.alt, src: heroImage.image.src }
     : undefined}
+  structuredData={JSON.stringify(structuredData)}
   {title}
   type="article"
 >
