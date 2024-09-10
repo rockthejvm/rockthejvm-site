@@ -41,8 +41,8 @@ const entity = author.data.company
     >
     </div>
   </div>
-  <div class="mt-8 flex items-center gap-x-2 text-xs">
-    <FormattedDate date={publishedDate} class="text-gray-500" />
+  <div class="mt-8 flex items-center gap-x-2 text-xs w-full overflow-hidden">
+    <FormattedDate date={publishedDate} class="text-gray-500 text-nowrap" />
     <a
       href={`/categories/article/${category.id}`}
       class="relative z-10 rounded-full bg-sky-50 px-3 py-1.5 font-medium text-content-1 hover:bg-gray-100"
