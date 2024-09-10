@@ -34,7 +34,7 @@ export default defineCollection({
           z
             .array(reference("tags"))
             .min(1, "Article must have at least one tag")
-            .max(3, "Article must have at most three tags"),
+            .max(10, "Article must have at most three tags"),
           "tags",
         ),
         title: z
