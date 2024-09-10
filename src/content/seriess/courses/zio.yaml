@@ -1,3 +1,5 @@
-description: Learn everything there is to know about Zio, from zero to master.
-members: [zio, zio-rite-of-passage]
-title: Zio
+description: Learn everything there is to know about ZIO, from zero to master.
+members:
+  - zio
+  - zio-rite-of-passage
+title: ZIO
