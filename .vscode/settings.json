@@ -43,9 +43,7 @@
   },
   //// GitHub Codespace
   // astro-build.astro-vscode
-  "[astro]": {
-    "editor.defaultFormatter": "astro-build.astro-vscode"
-  },
+  "editor.defaultFormatter": "astro-build.astro-vscode",
   // christian-kohler.path-intellisense
   "javascript.suggest.paths": false,
   "path-intellisense.autoSlashAfterDirectory": true,
@@ -125,9 +123,6 @@
     "./.astro/collections/seriess.schema.json": ["/src/content/seriess/**"],
     "./.astro/collections/socials.schema.json": ["/src/content/socials/**"],
     "./.astro/collections/videos.schema.json": ["/src/content/videos/**"]
-  },
-  "[mdx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "redhat.telemetry.enabled": false
 }
