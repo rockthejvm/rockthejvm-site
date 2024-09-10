@@ -1,22 +1,16 @@
 ---
+import { YouTube } from "astro-embed";
 import Section from "@components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  video: string;
-  category?: CollectionEntry<"courseCategories">;
+  videoId: NonNullable<CollectionEntry<"courses">["data"]["videoId"]>;
 }
 
-const { color, video } = Astro.props;
-console.log(`testing: ${color}`);
-// console.log(features);
+const { color, videoId } = Astro.props;
 ---
 
 <Section {color} title="What's inside?">
-  <div class="max-w-4xl mx-auto">
-    <div class="aspect-w-16 aspect-h-9">
-      <iframe class="mx-auto w-full aspect-video" src={video} allowfullscreen></iframe>
-      </div>
-  </div>
+  <YouTube id={videoId} class="max-w-4xl mx-auto aspect-w-16 aspect-h-9" posterQuality="max" />
 </Section>

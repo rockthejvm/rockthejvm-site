@@ -1,3 +1,7 @@
-description: Learn everything there is to know about Akka Pekko, from zero to master.
-members: [the-scala-bundle, the-kotlin-bundle, the-spark-bundle]
-title: Akka/Pekko
+description: All of Rock the JVM's bundles in one place.
+members:
+  - the-scala-bundle
+  - the-kotlin-bundle
+  - the-spark-bundle
+  - the-akka-pekko-bundle
+title: Bundles
