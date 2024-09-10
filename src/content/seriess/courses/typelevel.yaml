@@ -1,3 +1,6 @@
 description: Learn everything there is to know about Typelevel, from zero to master.
-members: [cats, cats-effect, typelevel-rite-of-passage]
+members:
+  - cats
+  - cats-effect
+  - typelevel-rite-of-passage
 title: Typelevel

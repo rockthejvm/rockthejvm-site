@@ -9,7 +9,7 @@ interface Props {
   showGradient?: boolean;
 }
 
-const { color, title, showGradient } = Astro.props;
+const { color, title, showGradient = false } = Astro.props;
 ---
 
 <section>

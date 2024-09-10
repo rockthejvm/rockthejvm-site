@@ -1,9 +1,10 @@
 ---
 import Prose from "@components/Prose.astro";
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  image: ImageMetadata;
+  image: CollectionEntry<"courses">["data"]["image"];
   imagePosition: "left" | "right";
 }
 

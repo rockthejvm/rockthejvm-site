@@ -5,7 +5,7 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        archived: z.boolean().default(false),
+        archived: z.boolean().default(false), // TODO
         bundledCourses: z
           .array(reference("courses"))
           .min(2, "At least 2 courses are required for a bundle")
@@ -19,7 +19,26 @@ export default defineCollection({
           .strict()
           .optional(),
         category: reference("courseCategories"),
-        collaborator: reference("authors").optional(),
+        collaborators: z
+          .array(
+            z
+              .object({
+                author: reference("authors"),
+                biography: z
+                  .string()
+                  .refine(
+                    (excerpt) =>
+                      excerpt ? /^<p>[\s\S]*<\/p>$/.test(excerpt) : true,
+                    {
+                      message:
+                        "Excerpt must be an HTML string wrapped in <p> tags",
+                      path: ["excerpt"],
+                    },
+                  ),
+              })
+              .strict(),
+          )
+          .optional(),
         description: z.string(),
         excerpt: z
           .string()
@@ -53,7 +72,7 @@ export default defineCollection({
           .array(reference("authors"))
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
-        pricingPlanId: z.number().int().positive().optional(),
+        pricingPlanId: z.number().int().positive(),
         question: z
           .object({
             image: image(),
@@ -71,7 +90,17 @@ export default defineCollection({
           )
           .optional(),
         title: z.string(),
-        video: z.string().optional(),
+        videoId: z.string().optional(),
       })
-      .strict(),
+      .strict()
+      .refine(
+        (data) =>
+          (data.benefits && !data.bundledCourses) ||
+          (!data.benefits && data.bundledCourses),
+        {
+          message:
+            "Either benefits or bundledCourses must be provided, but not both",
+          path: ["benefits", "bundledCourses"],
+        },
+      ),
 });

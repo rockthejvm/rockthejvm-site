@@ -6,7 +6,6 @@ export default defineCollection({
     z
       .object({
         biography: z.string().optional(),
-        biographyHtml: z.string().optional(),
         canonicalUrl: z.string().url().optional(),
         company: z
           .object({
