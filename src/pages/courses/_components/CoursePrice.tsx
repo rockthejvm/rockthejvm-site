@@ -10,7 +10,7 @@ type Response = {
     created_at: string;
     updated_at: string;
     name: string;
-    price: number; // Assuming price is in cents
+    price: number;
     currency: string;
     course_id: number;
     frequency: {
