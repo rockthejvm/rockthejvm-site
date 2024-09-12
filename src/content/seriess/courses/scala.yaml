@@ -1,7 +1,8 @@
 description: Learn everything there is to know about Scala, from zero to master.
 members:
   - scala-at-light-speed
+  - scala-3-new-features
   - scala-essentials
-  - advanced-scala
   - scala-and-functional-programming-interview-practice
+  - advanced-scala
 title: Scala

@@ -407,7 +407,10 @@ export default function Example(props) {
             <p className="mt-6 text-base leading-7 text-content">
               This single purchase gives you access to everything on the site
               for up to 3 people in your team. Send their names and emails to me
-              at daniel@rockthejvm.com and I will enroll your team instantly.
+              at{" "}
+              <a href="rockthejvm.com/contact">
+                and I will enroll your team instantly.
+              </a>
             </p>
             <p className="text-sm mt-8 text-content-1">
               This is a subscription product billed on a yearly basis until you
