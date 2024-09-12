@@ -4,8 +4,8 @@ import Section from '@components/Section.astro';
 import type { CollectionEntry } from 'astro:content'
 
 interface Props {
-  bundledCourses: CollectionEntry<"courses">[];
-  color: string;
+  bundledCourses: CollectionEntry<"courses">[]
+  color: CollectionEntry<"courseCategories">["data"]["color"]
 }
 
 const { color, bundledCourses } = Astro.props;
@@ -19,7 +19,7 @@ const { color, bundledCourses } = Astro.props;
     {
       bundledCourses.map((course) => (
         <li class="col-span-1 divide-y rounded-lg bg-none flex center justify-center">
-          <CourseCardVertical {course} showPrice={false} />
+          <CourseCardVertical {course} />
         </li>
       ))
     }

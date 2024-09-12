@@ -19,7 +19,6 @@ const _frontmatter = course.data;
 const [bundledCourses, categoryColor, collaborators] = await Promise.all([
   _frontmatter.bundledCourses ? getEntries(_frontmatter.bundledCourses) : Promise.resolve([]),
   getEntry(_frontmatter.category.collection, _frontmatter.category.id).then((category) => category.data.color),
-  // _frontmatter.collaborators ? getEntries(_frontmatter.collaborators) : Promise.resolve([]),
   _frontmatter.collaborators ? await Promise.all(
     _frontmatter.collaborators.map(async (collaborator) =>
       ({
@@ -30,8 +29,9 @@ const [bundledCourses, categoryColor, collaborators] = await Promise.all([
   ) : []
 ]);
 const {
+  benefits,
   description,
-  faqs,
+  faqs = [],
   features,
   image,
   pricingPlanId,
@@ -93,9 +93,9 @@ JSON.stringify(
     }
     {bundledCourses &&
       <BundledCourses color={categoryColor} {bundledCourses} />
-      <Curriculum color={categoryColor} courseSlug={course.slug} pricingPlanId={pricingPlanId}/>
+      <Curriculum color={categoryColor} courseSlug={course.slug} {pricingPlanId}/>
     }
-    <Pricing {course} pricingPlanId={pricingPlanId!} color={categoryColor}/>
-    <CourseFAQ faq={faqs ?? []} color={categoryColor} />
+    <Pricing {benefits} color={categoryColor} courseSlug={course.slug} {pricingPlanId} {title} />
+    <CourseFAQ {faqs} color={categoryColor} />
   </article>
 </BaseLayout>

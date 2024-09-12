@@ -5,17 +5,13 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  pricingPlanId?: number;
-  courseSlug: string;
+  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"]
+  courseSlug: CollectionEntry<"courses">["slug"]
 }
 
-const { color, pricingPlanId, courseSlug } = Astro.props;
-console.log(`testing: ${color}`);
-// console.log(features);
+const { color, courseSlug, pricingPlanId } = Astro.props;
 ---
 
-{pricingPlanId &&
-  <Section {color} title="What's Included">
-    <CourseCurriculumHelper {pricingPlanId} {courseSlug} client:load />
-  </Section>
-}
+<Section {color} title="What's Included">
+  <CourseCurriculumHelper {pricingPlanId} {courseSlug} client:load />
+</Section>
