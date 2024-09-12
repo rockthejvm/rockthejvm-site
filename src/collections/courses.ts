@@ -40,6 +40,7 @@ export default defineCollection({
           )
           .optional(),
         description: z.string(),
+        difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
         excerpt: z
           .string()
           .refine(
@@ -103,6 +104,16 @@ export default defineCollection({
           message:
             "Either benefits or bundledCourses must be provided, but not both",
           path: ["benefits", "bundledCourses"],
+        },
+      )
+      .refine(
+        (data) =>
+          (data.difficulty && !data.bundledCourses) ||
+          (!data.difficulty && data.bundledCourses),
+        {
+          message:
+            "Either difficulty or bundledCourses must be provided, but not both",
+          path: ["difficulty", "bundledCourses"],
         },
       ),
 });
