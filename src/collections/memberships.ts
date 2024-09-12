@@ -12,9 +12,7 @@ export default defineCollection({
           .array(
             z
               .object({
-                frequency: z.enum(["monthly", "yearly"]),
-                name: z.string(),
-                price: z.number().positive(),
+                pricingPlanId: z.number().positive(),
               })
               .strict(),
           )

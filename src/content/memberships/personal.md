@@ -3,11 +3,11 @@ name: "Personal"
 description: All of the Rock the JVM premium content, at your service.
 image: "./personal.png"
 packages:
-  [
-    { frequency: "monthly", name: "Monthly", price: 35 },
-    { frequency: "yearly", name: "Yearly", price: 195 },
-  ]
+  - pricingPlanId: 4131055
+  - pricingPlanId: 4131056
 ---
+
+<!-- TODO -->
 
 A **single** subscription for **everything** in the Scala ecosystem:
 
