@@ -1,0 +1,6 @@
+description: Learn everything there is to know about Akka Pekko, from zero to master.
+members:
+  - akka-apache-pekko-essentials-with-scala
+  - akka-apache-pekko-streams-with-scala
+  - akka-apache-pekko-http-with-scala
+title: Akka/Pekko
