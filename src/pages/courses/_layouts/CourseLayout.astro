@@ -16,9 +16,9 @@ import { getEntry, getEntries, type CollectionEntry } from "astro:content";
 
 const course = await getEntry("courses", Astro.params.slug as CollectionEntry<"courses">["slug"]);
 const _frontmatter = course.data;
-const [bundledCourses, categoryColor, collaborators] = await Promise.all([
+const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
   _frontmatter.bundledCourses ? getEntries(_frontmatter.bundledCourses) : Promise.resolve([]),
-  getEntry(_frontmatter.category.collection, _frontmatter.category.id).then((category) => category.data.color),
+  getEntry(_frontmatter.category.collection, _frontmatter.category.id).then((category) => category.data),
   _frontmatter.collaborators ? await Promise.all(
     _frontmatter.collaborators.map(async (collaborator) =>
       ({
@@ -28,10 +28,12 @@ const [bundledCourses, categoryColor, collaborators] = await Promise.all([
     )
   ) : []
 ]);
+const categoryColor = _categoryFrontmatter.color;
+const categoryFaqs = _categoryFrontmatter.faqs;
 const {
   benefits,
   description,
-  faqs = [],
+  faqs,
   features,
   image,
   pricingPlanId,
@@ -91,11 +93,11 @@ JSON.stringify(
         <Profile color={categoryColor} {collaborator} />
       ))
     }
-    {bundledCourses &&
+    {bundledCourses.length > 1 ?
       <BundledCourses color={categoryColor} {bundledCourses} />
-      <Curriculum color={categoryColor} courseSlug={course.slug} {pricingPlanId}/>
+      : <Curriculum color={categoryColor} courseSlug={course.slug} {pricingPlanId}/>
     }
-    <Pricing {benefits} color={categoryColor} courseSlug={course.slug} {pricingPlanId} {title} />
-    <CourseFAQ {faqs} color={categoryColor} />
+    <Pricing {benefits} {bundledCourses} color={categoryColor} courseSlug={course.slug} {pricingPlanId} {title} />
+    <CourseFAQ {categoryFaqs} courseFaqs={faqs} color={categoryColor} isBundle={benefits === undefined}/>
   </article>
 </BaseLayout>

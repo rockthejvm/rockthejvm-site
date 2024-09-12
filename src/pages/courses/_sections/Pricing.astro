@@ -2,36 +2,40 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import MoneyBackGuarantee from "@assets/images/money-back-guarantee.svg";
-import Feature from "./Feature.astro";
-import CoursePrice from "./CoursePrice";
+import Feature from "../_components/Feature.astro";
+import CoursePrice from "../_components/CoursePrice";
 import Section from "@components/Section.astro";
 
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
   benefits: CourseFrontmatter["benefits"];
+  bundledCourses: CollectionEntry<"courses">[];
   courseSlug: CollectionEntry<"courses">["slug"];
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
 }
 
-const { benefits, color, courseSlug, pricingPlanId, title } = Astro.props;
-const personalMembership = await getEntry("memberships", "personal");
-const teamMembership = await getEntry("memberships", "team");
+const { benefits, bundledCourses, color, courseSlug, pricingPlanId, title } = Astro.props;
+const monthlyMembershipPricingPlanId = (await getEntry("memberships", "personal")).data.packages[0]!.pricingPlanId;
+const hours = benefits?.hours ?? bundledCourses
+.map((course) => course.data.benefits?.hours ?? 0)
+.reduce((b, a) => b + a, 0);
+const linesOfCode = benefits?.linesOfCode ?? bundledCourses
+.map((course) => course.data.benefits?.linesOfCode ?? 0)
+.reduce((b, a) => b + a, 0);
 const _courses = await getCollection("courses");
-
-const membershipHours = _courses
+const monthlyMembershipHours = _courses
   .map((course) => course.data.benefits?.hours ?? 0)
   .reduce((b, a) => b + a, 0);
-const membershipLinesOfCode = _courses
+const monthlyMembershipLinesOfCode = _courses
   .map((course) => course.data.benefits?.linesOfCode ?? 0)
   .reduce((b, a) => b + a, 0);
-const categories = (await getCollection("courseCategories")).sort((a, b) =>
-  a.data.ordinal <= b.data.ordinal ? -1 : 1,
-);
-
-const featuredBundles = _courses.filter((course) => course.data.bundledCourses && course.data.bundledCourses.some(course => course.slug === courseSlug));
+const categories = (await getCollection("courseCategories"))
+  .filter((category) => category.id !== "bundle")
+  .sort((a, b) => a.data.ordinal <= b.data.ordinal ? -1 : 1);
+const featuredBundles = _courses.filter((course) => course.data.bundledCourses?.some(course => course.slug === courseSlug));
 ---
 
 <Section {color} title="Take this course now!">
@@ -48,126 +52,38 @@ const featuredBundles = _courses.filter((course) => course.data.bundledCourses &
         id="tier-hobby"
         class="text-base font-semibold leading-7 text-accent-1"
       >
-        {title} - {benefits ? "Lifetime License" : "Monthly Membership"}
+        {title} - Lifetime License
       </h3>
         <span class="text-5xl font-bold tracking-tight text-content mt-4 flex items-baseline gap-x-2">
           <CoursePrice {pricingPlanId} client:visible />
         </span>
-      <p class="mt-6 text-base leading-7 text-content">You get:</p>
+      <p class="mt-6 text-base leading-7 text-content">
+        {benefits ? "Just the course" : `All of the courses in this bundle`} with a one-time payment
+      </p>
       <ul
         role="list"
         class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
       >
-        <li class="flex gap-x-3">
-          <svg
-            class="h-6 w-5 flex-none text-accent-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clip-rule="evenodd"></path>
-          </svg>
-          {benefits?.hours ?? membershipHours} hours of 4K content
-        </li>
-        <li class="flex gap-x-3">
-          <svg
-            class="h-6 w-5 flex-none text-accent-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clip-rule="evenodd"></path>
-          </svg>
-          {benefits?.linesOfCode ?? membershipLinesOfCode}+ lines of code written
-        </li>
-
-        <li class="flex gap-x-3">
-          <svg
-            class="h-6 w-5 flex-none text-accent-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clip-rule="evenodd"></path>
-          </svg>
-          all PDF slides
-        </li>
-        <li class="flex gap-x-3">
-          <svg
-            class="h-6 w-5 flex-none text-accent-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clip-rule="evenodd"></path>
-          </svg>
-          access to the private Rock the JVM community
-        </li>
-        <li class="flex gap-x-3">
-          <svg
-            class="h-6 w-5 flex-none text-accent-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clip-rule="evenodd"></path>
-          </svg>
-          free updates
-        </li>
-        <li class="flex gap-x-3">
-          <svg
-            class="h-6 w-5 flex-none text-accent-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clip-rule="evenodd"></path>
-          </svg>
-          lifetime access
-        </li>
-        {
-          benefits?.rest &&
-            benefits.rest.map((benefit) => (
-              <Fragment>
-                <li class="flex gap-x-3">
-                  <svg
-                    class="h-6 w-5 flex-none text-accent-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  {benefit}
-                </li>
-              </Fragment>
-            ))
-        }
+        {[`${hours} hours of 4K content`, `${linesOfCode} lines of code written`, "All PDF slides", "Access to the private Rock the JVM community", "Free updates", "Lifetime access"]
+        .map((line) =>
+          <li class="flex gap-x-3">
+            <svg
+              class="h-6 w-5 flex-none text-accent-1"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                clip-rule="evenodd"></path>
+            </svg>
+            {line}
+          </li>
+      )}
       </ul>
       <a
-        href={`https://rockthejvm.com/purchase?product_id=${personalMembership.data.packages[0]?.pricingPlanId}`}
+        href={`https://rockthejvm.com/purchase?product_id=${pricingPlanId}`}
         aria-describedby="tier-hobby"
         class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Get Now</a
@@ -184,16 +100,19 @@ const featuredBundles = _courses.filter((course) => course.data.bundledCourses &
       </h3>
       <p class="mt-4 flex items-baseline gap-x-2">
         <span class="text-5xl font-bold tracking-tight text-content">
-          <CoursePrice pricingPlanId={benefits ? personalMembership.data.packages[0]!.pricingPlanId : teamMembership.data.packages[0]!.pricingPlanId} client:load />
+          <CoursePrice pricingPlanId={monthlyMembershipPricingPlanId} client:load />
         </span>
-        <span class="text-base text-content">/{benefits ? "monthly" : "yearly"}</span>
+        <span class="text-base text-content">/monthly</span>
       </p>
-      <p class="mt-6 text-base leading-7 text-content">You get:</p>
+      <p class="mt-6 text-base leading-7 text-content">
+        All of the Rock the JVM courses
+      </p>
      <ul
         role="list"
         class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
       >
-        <li class="flex gap-x-3">
+        {[`${monthlyMembershipHours} hours of 4K content`, `${monthlyMembershipLinesOfCode} lines of code written`, ...categories.map((category) => `All ${category.data.name} courses`)].map((line) => (
+          <li class="flex gap-x-3">
           <svg
             class="h-6 w-5 flex-none text-accent-1"
             viewBox="0 0 20 20"
@@ -205,46 +124,12 @@ const featuredBundles = _courses.filter((course) => course.data.bundledCourses &
               d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
               clip-rule="evenodd"></path>
           </svg>
-          {membershipHours} hours of 4K content
+          {line}
         </li>
-        <li class="flex gap-x-3">
-          <svg
-            class="h-6 w-5 flex-none text-accent-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clip-rule="evenodd"></path>
-          </svg>
-          {membershipLinesOfCode}+ lines of code written
-        </li>
-        {
-          categories.map((category) => (
-            <Fragment>
-              <li class="flex gap-x-3">
-                <svg
-                  class="h-6 w-5 flex-none text-accent-1"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                All {category.data.name} courses
-              </li>
-            </Fragment>
-          ))
-        }
+        ))}
       </ul>
       <a
-        href="https://rockthejvm.com/purchase?product_id=4131055"
+        href={`https://rockthejvm.com/purchase?product_id=${monthlyMembershipPricingPlanId}`}
         aria-describedby="tier-enterprise"
         class="mt-8 block rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm text-content-1 hover:text-content-1 hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Join Now</a
