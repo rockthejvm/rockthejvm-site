@@ -28,14 +28,13 @@ const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
     )
   ) : []
 ]);
-const categoryColor = _categoryFrontmatter.color;
-const categoryFaqs = _categoryFrontmatter.faqs;
+const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
   benefits,
   description,
   faqs,
   features,
-  image,
+  heroImage,
   pricingPlanId,
   question,
   technologies,
@@ -62,7 +61,7 @@ JSON.stringify(
 
 <BaseLayout {description} {title} {structuredData}>
   <article>
-    <Hero {description} {image} {pricingPlanId} {title} />
+    <Hero {description} image={heroImage} {pricingPlanId} {title} />
     {videoId &&
       <CourseVideo color={categoryColor} {videoId} />
     }
