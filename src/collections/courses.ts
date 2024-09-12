@@ -14,7 +14,7 @@ export default defineCollection({
           .object({
             hours: z.number().positive(),
             linesOfCode: z.number().int().positive(),
-            rest: z.array(z.string()).optional(),
+            rest: z.array(z.string()).optional(), // TODO
           })
           .strict()
           .optional(),
@@ -49,14 +49,16 @@ export default defineCollection({
               path: ["excerpt"],
             },
           ),
-        faqs: z.array(
-          z
-            .object({
-              question: z.string(),
-              answer: z.string(),
-            })
-            .strict(),
-        ),
+        faqs: z
+          .array(
+            z
+              .object({
+                question: z.string(),
+                answer: z.string(),
+              })
+              .strict(),
+          )
+          .optional(),
         features: z
           .object({
             one: image(),

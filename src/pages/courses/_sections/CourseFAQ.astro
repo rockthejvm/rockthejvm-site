@@ -5,11 +5,11 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   color: string;
-  faq: { question: string; answer: string }[];
+  faqs: { question: string; answer: string }[];
   category?: CollectionEntry<"courseCategories">;
 }
 
-const { color, faq } = Astro.props;
+const { color, faqs } = Astro.props;
 ---
 
 <Section {color} title="FAQ">
@@ -42,7 +42,7 @@ const { color, faq } = Astro.props;
             answer:
               "If you're buying courses individually, you have access to them forever, including updates. If you take these courses through the membership, you'll have access as long as you're subscribed.",
           },
-          ...faq,
+          ...faqs,
         ]}
         client:visible
       />

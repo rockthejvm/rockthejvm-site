@@ -3,13 +3,13 @@ name: "Team"
 description: Everything on Rock the JVM in a convenient package for your team.
 image: "./team.png"
 packages:
-  [
-    { frequency: "yearly", name: "3-Team", price: 585 },
-    { frequency: "yearly", name: "5-Team", price: 900 },
-    { frequency: "yearly", name: "10-Team", price: 1800 },
-    { frequency: "yearly", name: "15-Team", price: 2700 },
-  ]
+  - pricingPlanId: 4660874
+  - pricingPlanId: 3514312
+  - pricingPlanId: 3554364
+  - pricingPlanId: 3514316
 ---
+
+<!-- TODO -->
 
 A **single** **membership** for your team.
 

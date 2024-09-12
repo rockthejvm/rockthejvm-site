@@ -1,7 +1,7 @@
 ---
 
 import { getEntry, type CollectionEntry } from "astro:content";
-import Feature from "./Feature.astro";
+import Feature from "../pages/courses/_sections/Feature.astro";
 import Section from "./Section.astro";
 
 interface Props {
@@ -49,9 +49,7 @@ imagePosition="left"
   </Feature>)
 }
 <div class="max-w-[40rem] mb-8 md:mb-16 mx-auto px-8">
-{ Astro.slots.has("thanks") && (
   <h3 class="my-4">With Special Thanks To</h3>
   <slot name="thanks" />)
-}
 </div>
 </Section>
