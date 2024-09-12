@@ -24,32 +24,31 @@ export default defineCollection({
             z
               .object({
                 author: reference("authors"),
-                biography: z
-                  .string()
-                  .refine(
-                    (excerpt) =>
-                      excerpt ? /^<p>[\s\S]*<\/p>$/.test(excerpt) : true,
-                    {
-                      message:
-                        "Excerpt must be an HTML string wrapped in <p> tags",
-                      path: ["excerpt"],
-                    },
-                  ),
+                biography: z.string(),
+                // .refine(
+                //   (excerpt) =>
+                //     excerpt ? /^<p>[\s\S]*[^.]<\/p>$/.test(excerpt) : true,
+                //   {
+                //     message:
+                //       "Excerpt must be an HTML string wrapped in <p> tags and must not end with a period before the closing </p> tag",
+                //     path: ["excerpt"],
+                //   },
+                // ),
               })
               .strict(),
           )
           .optional(),
         description: z.string(),
+        // .max(200, "Description must be at most 200 characters"),
         difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
-        excerpt: z
-          .string()
-          .refine(
-            (excerpt) => (excerpt ? /^<p>[\s\S]*<\/p>$/.test(excerpt) : true),
-            {
-              message: "Excerpt must be an HTML string wrapped in <p> tags",
-              path: ["excerpt"],
-            },
-          ),
+        excerpt: z.string(),
+        // .refine(
+        //   (excerpt) => (excerpt ? /^<p>[\s\S]*<\/p>$/.test(excerpt) : true),
+        //   {
+        //     message: "Excerpt must be an HTML string wrapped in <p> tags",
+        //     path: ["excerpt"],
+        //   },
+        // ),
         faqs: z
           .array(
             z
@@ -70,7 +69,13 @@ export default defineCollection({
           })
           .strict()
           .optional(),
-        image: image(),
+        heroImage: image(),
+        // .refine(
+        //   (image) => image.width >= 1200 && image.height >= 630,
+        //   {
+        //     message: "Hero image must be at least 1200x630",
+        //   },
+        // ),
         instructors: z
           .array(reference("authors"))
           .min(1, "At least 1 instructor is required")
@@ -93,6 +98,8 @@ export default defineCollection({
           )
           .optional(),
         title: z.string(),
+        // .min(30, "Title must be at least 30 characters")
+        // .max(70, "Title must be at most 70 characters"),
         videoId: z.string().optional(),
       })
       .strict()

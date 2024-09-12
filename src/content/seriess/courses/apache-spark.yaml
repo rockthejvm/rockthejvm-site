@@ -1,0 +1,7 @@
+description: Learn everything there is to know about Spark, from zero to master.
+members:
+  - apache-spark-essentials-with-scala
+  - apache-spark-streaming-with-scala
+  - apache-spark-optimization-with-scala
+  - apache-spark-performance-tuning-with-scala
+title: Spark

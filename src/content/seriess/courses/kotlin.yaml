@@ -2,6 +2,6 @@ description: Learn everything there is to know about Kotlin, from zero to master
 members:
   - kotlin-at-light-speed
   - kotlin-essentials
-  - advanced-kotlin
   - kotlin-coroutines-and-concurrency
+  - advanced-kotlin
 title: Kotlin
