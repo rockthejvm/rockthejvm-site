@@ -1,0 +1,15 @@
+biography: Turing-complete Italian/Greek Scala developer & former physicist.
+company:
+  entity: iov42
+  role: Scala Developer
+location:
+  city: Milan
+  country: Italy
+name: Antonio Gelameris
+photo: ./antonio-gelameris.jpeg
+socials:
+  email: toniogela89@gmail.com
+  github: TonioGela
+  linkedin: toniogela
+  twitter: "@toniogela"
+  website: https://toniogela.dev
