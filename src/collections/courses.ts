@@ -14,7 +14,6 @@ export default defineCollection({
           .object({
             hours: z.number().positive(),
             linesOfCode: z.number().int().positive(),
-            rest: z.array(z.string()).optional(), // TODO
           })
           .strict()
           .optional(),
@@ -41,14 +40,17 @@ export default defineCollection({
         description: z.string(),
         // .max(200, "Description must be at most 200 characters"),
         difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
-        excerpt: z.string(),
-        // .refine(
-        //   (excerpt) => (excerpt ? /^<p>[\s\S]*<\/p>$/.test(excerpt) : true),
-        //   {
-        //     message: "Excerpt must be an HTML string wrapped in <p> tags",
-        //     path: ["excerpt"],
-        //   },
-        // ),
+        excerpt: z
+          .string()
+          .refine(
+            (excerpt) =>
+              excerpt ? /^<p>[\s\S]*[^.]<\/p>$/.test(excerpt) : true,
+            {
+              message:
+                "Excerpt must be an HTML string wrapped in <p> tags without a period before the closing tag",
+              path: ["excerpt"],
+            },
+          ),
         faqs: z
           .array(
             z
@@ -70,6 +72,12 @@ export default defineCollection({
           .strict()
           .optional(),
         heroImage: image(),
+        // .refine(
+        //   (image) => (image.width / image.height) === (16 / 9),
+        //   {
+        //     message: "Hero image must have an aspect ratio of 16:9",
+        //   },
+        // ),
         // .refine(
         //   (image) => image.width >= 1200 && image.height >= 630,
         //   {
@@ -100,6 +108,7 @@ export default defineCollection({
         title: z.string(),
         // .min(30, "Title must be at least 30 characters")
         // .max(70, "Title must be at most 70 characters"),
+        repositoryUrl: z.string().optional(),
         videoId: z.string().optional(),
       })
       .strict()
