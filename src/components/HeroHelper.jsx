@@ -5,14 +5,20 @@ export default function Example(props) {
 		<div className="min-h-[92vh] pt-20 pb-40">
 			<div className="hidden sm:mb-8 sm:flex sm:justify-center">
 				<div className="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20">
-					Check out our new advanced Kotlin course{" "}
+					Check out our new{" "}
 					<a
+						href="/courses/kotlin-coroutines-and-concurenc"
+						className="font-semibold text-accent-1"
+					>
+						Kotlin Coroutines & Concurrency course
+					</a>
+					{/* <a
 						href="/courses/advanced-kotlin"
 						className="font-semibold text-accent-1"
 					>
 						<span className="absolute inset-0" aria-hidden="true"></span>Read
-						more <span aria-hidden="true">&rarr;</span>
-					</a>
+						more<span aria-hidden="true">&rarr;</span>
+					</a> */}
 				</div>
 			</div>
 			<div className="flex">
