@@ -2,7 +2,7 @@
 company:
   entity: adobe
   role: Engineering Manager
-link: https://www.linkedin.com/in/mihai-fecioru-1008a4/
+link: https://linkedin.com/in/mihai-fecioru-1008a4
 location:
   city: San Francisco Bay Area
   country: California

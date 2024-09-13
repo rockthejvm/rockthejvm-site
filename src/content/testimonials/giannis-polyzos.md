@@ -2,7 +2,7 @@
 company:
   entity: ververica
   role: Senior Engineer
-link: https://www.linkedin.com/in/john-polyzos-04a60688/
+link: https://linkedin.com/in/john-polyzos-04a60688
 location:
   city: Athens
   country: Greece
