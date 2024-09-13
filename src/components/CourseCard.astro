@@ -34,9 +34,6 @@ const { course } = Astro.props;
         {course.data.title}
       </h3>
     </a>
-    <p class="mt-1 text-content-1">
-      <!-- {course.data.excerpt} -->
-      <Fragment set:html={course.data.excerpt} />
-    </p>
+      <Fragment set:html={course.data.excerpt} class="mt-1 text-content-1"/>
   </div>
 </div>
