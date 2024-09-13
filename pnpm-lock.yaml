@@ -33,7 +33,6 @@ importers:
         specifier: ^2.1.5
         version: 2.1.5(react@18.3.1)
       '@iconify-json/fa6-brands':
-<<<<<<< HEAD
         specifier: ^1.2.0
         version: 1.2.0
       '@iconify-json/fa6-solid':
@@ -45,13 +44,6 @@ importers:
       '@tailwindcss/aspect-ratio':
         specifier: ^0.4.2
         version: 0.4.2(tailwindcss@3.4.11)
-=======
-        specifier: ^1.1.22
-        version: 1.1.22
-      '@iconify-json/heroicons':
-        specifier: ^1.1.24
-        version: 1.1.24
->>>>>>> main
       '@tailwindcss/forms':
         specifier: ^0.5.9
         version: 0.5.9(tailwindcss@3.4.11)
@@ -95,12 +87,6 @@ importers:
       '@hbsnow/rehype-sectionize':
         specifier: ^1.0.7
         version: 1.0.7
-      '@iconify-json/fa6-solid':
-        specifier: ^1.1.24
-        version: 1.1.24
-      '@tailwindcss/aspect-ratio':
-        specifier: ^0.4.2
-        version: 0.4.2(tailwindcss@3.4.10)
       '@tailwindcss/typography':
         specifier: ^0.5.15
         version: 0.5.15(tailwindcss@3.4.11)
@@ -1285,10 +1271,6 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-<<<<<<< HEAD
-  debug@4.3.7:
-    resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
-=======
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -1297,9 +1279,8 @@ packages:
       supports-color:
         optional: true
 
-  debug@4.3.6:
-    resolution: {integrity: sha512-O/09Bd4Z1fBrU4VzkhFqVgpPzaGbw6Sm9FEkBT1A/YBXQFGuuSxa1dN2nxgxS34JmKXqYx8CZAwEVoJFImUXIg==}
->>>>>>> main
+  debug@4.3.7:
+    resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -2107,16 +2088,11 @@ packages:
     resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==}
     engines: {node: '>=10'}
 
-<<<<<<< HEAD
-  ms@2.1.3:
-    resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
-=======
   ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
 
-  ms@2.1.2:
-    resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
->>>>>>> main
+  ms@2.1.3:
+    resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
@@ -4403,15 +4379,11 @@ snapshots:
 
   csstype@3.1.3: {}
 
-<<<<<<< HEAD
-  debug@4.3.7:
-=======
   debug@2.6.9:
     dependencies:
       ms: 2.0.0
 
-  debug@4.3.6:
->>>>>>> main
+  debug@4.3.7:
     dependencies:
       ms: 2.1.3
 
@@ -5586,13 +5558,9 @@ snapshots:
 
   mrmime@2.0.0: {}
 
-<<<<<<< HEAD
-  ms@2.1.3: {}
-=======
   ms@2.0.0: {}
 
-  ms@2.1.2: {}
->>>>>>> main
+  ms@2.1.3: {}
 
   muggle-string@0.4.1: {}
 
