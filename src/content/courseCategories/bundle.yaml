@@ -1,3 +1,8 @@
 color: "#003366"
+faqs:
+  - question: I've already enrolled in some of the courses but want to take this bundle. Can I pay the difference?
+    answer: Yes, you can. To avoid paying for the same content twice, email me at daniel@rockthejvm.com with proof of your previous purchases, and I'll provide a discount to cover the amount you've already paid.
+  - question: I'm a senior developer and want to gift this bundle to some junior developers on my team. Can I audit this bundle?
+    answer: Absolutely. Please contact me at daniel@rockthejvm.com for assistance.
 name: Bundles
 ordinal: 8

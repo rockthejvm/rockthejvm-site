@@ -7,7 +7,7 @@ import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-	faqs: CollectionEntry<"courses">["data"]["faqs"];
+	faqs: NonNullable<CollectionEntry<"courses">["data"]["faqs"]>;
 }
 
 export default function Example({ faqs }: Props) {

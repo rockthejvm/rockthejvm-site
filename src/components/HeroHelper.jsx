@@ -24,7 +24,8 @@ export default function Example(props) {
 						</h1>
 						<p className="mb-5 text-content">
 							The zero-to-master online courses and hands-on training for Scala,
-							Kotlin, Spark, Flink, ZIO, Akka and more.
+							Kotlin, Apache Spark, Apache Flink, ZIO, Akka/Apache Pekko and
+							more.
 						</p>
 						<p className="mb-5 text-content">
 							No more mindless browsing, obscure blog posts and blurry videos.
