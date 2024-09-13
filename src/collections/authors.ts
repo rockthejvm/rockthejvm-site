@@ -6,6 +6,7 @@ export default defineCollection({
     z
       .object({
         biography: z.string().optional(),
+        biographyHtml: z.string().optional(),
         company: z
           .object({
             entity: reference("companies"),

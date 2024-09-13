@@ -8,7 +8,7 @@ interface Props {
 const { tags } = Astro.props;
 ---
 
-<p class="mb-12">
+<p class="text-wrap mb-12">
   {
     tags.map((tag) => (
       <a href={`/tags/${tag.id}`} class="hover:no-underline">
@@ -32,7 +32,7 @@ const { tags } = Astro.props;
               d="M6 6h.008v.008H6V6Z"
             />
           </svg>
-          {tag.id}
+          {tag.id.length > 8 ? `${tag.id.substring(0, 9)}...` : tag.id}
         </span>
       </a>
     ))

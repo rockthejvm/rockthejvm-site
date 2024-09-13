@@ -25,17 +25,16 @@ const latestVideos: {title: string, url: string}[] = [
     url: "https://www.youtube.com/watch?v=xNCCHFljwBg"
   }
 ]
+
+import Photo from "../assets/images/latest/videos.png";
+import { Image } from "astro:assets";
 ---
 
 <div class="shadow-2xl rounded-3xl">
   <div class="bg-secondary rounded-3xl overflow-hidden">
     <div class="w-full max-h-40 max-w-7xl overflow-hidden">
       <a href={`https://www.youtube.com/@rockthejvm`}>
-        <img
-          src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/FRjv6EVPQkRWF1WE9QW9"
-          alt="thumbnail"
-          class="object-cover object-center"
-        />
+        <Image src={Photo} alt="videos thumbnail" class="object-cover object-center" />
       </a>
     </div>
     <div class="mx-auto max-w-7xl mb-4">
@@ -45,7 +44,7 @@ const latestVideos: {title: string, url: string}[] = [
           class="no-underline hover:no-underline"
         >
           <h3
-            class="text-3xl text-center font-bold my-4 tracking-tight hover:text-[#ff8800] text-content sm:text-4xl"
+            class="text-3xl text-center font-bold my-4 tracking-tight hover:text-accent-2 text-content sm:text-4xl"
           >
             Latest Videos
           </h3>
@@ -55,7 +54,7 @@ const latestVideos: {title: string, url: string}[] = [
             latestVideos.map(async (video) => {
               return (
                 <Fragment>
-                  <article class="max-w-full border-b-2 border-content-2 hover:bg-primary hover:text-content-2">
+                  <article class="max-w-full border-b border-content-2 hover:bg-primary hover:text-content-2">
                     <div class="group relative mx-auto">
                       <h4 class="text-lg my-1 py-2.5 font-normal leading-6 mx-auto text-center no-underline text-content group-hover:text-content-2">
                         <a

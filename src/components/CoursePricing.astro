@@ -7,9 +7,10 @@ import CoursePrice from "./CoursePrice";
 
 interface Props {
   course: CollectionEntry<"courses">;
+  pricingPlanId: number;
 }
 
-const { course } = Astro.props;
+const { course, pricingPlanId } = Astro.props;
 const { benefits, title } = course.data;
 const membership = await getEntry("memberships", "personal");
 
@@ -22,10 +23,12 @@ const membershipLinesOfCode = (await getCollection("courses"))
 const categories = (await getCollection("courseCategories")).sort((a, b) =>
   a.data.ordinal <= b.data.ordinal ? -1 : 1,
 );
----
-<CoursePrice client:load />
 
-<!--
+const courses = (await getCollection("courses"))
+const featuredBundles = courses.filter((c) => c.data.bundledCourses && c.data.bundledCourses.some(c => c.slug === course.slug));
+---
+
+
 <div class="relative isolate w-full px-6 py-1 sm:py-2 lg:px-8">
   <div class="mx-auto max-w-2xl text-center lg:max-w-4xl">
   </div>
@@ -41,11 +44,10 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       >
         {title} Lifetime License
       </h3>
-      <p class="mt-4 flex items-baseline gap-x-2">
-        <span class="text-5xl font-bold tracking-tight text-content"
-          ><CoursePrice client:load /></span
-        >
-      </p>
+
+        <span class="text-5xl font-bold tracking-tight text-content mt-4 flex items-baseline gap-x-2">
+          <CoursePrice pricingPlanId={course.data.pricingPlanId} client:load />
+        </span>
       <p class="mt-6 text-base leading-7 text-content">You get:</p>
       <ul
         role="list"
@@ -160,7 +162,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         }
       </ul>
       <a
-        href="#"
+        href={`https://rockthejvm.com/purchase?product_id=${pricingPlanId}`}
         aria-describedby="tier-hobby"
         class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Get Now</a
@@ -240,7 +242,7 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
         }
       </ul>
       <a
-        href="#"
+        href="https://rockthejvm.com/purchase?product_id=4131055"
         aria-describedby="tier-enterprise"
         class="mt-8 block rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm text-content-1 hover:text-content-1 hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
         >Join Now</a
@@ -248,23 +250,27 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
     </div>
   </div>
 
-  <div
-    class="flex flex-col my-8 items-start bg-secondary gap-x-8 max-w-5xl mx-auto gap-y-6 rounded-3xl p-8 ring-2 ring-content-1/10 sm:gap-y-10 sm:p-10 lg:col-span-2 lg:flex-row lg:items-center"
-  >
-    <div class="lg:min-w-0 lg:flex-1">
-      <h3 class="text-lg font-semibold leading-8 tracking-tight text-accent-1">
-        Bundle
-      </h3>
-      <p class="mt-1 text-base leading-7 text-content-1">
-        Get access to all Kotlin courses in our Kotlin bundle.
-      </p>
-    </div>
-    <a
-      href="#"
-      class="rounded-md px-3.5 py-2 text-sm font-semibold leading-6 text-accent-1 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      >Buy Now <span aria-hidden="true">&rarr;</span></a
-    >
-  </div>
+  {featuredBundles && featuredBundles.length > 0 && featuredBundles.map(bundle =>
+    (
+      <div
+        class="flex flex-col my-8 items-start bg-secondary gap-x-8 max-w-5xl mx-auto gap-y-6 rounded-3xl p-8 ring-2 ring-content-1/10 sm:gap-y-10 sm:p-10 lg:col-span-2 lg:flex-row lg:items-center"
+      >
+        <div class="lg:min-w-0 lg:flex-1">
+          <h3 class="text-lg font-semibold leading-8 tracking-tight text-accent-1">
+            {bundle.data.title}
+          </h3>
+          <div class="mt-1 text-base leading-7 text-content-1">
+            <Fragment set:html={bundle.data.excerpt} />
+          </div>
+        </div>
+        <a
+          href=`/courses/${bundle.slug}`
+          class="rounded-md px-3.5 py-2 text-sm font-semibold leading-6 text-accent-1 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >Buy Now <span aria-hidden="true">&rarr;</span></a
+        >
+      </div>
+    ))
+  }
 
   <div class="mx-auto">
     <Feature image={MoneyBackGuarantee} imagePosition="left">
@@ -281,4 +287,4 @@ const categories = (await getCollection("courseCategories")).sort((a, b) =>
       </p>
     </Feature>
   </div>
-</div> -->
+</div>

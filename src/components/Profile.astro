@@ -1,19 +1,21 @@
 ---
 
-import { getEntry } from "astro:content";
+import { getEntry, type CollectionEntry } from "astro:content";
 import Feature from "./Feature.astro";
 import Section from "./Section.astro";
 
 interface Props {
   color: string;
+  collaborator?: CollectionEntry<"authors"> | null;
+  category?: CollectionEntry<"courseCategories">;
 }
 
-const {color} = Astro.props;
+const { category, color, collaborator} = Astro.props;
 
 const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
-<Section {color} title="Meet Rock the JVM">
+<Section {color} {category} title="Meet Rock the JVM">
 
 <Feature
 image={author.data.photo}
@@ -33,6 +35,17 @@ imagePosition="left"
   </p>
 </div>
 </Feature>
+{collaborator && collaborator.data.biographyHtml &&
+  <Feature
+  image={collaborator.data.photo}
+  imagePosition="right"
+  >
+  <h3>In Collaboration with {collaborator.data.name}</h3>
+  <div>
+    <Fragment set:html={collaborator.data.biographyHtml} />
+  </div>
+  </Feature>
+}
 <div class="max-w-[40rem] mb-8 md:mb-16 mx-auto px-8">
 { Astro.slots.has("thanks") && (
   <h3 class="my-4">With Special Thanks To</h3>

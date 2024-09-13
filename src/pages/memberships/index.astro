@@ -7,6 +7,7 @@ import Description from "./_sections/Description.astro";
 import MembershipPricingSection from "./_sections/MembershipPricingSection.astro";
 import Courses from "./_sections/Courses.astro";
 import Profile from "@components/Profile.astro";
+import { getEntry } from "astro:content";
 
 // const { slug } = Astro.params;
 // const course = await getEntry("courses", slug!);
@@ -72,11 +73,49 @@ const faqs = [
       "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment.",
   },
 ];
+
+const membership = await getEntry("memberships", "personal");
+
+const monthlyPrice = membership.data.packages.find(
+  (e) => e.frequency === "monthly",
+)!.price;
+const monthlyTitle = "Monthly Membership";
+
+const yearlyPrice = membership.data.packages.find(
+  (e) => e.frequency === "yearly",
+)!.price;
+const yearlyTitle = "Yearly Membership";
+
+const structuredData = {
+    "@context": "http://schema.org",
+    "@type": "Product",
+    "offers": [{
+        "@type": "Offer",
+        "name": monthlyTitle,
+        "price": monthlyPrice,
+        "priceCurrency": "USD",
+      },
+      {
+        "@type": "Offer",
+        "name": yearlyTitle,
+        "price": yearlyPrice,
+        "priceCurrency": "USD",
+      }
+    ],
+    "brand": {
+      "name": "Rock the JVM"
+    },
+    "name": "The Rock the JVM Membership",
+    "description": "All of the Rock the JVM premium content, at your service.",
+    // "category": "Hyperpigmentation",
+    "url": "/memberships",
+  }
 ---
 
 <BaseLayout
   description="All of the Rock the JVM premium content, at your service."
   title="The Rock the JVM Membership"
+  structuredData={JSON.stringify(structuredData)}
 >
   <article>
     <section class="py-8 md:py-16">
@@ -154,4 +193,5 @@ const faqs = [
 
     <CourseFAQ faq={faqs} color="bg-secondary" />
   </article>
+</BaseLayout>
 </BaseLayout>
