@@ -20,6 +20,7 @@ lint:
     - eslint
     - prettier
   enabled:
+    - biome@1.9.0
     - checkov@3.2.253
     - git-diff-check
     - markdownlint@0.41.0
