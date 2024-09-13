@@ -98,11 +98,13 @@ export default defineCollection({
 					.optional(),
 				technologies: z
 					.array(
-						z.object({
-							title: z.string(),
-							description: z.string(),
-							image: image(),
-						}),
+						z
+							.object({
+								title: z.string(),
+								description: z.string(),
+								image: image(),
+							})
+							.strict(),
 					)
 					.optional(),
 				title: z.string(),
