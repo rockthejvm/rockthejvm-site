@@ -1,27 +1,27 @@
 {
-  "extends": "astro/tsconfigs/strictest",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@assets/*": ["src/assets/*"],
-      "@collections/*": ["src/collections/*"],
-      "@components/*": ["src/components/*"],
-      "@containers/*": ["src/containers/*"],
-      "@content/*": ["src/content/*"],
-      "@data/*": ["src/data/*"],
-      "@icons/*": ["src/icons/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@pages/*": ["src/pages/*"],
-      "@styles/*": ["src/styles/*"],
-      "@utils/*": ["src/utils/*"]
-    },
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
-    "exactOptionalPropertyTypes": false
-  },
-  "include": ["src/**/*"],
-  "exclude": ["functions/**/*"],
-  "mdx": {
-    "checkMdx": true
-  }
+	"extends": "astro/tsconfigs/strictest",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@assets/*": ["src/assets/*"],
+			"@collections/*": ["src/collections/*"],
+			"@components/*": ["src/components/*"],
+			"@containers/*": ["src/containers/*"],
+			"@content/*": ["src/content/*"],
+			"@data/*": ["src/data/*"],
+			"@icons/*": ["src/icons/*"],
+			"@layouts/*": ["src/layouts/*"],
+			"@pages/*": ["src/pages/*"],
+			"@styles/*": ["src/styles/*"],
+			"@utils/*": ["src/utils/*"]
+		},
+		"jsx": "react-jsx",
+		"jsxImportSource": "react",
+		"exactOptionalPropertyTypes": false
+	},
+	"include": ["src/**/*"],
+	"exclude": ["functions/**/*"],
+	"mdx": {
+		"checkMdx": true
+	}
 }

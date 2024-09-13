@@ -13,18 +13,18 @@ import tags from "@collections/tags";
 import testimonials from "@collections/testimonials";
 
 export const collections = {
-  articleCategories,
-  articles,
-  authors,
-  companies,
-  courseCategories,
-  courses,
-  legals,
-  memberships,
-  newsletters,
-  seriess,
-  socials,
-  tags,
-  testimonials,
+	articleCategories,
+	articles,
+	authors,
+	companies,
+	courseCategories,
+	courses,
+	legals,
+	memberships,
+	newsletters,
+	seriess,
+	socials,
+	tags,
+	testimonials,
 };
 // TODO: auto export from src/schemas
