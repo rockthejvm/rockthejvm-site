@@ -149,7 +149,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     }),
     {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "public, max-age=60",
+      },
     },
   );
 };

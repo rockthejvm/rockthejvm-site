@@ -1,0 +1,12 @@
+---
+import Facebook from "./icons/Facebook.astro";
+import LinkedIn from "./icons/LinkedIn.astro";
+import Twitter from "./icons/Twitter.astro";
+import SocialShareHelper from "./SocialShareHelper";
+---
+
+<SocialShareHelper shareUrl="rockthejvm" client:idle>
+  <Facebook slot="facebook" />
+  <LinkedIn slot="linkedin" />
+  <Twitter slot="twitter" />
+</SocialShareHelper>

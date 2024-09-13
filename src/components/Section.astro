@@ -4,29 +4,20 @@ import H2 from "./H2.astro";
 import BackgroundGradient from "./BackgroundGradient.astro";
 
 interface Props {
-  color?: CollectionEntry<"courseCategories">["data"]["color"];
-  title: string;
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  title?: string;
   showGradient?: boolean;
 }
 
 const { color, title, showGradient } = Astro.props;
-
-// const colorString =
-//   color === null
-//     ? null
-//     : color?.substring(0, 3) === "bg-"
-//       ? color
-//       : `bg-[${color}]`;
-
-const colorClass = color ? color : "hidden";
-
-console.log(colorClass + " " + title);
 ---
 
 <section>
-  <header class:list={["mx-auto", "bg-secondary"]}>
-    <H2 {color} class="text-center mx-auto">{title}</H2>
-  </header>
+  {title &&
+    <header class="mx-auto" style={`background: ${color}`}>
+      <H2 {color} class="text-center mx-auto">{title}</H2>
+    </header>
+  }
   <div
     class="py-16 px-8 w-full relative mx-auto overflow-y-hidden overflow-x-visible"
   >

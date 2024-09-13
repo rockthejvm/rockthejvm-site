@@ -1,0 +1,8 @@
+biographyHtml: '<p><a href="https://www.linkedin.com/in/dmytro-mykhailov-03b78971/">Dmytro Mykhailov</a> is a Flink expert and trainer. We worked together on the initial structure of the course, as well as a large chunk of examples and exercises. This course would not have been possible without him.</p><p>For most of his career, Dmytro has been working as a Full Stack Developer and Solution Architect. His responsibilities include collecting and analyzing requirements, software design, implementation kick-start, team development, and leading the team to the successful delivery of the software.</p><p>Dmytro has conducted mentoring, coaching, and training sessions. He developed several technical training programs: general software engineering excellence, software design, and practical TDD training courses. He has also conducted engineering workshops and bootcamps.</p><p>Dmytro is also a former Rock the JVM student.</p>'
+location:
+  city: Haarlem
+  country: Netherlands
+name: Dmytro Mykhailov
+photo: ./dmytro-mykhailov.png
+socials:
+  linkedin: dmytro-mykhailov-03b78971

@@ -20,14 +20,54 @@ interface Props {
     alt: string;
     src: string;
   };
+  structuredData?: string;
   title: string;
   type: string;
 }
-const { article, canonicalUrl, description, error, image, title, type } =
+const { article, canonicalUrl, description, error, image, structuredData, title, type } =
   Astro.props;
+
+const socialLinks = Object.entries(site.socials).map(social => social[1].url);
+
+const orgStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    // "name": "Elite Strategies",
+    // "legalName" : "Elite Strategies Llc",
+    "url": "https://rockthejvm.com",
+    // "logo": "http://cdn.elite-strategies.com/wp-content/uploads/2013/04/elitestrategies.png",
+    // "foundingDate": "2009",
+    // "founders": [
+    // {
+    // "@type": "Person",
+    // "name": "Patrick Coombe"
+    // },
+    // {
+    // "@type": "Person",
+    // "name": ""
+    // } ],
+    // "address": {
+    // "@type": "PostalAddress",
+    // "streetAddress": "900 Linton Blvd Suite 104",
+    // "addressLocality": "Delray Beach",
+    // "addressRegion": "FL",
+    // "postalCode": "33444",
+    // "addressCountry": "USA"
+    // },
+    // "contactPoint": {
+    // "@type": "ContactPoint",
+    // "contactType": "customer support",
+    // "email": "info@elite-strategies.com"
+    // },
+    "sameAs": socialLinks
+    }
 ---
 
 <head>
+  {structuredData &&
+    <script type="application/ld+json" set:html={structuredData}></script>
+  }
+  <script type="application/ld+json" set:html={orgStructuredData}></script>
   <script is:inline>
     const setDataTheme = () => {
       document.documentElement.setAttribute(

@@ -22,9 +22,34 @@ export async function getStaticPaths() {
 
 const { articles, author } = Astro.props;
 const title = `Articles written by '${author.data.name}'`;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Colorado Springs",
+    "addressRegion": "CO",
+    "postalCode": "80840",
+    "streetAddress": "100 Main Street"
+  },
+  "colleague": [
+    "http://www.example.com/JohnColleague.html",
+    "http://www.example.com/JameColleague.html"
+  ],
+  "email": "info@example.com",
+  "image": "janedoe.jpg",
+  "jobTitle": "Research Assistant",
+  "name": author.data.name,
+  "location": author.data.location,
+  // "gender": "female",
+  // "url": author.data.socials ? author.data.socials.website : "",
+  // "sameAs" : author.data.socials ? [author.data.socials.] : "";
+};
+
 ---
 
-<BaseLayout {title} description={title}>
+<BaseLayout {title} description={title} structuredData={JSON.stringify(structuredData)}>
   <FullContainer>
     <header class="pt-8 md:pt-16">
       <h1 class="text-content-1 mx-6 lg:mx-8 text-center">
@@ -36,4 +61,5 @@ const title = `Articles written by '${author.data.name}'`;
     </div>
     <Articles articles={articles} />
   </FullContainer>
+</BaseLayout>
 </BaseLayout>

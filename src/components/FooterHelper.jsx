@@ -18,7 +18,7 @@ const navigation = {
   content: [
     { name: "Articles", href: "/articles" },
     { name: "Courses", href: "/courses" },
-    { name: "Videos", href: "/videos" },
+    { name: "Videos", href: "https://www.youtube.com/@rockthejvm" },
   ],
   support: [
     { name: "Contact", href: "/contact" },
@@ -27,14 +27,14 @@ const navigation = {
   ],
   company: [
     { name: "About", href: "/about" },
-    { name: "News", href: "/news" },
+    // { name: "News", href: "/news" },
   ],
   legal: [
     { name: "Cookies", href: "/legal/cookies" },
     { name: "Privacy", href: "/legal/privacy" },
-    { name: "Refunds", href: "/legal/refunds" },
+    // { name: "Refunds", href: "/legal/refunds" },
     { name: "Terms", href: "/legal/terms" },
-    { name: "Trademarks", href: "/legal/trademarks" },
+    // { name: "Trademarks", href: "/legal/trademarks" },
   ],
   social: [
     {
@@ -119,17 +119,14 @@ const navigation = {
 
 export default function Example(props) {
   const subscribe = async (email) => {
+    console.log("REQUEST");
     const res = await fetch(
-      `https://rockthejvm.us5.list-manage.com/subscribe/post-json?u=f7e7dcf30c1dd4f49893c696b&id=2c292e211e&f_id=003d27ebf0&c=jQuery19007926417827043355_1724459404661&EMAIL=${email}&b_f7e7dcf30c1dd4f49893c696b_2c292e211e=&subscribe=Subscribe&_=1724459404662`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      },
+      `https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&amp;id=2c292e211e&amp;f_id=003d27ebf0?EMAIL=${email}`,
     );
 
+    console.log("RESPONSE");
+    console.log(res.ok);
+    console.log(await res.json());
     return { body: await res.json(), sucessful: res.ok };
   };
 
@@ -223,17 +220,24 @@ export default function Example(props) {
             </div>
           </div>
           <div className="mt-10 xl:mt-0">
-            <h3 className="text-sm font-semibold leading-6 text-content">
+            {/* <h3 className="text-sm font-semibold leading-6 text-content">
               Subscribe to our newsletter
             </h3>
             <p className="mt-2 text-sm leading-6 text-content">TODO</p>
-            <form className="mt-6 sm:flex sm:max-w-md" onSubmit={handleSubmit}>
+            <form
+              className="mt-6 sm:flex sm:max-w-md validate"
+              action="https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&amp;id=2c292e211e&amp;f_id=003d27ebf0"
+              method="post"
+              id="mc-embedded-subscribe-form"
+              name="mc-embedded-subscribe-form"
+              target="_blank"
+            >
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
               <input
                 id="email-address"
-                name="email"
+                name="EMAIL"
                 type="email"
                 required
                 placeholder="Enter your email"
@@ -248,7 +252,8 @@ export default function Example(props) {
                   Subscribe
                 </button>
               </div>
-            </form>
+            </form> */}
+            {props.newsletter}
           </div>
         </div>
         <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
