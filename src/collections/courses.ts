@@ -19,6 +19,7 @@ export default defineCollection({
           .strict()
           .optional(),
         category: reference("courseCategories"),
+        collaborator: reference("authors").optional(),
         description: z.string(),
         difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
         excerpt: z
@@ -53,9 +54,7 @@ export default defineCollection({
           .array(reference("authors"))
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
-        price: z.number().int().positive().optional(),
         pricingPlanId: z.number().int().positive(),
-        purchaseLink: z.string().url(),
         question: z
           .object({
             image: image(),
@@ -63,7 +62,17 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        technologies: z
+          .array(
+            z.object({
+              title: z.string(),
+              description: z.string(),
+              image: image(),
+            }),
+          )
+          .optional(),
         title: z.string(),
+        video: z.string().optional(),
       })
       .strict(),
 });

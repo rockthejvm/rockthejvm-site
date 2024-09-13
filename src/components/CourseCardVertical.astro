@@ -11,7 +11,7 @@ interface Props {
   showPrice: boolean;
 }
 
-const { course, showPrice } = Astro.props;
+const { course } = Astro.props;
 ---
 
 <div class="shadow-2xl rounded-xl h-full max-w-sm">
@@ -41,15 +41,13 @@ const { course, showPrice } = Astro.props;
           </div>
         </div>
       </div>
-      {
+      <!-- {
         showPrice && (
-          <div class="bottom-2 absolute h-10 w-full flex items-end justify-end">
-            <p class="text-content-2 pr-4 pt-4 font-extrabold">
-              {course.data.price ? `$${course.data.price}` : "Free"}
-            </p>
+          <div class="bottom-2 absolute h-10 w-full flex items-end justify-end text-content-2 font-extrabold pr-4 pt-4">
+            <CoursePrice pricingPlanId={course.data.pricingPlanId} client:load />
           </div>
         )
-      }
+      } -->
     </div>
   </a>
 </div>

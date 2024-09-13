@@ -19,19 +19,19 @@ const plans = [
     id: "5",
     name: "5-Team",
     price: 900,
-    url: "https://sso.teachable.com/secure/256201/checkout/3514312/team-pack",
+    url: "https://rockthejvm.com/purchase?product_id=4476809",
   },
   {
     id: "10",
     name: "10-Team",
     price: 1800,
-    url: "https://checkout.teachable.com/secure/256201/checkout/order_7cwql1yy",
+    url: "https://rockthejvm.com/purchase?product_id=4476810",
   },
   {
     id: "15",
     name: "15-Team",
     price: 2700,
-    url: "https://checkout.teachable.com/secure/256201/checkout/order_109tpxld",
+    url: "https://rockthejvm.com/purchase?product_id=3514316",
   },
 ];
 
@@ -212,7 +212,7 @@ export default function Example(props) {
               </li>
             </ul>
             <a
-              href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
+              href="https://rockthejvm.com/purchase?product_id=4131055"
               aria-describedby="tier-hobby"
               className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
             >
@@ -366,7 +366,7 @@ export default function Example(props) {
               </li>
             </ul>
             <a
-              href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
+              href="https://rockthejvm.com/purchase?product_id=4131056"
               aria-describedby="tier-enterprise"
               className="mt-8 block rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm text-content-1 hover:text-content-1 hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
             >
@@ -414,7 +414,7 @@ export default function Example(props) {
               cancel. Cancel anytime from the account management page.
             </p>
             <a
-              href="https://sso.teachable.com/secure/256201/checkout/4131056/membership"
+              href="https://rockthejvm.com/purchase?product_id=4660874"
               aria-describedby="tier-hobby"
               className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-primary hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:mt-10"
             >
@@ -442,11 +442,11 @@ export default function Example(props) {
                         value={plan}
                         aria-label={plan.name}
                         aria-describedby={`${plan.id}-description`}
-                        className="h-6 w-6"
+                        className="h-6 w-6 group data-[checked]:border-accent-1"
                       >
                         <span
                           aria-hidden="true"
-                          className={`flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white ${teamPack.name === plan.name ? "bg-accent-1" : ""}`}
+                          className={`flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white group-data-[checked]:bg-accent-1 ${teamPack.name === plan.name ? "bg-accent-1" : ""}`}
                         >
                           <span className="h-1.5 w-1.5 rounded-full bg-white" />
                         </span>

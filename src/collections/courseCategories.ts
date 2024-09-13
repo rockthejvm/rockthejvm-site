@@ -4,7 +4,7 @@ export default defineCollection({
   type: "data",
   schema: z
     .object({
-      color: z.string().regex(/^bg-/),
+      color: z.string(),
       name: z.string(),
       ordinal: z.number().int().positive(),
     })

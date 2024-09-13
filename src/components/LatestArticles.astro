@@ -1,5 +1,7 @@
 ---
 import { getCollection } from "astro:content";
+import Photo from "../assets/images/latest/articles.png";
+import { Image } from "astro:assets";
 
 const articles = await getCollection("articles");
 const latestArticles = articles
@@ -7,22 +9,18 @@ const latestArticles = articles
   .slice(0, 6);
 ---
 
-<div class="shadow-2xl rounded-3xl">
-  <div class="bg-secondary rounded-3xl w-full overflow-hidden">
+<div class="shadow-2xl rounded-3xl bg-secondary">
+  <div class="rounded-3xl w-full overflow-hidden">
     <a href={`/articles`}>
       <div class="w-full max-h-40 overflow-hidden">
-        <img
-          src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/bFrMi6keRSK7xdn8urgH"
-          alt="thumbnail"
-          class="object-cover object-center"
-        />
+        <Image src={Photo} alt="articles thumbnail" class="object-cover object-center" />
       </div>
     </a>
     <div class="mx-auto w-full mb-4">
       <div class="mx-auto">
         <a href={`/articles`} class="no-underline hover:no-underline">
           <h3
-            class="text-3xl text-center font-bold my-4 tracking-tight hover:text-[#ff8800] text-content sm:text-4xl"
+            class="text-3xl text-center font-bold my-4 tracking-tight hover:text-accent-2 text-content sm:text-4xl"
           >
             Latest Articles
           </h3>
@@ -42,7 +40,7 @@ const latestArticles = articles
               //   : undefined;
               return (
                 <Fragment>
-                  <article class="max-w-full border-b-2 border-content-2 hover:bg-primary hover:text-content-2">
+                  <article class="max-w-full border-b border-content-2 hover:bg-primary hover:text-content-2">
                     <div class="group relative mx-auto">
                       <a
                         href={`articles/${article.slug}`}

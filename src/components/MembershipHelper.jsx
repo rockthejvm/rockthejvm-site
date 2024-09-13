@@ -26,12 +26,6 @@ export default function Example(props) {
                 >
                   Learn more
                 </a>
-                <a
-                  href="/memberships"
-                  className="text-sm font-semibold leading-6 text-content"
-                >
-                  Check out the team pack <span aria-hidden="true">→</span>
-                </a>
               </div>
             </div>
           </div>

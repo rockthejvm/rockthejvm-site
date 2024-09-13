@@ -12,6 +12,7 @@ import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
+import SocialShare from "@components/SocialShare.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -35,16 +36,28 @@ const author = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
 );
-// const category = await getEntry("articleCategories", frontmatter.category.id);
 const tags = await getEntries(frontmatter.tags);
-// const series = frontmatter.series
-//   ? await getEntry(frontmatter.series.collection, frontmatter.series.id)
-//   : undefined;
-// const video = frontmatter.video
-//   ? await getEntry(frontmatter.video.collection, frontmatter.video.id)
-//   : undefined;
 
-// const banner: ImageMetadata = "../assets/images/banner.jpeg";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  // "image": heroImage.image.src,
+  "genre": "software engineering",
+  "keywords": tags.reduce(((a, b) => a + " " + b.id), ""),
+  // "wordcount": "1120",
+  "publisher": "Rock the JVM",
+  "url": Astro.site,
+  "datePublished": publishedDate,
+  "dateCreated": publishedDate,
+  "dateModified": updatedDate,
+  "description": description,
+  // "articleBody": "You can paste your entire post in here, and yes it can get really really long.",
+  "author": {
+    "@type": "Person",
+    "name": author.data.name
+  }
+}
 ---
 
 <BaseLayout
@@ -67,6 +80,7 @@ const tags = await getEntries(frontmatter.tags);
   image={heroImage
     ? { alt: heroImage.alt, src: heroImage.image.src }
     : undefined}
+  structuredData={JSON.stringify(structuredData)}
   {title}
   type="article"
 >
@@ -93,23 +107,31 @@ const tags = await getEntries(frontmatter.tags);
         {videoId &&
           <MyYouTube id={videoId} />
         }
+        <SocialShare />
       </header>
-      <div class="flex flex-row">
-        <Prose>
-          <div class="xl:hidden"><TableOfContents {headings} /></div>
+      <div class="lg:hidden fixed bottom-4 right-4">
+        <a class="flex flex-col align-center justify-center content-center" href="#toc">
+          <div class="mx-auto"><CaretUp /></div>
+          <TOC />
+        </a>
+      </div>
+      <div class="xl:flex xl:flex-row">
+        <Prose class="prose-h2:mt-2 my-8">
+          <div id="toc" class="xl:hidden"><TableOfContents {headings} /></div>
           <slot />
           <ArticleSeries {article} />
         </Prose>
         <div
-          class="hidden sticky max-w-sm top-0 self-start left-full xl:block justify-end"
+          class="hidden sticky max-w-sm top-0 self-start no-scrollbar max-h-[90vh] ml-2 px-2 overflow-y-scroll left-full xl:block justify-end"
         >
-          <Prose><TableOfContents {headings} /></Prose>
+          <Prose class="prose-h2:mt-2"><TableOfContents {headings} /></Prose>
         </div>
       </div>
       <footer>
         {videoId &&
           <MyYouTube id={videoId} />
         }
+        <SocialShare/>
         <AuthorWide {author} />
       </footer>
     </article>
