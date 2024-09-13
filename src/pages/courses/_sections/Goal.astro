@@ -5,16 +5,13 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  category?: CollectionEntry<"courseCategories">;
 }
 
 const { color } = Astro.props;
 ---
 
 <Section title="Goal" {color}>
-  <div class="max-w-3xl mx-auto">
-    <Prose>
-      <slot />
-    </Prose>
-  </div>
+  <Prose class="max-w-3xl mx-auto">
+    <slot />
+  </Prose>
 </Section>

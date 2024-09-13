@@ -1,24 +1,21 @@
 ---
-import Feature from "@components/Feature.astro";
+import Feature from "@pages/courses/_components/Feature.astro";
 import Section from "@components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
+type CourseFrontmatter = CollectionEntry<"courses">["data"];
+
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  image: ImageMetadata;
-  question: CollectionEntry<"courses">["data"]["question"];
-  category?: CollectionEntry<"courseCategories">;
+  image: CourseFrontmatter["image"];
+  question: NonNullable<CourseFrontmatter["question"]>;
 }
 
 const { color, image, question } = Astro.props;
 ---
 
-{
-  question && (
-    <Section {color} title={question.text}>
-      <Feature {image} imagePosition="left">
-        <slot />
-      </Feature>
-    </Section>
-  )
-}
+<Section {color} title={question.text}>
+  <Feature {image} imagePosition="left">
+    <slot />
+  </Feature>
+</Section>

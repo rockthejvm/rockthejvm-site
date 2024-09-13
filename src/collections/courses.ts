@@ -5,7 +5,7 @@ export default defineCollection({
 	schema: ({ image }) =>
 		z
 			.object({
-				archived: z.boolean().default(false),
+				archived: z.boolean().default(false), // TODO
 				bundledCourses: z
 					.array(reference("courses"))
 					.min(2, "At least 2 courses are required for a bundle")
@@ -14,31 +14,53 @@ export default defineCollection({
 					.object({
 						hours: z.number().positive(),
 						linesOfCode: z.number().int().positive(),
-						rest: z.array(z.string()).optional(),
 					})
 					.strict()
 					.optional(),
 				category: reference("courseCategories"),
-				collaborator: reference("authors").optional(),
+				collaborators: z
+					.array(
+						z
+							.object({
+								author: reference("authors"),
+								biography: z.string(),
+								// .refine(
+								//   (excerpt) =>
+								//     excerpt ? /^<p>[\s\S]*[^.]<\/p>$/.test(excerpt) : true,
+								//   {
+								//     message:
+								//       "Excerpt must be an HTML string wrapped in <p> tags and must not end with a period before the closing </p> tag",
+								//     path: ["excerpt"],
+								//   },
+								// ),
+							})
+							.strict(),
+					)
+					.optional(),
 				description: z.string(),
+				// .max(200, "Description must be at most 200 characters"),
 				difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
 				excerpt: z
 					.string()
 					.refine(
-						(excerpt) => (excerpt ? /^<p>[\s\S]*<\/p>$/.test(excerpt) : true),
+						(excerpt) =>
+							excerpt ? /^<p>[\s\S]*[^.]<\/p>$/.test(excerpt) : true,
 						{
-							message: "Excerpt must be an HTML string wrapped in <p> tags",
+							message:
+								"Excerpt must be an HTML string wrapped in <p> tags without a period before the closing tag",
 							path: ["excerpt"],
 						},
 					),
-				faqs: z.array(
-					z
-						.object({
-							question: z.string(),
-							answer: z.string(),
-						})
-						.strict(),
-				),
+				faqs: z
+					.array(
+						z
+							.object({
+								question: z.string(),
+								answer: z.string(),
+							})
+							.strict(),
+					)
+					.optional(),
 				features: z
 					.object({
 						one: image(),
@@ -49,7 +71,19 @@ export default defineCollection({
 					})
 					.strict()
 					.optional(),
-				image: image(),
+				heroImage: image(),
+				// .refine(
+				//   (image) => (image.width / image.height) === (16 / 9),
+				//   {
+				//     message: "Hero image must have an aspect ratio of 16:9",
+				//   },
+				// ),
+				// .refine(
+				//   (image) => image.width >= 1200 && image.height >= 630,
+				//   {
+				//     message: "Hero image must be at least 1200x630",
+				//   },
+				// ),
 				instructors: z
 					.array(reference("authors"))
 					.min(1, "At least 1 instructor is required")
@@ -72,7 +106,30 @@ export default defineCollection({
 					)
 					.optional(),
 				title: z.string(),
-				video: z.string().optional(),
+				// .min(30, "Title must be at least 30 characters")
+				// .max(70, "Title must be at most 70 characters"),
+				repositoryUrl: z.string().optional(),
+				videoId: z.string().optional(),
 			})
-			.strict(),
+			.strict()
+			.refine(
+				(data) =>
+					(data.benefits && !data.bundledCourses) ||
+					(!data.benefits && data.bundledCourses),
+				{
+					message:
+						"Either benefits or bundledCourses must be provided, but not both",
+					path: ["benefits", "bundledCourses"],
+				},
+			)
+			.refine(
+				(data) =>
+					(data.difficulty && !data.bundledCourses) ||
+					(!data.difficulty && data.bundledCourses),
+				{
+					message:
+						"Either difficulty or bundledCourses must be provided, but not both",
+					path: ["difficulty", "bundledCourses"],
+				},
+			),
 });

@@ -1,9 +1,0 @@
-description: Learn everything there is to know about Spark, from zero to master.
-members:
-  [
-    spark-essentials,
-    spark-streaming,
-    spark-optimization,
-    spark-performance-tuning,
-  ]
-title: Spark

@@ -13,6 +13,7 @@ import TagList from "@components/TagList.astro";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import SocialShare from "@components/SocialShare.astro";
+import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -109,12 +110,12 @@ const structuredData = {
         }
         <SocialShare />
       </header>
-      <div class="lg:hidden fixed bottom-4 right-4">
+      <!-- <div class="lg:hidden fixed bottom-4 right-4">
         <a class="flex flex-col align-center justify-center content-center" href="#toc">
           <div class="mx-auto"><CaretUp /></div>
           <TOC />
         </a>
-      </div>
+      </div> -->
       <div class="xl:flex xl:flex-row">
         <Prose class="prose-h2:mt-2 my-8">
           <div id="toc" class="xl:hidden"><TableOfContents {headings} /></div>
@@ -136,4 +137,8 @@ const structuredData = {
       </footer>
     </article>
   </NarrowContainer>
+  <FloatingActionMenuHelper client:load >
+    <Prose class="prose-h2:mt-2" slot="toc"><TableOfContents {headings} hideButtons={true} /></Prose>
+    <SocialShare slot="share" />
+  </FloatingActionMenuHelper>
 </BaseLayout>
