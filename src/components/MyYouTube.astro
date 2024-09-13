@@ -1,0 +1,10 @@
+---
+import { YouTube } from "astro-embed";
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+<YouTube {id} title="Prefer Watching?" posterQuality="high" />

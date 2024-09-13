@@ -6,14 +6,13 @@ import FormattedDate from "../../../components/FormattedDate.astro";
 import type { MarkdownHeading } from "astro";
 import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
-import AuthorSmall from "../../../components/AuthorSmall.astro";
+import Byline from "../../../components/Byline.astro";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
 import ArticleSeries from "@components/ArticleSeries.astro";
+import MyYouTube from "@components/MyYouTube.astro";
 import SocialShare from "@components/SocialShare.astro";
-import TOC from "@components/icons/TOC.astro";
-import CaretUp from "@components/icons/CaretUp.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 
 interface Props {
@@ -32,6 +31,7 @@ const {
   publishedDate,
   title,
   updatedDate,
+  videoId,
 } = frontmatter;
 const author = await getEntry(
   frontmatter.author.collection,
@@ -92,7 +92,7 @@ const structuredData = {
           <h1>{title}</h1>
         </Prose>
         <a href={`/authors/${frontmatter.author.id}`} class="mt-auto">
-          <AuthorSmall {author} {minutesRead}>
+          <Byline {author} {minutesRead}>
             <p>
               Last updated: {
                 updatedDate ? (
@@ -102,11 +102,12 @@ const structuredData = {
                 )
               }
             </p>
-          </AuthorSmall>
+          </Byline>
         </a>
-        <Prose>
-          <TagList {tags} />
-        </Prose>
+        <TagList {tags} />
+        {videoId &&
+          <MyYouTube id={videoId} />
+        }
         <SocialShare />
       </header>
       <!-- <div class="lg:hidden fixed bottom-4 right-4">
@@ -128,6 +129,9 @@ const structuredData = {
         </div>
       </div>
       <footer>
+        {videoId &&
+          <MyYouTube id={videoId} />
+        }
         <SocialShare/>
         <AuthorWide {author} />
       </footer>
