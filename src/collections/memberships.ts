@@ -1,7 +1,7 @@
 import { defineCollection, z } from "astro:content";
 
 export default defineCollection({
-	type: "content",
+	type: "data",
 	schema: ({ image }) =>
 		z
 			.object({
@@ -12,9 +12,7 @@ export default defineCollection({
 					.array(
 						z
 							.object({
-								frequency: z.enum(["monthly", "yearly"]),
-								name: z.string(),
-								price: z.number().positive(),
+								pricingPlanId: z.number().positive(),
 							})
 							.strict(),
 					)

@@ -8,32 +8,38 @@ import { type CollectionEntry } from "astro:content";
 
 interface Props {
   course: CollectionEntry<"courses">;
-  showPrice: boolean;
 }
 
 const { course } = Astro.props;
 ---
 
 <div class="shadow-2xl rounded-xl h-full max-w-sm">
-  <a
-    href={`/courses/${course.slug}`}
-    class="max-w-sm h-full hover:no-underline"
-  >
+
     <div class="bg-secondary relative rounded-xl w-full h-full overflow-hidden">
-      <div class="w-full max-h-52 overflow-hidden">
-        <img
-          src={course.data.image.src}
-          alt={`${course.data.title}`}
-          class="min-w-full min-h-full object-cover object-center"
-        />
-      </div>
+      <a
+        href={`/courses/${course.slug}`}
+        class="max-w-sm h-full hover:no-underline"
+      >
+        <div class="w-full max-h-52 overflow-hidden">
+          <img
+            src={course.data.heroImage.src}
+            alt={`${course.data.title}`}
+            class="min-w-full min-h-full object-cover object-center"
+          />
+        </div>
+      </a>
       <div class="mx-auto w-full mb-4">
         <div class="mx-auto px-4">
-          <h3
-            class="text-4xl sm:text-xl text-center font-bold my-4 tracking-tight text-content-2 lg:text-4xl"
+          <a
+            href={`/courses/${course.slug}`}
+            class="max-w-sm h-full hover:no-underline"
           >
-            {course.data.title}
-          </h3>
+            <h3
+              class="text-4xl sm:text-xl text-center font-bold my-4 tracking-tight hover:text-accent-2 text-content-2 lg:text-4xl"
+            >
+              {course.data.title}
+            </h3>
+          </a>
           <div class="py-4 sm:py-4">
             <p class="text-base sm:text-sm lg:text-base text-content-1">
               {course.data.description}
@@ -49,5 +55,4 @@ const { course } = Astro.props;
         )
       } -->
     </div>
-  </a>
 </div>

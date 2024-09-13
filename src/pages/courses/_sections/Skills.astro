@@ -4,17 +4,14 @@ import Section from "@components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  color: string;
-  category?: CollectionEntry<"courseCategories">;
+  color: CollectionEntry<"courseCategories">["data"]["color"];
 }
 
 const { color } = Astro.props;
 ---
 
 <Section showGradient={true} {color} title="Skills You'll Learn">
-  <div class="max-w-3xl mx-auto">
-    <Prose>
-      <slot />
-    </Prose>
-  </div>
+  <Prose class="max-w-3xl mx-auto">
+    <slot />
+  </Prose>
 </Section>

@@ -2,11 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
 import MembershipImage from "../../content/memberships/personal.png";
-import CourseFAQ from "@pages/courses/_sections/CourseFAQ.astro";
 import Description from "./_sections/Description.astro";
 import MembershipPricingSection from "./_sections/MembershipPricingSection.astro";
 import Courses from "./_sections/Courses.astro";
-import Profile from "@components/Profile.astro";
 import { getEntry } from "astro:content";
 
 // const { slug } = Astro.params;
@@ -72,19 +70,13 @@ const faqs = [
     answer:
       "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment.",
   },
-];
+]; // TODO
 
 const membership = await getEntry("memberships", "personal");
 
-const monthlyPrice = membership.data.packages.find(
-  (e) => e.frequency === "monthly",
-)!.price;
-const monthlyTitle = "Monthly Membership";
+const monthlyMembershipPricingPlanId = (await getEntry("memberships", "personal")).data.packages[0]!.pricingPlanId;
 
-const yearlyPrice = membership.data.packages.find(
-  (e) => e.frequency === "yearly",
-)!.price;
-const yearlyTitle = "Yearly Membership";
+const yearlyMembershipPricingPlanId = (await getEntry("memberships", "personal")).data.packages[1]!.pricingPlanId;
 
 const structuredData = {
     "@context": "http://schema.org",
@@ -189,9 +181,8 @@ const structuredData = {
     <Courses />
     <MembershipPricingSection />
 
-    <Profile color="bg-secondary" />
+    <!-- <Profile color="bg-secondary" /> -->
 
-    <CourseFAQ faq={faqs} color="bg-secondary" />
   </article>
 </BaseLayout>
 </BaseLayout>

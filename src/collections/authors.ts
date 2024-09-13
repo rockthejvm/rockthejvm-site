@@ -6,7 +6,7 @@ export default defineCollection({
 		z
 			.object({
 				biography: z.string().optional(),
-				biographyHtml: z.string().optional(),
+				canonicalUrl: z.string().url().optional(),
 				company: z
 					.object({
 						entity: reference("companies"),
@@ -24,9 +24,9 @@ export default defineCollection({
 					.optional(),
 				name: z.string(),
 				photo: image().refine(
-					(image) => image.width >= 400 && image.height >= 400,
+					(image) => image.width >= 460 && image.height >= 460,
 					{
-						message: "Photo must be at least 400x400px",
+						message: "Photo must be at least 460x460px",
 					},
 				),
 				socials: z

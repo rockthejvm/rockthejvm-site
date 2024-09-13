@@ -1,75 +1,80 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getEntry, type CollectionEntry } from "astro:content";
-import Hero from "../_sections/Hero.astro";
-import Goal from "../_sections/Goal.astro";
-import Question from "../_sections/Question.astro";
-import Features from "../_sections/Features.astro";
-import Skills from "../_sections/Skills.astro";
-import Pricing from "../_sections/Pricing.astro";
-import CourseFAQ from "../_sections/CourseFAQ.astro";
-import Profile from "@components/Profile.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
-import Curriculum from "../_sections/Curriculum.astro";
+import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
+import Curriculum from "../_sections/Curriculum.astro";
+import Features from "../_sections/Features.astro";
+import Goal from "../_sections/Goal.astro";
+import Hero from "../_sections/Hero.astro";
+import Pricing from "../_sections/Pricing.astro";
+import Profile from "@components/Profile.astro";
+import Question from "../_sections/Question.astro";
+import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
+import { getEntry, getEntries, type CollectionEntry } from "astro:content";
 
-const { slug } = Astro.params;
-const course = await getEntry("courses", slug!) as CollectionEntry<"courses">;
-const frontmatter = course!.data;
-const category = await getEntry("courseCategories", frontmatter.category.id) as CollectionEntry<"courseCategories">;
+const course = await getEntry("courses", Astro.params.slug as CollectionEntry<"courses">["slug"]);
+const _frontmatter = course.data;
+const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
+  _frontmatter.bundledCourses ? getEntries(_frontmatter.bundledCourses) : Promise.resolve([]),
+  getEntry(_frontmatter.category.collection, _frontmatter.category.id).then((category) => category.data),
+  _frontmatter.collaborators ? await Promise.all(
+    _frontmatter.collaborators.map(async (collaborator) =>
+      ({
+        frontmatter: (await getEntry(collaborator.author.collection, collaborator.author.id)).data,
+        biography: collaborator.biography
+      })
+    )
+  ) : []
+]);
+const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
+  benefits,
   description,
+  faqs,
   features,
-  image,
-  question,
+  heroImage,
   pricingPlanId,
+  question,
   technologies,
   title,
-} = frontmatter;
-
-const courseList = course.data.bundledCourses ? await Promise.all(course.data.bundledCourses!.map(async (c) => await getEntry("courses", c.slug))) : [];
-
-const hasGoalSlot = Astro.slots.goal !== undefined;
-const hasSkillsSlot = Astro.slots.skills !== undefined;
-
-const collaborator = course.data.collaborator ? await getEntry("authors", course.data.collaborator!.id) : null;
+  videoId
+} = _frontmatter;
 
 const structuredData =
+JSON.stringify(
   {
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": title,
-  "description": description,
-  "provider": {
-    "@type": "Organization",
-    "name": "Rock the JVM",
-    "sameAs": "https://rockthejvm.com/"
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": title,
+    "description": description,
+    "provider": {
+      "@type": "Organization",
+      "name": "Rock the JVM",
+      "sameAs": "https://rockthejvm.com/"
+    }
   }
-}
+)
 
 ---
 
-<BaseLayout {description} {title} structuredData={JSON.stringify(structuredData)}>
+<BaseLayout {description} {title} {structuredData}>
   <article>
-    <Hero {description} {image} {pricingPlanId} slug={slug!} {title} />
-    {course.data.video &&
-      <CourseVideo color={category.data.color} {category} video={course.data.video} />
+    <Hero {description} image={heroImage} {pricingPlanId} {title} />
+    {videoId &&
+      <CourseVideo color={categoryColor} {videoId} />
     }
-    {hasGoalSlot &&
-      <Goal color={category.data.color} {category}>
-        <slot name="goal" />
-      </Goal>
+    <Goal color={categoryColor} >
+      <slot name="goal" />
+    </Goal>
+    {question &&
+      <Question color={categoryColor} image={question.image} {question}>
+        <slot name="question" />
+      </Question>
     }
-    {
-      question && (
-        <Question color={category.data.color} {category} image={question.image} {question}>
-          <slot name="question" />
-        </Question>
-      )
-    }
-    {features && Object.keys(features).length > 0 &&
-      <Features color={category.data.color} {features}>
+    {features &&
+      <Features color={categoryColor} {features}>
         <slot name="feature1" slot="feature1" />
         <slot name="feature2" slot="feature2" />
         <slot name="feature3" slot="feature3" />
@@ -78,24 +83,20 @@ const structuredData =
       </Features>
     }
     {technologies &&
-      <TechStack {technologies} color={category.data.color} {category} />
+      <TechStack {technologies} color={categoryColor}  />
     }
-    {hasSkillsSlot &&
-      <Skills color={category.data.color} {category}>
-        <slot name="skills" />
-      </Skills>
+    <Skills color={categoryColor} >
+      <slot name="skills" />
+    </Skills>
+    {collaborators.map((collaborator) => (
+        <Profile color={categoryColor} {collaborator} />
+      ))
     }
-    <Profile color={category.data.color} {collaborator} {category}/>
-    {category.id === "bundle" &&
-      (
-        <BundledCourses color={category.data.color} {courseList} />
-      )
+    {bundledCourses.length > 1 ?
+      <BundledCourses color={categoryColor} {bundledCourses} />
+      : <Curriculum color={categoryColor} courseSlug={course.slug} {pricingPlanId}/>
     }
-    {category.id !== "bundle" &&
-      <Curriculum color={category.data.color} courseSlug={course.slug} pricingPlanId={course.data.pricingPlanId}/>
-    }
-    <Pricing {course} pricingPlanId={pricingPlanId!} color={category.data.color}/>
-    <CourseFAQ faq={course.data.faqs ?? []} color={category.data.color} {category}/>
+    <Pricing {benefits} {bundledCourses} color={categoryColor} courseSlug={course.slug} {pricingPlanId} {title} />
+    <CourseFAQ {categoryFaqs} courseFaqs={faqs} color={categoryColor} isBundle={benefits === undefined}/>
   </article>
-</BaseLayout>
 </BaseLayout>

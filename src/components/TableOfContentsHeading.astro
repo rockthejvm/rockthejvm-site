@@ -9,7 +9,7 @@ const { heading } = Astro.props;
 ---
 
 <li>
-  <a href={`${heading.slug}`}>{heading.text}</a>
+  <a href={`#${heading.slug}`}>{heading.text}</a>
 </li>
 
 <script define:vars={{ heading }}>
