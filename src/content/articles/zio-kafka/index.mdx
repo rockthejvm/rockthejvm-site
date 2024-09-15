@@ -22,7 +22,11 @@ In this article, we will go through some primary Kafka's use cases. First, we wi
 So, let's proceed without further ado.
 
 <NoteAdmonition>
-    Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:
+  Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud
+  student of the [Scala with Cats course](/courses/cats). Riccardo is a senior
+  developer, a teacher and a passionate technical blogger, and now he's neck
+  deep into ZIO. In this article he'll explore a newer library in the ZIO
+  ecosystem: ZIO Kafka. Enter Riccardo:
 </NoteAdmonition>
 
 ## Background
@@ -194,7 +198,8 @@ val managedConsumer: RManaged[Clock with Blocking, Consumer.Service] =
 In this particular case, we obtain an instance of an `RManaged`, that in the ZIO jargon is a resource that cannot fail. Moreover, we see that the consumer depends upon the `Blocking` service. As the documentation says
 
 <TipAdmonition>
-    The Blocking module provides access to a thread pool that can be used for performing blocking operations.
+  The Blocking module provides access to a thread pool that can be used for
+  performing blocking operations.
 </TipAdmonition>
 
 In fact, ZIO internally uses such a service to manage the connection pool to the broker for a consumer.
@@ -356,7 +361,8 @@ def toJson(implicit A: JsonEncoder[A]): String
 ```
 
 <TipAdmonition>
-    It's best to declare the decoder and encoder type classes inside the companion object of a type.
+  It's best to declare the decoder and encoder type classes inside the companion
+  object of a type.
 </TipAdmonition>
 
 Now, we just assemble all the pieces we just created using the `inmapM` function:

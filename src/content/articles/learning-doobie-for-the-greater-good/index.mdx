@@ -19,11 +19,17 @@ The vast majority of applications today connect with some form of a persistent l
 So, without further ado, let's introduce the doobie library.
 
 <NoteAdmonition>
-    This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post.
+  This article is brought to you by Riccardo Cardin, a proud student of the
+  [Scala with Cats course](/courses/cats) and guest contributor to the blog.
+  Riccardo is a senior developer, a teacher and a passionate technical blogger.
+  He's on his way to mastering functional programming and in he's constantly
+  outdoing himself with his coverage of various libraries in his articles. We
+  worked together over a month on this blog post.
 </NoteAdmonition>
 
 <TipAdmonition>
-    This article uses advanced Scala features. We teach these in the [Advanced Scala](/courses/advanced-scala) course.
+  This article uses advanced Scala features. We teach these in the [Advanced
+  Scala](/courses/advanced-scala) course.
 </TipAdmonition>
 
 ## Setup
@@ -208,7 +214,12 @@ val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
 This approach is the most straightforward, but it is not the most efficient. The reason is that the JDBC driver manager will try to load the driver for each connection, which can be pretty expensive. Moreover, the driver manager has no upper bound on the number of connections it will create. However, while experimenting and testing doobie features, this approach works quite well.
 
 <CautionAdmonition>
-    As we said in the introduction, doobie is just a wrapper over the JDBC specification in Java, and it uses the Cats Effect library under the hood. Since **JDBC provides only a blocking interface** to interact with SQL databases, we should be careful to also use the blocking facilities available in Cats Effect. Fortunately, **doobie takes care of using the `Blocking` context for us**:
+  As we said in the introduction, doobie is just a wrapper over the JDBC
+  specification in Java, and it uses the Cats Effect library under the hood.
+  Since **JDBC provides only a blocking interface** to interact with SQL
+  databases, we should be careful to also use the blocking facilities available
+  in Cats Effect. Fortunately, **doobie takes care of using the `Blocking`
+  context for us**:
 </CautionAdmonition>
 
 ```scala
@@ -545,7 +556,9 @@ def saveActorAndGetIdProgram(name: String): IO[Int] = {
 ```
 
 <CautionAdmonition>
-    Only some databases natively implement this feature, such as H2 or Postgres. Moreover, the method `withUniqueGeneratedKeys` will fail if the number of modified rows is more than one.
+  Only some databases natively implement this feature, such as H2 or Postgres.
+  Moreover, the method `withUniqueGeneratedKeys` will fail if the number of
+  modified rows is more than one.
 </CautionAdmonition>
 
 Now that we know how to insert and retrieve information from a table, we can create a program that both inserts and retrieves an actor in sequence:
@@ -865,7 +878,8 @@ In the above code, we extracted information from the `movies` table, the `direct
 Now that we know all the pieces of a program that connects to a database using doobie, we can create a more complex example. For this purpose, we will use the _tagless final_ approach. Again, the details of the tagless final approach are far beyond the scope of this tutorial. In summary, it's **a technique that allows us to manage dependencies between our components and abstract away the details of the concrete effect implementation**.
 
 <TipAdmonition>
-    More on tagless final in the [dedicated article](/articles/tagless-final-in-scala).
+  More on tagless final in the [dedicated
+  article](/articles/tagless-final-in-scala).
 </TipAdmonition>
 
 In a tagless final approach, we first define an _algebra_ as a `trait`, storing all the functions we implement for a type. If we take the `Director` type, we can define the following algebra:

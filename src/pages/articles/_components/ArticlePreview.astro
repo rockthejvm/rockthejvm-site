@@ -1,10 +1,10 @@
 ---
+import Placeholder from "@assets/images/placeholder.webp";
 import FormattedDate from "@components/FormattedDate.astro";
+import { getReadingTime } from "@utils/getReadingTime.ts";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
-import Placeholder from "@assets/images/placeholder.webp";
-import { getReadingTime } from "@utils/getReadingTime.ts";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -41,8 +41,8 @@ const entity = author.data.company
     >
     </div>
   </div>
-  <div class="mt-8 flex items-center gap-x-2 text-xs w-full overflow-hidden">
-    <FormattedDate date={publishedDate} class="text-gray-500 text-nowrap" />
+  <div class="mt-8 flex w-full items-center gap-x-2 overflow-hidden text-xs">
+    <FormattedDate date={publishedDate} class="text-nowrap text-gray-500" />
     <a
       href={`/categories/article/${category.id}`}
       class="relative z-10 rounded-full bg-sky-50 px-3 py-1.5 font-medium text-content-1 hover:bg-gray-100"
@@ -63,7 +63,7 @@ const entity = author.data.company
         {title}
       </a>
     </h3>
-    <p class="mt-4 text-content-1 inline-flex items-center">
+    <p class="mt-4 inline-flex items-center text-content-1">
       <span
         class="inline-flex items-center gap-x-1.5 rounded-md bg-secondary px-2 py-1 text-xs font-medium text-content-1"
       >
@@ -73,7 +73,7 @@ const entity = author.data.company
           viewBox="0 0 24 24"
           strok-idth={1.5}
           stroke="currentColor"
-          class="size-4 ml-1"
+          class="ml-1 size-4"
         >
           <path
             stroke-linecap="round"

@@ -22,11 +22,11 @@ const courseList = coursess.reduce(
 <Section color="bg-secondary" title="Courses Included">
   <ul
     role="list"
-    class="mx-auto px-8 my-8 md:my-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+    class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
   >
     {
       courseList.map((course) => (
-        <li class="col-span-1 divide-y rounded-lg bg-none flex center justify-center">
+        <li class="center col-span-1 flex justify-center divide-y rounded-lg bg-none">
           <CourseCardVertical {course} showPrice={false} />
         </li>
       ))

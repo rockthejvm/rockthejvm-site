@@ -374,7 +374,8 @@ Another change is the use `datagramChannel.write` and `datagramChannel.read` to 
 Why use this method? Once `datagramChannel.connect()` is called, the `read()` and `write()` methods will only send and receive datagram packets from the address it's connected to.
 
 <CautionAdmonition>
-    UDP is a connectionless protocol and the `connect()` method doesn't mean an actual connection is established.
+  UDP is a connectionless protocol and the `connect()` method doesn't mean an
+  actual connection is established.
 </CautionAdmonition>
 
 Lastly, we can either call `datagramChannel.disconnect()` or `datagramChanel.close()` once we are done using the channel. Calling `datagramChannel.disconnect()` on a closed channel or one that's not connected has no effect. If we call our `run` method with `connectedClient`, the results should be the same.
@@ -1356,7 +1357,8 @@ Here's a picture of this program running on Ubuntu 22.04 with two clients connec
 ![Screenshot of three terminals open and two audio visualizations](images/udp-audio-visualization.png)
 
 <WarningAdmonition>
-    The application may fail incase the online radio link is unreachable. If this happens, you can replace it with a working link of your choosing.
+  The application may fail incase the online radio link is unreachable. If this
+  happens, you can replace it with a working link of your choosing.
 </WarningAdmonition>
 
 ## Conclusion

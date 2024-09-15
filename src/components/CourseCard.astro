@@ -9,31 +9,31 @@ const { course } = Astro.props;
 ---
 
 <div
-  class="md:flex mt-8 w-full rounded-2xl md:h-52 bg-secondary overflow-hidden shadow-2xl"
+  class="mt-8 w-full overflow-hidden rounded-2xl bg-secondary shadow-2xl md:flex md:h-52"
 >
   <div
-    class="mb-4 flex-shrink-0 md:rounded-l-2xl overflow-hidden md:mb-0 md:min-h-full md:mr-4"
+    class="mb-4 flex-shrink-0 overflow-hidden md:mb-0 md:mr-4 md:min-h-full md:rounded-l-2xl"
   >
     <a href={`/courses/${course.slug}`}>
       <div
-        class="h-72 w-full text-gray-300 lg:w-96 md:w-64 md:h-full overflow-hidden"
+        class="h-72 w-full overflow-hidden text-gray-300 md:h-full md:w-64 lg:w-96"
       >
         <img
           src={course.data.heroImage.src}
           alt={`${course.data.title}`}
-          class="min-w-full min-h-full object-cover object-center"
+          class="min-h-full min-w-full object-cover object-center"
         />
       </div>
     </a>
   </div>
-  <div class="my-8 px-8 md:px-8 md:my-auto">
+  <div class="my-8 px-8 md:my-auto md:px-8">
     <a href={`/courses/${course.slug}`}>
       <h3
-        class="text-lg font-bold text-content-2 hover:text-accent-2 text-center md:text-left"
+        class="text-center text-lg font-bold text-content-2 hover:text-accent-2 md:text-left"
       >
         {course.data.title}
       </h3>
     </a>
-      <Fragment set:html={course.data.excerpt} class="mt-1 text-content-1"/>
+    <Fragment set:html={course.data.excerpt} class="mt-1 text-content-1" />
   </div>
 </div>

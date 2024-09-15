@@ -1,7 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
-import TableOfContentsHeading from "./TableOfContentsHeading.astro";
 import { Icon } from "astro-icon/components";
+import TableOfContentsHeading from "./TableOfContentsHeading.astro";
 
 interface Props {
   headings: MarkdownHeading[];
@@ -10,30 +10,38 @@ interface Props {
 
 const { headings, hideButtons } = Astro.props;
 
-const filteredHeadings = headings.filter(
-  (heading) => heading.depth === 2
-);
+const filteredHeadings = headings.filter((heading) => heading.depth === 2);
 ---
 
 {
   filteredHeadings.length >= 3 && (
     <nav>
-      {!hideButtons &&
-        <div class="flex flex-row gap-x-4 justify-left mt-8">
+      {!hideButtons && (
+        <div class="justify-left mt-8 flex flex-row gap-x-4">
           <a href="">
             <span class="inline-flex items-center gap-x-1.5 rounded-full bg-secondary px-2 py-1 text-sm font-medium text-content-1">
-              <Icon  name="fa6-brands:youtube" title="Article Video" aria-hidden="true" class="h-6 w-6" />
+              <Icon
+                name="fa6-brands:youtube"
+                title="Article Video"
+                aria-hidden="true"
+                class="h-6 w-6"
+              />
               Watch Now
             </span>
           </a>
           <a href="">
             <span class="inline-flex items-center gap-x-1.5 rounded-full bg-secondary px-2 py-1 text-sm font-medium text-content-1">
-              <Icon  name="fa6-brands:github" title="Article Repository" aria-hidden="true" class="h-6 w-6" />
+              <Icon
+                name="fa6-brands:github"
+                title="Article Repository"
+                aria-hidden="true"
+                class="h-6 w-6"
+              />
               See Repository
             </span>
           </a>
         </div>
-      }
+      )}
       <h2 class="text-content">Table of Contents</h2>
       <ol>
         {filteredHeadings.map((heading) => (

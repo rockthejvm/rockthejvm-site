@@ -24,50 +24,60 @@ interface Props {
   title: string;
   type: string;
 }
-const { article, canonicalUrl, description, error, image, structuredData, title, type } =
-  Astro.props;
+const {
+  article,
+  canonicalUrl,
+  description,
+  error,
+  image,
+  structuredData,
+  title,
+  type,
+} = Astro.props;
 
-const socialLinks = Object.entries(site.socials).map(social => social[1].url);
+const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
 
 const orgStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    // "name": "Elite Strategies",
-    // "legalName" : "Elite Strategies Llc",
-    "url": "https://rockthejvm.com",
-    // "logo": "http://cdn.elite-strategies.com/wp-content/uploads/2013/04/elitestrategies.png",
-    // "foundingDate": "2009",
-    // "founders": [
-    // {
-    // "@type": "Person",
-    // "name": "Patrick Coombe"
-    // },
-    // {
-    // "@type": "Person",
-    // "name": ""
-    // } ],
-    // "address": {
-    // "@type": "PostalAddress",
-    // "streetAddress": "900 Linton Blvd Suite 104",
-    // "addressLocality": "Delray Beach",
-    // "addressRegion": "FL",
-    // "postalCode": "33444",
-    // "addressCountry": "USA"
-    // },
-    // "contactPoint": {
-    // "@type": "ContactPoint",
-    // "contactType": "customer support",
-    // "email": "info@elite-strategies.com"
-    // },
-    "sameAs": socialLinks
-    }
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  // "name": "Elite Strategies",
+  // "legalName" : "Elite Strategies Llc",
+  url: "https://rockthejvm.com",
+  // "logo": "http://cdn.elite-strategies.com/wp-content/uploads/2013/04/elitestrategies.png",
+  // "foundingDate": "2009",
+  // "founders": [
+  // {
+  // "@type": "Person",
+  // "name": "Patrick Coombe"
+  // },
+  // {
+  // "@type": "Person",
+  // "name": ""
+  // } ],
+  // "address": {
+  // "@type": "PostalAddress",
+  // "streetAddress": "900 Linton Blvd Suite 104",
+  // "addressLocality": "Delray Beach",
+  // "addressRegion": "FL",
+  // "postalCode": "33444",
+  // "addressCountry": "USA"
+  // },
+  // "contactPoint": {
+  // "@type": "ContactPoint",
+  // "contactType": "customer support",
+  // "email": "info@elite-strategies.com"
+  // },
+  sameAs: socialLinks,
+};
 ---
 
 <head>
-  {structuredData &&
-    <script type="application/ld+json" set:html={structuredData}></script>
+  {
+    structuredData && (
+      <script type="application/ld+json" set:html={structuredData} />
+    )
   }
-  <script type="application/ld+json" set:html={orgStructuredData}></script>
+  <script type="application/ld+json" set:html={orgStructuredData} />
   <script is:inline>
     const setDataTheme = () => {
       document.documentElement.setAttribute(
@@ -76,12 +86,12 @@ const orgStructuredData = {
           ? window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
             : "light"
-          : localStorage.getItem("theme")
+          : localStorage.getItem("theme"),
       );
     };
     const setThemeToggle = () => {
       ["systemTheme", "lightTheme", "darkTheme"].forEach(
-        (id) => (document.getElementById(id).style.display = "none")
+        (id) => (document.getElementById(id).style.display = "none"),
       );
       const theme = localStorage.getItem("theme");
       document.getElementById(
@@ -89,7 +99,7 @@ const orgStructuredData = {
           ? "systemTheme"
           : theme === "light"
             ? "lightTheme"
-            : "darkTheme"
+            : "darkTheme",
       ).style.display = "block";
     };
     const setProse = () => {
@@ -111,7 +121,7 @@ const orgStructuredData = {
             ? "light"
             : localStorage.getItem("theme") === "light"
               ? "dark"
-              : "system"
+              : "system",
         );
         setDataTheme();
         setProse();

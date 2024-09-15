@@ -5,11 +5,11 @@ import type { CollectionEntry } from "astro:content";
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
-  description: CourseFrontmatter["description"]
-  image: CourseFrontmatter["image"]
-  pricingPlanId: CourseFrontmatter["pricingPlanId"]
-  title: CourseFrontmatter["title"]
-  }
+  description: CourseFrontmatter["description"];
+  image: CourseFrontmatter["image"];
+  pricingPlanId: CourseFrontmatter["pricingPlanId"];
+  title: CourseFrontmatter["title"];
+}
 
 const { description, image, pricingPlanId, title } = Astro.props;
 ---
@@ -18,24 +18,28 @@ const { description, image, pricingPlanId, title } = Astro.props;
   <Image
     alt={title}
     src={image}
-    class="absolute inset-0 w-full h-full object-cover"
+    class="absolute inset-0 h-full w-full object-cover"
     slot="image"
   />
   <div class="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"></div>
-    <div class="mx-auto max-w-2xl text-center relative px-6 py-40 sm:px-6 sm:py-48 lg:px-8">
-      <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-gray-100">
-        {title}
-      </h1>
-      <p class="mx-auto mt-6 max-w-xl text-xl md:text-2xl leading-8 text-gray-300">
-        {description}
-      </p>
-      <div class="text-center mt-10">
-        <a
-          href={`https://rockthejvm.com/purchase?product_id=${pricingPlanId}`}
-          class="rounded-md bg-[#0b49d0] px-3.5 py-2.5 text-md font-semibold text-gray-100 hover:text-gray-100 hover:no-underline shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Take this course
-        </a>
-      </div>
+  <div
+    class="relative mx-auto max-w-2xl px-6 py-40 text-center sm:px-6 sm:py-48 lg:px-8"
+  >
+    <h1 class="text-5xl font-bold tracking-tight text-gray-100 md:text-6xl">
+      {title}
+    </h1>
+    <p
+      class="mx-auto mt-6 max-w-xl text-xl leading-8 text-gray-300 md:text-2xl"
+    >
+      {description}
+    </p>
+    <div class="mt-10 text-center">
+      <a
+        href={`https://rockthejvm.com/purchase?product_id=${pricingPlanId}`}
+        class="text-md rounded-md bg-[#0b49d0] px-3.5 py-2.5 font-semibold text-gray-100 shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
+        Take this course
+      </a>
     </div>
+  </div>
 </header>

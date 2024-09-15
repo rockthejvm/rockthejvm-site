@@ -28,11 +28,16 @@ By the end, we'll cover
 - Websockets
 
 <NoteAdmonition>
-    This article is brought to you by [Mark Rudolph](https://github.com/alterationx10) - his second contribution to Rock the JVM. Mark is a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings.
+  This article is brought to you by [Mark
+  Rudolph](https://github.com/alterationx10) - his second contribution to Rock
+  the JVM. Mark is a senior developer, who has been working with Scala for a
+  number of years. He also has been diving into the ZIO ecosystem, and loves
+  sharing his learnings.
 </NoteAdmonition>
 
 <TipAdmonition>
-    If you want to learn more about the core ZIO library, check out the [ZIO course](/courses/zio).
+  If you want to learn more about the core ZIO library, check out the [ZIO
+  course](/courses/zio).
 </TipAdmonition>
 
 ## Setup
@@ -109,7 +114,8 @@ type UHttp[-A, +B]   = Http[Any, Nothing, A, B]
 ```
 
 <NoteAdmonition>
-    This section will have `R` as `Any` and `E` as `Nothing`. We will discuss including resources, and error handling later in the article.
+  This section will have `R` as `Any` and `E` as `Nothing`. We will discuss
+  including resources, and error handling later in the article.
 </NoteAdmonition>
 
 Let's take a moment to dig into our first endpoint:
@@ -195,7 +201,8 @@ We can see in the second, and third case, we're partially matching the remaining
 path, and it can capture more than just one segment representing a name!
 
 <TipAdmonition>
-    You can't use `/` and `/:` in the same case statement, as left- and right-associative operators with same precedence may not be mixed.
+  You can't use `/` and `/:` in the same case statement, as left- and
+  right-associative operators with same precedence may not be mixed.
 </TipAdmonition>
 
 ### Composing many Http[-R, +E, -A, +B]
@@ -254,11 +261,17 @@ This is a simple entry point, and we only need to give `Server.start` a port
 (defined as `9000` above), and our _composed_ `Http[R, E, Request, Response]`.
 
 <WarningAdmonition>
-    `Server.start` internally calls `ZIO.never`, and will block your for-comprehension at that point. You should include it last, or append `.forkDaemon`, and provide your own logic afterwards.
+  `Server.start` internally calls `ZIO.never`, and will block your
+  for-comprehension at that point. You should include it last, or append
+  `.forkDaemon`, and provide your own logic afterwards.
 </WarningAdmonition>
 
 <NoteAdmonition>
-    You can apply some configuration to the `Server` instance, however we won't cover this in much capacity in this article. If interested, you can see the official documentation [here](https://zio.github.io/zio-http/docs/v1.x/dsl/server/) and [here](https://zio.github.io/zio-http/docs/v1.x/examples/advanced-examples/advanced_server).
+  You can apply some configuration to the `Server` instance, however we won't
+  cover this in much capacity in this article. If interested, you can see the
+  official documentation
+  [here](https://zio.github.io/zio-http/docs/v1.x/dsl/server/) and
+  [here](https://zio.github.io/zio-http/docs/v1.x/examples/advanced-examples/advanced_server).
 </NoteAdmonition>
 
 ## Next Steps
@@ -855,7 +868,8 @@ Streaming responses is handled via `ZStream`, and works straight forwardly, if
 you are comfortable with that topic.
 
 <TipAdmonition>
-    If you would like to dig into `ZStream`s a bit further, I suggest you check out this [article](/articles/zio-streams-introduction).
+  If you would like to dig into `ZStream`s a bit further, I suggest you check
+  out this [article](/articles/zio-streams-introduction).
 </TipAdmonition>
 
 In our example below, we take a `String` sentence, and repeat it 1000 times to

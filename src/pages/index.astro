@@ -1,18 +1,18 @@
 ---
-import site from "../data/site.json";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Logo from "../assets/images/logos/rtjvm-red.png";
-import Membership from "../components/Membership.astro";
-import NarrowContainer from "../containers/NarrowContainer";
+import BackgroundGradient from "@components/BackgroundGradient.astro";
 import { type CollectionEntry } from "astro:content";
-import Testimonials from "../components/Testimonials.astro";
-import SocialProof from "../components/SocialProof.astro";
-import Hero from "../components/Hero.astro";
+import Logo from "../assets/images/logos/rtjvm-red.png";
 import Contact from "../components/Contact.astro";
 import Courses from "../components/Courses.astro";
+import Hero from "../components/Hero.astro";
 import LatestContent from "../components/LatestContent.astro";
+import Membership from "../components/Membership.astro";
+import SocialProof from "../components/SocialProof.astro";
+import Testimonials from "../components/Testimonials.astro";
 import CardList from "../containers/CardList";
-import BackgroundGradient from "@components/BackgroundGradient.astro";
+import NarrowContainer from "../containers/NarrowContainer";
+import site from "../data/site.json";
+import BaseLayout from "../layouts/BaseLayout.astro";
 interface Props {
   canonicalUrl: URL;
   description: string;

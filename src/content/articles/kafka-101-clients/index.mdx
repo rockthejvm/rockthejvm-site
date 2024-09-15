@@ -37,13 +37,18 @@ The relevant e-commerce datasets can be found [here](https://www.kaggle.com/data
 The code samples are written in Kotlin, but the implementation should be easy to port in Java or Scala.
 
 <TipAdmonition>
-    To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already.
+  To make the most out of this article, I'd recommend cloning the GitHub repo
+  and following the code snippets there, so you can run them easily, instead of
+  reproducing things yourself from scratch, unless you're a Kafka expert
+  already.
 </TipAdmonition>
 
 So, let us dive right in.
 
 <NoteAdmonition>
-This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
+  This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos).
+  Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect
+  with a focus on Event Streaming and Stream Processing Systems.
 </NoteAdmonition>
 
 ## Environment Setup
@@ -125,7 +130,8 @@ All you have to do is navigate to the root folder of the project where the `dock
 This command will start a 3-node Kafka Cluster.
 
 <TipAdmonition>
-    You might want to increase your docker resources (I'm running with 6GB RAM) to make sure you don't run into any issues.
+  You might want to increase your docker resources (I'm running with 6GB RAM) to
+  make sure you don't run into any issues.
 </TipAdmonition>
 
 Wait a bit for the cluster to start, then we will need to create our topic to store our clickstream events. For that we will create a topic with 5 partitions and a replication factor of 3 (leader + 2 replicas) using the following command:
@@ -417,7 +423,8 @@ Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a 
 Makes the consuming and processing time of **10k messages** take as much as **2 seconds**.
 
 <NoteAdmonition>
-    Notice from the logs how different batches are processed on different threads on the same consumer instance.
+  Notice from the logs how different batches are processed on different threads
+  on the same consumer instance.
 </NoteAdmonition>
 
 and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
@@ -437,7 +444,8 @@ and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
 So basically we have accomplished getting our processing time from ~ minutes down to seconds.
 
 <NoteAdmonition>
-    Notice in the screenshot how different batches are processed on different threads on different consumer instances.
+  Notice in the screenshot how different batches are processed on different
+  threads on different consumer instances.
 </NoteAdmonition>
 
 ## Offsets and How to Handle Them

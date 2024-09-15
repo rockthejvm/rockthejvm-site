@@ -1,5 +1,4 @@
 ---
-
 import { getEntry, type CollectionEntry } from "astro:content";
 import Feature from "../pages/courses/_components/Feature.astro";
 import Section from "./Section.astro";
@@ -9,7 +8,7 @@ interface Props {
   collaborator: {
     frontmatter: CollectionEntry<"authors">["data"];
     biography: string;
-  }
+  };
 }
 
 const { color, collaborator } = Astro.props;
@@ -17,39 +16,45 @@ const { color, collaborator } = Astro.props;
 const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
-<Section {color} title="Meet Rock the JVM" >
-
-<Feature
-image={author.data.photo}
-imagePosition="left"
->
-<h3>Daniel Ciocîrlan</h3>
-<div>
-  <p>I'm a software engineer and the founder of Rock the JVM.</p>
-  <p>
-    I'm a software engineer and the founder of Rock the JVM. I started the Rock the JVM project out of love for Scala and the technologies it powers - they are all amazing tools and I want to share as much of my experience with them as I can.
-  </p>
-  <p>
-    As of February 2024, I've taught Java, Scala, Kotlin and related tech (e.g. Cats, ZIO, Spark) to 100000+ students at various levels and I've held live training sessions for some of the best companies in the industry, including Adobe and Apple. I've also taught university students who now work at Google and Facebook (among others), I've held Hour of Code for 7-year-olds and I've taught more than 35000 kids to code.
-  </p>
-  <p>
-    I have a Master's Degree in Computer Science and I wrote my Bachelor and Master theses on Quantum Computation. Before starting to learn programming, I won medals at international Physics competitions.
-  </p>
-</div>
-</Feature>
-{
-(  <Feature
-      image={collaborator.frontmatter.photo}
-      imagePosition="right"
-      >
+<Section {color} title="Meet Rock the JVM">
+  <Feature image={author.data.photo} imagePosition="left">
+    <h3>Daniel Ciocîrlan</h3>
+    <div>
+      <p>I'm a software engineer and the founder of Rock the JVM.</p>
+      <p>
+        I'm a software engineer and the founder of Rock the JVM. I started the
+        Rock the JVM project out of love for Scala and the technologies it
+        powers - they are all amazing tools and I want to share as much of my
+        experience with them as I can.
+      </p>
+      <p>
+        As of February 2024, I've taught Java, Scala, Kotlin and related tech
+        (e.g. Cats, ZIO, Spark) to 100000+ students at various levels and I've
+        held live training sessions for some of the best companies in the
+        industry, including Adobe and Apple. I've also taught university
+        students who now work at Google and Facebook (among others), I've held
+        Hour of Code for 7-year-olds and I've taught more than 35000 kids to
+        code.
+      </p>
+      <p>
+        I have a Master's Degree in Computer Science and I wrote my Bachelor and
+        Master theses on Quantum Computation. Before starting to learn
+        programming, I won medals at international Physics competitions.
+      </p>
+    </div>
+  </Feature>
+  {
+    (
+      <Feature image={collaborator.frontmatter.photo} imagePosition="right">
         <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
         <div>
           <Fragment set:html={collaborator.biography} />
         </div>
-  </Feature>)
-}
-<div class="max-w-[40rem] mb-8 md:mb-16 mx-auto px-8">
-  <h3 class="my-4">With Special Thanks To</h3>
-  <slot name="thanks" />)
-</div>
+      </Feature>
+    )
+  }
+  <div class="mx-auto mb-8 max-w-[40rem] px-8 md:mb-16">
+    <h3 class="my-4">With Special Thanks To</h3>
+    <slot name="thanks" />)
+  </div>
 </Section>

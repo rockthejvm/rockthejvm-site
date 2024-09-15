@@ -13,7 +13,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
 <nav
   class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0"
 >
-  <div class="-mt-px flex w-0 flex-1 mx-8">
+  <div class="mx-8 -mt-px flex w-0 flex-1">
     {
       prevUrl ? (
         <a
@@ -112,7 +112,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
       )
     }
   </div>
-  <div class="-mt-px flex w-0 flex-1 justify-end mx-8">
+  <div class="mx-8 -mt-px flex w-0 flex-1 justify-end">
     {
       nextUrl ? (
         <a
