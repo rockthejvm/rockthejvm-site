@@ -17,17 +17,24 @@ import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 sbt is the most popular build tool in the Scala ecosystem. sbt provides a very rich DSL to configure a Scala project. It is also extensible and supports customised plugins to enhance the project.
 
 <NoteAdmonition>
-    sbt was originally an acronym for "simple build tool", but in time "simple" was replaced by "Scala". Should've been the other way around.
+  sbt was originally an acronym for "simple build tool", but in time "simple"
+  was replaced by "Scala". Should've been the other way around.
 </NoteAdmonition>
 
 In this article we'll start an sbt project from scratch, and walk through essential sbt features you need.
 
 <NoteAdmonition>
-    This article is brought to you by [Yadu Krishnan](/authors/yadu-krishnan). He's a senior developer and constantly shares his passion for new languages, libraries and technologies. After his [long-form Slick tutorial](/articles/getting-started-with-scala-slick), he's coming back with a new comprehensive introduction to sbt. Please enjoy!
+  This article is brought to you by [Yadu Krishnan](/authors/yadu-krishnan).
+  He's a senior developer and constantly shares his passion for new languages,
+  libraries and technologies. After his [long-form Slick
+  tutorial](/articles/getting-started-with-scala-slick), he's coming back with a
+  new comprehensive introduction to sbt. Please enjoy!
 </NoteAdmonition>
 
 <TipAdmonition>
-    This tutorial complements Rock the JVM's premium [Scala masterclass](/courses/the-scala-bundle), as you learn to set up and configure your Scala projects.
+  This tutorial complements Rock the JVM's premium [Scala
+  masterclass](/courses/the-scala-bundle), as you learn to set up and configure
+  your Scala projects.
 </TipAdmonition>
 
 ## Installation
@@ -53,7 +60,7 @@ scalaVersion := "2.13.8"
 ```
 
 <NoteAdmonition>
-    That sbt uses a special operator `:=` to assign the value.
+  That sbt uses a special operator `:=` to assign the value.
 </NoteAdmonition>
 
 Now, within the same directory, we can just start the sbt session by using the command `sbt`.
@@ -67,7 +74,9 @@ version := "1.0"
 ```
 
 <NoteAdmonition>
-    If any change is made to the _build.sbt_, we need to exit the existing sbt console and restart it for the changes to take effect. Alternatively, we use the sbt command `reload` to forcefully apply the changes.
+  If any change is made to the _build.sbt_, we need to exit the existing sbt
+  console and restart it for the changes to take effect. Alternatively, we use
+  the sbt command `reload` to forcefully apply the changes.
 </NoteAdmonition>
 
 We can set the name of the project using `name` and set an organisation for the project:
@@ -223,7 +232,7 @@ test:testOnly com.rockthejvm.SimpleTest
 This will test only the `SimpleTest` file.
 
 <WarningAdmonition>
-    We need to provide the full package path to resolve the class correctly.
+  We need to provide the full package path to resolve the class correctly.
 </WarningAdmonition>
 
 We can also use a wildcard to make it easy to run the test:
@@ -480,7 +489,8 @@ resolvers += Resolver.url("my-company-repo", url("https://mycompany.org/repo-rel
 Similarly, we can add any number of resolvers.
 
 <NoteAdmonition>
-    As the number of resolvers increases, sbt might take more time to start as it might need to look at all the configured repositories before failing.
+  As the number of resolvers increases, sbt might take more time to start as it
+  might need to look at all the configured repositories before failing.
 </NoteAdmonition>
 
 ## Custom Tasks

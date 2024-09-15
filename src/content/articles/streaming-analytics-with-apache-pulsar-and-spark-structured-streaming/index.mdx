@@ -22,7 +22,12 @@ Typically, streaming data pipelines require a streaming storage layer like Apach
 The requirement of unified batch processing and streaming in cloud deployments makes Apache Pulsar an excellent candidate to support the needs of these compute engines. Apache Pulsar is designed for cloud-native infrastructure as well as a unified batch and stream data strategy in mind.
 
 <NoteAdmonition>
-    This article is a collaboration between me (Daniel) and [Giannis Polyzos](https://github.com/polyzos), one of the earliest students of Rock the JVM back in 2017. Giannis is now a senior engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. In this piece we combine two of our favorite pieces of tech: Apache Pulsar and Apache Spark.
+  This article is a collaboration between me (Daniel) and [Giannis
+  Polyzos](https://github.com/polyzos), one of the earliest students of Rock the
+  JVM back in 2017. Giannis is now a senior engineer and a contributor to Apache
+  Pulsar, a promising new toolkit for distributed messaging and streaming. In
+  this piece we combine two of our favorite pieces of tech: Apache Pulsar and
+  Apache Spark.
 </NoteAdmonition>
 
 ## The Role of Apache Pulsar in Streaming Data Pipelines
@@ -90,7 +95,9 @@ We have events being generated from the website, including user information and 
 We are only interested in the latest values of those records and a compacted topic provides just that: having the latest update for each record based on the key.
 
 <TipAdmonition>
-    Take a look at the Spark Job that joins multiple data streams. Now imagine for a moment that instead of having the user and product information inside Pulsar topics, we'd had them stored in an external database, such as MySQL.
+  Take a look at the Spark Job that joins multiple data streams. Now imagine for
+  a moment that instead of having the user and product information inside Pulsar
+  topics, we'd had them stored in an external database, such as MySQL.
 </TipAdmonition>
 
 In this scenario, a Pulsar Function that reads the records and performs a lookup in the external system to grab the necessary user and product information could be a better solution.

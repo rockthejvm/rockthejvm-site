@@ -31,7 +31,7 @@ const { image, imagePosition } = Astro.props;
     <div
       class={`${imagePosition === "left" ? "lg:col-start-1" : "lg:col-start-2"} -ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:row-span-2 lg:row-start-1 lg:overflow-hidden`}
     >
-      <Image class="rounded-xl w-full" src={image} alt="" />
+      <Image class="w-full rounded-xl" src={image} alt="" />
     </div>
   </div>
 </div>

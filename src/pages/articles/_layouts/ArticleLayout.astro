@@ -1,18 +1,18 @@
 ---
-import { getEntries, getEntry } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import type { CollectionEntry } from "astro:content";
-import FormattedDate from "../../../components/FormattedDate.astro";
-import type { MarkdownHeading } from "astro";
-import TableOfContents from "../../../components/TableOfContents.astro";
-import NarrowContainer from "../../../containers/NarrowContainer";
-import Byline from "../../../components/Byline.astro";
-import AuthorWide from "../../../components/AuthorWide.astro";
-import Prose from "@components/Prose.astro";
-import TagList from "@components/TagList.astro";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
+import Prose from "@components/Prose.astro";
 import SocialShare from "@components/SocialShare.astro";
+import TagList from "@components/TagList.astro";
+import type { MarkdownHeading } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntries, getEntry } from "astro:content";
+import AuthorWide from "../../../components/AuthorWide.astro";
+import Byline from "../../../components/Byline.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import TableOfContents from "../../../components/TableOfContents.astro";
+import NarrowContainer from "../../../containers/NarrowContainer";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 
 interface Props {
@@ -42,23 +42,23 @@ const tags = await getEntries(frontmatter.tags);
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": title,
+  headline: title,
   // "image": heroImage.image.src,
-  "genre": "software engineering",
-  "keywords": tags.reduce(((a, b) => a + " " + b.id), ""),
+  genre: "software engineering",
+  keywords: tags.reduce((a, b) => a + " " + b.id, ""),
   // "wordcount": "1120",
-  "publisher": "Rock the JVM",
-  "url": Astro.site,
-  "datePublished": publishedDate,
-  "dateCreated": publishedDate,
-  "dateModified": updatedDate,
-  "description": description,
+  publisher: "Rock the JVM",
+  url: Astro.site,
+  datePublished: publishedDate,
+  dateCreated: publishedDate,
+  dateModified: updatedDate,
+  description: description,
   // "articleBody": "You can paste your entire post in here, and yes it can get really really long.",
-  "author": {
+  author: {
     "@type": "Person",
-    "name": author.data.name
-  }
-}
+    name: author.data.name,
+  },
+};
 ---
 
 <BaseLayout
@@ -105,9 +105,7 @@ const structuredData = {
           </Byline>
         </a>
         <TagList {tags} />
-        {videoId &&
-          <MyYouTube id={videoId} />
-        }
+        {videoId && <MyYouTube id={videoId} />}
         <SocialShare />
       </header>
       <!-- <div class="lg:hidden fixed bottom-4 right-4">
@@ -117,28 +115,28 @@ const structuredData = {
         </a>
       </div> -->
       <div class="xl:flex xl:flex-row">
-        <Prose class="prose-h2:mt-2 my-8">
+        <Prose class="my-8 prose-h2:mt-2">
           <div id="toc" class="xl:hidden"><TableOfContents {headings} /></div>
           <slot />
           <ArticleSeries {article} />
         </Prose>
         <div
-          class="hidden sticky max-w-sm top-0 self-start no-scrollbar max-h-[90vh] ml-2 px-2 overflow-y-scroll left-full xl:block justify-end"
+          class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 xl:block"
         >
           <Prose class="prose-h2:mt-2"><TableOfContents {headings} /></Prose>
         </div>
       </div>
       <footer>
-        {videoId &&
-          <MyYouTube id={videoId} />
-        }
-        <SocialShare/>
+        {videoId && <MyYouTube id={videoId} />}
+        <SocialShare />
         <AuthorWide {author} />
       </footer>
     </article>
   </NarrowContainer>
-  <FloatingActionMenuHelper client:load >
-    <Prose class="prose-h2:mt-2" slot="toc"><TableOfContents {headings} hideButtons={true} /></Prose>
+  <FloatingActionMenuHelper client:load>
+    <Prose class="prose-h2:mt-2" slot="toc"
+      ><TableOfContents {headings} hideButtons={true} /></Prose
+    >
     <SocialShare slot="share" />
   </FloatingActionMenuHelper>
 </BaseLayout>

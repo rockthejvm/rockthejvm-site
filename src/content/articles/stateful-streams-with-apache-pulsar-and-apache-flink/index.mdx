@@ -23,7 +23,8 @@ For the best experience following this article, we recommend referring to <a hre
 frontmatter.repositoryUrl}>this repository</a> while replicating the project locally in your own dev environment. You can also clone the repository and work directly on the code there.
 
 <TipAdmonition>
-    Rock the JVM has an [Apache Flink course](/courses/flink) if you're interested.
+  Rock the JVM has an [Apache Flink course](/courses/flink) if you're
+  interested.
 </TipAdmonition>
 
 ## Introduction
@@ -41,7 +42,14 @@ Apache Pulsar and Apache Flink have a strong integration together and enable a U
 If you are interested about this type of architecture, [this video](https://www.youtube.com/watch?v=2MpiE238Pzw) can be helpful.
 
 <NoteAdmonition>
-    This article is a collaboration between myself (Daniel) and [Giannis Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a contributor to Apache Pulsar, a promising new toolkit for distributed messaging and streaming. Last time we integrated [Pulsar with Spark](/articles/streaming-analytics-with-apache-pulsar-and-spark-structured-streaming); in this post we combine Apache Pulsar and Apache Flink for powerful data stream processing.
+  This article is a collaboration between myself (Daniel) and [Giannis
+  Polyzos](https://www.linkedin.com/in/polyzos/), one of the earliest students
+  of Rock the JVM back in 2017. Giannis is now a Senior Engineer and a
+  contributor to Apache Pulsar, a promising new toolkit for distributed
+  messaging and streaming. Last time we integrated [Pulsar with
+  Spark](/articles/streaming-analytics-with-apache-pulsar-and-spark-structured-streaming);
+  in this post we combine Apache Pulsar and Apache Flink for powerful data
+  stream processing.
 </NoteAdmonition>
 
 ## The Example: Data From an Online Store
@@ -208,7 +216,10 @@ docker exec -it pulsar bin/pulsar-admin topics get-retention persistent://public
 ```
 
 <NoteAdmonition>
-    We use partitioned topics in order to be able to increase the number of partitions later, in case we need to scale. Otherwise, if we had an unpartitioned topic we would have to create a new partitioned topic and transfer all the data to this new topic.
+  We use partitioned topics in order to be able to increase the number of
+  partitions later, in case we need to scale. Otherwise, if we had an
+  unpartitioned topic we would have to create a new partitioned topic and
+  transfer all the data to this new topic.
 </NoteAdmonition>
 
 ## Reading Data From Pulsar
@@ -453,7 +464,10 @@ Event Time with be tracked by the creation time within the `Order` event.
 If you need to learn about watermarks or event time/processing time, Rock the JVM's [Apache Flink course](/courses/flink) goes into great detail, as they are critical topics for stateful distributed data processing.
 
 <NoteAdmonition>
-    While the users and items streams already have data written to Pulsar, the orders stream does not - we will trigger the data flow in Flink by sending orders data to Pulsar from a different process (e.g. in the IDE's local run command) after we start the Flink application.
+  While the users and items streams already have data written to Pulsar, the
+  orders stream does not - we will trigger the data flow in Flink by sending
+  orders data to Pulsar from a different process (e.g. in the IDE's local run
+  command) after we start the Flink application.
 </NoteAdmonition>
 
 The last step is to actually package and deploy our code on our cluster.
@@ -804,6 +818,7 @@ Here we create two side outputs - one for missing user events and one for item e
     Specifying names for your operators can be considered as _best practice_ for your Flink Job.
 
     This is useful to more easily identify the operators in the Flink UI. This also comes in handy when you need to use _savepoints_ to resume your job, after a code modification or scaling requirement (more on that later).
+
 </NoteAdmonition>
 
 You can find the full implementation under the **v3** package <a href={`${
@@ -832,7 +847,9 @@ We want to account for scenarios that our state grows quite large to fit in memo
 ## Making Our Job Fault Tolerant
 
 <TipAdmonition>
-    Checkpoints make state in Flink Fault Tolerant by allowing state and the corresponding stream positions to be recovered, thereby giving the application the same semantics as a failure-free execution.
+  Checkpoints make state in Flink Fault Tolerant by allowing state and the
+  corresponding stream positions to be recovered, thereby giving the application
+  the same semantics as a failure-free execution.
 </TipAdmonition>
 
 We can easily enable checkpoints by applying some configuration option. We will enable the required configuration option and add a `RestartStrategy` to let Flink try and restart a job upon an Exception.

@@ -1,7 +1,7 @@
 ---
+import ThemeToggle from "@components/ThemeToggle.astro";
 import "@styles/base.css";
 import Card from "./_Card.astro";
-import ThemeToggle from "@components/ThemeToggle.astro";
 
 const cardData = [
   {
@@ -84,21 +84,21 @@ const cardData = [
   </head>
   <body>
     <main>
-      <header class="size-10 flex items-center">
+      <header class="flex size-10 items-center">
         <ThemeToggle id="themeToggle" />
       </header>
       <div
-        class="bg-bkg text-content isolate overflow-hidden p-4 sm:p-8 grid place-items-center"
+        class="isolate grid place-items-center overflow-hidden bg-bkg p-4 text-content sm:p-8"
       >
         <div
-          class="grid relative min-h-screen place-items-center place-content-center gap-16 before:absolute before:h-1/2 before:w-3/4 before:rounded-tr-full before:rounded-bl-full before:blur-3xl before:bg-accent-2 before:animate-spin-slower before:-z-10 after:absolute after:h-2/3 after:w-2/3 after:rounded-tr-full after:rounded-bl-full after:blur-3xl after:bg-accent-1/40 after:animate-spin-slow after:-z-10"
+          class="relative grid min-h-screen place-content-center place-items-center gap-16 before:absolute before:-z-10 before:h-1/2 before:w-3/4 before:animate-spin-slower before:rounded-bl-full before:rounded-tr-full before:bg-accent-2 before:blur-3xl after:absolute after:-z-10 after:h-2/3 after:w-2/3 after:animate-spin-slow after:rounded-bl-full after:rounded-tr-full after:bg-accent-1/40 after:blur-3xl"
         >
           <h1 class="text-6xl font-bold">
             <span class="underline decoration-accent-1">Dark</span> or{" "}
             <span class="underline decoration-accent-1">Light</span>?
           </h1>
           <section
-            class="container grid sm:grid-cols-2 md:grid-cols-3 gap-6 items-start"
+            class="container grid items-start gap-6 sm:grid-cols-2 md:grid-cols-3"
             aria-label="card container"
           >
             {cardData.map((card) => <Card {...card} key={card.title} />)}

@@ -18,7 +18,13 @@ import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 In modern application development, efficient database interactions are crucial for building scalable and maintainable systems. Scala, being a versatile language, offers various tools and libraries to streamline these interactions. One such powerful tool among others ([doobie](https://index.scala-lang.org/tpolecat/doobie/artifacts/doobie-hikari/0.9.0?binary-version=_2.13), [Slick](https://index.scala-lang.org/slick/slick), [ZIO Quill](https://index.scala-lang.org/zio/zio-quill) etc) is the [Skunk Scala library](https://typelevel.org/skunk/), which provides a functional and typesafe interface for PostgreSQL databases access in Scala applications. In this article, we'll delve deep into Skunk, exploring its features and demonstrating how to interact with a database effectively in a non-blocking manner.
 
 <TipAdmonition>
-    Skunk is part of the Typelevel ecosystem of libraries. If you want some intense hands-on experience with Scala and the Typelevel stack, you'll greatly enjoy the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course. It's the biggest course on Rock the JVM, where you'll write a full-stack, production-grade application from scratch, including authentication, credit card checkout, email services, comprehensive test coverage, etc. Check it out [here](/courses/typelevel-rite-of-passage).
+  Skunk is part of the Typelevel ecosystem of libraries. If you want some
+  intense hands-on experience with Scala and the Typelevel stack, you'll greatly
+  enjoy the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage)
+  course. It's the biggest course on Rock the JVM, where you'll write a
+  full-stack, production-grade application from scratch, including
+  authentication, credit card checkout, email services, comprehensive test
+  coverage, etc. Check it out [here](/courses/typelevel-rite-of-passage).
 </TipAdmonition>
 
 ## What is Skunk?
@@ -43,7 +49,9 @@ Before we delve into each concept, ensure you have the following prerequisites i
 To build and manage our Scala project, we will be using _Scala_ and _sbt_. To run a PostgreSQL database, we will be using _Docker_ as a containerized service. This involves pulling a PostgreSQL image from _Docker Hub_ (the official repository for Docker images), and running it as a container in our Docker installed system.
 
 <TipAdmonition>
-    For better Skunk support in IntelliJ IDEA with syntax highlighting, warnings etc., you may want to install the [skunk-intellij](https://github.com/trobert/skunk-intellij) plugin.
+  For better Skunk support in IntelliJ IDEA with syntax highlighting, warnings
+  etc., you may want to install the
+  [skunk-intellij](https://github.com/trobert/skunk-intellij) plugin.
 </TipAdmonition>
 
 Our proposed use case involves developing an application that allows the creation, reading, updating, and deleting of user data (CRUD operations). The application will make use of Skunk concepts to interact with a PostgreSQL database and manage user data. Our objective with this use case is to showcase the effectiveness of Skunk in database management. By utilizing Skunk concepts, the application will demonstrate how to perform CRUD operations on a PostgreSQL database effortlessly and efficiently.
@@ -313,7 +321,10 @@ We shall soon see these conversions in use as we interact with our database thro
 Skunk offers type-safe SQL interpolation, enabling us to construct SQL statements with compile-time validation. It ensures that SQL statements are both syntactically correct and type-safe. There are two types of SQL statements that Skunk can build: queries and commands. In this sections, we will demonstrate both types of statements on a table of users we previously created.
 
 <NoteAdmonition>
-    `Skunk queries` are parameterized sql statements where the input and output types represent the type of parameters and the structure of the result set, respectively. While `skunk commands` are parameterized sql statements by input type only, as it does not return a result set.
+  `Skunk queries` are parameterized sql statements where the input and output
+  types represent the type of parameters and the structure of the result set,
+  respectively. While `skunk commands` are parameterized sql statements by input
+  type only, as it does not return a result set.
 </NoteAdmonition>
 
 Still in our `main.scala` file, let's create an SQL statement (Skunk Command). This Skunk Command will allow us to insert user data into our `users` table. We'll define the user data to be inserted as an argument.
@@ -644,5 +655,6 @@ In this comprehensive guide, we've explored the Skunk Scala library and its feat
 Happy coding with Skunk!
 
 <TipAdmonition>
-    For more detailed information, you can visit the [official documentation of Skunk](https://typelevel.org/skunk/tutorial/Setup.html).
+  For more detailed information, you can visit the [official documentation of
+  Skunk](https://typelevel.org/skunk/tutorial/Setup.html).
 </TipAdmonition>

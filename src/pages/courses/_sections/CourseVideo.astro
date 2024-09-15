@@ -1,6 +1,6 @@
 ---
-import { YouTube } from "astro-embed";
 import Section from "@components/Section.astro";
+import { YouTube } from "astro-embed";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -14,11 +14,14 @@ const { color, videoId } = Astro.props;
 <!-- <Section {color} title="What's inside?">
   <YouTube id={videoId} class="max-w-4xl mx-auto aspect-w-16 aspect-h-9" posterQuality="max" />
 </Section> -->
-
 <Section {color} title="What's inside?">
-  <div class="max-w-4xl mx-auto">
-    <div class="aspect-w-16 aspect-h-9">
-      <YouTube id={videoId} class="max-w-4xl mx-auto aspect-w-16 aspect-h-9" posterQuality="max" />
+  <div class="mx-auto max-w-4xl">
+    <div class="aspect-h-9 aspect-w-16">
+      <YouTube
+        id={videoId}
+        class="aspect-h-9 aspect-w-16 mx-auto max-w-4xl"
+        posterQuality="max"
+      />
     </div>
   </div>
 </Section>

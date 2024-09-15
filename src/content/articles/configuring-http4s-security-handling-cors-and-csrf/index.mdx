@@ -17,7 +17,9 @@ http4s comes with several easily configurable security features and in this arti
 If you are not familiar with http4s, a good introduction to the library can be found [here](/articles/http4s-unleashing-the-power-of-http-apis-library)
 
 <NoteAdmonition>
-    This article is brought to you by [Herbert Kateu](/authors/herbert-kateu), a new contributor. He got started after applying for the fresh new Technical Writer position at our new [Job Board](https://jobs.rockthejvm.com/)!
+  This article is brought to you by [Herbert Kateu](/authors/herbert-kateu), a
+  new contributor. He got started after applying for the fresh new Technical
+  Writer position at our new [Job Board](https://jobs.rockthejvm.com/)!
 </NoteAdmonition>
 
 ## Setup
@@ -159,7 +161,11 @@ Processing image: personal.jpg.⏎
 Within the response, we see a new header added, `Access-Control-Allow-Origin` which is now displayed with a value `*`, the asterisk signifies that requests from all origins will be accepted by our server.
 
 <NoteAdmonition>
-    CORS configuration won't prevent non-browser requests from going through. CORS is browser specific. The server sends CORS specific headers to the browser which it uses to either block or load requests. The `Origin` header is added automatically by the browser whenever requests are sent, however since we are using `curl`, we add it in manually.
+  CORS configuration won't prevent non-browser requests from going through. CORS
+  is browser specific. The server sends CORS specific headers to the browser
+  which it uses to either block or load requests. The `Origin` header is added
+  automatically by the browser whenever requests are sent, however since we are
+  using `curl`, we add it in manually.
 </NoteAdmonition>
 
 With CORS implemented, we realize that even malicious sites can make requests for our `personal.jpg` image.

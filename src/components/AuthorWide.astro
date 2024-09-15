@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+import AuthorWideHelper from "./AuthorWideHelper";
 import Facebook from "./icons/Facebook.astro";
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
-import type { CollectionEntry } from "astro:content";
-import { getEntry } from "astro:content";
-import AuthorWideHelper from "./AuthorWideHelper";
 
 interface Props {
   author: CollectionEntry<"authors">;

@@ -1,7 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Photo from "../assets/images/latest/articles.png";
-import { Image } from "astro:assets";
 
 const articles = await getCollection("articles");
 const latestArticles = articles
@@ -9,18 +9,22 @@ const latestArticles = articles
   .slice(0, 6);
 ---
 
-<div class="shadow-2xl rounded-3xl bg-secondary">
-  <div class="rounded-3xl w-full overflow-hidden">
+<div class="rounded-3xl bg-secondary shadow-2xl">
+  <div class="w-full overflow-hidden rounded-3xl">
     <a href={`/articles`}>
-      <div class="w-full max-h-40 overflow-hidden">
-        <Image src={Photo} alt="articles thumbnail" class="object-cover object-center" />
+      <div class="max-h-40 w-full overflow-hidden">
+        <Image
+          src={Photo}
+          alt="articles thumbnail"
+          class="object-cover object-center"
+        />
       </div>
     </a>
-    <div class="mx-auto w-full mb-4">
+    <div class="mx-auto mb-4 w-full">
       <div class="mx-auto">
         <a href={`/articles`} class="no-underline hover:no-underline">
           <h3
-            class="text-3xl text-center font-bold my-4 tracking-tight hover:text-accent-2 text-content sm:text-4xl"
+            class="my-4 text-center text-3xl font-bold tracking-tight text-content hover:text-accent-2 sm:text-4xl"
           >
             Latest Articles
           </h3>
@@ -44,9 +48,9 @@ const latestArticles = articles
                     <div class="group relative mx-auto">
                       <a
                         href={`articles/${article.slug}`}
-                        class="no-underline hover:no-underline text-content hover:text-content-2"
+                        class="text-content no-underline hover:text-content-2 hover:no-underline"
                       >
-                        <h4 class="text-lg my-1 py-2.5 font-normal leading-6 mx-auto text-center no-underline hover:text-content-2">
+                        <h4 class="mx-auto my-1 py-2.5 text-center text-lg font-normal leading-6 no-underline hover:text-content-2">
                           <span class="absolute inset-0" />
                           {article.data.title}
                         </h4>

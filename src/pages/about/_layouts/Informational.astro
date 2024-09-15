@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Prose from "@components/Prose.astro";
 import NarrowContainer from "@containers/NarrowContainer";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 interface Props {
   description: string;
@@ -15,11 +15,11 @@ const { description, title } = Astro.props;
   <NarrowContainer>
     <article class="py-4 md:py-8">
       <header class="my-16">
-        <Prose class="max-w-none ">
+        <Prose class="max-w-none">
           <h1>{title}</h1>
         </Prose>
       </header>
-      <Prose class="max-w-none prose-img:rounded-full prose-img:max-w-xs">
+      <Prose class="max-w-none prose-img:max-w-xs prose-img:rounded-full">
         <slot />
       </Prose>
     </article>

@@ -8,18 +8,18 @@ interface Props {
 const { tags } = Astro.props;
 ---
 
-<p class="text-wrap mb-12">
+<p class="mb-12 text-wrap">
   {
     tags.map((tag) => (
       <a href={`/tags/${tag.id}`} class="hover:no-underline">
-        <span class="inline-flex items-center rounded-md bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700 mr-2 mt-2">
+        <span class="mr-2 mt-2 inline-flex items-center rounded-md bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="size-4 mr-1"
+            class="mr-1 size-4"
           >
             <path
               stroke-linecap="round"
