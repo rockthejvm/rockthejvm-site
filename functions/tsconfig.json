@@ -1,12 +1,12 @@
 {
-	"compilerOptions": {
-		"target": "esnext",
-		"module": "esnext",
-		"moduleResolution": "node",
-		"lib": ["esnext"],
-		"types": ["@cloudflare/workers-types"],
-		"paths": {
-			"@utils/*": ["../src/utils/*"]
-		}
-	}
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["esnext"],
+    "types": ["@cloudflare/workers-types"],
+    "paths": {
+      "@utils/*": ["../src/utils/*"]
+    }
+  }
 }

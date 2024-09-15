@@ -8,16 +8,16 @@ interface Props {
 
 const { article } = Astro.props;
 const articleSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0]!.collection === "articles"
+  (series) => series.data.members[0]!.collection === "articles",
 );
 const memberss = articleSeriess.map((series) => series.data.members);
 const articless = await Promise.all(
   (memberss as CollectionEntry<"articles">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("articles", member.slug)))
-  )
+    Promise.all(members.map((member) => getEntry("articles", member.slug))),
+  ),
 );
 const articleSeries = articless.find((articles) =>
-  articles.map((article) => article.slug).includes(article.slug)
+  articles.map((article) => article.slug).includes(article.slug),
 );
 ---
 
@@ -37,7 +37,7 @@ const articleSeries = articless.find((articles) =>
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6 inline-block align-middle mx-2"
+                  class="mx-2 inline-block h-6 w-6 align-middle"
                 >
                   <path
                     stroke-linecap="round"
@@ -54,7 +54,7 @@ const articleSeries = articless.find((articles) =>
                 {seriesArticle.data.title}
               </a>
             </li>
-          )
+          ),
         )}
       </ol>
     </section>

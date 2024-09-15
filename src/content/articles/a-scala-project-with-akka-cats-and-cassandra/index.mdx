@@ -29,7 +29,10 @@ We're going to write a **mini-bank application**, where users can create bank ac
 We're going to write Scala 2 in this article for library compatibility reasons, although the exact same code will work on Scala 3 as well once the libraries have been updated. We're also going to need [Docker](https://docker.com) to start a Cassandra instance.
 
 <NoteAdmonition>
-    This mini-project is a collaboration between me (Daniel) and [Riccardo Cardin](/authors/riccardo-cardin), one of the prominent Rock the JVM alumni. Big thanks to Riccardo for contributing with most of the code that ended up in this article and on camera.
+  This mini-project is a collaboration between me (Daniel) and [Riccardo
+  Cardin](/authors/riccardo-cardin), one of the prominent Rock the JVM alumni.
+  Big thanks to Riccardo for contributing with most of the code that ended up in
+  this article and on camera.
 </NoteAdmonition>
 
 <TipAdmonition>
@@ -119,7 +122,7 @@ We're going to split the work on this application in 4 parts:
 ## The Bank Accounts
 
 <aside>
-    <MyYouTube id="PPIPGzrc2wo" />
+  <MyYouTube id="PPIPGzrc2wo" />
 </aside>
 
 We're going to model bank accounts as independent, persistent actors. Each bank account will be its own actor, which will be created by the "main" bank actor either
@@ -165,7 +168,10 @@ object Command {
 Obviously a simplification to how a production application would look like, but for the scope of this project should be complete enough. Notice all the commands have a `replyTo: ActorRef[Response]` in them, so that this actor knows who to send the response back to.
 
 <WarningAdmonition>
-    **Please don't use the `Double` type to manage money**. The floating point standard cannot fully represent tenths and hundredths and can give (very) slightly incorrect results with multiplication and division in certain cases as a result. For our convenience in this project, we'll use `Double`.
+  **Please don't use the `Double` type to manage money**. The floating point
+  standard cannot fully represent tenths and hundredths and can give (very)
+  slightly incorrect results with multiplication and division in certain cases
+  as a result. For our convenience in this project, we'll use `Double`.
 </WarningAdmonition>
 
 In terms of _events_, we need to store just enough so that we can reestablish the state of the bank account from these events if the application crashed for whatever reason. The data structures we'll use will look like this:
@@ -281,7 +287,11 @@ val eventHandler: (BankAccount, Event) => BankAccount = (state, event) =>
 ```
 
 <CautionAdmonition>
-    This same handler will be invoked both after the event is stored, and if the actor/application crashes and the actor is restarted: in such a case, the actor queries Cassandra for all events tied to its persistence ID and replays all events in sequence by invoking the `eventHandler` on each of them in turn, to recreate its latest state before crash/shutdown.
+  This same handler will be invoked both after the event is stored, and if the
+  actor/application crashes and the actor is restarted: in such a case, the
+  actor queries Cassandra for all events tied to its persistence ID and replays
+  all events in sequence by invoking the `eventHandler` on each of them in turn,
+  to recreate its latest state before crash/shutdown.
 </CautionAdmonition>
 
 The final bit ties everything together:
@@ -380,7 +390,7 @@ object PersistentBankAccount {
 ## The Main Bank Actor
 
 <aside>
-    <MyYouTube id="NpGYj_Zpwsk" />
+  <MyYouTube id="NpGYj_Zpwsk" />
 </aside>
 
 This actor will manage all the bank accounts, which means it will be a parent of those accounts. The bank actor will be the middle layer between the HTTP server and the actual persistent bank accounts, which will do the majority of the work.
@@ -619,7 +629,7 @@ Let's move on to the HTTP server.
 ## The HTTP Server
 
 <aside>
-    <MyYouTube id="q9psVBnMqJk" />
+  <MyYouTube id="q9psVBnMqJk" />
 </aside>
 
 For this section, we're going to use Akka HTTP (obviously), and we'll use the high-level DSL. We will expose the following endpoints:

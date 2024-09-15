@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
 
 interface Props {
   color: string;
@@ -9,7 +9,10 @@ interface Props {
 const { color, icon } = Astro.props;
 ---
 
-<aside class=`bg-${color}-100 border-l-4 border-${color}-500 text-${color}-700 p-4 rounded-md my-8` role="alert">
-  <Icon name=`admonitions/${icon}` class="h-6 w-6 inline-block" />
+<aside
+  class=`bg-${color}-100 border-l-4 border-${color}-500 text-${color}-700 p-4 rounded-md my-8`
+  role="alert"
+>
+  <Icon name=`admonitions/${icon}` class="inline-block h-6 w-6" />
   <slot />
 </aside>

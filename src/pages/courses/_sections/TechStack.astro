@@ -12,7 +12,13 @@ const { color, technologies } = Astro.props;
 ---
 
 <Section {color} title="The Tech Stack">
-  {technologies.map(technology =>
-    <TechStackCard title={technology.title} description={technology.description}
-      image={technology.image} />)}
+  {
+    technologies.map((technology) => (
+      <TechStackCard
+        title={technology.title}
+        description={technology.description}
+        image={technology.image}
+      />
+    ))
+  }
 </Section>

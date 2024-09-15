@@ -16,7 +16,11 @@ import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 One of the main rules of functional developers is that we should always trust a function's signature. Hence, when we use functional programming, we prefer to define _ad-hoc_ types to represent simple information such as an identifier, a description, or a currency. Ladies and gentlemen, please welcome the value classes.
 
 <NoteAdmonition>
-    This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming.
+  This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin),
+  a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a
+  senior developer, a teacher and a passionate technical blogger. For the last
+  15 years, he's learned as much as possible about OOP, and now he is focused on
+  his next challenge: mastering functional programming.
 </NoteAdmonition>
 
 ## The Problem
@@ -262,7 +266,10 @@ val anotherIPhone12BarCode: BarCode = "1-234567-890123".coerce
 However, [it's proven](https://github.com/estatico/scala-newtype/issues/64) that the scope resolution of the `Coercible` type class (a.k.a., the coercible trick) is an operation with a very high compile-time cost and should be avoided. Moreover, as the [library documentation](https://github.com/estatico/scala-newtype#coercible) says
 
 <WarningAdmonition>
-    You generally shouldn't be creating instances of Coercible yourself. This library is designed to create the instances needed for you which are safe. If you manually create instances, you may be permitting unsafe operations which will lead to runtime casting errors.
+  You generally shouldn't be creating instances of Coercible yourself. This
+  library is designed to create the instances needed for you which are safe. If
+  you manually create instances, you may be permitting unsafe operations which
+  will lead to runtime casting errors.
 </WarningAdmonition>
 
 ### Automatically Deriving Type Classes

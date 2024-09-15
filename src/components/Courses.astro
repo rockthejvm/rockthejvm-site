@@ -1,48 +1,49 @@
 ---
-import { getCollection } from "astro:content";
-import CourseEntry from "./CourseEntry.astro";
 import type { CollectionEntry } from "astro:content";
-import { getEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
+import CourseEntry from "./CourseEntry.astro";
 import CoursesHelper from "./CoursesHelper";
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0]!.collection === "courses"
+  (series) => series.data.members[0]!.collection === "courses",
 );
 const memberss = courseSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(
   (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug)))
-  )
+    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+  ),
 );
 const categories = await getCollection("courseCategories");
 ---
 
 <section class="mb-8 md:mb-16">
-  <h2 class="text-content text-center mb-12">Available Courses</h2>
+  <h2 class="mb-12 text-center text-content">Available Courses</h2>
   <div class="">
     <div class="mx-auto max-w-7xl px-6 pb-12 sm:pb-16 lg:px-8 lg:pb-24">
       <div class="mx-auto max-w-6xl divide-y divide-gray-900/10">
         <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
           {
-            categories.sort((a, b) => a.data.ordinal < b.data.ordinal ? -1 : 1).map((category) => (
-              <Fragment>
-                <CoursesHelper category={category} client:visible>
-                  <Fragment slot="entries">
-                    {coursess
-                      .filter(
-                        (courses) =>
-                          (
-                            courses[0]
-                              ?.data as CollectionEntry<"courses">["data"]
-                          ).category.id === category.id
-                      )
-                      .map((courses) => (
-                        <CourseEntry {courses} />
-                      ))}
-                  </Fragment>
-                </CoursesHelper>
-              </Fragment>
-            ))
+            categories
+              .sort((a, b) => (a.data.ordinal < b.data.ordinal ? -1 : 1))
+              .map((category) => (
+                <Fragment>
+                  <CoursesHelper category={category} client:visible>
+                    <Fragment slot="entries">
+                      {coursess
+                        .filter(
+                          (courses) =>
+                            (
+                              courses[0]
+                                ?.data as CollectionEntry<"courses">["data"]
+                            ).category.id === category.id,
+                        )
+                        .map((courses) => (
+                          <CourseEntry {courses} />
+                        ))}
+                    </Fragment>
+                  </CoursesHelper>
+                </Fragment>
+              ))
           }
         </dl>
       </div>

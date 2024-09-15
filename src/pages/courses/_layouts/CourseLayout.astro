@@ -1,4 +1,6 @@
 ---
+import Profile from "@components/Profile.astro";
+import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
@@ -8,26 +10,38 @@ import Features from "../_sections/Features.astro";
 import Goal from "../_sections/Goal.astro";
 import Hero from "../_sections/Hero.astro";
 import Pricing from "../_sections/Pricing.astro";
-import Profile from "@components/Profile.astro";
 import Question from "../_sections/Question.astro";
 import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
-import { getEntry, getEntries, type CollectionEntry } from "astro:content";
 
-const course = await getEntry("courses", Astro.params.slug as CollectionEntry<"courses">["slug"]);
+const course = await getEntry(
+  "courses",
+  Astro.params.slug as CollectionEntry<"courses">["slug"],
+);
 const _frontmatter = course.data;
-const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
-  _frontmatter.bundledCourses ? getEntries(_frontmatter.bundledCourses) : Promise.resolve([]),
-  getEntry(_frontmatter.category.collection, _frontmatter.category.id).then((category) => category.data),
-  _frontmatter.collaborators ? await Promise.all(
-    _frontmatter.collaborators.map(async (collaborator) =>
-      ({
-        frontmatter: (await getEntry(collaborator.author.collection, collaborator.author.id)).data,
-        biography: collaborator.biography
-      })
-    )
-  ) : []
-]);
+const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
+  [
+    _frontmatter.bundledCourses
+      ? getEntries(_frontmatter.bundledCourses)
+      : Promise.resolve([]),
+    getEntry(_frontmatter.category.collection, _frontmatter.category.id).then(
+      (category) => category.data,
+    ),
+    _frontmatter.collaborators
+      ? await Promise.all(
+          _frontmatter.collaborators.map(async (collaborator) => ({
+            frontmatter: (
+              await getEntry(
+                collaborator.author.collection,
+                collaborator.author.id,
+              )
+            ).data,
+            biography: collaborator.biography,
+          })),
+        )
+      : [],
+  ],
+);
 const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
   benefits,
@@ -39,64 +53,80 @@ const {
   question,
   technologies,
   title,
-  videoId
+  videoId,
 } = _frontmatter;
 
-const structuredData =
-JSON.stringify(
-  {
-    "@context": "https://schema.org",
-    "@type": "Course",
-    "name": title,
-    "description": description,
-    "provider": {
-      "@type": "Organization",
-      "name": "Rock the JVM",
-      "sameAs": "https://rockthejvm.com/"
-    }
-  }
-)
-
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: title,
+  description: description,
+  provider: {
+    "@type": "Organization",
+    name: "Rock the JVM",
+    sameAs: "https://rockthejvm.com/",
+  },
+});
 ---
 
 <BaseLayout {description} {title} {structuredData}>
   <article>
     <Hero {description} image={heroImage} {pricingPlanId} {title} />
-    {videoId &&
-      <CourseVideo color={categoryColor} {videoId} />
-    }
-    <Goal color={categoryColor} >
+    {videoId && <CourseVideo color={categoryColor} {videoId} />}
+    <Goal color={categoryColor}>
       <slot name="goal" />
     </Goal>
-    {question &&
-      <Question color={categoryColor} image={question.image} {question}>
-        <slot name="question" />
-      </Question>
+    {
+      question && (
+        <Question color={categoryColor} image={question.image} {question}>
+          <slot name="question" />
+        </Question>
+      )
     }
-    {features &&
-      <Features color={categoryColor} {features}>
-        <slot name="feature1" slot="feature1" />
-        <slot name="feature2" slot="feature2" />
-        <slot name="feature3" slot="feature3" />
-        <slot name="feature4" slot="feature4" />
-        <slot name="feature5" slot="feature5" />
-      </Features>
+    {
+      features && (
+        <Features color={categoryColor} {features}>
+          <slot name="feature1" slot="feature1" />
+          <slot name="feature2" slot="feature2" />
+          <slot name="feature3" slot="feature3" />
+          <slot name="feature4" slot="feature4" />
+          <slot name="feature5" slot="feature5" />
+        </Features>
+      )
     }
-    {technologies &&
-      <TechStack {technologies} color={categoryColor}  />
-    }
-    <Skills color={categoryColor} >
+    {technologies && <TechStack {technologies} color={categoryColor} />}
+    <Skills color={categoryColor}>
       <slot name="skills" />
     </Skills>
-    {collaborators.map((collaborator) => (
+    {
+      collaborators.map((collaborator) => (
         <Profile color={categoryColor} {collaborator} />
       ))
     }
-    {bundledCourses.length > 1 ?
-      <BundledCourses color={categoryColor} {bundledCourses} />
-      : <Curriculum color={categoryColor} courseSlug={course.slug} {pricingPlanId}/>
+    {
+      bundledCourses.length > 1 ? (
+        <BundledCourses color={categoryColor} {bundledCourses} />
+      ) : (
+        <Curriculum
+          color={categoryColor}
+          courseSlug={course.slug}
+          {pricingPlanId}
+        />
+      )
     }
-    <Pricing {benefits} {bundledCourses} color={categoryColor} courseSlug={course.slug} {pricingPlanId} {title} />
-    <CourseFAQ {categoryFaqs} courseFaqs={faqs} color={categoryColor} isBundle={benefits === undefined}/>
+    <Pricing
+      {benefits}
+      {bundledCourses}
+      color={categoryColor}
+      courseSlug={course.slug}
+      {pricingPlanId}
+      {title}
+    />
+    <CourseFAQ
+      {categoryFaqs}
+      courseFaqs={faqs}
+      color={categoryColor}
+      isBundle={benefits === undefined}
+    />
   </article>
 </BaseLayout>

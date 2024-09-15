@@ -94,7 +94,7 @@ Exchange RoundRobinPartitioning(7)
 Same operation first, but the next step is an Exchange, which is another name for a shuffle. You're probably aware - a shuffle is an operation in which data is exchanged (hence the name) between all the executors in the cluster. The more massive your data and your cluster is, the more expensive this shuffle will be, because sending data over takes time. For performance reasons, it's best to keep shuffles to a minimum.
 
 <TipAdmonition>
-    Whenever you see Exchange in a query plan, that's a performance bottleneck.
+  Whenever you see Exchange in a query plan, that's a performance bottleneck.
 </TipAdmonition>
 
 Let's do one more, this time make it complex:

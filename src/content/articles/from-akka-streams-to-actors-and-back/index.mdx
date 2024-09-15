@@ -22,11 +22,16 @@ frontmatter.repositoryUrl}>GitHub</a> (see references) to get the full context a
 based part of a system is an excellent way of connecting Akka Streams to other types of processing.
 
 <NoteAdmonition>
-    This article is brought to you by [Niklas Uhrberg](/authors/niklas-uhrberg), a Rock the JVM alumnus who is a software architect with a focus on distributed systems. He's passionate about Scala, Akka and Kafka, and this piece is derived from his real-world experience.
+  This article is brought to you by [Niklas Uhrberg](/authors/niklas-uhrberg), a
+  Rock the JVM alumnus who is a software architect with a focus on distributed
+  systems. He's passionate about Scala, Akka and Kafka, and this piece is
+  derived from his real-world experience.
 </NoteAdmonition>
 
 <TipAdmonition>
-    If you want to learn Akka, we have more than 40 hours of training here at Rock the JVM in the [Akka Bundle](/courses/the-akka-pekko-bundle), which ties in very well with this article.
+  If you want to learn Akka, we have more than 40 hours of training here at Rock
+  the JVM in the [Akka Bundle](/courses/the-akka-pekko-bundle), which ties in
+  very well with this article.
 </TipAdmonition>
 
 ## Motivation: Stream to Actor Scenario
@@ -491,7 +496,9 @@ message and the pass-through and the output is a tuple of the application messag
 since not all flow elements will carry the pass-through on.
 
 <NoteAdmonition>
-    The term pass-through now has a slightly different meaning. It just means the pass-through will accompany one message following the `PassthroughActorRefBackpressureProcessFlowStage`.
+  The term pass-through now has a slightly different meaning. It just means the
+  pass-through will accompany one message following the
+  `PassthroughActorRefBackpressureProcessFlowStage`.
 </NoteAdmonition>
 
 ```scala
@@ -544,8 +551,14 @@ do not integrate the failure logic as in the showcased code.
 
 ## References
 
-- <a href={
-    // @ts-ignore
-    frontmatter.repositoryUrl}>Sample applications for the ask based and stage actor based approaches described in the article</a>
+- <a
+    href={
+      // @ts-ignore
+      frontmatter.repositoryUrl
+    }
+  >
+    Sample applications for the ask based and stage actor based approaches
+    described in the article
+  </a>
 - [Frank van Meeuwen GitHub repo](https://github.com/fmeeuw/akka-playground)
 - [Akka Streams documentation on actor interoperability](https://doc.akka.io/docs/akka/current/stream/actor-interop.html)

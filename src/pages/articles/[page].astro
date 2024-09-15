@@ -1,9 +1,9 @@
 ---
+import Pagination from "@components/Pagination.astro";
+import type { Page } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Articles from "./_components/Articles.astro";
-import type { Page } from "astro";
-import Pagination from "@components/Pagination.astro";
 
 export async function getStaticPaths({ paginate }: any) {
   const articles = (await getCollection("articles")).sort((a, b) =>
@@ -23,7 +23,7 @@ const title = "Article Index";
 
 <BaseLayout {title} description={title}>
   <header class="pt-8 md:pt-16">
-    <h1 class="text-content-1 mx-6 lg:mx-8 text-center">Rock the JVM Blog</h1>
+    <h1 class="mx-6 text-center text-content-1 lg:mx-8">Rock the JVM Blog</h1>
   </header>
   <Articles articles={page.data} />
   <footer class="pb-4">

@@ -9,4 +9,4 @@ interface Props {
 const { teachableId, courseSlug } = Astro.props;
 ---
 
-<CourseCurriculumHelper teachableId={teachableId} {courseSlug} client:load />
+<CourseCurriculumHelper {teachableId} {courseSlug} client:load />

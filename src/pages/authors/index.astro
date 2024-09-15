@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleAuthors from "../../components/ArticleAuthors.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const authors = await getCollection("authors");
 const title = "Authors";
@@ -9,7 +9,7 @@ const title = "Authors";
 
 <BaseLayout {title} description={title}>
   <header class="py-8 md:py-16">
-    <h1 class="text-content-1 mx-6 lg:mx-8 text-center">
+    <h1 class="mx-6 text-center text-content-1 lg:mx-8">
       {title}
     </h1>
   </header>

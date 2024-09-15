@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleTags from "../../components/ArticleTags.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const articles = await getCollection("articles");
 const tags = [...new Set(articles.map((article) => article.data.tags).flat())];

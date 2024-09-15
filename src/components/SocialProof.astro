@@ -6,8 +6,8 @@ import LogoCloud from "./LogoCloud.astro";
 const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
-<section class="pt-24 pb-12">
-  <h2 class="font-bold mb-12 tracking-tight text-center text-content">
+<section class="pb-12 pt-24">
+  <h2 class="mb-12 text-center font-bold tracking-tight text-content">
     The Founder
   </h2>
   <AuthorExpanded {author} />

@@ -1,12 +1,12 @@
 ---
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
 import Facebook from "./icons/Facebook.astro";
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
-import type { CollectionEntry } from "astro:content";
-import { getEntry } from "astro:content";
 
 interface Props {
   author: CollectionEntry<"authors">;
@@ -17,17 +17,17 @@ const { biography, company, name, photo, socials } = author.data;
 const role = company?.role;
 const companyName = company
   ? await getEntry(company?.entity.collection, company?.entity.id).then(
-      (company) => company.data.title
+      (company) => company.data.title,
     )
   : undefined;
 const companyWebsite = company
   ? await getEntry(company?.entity.collection, company?.entity.id).then(
-      (company) => company.data.website
+      (company) => company.data.website,
     )
   : undefined;
 ---
 
-<article class="bg-secondary rounded-3xl mb-8 py-8">
+<article class="mb-8 rounded-3xl bg-secondary py-8">
   <div class="mx-auto max-w-7xl px-6 text-center lg:px-8">
     <div class="mx-auto max-w-2xl">
       <a href={`/authors/${author.id}`}>
@@ -37,91 +37,97 @@ const companyWebsite = company
           class="mx-auto h-56 w-56 rounded-full shadow-lg"
         />
       </a>
-      <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-content">
+      <h3
+        class="mt-6 text-base font-semibold leading-7 tracking-tight text-content"
+      >
         {name}
       </h3>
-      {role && (
-        <p class="text-sm leading-6 text-content">
-          {role} |{" "}
-          <a
-            href={companyWebsite}
-            target="_blank"
-            rel="noreferrer"
-            class="font-bold text-content"
-          >
-            {companyName}
-          </a>
-        </p>
-      )}
-      {biography && (
-        <p class="mt-4 text-lg leading-8 text-content">
-          {biography}
-        </p>
-      )}
+      {
+        role && (
+          <p class="text-sm leading-6 text-content">
+            {role} |{" "}
+            <a
+              href={companyWebsite}
+              target="_blank"
+              rel="noreferrer"
+              class="font-bold text-content"
+            >
+              {companyName}
+            </a>
+          </p>
+        )
+      }
+      {
+        biography && (
+          <p class="mt-4 text-lg leading-8 text-content">{biography}</p>
+        )
+      }
     </div>
-    {socials && (
-      <ul role="list" class="mt-6 flex justify-center gap-x-6">
-        {socials.facebook &&
-         ( <li>
-            <a
-              href={`https://www.facebook.com/${socials.facebook}`}
-              class="text-content hover:text-gray-500"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Facebook />
-            </a>
-          </li>)
-        }
-        {socials.github &&
-          (<li>
-            <a
-              href={`https://www.github.com/${socials.github}`}
-              class="text-content hover:text-gray-500"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <GitHub />
-            </a>
-          </li>)
-        }
-        {socials.linkedin && (
-          <li>
-            <a
-              href={`https://www.linkedin.com/${socials.linkedin}`}
-              class="text-content hover:text-gray-500"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <LinkedIn />
-            </a>
-          </li>
-        )}
-        {socials.twitter && (
-          <li>
-            <a
-              href={`https://www.x.com/${socials.twitter}`}
-              class="text-content hover:text-gray-500"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Twitter />
-            </a>
-          </li>
-        )}
-        {socials.youtube && (
-          <li>
-            <a
-              href={`https://www.youtube.com/${socials.youtube}`}
-              class="text-content hover:text-gray-500"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <YouTube />
-            </a>
-          </li>
-        )}
-      </ul>
-    )}
+    {
+      socials && (
+        <ul role="list" class="mt-6 flex justify-center gap-x-6">
+          {socials.facebook && (
+            <li>
+              <a
+                href={`https://www.facebook.com/${socials.facebook}`}
+                class="text-content hover:text-gray-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Facebook />
+              </a>
+            </li>
+          )}
+          {socials.github && (
+            <li>
+              <a
+                href={`https://www.github.com/${socials.github}`}
+                class="text-content hover:text-gray-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <GitHub />
+              </a>
+            </li>
+          )}
+          {socials.linkedin && (
+            <li>
+              <a
+                href={`https://www.linkedin.com/${socials.linkedin}`}
+                class="text-content hover:text-gray-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <LinkedIn />
+              </a>
+            </li>
+          )}
+          {socials.twitter && (
+            <li>
+              <a
+                href={`https://www.x.com/${socials.twitter}`}
+                class="text-content hover:text-gray-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Twitter />
+              </a>
+            </li>
+          )}
+          {socials.youtube && (
+            <li>
+              <a
+                href={`https://www.youtube.com/${socials.youtube}`}
+                class="text-content hover:text-gray-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <YouTube />
+              </a>
+            </li>
+          )}
+        </ul>
+      )
+    }
   </div>
 </article>

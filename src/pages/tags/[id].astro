@@ -1,9 +1,9 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Articles from "@pages/articles/_components/Articles.astro";
 import Prose from "@components/Prose.astro";
 import NarrowContainer from "@containers/NarrowContainer";
+import Articles from "@pages/articles/_components/Articles.astro";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
@@ -32,7 +32,7 @@ const title = `Articles tagged with '${tag.id}'`;
           <h1>{title}</h1>
         </Prose>
       </header>
-      <Articles articles={articles} />
+      <Articles {articles} />
     </article>
   </NarrowContainer>
 </BaseLayout>

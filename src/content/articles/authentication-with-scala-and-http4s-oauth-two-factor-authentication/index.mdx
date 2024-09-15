@@ -16,11 +16,15 @@ import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 ## Introduction
 
 <NoteAdmonition>
-Hey, it's Daniel here. You're reading a big article about a real-life use of the http4s library. Herbert outdid himself in this article!
+  Hey, it's Daniel here. You're reading a big article about a real-life use of
+  the http4s library. Herbert outdid himself in this article!
 </NoteAdmonition>
 
 <TipAdmonition>
-    If you want to master the Typelevel Scala libraries (including http4s) with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
+  If you want to master the Typelevel Scala libraries (including http4s) with
+  real-life practice, check out the [Typelevel Rite of
+  Passage](/courses/typelevel-rite-of-passage) course, a full-stack
+  project-based course. It's my biggest and most jam-packed course yet.
 </TipAdmonition>
 
 ## Prerequisites
@@ -200,7 +204,8 @@ The `UserDB` case class will hold a `username` and `email`. The case class also 
 It also contains the user's secret value, stored in `encryptedSecret`, `isSecretUpdated`, a boolean variable showing if the secret value is updated or not, a `getSecret()`, and `updateSecret()` function.
 
 <WarningAdmonition>
-    Encrypt secret values instead of storing them in plain text to ensure security.
+  Encrypt secret values instead of storing them in plain text to ensure
+  security.
 </WarningAdmonition>
 
 Let's create a Generator.scala file and add the following code:
@@ -370,7 +375,10 @@ class OtpService(generator: Generator, user: UserDB) {
 The `hotpGen()` and `totpGen()` are instances of `HOTPGenerator` and `TOTPGenerator` respectively.
 
 <NoteAdmonition>
-    Google Authenticator displays a token length of 6 therefore we supply the same value to our function implementations. We also use the same algorithm type, `SHA256` that we defined in our `URI` string. They are both created as `private` so that they are only used within this class.
+  Google Authenticator displays a token length of 6 therefore we supply the same
+  value to our function implementations. We also use the same algorithm type,
+  `SHA256` that we defined in our `URI` string. They are both created as
+  `private` so that they are only used within this class.
 </NoteAdmonition>
 
 ```scala

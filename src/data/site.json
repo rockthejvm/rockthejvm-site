@@ -1,41 +1,41 @@
 {
-	"accountLogo": {
-		"src": "https://www.filepicker.io/api/file/bbjdMbWMQNiLBb65Q7BY",
-		"alt": "Rock the JVM members login"
-	},
-	"description": "Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big data and streaming (Apache Spark, Apache Flink), all with hands-on online courses.",
-	"domain": "rockthejvm.com",
-	"faqs": [],
-	"founded": 2017,
-	"legalName": "Accelerated Learning System SRL",
-	"logo": {
-		"src": "../assets/images/logos/rtjvm-red.png",
-		"alt": "Rock the JVM"
-	},
-	"name": "Rock the JVM",
-	"socials": {
-		"email": {
-			"url": "mailto:daniel@rockthejvm.com"
-		},
-		"facebook": {
-			"url": "https://www.facebook.com/@rockthejvm"
-		},
-		"github": {
-			"url": "https://github.com/rockthejvm"
-		},
-		"linkedin": {
-			"url": "https://www.linkedin.com/company/rockthejvm"
-		},
-		"twitter": {
-			"handle": "@rockthejvm",
-			"url": "https://x.com/@rockthejvm"
-		},
-		"youtube": {
-			"handle": "@rockthejvm",
-			"url": "https://www.youtube.com/@rockthejvm"
-		},
-		"feed": {
-			"url": "feed.xml"
-		}
-	}
+  "accountLogo": {
+    "src": "https://www.filepicker.io/api/file/bbjdMbWMQNiLBb65Q7BY",
+    "alt": "Rock the JVM members login"
+  },
+  "description": "Learn Scala, Kotlin, functional programming (Cats Effect, ZIO), big data and streaming (Apache Spark, Apache Flink), all with hands-on online courses.",
+  "domain": "rockthejvm.com",
+  "faqs": [],
+  "founded": 2017,
+  "legalName": "Accelerated Learning System SRL",
+  "logo": {
+    "src": "../assets/images/logos/rtjvm-red.png",
+    "alt": "Rock the JVM"
+  },
+  "name": "Rock the JVM",
+  "socials": {
+    "email": {
+      "url": "mailto:daniel@rockthejvm.com"
+    },
+    "facebook": {
+      "url": "https://www.facebook.com/@rockthejvm"
+    },
+    "github": {
+      "url": "https://github.com/rockthejvm"
+    },
+    "linkedin": {
+      "url": "https://www.linkedin.com/company/rockthejvm"
+    },
+    "twitter": {
+      "handle": "@rockthejvm",
+      "url": "https://x.com/@rockthejvm"
+    },
+    "youtube": {
+      "handle": "@rockthejvm",
+      "url": "https://www.youtube.com/@rockthejvm"
+    },
+    "feed": {
+      "url": "feed.xml"
+    }
+  }
 }
