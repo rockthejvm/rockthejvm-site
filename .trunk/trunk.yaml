@@ -16,11 +16,34 @@ runtimes:
     - python@3.10.8
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
+  definitions:
+    - name: eslint
+      files:
+        - astro
+        - javascript
+        - typescript
+    - name: prettier
+      files:
+        - astro
+        - css
+        - graphql
+        - html
+        - javascript
+        - json
+        - markdown
+        - postcss
+        - prettier_supported_configs
+        - sass
+        - typescript
+        - yaml
+  files:
+    - name: astro
+      extensions:
+        - astro
   disabled:
-    - eslint
-    - prettier
   enabled:
-    - biome@1.9.0
+    - eslint@9.10.0
+    - prettier@3.3.3
     - checkov@3.2.253
     - git-diff-check
     - markdownlint@0.41.0

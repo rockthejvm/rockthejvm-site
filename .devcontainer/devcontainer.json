@@ -1,35 +1,36 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04",
-	"containerEnv": {
-		"ASTRO_TELEMETRY_DISABLED": "1"
-	},
-	"features": {
-		"ghcr.io/devcontainers/features/git-lfs:1": {},
-		"ghcr.io/devcontainers/features/node:1": {
-			"version": "20"
-		}
-	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"-dbaeumer.vscode-eslint",
-				"astro-build.astro-vscode",
-				"bradlc.vscode-tailwindcss",
-				"redhat.vscode-yaml",
-				"remcohaszing.schemastore",
-				"tamasfe.even-better-toml",
-				"Trunk.io",
-				"unifiedjs.vscode-mdx"
-			]
-		}
-	},
-	"updateContentCommand": "pnpm install --frozen-lockfile && npx trunk install",
-	"postAttachCommand": "pnpm run dev",
-	"forwardPorts": [4321],
-	"portsAttributes": {
-		"4321": {
-			"label": "Website",
-			"onAutoForward": "openPreview"
-		}
-	}
+  "image": "mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04",
+  "containerEnv": {
+    "ASTRO_TELEMETRY_DISABLED": "1"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git-lfs:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "-dbaeumer.vscode-eslint",
+        "astro-build.astro-vscode",
+        "bradlc.vscode-tailwindcss",
+        "christian-kohler.path-intellisense",
+        "redhat.vscode-yaml",
+        "remcohaszing.schemastore",
+        "tamasfe.even-better-toml",
+        "Trunk.io",
+        "unifiedjs.vscode-mdx"
+      ]
+    }
+  },
+  "updateContentCommand": "pnpm install --frozen-lockfile && npx trunk install",
+  "postAttachCommand": "pnpm run dev",
+  "forwardPorts": [4321],
+  "portsAttributes": {
+    "4321": {
+      "label": "Website",
+      "onAutoForward": "openPreview"
+    }
+  }
 }
