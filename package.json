@@ -45,6 +45,7 @@
     "@types/react": "^18.3.5",
     "eslint-plugin-astro": "^1.2.4",
     "eslint-plugin-jsx-a11y": "^6.10.0",
+    "globals": "^15.9.0",
     "mdast-util-from-markdown": "^2.0.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.9",
