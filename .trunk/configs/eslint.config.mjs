@@ -3,10 +3,10 @@
 import js from "@eslint/js";
 import astro from "eslint-plugin-astro";
 import * as mdx from "eslint-plugin-mdx";
+import react from "eslint-plugin-react";
 import tailwind from "eslint-plugin-tailwindcss";
 import globals from "globals";
 import ts from "typescript-eslint";
-const react = require("eslint-plugin-react");
 
 export default ts.config(
   js.configs.recommended,
@@ -23,14 +23,15 @@ export default ts.config(
         ...globals.browser,
         ...globals.node,
       },
-    },
-    parserOptions: {
-      ecmaFeatures: {
-        jsx: true,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",
+      "react/react-in-jsx-scope": "off",
     },
   },
   {

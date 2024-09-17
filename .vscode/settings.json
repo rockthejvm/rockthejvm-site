@@ -67,6 +67,7 @@
   "editor.quickSuggestions": {
     "strings": "on"
   },
+  "tailwindCSS.validate": false,
   // mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04
   "terminal.integrated.defaultProfile.linux": "zsh",
   // redhat.vscode-yaml
