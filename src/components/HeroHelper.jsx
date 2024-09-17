@@ -23,7 +23,7 @@ export default function Example(props) {
       </div>
       <div className="flex">
         <div className="mx-8 my-auto md:mx-24 md:flex">
-          <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">{props.logo}</div>
+          <div className="mb-4 shrink-0 sm:mb-0 sm:mr-4">{props.logo}</div>
           <div>
             <h1 className="my-6 text-5xl font-extrabold text-content sm:text-6xl md:text-7xl">
               {site.name.toUpperCase()}

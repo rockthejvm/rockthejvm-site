@@ -67,7 +67,7 @@ export default function Example(props) {
         <div
           className={`mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2`}
         >
-          <div className="rounded-3xl rounded-t-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
+          <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
             <h3
               id="tier-hobby"
               className="text-base font-semibold leading-7 text-accent-1"
@@ -381,7 +381,7 @@ export default function Example(props) {
         <div
           className={`mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2`}
         >
-          <div className="rounded-3xl rounded-t-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
+          <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
             <h3
               id="tier-hobby"
               className="text-base font-semibold leading-7 text-accent-1"
@@ -426,7 +426,7 @@ export default function Example(props) {
               </i>
             </small>
           </div>
-          <div className="rounded-3xl rounded-t-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
+          <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
             <RadioGroup
               value={teamPack}
               onChange={setTeamPack}
@@ -441,13 +441,13 @@ export default function Example(props) {
                         value={plan}
                         aria-label={plan.name}
                         aria-describedby={`${plan.id}-description`}
-                        className="group h-6 w-6 data-[checked]:border-accent-1"
+                        className="group size-6 data-[checked]:border-accent-1"
                       >
                         <span
                           aria-hidden="true"
-                          className={`flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white group-data-[checked]:bg-accent-1 ${teamPack.name === plan.name ? "bg-accent-1" : ""}`}
+                          className={`flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white group-data-[checked]:bg-accent-1 ${teamPack.name === plan.name ? "bg-accent-1" : ""}`}
                         >
-                          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                          <span className="size-1.5 rounded-full bg-white" />
                         </span>
                       </Radio>
                     </div>

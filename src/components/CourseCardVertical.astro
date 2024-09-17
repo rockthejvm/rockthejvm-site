@@ -14,7 +14,7 @@ const { course } = Astro.props;
 ---
 
 <div class="h-full max-w-sm rounded-xl shadow-2xl">
-  <div class="relative h-full w-full overflow-hidden rounded-xl bg-secondary">
+  <div class="relative size-full overflow-hidden rounded-xl bg-secondary">
     <a
       href={`/courses/${course.slug}`}
       class="h-full max-w-sm hover:no-underline"
@@ -42,7 +42,7 @@ const { course } = Astro.props;
         <div class="py-4 sm:py-4">
           <Fragment
             set:html={course.data.excerpt}
-            class="text-base sm:text-sm lg:text-base text-content-1"
+            class="text-base text-content-1 sm:text-sm lg:text-base"
           />
         </div>
       </div>
