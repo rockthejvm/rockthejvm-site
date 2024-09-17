@@ -22,7 +22,7 @@ const { heading } = Astro.props;
   const callback = (entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        let elem = entry.target;
+        const elem = entry.target;
 
         elem.style.backgroundColor = "red";
         console.log("working");
