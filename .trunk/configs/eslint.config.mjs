@@ -12,26 +12,34 @@ export default ts.config(
   js.configs.recommended,
   ...ts.configs.strict,
   ...ts.configs.stylistic,
-  react.configs.flat.recommended,
   ...tailwind.configs["flat/recommended"],
   ...astro.configs.recommended,
   ...astro.configs["jsx-a11y-strict"],
   {
-    files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": "warn",
+    },
+  },
+  {
+    files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    ...react.configs.flat.recommended,
+    languageOptions: {
+      ...react.configs.flat.recommended.languageOptions,
+      globals: {
+        ...globals.serviceworker,
+        ...globals.browser,
       },
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
       },
-    },
-    rules: {
-      "@typescript-eslint/no-unused-vars": "warn",
-      "react/react-in-jsx-scope": "off",
     },
   },
   {
