@@ -42,6 +42,7 @@ lint:
         - astro
   disabled:
   enabled:
+    - sort-package-json@2.10.1
     - eslint@9.10.0
     - prettier@3.3.3
     - checkov@3.2.254
