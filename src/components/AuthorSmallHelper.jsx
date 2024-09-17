@@ -1,7 +1,7 @@
 export default function Example(props) {
   return (
     <div className="mb-2 mt-6 flex">
-      <div className="mr-4 flex-shrink-0">{props.photo}</div>
+      <div className="mr-4 shrink-0">{props.photo}</div>
       <div>
         <p className="text-lg font-bold text-emerald-500">{props.authorName}</p>
         <p className="mt-0.5">{props.time}</p>

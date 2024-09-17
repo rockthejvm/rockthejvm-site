@@ -136,7 +136,7 @@ export default function Example() {
                 <span className="sr-only">Agree to policies</span>
                 <span
                   aria-hidden="true"
-                  className="h-4 w-4 transform rounded-full bg-white shadow-sm ring-1 ring-content-2 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
+                  className="size-4 rounded-full bg-white shadow-sm ring-1 ring-content-2 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
                 />
               </Switch>
             </div>

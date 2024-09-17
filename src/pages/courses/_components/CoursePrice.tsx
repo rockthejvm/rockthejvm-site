@@ -4,7 +4,7 @@ interface Props {
   pricingPlanId: number;
 }
 
-type Response = {
+interface Response {
   pricing_plan: {
     id: number;
     created_at: string;
@@ -25,7 +25,7 @@ type Response = {
     free_trial_length: number | null;
     enrollment_cap: number | null;
   };
-};
+}
 
 export default function Example({ pricingPlanId }: Props) {
   const [price, setPrice] = useState("Free");

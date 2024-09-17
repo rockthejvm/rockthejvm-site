@@ -1,7 +1,7 @@
 export default function Example(props) {
   return (
     <div className="py-4 sm:flex">
-      <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">{props.photo}</div>
+      <div className="mb-4 shrink-0 sm:mb-0 sm:mr-4">{props.photo}</div>
       <div>
         <p className="text-lg font-bold">{props.name}</p>
         {props.biography && <p className="mt-1">{props.biography}</p>}
