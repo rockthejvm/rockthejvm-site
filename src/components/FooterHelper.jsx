@@ -138,7 +138,7 @@ export default function Example(props) {
   return (
     <footer
       aria-labelledby="footer-heading"
-      className="bg-black bg-opacity-5 shadow-slate-300"
+      className="bg-black/5 shadow-slate-300"
     >
       <h2 id="footer-heading" className="sr-only">
         Footer
