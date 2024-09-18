@@ -6,7 +6,7 @@ export default function Example(props) {
         <p className="text-lg font-bold">{props.name}</p>
         {props.biography && <p className="mt-1">{props.biography}</p>}
         {props.socials && (
-          <ul role="list" className="justify-left mt-6 flex gap-x-6">
+          <ul role="list" className="mt-6 flex justify-start gap-x-6">
             {props.socials.facebook && (
               <li>
                 <a

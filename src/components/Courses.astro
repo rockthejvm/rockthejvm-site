@@ -5,7 +5,7 @@ import CourseEntry from "./CourseEntry.astro";
 import CoursesHelper from "./CoursesHelper";
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0]!.collection === "courses",
+  (series) => series.data.members[0].collection === "courses",
 );
 const memberss = courseSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(
