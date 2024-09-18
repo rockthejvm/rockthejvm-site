@@ -1,6 +1,5 @@
 ---
 import BackgroundGradient from "@components/BackgroundGradient.astro";
-import { type CollectionEntry } from "astro:content";
 import Logo from "../assets/images/logos/rtjvm-red.png";
 import Contact from "../components/Contact.astro";
 import Courses from "../components/Courses.astro";
@@ -13,18 +12,13 @@ import CardList from "../containers/CardList";
 import NarrowContainer from "../containers/NarrowContainer";
 import site from "../data/site.json";
 import BaseLayout from "../layouts/BaseLayout.astro";
-interface Props {
-  canonicalUrl: URL;
-  description: string;
-  image: { src: string; alt: string };
-  title: string;
-  companies: CollectionEntry<"companies">[];
-}
-const image = { src: Logo.src, alt: site.logo.alt };
-const title = "Home";
 ---
 
-<BaseLayout description={site.description} {image} {title}>
+<BaseLayout
+  description={site.description}
+  image={{ src: Logo.src, alt: site.logo.alt }}
+  title="Home"
+>
   <BackgroundGradient />
   <NarrowContainer>
     <CardList class="text-white">

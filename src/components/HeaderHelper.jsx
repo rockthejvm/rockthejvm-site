@@ -16,7 +16,7 @@ export default function Example(props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-black bg-opacity-5 shadow-slate-300">
+    <header className="bg-black/5 shadow-slate-300">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
