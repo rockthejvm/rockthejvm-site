@@ -72,7 +72,7 @@ def lastComponentOf[T](thing: T): ConstituentPartOf[T]
 
 This method, in theory, can work with any type for which the relationship between `T` and `ConstituentPartOf[T]` can be successfully established by the compiler. So if we could implement this method, we could simply use it on all types we care about _in the same way_:
 
-```
+```scala
 val lastDigit = lastComponentOf(BigInt(53728573)) // 3
 val lastChar = lastComponentOf("Scala") // 'a'
 val lastElement = lastComponentOf((1 to 10).toList) // 10

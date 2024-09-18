@@ -14,12 +14,7 @@ import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Introduction
 
-Akka Streams and Akka actors-based code have their distinct properties and bridging between these two programming models
-is useful in some scenarios. This is an account of a way to enhance the standard ways to bridge the gap. To make the
-most out of this text the reader should know Akka Streams ([taught here](/courses/akka-pekko-streams) at Rock the JVM) and actors and ideally have some experience using them together. The reader is encouraged to study the example code on <a href={
-// @ts-ignore
-frontmatter.repositoryUrl}>GitHub</a> (see references) to get the full context and to experiment with the examples. In real world scenarios, using stream elements that originate from actors or enter an actor
-based part of a system is an excellent way of connecting Akka Streams to other types of processing.
+Akka Streams and Akka actors-based code have their distinct properties and bridging between these two programming models is useful in some scenarios. This is an account of a way to enhance the standard ways to bridge the gap. To make the most out of this text the reader should know Akka Streams ([taught here](/courses/akka-pekko-streams) at Rock the JVM) and actors and ideally have some experience using them together. The reader is encouraged to study the example code on <a href={frontmatter.repositoryUrl}>GitHub</a> (see references) to get the full context and to experiment with the examples. In real world scenarios, using stream elements that originate from actors or enter an actor based part of a system is an excellent way of connecting Akka Streams to other types of processing.
 
 <NoteAdmonition>
   This article is brought to you by [Niklas Uhrberg](/authors/niklas-uhrberg), a
@@ -551,12 +546,7 @@ do not integrate the failure logic as in the showcased code.
 
 ## References
 
-- <a
-    href={
-      // @ts-ignore
-      frontmatter.repositoryUrl
-    }
-  >
+- <a href={frontmatter.repositoryUrl}>
     Sample applications for the ask based and stage actor based approaches
     described in the article
   </a>

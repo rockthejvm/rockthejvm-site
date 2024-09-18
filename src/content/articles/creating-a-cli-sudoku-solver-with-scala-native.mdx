@@ -18,9 +18,9 @@ import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 The Scala ecosystem has many fantastic tools and libraries to help us synthesise the solution and package our solver in an ultra-fast native executable with instant startup time using our favourite language and its expressive power. To implement our solution, I chose [scala-cli](https://scala-cli.virtuslab.org/) to structure the project and to compile it with [Scala Native](https://scala-native.org/en/stable/), [decline](https://ben.kirw.in/decline/) to parse command line arguments and [cats](https://typelevel.org/cats/) for its purely functional approach.
 
 <NoteAdmonition>
-    This article is brought to you by [Antonio Gelameris](/authors/antonio-gelameris). Antonio is an alumnus of Rock the JVM, now a senior Scala developer with his own contributions to Scala libraries and junior devs under his mentorship.
+This article is brought to you by [Antonio Gelameris](/authors/antonio-gelameris). Antonio is an alumnus of Rock the JVM, now a senior Scala developer with his own contributions to Scala libraries and junior devs under his mentorship.
 
-    Which brings us to this article: Antonio originally started from my [A Backtracking Sudoku Solver in Scala](/articles/a-backtracking-sudoku-solver-in-scala) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us.
+Which brings us to this article: Antonio originally started from my [A Backtracking Sudoku Solver in Scala](/articles/a-backtracking-sudoku-solver-in-scala) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us.
 
 </NoteAdmonition>
 
@@ -118,8 +118,8 @@ Writing Scala code without the help of a fully-fledged IDE is okay if you're wri
 
 The [setup-ide](https://scala-cli.virtuslab.org/docs/commands/setup-ide) command is run before every `run`, `compile` or `test` but it can be invoked manually like:
 
-```console
-$ scala-cli setup-ide Maps.scala
+```shell
+scala-cli setup-ide Maps.scala
 ```
 
 resulting in the generation of 2 files that both Metals and IntelliJ use to provide all their functionalities.
@@ -261,22 +261,22 @@ object Sudoku {
 ```
 
 <TipAdmonition>
-    We added these methods to the case class itself, but another option we could have chosen is to add this logic in an [extension](https://docs.scala-lang.org/scala3/book/ca-extension-methods.html). Creating an extension over the `Sudoku` datatype will let us call the methods defined in it as if they were methods of the `Sudoku` class.
+We added these methods to the case class itself, but another option we could have chosen is to add this logic in an [extension](https://docs.scala-lang.org/scala3/book/ca-extension-methods.html). Creating an extension over the `Sudoku` datatype will let us call the methods defined in it as if they were methods of the `Sudoku` class.
 
-    ```scala
-    object Sudoku {
-    extension (s: Sudoku) {
-        def get(x: Int)(y: Int): Int = /* ... */
-        def getRow(y: Int): Vector[Int] = /* ... */
-        /* ... */
-    }
-    }
-    sudoku.get(0)(0)
-    ```
+```scala
+object Sudoku {
+extension (s: Sudoku) {
+    def get(x: Int)(y: Int): Int = /* ... */
+    def getRow(y: Int): Vector[Int] = /* ... */
+    /* ... */
+}
+}
+sudoku.get(0)(0)
+```
 
-    Extending may be preferable since it keeps data separated from the logic that manipulates them (enforcing some [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)), and since it's possible over data types not part of your codebase, like standard library types or data types coming from a library. This approach shines when the extension depends on a [typeclass](https://docs.scala-lang.org/scala3/book/ca-type-classes.html), since extending the type class for a new type `T` (i.e. adding a "_case_") you get a custom syntax over `T` for free.
+Extending may be preferable since it keeps data separated from the logic that manipulates them (enforcing some [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)), and since it's possible over data types not part of your codebase, like standard library types or data types coming from a library. This approach shines when the extension depends on a [typeclass](https://docs.scala-lang.org/scala3/book/ca-type-classes.html), since extending the type class for a new type `T` (i.e. adding a "_case_") you get a custom syntax over `T` for free.
 
-    On the other hand, defining new methods in the class (or in a trait) is easier if you intend to add new operations to that specific type (or trait). Pros and cons of the _type class_ vs _inheritance_ approach to the [Wadler's expression problem](https://en.wikipedia.org/wiki/Expression_problem) will be discussed in a future article.
+On the other hand, defining new methods in the class (or in a trait) is easier if you intend to add new operations to that specific type (or trait). Pros and cons of the _type class_ vs _inheritance_ approach to the [Wadler's expression problem](https://en.wikipedia.org/wiki/Expression_problem) will be discussed in a future article.
 
 </TipAdmonition>
 

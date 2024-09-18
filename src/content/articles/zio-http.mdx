@@ -100,9 +100,9 @@ that `R` and `E` are the _resource_ and _Error_ channels of a `ZIO` effect, and
 we're going to be converting an `A` to a `B` effectually.
 
 <NoteAdmonition>
-    There are some included type aliases to shorten this signature, however in this article we will try to stick to the full version.
+There are some included type aliases to shorten this signature, however in this article we will try to stick to the full version.
 
-    Also, due to the first type alias, the official documentation tends to often refer to their code examples as an "http app" or "app" - this jargon might leak into this post as well.
+Also, due to the first type alias, the official documentation tends to often refer to their code examples as an "http app" or "app" - this jargon might leak into this post as well.
 
 </NoteAdmonition>
 
@@ -517,27 +517,25 @@ Hoot!%
 ```
 
 <NoteAdmonition>
-    The `CorsConfig` case class has a lot of default values provided, and it may be unintuitive at first:
+The `CorsConfig` case class has a lot of default values provided, and it may be unintuitive at first:
 
-    ```scala
-    object Cors {
-    final case class CorsConfig(
-        anyOrigin: Boolean = true,
-        anyMethod: Boolean = true,
-        allowCredentials: Boolean = true,
-        allowedOrigins: String => Boolean = _ => false,
-        allowedMethods: Option[Set[Method]] = None,
-        allowedHeaders: Option[Set[String]] = Some(
-        Set(HttpHeaderNames.CONTENT_TYPE.toString, HttpHeaderNames.AUTHORIZATION.toString, "*"),
-        ),
-        exposedHeaders: Option[Set[String]] = Some(Set("*")),
-    )
-    }
-    ```
+```scala
+object Cors {
+final case class CorsConfig(
+    anyOrigin: Boolean = true,
+    anyMethod: Boolean = true,
+    allowCredentials: Boolean = true,
+    allowedOrigins: String => Boolean = _ => false,
+    allowedMethods: Option[Set[Method]] = None,
+    allowedHeaders: Option[Set[String]] = Some(
+    Set(HttpHeaderNames.CONTENT_TYPE.toString, HttpHeaderNames.AUTHORIZATION.toString, "*"),
+    ),
+    exposedHeaders: Option[Set[String]] = Some(Set("*")),
+)
+}
+```
 
-    For example, you might start with
-    `CorsConfig(allowedOrigins = _ == "myhost.com")`, but the `anyOrigin` value is
-    defaulted to `true`.
+For example, you might start with `CorsConfig(allowedOrigins = _ == "myhost.com")`, but the `anyOrigin` value is defaulted to `true`.
 
 </NoteAdmonition>
 
@@ -658,8 +656,7 @@ Basic auth is used for hiding a site behind a simple user/password check. The
 credentials are _base64 encoded_, but not encrypted, so it shouldn't be used
 except over https.
 
-We'll add a _super secret_ route to our app using the built-in
-` Middleware.basicAuth`.
+We'll add a _super secret_ route to our app using the built-in `Middleware.basicAuth`.
 
 ```scala
   val authApp: Http[Any, Nothing, Request, Response] = Http.collect[Request] {

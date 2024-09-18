@@ -1,5 +1,9 @@
 # Prettier friendly markdownlint config (all formatting rules disabled)
 extends: markdownlint/style/prettier
+code-block-style:
+  style: fenced
 first-line-h1: false
+no-duplicate-heading:
+  siblings_only: true
 no-inline-html: false
 no-trailing-punctuation: false

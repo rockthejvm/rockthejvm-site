@@ -300,7 +300,7 @@ However, we can go even further with the implicit generation of the `Serde` clas
 
 So, just as a recap, the following implicit resolution took place:
 
-```
+```text
 Order => Decoder[Order] / Encoder[Order] => Serde[Order] => Consume[Order]
 ```
 
@@ -421,7 +421,7 @@ The `foreach` method applies to a stream a given function:
 def foreach(action: (K, V) => Unit): Unit
 ```
 
-As an example, imagine we want to print all the products purchased by a user. We can call the ` foreach` method directly on the `purchasedProductsStream` stream:
+As an example, imagine we want to print all the products purchased by a user. We can call the `foreach` method directly on the `purchasedProductsStream` stream:
 
 ```scala
 purchasedProductsStream.foreach { (userId, product) =>
@@ -684,7 +684,7 @@ println(topology.describe())
 
 The printed topology of our leading example is the following:
 
-```
+```text
 Topologies:
    Sub-topology: 0
     Source: KSTREAM-SOURCE-0000000000 (topics: [orders-by-user])
@@ -935,7 +935,7 @@ kafka-console-consumer \
 
 The above command will read the following message, concluding our journey in the Kafka Streams library:
 
-```
+```text
 {"orderId":"order1","user":"Daniel","products":["iPhone 13","MacBook Pro 15"],"amount":2000.0}
 ```
 

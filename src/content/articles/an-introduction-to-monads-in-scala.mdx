@@ -228,7 +228,7 @@ MySuperMonad(x).flatMap(x => MySuperMonad(x))
 If it's not obvious yet, make it concrete:
 
 - Example with lists: `List(x).flatMap(x => List(x)) = ?`
-- Example with Futures: `Future(x).flatMap(x => Future(x))= ? `
+- Example with Futures: `Future(x).flatMap(x => Future(x))= ?`
 
 Nothing changes, right? An inherent property of monads is that `MySuperMonad(x).flatMap(x => MySuperMonad(x))` is the same as `MySuperMonad(x)`.
 

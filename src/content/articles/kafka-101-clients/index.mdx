@@ -360,9 +360,7 @@ This scenario is similar to the previous one, only now we will have one consumer
 
 When a consumer goes down or similarly a new one joins the group, Kafka will have to trigger a rebalance. This means that partitions need to be revoked and reassigned to the available consumers in the group.
 
-Let's run again our previous example — consuming 10k messages — but this time having 5 consumers in our consumer group. I will be creating 5 consuming instances from within a single JVM (using Kotlin [coroutines](/articles/kotlin-101-coroutines), but you can easily re-adjust the code (found <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/main/src/main/kotlin/io/ipolyzos/consumers/PerPartitionConsumer.kt`}>here</a>) and just start multiple JVMs.
+Let's run again our previous example — consuming 10k messages — but this time having 5 consumers in our consumer group. I will be creating 5 consuming instances from within a single JVM (using Kotlin [coroutines](/articles/kotlin-101-coroutines), but you can easily re-adjust the code (found <a href={`${frontmatter.repositoryUrl}/blob/main/src/main/kotlin/io/ipolyzos/consumers/PerPartitionConsumer.kt`}>here</a>) and just start multiple JVMs.
 
 ```text
 12:39:53.233 INFO  [DefaultDispatcher-worker-1] io.ipolyzos.Extensions -
@@ -404,9 +402,7 @@ Along with that it also provides different ways for committing offset. This is a
 
 ![The Parallel Consumer Pattern](images/the-parallel-consumer-pattern.webp)
 
-Going once more back to our example to answer the question — how can we break the scaling limit? We will be using the parallel consumer pattern — you can find the code <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/main/src/main/kotlin/io/ipolyzos/consumers/ParallelScalingConsumer.kt`}>here</a>.
+Going once more back to our example to answer the question — how can we break the scaling limit? We will be using the parallel consumer pattern — you can find the code <a href={`${frontmatter.repositoryUrl}/blob/main/src/main/kotlin/io/ipolyzos/consumers/ParallelScalingConsumer.kt`}>here</a>.
 Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a _Key Ordering_, and using a parallelism of _100 threads_
 
 ```text

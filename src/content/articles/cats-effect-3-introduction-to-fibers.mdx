@@ -69,7 +69,7 @@ object AsynchronousIOs extends IOApp {
 
 If we run this application, we'll see these IOs disclosing their same thread:
 
-```
+```text
 [io-compute-11] 42
 [io-compute-11] Scala
 ```
@@ -105,7 +105,7 @@ We can see that the two IOs show different threads if we run this:
 
 If we call this method from main (or `run`), we indeed see different threads:
 
-```
+```text
 [io-compute-1] 42
 [io-compute-11] Scala
 ```
@@ -125,7 +125,7 @@ Joining returns the result of the fiber, wrapped in an IO.
 
 If we run this method in our main with our `meaningOfLife` IO instance, we'll get something very interesting:
 
-```
+```text
 [io-compute-7] Succeeded(IO(42))
 ```
 
@@ -156,7 +156,7 @@ throwOnAnotherThread().debug.as(ExitCode.Success)
 
 gives the following output:
 
-```
+```text
 [io-compute-11] Errored(java.lang.RuntimeException: no number for you!)
 ```
 
@@ -185,7 +185,7 @@ The example above starts an IO on a fiber, and half the time later, I'm cancelli
 
 The result looks like this:
 
-```
+```text
 [io-compute-9] starting
 [io-compute-0] cancelling // half a second later
 [io-compute-0] Canceled() // the result of the fiber

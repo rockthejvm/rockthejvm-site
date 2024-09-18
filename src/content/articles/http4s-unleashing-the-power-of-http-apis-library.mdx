@@ -116,7 +116,7 @@ Awesome. So, it's time to start our journey with the implementation of the endpo
 
 We can imagine the route that returns the list of movies of a director as something similar to the following:
 
-```
+```http
 GET /movies?director=Zack%20Snyder&year=2021
 ```
 
@@ -200,7 +200,7 @@ Furthermore, the companion object `QueryParamDecoder` contains many other practi
 
 Another everyday use case is a route that contains some path parameters. Indeed, the API of our backend isn't an exception, exposing a route that retrieves the list of actors of a movie:
 
-```
+```http
 GET /movies/aa4f0f9c-c703-4f21-8c05-6a0c8f2052f0/actors
 ```
 
@@ -296,7 +296,7 @@ def directorRoutes[F[_] : Concurrent]: HttpRoutes[F] = {
 
 We will look at the meaning of the `asJson` method in the next section. However, it is crucial to understand the structure of the returned responses, which is:
 
-```
+```http
 F(
   Response(
     status=200,
@@ -416,7 +416,7 @@ By now, we should know everything we need to match routes. Now, it's time to und
 
 As we initially said, we want to let our application expose an API to add a new `Director` in the system. Such an API will look something similar to the following:
 
-```
+```http
 POST /directors
 {
   "firstName": "Zack",
@@ -509,7 +509,7 @@ Last but not least, we changed the context-bound of the effect `F`. In fact, the
 
 The encoding process of a response body is very similar to the one described for decoding a request body. As the reference example, we go forward with the API getting all the films directed by a specific director during a year:
 
-```
+```http
 GET /movies?director=Zack%20Snyder&year=2021
 ```
 
