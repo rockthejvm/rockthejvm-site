@@ -554,11 +554,11 @@ def setToken(user: String, date: String):String =
 ```
 
 <WarningAdmonition>
-    Do not use this exact encoding in production!
+Do not use this exact encoding in production!
 
-    This example is for illustration to ease understanding. Base64 is easily deciphered, and an attacker can easily impersonate someone by knowing their username and a rough time when the server was started.
+This example is for illustration to ease understanding. Base64 is easily deciphered, and an attacker can easily impersonate someone by knowing their username and a rough time when the server was started.
 
-    For true security, such tokens should be signed by a private key. Look [here](https://http4s.org/v1/docs/auth.html#cookies) for more info.
+For true security, such tokens should be signed by a private key. Look [here](https://http4s.org/v1/docs/auth.html#cookies) for more info.
 
 </WarningAdmonition>
 
@@ -998,7 +998,7 @@ curl -vv -H "Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiO
 Welcome, JohnDoe⏎
 ```
 
-We receive the expected welcome message `Welcome, JohnDoe⏎ `, notice that the JWT token is passed as a `Bearer` token using the `Authorization` header.
+We receive the expected welcome message `Welcome, JohnDoe⏎`, notice that the JWT token is passed as a `Bearer` token using the `Authorization` header.
 
 In case we receive a wrong token, the server will respond with a `403 Forbidden` status code and an `Invalid access token` message.
 

@@ -557,7 +557,7 @@ Explanation:
 
 - `client.expect[String](req(uri))` sends an HTTP request using the `req` function from our previous example and expects the response as a `String` (it is assumed that the response body is expected to be a JSON string).
 - `.map(_.into[A])` transforms the JSON body into the concrete instance of `A` using `Reads[A]`
-- `.onError { ... } ` logs the errors if `IO` fails
+- `.onError { ... }` logs the errors if `IO` fails
 - `.handleError(_ => ...)` If an error occurs in `IO`, it logs warning and falls back to the `default` value for `A`.
 
 With that, we can move on to the most important part of our project - business logic.

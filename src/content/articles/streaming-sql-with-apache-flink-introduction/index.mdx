@@ -572,8 +572,7 @@ Temporary Views are very useful to structure and decompose more complicated quer
 
 Once more let us better illustrate this with an example.
 
-Following our previous query that calculates statistics we can make use of Temporary Views to store the output
-of the query and reuse it the calculated statistics to filter readings; for example find _readings > average + 2 _ standard deviation\*.
+Following our previous query that calculates statistics we can make use of Temporary Views to store the output of the query and reuse it the calculated statistics to filter readings; for example find: `readings > average + 2 * standard deviation`
 
 That's a simple example that can be used to build more sophisticated outlier detection logic.
 

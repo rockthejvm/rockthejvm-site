@@ -297,7 +297,7 @@ object DoobieApp extends IOApp {
 
 Given the information we initially stored in the database, the above code produces the following output:
 
-```
+```text
 List(Henry Cavill, Gal Godot, Ezra Miller, Ben Affleck, Ray Fisher, Jason Momoa)
 ```
 
@@ -660,7 +660,7 @@ def findAllActorNamesProgram(): IO[List[ActorName]] = {
 
 As we can expect, when we try to compile the above code, we get an error since the compiler cannot find any suitable type classes instances for the `ActorName` type:
 
-```
+```text
 [error] Cannot find or construct a Read instance for type:
 [error]
 [error]   DoobieApp.ActorName

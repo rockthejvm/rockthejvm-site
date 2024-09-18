@@ -109,7 +109,7 @@ fun printAsJson(objs: List<Job>) =
 
 If we try to compile this code, we'll get an error since there is no `toJson` function defined on the `Job` class:
 
-```
+```text
 Unresolved reference: toJson
 ```
 
@@ -314,7 +314,7 @@ fun <T> printAsJson(objs: List<T>): String {
 
 In fact, the compiler complains with the following error:
 
-```
+```text
 'this' is not defined in this context
 ```
 

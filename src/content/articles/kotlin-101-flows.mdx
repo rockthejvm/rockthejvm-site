@@ -206,7 +206,7 @@ spiderMenWithLatency
 
 What do we expect from the program? We expect the program to print the message "Starting Spider-Men flow" immediately and then, after 1 second, the actors playing. Indeed, the output of the program is what we expect:
 
-```
+```text
 Starting Spider-Men flow
 (1 sec.)
 Actor(id=Id(id=13), firstName=FirstName(firstName=Tobey), lastName=LastName(lastName=Maguire))
@@ -233,7 +233,7 @@ spiderMenWithLatency
 
 The output of the program will add the actor Paul Robert Soles to the list of the actors playing:
 
-```
+```text
 Actor(id=Id(id=15), firstName=FirstName(firstName=Paul), lastName=LastName(lastName=Soles))
 Actor(id=Id(id=13), firstName=FirstName(firstName=Tobey), lastName=LastName(lastName=Maguire))
 Actor(id=Id(id=14), firstName=FirstName(firstName=Andrew), lastName=LastName(lastName=Garfield))
@@ -274,7 +274,7 @@ spiderMen
 
 Nothing new under the sun. The above code will produce the following output when executed:
 
-```
+```text
 Actor(id=Id(id=13), firstName=FirstName(firstName=Tobey), lastName=LastName(lastName=Maguire))
 Actor(id=Id(id=14), firstName=FirstName(firstName=Andrew), lastName=LastName(lastName=Garfield))
 Actor(id=Id(id=12), firstName=FirstName(firstName=Tom), lastName=LastName(lastName=Holland))
@@ -302,7 +302,7 @@ val actorsEmptyFlow =
 
 The output of the program doesn't surprise us:
 
-```
+```text
 (1 sec.)
 The flow is empty, adding some actors
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
@@ -340,7 +340,7 @@ val spiderMenActorsFlowWithException =
 
 If we execute the program, we'll see the following output:
 
-```
+```text
 The Spider Men flow is starting
 Actor(id=Id(id=13), firstName=FirstName(firstName=Tobey), lastName=LastName(lastName=Maguire))
 Actor(id=Id(id=14), firstName=FirstName(firstName=Andrew), lastName=LastName(lastName=Garfield))
@@ -378,7 +378,7 @@ val spiderMenActorsFlowWithException_v3 =
 
 The `catch` function will intercept the `RuntimeException` and emit the `tomHolland` actor value. The output of the program will be:
 
-```
+```text
 The Spider Men flow is starting
 Actor(id=Id(id=13), firstName=FirstName(firstName=Tobey), lastName=LastName(lastName=Maguire))
 Actor(id=Id(id=14), firstName=FirstName(firstName=Andrew), lastName=LastName(lastName=Garfield))
@@ -408,7 +408,7 @@ val spiderMenNames =
 
 The execution of the above flow will produce the expected output:
 
-```
+```text
 TOBEY MAGUIRE
 ANDREW GARFIELD
 TOM HOLLAND
@@ -437,7 +437,7 @@ val spiderMenNames =
 
 Nothing will catch the exception thrown by the second `map` function, the flow will be canceled, and the exception will bubble up. The output of the program is the following:
 
-```
+```text
 TOBEY MAGUIRE
 ANDREW GARFIELD
 Exception in thread "main" java.lang.RuntimeException: Oooops
@@ -464,7 +464,7 @@ val spiderMenActorsFlowWithException =
 
 The above code will produce the following output, which means the flow was eagerly terminated by the exception thrown by the `collect` function and not intercepted by the `catch` function:
 
-```
+```text
 The Spider Men flow is starting
 The Spider Men flow is completed
 Exception in thread "main" java.lang.RuntimeException: Oooops
@@ -492,7 +492,7 @@ val spiderMenActorsFlowWithException =
 
 As we can see from the following output produced by the execution of the above example, the exception is caught by the `catch` function:
 
-```
+```text
 The Spider Men flow is starting
 I caught an exception!
 The Spider Men flow is completed
@@ -552,7 +552,7 @@ actorRepository
 
 We'll retry two times to call the `findJLAActors` function. So, we expect the first attempt to print the first two actors and the second to print the entire list. The output of the program is what we expect:
 
-```
+```text
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
 Actor(id=Id(id=1), firstName=FirstName(firstName=Gal), lastName=LastName(lastName=Gadot))
 Actor(id=Id(id=2), firstName=FirstName(firstName=Ezra), lastName=LastName(lastName=Miller))
@@ -579,7 +579,7 @@ actorRepository
 
 In this case, we also add a log. Please don't forget to return the boolean value at the end of the lambda. Running the above code will make the fact an exception occurred more evident:
 
-```
+```text
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
 Actor(id=Id(id=1), firstName=FirstName(firstName=Gal), lastName=LastName(lastName=Gadot))
 Actor(id=Id(id=2), firstName=FirstName(firstName=Ezra), lastName=LastName(lastName=Miller))
@@ -717,7 +717,7 @@ infiniteJLFlowActors
 
 The output of the program is:
 
-```
+```text
 0
 (1 sec.)
 1
@@ -785,7 +785,7 @@ suspend fun main() {
 
 We expect the program to print all the actors emitted by the flow and then the string "After Zack Snyder's Justice League". Running the program produces the expected output:
 
-```
+```text
 Before Zack Snyder's Justice League
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
 Actor(id=Id(id=1), firstName=FirstName(firstName=Gal), lastName=LastName(lastName=Gadot))
@@ -823,7 +823,7 @@ coroutineScope {
 
 Now, the flow is collected inside a dedicated coroutine spawned by the `launch` coroutine builder (if you want to deep dive into the coroutines world, please refer to the article [Kotlin 101: Coroutines Quickly Explained](/articles/kotlin-101-coroutines)). The program will not wait for the whole collection of the flow to complete before printing the string "After Zack Snyder's Justice League". The output of the program is:
 
-```
+```text
 Before Zack Snyder's Justice League
 After Zack Snyder's Justice League
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
@@ -904,7 +904,7 @@ withContext(CoroutineName("Main")) {
 
 As we can see, we set the name of the most external coroutine context to "Main," and we surround the call to the `collect` function with a new context called "Zack Snyder's Justice League". The output of the program is:
 
-```
+```text
 Main - Before Zack Snyder's Justice League
 Zack Snyder's Justice League - In the flow
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
@@ -1038,7 +1038,7 @@ merge(zackSnyderJusticeLeague, avengers).collect{ println(it) }
 
 The execution of the program will produce the following output:
 
-```
+```text
 Actor(id=Id(id=6), firstName=FirstName(firstName=Robert), lastName=LastName(lastName=Downey Jr.))
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
 Actor(id=Id(id=7), firstName=FirstName(firstName=Chris), lastName=LastName(lastName=Evans))
@@ -1114,7 +1114,7 @@ henryCavillBio
 
 The output of the program is:
 
-```
+```text
                 Henry Cavill
                 ------------
                 BIOGRAPHY:
@@ -1206,7 +1206,7 @@ actorRepository
 
 As we said, the `flatMapConcat` function will take the first argument of the first flow, in this case, `henryCavill`, and will wait for the second flow to emit all its values before processing the next value of the first flow. The output of the program is:
 
-```
+```text
 Actor(id=Id(id=1), firstName=FirstName(firstName=Henry), lastName=LastName(lastName=Cavill))
 1983/05/05
 Henry William Dalgliesh Cavill was born on the Bailiwick of Jersey, a British Crown
@@ -1264,7 +1264,7 @@ actorRepository
 
 We added some delay between two calls to the `findMovies` to make the program more spicy. We run the program without setting the degree of concurrency, and one of the possible outputs is the following:
 
-```
+```text
 Fast & Furious
 Argo
 Man of Steel
@@ -1281,7 +1281,7 @@ As we can see, the list of movies is randomly created by merging the original li
 
 We can set the level of concurrency to 1, and we can see that the output will be linearized, printing all the films of an actor before moving to the next one:
 
-```
+```text
 Man of Steel
 Batman v Superman: Dawn of Justice
 Justice League
