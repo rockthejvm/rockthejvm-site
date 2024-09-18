@@ -389,10 +389,7 @@ object ZStreamExample extends ZIOAppDefault {
 }
 ```
 
-The output would look like `sink: 0-1-2-3-4-5-6-7-8-9`. As a quick aside, a new
-feature in ZIO 2 is the `.debug(prefix)` method, which will log a line
-containing the computed value of the ZIO, prefixed with `prefix: `. This is
-where the `sink: ` portion of the output comes from.
+The output would look like `sink: 0-1-2-3-4-5-6-7-8-9`. As a quick aside, a new feature in ZIO 2 is the `.debug(prefix)` method, which will log a line containing the computed value of the ZIO, prefixed with `prefix:`. This is where the `sink:` portion of the output comes from.
 
 Now let's turn our attention to the `failingStream`.
 

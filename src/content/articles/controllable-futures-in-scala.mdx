@@ -44,8 +44,8 @@ object MyService {
 
 So the service has two API methods:
 
-    1) A "production" function which is completely deterministic.
-    2) A submission function which has a pretty terrible API, because the function argument will be evaluated on one of the service's threads and you can't get the returned value back from another thread's call stack.
+1. A "production" function which is completely deterministic.
+1. A submission function which has a pretty terrible API, because the function argument will be evaluated on one of the service's threads and you can't get the returned value back from another thread's call stack.
 
 Let's assume this important service is also impossible to change, for various reasons (API breaks etc). In other words, the "production" logic is completely fixed and deterministic. However, what's not deterministic is _when_ the service will actually end up calling the production function. In other words, you can't implement your function as
 

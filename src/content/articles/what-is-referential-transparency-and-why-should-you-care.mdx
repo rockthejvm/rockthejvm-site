@@ -168,7 +168,7 @@ def sumN(n: Int): Int =
 
 Looking at the code, we quickly understand that this function is referentially transparent: it does nothing else but compute values. No interaction with the world of any kind. If our function is RT, then we can quickly trace its execution:
 
-```
+```console
 sumN(10) =
 10 + sumN(9) =
 10 + 9 + sumN(8) =

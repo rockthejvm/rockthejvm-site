@@ -20,9 +20,7 @@ In this article my aim is to bridge that gap by showing, step by step, how to so
 
 ### Setup
 
-You can see the setup for the post in <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/setup.scala`}>this</a> file and follow along using the [Scala CLI](https://scala-cli.virtuslab.org/) tool.
+You can see the setup for the post in <a href={`${frontmatter.repositoryUrl}/blob/master/setup.scala`}>this</a> file and follow along using the [Scala CLI](https://scala-cli.virtuslab.org/) tool.
 
 After cloning the repo, use the command
 
@@ -642,9 +640,7 @@ val json: Json = {
 
 Finally, we are done!
 
-The full code for the `Encoder` can be found in the accompanying <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/flat_concrete.scala`}>repo</a>.
+The full code for the `Encoder` can be found in the accompanying <a href={`${frontmatter.repositoryUrl}/blob/master/flat_concrete.scala`}>repo</a>.
 
 ## Deserializing a Concrete Class
 
@@ -913,9 +909,7 @@ val decodedUser: Decoder.Result[User] = Right(
 
 A successful roundtrip with flat JSON!
 
-The full code for the `Decoder` and `Codec` can be found in the accompanying <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/flat_concrete.scala`}>repo</a>.
+The full code for the `Decoder` and `Codec` can be found in the accompanying <a href={`${frontmatter.repositoryUrl}/blob/master/flat_concrete.scala`}>repo</a>.
 
 ## A Generic Codec
 
@@ -991,7 +985,7 @@ def makeCodec[A <: Product]( // 1
 
 This fails yet again:
 
-```
+```text
 -- [E172] Type Error: ----------------------------------------------------------
 5 |    val fields = Tuple.fromProductTyped(value)
   |                                              ^
@@ -1026,7 +1020,7 @@ def makeCodec[A <: Product]( // 1
 
 And we fail yet again...
 
-```
+```text
 -- Error: ----------------------------------------------------------------------
  6 |    val jsons = tupleToJson(fields)
    |                ^^^^^^^^^^^^^^^^^^^
@@ -1100,9 +1094,7 @@ val decodedUser: Decoder.Result[User] = Right(
 
 It works yet again!
 
-The full code for this part can be found <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/flat_generic.scala`}>here</a>.
+The full code for this part can be found <a href={`${frontmatter.repositoryUrl}/blob/master/flat_generic.scala`}>here</a>.
 
 We now have a generic function that creates a flat JSON format for any case class. This almost fully fulfills our original problem statement. We are only left with one last safety requirement. But before we move on to it, we'll make a slight digression.
 
@@ -1366,10 +1358,7 @@ We won't be further improving the `decodeTuple` function, but I will leave you w
 1. Reimplement `encodeTuple` in terms of `sequenceInvariantTuple`.
 1. Reimplement `sequenceTuple` in terms of `sequenceInvariantTuple`.
 
-[^implementedInTheRepo]:
-    You can find the solution to this exercise in the <a href={`${
-// @ts-ignore
-frontmatter.repositoryUrl}/blob/master/flat_modular.scala`}>repo</a>.
+[^implementedInTheRepo]: You can find the solution to this exercise in the <a href={`${frontmatter.repositoryUrl}/blob/master/flat_modular.scala`}>repo</a>.
 
 [^listAnalogy]: Keeping in mind the `List` analogy that we have with tuples.
 
@@ -1379,9 +1368,7 @@ frontmatter.repositoryUrl}/blob/master/flat_modular.scala`}>repo</a>.
 
 If you solved the exercises, congratulations! You now have some very reusable functions on your hands.
 
-The full code for this part can be found in the <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/flat_modular.scala`}>repo</a>.
+The full code for this part can be found in the <a href={`${frontmatter.repositoryUrl}/blob/master/flat_modular.scala`}>repo</a>.
 
 ## Safety First
 
@@ -1705,10 +1692,7 @@ The whole thing is very fragile[^complexity], seemingly benign code modification
 
 [^tests]: When writing such code it's very important to have some tests to make sure that it actually does what you think it does. It will be very unpleasant if after some benign refactor code silently stops working.
 
-[^implicitLabelling]:
-    If you're curious what that would look like, I've implemented the same logic using implicits in the <a href={`${
-// @ts-ignore
-frontmatter.repositoryUrl}`}>repo</a>.
+[^implicitLabelling]: If you're curious what that would look like, I've implemented the same logic using implicits in the <a href={`${frontmatter.repositoryUrl}`}>repo</a>.
 
 Be that as it may, it works!
 
@@ -1735,9 +1719,7 @@ val res5:
     Labelling["Address2", ("country", "city")])] = Typed@47927528
 ```
 
-The full code for this part can be found in the <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/labelling.scala`}>repo</a>.
+The full code for this part can be found in the <a href={`${frontmatter.repositoryUrl}/blob/master/labelling.scala`}>repo</a>.
 
 Now we're ready for the real fun.
 
@@ -1767,9 +1749,7 @@ The algorithm goes like this:
 - Filter all the labels that have more than one source.
 - The remaining labels are duplicates.
 
-The code we'll be writing has a straightforward value-level equivalent, which you can find <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/value_level_find_duplicates.scala`}>here</a>[^notTheBest]. Feel free to take a look if you want a more precise idea of the algorithm we ae implementing.
+The code we'll be writing has a straightforward value-level equivalent, which you can find <a href={`${frontmatter.repositoryUrl}/blob/master/value_level_find_duplicates.scala`}>here</a>[^notTheBest]. Feel free to take a look if you want a more precise idea of the algorithm we ae implementing.
 
 [^notTheBest]: This is of course not the way you would solve this problem with regular Scala. The code is written in a style that conforms to the limitations of the type-level implementation.
 
@@ -1962,9 +1942,7 @@ scala> type Res = FindDuplicates[Labellings]
 
 Great success! We found the duplicate fields, along with the class names they came from. With this info, that we managed to obtain at compile-time, we can proceed to generate a compilation error.
 
-The full code for `FindDuplicates` can be found in the <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/find_duplicates.scala`}>repo</a>.
+The full code for `FindDuplicates` can be found in the <a href={`${frontmatter.repositoryUrl}/blob/master/find_duplicates.scala`}>repo</a>.
 
 ### Type-Level Observations
 
@@ -2010,9 +1988,7 @@ Some observations about this code:
 - This almost looks like we're writing in a real, functional, language!
 - Especially with the high-level functions like `Map`, `FlatMap`, and `Filter`. The infix syntax gives it extra familiarity.
 - Having the ability to define anonymous functions with `=>>` is a very nice touch. How's that for a reusable tool?
-- The type-level code mimics <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/value_level_find_duplicates.scala`}>value-level</a> code very well. If you were to start from some regular value-level code, translating to a type-level equivalent is fairly straightforward[^rules].
+- The type-level code mimics <a href={`${frontmatter.repositoryUrl}/blob/master/value_level_find_duplicates.scala`}>value-level</a> code very well. If you were to start from some regular value-level code, translating to a type-level equivalent is fairly straightforward[^rules].
 - Compared to the ad-hoc Prolog feel that we had in similar situations in the past in Scala 2 with implicits, this is a great improvement[^prologIsGreat].
 - Having said that, the language we are writing in is both quite primitive and the resulting code is very "loosely typed", heavily relying on and abusing nested tuples. Kind of what a student might write for an assignment in Lisp.
 - If we go back to the analogy between tuples and lists, it's as if all the code we are writing is using `List[Any]` and pattern matching to check the runtime types.
@@ -2121,9 +2097,7 @@ Seeing how all the information is already encoded as a type, and seeing how powe
 
 This approach is still a bit low-level, as there aren't that many compile-time operations on strings available in the standard library. But we do have some higher-level functions like `Tuple.Fold` that we can apply at the type-level to simplify things.
 
-To follow along the type-level code, you can find the equivalent value-level code <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/value_level_error_generation.scala`}>here</a>.
+To follow along the type-level code, you can find the equivalent value-level code <a href={`${frontmatter.repositoryUrl}/blob/master/value_level_error_generation.scala`}>here</a>.
 
 Lets warm up with the type-level equivalent of `List.mkString`[^unsafe]:
 
@@ -2274,9 +2248,7 @@ Will you look at this beautiful compilation error! I don't think I was ever so h
 
 `checkDuplicateFields` compiles fine on `User`, as it doesn't have any duplicates, but errors out with a detailed and informative error message when compiling `User2`.
 
-The full code for this part can be found in the accompanying <a href={`${
-// @ts-ignore
-    frontmatter.repositoryUrl}/blob/master/error_generation.scala`}>repo</a>.
+The full code for this part can be found in the accompanying <a href={`${frontmatter.repositoryUrl}/blob/master/error_generation.scala`}>repo</a>.
 
 This concludes the last safety requirement.
 

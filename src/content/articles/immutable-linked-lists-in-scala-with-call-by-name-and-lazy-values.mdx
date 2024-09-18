@@ -134,14 +134,14 @@ Let's take the smaller problem of updating a node's `prev` reference. Let's say 
 
 First, we need to create another node whose `prev` reference now points where we wanted.
 
-```
+```text
 old:     1 ⇆ 2 ⇆ 3 ⇆ 4
 new: 5 ← 1
 ```
 
 We then need to update the `prev` reference of the _next_ node (this case 2), while updating the `next` reference of the new 1, _in the same operation_.
 
-```
+```text
 old:     1 ⇆ 2 ⇆ 3 ⇆ 4
 new: 5 ← 1 ⇆ 2
 ```

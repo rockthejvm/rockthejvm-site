@@ -339,7 +339,7 @@ val savedJlActors: Stream[IO, Int] = jlActors.evalMap(ActorRepository.save)
 
 If we run the above stream, we will likely see the following output:
 
-```
+```text
 Saving actor: Actor(0,Henry,Cavill)
 java.lang.RuntimeException: Something went wrong during the communication with the persistence layer
 ```
@@ -423,7 +423,7 @@ val managedJlActors: Stream[IO, Int] =
 
 Since the `savedJlActors` we defined some time ago throws an exception when the stream is evaluated, the `managedJlActors` stream will terminate with an error. The `release` function is called, and the `conn` value is released. The execution output of the `managedJlActors` stream should be something similar to the following:
 
-```
+```text
 Acquiring connection to the database: DatabaseConnection(jlaConnection)
 Saving actor: Actor(0,Henry,Cavill)
 Releasing connection to the database: DatabaseConnection(jlaConnection)
@@ -588,7 +588,7 @@ val mergedHeroesActors: Stream[IO, Unit] =
 
 The output to the console of the above program is something similar to the following:
 
-```
+```text
 Actor(7,Scarlett,Johansson)
 Actor(0,Henry,Cavill)
 Actor(8,Robert,Downey Jr.)
@@ -648,7 +648,7 @@ producer.concurrently(consumer)
 
 Running the above program produces an output similar to the following:
 
-```
+```text
 [io-compute-2] produced Actor(0,Henry,Cavill)
 [io-compute-3] consumed Actor(0,Henry,Cavill)
 [io-compute-2] produced Actor(1,Gal,Godot)
@@ -697,7 +697,7 @@ implicit final class NestedStreamOps[F[_], O](private val outer: Stream[F, Strea
 Each stream is traversed concurrently, and the maximum degree of concurrency is given in input as the parameter `maxOpen`. **As we can see, the effect used to handle concurrency must satisfy the `Concurrent` bound, which is required anywhere concurrency is used in the library**.
 We want four threads to pull concurrent values from the three streams in our example. Running the program produces an output similar to the following:
 
-```
+```text
 [io-compute-3] consumed Actor(7,Scarlett,Johansson)
 [io-compute-1] consumed Actor(0,Henry,Cavill)
 [io-compute-0] consumed Actor(13,Tom,Holland)
