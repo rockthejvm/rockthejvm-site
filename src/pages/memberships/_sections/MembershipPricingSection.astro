@@ -5,14 +5,10 @@ import { getCollection, getEntry } from "astro:content";
 
 const membership = await getEntry("memberships", "personal");
 
-const monthlyPrice = membership.data.packages.find(
-  (e) => e.frequency === "monthly",
-)!.price;
+const monthlyPriceId = membership.data.packages[0].pricingPlanId;
 const monthlyTitle = "Monthly Membership";
 
-const yearlyPrice = membership.data.packages.find(
-  (e) => e.frequency === "yearly",
-)!.price;
+const yearlyPriceId = membership.data.packages[1].pricingPlanId;
 const yearlyTitle = "Yearly Membership";
 
 const membershipHours = (await getCollection("courses"))
@@ -30,8 +26,8 @@ const membershipLinesOfCode = (await getCollection("courses"))
   <!-- <MembershipPricing /> -->
   <MembershipPricingHelper
     {monthlyTitle}
-    {monthlyPrice}
-    {yearlyPrice}
+    {monthlyPriceId}
+    {yearlyPriceId}
     {yearlyTitle}
     {membershipHours}
     {membershipLinesOfCode}
