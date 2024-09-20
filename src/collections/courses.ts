@@ -88,6 +88,8 @@ export default defineCollection({
           .array(reference("authors"))
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
+        isFree: z.boolean().default(false),
+        isNew: z.boolean().default(false),
         pricingPlanId: z.number().int().positive(),
         question: z
           .object({
