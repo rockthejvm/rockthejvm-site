@@ -1,5 +1,5 @@
 ---
-description: TODO
+description: Our Privacy Policy, which outlines how we collect, use, and protect your personal information. Learn about your rights regarding your data and our commitment to maintaining your privacy. Your trust is important to us—read more to understand our practices and how we ensure your information is secure.
 title: Privacy Policy
 ---
 
