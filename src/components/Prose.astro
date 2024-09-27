@@ -14,3 +14,12 @@ const { class: additionalClasses } = Astro.props;
 >
   <slot />
 </div>
+<style is:global>
+  @media (prefers-color-scheme: light) {
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-light) !important;
+      background-color: var(--shiki-light-bg) !important;
+    }
+  }
+</style>
