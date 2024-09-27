@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BackgroundGradient from "./BackgroundGradient.astro";
+import BackgroundGradient2 from "./BackgroundGradient2.astro";
+import BackgroundGradient2Flipped from "./BackgroundGradient2Flipped.astro";
+import BackgroundGradient3 from "./BackgroundGradient3.astro";
+import BackgroundGradient3Flipped from "./BackgroundGradient3Flipped.astro";
+import BackgroundGradientFlipped from "./BackgroundGradientFlipped.astro";
+
+export type GradientOption = 1 | 2 | 3;
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  gradientFlipped?: boolean;
+  gradientOption?: GradientOption;
+  title?: string;
+  showGradient?: boolean;
+}
+
+const { gradientFlipped = false, gradientOption } = Astro.props;
+---
+
+<Fragment>
+  {
+    gradientOption === 1 &&
+      (gradientFlipped ? <BackgroundGradientFlipped /> : <BackgroundGradient />)
+  }
+  {
+    gradientOption === 2 &&
+      (gradientFlipped ? (
+        <BackgroundGradient2Flipped />
+      ) : (
+        <BackgroundGradient2 />
+      ))
+  }
+  {
+    gradientOption === 3 &&
+      (gradientFlipped ? (
+        <BackgroundGradient3Flipped />
+      ) : (
+        <BackgroundGradient3 />
+      ))
+  }
+</Fragment>

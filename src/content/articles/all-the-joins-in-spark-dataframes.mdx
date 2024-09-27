@@ -93,7 +93,7 @@ val kidsTeamsDF = kidsDF.join(teamsDF, joinCondition, "inner")
 
 which would give us the following table if we showed the new DataFrame:
 
-```
+```text
 +---+-------+----+------+---------------+
 | Id|   Name|Team|TeamId|       TeamName|
 +---+-------+----+------+---------------+
@@ -122,7 +122,7 @@ kidsDF.join(teamsDF, joinCondition, "left_outer")
 
 Notice the `"left_outer""` argument there. This will print the following table:
 
-```
+```text
 +---+-------+----+------+---------------+
 | Id|   Name|Team|TeamId|       TeamName|
 +---+-------+----+------+---------------+
@@ -146,7 +146,7 @@ kidsDF.join(teamsDF, joinCondition, "left_outer")
 
 (notice the argument to the method there) and the output would be:
 
-```
+```text
 +----+-------+----+------+--------------------+
 |  Id|   Name|Team|TeamId|            TeamName|
 +----+-------+----+------+--------------------+
@@ -164,13 +164,13 @@ Notice how the Non-Existent Team has no members, so it appears once in the table
 
 If we wanted to show both kids that have no teams AND teams that have no kids, we can get a combined result by using an `outer` join:
 
-```
+```shell
 kidsDF.join(teamsDF, joinCondition, "outer")
 ```
 
 which gives us
 
-```
+```text
 +----+-------+----+------+--------------------+
 |  Id|   Name|Team|TeamId|            TeamName|
 +----+-------+----+------+--------------------+
@@ -199,7 +199,7 @@ kidsDF.join(teamsDF, joinCondition, "left_semi").show
 
 and we would show this:
 
-```
+```text
 +---+-------+----+
 | Id|   Name|Team|
 +---+-------+----+
@@ -226,7 +226,7 @@ kidsDF.join(teamsDF, joinCondition, "left_anti").show
 
 As expected, Lonely should show up here:
 
-```
+```text
 +---+------+----+
 | Id|  Name|Team|
 +---+------+----+
@@ -244,7 +244,7 @@ kidsDF.crossJoin(teamsDF)
 
 This would produce the quite-big-for-small-data table:
 
-```
+```text
 +---+-------+----+------+--------------------+
 | Id|   Name|Team|TeamId|            TeamName|
 +---+-------+----+------+--------------------+

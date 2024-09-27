@@ -42,7 +42,7 @@ In this article we'll start an sbt project from scratch, and walk through essent
 There are multiple ways to install sbt:
 
 - Manual Installation using the executable depending on the OS
-- Using Coursier (https://www.scala-lang.org/download/)
+- Using [Coursier](https://www.scala-lang.org/download)
 - Using IDEs like IntelliJ IDEA with sbt plugin
 
 ## Basics of sbt
@@ -188,7 +188,7 @@ For example, let's try to use the fansi library in the sbt console.
 We can then start up the sbt session by using `sbt` command. Then we can use the command _console_ within the sbt session to start a REPL.
 Now, within this REPL, we have access to the methods from fansi. We can execute this code:
 
-```
+```shell
 val redString: fansi.Str = fansi.Color.Red("Hello FAnsi String!")
 ```
 
@@ -237,7 +237,7 @@ This will test only the `SimpleTest` file.
 
 We can also use a wildcard to make it easy to run the test:
 
-```
+```shell
 test:testOnly *SimpleTest
 ```
 
@@ -305,13 +305,13 @@ lazy val root = (project in file("."))
 
 In the same way, we can define dependencies between multiple submodules. We can make `module-2` to depend on `module-1` using `dependsOn` method:
 
-```
+```shell
 lazy val module_2 = (project in file("module-2")).dependsOn(module_1)
 ```
 
 We can also provide settings for each sub module differently using the `settings` method:
 
-```
+```shell
 lazy val module_2 = (project in file("module-2")).settings(
   libraryDependencies += "org.typelevel" %% "cats-effect" % "3.3.0"
 )
@@ -332,7 +332,7 @@ Some good practice principles:
 
 Below is a sample multi-module build.sbt:
 
-```
+```shell
 ThisBuild / scalaVersion := "2.13.8"
 ThisBuild / version := "1.0"
 ThisBuild / organization := "com.rockthejvm"
@@ -405,7 +405,7 @@ At the root of the project, if we execute `sbt` it will start the sbt session. W
 
 Once we are inside the sbt session, we can switch to a particular sub-module using:
 
-```
+```shell
 project module_2
 ```
 
@@ -424,13 +424,13 @@ Let's look at an example of _sbt-assembly_ plugin. This plugin helps to create a
 
 As a first step, we need to create _plugins.sbt_ and add the plugin definition to it:
 
-```
+```shell
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "1.2.0")
 ```
 
 As next step, we need to enable the required configurations needed for this plugin to work. To run a jar, we need to provide the main class to use. We can do that by providing the `mainClass` in the settings in _build.sbt_ for required module(sometimes, we need to create jar for a sub module, sometimes for the combined project)
 
-```
+```shell
 assembly / mainClass := Some("com.rockthejvm.Module2Main"),
 ```
 
@@ -446,14 +446,14 @@ sbt allows to do this using global plugins.
 
 Instead of keeping the _plugins.sbt_ within the project, we can create the file in the _.sbt_ path.
 
-```
+```shell
 $HOME/.sbt/1.0/plugins
 ```
 
 When sbt starts, it will load all the plugins from the global path. For example, in our previous example, We can remove the _plugins.sbt_ from the _project_ directory and keep it in the above path. On reloading the project, it will still load the plugin, but from the global path instead.
 You can notice in the sbt startup logs with some similar logs like:
 
-```
+```shell
 [info] loading global plugins from /Users/username/.sbt/1.0/plugins
 ```
 
@@ -461,14 +461,14 @@ You can notice in the sbt startup logs with some similar logs like:
 
 So far, all the library dependencies and plugins are downloaded from the Maven Central repository. Sometimes, we need to use other third-party repository for downloading libraries/plugins. To do that, we can provide resolvers in the _.sbt_ files.
 
-```
+```shell
 resolvers += Resolver.url("my-test-repo", url("https://example.org/repo-releases/"))
 ```
 
 Now, apart from Maven Central, sbt will also look at the provided location for libraries.
 We can also add resolvers as the local maven directory. For that, we can use the resolver setting as:
 
-```
+```shell
 resolvers += Resolver.mavenLocal
 ```
 
@@ -476,13 +476,13 @@ This will look for the dependencies in the `.m2` directory.
 
 Apart from Maven Central, we can also configure other services to resolve the libraries. For example, to use a Sonatype repo, we can use:
 
-```
+```shell
 resolvers += Resolver.sonatypeRepo("releases")
 ```
 
 We can also provide custom locations for the resolvers. For example, we can configure a customised central location for the repositories as:
 
-```
+```shell
 resolvers += Resolver.url("my-company-repo", url("https://mycompany.org/repo-releases/"))
 ```
 
@@ -501,7 +501,7 @@ For example, let's create a task which will just print some text to console. We 
 
 For that, we can create a Scala file which does the printing logic and keep this file under _project_ directory:
 
-```
+```shell
 object CustomTaskPrinter {
   def print() = {
     println("Rock the sbt custom task is here....")
@@ -512,7 +512,7 @@ object CustomTaskPrinter {
 
 Next, we can define a custom task in the _build.sbt_ file as:
 
-```
+```shell
 lazy val printerTask = taskKey[Unit]("Simple custom task")
 ```
 
@@ -521,7 +521,7 @@ The code `taskKey[Unit]` mentions that the task does an action and just returns 
 The custom command will be `printerTask`.
 Now, we can define the logic of the custom task in the _build.sbt_ again:
 
-```
+```shell
 printerTask := {
     CustomTaskPrinter.print()
 }
@@ -531,7 +531,7 @@ After this, we can reload sbt and execute the command `printerTask`. This will p
 
 Now, let's create another task to generate a string uuid value:
 
-```
+```shell
 lazy val uuidStringTask = taskKey[String]("Generate string uuid task")
 uuidStringTask := {
     StringTask.strTask()
@@ -540,7 +540,7 @@ uuidStringTask := {
 
 We will implement the StringTask as below:
 
-```
+```shell
 object StringTask {
   def strTask(): String = {
     UUID.randomUUID().toString()
@@ -550,7 +550,7 @@ object StringTask {
 
 Now we can use this task within previously created `printerTask` and access the UUID generated in the other task. Let's modify the printerTask as
 
-```
+```shell
 printerTask := {
     val uuid = uuidStringTask.value
     println("Generated uuid is : "+uuid)
@@ -567,7 +567,7 @@ An sbt task is something which can be invoked and executed each time. You can th
 Whereas, a setting is evaluated at the start of sbt session and after that it is memoized. It is like `val` in Scala.
 In the similar way, we can create a setting. The only difference is that instead of `taskKey` we will use `settingKey` to define a setting:
 
-```
+```shell
 lazy val uuidStringSetting = settingKey[String]("Generate string uuid task")
 uuidStringSetting := {
     val uuid = StringTask.strTask()
@@ -578,7 +578,7 @@ uuidStringSetting := {
 
 Now, to see the difference we can modify our previous printertask as:
 
-```
+```shell
 printerTask := {
     val uuid = uuidStringTask.value
     println("Generated uuid from task:"+uuid)
@@ -594,7 +594,7 @@ Now, when we execute `printerTask`, notice the generated uuid. From task, each t
 
 Another advaced feature sbt supports is the ability to set aliases. This is similar to the alias we create on unix based OSs.
 
-```
+```shell
 addCommandAlias("ci", ";clean; compile;test; assembly;")
 ```
 

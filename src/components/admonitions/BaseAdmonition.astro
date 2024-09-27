@@ -2,17 +2,25 @@
 import { Icon } from "astro-icon/components";
 
 interface Props {
-  color: string;
+  bgColor: string;
+  borderColor: string;
+  textColor: string;
   icon: string;
 }
 
-const { color, icon } = Astro.props;
+const { bgColor, borderColor, icon, textColor } = Astro.props;
 ---
 
 <aside
-  class=`bg-${color}-100 border-l-4 border-${color}-500 text-${color}-700 p-4 rounded-md my-8`
+  class="my-8 rounded-md border-l-4 p-4 prose-strong:text-gray-900 prose-em:text-gray-700"
+  style={`background: ${bgColor}; border-color: ${borderColor}; color: ${textColor}`}
   role="alert"
 >
   <Icon name=`admonitions/${icon}` class="inline-block size-6" />
   <slot />
 </aside>
+<!-- <style>
+  strong {
+    color: var();
+  }
+</style> -->

@@ -37,11 +37,11 @@ const companyWebsite = company
           class="mx-auto size-56 rounded-full shadow-lg"
         />
       </a>
-      <h3
+      <div
         class="mt-6 text-base font-semibold leading-7 tracking-tight text-content"
       >
         {name}
-      </h3>
+      </div>
       {
         role && (
           <p class="text-sm leading-6 text-content">
@@ -65,7 +65,7 @@ const companyWebsite = company
     </div>
     {
       socials && (
-        <ul role="list" class="mt-6 flex justify-center gap-x-6">
+        <ul class="mt-6 flex justify-center gap-x-6">
           {socials.facebook && (
             <li>
               <a

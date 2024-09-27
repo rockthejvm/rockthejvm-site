@@ -99,7 +99,7 @@ internal fun `given a userId and an initial amount, when executed, then it creat
 
 The compiler gives us the following error:
 
-```
+```text
 No context receiver for 'arrow.core.raise.Raise<in.rcard.arrow.raise.testing.DomainError>' found.
 ```
 
@@ -339,7 +339,7 @@ every {
 
 The above code translates to the following sentence: "Every time we call the method `countByUserId` of the instance `countUserPortfoliosMock` with input equals to `UserId("bob")`, we'll get the value `0` as a result.". Despite that, we get an error if we try to compile it:
 
-```
+```text
 No context receiver for 'arrow.core.raise.Raise<in.rcard.arrow.raise.testing.DomainError>' found.
 ```
 

@@ -62,8 +62,8 @@ We need to have a working PostgreSQL database for testing the application. Some 
 
 A sample `docker-compose.yaml` file looks like this:
 
-```
-version: '3.8'
+```yaml
+version: "3.8"
 services:
   db:
     image: postgres
@@ -72,7 +72,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql11/data
       - ./db/init-scripts.sql:/docker-entrypoint-initdb.d/scripts.sql
@@ -243,7 +243,7 @@ val movies: Future[Seq[Movie]] = db.run(SlickTables.movieTable.result)
 
 The method `.result` on the _movieTable_ will create an executable action. We can filter the rows in the table using the _filter_ method just like on a collection. However, we need to use `===` method instead. This method will compare the value provided with that in the database column. For this method to be available, we need to import _api_ from the profile.
 
-```
+```scala
 import profile.api._
 ```
 

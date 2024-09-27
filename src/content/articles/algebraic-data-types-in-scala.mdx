@@ -53,7 +53,7 @@ case object Foggy extends Weather
 
 Congratulations! We have just defined our first Algebraic Data Type! In detail, the above code represents a Sum type. If you think about it, a variable of type `Weather` can have exactly one value of the `object` types extending it. So, the possible available values are the sum of the `object` types:
 
-```
+```scala
 type Weather = Sunny + Windy + Rainy + Cloudy + Foggy
 ```
 
@@ -71,7 +71,7 @@ def feeling(w: Weather): String = w match {
 
 In the above case, the compiler knows which are the extension of `Weather`, and it warns us that the pattern matching is not handling all the possible values:
 
-```
+```text
 [warn] [...] match may not be exhaustive.
 [warn] It would fail on the following inputs: Foggy, Windy
 [warn]     def feeling(w: Weather): String = w match {
@@ -96,7 +96,7 @@ case class ForecastRequest(val latitude: Double, val longitude: Double)
 
 In the language of types, we can write the constructor as `(Long, Long) => ForecastRequest`. In other words, the number of possible values of `ForecastRequest` is precisely the cartesian product of the possible values for the `latitude` property _AND_ all the possible values for the `longitude` property:
 
-```
+```scala
 type ForecastRequest = Long x Long
 ```
 
@@ -181,13 +181,13 @@ Going deeper, we can introduce more mathematics associated with ADTs. In detail,
 
 As we saw, we can compose new data types from the _AND_ and _OR_ algebra. A Sum type (or coproduct) can only be one of its values:
 
-```
+```scala
 Weather (coproduct) = `Sunny` XOR `Windy` XOR `Rainy` XOR ...
 ```
 
 Whereas a Product type (product) contains every type that it is composed of:
 
-```
+```scala
 Ko (product) = String x String
 ```
 

@@ -104,7 +104,7 @@ If we want to test this actor, all we have to do is back it up by an `ActorSyste
 
 So if we call this in our main method and run our application, we'll get the following log lines:
 
-```
+```text
 [2020-10-22 17:49:32,854] [INFO] [live.day2actors.AkkaEssentials$] [] [EmotionalSystem-akka.actor.default-dispatcher-3] - (0) Eating chocolate, getting a shot of dopamine!
 [2020-10-22 17:49:32,854] [INFO] [live.day2actors.AkkaEssentials$] [] [EmotionalSystem-akka.actor.default-dispatcher-3] - (1) Eating chocolate, getting a shot of dopamine!
 [2020-10-22 17:49:32,854] [INFO] [live.day2actors.AkkaEssentials$] [] [EmotionalSystem-akka.actor.default-dispatcher-3] - (2) Doing chores, womp, womp...
@@ -151,7 +151,7 @@ Notice that we moved our mutable variable as a method argument, and because we d
 
 Sure enough, if we change our test method to use this new `emotionalFunctionalActor` instead, the logged output will look the same:
 
-```
+```text
 [2020-10-22 17:59:27,334] [INFO] [live.day2actors.AkkaEssentials$] [] [EmotionalSystem-akka.actor.default-dispatcher-3] - (0) eating chocolate
 [2020-10-22 17:59:27,335] [INFO] [live.day2actors.AkkaEssentials$] [] [EmotionalSystem-akka.actor.default-dispatcher-3] - (1) eating chocolate
 [2020-10-22 17:59:27,335] [INFO] [live.day2actors.AkkaEssentials$] [] [EmotionalSystem-akka.actor.default-dispatcher-3] - (2) washing dishes, womp womp

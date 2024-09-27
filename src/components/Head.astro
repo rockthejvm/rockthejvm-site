@@ -104,12 +104,16 @@ const orgStructuredData = {
     };
     const setProse = () => {
       for (const element of document.getElementsByClassName("prose"))
-        document.documentElement.getAttribute("data-theme") === "dark"
-          ? element.classList.add("prose-invert")
-          : element.classList.remove("prose-invert");
+        if (document.documentElement.getAttribute("data-theme") === "dark") {
+          element.classList.add("prose-invert");
+        } else {
+          element.classList.remove("prose-invert");
+        }
     };
 
-    localStorage.getItem("theme") || localStorage.setItem("theme", "system");
+    if (localStorage.getItem("theme") === null) {
+      localStorage.setItem("theme", "system");
+    }
     setDataTheme();
     document.addEventListener("DOMContentLoaded", () => {
       setProse();
