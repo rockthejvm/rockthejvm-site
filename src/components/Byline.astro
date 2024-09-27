@@ -5,12 +5,11 @@ import AuthorSmallHelper from "./AuthorSmallHelper";
 
 interface Props {
   author: CollectionEntry<"authors">;
-  minutesRead?: number;
 }
-const { author, minutesRead } = Astro.props;
+const { author } = Astro.props;
 ---
 
-<AuthorSmallHelper authorName={author.data.name} {minutesRead}>
+<AuthorSmallHelper authorName={author.data.name} authorId={author.id}>
   <Image
     src={author.data.photo}
     alt={author.data.name}
