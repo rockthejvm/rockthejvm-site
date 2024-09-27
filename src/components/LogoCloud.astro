@@ -3,10 +3,23 @@ import { getCollection } from "astro:content";
 import ClientLogo from "./ClientLogo.astro";
 import LogoCloudHelper from "./LogoCloudHelper";
 
-const clients = await getCollection(
-  "companies",
-  ({ id }) => id !== "rock-the-jvm",
-);
+const clients = (
+  await getCollection("companies", ({ id }) =>
+    [
+      "adobe",
+      "apple",
+      "datto",
+      "google",
+      "hapag-lloyd",
+      "hm-revenue-and-customs",
+      "intuit",
+      "microsoft",
+      "orange",
+      "swiss-re",
+      "ververica",
+    ].includes(id),
+  )
+).sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
 
 <LogoCloudHelper>
