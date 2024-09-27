@@ -201,8 +201,10 @@ export default function Example(props) {
                       clipRule="evenodd"
                     ></path>
                   </svg>
-                  A single Netflix-style monthly subscription for everything in
-                  the Scala ecosystem
+                  <p class="text-left">
+                    A single Netflix-style monthly subscription for everything
+                    in the Scala ecosystem
+                  </p>
                 </li>
                 <li className="flex gap-x-3">
                   <svg
@@ -307,8 +309,10 @@ export default function Example(props) {
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  A whopping {props.membershipHours}+ hours of video and{" "}
-                  {props.membershipLinesOfCode}+ lines of code from scratch!
+                  <p class="text-left">
+                    A whopping {props.membershipHours}+ hours of video and{" "}
+                    {props.membershipLinesOfCode}+ lines of code from scratch!
+                  </p>
                 </li>
               </ul>
               <a
@@ -367,8 +371,10 @@ export default function Example(props) {
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  A single Netflix-style monthly subscription for everything in
-                  the Scala ecosystem
+                  <p class="text-left">
+                    A single Netflix-style yearly subscription for everything in
+                    the Scala ecosystem
+                  </p>
                 </li>
                 <li className="flex gap-x-3">
                   <svg
@@ -473,8 +479,10 @@ export default function Example(props) {
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  A whopping {props.membershipHours}+ hours of video and{" "}
-                  {props.membershipLinesOfCode}+ lines of code from scratch!
+                  <p class="text-left">
+                    A whopping {props.membershipHours}+ hours of video and{" "}
+                    {props.membershipLinesOfCode}+ lines of code from scratch!
+                  </p>
                 </li>
               </ul>
               <a
