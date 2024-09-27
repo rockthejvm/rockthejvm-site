@@ -29,6 +29,7 @@ const {
   excerpt,
   heroImage,
   publishedDate,
+  repositoryUrl,
   title,
   updatedDate,
   videoId,
@@ -91,22 +92,20 @@ const structuredData = {
         <Prose class="max-w-none">
           <h1>{title}</h1>
         </Prose>
-        <a href={`/authors/${frontmatter.author.id}`} class="mt-auto">
-          <Byline {author} {minutesRead}>
-            <p>
-              Last updated: {
-                updatedDate ? (
-                  <FormattedDate date={updatedDate} />
-                ) : (
-                  <FormattedDate date={publishedDate} />
-                )
-              }
-            </p>
-          </Byline>
-        </a>
-        <TagList {tags} />
-        {videoId && <MyYouTube id={videoId} />}
+        <Byline {author}>
+          <p>
+            {minutesRead} min read &nbsp;•&nbsp; {
+              updatedDate ? (
+                <FormattedDate date={updatedDate} />
+              ) : (
+                <FormattedDate date={publishedDate} />
+              )
+            }
+          </p>
+          <TagList {tags} />
+        </Byline>
         <SocialShare />
+        {videoId && <MyYouTube id={videoId} />}
       </header>
       <!-- <div class="lg:hidden fixed bottom-4 right-4">
         <a class="flex flex-col align-center justify-center content-center" href="#toc">
@@ -115,28 +114,36 @@ const structuredData = {
         </a>
       </div> -->
       <div class="xl:flex xl:flex-row">
-        <Prose class="my-8 prose-h2:mt-2">
-          <div id="toc" class="xl:hidden"><TableOfContents {headings} /></div>
+        <Prose class="my-4 prose-h2:mt-2">
+          <div id="toc" class="xl:hidden">
+            <TableOfContents {headings} {repositoryUrl} {videoId} />
+          </div>
           <slot />
           <ArticleSeries {article} />
         </Prose>
         <div
           class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 xl:block"
         >
-          <Prose class="prose-h2:mt-2"><TableOfContents {headings} /></Prose>
+          <Prose class="prose-h2:mt-2"
+            ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
+          >
         </div>
       </div>
       <footer>
-        {videoId && <MyYouTube id={videoId} />}
         <SocialShare />
         <AuthorWide {author} />
       </footer>
     </article>
   </NarrowContainer>
   <FloatingActionMenuHelper client:load>
-    <Prose class="prose-h2:mt-2" slot="toc"
-      ><TableOfContents {headings} hideButtons={true} /></Prose
-    >
+    <Prose class="prose-h2:mt-2" slot="toc">
+      <TableOfContents
+        {headings}
+        {repositoryUrl}
+        {videoId}
+        hideButtons={true}
+      />
+    </Prose>
     <SocialShare slot="share" />
   </FloatingActionMenuHelper>
 </BaseLayout>
