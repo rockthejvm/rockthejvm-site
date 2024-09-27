@@ -1,12 +1,20 @@
 export default function Example(props) {
   return (
-    <div className="py-4 sm:flex">
+    <div className="my-auto py-4 sm:flex">
       <div className="mb-4 shrink-0 sm:mb-0 sm:mr-4">{props.photo}</div>
       <div class="my-auto shrink-0">
-        <p className="text-2xl font-bold">{props.name}</p>
-        {props.biography && <p className="mt-1 text-lg">{props.biography}</p>}
+        <a href={`/authors/${props.authorId}`}>
+          <p className="text-2xl font-bold text-content-2 hover:text-accent-2 sm:text-xl md:text-2xl lg:text-3xl">
+            {props.name}
+          </p>
+        </a>
+        {props.biography && (
+          <p className="mt-1 text-lg text-content-2 sm:text-base md:text-lg lg:text-xl">
+            {props.biography}
+          </p>
+        )}
         {props.socials && (
-          <ul role="list" className="mt-6 flex justify-start gap-x-6">
+          <ul role="list" className="mt-4 flex justify-start gap-x-4">
             {props.socials.facebook && (
               <li>
                 <a
