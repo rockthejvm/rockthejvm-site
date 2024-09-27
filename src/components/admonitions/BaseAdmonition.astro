@@ -12,10 +12,15 @@ const { bgColor, borderColor, icon, textColor } = Astro.props;
 ---
 
 <aside
-  class=`border-l-4 p-4 rounded-md my-8`
+  class="my-8 rounded-md border-l-4 p-4 prose-strong:text-gray-900 prose-em:text-gray-700"
   style={`background: ${bgColor}; border-color: ${borderColor}; color: ${textColor}`}
   role="alert"
 >
   <Icon name=`admonitions/${icon}` class="inline-block size-6" />
   <slot />
 </aside>
+<!-- <style>
+  strong {
+    color: var();
+  }
+</style> -->
