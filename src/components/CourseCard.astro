@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import BadgeLarge from "./BadgeLarge.astro";
 
 interface Props {
   course: CollectionEntry<"courses">;
@@ -28,11 +29,19 @@ const { course } = Astro.props;
   </div>
   <div class="my-8 px-8 md:my-auto md:px-8">
     <a href={`/courses/${course.slug}`}>
-      <h3
-        class="text-center text-lg font-bold text-content-2 hover:text-accent-2 md:text-left"
-      >
-        {course.data.title}
-      </h3>
+      <span class="flex gap-x-2">
+        {course.data.isFree && <BadgeLarge> Free! </BadgeLarge>}
+        {
+          course.data.isNew && !course.data.isFree && (
+            <BadgeLarge> New! </BadgeLarge>
+          )
+        }
+        <h3
+          class="text-center text-lg font-bold text-content-2 hover:text-accent-2 md:text-left"
+        >
+          {course.data.title}
+        </h3>
+      </span>
     </a>
     <Fragment set:html={course.data.excerpt} class="mt-1 text-content-1" />
   </div>

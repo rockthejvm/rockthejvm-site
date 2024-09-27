@@ -1,6 +1,6 @@
 ---
-description: TODO
-title: TODO
+description: Discover our Trademarks policy, which outlines the registered and unregistered trademarks owned by our company. Learn about the proper use of our trademarks, the protection of our brand identity, and the guidelines for referencing our trademarks in your communications. Respecting our intellectual property is important—read more to stay informed.
+title: Trademarks
 ---
 
 ## Become a Rockstar Programmer

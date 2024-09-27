@@ -53,6 +53,12 @@
     --color-secondary: 221deg 39% 25%;
     --color-base: black;
 
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+    }
+
     /* body:before {
       background-image: linear-gradient(
         -45deg,
