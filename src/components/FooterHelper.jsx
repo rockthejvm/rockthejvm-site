@@ -22,7 +22,8 @@ const navigation = {
   ],
   support: [
     { name: "Contact", href: "/contact" },
-    { name: "Membership", href: "/membership" },
+    { name: "Memberships", href: "/memberships" },
+    { name: "Refunds", href: "/refunds" },
     { name: "Sitemap", href: "/sitemap-index.xml" },
   ],
   company: [
@@ -32,9 +33,8 @@ const navigation = {
   legal: [
     { name: "Cookies", href: "/legal/cookies" },
     { name: "Privacy", href: "/legal/privacy" },
-    // { name: "Refunds", href: "/legal/refunds" },
     { name: "Terms", href: "/legal/terms" },
-    // { name: "Trademarks", href: "/legal/trademarks" },
+    { name: "Trademarks", href: "/legal/trademarks" },
   ],
   social: [
     {

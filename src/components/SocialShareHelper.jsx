@@ -9,7 +9,7 @@ import {
 export default function Example(props) {
   return (
     <div className="my-4 flex flex-row gap-x-2">
-      <p className="my-auto">Share on:</p>
+      <p className="my-auto italic">Share on:</p>
       <TwitterShareButton hashtag="rockthejvm" url={props.shareUrl}>
         {props.twitter}
       </TwitterShareButton>

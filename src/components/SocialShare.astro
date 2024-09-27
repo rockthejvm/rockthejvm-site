@@ -5,8 +5,10 @@ import Twitter from "./icons/Twitter.astro";
 import SocialShareHelper from "./SocialShareHelper";
 ---
 
-<SocialShareHelper shareUrl="rockthejvm" client:idle>
-  <Facebook slot="facebook" />
-  <LinkedIn slot="linkedin" />
-  <Twitter slot="twitter" />
-</SocialShareHelper>
+<div class="my-4">
+  <SocialShareHelper shareUrl="rockthejvm" client:idle>
+    <Facebook slot="facebook" />
+    <LinkedIn slot="linkedin" />
+    <Twitter slot="twitter" />
+  </SocialShareHelper>
+</div>
