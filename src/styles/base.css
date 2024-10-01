@@ -12,8 +12,10 @@
     --color-accent2: 168deg 84% 30%;
     --color-primary: 221deg 90% 74%;
     /* --color-secondary: 223deg, 87%, 54%;  */
-    --color-secondary: 221deg 39% 87%;
+    /* --color-secondary: 221deg 39% 87%; */
+    --color-secondary: white;
     --color-base: white;
+    --color-cta: 221deg 90% 74%;
 
     /* body:before {
       background-image: linear-gradient(
@@ -52,6 +54,7 @@
     /* --color-secondary: 223deg, 87%, 54%; */
     --color-secondary: 221deg 39% 25%;
     --color-base: black;
+    --color-cta: 221deg 90% 43%;
 
     .astro-code,
     .astro-code span {

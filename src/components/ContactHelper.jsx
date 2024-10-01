@@ -86,7 +86,7 @@ export default function Example() {
                 type="text"
                 autoComplete="given-name"
                 required
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-content shadow-sm ring-1 ring-inset ring-content-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-content shadow-sm ring-1 ring-inset ring-content-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cta sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function Example() {
                 type="email"
                 autoComplete="email"
                 required
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-content shadow-sm ring-1 ring-inset ring-content-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-content shadow-sm ring-1 ring-inset ring-content-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cta sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Example() {
                 name="message"
                 rows={4}
                 required
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-content shadow-sm ring-1 ring-inset ring-content-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-content shadow-sm ring-1 ring-inset ring-content-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cta sm:text-sm sm:leading-6"
                 defaultValue={""}
               />
             </div>
@@ -153,7 +153,7 @@ export default function Example() {
           <button
             type="submit"
             disabled={!agreed}
-            className={`${agreed ? "bg-primary text-content hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" : "bg-content text-bkg"} block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm`}
+            className={`${agreed ? "bg-cta text-content hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" : "bg-content text-bkg"} block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm`}
           >
             Let's talk
           </button>
