@@ -20,7 +20,7 @@ export default function Example(props) {
               <div className="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start">
                 <a
                   href="/memberships"
-                  className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   Learn more
                 </a>

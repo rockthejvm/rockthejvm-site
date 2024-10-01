@@ -27,7 +27,8 @@ export default {
         },
         primary: "hsl(var(--color-primary) / <alpha-value>)",
         secondary: "hsl(var(--color-secondary) / <alpha-value>)",
-        base: "hsl(var(--color-base) / <alpha-value>)",
+        basecolor: "hsl(var(--color-base) / <alpha-value>)",
+        cta: "hsl(var(--color-cta) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
