@@ -25,33 +25,35 @@ export default function Example(props) {
           <span className="sr-only">{site.name}</span>
           {props.logo}
         </a>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="size-6" />
-          </button>
-        </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
+        <div className="flex gap-x-4 lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-12">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-sm font-semibold leading-6 text-content"
+              >
+                {item.name}
+              </a>
+            ))}
             <a
-              key={item.name}
-              href={item.href}
+              href="https://sso.teachable.com/secure/256201/identity/login/password"
               className="text-sm font-semibold leading-6 text-content"
             >
-              {item.name}
+              Log in <span aria-hidden="true">&rarr;</span>
             </a>
-          ))}
-          <a
-            href="https://sso.teachable.com/secure/256201/identity/login/password"
-            className="text-sm font-semibold leading-6 text-content"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          </div>
           {props.themeToggle}
+          <div className="flex lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-content-1"
+            >
+              <span className="sr-only">Open main menu</span>
+              <Bars3Icon aria-hidden="true" className="size-6" />
+            </button>
+          </div>
         </div>
       </nav>
       <Dialog
@@ -96,6 +98,7 @@ export default function Example(props) {
                   Log in
                 </a>
               </div>
+              {/* {props.themeToggle} */}
             </div>
           </div>
         </DialogPanel>
