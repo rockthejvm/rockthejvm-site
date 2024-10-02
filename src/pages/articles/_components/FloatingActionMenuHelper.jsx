@@ -26,7 +26,7 @@ export default function Example(props) {
 
   return (
     <div
-      className={`fixed bottom-0 w-full bg-secondary text-content md:hidden ${shareVisible ? "h-28" : tocVisible ? "h-96" : "h-20"} z-20 rounded-t-3xl`}
+      className={`fixed bottom-0 w-full bg-secondary text-content md:hidden ${shareVisible ? "h-36" : tocVisible ? "h-96" : "h-20"} z-20 rounded-t-3xl`}
     >
       {tocVisible && (
         <div className="no-scrollbar mx-4 mt-2 h-72 overflow-scroll">
@@ -34,7 +34,9 @@ export default function Example(props) {
         </div>
       )}
       {shareVisible && (
-        <div className="flex justify-center text-center">{props.share}</div>
+        <div className="mb-8 flex justify-center text-center">
+          {props.share}
+        </div>
       )}
       <div className="absolute bottom-5 mt-2 grid w-full grid-cols-2 gap-x-4">
         <button
