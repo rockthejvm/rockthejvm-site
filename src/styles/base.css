@@ -6,6 +6,7 @@
   :root[data-theme="light"] {
     color-scheme: light;
     --color-bkg: 42deg 79% 94%;
+    /* --color-bkg: red; */
     --color-content1: 217deg 32.6% 17.5%;
     --color-content2: 217deg 32.6% 25%;
     --color-accent1: 303deg 98% 24%;
@@ -13,8 +14,9 @@
     --color-primary: 221deg 90% 74%;
     /* --color-secondary: 223deg, 87%, 54%;  */
     /* --color-secondary: 221deg 39% 87%; */
-    --color-secondary: white;
-    --color-base: white;
+    /* --color-secondary: white; */
+    --color-secondary: 360deg 100% 100%;
+    --color-base: 360deg 100% 100%;
     --color-cta: 221deg 90% 74%;
 
     /* body:before {
@@ -53,7 +55,7 @@
     --color-primary: 221deg 90% 43%;
     /* --color-secondary: 223deg, 87%, 54%; */
     --color-secondary: 221deg 70% 13%;
-    --color-base: black;
+    --color-base: 360deg 100% 0%;
     --color-cta: 221deg 90% 43%;
 
     .astro-code,
