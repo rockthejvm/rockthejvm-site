@@ -20,7 +20,7 @@ export default function Example(props) {
                 height={3}
                 viewBox="0 0 2 2"
                 aria-hidden="true"
-                className="fill-white"
+                className="fill-content-1"
               >
                 <circle r={1} cx={1} cy={1} />
               </svg>
