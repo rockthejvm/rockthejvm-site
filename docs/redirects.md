@@ -1,18 +1,9 @@
-akka-essentials -> akka-pekko-essentials
-akka-http -> akka-pekko-http
-akka-streams -> akka-pekko-streams
-kotlin-at-light-speed -> kotlin-light-speed
-kotlin-bundle -> the-kotlin-bundle
-scala -> scala-essentials
-scala-advanced-old -> advanced-scala-old
-scala-old -> scala-essentials-old
-the-akka-bundle -> the-akka-pekko-bundle
 all courses moved to /courses/...
 scala-3-new-features -> scala-new-features
 https://blog.rockthejvm.com/feed.xml -> https://rockthejvm.com/feed.xml
 blog.rockthejvm.com/_ -> rockthejvm.com/blog/_
 
-<!--  -->
+<!-- articles -->
 
 3-tricks-for-cbn -> 3-call-by-name-tricks-in-scala
 8-pm-tricks -> 8-pattern-matching-tricks-in-scala
@@ -144,3 +135,20 @@ why-we-use-companions -> objects-and-companions-in-scala
 zio-fibers -> zio-fibers-concurrency-and-lightweight-threads
 zio-streams -> zio-streams-introduction
 scala-functional-programming-interview-practice -> scala-and-functional-programming-interview-practice
+
+<!-- courses -->
+
+scala -> scala-essentials
+scala-functional-programming-interview-practice -> scala-and-functional-programming-interview-practice
+kotlin-coroutines -> kotlin-coroutines-and-concurrency
+kotlin-bundle -> the-kotlin-bundle
+flink -> apache-flink-with-scala
+spark-essentials -> apache-spark-essentials-with-scala
+spark-streaming -> apache-spark-streaming-with-scala
+spark-optimization -> apache-spark-optimization-with-scala
+spark-performance-tuning -> apache-spark-performance-tuning-with-scala
+the-spark-bundle -> the-apache-spark-bundle-with-scala
+akka-essentials -> akka-apache-pekko-essentials-with-scala
+akka-streams -> akka-apache-pekko-streams-with-scala
+akka-http -> akka-apache-pekko-http-with-scala
+the-akka-bundle -> the-akka-apache-pekko-bundle-with-scala
