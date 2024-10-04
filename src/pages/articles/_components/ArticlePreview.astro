@@ -49,8 +49,8 @@ const entity = author.data.company
       >{category.data.name}</a
     >
     {
-      tags.map((tag) => (
-        <p class="relative z-10 rounded-full bg-secondary px-3 py-1.5 font-medium text-content-1 hover:bg-gray-100">
+      tags.slice(0, 3).map((tag) => (
+        <p class="relative z-10 rounded-full bg-secondary px-3 py-1.5 text-center font-medium text-content-1 hover:bg-gray-100">
           <a href={`/tags/${tag.id}`}>{tag.id}</a>
         </p>
       ))
