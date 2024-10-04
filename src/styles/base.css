@@ -5,17 +5,23 @@
 @layer base {
   :root[data-theme="light"] {
     color-scheme: light;
-    --color-bkg: 42deg 79% 94%;
-    /* --color-bkg: red; */
+
+    /* --color-bkg: 210deg 100% 97%; */
+    /* --color-bkg: 60deg 56% 91%; */
+    --color-bkg: 0deg 0% 95%;
+
     --color-content1: 217deg 32.6% 17.5%;
     --color-content2: 217deg 32.6% 25%;
-    --color-accent1: 303deg 98% 24%;
+
+    --color-accent1: 240deg 100% 54%;
+    /* --color-accent1: 240deg 100% 68%; */
+    /* --color-accent1: 303deg 98% 24%; */
     --color-accent2: 168deg 84% 30%;
+
     --color-primary: 221deg 90% 74%;
-    /* --color-secondary: 223deg, 87%, 54%;  */
-    /* --color-secondary: 221deg 39% 87%; */
-    /* --color-secondary: white; */
-    --color-secondary: 360deg 100% 100%;
+    /* --color-secondary: 360 0% 94%; */
+    --color-secondary: 360 0% 100%;
+
     --color-base: 360deg 100% 100%;
     --color-cta: 221deg 90% 74%;
 
@@ -47,14 +53,19 @@
 
   :root[data-theme="dark"] {
     color-scheme: dark;
+
     --color-bkg: 210deg 40% 10%;
-    --color-content1: 221deg 100% 83%;
-    --color-content2: 217deg 32.6% 95%;
+
+    --color-content1: 217deg 17% 98%;
+    --color-content2: 217deg 17% 87%;
+
     --color-accent1: 288deg 100% 83%;
     --color-accent2: 168deg 83.8% 48.2%;
+
     --color-primary: 221deg 90% 43%;
     /* --color-secondary: 223deg, 87%, 54%; */
     --color-secondary: 221deg 70% 13%;
+
     --color-base: 360deg 100% 0%;
     --color-cta: 221deg 90% 43%;
 
@@ -88,6 +99,34 @@
       background-size: 300%;
       animation: animateBG 20s ease infinite;
     } */
+  }
+
+  .large-gradient {
+    position: fixed;
+    top: 0;
+    z-index: -20;
+    height: 100vh;
+    background-image: linear-gradient(
+      -45deg,
+      rgb(38, 145, 207) 0%,
+      rgb(43, 51, 160) 25%,
+      rgb(96, 54, 127) 50%,
+      rgb(153, 67, 67) 100%
+    );
+    animation: animateBG 20s ease infinite;
+    background-size: 300%;
+
+    @keyframes animateBG {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
   }
 
   /* blockquote p {
