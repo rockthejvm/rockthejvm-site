@@ -24,6 +24,7 @@ interface Props {
     alt: string;
     src: string;
   };
+  isHomePage?: boolean;
   structuredData?: string;
   title: string;
   type?: string;
@@ -36,6 +37,7 @@ const {
   description,
   error = false,
   image = site.logo,
+  isHomePage = false,
   structuredData,
   title,
   type = "website",
@@ -54,7 +56,8 @@ const {
     {title}
     {type}
   />
-  <body class="min-h-screen bg-bkg">
+  <body class=`min-h-screen bg-bkg`>
+    <!--${isHomePage ? "large-gradient" : ""}-->
     <Header />
     <main>
       <slot />
