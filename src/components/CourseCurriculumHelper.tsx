@@ -206,7 +206,7 @@ export default function Example(props) {
                         <p>{lecture.name}</p>
                       </div>
                       <a
-                        href={`/courses/${props.courseSlug}/lectures/${lecture.id}`}
+                        href={`https://rockthejvm.com/courses/${props.courseSlug}/lectures/${lecture.id}`}
                         className="rounded-md bg-secondary px-3.5 py-2.5 text-sm font-semibold text-gray-100 shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         Start
