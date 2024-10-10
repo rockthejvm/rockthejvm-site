@@ -26,7 +26,7 @@ export default function Example(props) {
 
   return (
     <div
-      className={`fixed bottom-0 w-full bg-secondary text-content md:hidden ${shareVisible ? "h-36" : tocVisible ? "h-96" : "h-20"} z-20 rounded-t-3xl`}
+      className={`fixed bottom-0 left-1/2 w-full -translate-x-1/2 bg-secondary text-content md:max-w-3xl lg:hidden ${shareVisible ? "h-36" : tocVisible ? "h-96" : "h-20"} z-20 rounded-t-3xl`}
     >
       {tocVisible && (
         <div className="no-scrollbar mx-4 mt-2 h-72 overflow-scroll">
