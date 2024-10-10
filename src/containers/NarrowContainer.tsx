@@ -16,7 +16,7 @@ import type { ReactNode } from "react";
 // }
 export default function Example(props: { children: ReactNode }) {
   return (
-    <div className="container z-10 mx-auto px-4 sm:px-6 lg:px-0">
+    <div className="container z-10 mx-auto px-4 sm:px-6 lg:px-4">
       {props.children}
     </div>
   );
