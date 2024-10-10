@@ -6,6 +6,7 @@ let lectureSectionData = [];
 export default function Example(props) {
   const [lectureSections, setLectureSections] = useState([]);
   const [expanded, setExpanded] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   enum AttachmentKind {
     TEXT = "text",
@@ -114,6 +115,7 @@ export default function Example(props) {
   // };
 
   const getTeachableCurriculum = async (pricingPlanId) => {
+    setLoading(true);
     const apiKey = import.meta.env.PUBLIC_REACT_APP_API_KEY || "";
     const pricingPlanResponse = await getPricingPlan(pricingPlanId, apiKey);
 
@@ -152,8 +154,10 @@ export default function Example(props) {
     lectureSectionData = updatedLectureSections;
     if (lectureSectionData.length === 1) {
       setLectureSections(lectureSectionData);
+      setLoading(false);
     } else if (lectureSectionData.length >= 2) {
       setLectureSections([lectureSectionData[0], lectureSectionData[1]]);
+      setLoading(false);
     }
     // setLectureSections(updatedLectureSections);
     setExpanded(false);
@@ -219,24 +223,27 @@ export default function Example(props) {
           </li>
         </ul>
       ))}
-      <div className="mx-auto my-4 flex justify-center text-5xl">
-        {!expanded && (
-          <button
-            className="px-2 text-content-2 ring-1 ring-content-2"
-            onClick={expand}
-          >
-            ↓
-          </button>
-        )}
-        {expanded && (
-          <button
-            className="px-2 text-content-2 ring-1 ring-content-2"
-            onClick={collapse}
-          >
-            ↑
-          </button>
-        )}
-      </div>
+      {loading && <h3 className="text-center text-content-2">Loading...</h3>}
+      {!loading && (
+        <div className="mx-auto my-4 flex justify-center text-5xl">
+          {!expanded && (
+            <button
+              className="px-2 text-content-2 ring-1 ring-content-2"
+              onClick={expand}
+            >
+              ↓
+            </button>
+          )}
+          {expanded && (
+            <button
+              className="px-2 text-content-2 ring-1 ring-content-2"
+              onClick={collapse}
+            >
+              ↑
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
