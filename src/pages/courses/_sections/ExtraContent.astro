@@ -1,0 +1,18 @@
+---
+import Prose from "@components/Prose.astro";
+import Section from "@components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  title: CollectionEntry<"courses">["data"]["extra"]["title"];
+}
+
+const { color, title } = Astro.props;
+---
+
+<Section {title} {color}>
+  <Prose class="mx-auto max-w-3xl">
+    <slot />
+  </Prose>
+</Section>
