@@ -72,7 +72,13 @@ const structuredData = JSON.stringify({
 <BaseLayout {description} {title} {structuredData}>
   <article>
     <Hero {description} image={heroImage} {pricingPlanId} {title} />
-    {videoId && <CourseVideo color={categoryColor} {videoId} />}
+    {
+      videoId && (
+        <CourseVideo color={categoryColor} {videoId}>
+          <slot />
+        </CourseVideo>
+      )
+    }
     <Goal color={categoryColor}>
       <slot name="goal" />
     </Goal>

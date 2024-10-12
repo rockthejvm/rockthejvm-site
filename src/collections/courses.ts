@@ -51,6 +51,11 @@ export default defineCollection({
               path: ["excerpt"],
             },
           ),
+        extra: z
+          .object({
+            title: z.string(),
+          })
+          .optional(),
         faqs: z
           .array(
             z
