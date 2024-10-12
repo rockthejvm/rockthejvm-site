@@ -7,10 +7,10 @@ import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 
 export default function Example(props) {
   return (
-    <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
+    <dl className="mt-6 space-y-6 divide-y divide-gray-900/10">
       <Disclosure key={props.category.data.name} as="div" className="pt-6">
         <dt>
-          <DisclosureButton className="group flex w-full items-start justify-between text-left text-content">
+          <DisclosureButton className="group flex w-full items-start justify-between rounded-2xl bg-secondary px-8 py-8 text-left text-content">
             <span className="text-base font-semibold leading-7">
               <h3>{props.category.data.name}</h3>
             </span>
