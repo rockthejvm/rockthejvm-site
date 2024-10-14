@@ -1,5 +1,3 @@
-const benefits = ["TODO", "TODO", "TODO", "TODO", "TODO", "TODO"];
-
 export default function Example(props) {
   return (
     <div className="">

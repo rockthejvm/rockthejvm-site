@@ -3,8 +3,6 @@
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useCallback, useEffect, useState } from "react";
 
-const benefits = ["TODO", "TODO", "TODO", "TODO", "TODO", "TODO"];
-
 // const membershipTypes = [
 //   { value: "Individual", label: "Individual", priceSuffix: "/month" },
 //   { value: "Team", label: "Team Pack", priceSuffix: "/year" },
@@ -45,18 +43,12 @@ const plans = [
 
 export default function Example(props) {
   const [membership, setMembership] = useState(membershipTypes[0]);
-  const [teamPack, setTeamPack] = useState(plans[0]);
   const [monthlyPrice, setMonthlyPrice] = useState("Free");
   const [yearlyPrice, setYearlyPrice] = useState("Free");
   const [monthlyLoading, setMonthlyLoading] = useState(true);
   const [monthlyError, setMonthlyError] = useState<string | null>(null);
   const [yearlyLoading, setYearlyLoading] = useState(true);
   const [yearlyError, setYearlyError] = useState<string | null>(null);
-
-  const handleHandleTeamPackChange = (event) => {
-    console.log(event.target.value);
-    setTeamPack(event.target.value);
-  };
 
   const getCoursePrice = useCallback(async (args: CallbackArgs) => {
     // setLoading(true);

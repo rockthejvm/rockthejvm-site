@@ -3,8 +3,6 @@ import type { CollectionEntry } from "astro:content";
 import GradientSelect from "./GradientSelect.astro";
 import H2 from "./H2.astro";
 
-type GradientOption = 1 | 2 | 3;
-
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   gradientFlipped?: boolean;

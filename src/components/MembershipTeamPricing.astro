@@ -8,12 +8,12 @@ const membership = await getEntry("memberships", "personal");
 
 const monthlyPrice = membership.data.packages.find(
   (e) => e.frequency === "monthly",
-)!.price;
+).price;
 const monthlyTitle = "Monthly Membership";
 
 const yearlyPrice = membership.data.packages.find(
   (e) => e.frequency === "yearly",
-)!.price;
+).price;
 const yearlyTitle = "Yearly Membership";
 
 const membershipHours = (await getCollection("courses"))
@@ -46,10 +46,7 @@ const membershipLinesOfCode = (await getCollection("courses"))
       <span class="text-base text-content">/month</span>
     </p>
     <p class="mt-6 text-base leading-7 text-content">You get:</p>
-    <ul
-      role="list"
-      class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
-    >
+    <ul class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
       <li class="flex gap-x-3">
         <svg
           class="h-6 w-5 flex-none text-accent-1"
@@ -191,10 +188,7 @@ const membershipLinesOfCode = (await getCollection("courses"))
       >
       <span class="text-base text-content">/year</span>
     </p>
-    <ul
-      role="list"
-      class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
-    >
+    <ul class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
       <li class="flex gap-x-3">
         <svg
           class="h-6 w-5 flex-none text-accent-1"
