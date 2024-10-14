@@ -66,55 +66,13 @@ const getMembershipPrice = async (pricingPlanId: number) => {
   }
 };
 
-const faqs = [
-  {
-    question: "How is a typical lesson like?",
-    answer:
-      "Code is king, and we write it from scratch. In a typical lesson I'll explain some concepts, either briefly on a diagram or directly in the code. We then run live examples, and usually I'll finish the lesson with some exercises, which I then solve on camera after you've tried them yourself.",
-  },
-  {
-    question: "Does this work in real life?",
-    answer:
-      "It works. That's not for me to say, that's the 80000 people taking this material and applying it in real life. I teach the same material at Apple, Adobe and some of the best companies in the world.",
-  },
-  {
-    question: "Dude, this seems massive. How do I approach it?",
-    answer:
-      "Yes, it's massive, but it doesn't have to be intimidating. This is a buffet, you don't need to eat everything. Take Scala first. You'll probably like it, so much that I bet after 2 weeks this question won't be relevant anymore.",
-  },
-  {
-    question: "What if I don't like it?",
-    answer:
-      "Just cancel your subscription, and you'll be on your way. You will have access to everything until the next payment is due. The payments already made are not refundable, though. You'll still be a member of the Slack community - unless you want to leave us for good, which will make us all sad.",
-  },
-  {
-    question:
-      "I've never written code before, but this seems interesting. Can I enroll?",
-    answer:
-      "You can, but you probably shouldn't (yet). The courses are for people who have coded before (in some other language), and we assume general programming fundamentals. I'll probably come back with a very (very) slow and easy version for Scala as a first language, which will unlock the skills you need to take everything else.",
-  },
-  {
-    question:
-      "I already have access to some of the courses. Can I just pay the difference?",
-    answer:
-      'The mechanics for this one is different. When you buy a course, you have access to it for life. When you buy the membership, you have access to everything on the site as long as you\'re subscribed, including future courses. For that reason, I cannot accommodate a "pay the difference" request.',
-  },
-  {
-    question: "What's not included in the membership?",
-    answer:
-      "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment.",
-  },
-]; // TODO
-
-const membership = await getEntry("memberships", "personal");
-
 const monthlyMembershipPricingPlanId = (
   await getEntry("memberships", "personal")
-).data.packages[0]!.pricingPlanId;
+).data.packages[0].pricingPlanId;
 
 const yearlyMembershipPricingPlanId = (
   await getEntry("memberships", "personal")
-).data.packages[1]!.pricingPlanId;
+).data.packages[1].pricingPlanId;
 
 const monthlyPrice = await getMembershipPrice(monthlyMembershipPricingPlanId);
 
