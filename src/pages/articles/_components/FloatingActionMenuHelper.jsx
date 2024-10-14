@@ -6,7 +6,7 @@ export default function Example(props) {
   const [shareVisible, setShareVisible] = useState(false);
   const [tocVisible, setTocVisible] = useState(false);
 
-  const handleTocToggle = (e) => {
+  const handleTocToggle = () => {
     setShareVisible(false);
     if (tocVisible) {
       setTocVisible(false);
@@ -15,7 +15,7 @@ export default function Example(props) {
     }
   };
 
-  const handleShareToggle = (e) => {
+  const handleShareToggle = () => {
     setTocVisible(false);
     if (shareVisible) {
       setShareVisible(false);
