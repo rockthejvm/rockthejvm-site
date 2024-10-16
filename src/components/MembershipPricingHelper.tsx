@@ -20,26 +20,26 @@ interface CallbackArgs {
   loadingFunc: React.Dispatch;
 }
 
-const plans = [
-  {
-    id: "5",
-    name: "5-Team",
-    price: 900,
-    url: "https://rockthejvm.com/purchase?product_id=4476809",
-  },
-  {
-    id: "10",
-    name: "10-Team",
-    price: 1800,
-    url: "https://rockthejvm.com/purchase?product_id=4476810",
-  },
-  {
-    id: "15",
-    name: "15-Team",
-    price: 2700,
-    url: "https://rockthejvm.com/purchase?product_id=3514316",
-  },
-];
+// const plans = [
+//   {
+//     id: "5",
+//     name: "5-Team",
+//     price: 900,
+//     url: "https://rockthejvm.com/purchase?product_id=4476809",
+//   },
+//   {
+//     id: "10",
+//     name: "10-Team",
+//     price: 1800,
+//     url: "https://rockthejvm.com/purchase?product_id=4476810",
+//   },
+//   {
+//     id: "15",
+//     name: "15-Team",
+//     price: 2700,
+//     url: "https://rockthejvm.com/purchase?product_id=3514316",
+//   },
+// ];
 
 export default function Example(props) {
   const [membership, setMembership] = useState(membershipTypes[0]);
