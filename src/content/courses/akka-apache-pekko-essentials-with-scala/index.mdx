@@ -23,83 +23,84 @@ pricingPlanId: 3741873
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
 <CourseLayout>
-  <Fragment slot="goal">
-    ### Think concurrency differently.
+<Fragment slot="goal">
+### Think concurrency differently.
 
-    If you're reading this, you've probably heard about Akka, Pekko or the actor model. It's one of the most powerful abstractions of concurrent programming we've had, even though it's [not new](https://en.wikipedia.org/wiki/Erlang_(programming_language)#%22Let_it_Crash%22_coding_style). No more creating threads, no more locking, double-locking, deadlocks and concurrency problems. With actors, you can write heavily concurrent and distributed systems quickly, without the usual headaches. As such, massively parallel and distributed backends [all](https://www.lightbend.com/case-studies) [over](https://x.com/lightbend/status/1067393653356802048?lang=en) [the](https://www.linkedin.com/blog/engineering/product-design/now-you-see-me-now-you-dont-linkedins-real-time-presence-platf) place are powered by Akka.
+If you're reading this, you've probably heard about Akka, Pekko or the actor model. It's one of the most powerful abstractions of concurrent programming we've had, even though it's [not new](<https://en.wikipedia.org/wiki/Erlang_(programming_language)#%22Let_it_Crash%22_coding_style>). No more creating threads, no more locking, double-locking, deadlocks and concurrency problems. With actors, you can write heavily concurrent and distributed systems quickly, without the usual headaches. As such, massively parallel and distributed backends [all](https://www.lightbend.com/case-studies) [over](https://x.com/lightbend/status/1067393653356802048?lang=en) [the](https://www.linkedin.com/blog/engineering/product-design/now-you-see-me-now-you-dont-linkedins-real-time-presence-platf) place are powered by Akka.
 
-    This course is for the Scala developer willing to tap into the actor model and a new way of thinking parallel and distributed code.
+This course is for the Scala developer willing to tap into the actor model and a new way of thinking parallel and distributed code.
 
-    **The course fully supports Akka (from Lightbend) as well as Pekko, the open-source version of Akka.**
+**The course fully supports Akka (from Lightbend) as well as Pekko, the open-source version of Akka.**
 
-  </Fragment>
-  <Fragment slot="skills">
-    ### Main benefits of Akka or Pekko
-    - <p>Write massively parallel and distributed applications more quickly</p>
-    - <p>Add resilience and fault tolerance to your applications without any great fuss</p>
-    - <p>Write code with an easy mental model you can relate to</p>
-    - <p>Easily test parallel apps, which are notoriously hard to test</p>
+</Fragment>
+<Fragment slot="skills">
+### Main benefits of Akka or Pekko
+- Write massively parallel and distributed applications more quickly
+- Add resilience and fault tolerance to your applications without any great fuss
+- Write code with an easy mental model you can relate to
+- Easily test parallel apps, which are notoriously hard to test
 
-    ### Write parallel code with actors instead of threads and locks
-    - <p>Write parallel code with actors instead of threads and locks</p>
-    - <p>Manage actors in hierarchies</p>
-    - <p>Adopt the "let it crash" philosophy with your applications</p>
-    - <p>Configure Akka or Pekko for anything</p>
-    - <p>Test concurrent applications with actors</p>
-    - <p>Parallelize and delegate tasks to actors</p>
-    - <p>Use the best practices in working with the actor model</p>
+### Write parallel code with actors instead of threads and locks
 
-    - <p>Plus some extra perks:</p>
-      - <p>You'll have access to the entire code I write on camera (all 2200+ lines of it)</p>
-      - <p>You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities</p>
-      - <p>You'll have access to the takeaway slides</p>
+- Write parallel code with actors instead of threads and locks
+- Manage actors in hierarchies
+- Adopt the "let it crash" philosophy with your applications
+- Configure Akka or Pekko for anything
+- Test concurrent applications with actors
+- Parallelize and delegate tasks to actors
+- Use the best practices in working with the actor model
 
-    ### Skills you'll get:
+- Plus some extra perks:
+  - You'll have access to the entire code I write on camera (all 2200+ lines of it)
+  - You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
+  - You'll have access to the takeaway slides
 
-    - <p>Work with actors instead of threads</p>
-      - <p>Understand the thread model limitations</p>
-      - <p>Adopt a new mindset with actors as the fundamental resource</p>
-      - <p>Learn how actors are closest to the original object-oriented ideal</p>
-      - <p>Send and receive messages</p>
-      - <p>Change actor behavior dynamically</p>
-      - <p>Spawn child actors and actor hierarchies</p>
-      - <p>Learn about system guardians</p>
-      - <p>Log messages for easier debugging</p>
-      - <p>Learn how to configure an Akka/Pekko application in 5 different ways</p>
-    - <p>Test Akka applications</p>
-      - <p>Use TestKit and assertions</p>
-      - <p>Use TestProbes</p>
-      - <p>Write timed assertions</p>
-      - <p>Intercept actor logs to verify correct functionality</p>
-    - <p>Achieve fault-tolerance in parallel applications</p>
-      - <p>Start and stop actors programmatically and via message passing</p>
-      - <p>Manage actor lifecycle</p>
-      - <p>Create supervisor strategies to recover from failure</p>
-      - <p>Use the Backoff Supervisor pattern to access an external resource that failed</p>
-    - <p>Deeply understand and use the Akka or Pekko infrastructure</p>
-      - <p>Schedule messages</p>
-      - <p>Manage timeouts</p>
-      - <p>Parallelize and distribute tasks to workers with Routers</p>
-      - <p>Use custom dispatchers for underlying thread management</p>
-      - <p>Use custom mailboxes to process messages on your own terms</p>
-    - <p>Learn advanced techniques</p>
-      - <p>stash messages for later use</p>
-      - <p>use the ask pattern for quick request-response interactions without any fuss</p>
-      - <p>use the pipe pattern for integration with external services</p>
-      - <p>all with live runnable examples and practiced with exercises.</p>
+### Skills you'll get:
 
-    <p>All with live runnable examples and practiced with exercises.</p>
+- Work with actors instead of threads
+  - Understand the thread model limitations
+  - Adopt a new mindset with actors as the fundamental resource
+  - Learn how actors are closest to the original object-oriented ideal
+  - Send and receive messages
+  - Change actor behavior dynamically
+  - Spawn child actors and actor hierarchies
+  - Learn about system guardians
+  - Log messages for easier debugging
+  - Learn how to configure an Akka/Pekko application in 5 different ways
+- Test Akka applications
+  - Use TestKit and assertions
+  - Use TestProbes
+  - Write timed assertions
+  - Intercept actor logs to verify correct functionality
+- Achieve fault-tolerance in parallel applications
+  - Start and stop actors programmatically and via message passing
+  - Manage actor lifecycle
+  - Create supervisor strategies to recover from failure
+  - Use the Backoff Supervisor pattern to access an external resource that failed
+- Deeply understand and use the Akka or Pekko infrastructure
+  - Schedule messages
+  - Manage timeouts
+  - Parallelize and distribute tasks to workers with Routers
+  - Use custom dispatchers for underlying thread management
+  - Use custom mailboxes to process messages on your own terms
+- Learn advanced techniques
+  - stash messages for later use
+  - use the ask pattern for quick request-response interactions without any fuss
+  - use the pipe pattern for integration with external services
+  - all with live runnable examples and practiced with exercises.
 
-    ### Plus some extra perks:
+All with live runnable examples and practiced with exercises.
 
-        - You'll have access to the entire code I write on camera (1800+ LOC)
-        - You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
-        - You'll have access to the takeaway slides
+### Plus some extra perks:
 
-  </Fragment>
-  <Fragment slot="thanks">
-    <p><a href="https://www.linkedin.com/in/riccardocardin/">Riccardo Cardin</a>, one of the best Rock the JVM alumni, now a senior software engineer and an important contributor on the <a href="/articles">Rock the JVM blog</a>, focusing on high-performance systems in Scala, Kotlin and Java. Big thanks, Riccardo, for reviewing the code I prepared for this course.</p>
-    <p><a href="https://www.freepik.com/free-photo/3d-render-spotlights-grunge-brick-wall_1202914.htm">kjpargeter on Freepik</a> for the free background I used for photoshopping the banner of the course.</p>
+- You'll have access to the entire code I write on camera (1800+ LOC)
+- You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
+- You'll have access to the takeaway slides
 
-  </Fragment>
+</Fragment>
+<Fragment slot="thanks">
+<p><a href="https://www.linkedin.com/in/riccardocardin/">Riccardo Cardin</a>, one of the best Rock the JVM alumni, now a senior software engineer and an important contributor on the <a href="/articles">Rock the JVM blog</a>, focusing on high-performance systems in Scala, Kotlin and Java. Big thanks, Riccardo, for reviewing the code I prepared for this course.</p>
+<p><a href="https://www.freepik.com/free-photo/3d-render-spotlights-grunge-brick-wall_1202914.htm">kjpargeter on Freepik</a> for the free background I used for photoshopping the banner of the course.</p>
+
+</Fragment>
 </CourseLayout>

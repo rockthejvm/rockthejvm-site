@@ -6,6 +6,7 @@ import Facebook from "./icons/Facebook.astro";
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
+import Website from "./icons/Website.astro";
 import YouTube from "./icons/YouTube.astro";
 
 interface Props {
@@ -66,6 +67,18 @@ const companyWebsite = company
     {
       socials && (
         <ul class="mt-6 flex justify-center gap-x-6">
+          {socials.website && (
+            <li>
+              <a
+                href={socials.website}
+                class="text-content hover:text-gray-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Website />
+              </a>
+            </li>
+          )}
           {socials.facebook && (
             <li>
               <a

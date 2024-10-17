@@ -4,7 +4,7 @@ import Section from "@components/Section.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0]!.collection === "courses",
+  (series) => series.data.members[0].collection === "courses",
 );
 const memberss = courseSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(
@@ -21,12 +21,11 @@ const courseList = coursess.reduce(
 
 <Section color="bg-secondary" title="Courses Included">
   <ul
-    role="list"
     class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
   >
     {
       courseList.map((course) => (
-        <li class="center col-span-1 flex justify-center divide-y rounded-lg bg-none">
+        <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
           <CourseCardVertical {course} showPrice={false} />
         </li>
       ))

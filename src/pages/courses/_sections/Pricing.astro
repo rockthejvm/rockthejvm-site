@@ -71,7 +71,10 @@ const featuredBundles = _courses.filter((course) =>
         <span
           class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
         >
-          <CoursePrice {pricingPlanId} client:visible />
+          <CoursePrice
+            {pricingPlanId}
+            client:visible={{ rootMargin: "2160px" }}
+          />
         </span>
         <p class="mt-6 text-base leading-7 text-content">
           {benefits ? "Just the course" : `All of the courses in this bundle`} with
@@ -125,7 +128,7 @@ const featuredBundles = _courses.filter((course) =>
           <span class="text-5xl font-bold tracking-tight text-content">
             <CoursePrice
               pricingPlanId={monthlyMembershipPricingPlanId}
-              client:visible
+              client:visible={{ rootMargin: "2160px" }}
             />
           </span>
           <span class="text-base text-content">/monthly</span>
@@ -224,7 +227,8 @@ const featuredBundles = _courses.filter((course) =>
             class={`-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:overflow-hidden`}
           >
             <Image
-              class="mx-auto w-full max-w-sm rounded-xl"
+              class="mx-auto max-w-sm rounded-xl"
+              width="250"
               src={MoneyBackGuarantee}
               alt=""
             />
