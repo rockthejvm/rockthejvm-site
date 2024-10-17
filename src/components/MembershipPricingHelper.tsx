@@ -493,50 +493,52 @@ export default function Example(props) {
             </div>
           </div>
         </div>
-
-        <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
-          <h3
-            id="tier-hobby"
-            className="text-base font-semibold leading-7 text-accent-1"
-          >
-            Team Pack
-          </h3>
-          <p className="mt-4 flex items-baseline gap-x-2">
+        <div>
+          <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
+            <h3
+              id="tier-hobby"
+              className="text-base font-semibold leading-7 text-accent-1"
+            >
+              Team Pack
+            </h3>
+            {/* <p className="mt-4 flex items-baseline gap-x-2">
             <span className="text-5xl font-bold tracking-tight text-content">
               ${395}
             </span>
             <span className="text-base text-content">/year</span>
-          </p>
-          <p className="mt-6 text-base leading-7 text-content">
-            A single yearly membership for a team.
-          </p>
-          <p className="mt-6 text-base leading-7 text-content">
-            Easier bookkeeping for your company.
-          </p>
-          <p className="mt-6 text-base leading-7 text-content">
-            This single purchase gives you access to everything on the site for
-            your team. Send their names and emails to me at{" "}
-            <a href="rockthejvm.com/contact">
-              and I will enroll your team instantly.
-            </a>
-          </p>
-          <p className="mt-8 text-sm text-content-1">
-            This is a subscription product billed on a yearly basis until you
-            cancel. Cancel anytime from the account management page.
-          </p>
-          <a
-            href="/contact"
-            aria-describedby="tier-hobby"
-            className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-          >
-            Join Now
-          </a>
-          <small className="mt-16 text-sm text-content-1">
-            <i className="mt-8">
+          </p> */}
+            <p className="mt-6 text-base leading-7 text-content">
+              A single yearly membership for a team.
+            </p>
+            <p className="mt-6 text-base leading-7 text-content">
+              Easier bookkeeping for your company.
+            </p>
+            <p className="mt-6 text-base leading-7 text-content">
+              This single purchase gives you access to everything on the site
+              for your team.{" "}
+              <a href="/contact">
+                Send their names and emails to me and I will enroll your team
+                instantly.
+              </a>
+            </p>
+            <p className="mt-8 text-sm text-content-1">
               This is a subscription product billed on a yearly basis until you
               cancel. Cancel anytime from the account management page.
-            </i>
-          </small>
+            </p>
+            <a
+              href="/contact"
+              aria-describedby="tier-hobby"
+              className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+            >
+              Join Now
+            </a>
+            <small className="mt-16 text-sm text-content-1">
+              <i className="mt-8">
+                This is a subscription product billed on a yearly basis until
+                you cancel. Cancel anytime from the account management page.
+              </i>
+            </small>
+          </div>
         </div>
       </div>
     </div>
