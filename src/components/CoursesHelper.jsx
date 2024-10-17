@@ -10,7 +10,7 @@ export default function Example(props) {
     <dl className="mt-6 space-y-6 divide-y divide-gray-900/10">
       <Disclosure key={props.category.data.name} as="div" className="pt-6">
         <dt>
-          <DisclosureButton className="group flex w-full items-start justify-between rounded-2xl bg-secondary p-8 text-left text-content">
+          <DisclosureButton className="card-shadow card-shadow-color group flex w-full items-start justify-between rounded-2xl bg-secondary p-8 text-left text-content">
             <span className="text-base font-semibold leading-7">
               <h3>{props.category.data.name}</h3>
             </span>
