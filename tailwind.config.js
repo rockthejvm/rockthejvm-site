@@ -28,6 +28,7 @@ export default {
         primary: "hsl(var(--color-primary) / <alpha-value>)",
         secondary: "hsl(var(--color-secondary) / <alpha-value>)",
         basecolor: "hsl(var(--color-base) / <alpha-value>)",
+        opposite: "hsl(var(--color-shadow) / <alpha-value>)",
         cta: "hsl(var(--color-cta) / <alpha-value>)",
       },
       fontFamily: {

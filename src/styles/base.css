@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  .card-shadow {
+    @apply shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)];
+  }
+
   :root[data-theme="light"] {
     color-scheme: light;
 
@@ -24,7 +28,12 @@
     --color-secondary: 360 0% 100%;
 
     --color-base: 360deg 100% 100%;
+    --color-shadow: 360deg 100% 0%;
     --color-cta: 221deg 90% 74%;
+
+    .card-shadow-color {
+      @apply shadow-opposite/40;
+    }
 
     .body-gradient {
       background-image: linear-gradient(
@@ -68,7 +77,12 @@
     --color-secondary: 221deg 70% 30%;
 
     --color-base: 360deg 100% 0%;
+    --color-shadow: 360deg 100% 100%;
     --color-cta: 221deg 90% 50%;
+
+    .card-shadow-color {
+      @apply shadow-opposite/20;
+    }
 
     .astro-code,
     .astro-code span {
