@@ -79,38 +79,11 @@ const monthlyPrice = await getMembershipPrice(monthlyMembershipPricingPlanId);
 const title = (await getEntry("memberships", "personal")).data.title;
 
 const yearlyPrice = await getMembershipPrice(yearlyMembershipPricingPlanId);
-
-const structuredData = {
-  "@context": "http://schema.org",
-  "@type": "Product",
-  offers: [
-    {
-      "@type": "Offer",
-      name: `${title} monthly`,
-      price: monthlyPrice,
-      priceCurrency: "USD",
-    },
-    {
-      "@type": "Offer",
-      name: `${title} yearly`,
-      price: yearlyPrice,
-      priceCurrency: "USD",
-    },
-  ],
-  brand: {
-    name: "Rock the JVM",
-  },
-  name: "The Rock the JVM Membership",
-  description: "All of the Rock the JVM premium content, at your service.",
-  // "category": "Hyperpigmentation",
-  url: "/memberships",
-};
 ---
 
 <BaseLayout
   description="All of the Rock the JVM premium content, at your service."
   title="The Rock the JVM Membership"
-  structuredData={JSON.stringify(structuredData)}
 >
   <article>
     <section class="py-8 md:py-16">
