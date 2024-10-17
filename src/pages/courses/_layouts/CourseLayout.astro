@@ -101,9 +101,13 @@ const structuredData = JSON.stringify({
       )
     }
     {technologies && <TechStack {technologies} color={categoryColor} />}
-    <Skills color={categoryColor}>
-      <slot name="skills" />
-    </Skills>
+    {
+      bundledCourses.length == 0 && (
+        <Skills color={categoryColor}>
+          <slot name="skills" />
+        </Skills>
+      )
+    }
     {
       collaborators.map((collaborator) => (
         <Profile color={categoryColor} {collaborator} />
