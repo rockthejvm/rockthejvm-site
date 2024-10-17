@@ -7,6 +7,7 @@ import Facebook from "./icons/Facebook.astro";
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
+import Website from "./icons/Website.astro";
 import YouTube from "./icons/YouTube.astro";
 
 interface Props {
@@ -48,6 +49,7 @@ const companyWebsite = company
       class="mx-auto size-56 rounded-full shadow-lg"
       slot="photo"
     />
+    <Website slot="website" />
     <Facebook slot="facebook" />
     <GitHub slot="github" />
     <LinkedIn slot="linkedin" />
