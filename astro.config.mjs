@@ -18,7 +18,7 @@ export default defineConfig({
           "x-twitter",
           "youtube",
         ],
-        "fa6-solid": ["rss", "table-list", "caret-up"],
+        "fa6-solid": ["caret-up", "house", "table-list", "rss"],
         heroicons: ["computer-desktop", "moon", "sun"],
       },
     }),
