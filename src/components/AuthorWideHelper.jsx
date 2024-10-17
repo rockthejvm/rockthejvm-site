@@ -15,6 +15,18 @@ export default function Example(props) {
         )}
         {props.socials && (
           <ul role="list" className="mt-4 flex justify-start gap-x-4">
+            {props.socials.website && (
+              <li>
+                <a
+                  href={props.socials.website}
+                  className="text-gray-400 hover:text-gray-500"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {props.website}
+                </a>
+              </li>
+            )}
             {props.socials.facebook && (
               <li>
                 <a
