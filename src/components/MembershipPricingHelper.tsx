@@ -501,12 +501,12 @@ export default function Example(props) {
           >
             Team Pack
           </h3>
-          <p className="mt-4 flex items-baseline gap-x-2">
+          {/* <p className="mt-4 flex items-baseline gap-x-2">
             <span className="text-5xl font-bold tracking-tight text-content">
               ${395}
             </span>
             <span className="text-base text-content">/year</span>
-          </p>
+          </p> */}
           <p className="mt-6 text-base leading-7 text-content">
             A single yearly membership for a team.
           </p>
@@ -515,9 +515,10 @@ export default function Example(props) {
           </p>
           <p className="mt-6 text-base leading-7 text-content">
             This single purchase gives you access to everything on the site for
-            your team. Send their names and emails to me at{" "}
-            <a href="rockthejvm.com/contact">
-              and I will enroll your team instantly.
+            your team.{" "}
+            <a href="/contact">
+              Send their names and emails to me and I will enroll your team
+              instantly.
             </a>
           </p>
           <p className="mt-8 text-sm text-content-1">
