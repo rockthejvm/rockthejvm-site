@@ -21,4 +21,62 @@ pricingPlanId: 1769885
 
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
-<CourseLayout></CourseLayout>
+<CourseLayout>
+<Fragment slot="goal">
+### Hello, Event Sourcing.
+
+At this point, I won't need to pitch Akka to you - no more threads and locks, we use Actors instead, this model is used [all](https://www.lightbend.com/case-studies) [over](https://x.com/lightbend/status/1067393653356802048?lang=en) [the](https://www.linkedin.com/blog/engineering/product-design/now-you-see-me-now-you-dont-linkedins-real-time-presence-platf) [place](https://community.ibm.com/community/user/wasdevops/viewdocument/reactive-commerce-transformation-jo-1?CommunityKey=5c4ba155-561a-4794-9883-bb0c6164e14e&tab=librarydocuments) in highly distributed systems, etc. etc. The next logical phase of the model is: how can we really adopt the "let it crash" philosophy and still keep the system up to date and not lose in-memory state?
+
+Akka Persistence is the answer. This course is for the Scala & Akka developer who needs to make their system long-lived and fault-tolerant.
+
+</Fragment>
+<Fragment slot="skills">
+### After this course, you'll be able to:
+
+- use Event Sourcing, a new technique for storing data
+- use actors that never "truly" die
+- manage actor state recovery
+- use snapshots for speedy recovery
+- avoid the common pitfalls while working with persistent actors
+- integrate various storage systems with Akka, including Postgres and Cassandra
+- write your own custom data serialization
+- write robust architectures by detaching the business logic (domain) model from the data model
+- think long-term about your system events with Event Adapters
+- implement the CQRS pattern
+
+### Plus some extra perks:
+
+- You'll have access to the entire code I write on camera (all 1276 lines of it)
+- You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
+- (soon) You'll have access to the takeaway slides
+- (soon) You'll be able to download the videos for your offline view
+
+### Skills you'll get:
+
+- Use Event Sourcing, a new technique for storing data
+  - use Persistent Actors
+  - manage Persistent Actors state and recovery
+  - know the difference between a Command and an Event
+  - use various persisting techniques, including async persisting
+  - use snapshots for quick state recovery
+- Integrate production-ready stores
+  - local stores with LevelDB
+  - PostgreSQL
+  - Cassandra
+  - plus custom serialization techniques (advanced)
+- Use advanced patterns and best practices
+  - effectively decouple the domain model from the data model
+  - use Event Adapters for the long term
+  - implement the CQRS pattern with Akka Persistence Query
+- Avoid crucial mistakes which can break your system
+  - breaking actor encapsulation because of improper persisting
+  - journal failures
+  - recovery failures
+  - journal corruption
+  - losing snapshots
+  - messing up the event order
+
+all with live runnable examples and practiced with exercises.
+
+</Fragment>
+</CourseLayout>

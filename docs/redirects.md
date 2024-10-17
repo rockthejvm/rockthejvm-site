@@ -1,7 +1,9 @@
-all courses moved to /courses/...
+<!-- all courses moved to /courses/...
 scala-3-new-features -> scala-new-features
+
 https://blog.rockthejvm.com/feed.xml -> https://rockthejvm.com/feed.xml
-blog.rockthejvm.com/_ -> rockthejvm.com/blog/_
+
+blog.rockthejvm.com/_ -> rockthejvm.com/blog/_ -->
 
 <!-- articles -->
 

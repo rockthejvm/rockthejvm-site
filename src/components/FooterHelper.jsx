@@ -118,23 +118,6 @@ const navigation = {
 };
 
 export default function Example(props) {
-  const subscribe = async (email) => {
-    console.log("REQUEST");
-    const res = await fetch(
-      `https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&amp;id=2c292e211e&amp;f_id=003d27ebf0?EMAIL=${email}`,
-    );
-
-    console.log("RESPONSE");
-    console.log(res.ok);
-    console.log(await res.json());
-    return { body: await res.json(), sucessful: res.ok };
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await subscribe(event.target.email.value);
-  };
-
   return (
     <footer
       aria-labelledby="footer-heading"
@@ -325,7 +308,7 @@ export default function Example(props) {
               </a>
             </li>
           </ul>
-          <p className="text-s mt-8 leading-5 text-content md:order-1 md:mt-0">
+          <p className="mt-8 text-sm leading-5 text-content md:order-1 md:mt-0">
             <small>
               &copy; {site.founded}&ndash;{new Date().getFullYear()}{" "}
               {site.legalName}

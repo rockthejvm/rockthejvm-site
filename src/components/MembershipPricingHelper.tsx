@@ -3,8 +3,6 @@
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useCallback, useEffect, useState } from "react";
 
-const benefits = ["TODO", "TODO", "TODO", "TODO", "TODO", "TODO"];
-
 // const membershipTypes = [
 //   { value: "Individual", label: "Individual", priceSuffix: "/month" },
 //   { value: "Team", label: "Team Pack", priceSuffix: "/year" },
@@ -22,41 +20,35 @@ interface CallbackArgs {
   loadingFunc: React.Dispatch;
 }
 
-const plans = [
-  {
-    id: "5",
-    name: "5-Team",
-    price: 900,
-    url: "https://rockthejvm.com/purchase?product_id=4476809",
-  },
-  {
-    id: "10",
-    name: "10-Team",
-    price: 1800,
-    url: "https://rockthejvm.com/purchase?product_id=4476810",
-  },
-  {
-    id: "15",
-    name: "15-Team",
-    price: 2700,
-    url: "https://rockthejvm.com/purchase?product_id=3514316",
-  },
-];
+// const plans = [
+//   {
+//     id: "5",
+//     name: "5-Team",
+//     price: 900,
+//     url: "https://rockthejvm.com/purchase?product_id=4476809",
+//   },
+//   {
+//     id: "10",
+//     name: "10-Team",
+//     price: 1800,
+//     url: "https://rockthejvm.com/purchase?product_id=4476810",
+//   },
+//   {
+//     id: "15",
+//     name: "15-Team",
+//     price: 2700,
+//     url: "https://rockthejvm.com/purchase?product_id=3514316",
+//   },
+// ];
 
 export default function Example(props) {
   const [membership, setMembership] = useState(membershipTypes[0]);
-  const [teamPack, setTeamPack] = useState(plans[0]);
   const [monthlyPrice, setMonthlyPrice] = useState("Free");
   const [yearlyPrice, setYearlyPrice] = useState("Free");
   const [monthlyLoading, setMonthlyLoading] = useState(true);
   const [monthlyError, setMonthlyError] = useState<string | null>(null);
   const [yearlyLoading, setYearlyLoading] = useState(true);
   const [yearlyError, setYearlyError] = useState<string | null>(null);
-
-  const handleHandleTeamPackChange = (event) => {
-    console.log(event.target.value);
-    setTeamPack(event.target.value);
-  };
 
   const getCoursePrice = useCallback(async (args: CallbackArgs) => {
     // setLoading(true);
@@ -501,50 +493,52 @@ export default function Example(props) {
             </div>
           </div>
         </div>
-
-        <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
-          <h3
-            id="tier-hobby"
-            className="text-base font-semibold leading-7 text-accent-1"
-          >
-            Team Pack
-          </h3>
-          <p className="mt-4 flex items-baseline gap-x-2">
+        <div>
+          <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
+            <h3
+              id="tier-hobby"
+              className="text-base font-semibold leading-7 text-accent-1"
+            >
+              Team Pack
+            </h3>
+            {/* <p className="mt-4 flex items-baseline gap-x-2">
             <span className="text-5xl font-bold tracking-tight text-content">
               ${395}
             </span>
             <span className="text-base text-content">/year</span>
-          </p>
-          <p className="mt-6 text-base leading-7 text-content">
-            A single yearly membership for a team.
-          </p>
-          <p className="mt-6 text-base leading-7 text-content">
-            Easier bookkeeping for your company.
-          </p>
-          <p className="mt-6 text-base leading-7 text-content">
-            This single purchase gives you access to everything on the site for
-            your team. Send their names and emails to me at{" "}
-            <a href="rockthejvm.com/contact">
-              and I will enroll your team instantly.
-            </a>
-          </p>
-          <p className="mt-8 text-sm text-content-1">
-            This is a subscription product billed on a yearly basis until you
-            cancel. Cancel anytime from the account management page.
-          </p>
-          <a
-            href="/contact"
-            aria-describedby="tier-hobby"
-            className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-          >
-            Join Now
-          </a>
-          <small className="mt-16 text-sm text-content-1">
-            <i className="mt-8">
+          </p> */}
+            <p className="mt-6 text-base leading-7 text-content">
+              A single yearly membership for a team.
+            </p>
+            <p className="mt-6 text-base leading-7 text-content">
+              Easier bookkeeping for your company.
+            </p>
+            <p className="mt-6 text-base leading-7 text-content">
+              This single purchase gives you access to everything on the site
+              for your team.{" "}
+              <a href="/contact">
+                Send their names and emails to me and I will enroll your team
+                instantly.
+              </a>
+            </p>
+            <p className="mt-8 text-sm text-content-1">
               This is a subscription product billed on a yearly basis until you
               cancel. Cancel anytime from the account management page.
-            </i>
-          </small>
+            </p>
+            <a
+              href="/contact"
+              aria-describedby="tier-hobby"
+              className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+            >
+              Join Now
+            </a>
+            <small className="mt-16 text-sm text-content-1">
+              <i className="mt-8">
+                This is a subscription product billed on a yearly basis until
+                you cancel. Cancel anytime from the account management page.
+              </i>
+            </small>
+          </div>
         </div>
       </div>
     </div>

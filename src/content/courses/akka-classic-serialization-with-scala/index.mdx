@@ -19,4 +19,36 @@ pricingPlanId: 1769945
 
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
-<CourseLayout></CourseLayout>
+<CourseLayout>
+<Fragment slot="goal">
+### Crank up that speed.
+No need for me to pitch Akka to you at this point. If you've never used Akka or you're at the "I'm curious" phase, [start here](/courses/akka-apache-pekko-essentials-with-scala). Akka is used all over the place, BUT. But. To maintain such high-scale, high-performance systems, you need good tools. Turns out, the default way actor messages are sent, for both persistence, storage and clustering, the horrendous Java serialization is used, because it works for anything, but works badly for everything.
+
+If you want perf, you need either
+
+- Kryo
+- Avro
+- Protocol buffers
+- or your own message serialization
+
+This course will teach you exactly that.
+
+</Fragment>
+<Fragment slot="skills">
+### After this course, you'll be able to:
+
+- integrate Kryo serialization for blazing fast performance
+- integrate Avro serialization for type-safe, schema-based (and fast)
+- integrate Google's Protocol Buffers (Protobuf) for type-safety and schema evolution
+- write your own serializer for whatever your heart desires
+- configure EVERYTHING
+
+### Plus some extra perks:
+
+- You'll have access to the entire code I write on camera (all 726 lines of it)
+- You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
+- (soon) You'll have access to the takeaway slides
+- (soon) You'll be able to download the videos for your offline view
+
+</Fragment>
+</CourseLayout>

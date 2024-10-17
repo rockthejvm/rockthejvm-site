@@ -32,115 +32,115 @@ pricingPlanId: 5770038
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
 <CourseLayout>
-  <Fragment slot="goal">
-    ### Coroutines FTW.
+<Fragment slot="goal">
+### Coroutines FTW.
 
-    You probably know your way around Kotlin by now. Maybe you've deployed your JVM server written in Kotlin, maybe you've published your first Android app.
+You probably know your way around Kotlin by now. Maybe you've deployed your JVM server written in Kotlin, maybe you've published your first Android app.
 
-    After a few thousand lines of code, you probably realized you can write faster code, so you'd like to parallelize your tasks. Or maybe you want to understand how to run actions when a user clicks the "load more" button on your Android app.
+After a few thousand lines of code, you probably realized you can write faster code, so you'd like to parallelize your tasks. Or maybe you want to understand how to run actions when a user clicks the "load more" button on your Android app.
 
-    Most complex actions in your applications will involve some form of concurrency, and they will likely use **coroutines**. Few people can confidently work with such code, **but this course will show you how to master coroutines.**
+Most complex actions in your applications will involve some form of concurrency, and they will likely use **coroutines**. Few people can confidently work with such code, **but this course will show you how to master coroutines.**
 
-  </Fragment>
-  <Fragment slot="question">
-    ### Light Concurrency.
-    Coroutines are the Kotlin-specific way of managing concurrency.
+</Fragment>
+<Fragment slot="question">
+### Light Concurrency.
+Coroutines are the Kotlin-specific way of managing concurrency.
 
-    What's that?
+What's that?
 
-    Usually, multiple things run at the same time in your application. Maybe background tasks. Maybe while you wait for the database to give you data, you're handling HTTP requests. Maybe you're calculating some things in parallel and then you want to aggregate the results.
+Usually, multiple things run at the same time in your application. Maybe background tasks. Maybe while you wait for the database to give you data, you're handling HTTP requests. Maybe you're calculating some things in parallel and then you want to aggregate the results.
 
-    No matter the situation, we need to organize our computations and tasks in our app. This is concurrency.
+No matter the situation, we need to organize our computations and tasks in our app. This is concurrency.
 
-    The default way of managing concurrency on the JVM is threads. Long story short, they're terrible. No offense, threads, we love you all. It's just that the code is a pain to read, understand, debug, maintain, or (knock on wood) grow.
+The default way of managing concurrency on the JVM is threads. Long story short, they're terrible. No offense, threads, we love you all. It's just that the code is a pain to read, understand, debug, maintain, or (knock on wood) grow.
 
-    Coroutines fix that.
+Coroutines fix that.
 
-  </Fragment>
-  <Fragment slot="feature1">
-    ### Who is this course is for?
-    This course is for **Kotlin developers who need to work with concurrent code**. That's basically every Kotlin developer who wrote a few thousand lines of code.
+</Fragment>
+<Fragment slot="feature1">
+### Who is this course is for?
+This course is for **Kotlin developers who need to work with concurrent code**. That's basically every Kotlin developer who wrote a few thousand lines of code.
 
-    No matter the application type (server, mobile, web, libraries), you'll probably need to deal with concurrency:
+No matter the application type (server, mobile, web, libraries), you'll probably need to deal with concurrency:
 
-    - parallelizing computations and aggregating results
-    - updating the UI in your app while tasks are running
-    - synchronizing conflicting actions
-    - wait for data without blocking your CPU
-    - do something else while an operation takes time
+- parallelizing computations and aggregating results
+- updating the UI in your app while tasks are running
+- synchronizing conflicting actions
+- wait for data without blocking your CPU
+- do something else while an operation takes time
 
-    If so, you'll need to know how coroutines work and how to deal with them, and **this course is for you.**
+If so, you'll need to know how coroutines work and how to deal with them, and **this course is for you.**
 
-    If this is your first time writing Kotlin, you may want to try Kotlin Essentials instead.
+If this is your first time writing Kotlin, you may want to try Kotlin Essentials instead.
 
-    And yes, we write 2000 lines of code from scratch in the course. See attached.
+And yes, we write 2000 lines of code from scratch in the course. See attached.
 
-  </Fragment>
-  <Fragment slot="feature2">
-    ### Works on All Platforms.
-    Once you work with coroutines, you'll see them everywhere.
+</Fragment>
+<Fragment slot="feature2">
+### Works on All Platforms.
+Once you work with coroutines, you'll see them everywhere.
 
-    This is why this course does not focus on a specific platform, because **coroutines work on backend, frontend, Android, server, web, and everything that Kotlin compiles to.**
+This is why this course does not focus on a specific platform, because **coroutines work on backend, frontend, Android, server, web, and everything that Kotlin compiles to.**
 
-    You will learn skills in this course that you can transfer to any library, any platform, and any compilation target.
+You will learn skills in this course that you can transfer to any library, any platform, and any compilation target.
 
-    If you're looking specifically for something on Android, just about 100% of this course is relevant for you. Coroutines are at the core of any UI action that starts tasks, and we have some dedicated lessons on how to test coroutines, particularly useful for mobile and frontend developers.
+If you're looking specifically for something on Android, just about 100% of this course is relevant for you. Coroutines are at the core of any UI action that starts tasks, and we have some dedicated lessons on how to test coroutines, particularly useful for mobile and frontend developers.
 
-  </Fragment>
-  <Fragment slot="feature3">
-    ### 100% Hands-On
-    As with everything else on Rock the JVM, **code is king and we write it from scratch.**
+</Fragment>
+<Fragment slot="feature3">
+### 100% Hands-On
+As with everything else on Rock the JVM, **code is king and we write it from scratch.**
 
-    We have some minimal slides that will give you the basics, and we have them available in the course so that you can refer back to them as "flash cards" if you need.
+We have some minimal slides that will give you the basics, and we have them available in the course so that you can refer back to them as "flash cards" if you need.
 
-    However, the true learning comes from the **real-life examples and exercises**, and this course has plenty.
+However, the true learning comes from the **real-life examples and exercises**, and this course has plenty.
 
-    Besides exercises, we also have a **project: a mini-Akka framework.** You've probably heard about the Akka actor model. You'll get to see how you can write a completely different mental framework on top of coroutines.
+Besides exercises, we also have a **project: a mini-Akka framework.** You've probably heard about the Akka actor model. You'll get to see how you can write a completely different mental framework on top of coroutines.
 
-    More than the code, though, the entire purpose of this course is to **expand your mind.** You'll see different forms of concurrency, and you'll see what it's like to synchronize threads, or organize coroutines, or send messages to actors. This kind of experience is hard to put into words.
+More than the code, though, the entire purpose of this course is to **expand your mind.** You'll see different forms of concurrency, and you'll see what it's like to synchronize threads, or organize coroutines, or send messages to actors. This kind of experience is hard to put into words.
 
-  </Fragment>
-  <Fragment slot="skills">
-    ### After this course, you'll be able to:
+</Fragment>
+<Fragment slot="skills">
+### After this course, you'll be able to:
 
-    - understand parallelism and concurrency at a deep level
-    - understand and work with the JVM thread model
-    - read and write any code that uses coroutines
-    - test coroutines for your use-case
-    - implement different mental models on top of coroutines
+- understand parallelism and concurrency at a deep level
+- understand and work with the JVM thread model
+- read and write any code that uses coroutines
+- test coroutines for your use-case
+- implement different mental models on top of coroutines
 
-    ### You will learn:
+### You will learn:
 
-    - <p>Parallelism vs concurrency</p>
-    - <p>Threads on the JVM</p>
-      - <p>the Thread model</p>
-      - <p>Virtual Threads (project Loom)</p>
-      - <p>Thread synchronization</p>
-    - <p>Coroutines</p>
-      - <p>Suspending functions</p>
-      - <p>Coroutine builders</p>
-      - <p>Structured concurrency</p>
-      - <p>Cancellation</p>
-      - <p>Error handling</p>
-      - <p>Cooperative scheduling (vs preemptive scheduling)</p>
-      - <p>Configuring coroutine platforms</p>
-    - <p>Advanced coroutine tools</p>
-      - <p>Flows</p>
-      - <p>Channels</p>
-      - <p>Testing & manipulating time</p>
+- Parallelism vs concurrency
+- Threads on the JVM
+  - the Thread model
+  - Virtual Threads (project Loom)
+  - Thread synchronization
+- Coroutines
+  - Suspending functions
+  - Coroutine builders
+  - Structured concurrency
+  - Cancellation
+  - Error handling
+  - Cooperative scheduling (vs preemptive scheduling)
+  - Configuring coroutine platforms
+- Advanced coroutine tools
+  - Flows
+  - Channels
+  - Testing & manipulating time
 
-    and much more, all with live runnable examples and practiced with exercises.
+and much more, all with live runnable examples and practiced with exercises.
 
-    Plus some extra perks:
+Plus some extra perks:
 
-    - <p>You'll have access to the entire code I write on camera (2000 LOC)</p>
-    - <p>You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities</p>
-    - <p>You'll have access to the takeaway slides</p>
+- You'll have access to the entire code I write on camera (2000 LOC)
+- You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
+- You'll have access to the takeaway slides
 
-  </Fragment>
-  <Fragment slot="thanks">
-    <p><a href="https://www.linkedin.com/in/riccardocardin/">Riccardo Cardin</a>, one of the best Rock the JVM alumni, now a senior software engineer and an important contributor on the <a href="/articles">Rock the JVM blog</a>, focusing on high-performance systems in Scala, Kotlin and Java. Big thanks, Riccardo, for reviewing the code I prepared for this course.</p>
-    <p><a href="https://www.freepik.com/free-photo/3d-render-spotlights-grunge-brick-wall_1202914.htm">kjpargeter on Freepik</a> for the free background I used for photoshopping the banner of the course.</p>
+</Fragment>
+<Fragment slot="thanks">
+<p><a href="https://www.linkedin.com/in/riccardocardin/">Riccardo Cardin</a>, one of the best Rock the JVM alumni, now a senior software engineer and an important contributor on the <a href="/articles">Rock the JVM blog</a>, focusing on high-performance systems in Scala, Kotlin and Java. Big thanks, Riccardo, for reviewing the code I prepared for this course.</p>
+<p><a href="https://www.freepik.com/free-photo/3d-render-spotlights-grunge-brick-wall_1202914.htm">kjpargeter on Freepik</a> for the free background I used for photoshopping the banner of the course.</p>
 
-  </Fragment>
+</Fragment>
 </CourseLayout>

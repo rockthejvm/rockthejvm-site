@@ -13,5 +13,9 @@ const { color, courseSlug, pricingPlanId } = Astro.props;
 ---
 
 <Section {color} title="What's Included">
-  <CourseCurriculumHelper {pricingPlanId} {courseSlug} client:load />
+  <CourseCurriculumHelper
+    {pricingPlanId}
+    {courseSlug}
+    client:visible={{ rootMargin: "2160px" }}
+  />
 </Section>

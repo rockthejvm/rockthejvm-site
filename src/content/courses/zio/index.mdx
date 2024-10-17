@@ -25,80 +25,79 @@ features:
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
 <CourseLayout>
-  <Fragment slot="goal">
-    - Become a productive Scala engineer.
-    - Develop high-performance applications.
-    - Write pure functional programming.
-    - Design composable, testable software.
-    - Grow as an engineer in this ultimate guide to ZIO 2.0.
-  </Fragment>
+<Fragment slot="goal">
+- Become a productive Scala engineer.
+- Develop high-performance applications.
+- Write pure functional programming.
+- Design composable, testable software.
+- Grow as an engineer in this ultimate guide to ZIO 2.0.
+</Fragment>
+<Fragment slot="question">
+ZIO is a Scala toolkit that allows us to write powerful, concurrent, and high-performance applications in Scala using pure functional programming.
 
-  <Fragment slot="question">
-    ZIO is a Scala toolkit that allows us to write powerful, concurrent, and high-performance applications in Scala using pure functional programming.
+Zay What?!
 
-    Zay What?!
+ZIO describes what it means to perform an "effect" in your code. It is a powerful model that allows us to compose any kind of actions, deal with parallelism, concurrency and coordination, all strongly typed with Scala's unparalleled type system.
 
-    ZIO describes what it means to perform an "effect" in your code. It is a powerful model that allows us to compose any kind of actions, deal with parallelism, concurrency and coordination, all strongly typed with Scala's unparalleled type system.
+On top of the main ZIO "effect" type, the ZIO library comes with powerful tools built on battle-tested practices and design patterns, so we can write more easily composable code.
 
-    On top of the main ZIO "effect" type, the ZIO library comes with powerful tools built on battle-tested practices and design patterns, so we can write more easily composable code.
+**The end result is powerful applications, fewer bugs, more expressive and easily understandable code, and most importantly, more peace of mind and productivity for us as Scala developers.**
 
-    **The end result is powerful applications, fewer bugs, more expressive and easily understandable code, and most importantly, more peace of mind and productivity for us as Scala developers.**
+**This is what you'll learn in this course.**
 
-    **This is what you'll learn in this course.**
+</Fragment>
+<Fragment slot="feature1">
+### How this ZIO course works
 
-  </Fragment>
-  <Fragment slot="feature1">
-    ### How this ZIO course works
+ZIO is pragmatic and so are we.
 
-    ZIO is pragmatic and so are we.
+As with anything at Rock the JVM, this course is **hands-on**. We start from first principles and don't assume any ZIO experience. We discover ZIO effects and how to use them, then we'll learn how to compose complex code, how to introduce parallelism and concurrency to our applications, how to run critical code flows safely and how to test everything, all through **practical examples and exercises**. In total, we write more than **3000 lines of code** in this 13-hour course.
 
-    As with anything at Rock the JVM, this course is **hands-on**. We start from first principles and don't assume any ZIO experience. We discover ZIO effects and how to use them, then we'll learn how to compose complex code, how to introduce parallelism and concurrency to our applications, how to run critical code flows safely and how to test everything, all through **practical examples and exercises**. In total, we write more than **3000 lines of code** in this 13-hour course.
+It's not just about the ZIO APIs, though - **this course will teach you timeless principles** for pure functional programming and high-performance applications so that you can take them with you even if you stop using ZIO (or Scala).
 
-    It's not just about the ZIO APIs, though - **this course will teach you timeless principles** for pure functional programming and high-performance applications so that you can take them with you even if you stop using ZIO (or Scala).
+This course deconstructs and sequences all the important topics in ZIO. You don't need any other resource once you start. Just sit back and do the work with me on camera.
 
-    This course deconstructs and sequences all the important topics in ZIO. You don't need any other resource once you start. Just sit back and do the work with me on camera.
+In this ZIO course, we go from practice to theory, until pure functional programming gets deep in your bones as a Scala developer.
 
-    In this ZIO course, we go from practice to theory, until pure functional programming gets deep in your bones as a Scala developer.
+**You can write both Scala 3 and Scala 2 in this course, as we support both.**
 
-    **You can write both Scala 3 and Scala 2 in this course, as we support both.**
+</Fragment>
+<Fragment slot="skills">
+### This ZIO course is for experienced Scala developers
+**I'll be upfront: some aspects of ZIO can be difficult, and this course is for advanced developers.**
 
-  </Fragment>
-  <Fragment slot="skills">
-    ### This ZIO course is for experienced Scala developers
-    **I'll be upfront: some aspects of ZIO can be difficult, and this course is for advanced developers.**
+- You need some solid CS fundamentals: memory, threads, parallelism, maybe some design patterns. These foundations are useful to understand the underlying ZIO machinery.
+- You should be very comfortable with Scala as a language, at the level of the advanced course.
 
-    - <p>You need some solid CS fundamentals: memory, threads, parallelism, maybe some design patterns. These foundations are useful to understand the underlying ZIO machinery.</p>
-    - <p>You should be very comfortable with Scala as a language, at the level of the advanced course.</p>
+Even if you're experienced, learning ZIO on your own can take months. This course took almost a year to create, but **you can learn everything in a weekend.**
 
-    Even if you're experienced, learning ZIO on your own can take months. This course took almost a year to create, but **you can learn everything in a weekend.**
+### Skills you'll get:
 
-    ### Skills you'll get:
+**This course will give you everything you need to be productive with ZIO:**
 
-    **This course will give you everything you need to be productive with ZIO:**
+- You'll make the difference between pure/impure FP and you'll know what "effects" are
+- You'll know how to build applications and composable programs with the ZIO effect
+- You'll be able write parallel and concurrent code with ZIOs, Fibers and the tools on top of them
+- You'll be able to manage pinpoint program control, with careful interruption mechanisms
+- You'll be able to write concurrent, purely functional programs with coordination primitives
+- You'll be able to design your own concurrency tools based on the built-in ones from ZIO
+- You'll manage resources in a purely functional way with the acquire-release pattern
+- You'll be able to write asynchronous code and compose synchronous and asychronous effects seamlessly in the same code
+- You'll use battle-tested practices for dependency injection and separation of concerns
+- You'll be able to test everything with powerful tools including property-based testing
 
-    - <p>You'll make the difference between pure/impure FP and you'll know what "effects" are</p>
-    - <p>You'll know how to build applications and composable programs with the ZIO effect</p>
-    - <p>You'll be able write parallel and concurrent code with ZIOs, Fibers and the tools on top of them</p>
-    - <p>You'll be able to manage pinpoint program control, with careful interruption mechanisms</p>
-    - <p>You'll be able to write concurrent, purely functional programs with coordination primitives</p>
-    - <p>You'll be able to design your own concurrency tools based on the built-in ones from ZIO</p>
-    - <p>You'll manage resources in a purely functional way with the acquire-release pattern</p>
-    - <p>You'll be able to write asynchronous code and compose synchronous and asychronous effects seamlessly in the same code</p>
-    - <p>You'll use battle-tested practices for dependency injection and separation of concerns</p>
-    - <p>You'll be able to test everything with powerful tools including property-based testing</p>
+**After this course, you'll know everything you need to work with ZIO in your project.**
 
-    **After this course, you'll know everything you need to work with ZIO in your project.**
+**Most importantly, you'll get timeless skills that you'll carry with you forever, regardless of which language or tool you'll end up using:**
 
-    **Most importantly, you'll get timeless skills that you'll carry with you forever, regardless of which language or tool you'll end up using:**
+- You'll deeply understand the practical benefits of pure functional programming in day-to-day projects
+- You'll get a new perspective on what it means to write composable code
+- You'll internalize language and framework-agnostic ideas about code organization, design patterns, programs-as-values and more
+- You'll become more productive and happier as a developer
 
-    - <p>You'll deeply understand the practical benefits of pure functional programming in day-to-day projects</p>
-    - <p>You'll get a new perspective on what it means to write composable code</p>
-    - <p>You'll internalize language and framework-agnostic ideas about code organization, design patterns, programs-as-values and more</p>
-    - <p>You'll become more productive and happier as a developer</p>
+</Fragment>
+<Fragment slot="thanks">
+<p><a href="https://www.freepik.com">Freepik</a> for the free background I used for photoshopping the banner of the course.</p>
 
-  </Fragment>
-    <Fragment slot="thanks">
-    <p><a href="https://www.freepik.com">Freepik</a> for the free background I used for photoshopping the banner of the course.</p>
-
-  </Fragment>
+</Fragment>
 </CourseLayout>

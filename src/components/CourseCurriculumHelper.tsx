@@ -34,7 +34,6 @@ export default function Example(props) {
     position: number;
     file_size?: number;
     file_extension?: string;
-    quiz?: any;
   }
 
   interface Lecture {
@@ -121,10 +120,10 @@ export default function Example(props) {
 
     const { pricing_plan: pricingPlan }: { pricing_plan: PricingPlan } =
       await pricingPlanResponse.json();
-    const { price, course_id: courseId } = pricingPlan;
+    const { course_id: courseId } = pricingPlan;
     const courseResponse = await getCourse(courseId, apiKey);
     const { course }: { course: Course } = await courseResponse.json();
-    const { name, heading, lecture_sections: lectureSections } = course;
+    const { lecture_sections: lectureSections } = course;
     const updatedLectureSections = await Promise.all(
       lectureSections
         .filter((lectureSection) => lectureSection.is_published)

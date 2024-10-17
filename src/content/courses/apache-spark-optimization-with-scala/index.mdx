@@ -19,65 +19,65 @@ pricingPlanId: 3428819
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
 <CourseLayout>
-  <Fragment slot="goal">
-    ### Why the $&*(# is my Spark job running so slow?
+<Fragment slot="goal">
+### Why the $&*(# is my Spark job running so slow?
 
-    I've had my fair share of pain with Spark, and if you're reading this, you've probably seen this too: you run a 4-line job on a gig of data, with two innocent joins, and it takes a bloody hour to run. Or another one: you have an hour long job which was progressing smoothly, until the task 1149/1150 where it hangs, and after two more hours you decide to kill it because you don't know if it's you or a bug in Spark. Usually, PIBKAC - problem is between keyboard and chair - but in desperation, the only idea you have is turn it off and on again.
+I've had my fair share of pain with Spark, and if you're reading this, you've probably seen this too: you run a 4-line job on a gig of data, with two innocent joins, and it takes a bloody hour to run. Or another one: you have an hour long job which was progressing smoothly, until the task 1149/1150 where it hangs, and after two more hours you decide to kill it because you don't know if it's you or a bug in Spark. Usually, PIBKAC - problem is between keyboard and chair - but in desperation, the only idea you have is turn it off and on again.
 
-    Then you go like, "hm, maybe my Spark cluster is too small, let me bump some CPU and mem". Then... same thing. Amazon's probably laughing now and you're paying for it. So this **has to be** the million dollar question.
+Then you go like, "hm, maybe my Spark cluster is too small, let me bump some CPU and mem". Then... same thing. Amazon's probably laughing now and you're paying for it. So this **has to be** the million dollar question.
 
-    **This is the only course on the web where you can learn how to optimize Spark jobs and master Spark optimization techniques. With the strategies you learn in this Spark optimization course you will save yourself time, headaches and money.**
+**This is the only course on the web where you can learn how to optimize Spark jobs and master Spark optimization techniques. With the strategies you learn in this Spark optimization course you will save yourself time, headaches and money.**
 
-    ### Let's improve that Spark performance.
+### Let's improve that Spark performance.
 
-    In this Spark optimization course, we cut the weeds at the root. We dive deep into Spark performance optimization and you will learn how it works under the hood. We'll see that we have incredible leverage, IF we write intelligent code, and you will do exactly that. **You will learn 20+ Spark optimization techniques and strategies. Each of them individually can give at least a 2x perf boost for your jobs (some of them even 10x), and I show it on camera.**
+In this Spark optimization course, we cut the weeds at the root. We dive deep into Spark performance optimization and you will learn how it works under the hood. We'll see that we have incredible leverage, IF we write intelligent code, and you will do exactly that. **You will learn 20+ Spark optimization techniques and strategies. Each of them individually can give at least a 2x perf boost for your jobs (some of them even 10x), and I show it on camera.**
 
-  </Fragment>
-  <Fragment slot="skills">
-    ### What you'll learn:
+</Fragment>
+<Fragment slot="skills">
+### What you'll learn:
 
-    - <p>You'll understand Spark internals and how Spark works behind the scenes</p>
-    - <p>You'll be able to predict in advance if a job will take a long time</p>
-    - <p>You'll diagnose performance problems in the Spark UI</p>
-    - <p>You'll write smart joins with no shuffles</p>
-    - <p>You'll organize your data intelligently so expensive operations are no longer a problem</p>
-    - <p>You'll use RDD capabilities for bespoke, high-performance jobs</p>
-    - <p>You'll leverage the JVM for high-performance Spark jobs</p>
-    - <p>You'll save hours of computation time in this course alone (let alone in prod!)</p>
+- You'll understand Spark internals and how Spark works behind the scenes
+- You'll be able to predict in advance if a job will take a long time
+- You'll diagnose performance problems in the Spark UI
+- You'll write smart joins with no shuffles
+- You'll organize your data intelligently so expensive operations are no longer a problem
+- You'll use RDD capabilities for bespoke, high-performance jobs
+- You'll leverage the JVM for high-performance Spark jobs
+- You'll save hours of computation time in this course alone (let alone in prod!)
 
-    ### Plus some extra perks:
+### Plus some extra perks:
 
-    - <p>You'll have access to the entire code I write on camera (~1400 LOC)</p>
-    - <p>You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities</p>
-    - <p>(soon) You'll have access to the takeaway slides</p>
-    - <p>(soon) You'll be able to download the videos for your offline view</p>
+- You'll have access to the entire code I write on camera (~1400 LOC)
+- You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities
+- (soon) You'll have access to the takeaway slides
+- (soon) You'll be able to download the videos for your offline view
 
-    ### Skills you'll get:
+### Skills you'll get:
 
-    - <p>Deep understanding of Spark internals so you can predict job performance</p>
-      - <p>stage & task decomposition</p>
-      - <p>reading query plans before jobs will run</p>
-      - <p>reading DAGs while jobs are running</p>
-      - <p>performance differences between the different Spark APIs</p>
-      - <p>packaging and deploying a Spark app</p>
-      - <p>configuring Spark in 3 different ways</p>
-    - <p>DataFrame and Spark SQL Optimizations</p>
-      - <p>understanding join mechanics and why they are expensive</p>
-      - <p>writing broadcast joins, or what to do when you join a large and a small DataFrame</p>
-      - <p>write pre-join optimizations: column pruning, pre-partitioning</p>
-      - <p>bucketing for fast access</p>
-      - <p>fixing data skews, "straggling" tasks and OOMs</p>
-    - <p>Optimizing RDDs</p>
-      - <p>using broadcast joins "manually"</p>
-      - <p>cogrouping RDDs in multi-way joins</p>
-      - <p>fixing data skews</p>
-      - <p>writing optimizations that Spark doesn't generate for us</p>
-    - <p>Optimizing key-value RDDs, as most useful transformations need them</p>
-      - <p>using the different _byKey methods intelligently</p>
-      - <p>reusing JVM objects for when performance is critical and even a few seconds count</p>
-      - <p>using the powerful iterator-to-iterator pattern for arbitrary efficient processing</p>
+- Deep understanding of Spark internals so you can predict job performance
+  - stage & task decomposition
+  - reading query plans before jobs will run
+  - reading DAGs while jobs are running
+  - performance differences between the different Spark APIs
+  - packaging and deploying a Spark app
+  - configuring Spark in 3 different ways
+- DataFrame and Spark SQL Optimizations
+  - understanding join mechanics and why they are expensive
+  - writing broadcast joins, or what to do when you join a large and a small DataFrame
+  - write pre-join optimizations: column pruning, pre-partitioning
+  - bucketing for fast access
+  - fixing data skews, "straggling" tasks and OOMs
+- Optimizing RDDs
+  - using broadcast joins "manually"
+  - cogrouping RDDs in multi-way joins
+  - fixing data skews
+  - writing optimizations that Spark doesn't generate for us
+- Optimizing key-value RDDs, as most useful transformations need them
+  - using the different \_byKey methods intelligently
+  - reusing JVM objects for when performance is critical and even a few seconds count
+  - using the powerful iterator-to-iterator pattern for arbitrary efficient processing
 
-    **This course is for Scala and Spark programmers who need to improve the run time of their jobs. If you've never done Scala or Spark, this course is not for you.**
+**This course is for Scala and Spark programmers who need to improve the run time of their jobs. If you've never done Scala or Spark, this course is not for you.**
 
-  </Fragment>
+</Fragment>
 </CourseLayout>

@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Articles from "./_components/Articles.astro";
 
-export async function getStaticPaths({ paginate }: any) {
+export async function getStaticPaths({ paginate }) {
   const articles = (await getCollection("articles")).sort((a, b) =>
     b.data.publishedDate.getTime() <= a.data.publishedDate.getTime() ? -1 : 1,
   );
