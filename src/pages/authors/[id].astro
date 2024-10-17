@@ -25,26 +25,13 @@ const title = `Articles written by '${author.data.name}'`;
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Colorado Springs",
-    addressRegion: "CO",
-    postalCode: "80840",
-    streetAddress: "100 Main Street",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: author.data.name,
+    identifier: author.id,
+    image: author.data.photo.src,
   },
-  colleague: [
-    "http://www.example.com/JohnColleague.html",
-    "http://www.example.com/JameColleague.html",
-  ],
-  email: "info@example.com",
-  image: "janedoe.jpg",
-  jobTitle: "Research Assistant",
-  name: author.data.name,
-  location: author.data.location,
-  // "gender": "female",
-  // "url": author.data.socials ? author.data.socials.website : "",
-  // "sameAs" : author.data.socials ? [author.data.socials.] : "";
 };
 ---
 

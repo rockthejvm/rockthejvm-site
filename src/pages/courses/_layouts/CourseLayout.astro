@@ -49,6 +49,7 @@ const {
   faqs,
   features,
   heroImage,
+  isFree,
   pricingPlanId,
   question,
   technologies,
@@ -56,20 +57,42 @@ const {
   videoId,
 } = _frontmatter;
 
-const structuredData = JSON.stringify({
+const structuredData = {
   "@context": "https://schema.org",
   "@type": "Course",
   name: title,
   description: description,
+  // datePublished:
+  image: heroImage,
   provider: {
     "@type": "Organization",
     name: "Rock the JVM",
-    sameAs: "https://rockthejvm.com/",
+    url: "https://rockthejvm.com/",
   },
-});
+  isAccessibleForFree: isFree,
+  hasCourseInstance: [
+    {
+      "@type": "CourseInstance",
+      courseMode: "Online",
+      courseWorkload: `PT${benefits.hours}H`,
+      instructor: [
+        {
+          "@type": "Person",
+          name: "Kai S.",
+          description: "Professor at X-University",
+          image: "http://examplePerson.jpg",
+        },
+      ],
+    },
+  ],
+};
 ---
 
-<BaseLayout {description} {title} {structuredData}>
+<BaseLayout
+  {description}
+  {title}
+  structuredData={JSON.stringify(structuredData)}
+>
   <article>
     <Hero {description} image={heroImage} {pricingPlanId} {title} />
     {
