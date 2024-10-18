@@ -1,6 +1,6 @@
 "use client";
 
-import { Field, Label, Switch } from "@headlessui/react";
+import { Field, Switch } from "@headlessui/react";
 import { useState } from "react";
 
 // const handleSubmit = async (event) => {
@@ -140,13 +140,10 @@ export default function Example() {
                 />
               </Switch>
             </div>
-            <Label className="text-sm leading-6 text-content">
+            <div className="text-sm leading-6 text-content">
               By selecting this, you agree to our{" "}
-              <a href="/legal/privacy" className="font-semibold text-accent-1">
-                privacy&nbsp;policy
-              </a>
-              .
-            </Label>
+              <a href="/legal/privacy">privacy policy</a>.
+            </div>
           </Field>
         </div>
         <div className="mt-10">
