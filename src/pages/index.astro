@@ -20,7 +20,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   isHomePage={true}
   title="Home"
 >
-  <BackgroundGradient />
+  <div class="display-gradient">
+    <BackgroundGradient />
+  </div>
   <NarrowContainer>
     <CardList class="text-white">
       <Hero slot="one" />
