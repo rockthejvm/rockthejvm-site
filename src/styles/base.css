@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  .card-shadow {
-    @apply shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)];
-  }
-
   :root[data-theme="light"] {
     color-scheme: light;
 
@@ -26,11 +22,14 @@
     --color-primary: 221deg 90% 74%;
     /* --color-secondary: 360 0% 94%; */
     --color-secondary: 0deg 100% 98%;
-
     --color-base: 360deg 100% 100%;
     --color-shadow: 360deg 100% 0%;
     --color-cta: 270deg 85% 70%;
     --color-tag: 226deg 100% 94%;
+
+    .card-shadow {
+      @apply shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)];
+    }
 
     .card-shadow-color {
       @apply shadow-opposite/40;
@@ -109,12 +108,16 @@
     --color-secondary: 221deg 70% 30%;
 
     --color-base: 360deg 100% 0%;
-    --color-shadow: 360deg 100% 100%;
+    --color-shadow: 0deg 100% 98%;
     --color-cta: 221deg 90% 50%;
     --color-tag: 226deg 100% 94%;
 
     .card-shadow-color {
       @apply shadow-opposite/20;
+    }
+
+    .card-shadow {
+      @apply shadow-[0px_4px_50px_0px_#2d3748];
     }
 
     .astro-code,
