@@ -198,7 +198,10 @@ export default function Example(props) {
         <ul role="list" className="mx-auto divide-y divide-gray-100">
           <li className="flex justify-between gap-x-6 py-5">
             <div className="w-full">
-              <div className="mb-4 min-w-0 flex-auto bg-secondary pl-4">
+              <div
+                className="mb-4 min-w-0 flex-auto pl-4"
+                style={{ background: props.color }}
+              >
                 <h3 className="py-4 pl-4">{section.name}</h3>
               </div>
               <div>
@@ -210,7 +213,8 @@ export default function Example(props) {
                       </div>
                       <a
                         href={`https://rockthejvm.com/courses/${props.courseSlug}/lectures/${lecture.id}`}
-                        className="rounded-md bg-secondary px-3.5 py-2.5 text-sm font-semibold text-gray-100 shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        style={{ background: props.color }}
+                        className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         Start
                       </a>

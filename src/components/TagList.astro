@@ -12,7 +12,7 @@ const { tags } = Astro.props;
   {
     tags.map((tag) => (
       <a href={`/tags/${tag.id}`} class="hover:no-underline">
-        <span class="mr-2 mt-2 inline-flex items-center rounded-md bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700">
+        <span class="mr-2 mt-2 inline-flex items-center rounded-md bg-tag px-2 py-1 text-xs font-medium text-indigo-700">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
