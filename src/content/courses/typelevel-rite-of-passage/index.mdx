@@ -31,10 +31,9 @@ question:
   image: images/question.png
   text: What is Typelevel?
 features:
-  one: images/feature-1.webp
-  two: images/feature-2.png
-  three: images/feature-3.png
-  four: images/feature-4.png
+  one: images/feature-2.png
+  two: images/feature-3.png
+  three: images/feature-4.png
 technologies:
   - title: Cats
     description: The functional programming library for Scala. We will use it to make our code modular, expressed in terms of capabilities.
@@ -58,6 +57,8 @@ technologies:
 
 import { YouTube } from "astro-embed";
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
+import { Image } from "astro:assets";
+import Speedrun from "./images/feature-1.webp";
 
 <CourseLayout>
 <Fragment slot="goal">
@@ -82,8 +83,12 @@ The foundation for Typelevel is pure functional programming and Scala's unmatche
 **We will use all major Typelevel tools and libraries in this course.**
 
 </Fragment>
-<Fragment slot="feature1">
+<Fragment slot="verticalSection">
+
+<Image src={Speedrun} alt="Course Speedrun" />
+
 ### What will you build?
+
 Together we will build the [Rock the JVM Jobs Board](https://jobs.rockthejvm.com/), a full stack online jobs platform with **credit card integration.** Users can create and **manage their account, post and view jobs,** and **apply** for them.
 
 We will build the application from scratch, using a decoupled layered architecture on the backend, and an **Elm-like** architecture on the frontend with **ScalaJS.**
@@ -95,7 +100,7 @@ The frontend is built as a **single-page application,** organized for for scalab
 For a full list of topics covered, see below.
 
 </Fragment>
-<Fragment slot="feature2">
+<Fragment slot="feature1">
 ### "Real-Life" means Real-LIVE
 I want to put my code where my mouth is.
 
@@ -112,7 +117,7 @@ And before you ask: yes, I'll teach you to do EVERYTHING from an empty dir to de
 This isn't even a "project-based" course. You will learn to build a **full-blown product** that people can use and pay for. You can build your startup with what you learn in this course.
 
 </Fragment>
-<Fragment slot="feature3">
+<Fragment slot="feature2">
 ### Who Is This Course For?
 Scala developers who want to expand their Scala skills with a full-blown product as a full-stack application.
 
@@ -134,7 +139,7 @@ Not sure if it's for you? 100% money back if it's not a fit for you 💰
 In any case, don't be scared. We'll build something great together.
 
 </Fragment>
-<Fragment slot="feature4">
+<Fragment slot="feature3">
 ### 100% Practical
 
 This course is long so we waste no time. This screenshot shows you what you'll write.
