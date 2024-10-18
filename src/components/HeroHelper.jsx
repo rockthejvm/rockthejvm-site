@@ -3,7 +3,7 @@ import site from "../data/site.json";
 export default function Example(props) {
   return (
     <div className="min-h-[92vh] pb-40 pt-20">
-      <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+      <div className="hidden md:mb-8 md:flex md:justify-center">
         <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20">
           Check out our new{" "}
           <a

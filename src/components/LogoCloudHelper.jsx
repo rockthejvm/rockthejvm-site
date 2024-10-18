@@ -1,6 +1,6 @@
 export default function Example(props) {
   return (
-    <article className="rounded-3xl bg-secondary pb-24 pt-12">
+    <article className="card-shadow-color card-shadow rounded-3xl bg-secondary pb-24 pt-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h3 className="text-center text-2xl font-semibold leading-8 text-content">
           I've taught Scala, Kotlin, Akka, Spark and more in live trainings at
