@@ -40,7 +40,7 @@ export default function Example() {
   const [agreed, setAgreed] = useState(false);
 
   return (
-    <div className="isolate my-16 rounded-3xl bg-secondary px-6 py-8 sm:py-12 lg:mx-32">
+    <div className="card-shadow-color card-shadow isolate my-16 rounded-3xl bg-secondary px-6 py-8 sm:py-12 lg:mx-32">
       <div className="mx-auto max-w-xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-content sm:text-4xl">
           Need a course or training session?

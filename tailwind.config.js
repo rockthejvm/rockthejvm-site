@@ -30,6 +30,7 @@ export default {
         basecolor: "hsl(var(--color-base) / <alpha-value>)",
         opposite: "hsl(var(--color-shadow) / <alpha-value>)",
         cta: "hsl(var(--color-cta) / <alpha-value>)",
+        tag: "hsl(var(--color-tag) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
