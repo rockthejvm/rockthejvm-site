@@ -1,4 +1,5 @@
 ---
+import Prose from "@components/Prose.astro";
 import Section from "@components/Section.astro";
 import Feature from "@pages/courses/_components/Feature.astro";
 import type { CollectionEntry } from "astro:content";
@@ -12,6 +13,9 @@ const { color, features } = Astro.props;
 ---
 
 <Section {color} title="How This Course Works">
+  <Prose class="mx-auto max-w-6xl">
+    <slot name="verticalSection" />
+  </Prose>
   <Feature image={features.one} imagePosition="right">
     <slot name="feature1" />
   </Feature>
