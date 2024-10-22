@@ -31,9 +31,9 @@ question:
   image: images/question.png
   text: What is Typelevel?
 features:
-  one: images/feature-2.png
-  two: images/feature-3.png
-  three: images/feature-4.png
+  one: images/feature-1.png
+  two: images/feature-2.png
+  three: images/feature-3.png
 technologies:
   - title: Cats
     description: The functional programming library for Scala. We will use it to make our code modular, expressed in terms of capabilities.
@@ -58,7 +58,7 @@ technologies:
 import { YouTube } from "astro-embed";
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 import { Image } from "astro:assets";
-import Speedrun from "./images/feature-1.webp";
+import AutoPlayYouTube from "@components/AutoPlayYouTube.astro";
 
 <CourseLayout>
 <Fragment slot="goal">
@@ -85,7 +85,7 @@ The foundation for Typelevel is pure functional programming and Scala's unmatche
 </Fragment>
 <Fragment slot="verticalSection">
 
-<Image src={Speedrun} alt="Course Speedrun" />
+<AutoPlayYouTube videoId="D83MaZYUsik" />
 
 ### What will you build?
 
@@ -100,6 +100,7 @@ The frontend is built as a **single-page application,** organized for for scalab
 For a full list of topics covered, see below.
 
 </Fragment>
+
 <Fragment slot="feature1">
 ### "Real-Life" means Real-LIVE
 I want to put my code where my mouth is.
