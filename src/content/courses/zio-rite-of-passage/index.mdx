@@ -33,6 +33,7 @@ extra:
 
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 import { YouTube } from "astro-embed";
+import AutoPlayYouTube from "@components/AutoPlayYouTube.astro";
 
 <CourseLayout>
 <Fragment slot="video">
@@ -48,7 +49,7 @@ Just as Scala has transformed the way we build applications with functional prog
 
 With a focus on functional Scala and a real world application, this course is a start-to-finish way to learn Full Stack Scala 3 with ZIO, Laminar and friends.
 
-<YouTube id="oXKHwJWdWrc" title="Zio Speedrun" />
+<AutoPlayYouTube videoId="oXKHwJWdWrc" />
 
 </Fragment>
 <Fragment slot="extra">
