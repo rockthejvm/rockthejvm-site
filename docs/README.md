@@ -20,12 +20,12 @@ All articles are in the `_posts` directory. To add a new article, create a new f
 
 All files are Markdown, with a header that looks like below (example from one of the articles). Just copy everything and change the title, tags and excerpt
 
-```
+```yaml
 ---
 title: "Akka Typed: Actor Discovery"
 date: 2022-03-22
 header:
-    image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
+  image: "https://res.cloudinary.com/dkoypjlgr/image/upload/f_auto,q_auto:good,c_auto,w_1200,h_300,g_auto,fl_progressive/v1715952116/blog_cover_large_phe6ch.jpg"
 tags: [akka]
 excerpt: "A common pattern in Akka Typed: how to find actors that are not explicitly passed around."
 ---
@@ -35,28 +35,31 @@ This is the "front matter" of each article, and the fields are automatically par
 
 Under the front matter, the structure of an article should look like this:
 
-```
+```md
 # The title of my awesome article
 
 Some prologue of what we're going to talk about in the article.
 
-## 1. First topic
+## First topic
 
 In this first topic we're going to talk about the first topic.
 
-### 1.1. Subtopic if necessary
-### 1.2. Subtopic if necessary
+### Subtopic if necessary
 
-## 2. Second topic
-## 3. Third topic
-## n. Conclusion
+### Subtopic if necessary
+
+## Second topic
+
+## Third topic
+
+## Conclusion
 ```
 
 For **images**, they sit in the `images/` directory, and you can reference them in Markdown as `![Alt text](../images/myimage.png "Caption")`.
 
 To embed **YouTube videos**, include a line of this form:
 
-```
+```jsx
 {% include video id="MY_VIDEO_ID" provider="youtube" %}
 ```
 

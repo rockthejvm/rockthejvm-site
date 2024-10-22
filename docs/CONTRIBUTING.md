@@ -26,7 +26,7 @@ You need two things:
 
 Here's an example of a YAML file of a long-time contributor on the blog:
 
-```
+```yaml
 biography: A proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin.
 location:
   city: Padua
@@ -44,13 +44,13 @@ socials:
 
 ### Location and Boilerplate
 
-All articles are in the `src/content/articles` directory. To add a new article, create a new file with the name `title-of-the-article.mdx`. The `title-of-the-article` will be the **slug** that gets appended after the base path, in the style "https://rockthejvm.com/blog/title-of-the-article".
+All articles are in the `src/content/articles` directory. To add a new article, create a new file with the name `title-of-the-article.mdx`. The `title-of-the-article` will be the **slug** that gets appended after the base path, in the style `https://rockthejvm.com/blog/title-of-the-article`.
 
 All files are in [MDX](https://mdxjs.com/) - a Markdown dialect with the ability to inject JSX components. This allows us to add interactive elements on articles, if necessary.
 
 Each article has a front-matter header that looks like below (example from one of the articles).
 
-```
+```yaml
 ---
 category: guide
 title: Comparing Akka Streams, Kafka Streams and Spark Streaming
@@ -86,7 +86,7 @@ First, add 1-2 sentences describing what the article is about, what we're going 
 
 Then add sections in the article, starting with H2s, i.e. `##` in Markdown.
 
-```
+```md
 ## First topic
 
 In this first topic we're going to talk about the first topic.
@@ -100,8 +100,11 @@ Here, we're going to write in detail about a part of the first topic.
 Very rarely we will need to explore a certain part in detail.
 
 ## Second topic
+
 ## Third topic
+
 ...
+
 ## Conclusion
 ```
 
@@ -109,7 +112,7 @@ For **images**, they sit in the `images/` directory, and you can reference them 
 
 To embed **YouTube videos**, include a line of this form in the front-matter:
 
-```
+```yaml
 videoId: 1uP6FTUn8_E
 ```
 
