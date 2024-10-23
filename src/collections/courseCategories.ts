@@ -17,6 +17,7 @@ export default defineCollection({
         .optional(),
       name: z.string(),
       ordinal: z.number().int().positive(),
+      logo: z.string().optional() // TODO make this mandatory
     })
     .strict(),
 });
