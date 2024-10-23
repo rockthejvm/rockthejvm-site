@@ -232,3 +232,4 @@ zsdoc/data
 !/tests/_output/.gitkeep
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,git,zsh,visualstudiocode,node,astro
+.pnpm-store
