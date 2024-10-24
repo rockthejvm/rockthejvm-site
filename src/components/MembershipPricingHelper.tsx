@@ -124,6 +124,12 @@ export default function Example(props) {
       >
         <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
           <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
+            <img
+              src="src/content/memberships/personal.png"
+              alt="Personal"
+              className="mx-auto mb-2"
+              width="150"
+            />
             <div className="mb-4 flex justify-center">
               <fieldset aria-label="Payment frequency">
                 <RadioGroup
@@ -495,12 +501,21 @@ export default function Example(props) {
         </div>
         <div>
           <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
-            <h3
+            <img
+              src="src/content/memberships/team.png"
+              alt="Personal"
+              className="mx-auto mb-2"
+              width="150"
+            />
+            <h3 className="text-5xl font-bold tracking-tight text-content">
+              Team Pack
+            </h3>
+            {/* <h3
               id="tier-hobby"
               className="text-base font-semibold leading-7 text-accent-1"
             >
               Team Pack
-            </h3>
+            </h3> */}
             {/* <p className="mt-4 flex items-baseline gap-x-2">
             <span className="text-5xl font-bold tracking-tight text-content">
               ${395}
@@ -530,7 +545,7 @@ export default function Example(props) {
               aria-describedby="tier-hobby"
               className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
             >
-              Join Now
+              Contact Me
             </a>
             <small className="mt-16 text-sm text-content-1">
               <i className="mt-8">
