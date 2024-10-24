@@ -114,6 +114,17 @@ export default defineCollection({
               .strict(),
           )
           .optional(),
+        thanks: z
+          .string()
+          .refine(
+            (thanks) => (thanks ? /^<p>[\s\S]*<\/p>$/.test(thanks) : true),
+            {
+              message:
+                "Special thanks must be an HTML string wrapped in <p> tags without a period before the closing tag",
+              path: ["thanks"],
+            },
+          )
+          .optional(),
         title: z.string(),
         // .min(30, "Title must be at least 30 characters")
         // .max(70, "Title must be at most 70 characters"),

@@ -53,6 +53,7 @@ const {
   pricingPlanId,
   question,
   technologies,
+  thanks,
   title,
   videoId,
 } = _frontmatter;
@@ -128,11 +129,7 @@ const structuredData = {
     <Skills color={categoryColor}>
       <slot name="skills" />
     </Skills>
-    {
-      collaborators.map((collaborator) => (
-        <Profile color={categoryColor} {collaborator} />
-      ))
-    }
+    <Profile color={categoryColor} {collaborators} {thanks} />
     {
       bundledCourses.length > 1 ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
