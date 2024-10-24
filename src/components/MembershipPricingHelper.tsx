@@ -193,7 +193,7 @@ export default function Example(props) {
                       clipRule="evenodd"
                     ></path>
                   </svg>
-                  <p class="text-left">
+                  <p className="text-left">
                     A single Netflix-style monthly subscription for everything
                     in the Scala ecosystem
                   </p>
@@ -301,7 +301,7 @@ export default function Example(props) {
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <p class="text-left">
+                  <p className="text-left">
                     A whopping {props.membershipHours}+ hours of video and{" "}
                     {props.membershipLinesOfCode}+ lines of code from scratch!
                   </p>
@@ -363,7 +363,7 @@ export default function Example(props) {
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <p class="text-left">
+                  <p className="text-left">
                     A single Netflix-style yearly subscription for everything in
                     the Scala ecosystem
                   </p>
@@ -471,7 +471,7 @@ export default function Example(props) {
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <p class="text-left">
+                  <p className="text-left">
                     A whopping {props.membershipHours}+ hours of video and{" "}
                     {props.membershipLinesOfCode}+ lines of code from scratch!
                   </p>
