@@ -6,9 +6,10 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   image: CollectionEntry<"courses">["data"]["image"];
   imagePosition: "left" | "right";
+  imageRounded: boolean;
 }
 
-const { image, imagePosition } = Astro.props;
+const { image, imagePosition, imageRounded = false } = Astro.props;
 ---
 
 <div
@@ -31,7 +32,11 @@ const { image, imagePosition } = Astro.props;
     <div
       class={`${imagePosition === "left" ? "lg:col-start-1" : "lg:col-start-2"} -ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:row-span-2 lg:row-start-1 lg:overflow-hidden`}
     >
-      <Image class="w-full rounded-xl" src={image} alt="" />
+      <Image
+        class={`${imageRounded ? "rounded-full" : "rounded-xl"} w-full`}
+        src={image}
+        alt=""
+      />
     </div>
   </div>
 </div>
