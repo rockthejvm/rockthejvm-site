@@ -28,7 +28,7 @@
     --color-tag: 226deg 100% 94%;
 
     .card-shadow {
-      @apply shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)];
+      @apply shadow-[0_10px_20px_#000000];
     }
 
     .card-shadow-color {
@@ -108,16 +108,15 @@
     --color-secondary: 221deg 70% 30%;
 
     --color-base: 360deg 100% 0%;
-    --color-shadow: 0deg 100% 98%;
     --color-cta: 221deg 90% 50%;
     --color-tag: 226deg 100% 94%;
 
-    .card-shadow-color {
-      @apply shadow-opposite/20;
+    .card-shadow {
+      @apply shadow-[0px_4px_50px_0px_#000000];
     }
 
-    .card-shadow {
-      @apply shadow-[0px_4px_50px_0px_#2d3748];
+    .card-shadow-color {
+      @apply shadow-indigo-600/15;
     }
 
     .astro-code,
