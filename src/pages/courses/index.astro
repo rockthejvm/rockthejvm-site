@@ -1,5 +1,6 @@
 ---
 import CourseCardVertical from "@components/CourseCardVertical.astro";
+import { zip } from "@utils/zip";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -73,7 +74,12 @@ const coursess = await Promise.all(
     Promise.all(members.map((member) => getEntry("courses", member.slug))),
   ),
 );
-
+const categories = await Promise.all(
+  coursess.map((courses) =>
+    getEntry("courseCategories", courses[0]?.data.category.id),
+  ),
+);
+const mycourses = zip(categories, coursess);
 // const courseList = coursess.reduce(
 //   (accumulator, value) => accumulator.concat(value),
 //   [],
@@ -91,9 +97,9 @@ const coursess = await Promise.all(
   </header>
   <article>
     {
-      coursess.map((courses) => (
+      mycourses.map(([category, courses]) => (
         <section class="pt-8 md:pt-12">
-          <h2 class="ml-8">Kotlin</h2>
+          <h2 class="ml-8">{category.data.name}</h2>
           <ul class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
             {courses.map((course) => (
               <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
