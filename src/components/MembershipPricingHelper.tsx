@@ -310,11 +310,11 @@ export default function Example(props) {
               <a
                 href="https://rockthejvm.com/purchase?product_id=4131055"
                 aria-describedby="tier-hobby"
-                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
               >
                 Join Now
               </a>
-              <small className="mt-16 text-sm text-content-1">
+              <small className="mt-16 text-sm text-ctatext">
                 <i className="mt-8">
                   This is a subscription product billed on a monthly basis until
                   you cancel. Cancel anytime from the account management page.
