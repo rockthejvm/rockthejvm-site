@@ -10,11 +10,19 @@ export default function Example(props) {
     <dl className="mt-6 space-y-6 divide-y divide-gray-900/10">
       <Disclosure key={props.category.data.name} as="div" className="pt-6">
         <dt>
-          <DisclosureButton className="card-shadow card-shadow-color group flex w-full items-center justify-between rounded-2xl bg-secondary p-8 min-h-32 text-left text-content">
-            <div className="flex items-center flex-1">
-              <img className="h-full w-4 md:w-10 lg:w-20 mr-8" src={props.category.data.logo}>
-              </img>
-              <span className="text-base font-semibold leading-7 flex-1">
+          <DisclosureButton className="card-shadow card-shadow-color group flex min-h-32 w-full items-center justify-between rounded-2xl bg-secondary p-8 text-left text-content">
+            <div className="flex flex-1 items-center gap-x-4">
+              <div className="flex h-8 w-8 justify-center rounded-full bg-white p-5 align-middle ring-1 ring-content-2 md:h-16 md:w-16 lg:h-28 lg:w-28">
+                <img
+                  className="my-auto w-full"
+                  src={props.category.data.logo}
+                ></img>
+              </div>
+              {/* <img
+                className="mr-8 h-full w-4 md:w-10 lg:w-20"
+                src={props.category.data.logo}
+              ></img> */}
+              <span className="flex-1 text-base font-semibold leading-7">
                 <h3>{props.category.data.name}</h3>
               </span>
             </div>
