@@ -53,7 +53,6 @@ export default function Example(props) {
   const getCoursePrice = useCallback(async (args: CallbackArgs) => {
     // setLoading(true);
     // setError(null);
-    console.log("Fetching price for:", args.pricingPlanId); // Debug log
     try {
       const options = {
         method: "GET",
@@ -88,7 +87,6 @@ export default function Example(props) {
       );
       console.error("Failed to fetch course price:", error);
     } finally {
-      console.log("Setting loading to false"); // Debug log
       args.loadingFunc(false);
       // setLoading(false);
     }
