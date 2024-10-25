@@ -177,7 +177,7 @@ Due to these limitations, the Scala community searched for a better solution. La
 
 The NewType library allows us to create new types without the overhead of extra runtime allocations, avoiding the pitfalls of Scala values classes. To use it, we need to import the proper dependency in the `build.sbt` file:
 
-```sbt
+```text
 libraryDependencies += "io.estatico" %% "newtype" % "0.4.4"
 ```
 
@@ -250,7 +250,7 @@ val doubleToBarCode: Coercible[Double, BarCode] = Coercible[Double, BarCode]
 
 In fact, the above code makes the compiler yelling:
 
-```sbt
+```text
 [error] could not find implicit value for parameter ev: io.estatico.newtype.Coercible[Double,in.rcard.value.ValuesClasses.NewType.BarCode]
 [error]       val doubleToBarCode: Coercible[Double, BarCode] = Coercible[Double, BarCode]
 [error]                                                                  ^
