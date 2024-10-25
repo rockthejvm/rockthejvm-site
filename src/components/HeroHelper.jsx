@@ -5,13 +5,14 @@ export default function Example(props) {
     <div className="min-h-[92vh] pb-40 pt-20">
       <div className="hidden lg:mb-8 lg:flex lg:justify-center">
         <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20">
-          Check out our new{" "}
+          Check out the new{" "}
           <a
             href="/courses/kotlin-coroutines-and-concurenc"
             className="font-semibold text-accent-1"
           >
-            Kotlin Coroutines & Concurrency course
-          </a>
+            Kotlin Coroutines & Concurrency
+          </a>{" "}
+          course
           {/* <a
 						href="/courses/advanced-kotlin"
 						className="font-semibold text-accent-1"
