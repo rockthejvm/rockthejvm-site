@@ -35,7 +35,6 @@ export default function Example({ pricingPlanId }: Props) {
   const getCoursePrice = useCallback(async (pricingPlanId: number) => {
     setLoading(true);
     setError(null);
-    console.log("Fetching price for:", pricingPlanId); // Debug log
     try {
       const options = {
         method: "GET",
@@ -67,19 +66,15 @@ export default function Example({ pricingPlanId }: Props) {
       );
       console.error("Failed to fetch course price:", error);
     } finally {
-      console.log("Setting loading to false"); // Debug log
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    console.log("PricingPlanId changed:", pricingPlanId); // Debug log
     if (pricingPlanId > 0) {
       getCoursePrice(pricingPlanId);
     }
   }, [pricingPlanId, getCoursePrice]);
-
-  console.log("Component render - Loading:", loading, "Price:", price); // Debug log
 
   if (loading) {
     return <div>Loading...</div>;

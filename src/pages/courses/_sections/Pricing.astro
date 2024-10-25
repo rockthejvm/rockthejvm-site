@@ -60,7 +60,7 @@ const featuredBundles = _courses.filter((course) =>
       class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2"
     >
       <div
-        class="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none"
+        class="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none"
       >
         <h3
           id="tier-hobby"
@@ -116,7 +116,7 @@ const featuredBundles = _courses.filter((course) =>
         >
       </div>
       <div
-        class="relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10"
+        class="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10"
       >
         <h3
           id="tier-enterprise"
@@ -166,7 +166,7 @@ const featuredBundles = _courses.filter((course) =>
         <a
           href={`https://rockthejvm.com/purchase?product_id=${monthlyMembershipPricingPlanId}`}
           aria-describedby="tier-enterprise"
-          class="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+          class="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
           >Join Now</a
         >
       </div>
@@ -188,7 +188,9 @@ const featuredBundles = _courses.filter((course) =>
               href={`/courses/${bundle.slug}`}
               class="rounded-md px-3.5 py-2 text-sm font-semibold leading-6 text-accent-1 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Buy Now <span aria-hidden="true">&rarr;</span>
+              <span aria-hidden="true" class="text-content-1">
+                Buy Now &rarr;
+              </span>
             </a>
           </div>
         ))

@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const { excerpt, publishedDate, tags, title } = article.data;
+const { excerpt, publishedDate, tags, title, updatedDate } = article.data;
 const author = await getEntry("authors", article.data.author.id);
 const category = await getEntry("articleCategories", article.data.category.id);
 const entity = author.data.company
@@ -19,7 +19,7 @@ const entity = author.data.company
 ---
 
 <article
-  class="card-shadow card-shadow-color flex flex-col items-start justify-between rounded-2xl p-4"
+  class="card-shadow card-shadow-color flex flex-col items-start justify-between rounded-2xl bg-secondary p-4"
 >
   <!-- <div class="relative w-full">
     {
@@ -42,49 +42,33 @@ const entity = author.data.company
     >
     </div>
   </div> -->
-  <div class="mt-8 flex w-full items-center gap-x-2 overflow-hidden text-xs">
-    <FormattedDate date={publishedDate} class="text-nowrap text-content" />
-    <a
-      href={`/categories/article/${category.id}`}
-      class="relative z-10 rounded-full bg-tag px-3 py-1.5 font-medium text-accent-1 hover:bg-gray-100"
-      >{category.data.name}</a
+  <div class="group relative w-full">
+    <h2
+      class="mt-3 line-clamp-3 text-xl font-semibold leading-6 group-hover:text-gray-600 md:text-2xl lg:min-h-28 lg:text-3xl"
     >
-    {
-      tags.slice(0, 3).map((tag) => (
-        <p class="relative z-10 rounded-full bg-tag px-3 py-1.5 text-center font-medium text-content-1 hover:bg-gray-100">
-          <a href={`/tags/${tag.id}`}>{tag.id}</a>
-        </p>
-      ))
-    }
-  </div>
-  <div class="group relative">
-    <h3 class="mt-3 text-lg font-semibold leading-6 group-hover:text-gray-600">
       <a href={`/articles/${article.slug}`} class="text-content-2">
         <span class="absolute inset-0"></span>
         {title}
       </a>
-    </h3>
-    <p class="mt-1 inline-flex items-center text-content-1">
-      <span
-        class="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-content-1"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strok-idth={1.5}
-          stroke="currentColor"
-          class="ml-1 size-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
-        </svg>
-        {`${getReadingTime(article.body)} min read`}
-      </span>
+    </h2>
+    <p class="mt-4 text-content-2">
+      {getReadingTime(article.body)} min read &nbsp;•&nbsp; {
+        (<FormattedDate date={updatedDate ? updatedDate : publishedDate} />)
+      } &nbsp;•&nbsp; {category.data.name}
     </p>
-    <p class="mt-2 line-clamp-3 text-sm leading-6 text-content">
+    <div class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs">
+      {
+        tags.slice(0, 3).map((tag) => (
+          <a
+            href={`/tags/${tag.id}`}
+            class="relative z-10 rounded-full bg-tag px-3 py-1.5 text-center font-medium hover:bg-gray-100"
+          >
+            <p class="text-indigo-800">{tag.id}</p>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-4 line-clamp-3 text-sm leading-6 text-content">
       {excerpt}
     </p>
   </div>
