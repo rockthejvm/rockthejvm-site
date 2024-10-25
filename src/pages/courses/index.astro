@@ -97,7 +97,7 @@ const mycourses = zip(categories, coursess);
   </header>
   <article>
     {
-      mycourses.map(([category, courses]) => (
+      mycourses.sort((category1, category2) => category1[0].data.ordinal - category2[0].data.ordinal).map(([category, courses]) => (
         <section class="pt-8 md:pt-12">
           <div class="flex flex-row gap-x-4">
             <div class="flex justify-center bg-white align-middle size-16 md:size-20 lg:size-28 ring-1 ring-content-2 rounded-full p-4 lg:p-5 ml-8">
