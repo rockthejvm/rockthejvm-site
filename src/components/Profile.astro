@@ -5,19 +5,20 @@ import Section from "./Section.astro";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  collaborator: {
+  collaborators?: {
     frontmatter: CollectionEntry<"authors">["data"];
     biography: string;
-  };
+  }[];
+  thanks?: string;
 }
 
-const { color, collaborator } = Astro.props;
+const { color, collaborators, thanks } = Astro.props;
 
 const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
 <Section {color} title="Meet Rock the JVM">
-  <Feature image={author.data.photo} imagePosition="left">
+  <Feature image={author.data.photo} imagePosition="left" imageRounded="true">
     <h3>Daniel Ciocîrlan</h3>
     <div>
       <p>I'm a software engineer and the founder of Rock the JVM.</p>
@@ -44,17 +45,22 @@ const author = await getEntry("authors", "daniel-ciocirlan");
     </div>
   </Feature>
   {
-    (
-      <Feature image={collaborator.frontmatter.photo} imagePosition="right">
-        <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
-        <div>
-          <Fragment set:html={collaborator.biography} />
-        </div>
-      </Feature>
+    collaborators &&
+      collaborators.map((collaborator) => (
+        <Feature image={collaborator.frontmatter.photo} imagePosition="right">
+          <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
+          <div>
+            <Fragment set:html={collaborator.biography} />
+          </div>
+        </Feature>
+      ))
+  }
+  {
+    thanks && (
+      <div class="mx-auto mb-8 max-w-[40rem] px-8 md:mb-16">
+        <h3 class="my-4">With Special Thanks To</h3>
+        <Fragment set:html={thanks} />
+      </div>
     )
   }
-  <div class="mx-auto mb-8 max-w-[40rem] px-8 md:mb-16">
-    <h3 class="my-4">With Special Thanks To</h3>
-    <slot name="thanks" />)
-  </div>
 </Section>

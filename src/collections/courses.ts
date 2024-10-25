@@ -5,7 +5,7 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        archived: z.boolean().default(false), // TODO
+        archived: z.boolean().default(false),
         bundledCourses: z
           .array(reference("courses"))
           .min(2, "At least 2 courses are required for a bundle")
@@ -112,6 +112,17 @@ export default defineCollection({
                 image: image(),
               })
               .strict(),
+          )
+          .optional(),
+        thanks: z
+          .string()
+          .refine(
+            (thanks) => (thanks ? /^<p>[\s\S]*<\/p>$/.test(thanks) : true),
+            {
+              message:
+                "Special thanks must be an HTML string wrapped in <p> tags without a period before the closing tag",
+              path: ["thanks"],
+            },
           )
           .optional(),
         title: z.string(),

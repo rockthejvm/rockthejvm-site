@@ -206,7 +206,7 @@ export default function Example(props) {
             {/* <h3 className="text-sm font-semibold leading-6 text-content">
               Subscribe to our newsletter
             </h3>
-            <p className="mt-2 text-sm leading-6 text-content">TODO</p>
+            <p className="mt-2 text-sm leading-6 text-content">PLACEHOLDER</p>
             <form
               className="mt-6 sm:flex sm:max-w-md validate"
               action="https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&amp;id=2c292e211e&amp;f_id=003d27ebf0"

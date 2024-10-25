@@ -242,7 +242,7 @@ def concurrentWakeUpRoutineWithAliceCall(): ZIO[Clock, Nothing, Unit] = for {
 As we can see, after Alice's call, we interrupt the `boilingFiber` fiber. The result of executing
 the `concurrentWakeUpRoutineWithAliceCall` method is the following:
 
-```ssh
+```text
 [zio-default-async-1]: Going to the bathroom
 [zio-default-async-2]: Boiling some water
 [zio-default-async-3]: Alice's call
