@@ -99,7 +99,12 @@ const mycourses = zip(categories, coursess);
     {
       mycourses.map(([category, courses]) => (
         <section class="pt-8 md:pt-12">
-          <h2 class="ml-8">{category.data.name}</h2>
+          <div class="flex flex-row gap-x-4">
+            <div class="flex justify-center bg-white align-middle w-28 h-28 ring-1 ring-content-2 rounded-full p-5 ml-8">
+              <img class="w-full my-auto" src={category.data.logo}></img>
+            </div>
+            <h2 class="my-auto">{category.data.name}</h2>
+          </div>
           <ul class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
             {courses.map((course) => (
               <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
