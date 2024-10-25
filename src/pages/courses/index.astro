@@ -100,7 +100,7 @@ const mycourses = zip(categories, coursess);
       mycourses.map(([category, courses]) => (
         <section class="pt-8 md:pt-12">
           <div class="flex flex-row gap-x-4">
-            <div class="flex justify-center bg-white align-middle w-28 h-28 ring-1 ring-content-2 rounded-full p-5 ml-8">
+            <div class="flex justify-center bg-white align-middle size-16 md:size-20 lg:size-28 ring-1 ring-content-2 rounded-full p-4 lg:p-5 ml-8">
               <img class="w-full my-auto" src={category.data.logo}></img>
             </div>
             <h2 class="my-auto">{category.data.name}</h2>

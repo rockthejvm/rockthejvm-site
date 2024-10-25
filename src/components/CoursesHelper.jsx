@@ -12,16 +12,12 @@ export default function Example(props) {
         <dt>
           <DisclosureButton className="card-shadow card-shadow-color group flex min-h-32 w-full items-center justify-between rounded-2xl bg-secondary p-8 text-left text-content">
             <div className="flex flex-1 items-center gap-x-4">
-              <div className="flex h-8 w-8 justify-center rounded-full bg-white p-5 align-middle ring-1 ring-content-2 md:h-16 md:w-16 lg:h-28 lg:w-28">
+              <div className="flex size-16 justify-center rounded-full bg-white p-3 align-middle ring-1 ring-content-2 md:p-4 lg:size-28 lg:p-5">
                 <img
                   className="my-auto w-full"
                   src={props.category.data.logo}
                 ></img>
               </div>
-              {/* <img
-                className="mr-8 h-full w-4 md:w-10 lg:w-20"
-                src={props.category.data.logo}
-              ></img> */}
               <span className="flex-1 text-base font-semibold leading-7">
                 <h3>{props.category.data.name}</h3>
               </span>
