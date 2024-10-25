@@ -5,7 +5,7 @@ export async function getStaticPaths() {
   const seriess = await getCollection("seriess");
 
   return seriess.map((series) => ({
-    params: { id: "TODO" },
+    params: { id: seriess[0]?.id },
     props: { series },
   }));
 }
