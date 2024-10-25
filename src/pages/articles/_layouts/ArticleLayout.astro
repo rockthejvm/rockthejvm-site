@@ -94,10 +94,10 @@ const structuredData = {
         <Byline {author}>
           <p>
             {minutesRead} min read &nbsp;•&nbsp; {
-              updatedDate ? (
-                <FormattedDate date={updatedDate} />
-              ) : (
-                <FormattedDate date={publishedDate} />
+              (
+                <FormattedDate
+                  date={updatedDate ? updatedDate : publishedDate}
+                />
               )
             }
           </p>
