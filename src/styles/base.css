@@ -6,17 +6,10 @@
   :root[data-theme="light"] {
     color-scheme: light;
 
-    /* --color-bkg: 210deg 100% 97%; */
-    /* --color-bkg: 60deg 56% 91%; */
-    /* --color-bkg: 0deg 0% 95%; */
     --color-bkg: 360deg 100% 100%;
-
     --color-content1: 217deg 32.6% 17.5%;
     --color-content2: 217deg 32.6% 25%;
-
     --color-accent1: 197deg 100% 30%;
-    /* --color-accent1: 240deg 100% 68%; */
-    /* --color-accent1: 303deg 98% 24%; */
     --color-accent2: 168deg 84% 30%;
 
     --color-primary: 221deg 90% 74%;
@@ -38,58 +31,18 @@
 
     .body-gradient {
       background: linear-gradient(
-        -45deg,
-        hsl(var(--color-bkg)) 0%,
-        hsl(197deg 100% 80%) 25%,
-        hsl(2, 60%, 80%) 50%,
-        hsl(168deg 84% 60%) 100%
+        180deg,
+        rgb(245, 244, 235) 0%,
+        rgb(223, 211, 179) 100%
       );
-      background-size: 400% 400%;
-      animation: gradient 30s ease infinite;
       height: 100vh;
       background-repeat: repeat;
       background-attachment: fixed;
     }
 
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    .display-gradient {
+    /* Uncomment to hide the home page gradient on light mode */
+    /* .display-gradient {
       @apply hidden;
-    }
-
-    /* .body-gradient {
-      background-image: linear-gradient(
-        -45deg,
-        rgb(255, 255, 255) 0%,
-        hsl(var(--color-accent1)) 25%,
-        hsl(var(--color-accent2)) 50%,
-        hsl(var(--color-bkg)) 100%
-      );
-      content: "";
-      display: block;
-      background-attachment: scroll;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1000;
-      pointer-events: none;
-      transform: scale(1);
-      background-position: 0 0;
-      background-repeat: repeat;
-      background-size: 100%;
-      animation: gradient 15s ease infinite;
     } */
   }
 
@@ -126,89 +79,7 @@
       color: var(--shiki-dark) !important;
       background-color: var(--shiki-dark-bg) !important;
     }
-
-    /* body:before {
-      background-image: linear-gradient(
-        -45deg,
-        rgb(38, 145, 207) 0%,
-        rgb(43, 51, 160) 25%,
-        rgb(96, 54, 127) 50%,
-        rgb(153, 67, 67) 100%
-      );
-      content: "";
-      display: block;
-      background-attachment: scroll;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1000;
-      pointer-events: none;
-      transform: scale(1);
-      background-position: 0 0;
-      background-repeat: repeat;
-      background-size: 300%;
-      animation: animateBG 20s ease infinite;
-    } */
   }
-
-  /* .large-gradient {
-    position: fixed;
-    top: 0;
-    z-index: -20;
-    height: 100vh;
-    background-image: linear-gradient(
-      -45deg,
-      rgb(38, 145, 207) 0%,
-      rgb(43, 51, 160) 25%,
-      rgb(96, 54, 127) 50%,
-      rgb(153, 67, 67) 100%
-    );
-    animation: animateBG 20s ease infinite;
-    background-size: 300%;
-
-    @keyframes animateBG {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-  } */
-
-  /* blockquote p {
-    color: var(--color-content);
-  } */
-
-  /* body:before {
-    content: "";
-    display: block;
-    background-attachment: scroll;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1000;
-    pointer-events: none;
-    transform: scale(1);
-    background-position: 0 0;
-    background-repeat: repeat;
-    background-size: 300%;
-    background-image: linear-gradient(
-      -45deg,
-      rgb(38, 145, 207) 0%,
-      rgb(43, 51, 160) 25%,
-      rgb(96, 54, 127) 50%,
-      rgb(153, 67, 67) 100%
-    );
-    animation: animateBG 20s ease infinite;
-  } */
 
   a {
     @apply text-accent-1 no-underline;
@@ -217,22 +88,6 @@
   a:hover {
     @apply text-accent-2 underline;
   }
-  /*
-  .course-page-link a {
-    @apply text-accent-1 no-underline;
-  }
-
-  .course-page-link a:hover {
-    @apply text-accent-2 underline;
-  } */
-
-  /* .markdown-section ul {
-    @apply list-disc;
-  }
-
-  .markdown-section h3 {
-    @apply my-4;
-  } */
 
   h1,
   h2,
@@ -279,5 +134,20 @@
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+  }
+
+  .article-home-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .article-home-link::after {
+    content: "";
+    background: #999;
+    width: 80%;
+    height: 1px;
+    position: absolute;
+    bottom: -0.2rem;
   }
 }
