@@ -147,7 +147,6 @@ export default function Example(props) {
           ),
         })),
     );
-    console.log(updatedLectureSections);
 
     // lectureSectionData = course.updatedLectureSections;
     lectureSectionData = updatedLectureSections;
@@ -164,14 +163,12 @@ export default function Example(props) {
 
   // Show all lecture sections when expanded
   const expand = () => {
-    console.log("expand");
     setLectureSections(lectureSectionData);
     setExpanded(true);
   };
 
   // Only show first two lecture sections when collapsed
   const collapse = () => {
-    console.log("collapse");
     setExpanded(false);
     if (lectureSectionData.length === 1) {
       setLectureSections(lectureSectionData);

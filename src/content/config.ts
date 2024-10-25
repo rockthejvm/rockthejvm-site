@@ -27,4 +27,3 @@ export const collections = {
   tags,
   testimonials,
 };
-// TODO: auto export from src/schemas
