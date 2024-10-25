@@ -122,7 +122,7 @@ export default function Example(props) {
       <div
         className={`isolate mx-auto mt-8 grid max-w-md grid-cols-1 gap-16 lg:mx-0 lg:max-w-none lg:grid-cols-2`}
       >
-        <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
+        <div className="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
           <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
             <div className="mb-4 flex justify-center">
               <fieldset aria-label="Payment frequency">
@@ -494,7 +494,7 @@ export default function Example(props) {
           </div>
         </div>
         <div>
-          <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
+          <div className="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
             <h3
               id="tier-hobby"
               className="text-base font-semibold leading-7 text-accent-1"
