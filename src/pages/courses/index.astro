@@ -74,10 +74,10 @@ const coursess = await Promise.all(
   ),
 );
 
-const courseList = coursess.reduce(
-  (accumulator, value) => accumulator.concat(value),
-  [],
-);
+// const courseList = coursess.reduce(
+//   (accumulator, value) => accumulator.concat(value),
+//   [],
+// );
 ---
 
 <BaseLayout
@@ -90,18 +90,19 @@ const courseList = coursess.reduce(
     </h1>
   </header>
   <article>
-    <section class="py-8 md:py-16">
-      <ul
-        class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
-      >
-        {
-          courseList.map((course) => (
-            <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
-              <CourseCardVertical {course} />
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+    {
+      coursess.map((courses) => (
+        <section class="pt-8 md:pt-12">
+          <h2 class="ml-8">Kotlin</h2>
+          <ul class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
+            {courses.map((course) => (
+              <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
+                <CourseCardVertical {course} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
   </article>
 </BaseLayout>
