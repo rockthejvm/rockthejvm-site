@@ -99,7 +99,7 @@ joined.explain()
 
 This will give you a piece of text that looks very cryptic, but it's information-dense:
 
-```perl
+```text
 == Physical Plan ==
 *(5) Project [id#259L, medal#264]
 +- *(5) SortMergeJoin [id#259L], [cast(id#263 as bigint)], Inner
@@ -135,7 +135,7 @@ joinedSmart.show()
 
 Much to our surprise (or not), this join is pretty much instant. The query plan explains it all:
 
-```perl
+```text
 == Physical Plan ==
 *(2) Project [id#294L, order#299]
 +- *(2) BroadcastHashJoin [id#294L], [cast(id#298 as bigint)], Inner, BuildRight
@@ -159,7 +159,7 @@ val joinedNumbers = smallTable.join(bigTable, "id")
 
 produces the following query plan:
 
-```perl
+```text
 == Physical Plan ==
 *(2) Project [id#14L]
 +- *(2) BroadcastHashJoin [id#14L], [id#12L], Inner, BuildLeft
