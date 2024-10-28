@@ -6,18 +6,18 @@ type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
   description: CourseFrontmatter["description"];
-  image: CourseFrontmatter["image"];
+  heroImage: CourseFrontmatter["heroImage"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
 }
 
-const { description, image, pricingPlanId, title } = Astro.props;
+const { description, heroImage, pricingPlanId, title } = Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
   <Image
     alt={title}
-    src={image}
+    src={heroImage}
     class="absolute inset-0 size-full object-cover"
     slot="image"
   />
