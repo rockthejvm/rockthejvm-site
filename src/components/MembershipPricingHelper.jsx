@@ -13,13 +13,6 @@ const membershipTypes = [
   { value: "Yearly", label: "Yearly", priceSuffix: "/year" },
 ];
 
-interface CallbackArgs {
-  pricingPlanId: number;
-  func: React.Dispatch;
-  errorFunc: React.Dispatch;
-  loadingFunc: React.Dispatch;
-}
-
 // const plans = [
 //   {
 //     id: "5",
@@ -46,11 +39,11 @@ export default function Example(props) {
   const [monthlyPrice, setMonthlyPrice] = useState("Free");
   const [yearlyPrice, setYearlyPrice] = useState("Free");
   const [monthlyLoading, setMonthlyLoading] = useState(true);
-  const [monthlyError, setMonthlyError] = useState<string | null>(null);
+  const [monthlyError, setMonthlyError] = useState(null);
   const [yearlyLoading, setYearlyLoading] = useState(true);
-  const [yearlyError, setYearlyError] = useState<string | null>(null);
+  const [yearlyError, setYearlyError] = useState(null);
 
-  const getCoursePrice = useCallback(async (args: CallbackArgs) => {
+  const getCoursePrice = useCallback(async (args) => {
     // setLoading(true);
     // setError(null);
     try {
