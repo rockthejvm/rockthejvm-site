@@ -1,12 +1,17 @@
 import { sendTeachableRequest } from "@utils/sendTeachableRequest";
 import { useEffect, useState } from "react";
 
-let lectureSectionData = [];
+interface Props {
+  pricingPlanId: number;
+  courseSlug: string;
+  color: string;
+}
 
-export default function Example(props) {
-  const [lectureSections, setLectureSections] = useState([]);
+export default function Example(props: Props) {
+  const [lectureSections, setLectureSections] = useState<LectureSection[]>([]);
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
+  let lectureSectionData: LectureSection[] = [];
 
   enum AttachmentKind {
     TEXT = "text",
@@ -113,7 +118,7 @@ export default function Example(props) {
   //   }
   // };
 
-  const getTeachableCurriculum = async (pricingPlanId) => {
+  const getTeachableCurriculum = async (pricingPlanId: number) => {
     setLoading(true);
     const apiKey = import.meta.env.PUBLIC_REACT_APP_API_KEY || "";
     const pricingPlanResponse = await getPricingPlan(pricingPlanId, apiKey);
@@ -124,28 +129,31 @@ export default function Example(props) {
     const courseResponse = await getCourse(courseId, apiKey);
     const { course }: { course: Course } = await courseResponse.json();
     const { lecture_sections: lectureSections } = course;
-    const updatedLectureSections = await Promise.all(
+    const updatedLectureSections: LectureSection[] = await Promise.all(
       lectureSections
         .filter((lectureSection) => lectureSection.is_published)
         .sort((a, b) => (a.position < b.position ? -1 : 1))
-        .map(async (lectureSection) => ({
-          name: lectureSection.name,
-          lectures: await Promise.all(
-            lectureSection.lectures
-              .filter((lecture) => lecture.is_published)
-              .sort((a, b) => (a.position < b.position ? -1 : 1))
-              .map(async (lecture) => ({
-                id: lecture.id,
-                name: (
-                  (
-                    await (
-                      await getLecture(courseId, lecture.id, apiKey)
-                    ).json()
-                  )["lecture"] as Lecture
-                ).name,
-              })),
-          ),
-        })),
+        .map(
+          async (lectureSection) =>
+            ({
+              name: lectureSection.name,
+              lectures: await Promise.all(
+                lectureSection.lectures
+                  .filter((lecture) => lecture.is_published)
+                  .sort((a, b) => (a.position < b.position ? -1 : 1))
+                  .map(async (lecture) => ({
+                    id: lecture.id,
+                    name: (
+                      (
+                        await (
+                          await getLecture(courseId, lecture.id, apiKey)
+                        ).json()
+                      )["lecture"] as Lecture
+                    ).name,
+                  })),
+              ),
+            }) as LectureSection,
+        ),
     );
 
     // lectureSectionData = course.updatedLectureSections;
@@ -157,7 +165,7 @@ export default function Example(props) {
       setLectureSections([lectureSectionData[0], lectureSectionData[1]]);
       setLoading(false);
     }
-    // setLectureSections(updatedLectureSections);
+    // setLectureSections(updatedLect`ureSections);
     setExpanded(false);
   };
 
