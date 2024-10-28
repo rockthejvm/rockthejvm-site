@@ -1,10 +1,16 @@
 ---
 import Prose from "@components/Prose.astro";
 import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
+
+interface ImageMetadata {
+  src: string;
+  width: number;
+  height: number;
+  format: string;
+}
 
 interface Props {
-  image: CollectionEntry<"courses">["data"]["image"];
+  image: ImageMetadata;
   imagePosition: "left" | "right";
   imageRounded?: boolean;
 }
