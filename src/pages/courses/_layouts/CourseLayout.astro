@@ -108,7 +108,7 @@ const structuredData = {
     </Goal>
     {
       question && (
-        <Question color={categoryColor} image={question.image} {question}>
+        <Question color={categoryColor} {question}>
           <slot name="question" />
         </Question>
       )
