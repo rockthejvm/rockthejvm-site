@@ -6,7 +6,7 @@ interface ImageMetadata {
   src: string;
   width: number;
   height: number;
-  format: string;
+  format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg" | "avif";
 }
 
 interface Props {
