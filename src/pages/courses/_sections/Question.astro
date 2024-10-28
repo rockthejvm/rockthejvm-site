@@ -7,15 +7,14 @@ type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  image: CourseFrontmatter["image"];
   question: NonNullable<CourseFrontmatter["question"]>;
 }
 
-const { color, image, question } = Astro.props;
+const { color, question } = Astro.props;
 ---
 
 <Section {color} title={question.text}>
-  <Feature {image} imagePosition="left">
+  <Feature image={question.image} imagePosition="left">
     <slot />
   </Feature>
 </Section>
