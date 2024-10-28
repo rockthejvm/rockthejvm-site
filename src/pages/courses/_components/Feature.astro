@@ -6,7 +6,7 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   image: CollectionEntry<"courses">["data"]["image"];
   imagePosition: "left" | "right";
-  imageRounded: boolean;
+  imageRounded?: boolean;
 }
 
 const { image, imagePosition, imageRounded = false } = Astro.props;
