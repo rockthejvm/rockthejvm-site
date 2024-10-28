@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "astro check && astro build",
+    "build": "astro check --minimumSeverity error && astro build",
     "dev": "astro dev",
     "preview": "astro preview",
     "start": "astro dev"
