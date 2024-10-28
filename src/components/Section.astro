@@ -1,12 +1,13 @@
 ---
+import type { GradientOption } from "@components/GradientSelect.astro";
+import GradientSelect from "@components/GradientSelect.astro";
 import type { CollectionEntry } from "astro:content";
-import GradientSelect from "./GradientSelect.astro";
 import H2 from "./H2.astro";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   gradientFlipped?: boolean;
-  gradientOption?: string;
+  gradientOption?: GradientOption;
   title?: string;
 }
 
