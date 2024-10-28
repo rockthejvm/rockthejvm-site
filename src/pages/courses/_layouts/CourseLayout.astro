@@ -95,7 +95,7 @@ const structuredData = {
   structuredData={JSON.stringify(structuredData)}
 >
   <article>
-    <Hero {description} image={heroImage} {pricingPlanId} {title} />
+    <Hero {description} {heroImage} {pricingPlanId} {title} />
     {
       videoId && (
         <CourseVideo color={categoryColor} {videoId}>
