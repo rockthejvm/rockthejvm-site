@@ -7,68 +7,69 @@ interface Props {
   color: string;
 }
 
+enum AttachmentKind {
+  TEXT = "text",
+  NATIVE_COMMENTS = "native comments",
+  VIDEO = "video",
+  IMAGE = "image",
+  PDF = "pdf",
+  QUIZ = "quiz",
+  CODE_DISPLAY = "code display",
+  CODE_EMBED = "code embed",
+  UPSELL = "upsell",
+}
+
+interface PricingPlan {
+  price: number;
+  course_id: number;
+}
+
+interface CourseResponse {
+  updatedLectureSections: LectureSection[];
+}
+
+interface Attachment {
+  id: number;
+  name?: string;
+  kind: AttachmentKind;
+  url?: string;
+  text?: string;
+  position: number;
+  file_size?: number;
+  file_extension?: string;
+}
+
+interface Lecture {
+  id: number;
+  position: number;
+  is_published: boolean;
+  name?: string;
+  lecture_section_id?: number;
+  attachments?: Attachment[];
+}
+
+interface LectureSection {
+  id: number;
+  name: string;
+  is_published: boolean;
+  position: number;
+  lectures: Lecture[];
+}
+
+interface Course {
+  name: string;
+  heading: string;
+  is_published: boolean;
+  image_url?: string;
+  lecture_sections: LectureSection[];
+}
+
+let lectureSectionData: LectureSection[] = [];
+
 export default function Example(props: Props) {
   const [lectureSections, setLectureSections] = useState<LectureSection[]>([]);
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
-  let lectureSectionData: LectureSection[] = [];
-
-  enum AttachmentKind {
-    TEXT = "text",
-    NATIVE_COMMENTS = "native comments",
-    VIDEO = "video",
-    IMAGE = "image",
-    PDF = "pdf",
-    QUIZ = "quiz",
-    CODE_DISPLAY = "code display",
-    CODE_EMBED = "code embed",
-    UPSELL = "upsell",
-  }
-
-  interface PricingPlan {
-    price: number;
-    course_id: number;
-  }
-
-  interface CourseResponse {
-    updatedLectureSections: LectureSection[];
-  }
-
-  interface Attachment {
-    id: number;
-    name?: string;
-    kind: AttachmentKind;
-    url?: string;
-    text?: string;
-    position: number;
-    file_size?: number;
-    file_extension?: string;
-  }
-
-  interface Lecture {
-    id: number;
-    position: number;
-    is_published: boolean;
-    name?: string;
-    lecture_section_id?: number;
-    attachments?: Attachment[];
-  }
-
-  interface LectureSection {
-    id: number;
-    name: string;
-    is_published: boolean;
-    position: number;
-    lectures: Lecture[];
-  }
-
-  interface Course {
-    name: string;
-    heading: string;
-    is_published: boolean;
-    image_url?: string;
-    lecture_sections: LectureSection[];
-  }
 
   const getPricingPlan = async (
     pricingPlanId: number,
@@ -169,7 +170,7 @@ export default function Example(props: Props) {
       setLectureSections([lectureSectionData[0], lectureSectionData[1]]);
       setLoading(false);
     }
-    // setLectureSections(updatedLect`ureSections);
+    // setLectureSections(updatedLectureSections);
     setExpanded(false);
   };
 
@@ -212,6 +213,7 @@ export default function Example(props: Props) {
     // lectureSectionData = localData;
 
     collapse();
+    // fetchPrice();
     call();
   }, []);
 
