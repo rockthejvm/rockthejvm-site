@@ -1,4 +1,6 @@
 ---
+import BackgroundGradient from "@components/BackgroundGradient.astro";
+
 import Pagination from "@components/Pagination.astro";
 import type { GetStaticPathsOptions, Page } from "astro";
 import { getCollection } from "astro:content";
@@ -21,6 +23,9 @@ const { page } = Astro.props;
 const title = "Article Index";
 ---
 
+<div class="display-gradient">
+  <BackgroundGradient />
+</div>
 <BaseLayout {title} description={title}>
   <header class="pt-8 md:pt-16">
     <h1 class="mx-6 text-center text-content-1 lg:mx-8">
