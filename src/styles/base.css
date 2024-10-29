@@ -13,8 +13,7 @@
     --color-accent2: 168deg 84% 30%;
 
     --color-primary: 221deg 90% 74%;
-    /* --color-secondary: 360 0% 94%; */
-    --color-secondary: 0deg 100% 98%;
+    --color-secondary: 0deg 50% 98%;
     --color-base: 360deg 100% 100%;
     --color-shadow: 360deg 100% 0%;
     --color-cta: 221deg 90% 50%;
@@ -41,9 +40,6 @@
     }
 
     /* Uncomment to hide the home page gradient on light mode */
-    /* .display-gradient {
-      @apply hidden;
-    } */
   }
 
   :root[data-theme="dark"] {
@@ -58,7 +54,6 @@
     --color-accent2: 168deg 83.8% 48.2%;
 
     --color-primary: 221deg 90% 43%;
-    /* --color-secondary: 223deg, 87%, 54%; */
     --color-secondary: 221deg 70% 30%;
 
     --color-base: 360deg 100% 0%;
