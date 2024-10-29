@@ -145,12 +145,12 @@ export async function onRequestGet(context: EventContext): PagesFunction<Env> {
   );
 
   return new Response(
-    JSON.stringify({
+    {
       heading,
       name,
       price,
       updatedLectureSections,
-    }),
+    },
     {
       status: 200,
       headers: {
