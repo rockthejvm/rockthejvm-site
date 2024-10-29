@@ -36,18 +36,20 @@ export default function Example({ pricingPlanId }: Props) {
     setLoading(true);
     setError(null);
     try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
-        },
-      };
+      // const options = {
+      //   method: "GET",
+      //   headers: {
+      //     accept: "application/json",
+      //     apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
+      //   },
+      // };
 
-      const response = await fetch(
-        `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
-        options,
-      );
+      // const response = await fetch(
+      //   `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
+      //   options,
+      // );
+
+      const response = await fetch(`/api/purchase/${pricingPlanId}`);
 
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
