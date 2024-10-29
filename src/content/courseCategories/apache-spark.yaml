@@ -1,4 +1,4 @@
 color: "#e25a1c"
 name: Apache Spark
 ordinal: 6
-logo: "/src/assets/images/logos/spark.png"
+logo: /logos/spark.png
