@@ -6,7 +6,7 @@ import { useState } from "react";
 import site from "../data/site.json";
 
 const navigation = [
-  { name: "Articles", href: "/articles" },
+  { name: "Articles", href: "/articles/1" },
   { name: "Courses", href: "/courses" },
   { name: "Videos", href: "https://www.youtube.com/rockthejvm" },
   { name: "About", href: "/about" },
