@@ -30,6 +30,10 @@ export default function Example(props: Props) {
     course_id: number;
   }
 
+  interface CourseResponse {
+    updatedLectureSections: LectureSection[];
+  }
+
   interface Attachment {
     id: number;
     name?: string;
@@ -191,7 +195,8 @@ export default function Example(props: Props) {
     // };
     const call = async () => {
       const response = await fetch(`/api/purchase/${props.pricingPlanId}`);
-      lectureSectionData = response.json().updatedLectureSections;
+      const course: CourseResponse = (await response.json()) as CourseResponse;
+      lectureSectionData = course.updatedLectureSections;
       if (lectureSectionData.length === 1) {
         setLectureSections(lectureSectionData);
         setLoading(false);
