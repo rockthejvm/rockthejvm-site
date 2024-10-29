@@ -300,6 +300,7 @@ export default function Example(props) {
               <a
                 key="RSS"
                 href={site.socials.feed.url}
+                target="_blank"
                 className="text-content hover:text-accent-1"
               >
                 {props.rss}
