@@ -24,7 +24,6 @@ const navigation = {
     { name: "Contact", href: "/contact" },
     { name: "Memberships", href: "/memberships" },
     { name: "Refunds", href: "/refunds" },
-    { name: "Sitemap", href: "/sitemap-index.xml" },
   ],
   company: [
     { name: "About", href: "/about" },
