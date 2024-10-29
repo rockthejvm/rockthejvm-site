@@ -47,18 +47,20 @@ export default function Example(props) {
     // setLoading(true);
     // setError(null);
     try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
-        },
-      };
+      // const options = {
+      //   method: "GET",
+      //   headers: {
+      //     accept: "application/json",
+      //     apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
+      //   },
+      // };
 
-      const response = await fetch(
-        `https://developers.teachable.com/v1/pricing_plans/${args.pricingPlanId}`,
-        options,
-      );
+      // const response = await fetch(
+      //   `https://developers.teachable.com/v1/pricing_plans/${args.pricingPlanId}`,
+      //   options,
+      // );
+
+      const response = await fetch(`/api/purchase/${args.pricingPlanId}`);
 
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -66,10 +68,10 @@ export default function Example(props) {
 
       const course = await response.json();
 
-      if (course.pricing_plan.price <= 0) {
+      if (course.price <= 0) {
         args.func("Free");
       } else {
-        args.func(`$${(course.pricing_plan.price / 100).toFixed(2)}`);
+        args.func(`$${(course.price / 100).toFixed(2)}`);
       }
     } catch (error) {
       // setError(
