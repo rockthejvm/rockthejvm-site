@@ -49,7 +49,7 @@ export default function Example({ pricingPlanId }: Props) {
       //   options,
       // );
 
-      const response = await fetch(`/api/${pricingPlanId}`);
+      const response = await fetch(`/api/purchase/${pricingPlanId}`);
 
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
