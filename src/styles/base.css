@@ -40,9 +40,6 @@
     }
 
     /* Uncomment to hide the home page gradient on light mode */
-    /* .display-gradient {
-      @apply hidden;
-    } */
   }
 
   :root[data-theme="dark"] {
