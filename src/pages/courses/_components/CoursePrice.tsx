@@ -57,10 +57,10 @@ export default function Example({ pricingPlanId }: Props) {
 
       const course: Response = await response.json();
 
-      if (course.pricing_plan.price <= 0) {
+      if (course.price <= 0) {
         setPrice("Free");
       } else {
-        setPrice(`$${(course.pricing_plan.price / 100).toFixed(2)}`);
+        setPrice(`$${(course.price / 100).toFixed(2)}`);
       }
     } catch (error) {
       setError(
