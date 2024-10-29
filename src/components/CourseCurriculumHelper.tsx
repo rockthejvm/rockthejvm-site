@@ -186,15 +186,28 @@ export default function Example(props: Props) {
   };
 
   useEffect(() => {
-    const fetchPrice = async () => {
-      await getTeachableCurriculum(props.pricingPlanId);
+    // const fetchPrice = async () => {
+    //   await getTeachableCurriculum(props.pricingPlanId);
+    // };
+    const call = async () => {
+      const response = await fetch(`/api/purchase/${props.pricingPlanId}`);
+      lectureSectionData = response.json().updatedLectureSections;
+      if (lectureSectionData.length === 1) {
+        setLectureSections(lectureSectionData);
+        setLoading(false);
+      } else if (lectureSectionData.length >= 2) {
+        setLectureSections([lectureSectionData[0], lectureSectionData[1]]);
+        setLoading(false);
+      }
+      // setLectureSections(updatedLect`ureSections);
+      setExpanded(false);
     };
 
     // For local testing
     // lectureSectionData = localData;
 
     collapse();
-    fetchPrice();
+    call();
   }, []);
 
   return (
