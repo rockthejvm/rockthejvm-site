@@ -149,7 +149,7 @@ const orgStructuredData = {
       title={site.name}
       href={new URL("/articles/feed.xml", Astro.site)}
     />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href={new URL("sitemap-index.xml", Astro.site)} />
     <title>
       {title} | {site.name}
     </title>
