@@ -35,7 +35,7 @@
       "url": "https://www.youtube.com/@rockthejvm"
     },
     "feed": {
-      "url": "/feed.xml"
+      "url": "/articles/feed.xml"
     }
   }
 }
