@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import { getEntry } from "astro:content";
 import MembershipImage from "../../content/memberships/personal.png";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Courses from "./_sections/Courses.astro";
@@ -32,53 +31,51 @@ import MembershipPricingSection from "./_sections/MembershipPricingSection.astro
 // const frontmatter = course!.data;
 // const category = await getEntry("courseCategories", frontmatter.category.id);
 
-const getMembershipPrice = async (pricingPlanId: number) => {
-  console.log("Fetching price for:", pricingPlanId); // Debug log
-  try {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
-      },
-    };
+// const getMembershipPrice = async (pricingPlanId: number) => {
+//   try {
+//     const options = {
+//       method: "GET",
+//       headers: {
+//         accept: "application/json",
+//         apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
+//       },
+//     };
 
-    const response = await fetch(
-      `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
-      options,
-    );
+//     const response = await fetch(
+//       `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
+//       options,
+//     );
 
-    if (!response.ok) {
-      throw new Error(`Network response was not ok: ${response.statusText}`);
-    }
+//     if (!response.ok) {
+//       throw new Error(`Network response was not ok: ${response.statusText}`);
+//     }
 
-    const course: Response = await response.json();
+//     const course: Response = await response.json();
 
-    if (course.pricing_plan.price <= 0) {
-      return "Free";
-    } else {
-      return `$${(course.pricing_plan.price / 100).toFixed(2)}`;
-    }
-  } catch (error) {
-    console.error("Failed to fetch course price:", error);
-  } finally {
-    console.log("Setting loading to false"); // Debug log
-  }
-};
+//     if (course.pricing_plan.price <= 0) {
+//       return "Free";
+//     } else {
+//       return `$${(course.pricing_plan.price / 100).toFixed(2)}`;
+//     }
+//   } catch (error) {
+//     console.error("Failed to fetch course price:", error);
+//   } finally {
+//   }
+// };
 
-const monthlyMembershipPricingPlanId = (
-  await getEntry("memberships", "personal")
-).data.packages[0].pricingPlanId;
+// const monthlyMembershipPricingPlanId = (
+//   await getEntry("memberships", "personal")
+// ).data.packages[0].pricingPlanId;
 
-const yearlyMembershipPricingPlanId = (
-  await getEntry("memberships", "personal")
-).data.packages[1].pricingPlanId;
+// const yearlyMembershipPricingPlanId = (
+//   await getEntry("memberships", "personal")
+// ).data.packages[1].pricingPlanId;
 
-const monthlyPrice = await getMembershipPrice(monthlyMembershipPricingPlanId);
+// const monthlyPrice = await getMembershipPrice(monthlyMembershipPricingPlanId);
 
-const title = (await getEntry("memberships", "personal")).data.title;
+// const title = (await getEntry("memberships", "personal")).data.title;
 
-const yearlyPrice = await getMembershipPrice(yearlyMembershipPricingPlanId);
+// const yearlyPrice = await getMembershipPrice(yearlyMembershipPricingPlanId);
 ---
 
 <BaseLayout
@@ -113,7 +110,7 @@ const yearlyPrice = await getMembershipPrice(yearlyMembershipPricingPlanId);
                 >
                   <a
                     href="https://sso.teachable.com/secure/256201/checkout/4131055/membership"
-                    class="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    class="rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                   >
                     Enroll
                   </a>

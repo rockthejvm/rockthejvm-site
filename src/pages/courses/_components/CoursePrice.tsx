@@ -4,27 +4,31 @@ interface Props {
   pricingPlanId: number;
 }
 
+// interface Response {
+//   pricing_plan: {
+//     id: number;
+//     created_at: string;
+//     updated_at: string;
+//     name: string;
+//     price: number;
+//     currency: string;
+//     course_id: number;
+//     frequency: {
+//       type: string;
+//       billing_interval: string;
+//       billing_interval_count: number;
+//       access_limit_date: string | null;
+//       access_limit_interval: string | null;
+//       access_limit_duration: string | null;
+//     };
+//     description: string;
+//     free_trial_length: number | null;
+//     enrollment_cap: number | null;
+//   };
+// }
+
 interface Response {
-  pricing_plan: {
-    id: number;
-    created_at: string;
-    updated_at: string;
-    name: string;
-    price: number;
-    currency: string;
-    course_id: number;
-    frequency: {
-      type: string;
-      billing_interval: string;
-      billing_interval_count: number;
-      access_limit_date: string | null;
-      access_limit_interval: string | null;
-      access_limit_duration: string | null;
-    };
-    description: string;
-    free_trial_length: number | null;
-    enrollment_cap: number | null;
-  };
+  price: number;
 }
 
 export default function Example({ pricingPlanId }: Props) {
@@ -35,20 +39,21 @@ export default function Example({ pricingPlanId }: Props) {
   const getCoursePrice = useCallback(async (pricingPlanId: number) => {
     setLoading(true);
     setError(null);
-    console.log("Fetching price for:", pricingPlanId); // Debug log
     try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
-        },
-      };
+      // const options = {
+      //   method: "GET",
+      //   headers: {
+      //     accept: "application/json",
+      //     apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
+      //   },
+      // };
 
-      const response = await fetch(
-        `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
-        options,
-      );
+      // const response = await fetch(
+      //   `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
+      //   options,
+      // );
+
+      const response = await fetch(`/api/purchase/${pricingPlanId}`);
 
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -56,10 +61,10 @@ export default function Example({ pricingPlanId }: Props) {
 
       const course: Response = await response.json();
 
-      if (course.pricing_plan.price <= 0) {
+      if (course.price <= 0) {
         setPrice("Free");
       } else {
-        setPrice(`$${(course.pricing_plan.price / 100).toFixed(2)}`);
+        setPrice(`$${(course.price / 100).toFixed(2)}`);
       }
     } catch (error) {
       setError(
@@ -67,19 +72,15 @@ export default function Example({ pricingPlanId }: Props) {
       );
       console.error("Failed to fetch course price:", error);
     } finally {
-      console.log("Setting loading to false"); // Debug log
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    console.log("PricingPlanId changed:", pricingPlanId); // Debug log
     if (pricingPlanId > 0) {
       getCoursePrice(pricingPlanId);
     }
   }, [pricingPlanId, getCoursePrice]);
-
-  console.log("Component render - Loading:", loading, "Price:", price); // Debug log
 
   if (loading) {
     return <div>Loading...</div>;

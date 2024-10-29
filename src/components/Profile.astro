@@ -18,9 +18,9 @@ const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
 <Section {color} title="Meet Rock the JVM">
-  <Feature image={author.data.photo} imagePosition="left" imageRounded="true">
+  <Feature image={author.data.photo} imagePosition="left" imageRounded={true}>
     <h3>Daniel Ciocîrlan</h3>
-    <div>
+    <article>
       <p>I'm a software engineer and the founder of Rock the JVM.</p>
       <p>
         I'm a software engineer and the founder of Rock the JVM. I started the
@@ -42,7 +42,7 @@ const author = await getEntry("authors", "daniel-ciocirlan");
         Master theses on Quantum Computation. Before starting to learn
         programming, I won medals at international Physics competitions.
       </p>
-    </div>
+    </article>
   </Feature>
   {
     collaborators &&

@@ -6,18 +6,18 @@ type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
   description: CourseFrontmatter["description"];
-  image: CourseFrontmatter["image"];
+  heroImage: CourseFrontmatter["heroImage"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
 }
 
-const { description, image, pricingPlanId, title } = Astro.props;
+const { description, heroImage, pricingPlanId, title } = Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
   <Image
     alt={title}
-    src={image}
+    src={heroImage}
     class="absolute inset-0 size-full object-cover"
     slot="image"
   />
@@ -36,7 +36,7 @@ const { description, image, pricingPlanId, title } = Astro.props;
     <div class="mt-10 text-center">
       <a
         href={`https://rockthejvm.com/purchase?product_id=${pricingPlanId}`}
-        class="rounded-md bg-cta px-3.5 py-2.5 text-base font-semibold text-gray-100 shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        class="rounded-md bg-cta px-3.5 py-2.5 text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         Take this course
       </a>

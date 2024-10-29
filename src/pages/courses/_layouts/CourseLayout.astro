@@ -75,7 +75,7 @@ const structuredData = {
     {
       "@type": "CourseInstance",
       courseMode: "Online",
-      courseWorkload: `PT${bundledCourses.length > 0 ? bundledCourses.reduce((b, a) => b + a.data.benefits?.hours, 0) : benefits?.hours}H`,
+      courseWorkload: `PT${bundledCourses.length > 0 ? bundledCourses.reduce((b, a) => b + a.data.benefits!.hours, 0) : benefits!.hours}H`,
       instructor: [
         {
           "@type": "Person",
@@ -92,10 +92,11 @@ const structuredData = {
 <BaseLayout
   {description}
   {title}
+  image={{ alt: title, src: heroImage.src }}
   structuredData={JSON.stringify(structuredData)}
 >
   <article>
-    <Hero {description} image={heroImage} {pricingPlanId} {title} />
+    <Hero {description} {heroImage} {pricingPlanId} {title} />
     {
       videoId && (
         <CourseVideo color={categoryColor} {videoId}>
@@ -108,7 +109,7 @@ const structuredData = {
     </Goal>
     {
       question && (
-        <Question color={categoryColor} image={question.image} {question}>
+        <Question color={categoryColor} {question}>
           <slot name="question" />
         </Question>
       )

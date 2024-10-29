@@ -1,5 +1,12 @@
 ---
-import { Image, ImageMetadata } from "astro:assets";
+import { Image } from "astro:assets";
+
+interface ImageMetadata {
+  src: string;
+  width: number;
+  height: number;
+  format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg" | "avif";
+}
 
 interface Props {
   title: string;
@@ -8,8 +15,6 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
-
-console.log(`TITLE: ${title}`);
 ---
 
 <div class="mt-8 w-full overflow-hidden rounded-2xl md:flex md:h-52">

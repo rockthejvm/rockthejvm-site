@@ -6,7 +6,7 @@ publishedDate: 2024-06-14
 repositoryUrl: https://github.com/ghurtchu/braindrill
 tags: [pekko, pekko-cluster, pekko-http, pekko-stream, scala]
 title: A Distributed Code Execution Engine in Pekko with Scala
-updatedDate: 2024-09-06
+
 videoId: 1uP6FTUn8_E
 ---
 
@@ -452,7 +452,7 @@ This deployment shell script (`deploy.sh`) sets up a Docker environment and opti
 
 Before writing any code let's check `resources/application.conf` which is defined in [HOCON format](https://docs.spongepowered.org/stable/en/server/getting-started/configuration/hocon.html):
 
-```hocon
+```text
 pekko {
   actor {
     provider = cluster
@@ -549,7 +549,7 @@ This configuration file is designed to be flexible, allowing for environment-spe
 
 The project also requires a special configuration for capturing properties for domain objects such as `worker`, `load-balancer` and so on.
 
-```hocon
+```text
 include "application"
 
 transformation {

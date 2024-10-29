@@ -18,7 +18,7 @@ import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 interface Props {
   article: CollectionEntry<"articles">;
   headings: MarkdownHeading[];
-  minutesRead: number;
+  minutesRead?: number;
 }
 
 const { article, headings, minutesRead } = Astro.props;
@@ -92,15 +92,18 @@ const structuredData = {
           <h1>{title}</h1>
         </Prose>
         <Byline {author}>
-          <p>
-            {minutesRead} min read &nbsp;•&nbsp; {
-              updatedDate ? (
-                <FormattedDate date={updatedDate} />
-              ) : (
-                <FormattedDate date={publishedDate} />
-              )
-            }
-          </p>
+          {
+            minutesRead && (
+              <p>
+                {minutesRead} min read &nbsp;•&nbsp;{" "}
+                {
+                  <FormattedDate
+                    date={updatedDate ? updatedDate : publishedDate}
+                  />
+                }
+              </p>
+            )
+          }
           <TagList {tags} />
         </Byline>
         <SocialShare />

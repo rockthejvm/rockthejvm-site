@@ -5,7 +5,7 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        archived: z.boolean().default(false), // TODO
+        archived: z.boolean().default(false),
         bundledCourses: z
           .array(reference("courses"))
           .min(2, "At least 2 courses are required for a bundle")

@@ -29,11 +29,16 @@ const {
   canonicalUrl,
   description,
   error,
-  image,
+  image: _image,
   structuredData,
   title,
   type,
 } = Astro.props;
+
+const image = {
+  alt: _image.alt,
+  src: `https://${site.domain}${_image.src}`,
+};
 
 const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
 
@@ -144,6 +149,7 @@ const orgStructuredData = {
       title={site.name}
       href={new URL("feed.xml", Astro.site)}
     />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <title>
       {title} | {site.name}
     </title>

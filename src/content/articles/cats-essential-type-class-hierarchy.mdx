@@ -4,7 +4,6 @@ excerpt: "Cats is a complex library for Scala: This article deconstructs the maj
 publishedDate: 2021-06-03
 tags: [cats, scala]
 title: "Cats: Essential Type Class Hierarchy Explained"
-updatedDate: 2024-09-06
 ---
 
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
@@ -127,7 +126,7 @@ def map[A, B](fa: F[A])(f: A => B): F[B] =
 
 Therefore, Monad should extend Functor, because we can implement the `map` method for free. So we have the type class hierarchy like this:
 
-```jeg
+```text
  Semigroup            Functor
      │                   │
      │                   │
@@ -173,7 +172,7 @@ trait Monad[F[_]] extends FlatMap[F] with Applicative[F] {
 
 So the hierarchy looks like this:
 
-```jeg
+```text
 
                        Functor
   Semigroup               │
@@ -237,7 +236,7 @@ def mapN[A, B, C](fa: F[A], fb: F[B])(f: (A, B) => C): F[C] = {
 
 The `mapN` method not only does a (cartesian) product between two wrapped values, but it also applies a function to the elements being tupled. Our hierarchy now looks like this:
 
-```jeg
+```text
                       Functor            Semigroupal
                          │                    │
                  ┌───────┴────────┐ ┌─────────┘
@@ -274,7 +273,7 @@ trait MonadError[F[_], E] extends ApplicativeError[F, E] with Monad[F]
 
 And thus, the final type class hierarchy looks like this:
 
-```jeg
+```text
                       Functor            Semigroupal
                          │                    │
                  ┌───────┴────────┐ ┌─────────┘

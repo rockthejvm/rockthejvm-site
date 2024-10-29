@@ -13,13 +13,6 @@ const membershipTypes = [
   { value: "Yearly", label: "Yearly", priceSuffix: "/year" },
 ];
 
-interface CallbackArgs {
-  pricingPlanId: number;
-  func: React.Dispatch;
-  errorFunc: React.Dispatch;
-  loadingFunc: React.Dispatch;
-}
-
 // const plans = [
 //   {
 //     id: "5",
@@ -46,27 +39,28 @@ export default function Example(props) {
   const [monthlyPrice, setMonthlyPrice] = useState("Free");
   const [yearlyPrice, setYearlyPrice] = useState("Free");
   const [monthlyLoading, setMonthlyLoading] = useState(true);
-  const [monthlyError, setMonthlyError] = useState<string | null>(null);
+  const [monthlyError, setMonthlyError] = useState(null);
   const [yearlyLoading, setYearlyLoading] = useState(true);
-  const [yearlyError, setYearlyError] = useState<string | null>(null);
+  const [yearlyError, setYearlyError] = useState(null);
 
-  const getCoursePrice = useCallback(async (args: CallbackArgs) => {
+  const getCoursePrice = useCallback(async (args) => {
     // setLoading(true);
     // setError(null);
-    console.log("Fetching price for:", args.pricingPlanId); // Debug log
     try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
-        },
-      };
+      // const options = {
+      //   method: "GET",
+      //   headers: {
+      //     accept: "application/json",
+      //     apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
+      //   },
+      // };
 
-      const response = await fetch(
-        `https://developers.teachable.com/v1/pricing_plans/${args.pricingPlanId}`,
-        options,
-      );
+      // const response = await fetch(
+      //   `https://developers.teachable.com/v1/pricing_plans/${args.pricingPlanId}`,
+      //   options,
+      // );
+
+      const response = await fetch(`/api/purchase/${args.pricingPlanId}`);
 
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -74,10 +68,10 @@ export default function Example(props) {
 
       const course = await response.json();
 
-      if (course.pricing_plan.price <= 0) {
+      if (course.price <= 0) {
         args.func("Free");
       } else {
-        args.func(`$${(course.pricing_plan.price / 100).toFixed(2)}`);
+        args.func(`$${(course.price / 100).toFixed(2)}`);
       }
     } catch (error) {
       // setError(
@@ -88,7 +82,6 @@ export default function Example(props) {
       );
       console.error("Failed to fetch course price:", error);
     } finally {
-      console.log("Setting loading to false"); // Debug log
       args.loadingFunc(false);
       // setLoading(false);
     }
@@ -122,14 +115,8 @@ export default function Example(props) {
       <div
         className={`isolate mx-auto mt-8 grid max-w-md grid-cols-1 gap-16 lg:mx-0 lg:max-w-none lg:grid-cols-2`}
       >
-        <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
+        <div className="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
           <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
-            <img
-              src="src/content/memberships/personal.png"
-              alt="Personal"
-              className="mx-auto mb-2"
-              width="150"
-            />
             <div className="mb-4 flex justify-center">
               <fieldset aria-label="Payment frequency">
                 <RadioGroup
@@ -316,11 +303,11 @@ export default function Example(props) {
               <a
                 href="https://rockthejvm.com/purchase?product_id=4131055"
                 aria-describedby="tier-hobby"
-                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
               >
                 Join Now
               </a>
-              <small className="mt-16 text-sm text-content-1">
+              <small className="mt-16 text-sm text-ctatext">
                 <i className="mt-8">
                   This is a subscription product billed on a monthly basis until
                   you cancel. Cancel anytime from the account management page.
@@ -500,22 +487,13 @@ export default function Example(props) {
           </div>
         </div>
         <div>
-          <div className="rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
-            <img
-              src="src/content/memberships/team.png"
-              alt="Personal"
-              className="mx-auto mb-2"
-              width="150"
-            />
-            <h3 className="text-5xl font-bold tracking-tight text-content">
-              Team Pack
-            </h3>
-            {/* <h3
+          <div className="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
+            <h3
               id="tier-hobby"
               className="text-base font-semibold leading-7 text-accent-1"
             >
               Team Pack
-            </h3> */}
+            </h3>
             {/* <p className="mt-4 flex items-baseline gap-x-2">
             <span className="text-5xl font-bold tracking-tight text-content">
               ${395}
@@ -545,7 +523,7 @@ export default function Example(props) {
               aria-describedby="tier-hobby"
               className="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
             >
-              Contact Me
+              Join Now
             </a>
             <small className="mt-16 text-sm text-content-1">
               <i className="mt-8">

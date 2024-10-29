@@ -4,7 +4,6 @@ excerpt: Discover how to create your own custom string interpolator that feels l
 publishedDate: 2020-05-12
 tags: [scala, tricks]
 title: Create Your Own Custom String Interpolator
-updatedDate: 2024-09-06
 ---
 
 ## Who This Article Is For
@@ -28,7 +27,7 @@ val sInterpolator = s"The value of pi is $lifeOfPi. Half of pi is ${lifeOfPi / 2
 
 This interpolator will simply call the toString methods of every value and expression that we expand, and the results will be part of the resulting string
 
-```Perl
+```text
 The value of pi is 3.14159. Half of pi is 1.570795
 ```
 
@@ -40,7 +39,7 @@ val rawIterpolator = raw"The value of pi is $lifeOfPi\n <-- this is not a newlin
 
 Normally, the \n would trigger a new line, but in a Raw interpolator, it doesn't:
 
-```Perl
+```text
 The value of pi is 3.14159\n <-- this is not a newline
 ```
 
@@ -50,7 +49,7 @@ And finally we have the F interpolator, which has the ability to control the for
 val fInterpolator = f"The approximate value of pi is $lifeOfPi%3.2f"
 ```
 
-```Perl
+```text
 The approximate value of pi is 3.14
 ```
 

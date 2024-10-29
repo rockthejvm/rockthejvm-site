@@ -1,17 +1,19 @@
 ---
 import { Image } from "astro:assets";
 import HeroHelper from "./HeroHelper";
+import RockTheJVM from "/src/assets/images/logos/rtjvm-red.png";
 ---
 
 <header>
   <HeroHelper>
     <!-- <RockTheJVM class="h-48 w-full md:h-64" slot="logo" /> -->
     <Image
-      src="/src/assets/images/logos/rtjvm-red.png"
+      src={RockTheJVM}
       alt="Rock the JVM Logo"
       width="200"
       height="200"
       slot="logo"
+      quality="max"
       class="mx-auto h-48 md:mx-0 md:h-64 md:w-full"
     />
   </HeroHelper>

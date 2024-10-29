@@ -9,7 +9,7 @@
   "founded": 2017,
   "legalName": "Accelerated Learning System SRL",
   "logo": {
-    "src": "../assets/images/logos/rtjvm-red.png",
+    "src": "/logos/rtjvm.png",
     "alt": "Rock the JVM"
   },
   "name": "Rock the JVM",
@@ -35,7 +35,7 @@
       "url": "https://www.youtube.com/@rockthejvm"
     },
     "feed": {
-      "url": "feed.xml"
+      "url": "/feed.xml"
     }
   }
 }

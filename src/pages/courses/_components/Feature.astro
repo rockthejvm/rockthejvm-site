@@ -1,12 +1,18 @@
 ---
 import Prose from "@components/Prose.astro";
 import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
+
+interface ImageMetadata {
+  src: string;
+  width: number;
+  height: number;
+  format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg" | "avif";
+}
 
 interface Props {
-  image: CollectionEntry<"courses">["data"]["image"];
+  image: ImageMetadata;
   imagePosition: "left" | "right";
-  imageRounded: boolean;
+  imageRounded?: boolean;
 }
 
 const { image, imagePosition, imageRounded = false } = Astro.props;
