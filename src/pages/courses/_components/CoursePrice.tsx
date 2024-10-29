@@ -4,27 +4,31 @@ interface Props {
   pricingPlanId: number;
 }
 
+// interface Response {
+//   pricing_plan: {
+//     id: number;
+//     created_at: string;
+//     updated_at: string;
+//     name: string;
+//     price: number;
+//     currency: string;
+//     course_id: number;
+//     frequency: {
+//       type: string;
+//       billing_interval: string;
+//       billing_interval_count: number;
+//       access_limit_date: string | null;
+//       access_limit_interval: string | null;
+//       access_limit_duration: string | null;
+//     };
+//     description: string;
+//     free_trial_length: number | null;
+//     enrollment_cap: number | null;
+//   };
+// }
+
 interface Response {
-  pricing_plan: {
-    id: number;
-    created_at: string;
-    updated_at: string;
-    name: string;
-    price: number;
-    currency: string;
-    course_id: number;
-    frequency: {
-      type: string;
-      billing_interval: string;
-      billing_interval_count: number;
-      access_limit_date: string | null;
-      access_limit_interval: string | null;
-      access_limit_duration: string | null;
-    };
-    description: string;
-    free_trial_length: number | null;
-    enrollment_cap: number | null;
-  };
+  price: number;
 }
 
 export default function Example({ pricingPlanId }: Props) {
