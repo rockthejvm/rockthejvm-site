@@ -4,9 +4,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": ["esnext"],
-    "types": ["@cloudflare/workers-types"],
-    "paths": {
-      "@utils/*": ["../src/utils/*"]
-    }
+    "types": ["@cloudflare/workers-types"]
+    // "paths": {
+    //   "@utils/*": ["../src/utils/*"]
+    // }
   }
 }
