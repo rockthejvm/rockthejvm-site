@@ -1,4 +1,5 @@
 ---
+import { undefined } from "astro:schema";
 import site from "../data/site.json";
 
 interface Props {
@@ -29,16 +30,18 @@ const {
   canonicalUrl,
   description,
   error,
-  _image,
+  image: _image,
   structuredData,
   title,
   type,
 } = Astro.props;
 
-const image = {
-  alt: _image.alt,
-  src: `https://${site.domain}${_image.src}`,
-};
+const image = _image
+  ? {
+      alt: _image?.alt,
+      src: `https://${site.domain}${_image?.src}`,
+    }
+  : undefined;
 
 const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
 
@@ -228,13 +231,13 @@ const orgStructuredData = {
           </Fragment>
         )}
         <meta property="og:description" content={description} />
-        <meta property="og:image:alt" content={image.alt} />
+        <meta property="og:image:alt" content={image?.alt} />
         {/* <meta property="og:image:height" content= /> */}
-        <meta property="og:image:secure_url" content={image.src} />
+        <meta property="og:image:secure_url" content={image?.src} />
         {/* <meta property="og:image:type" content=`image/${}` /> */}
-        <meta property="og:image:url" content={image.src} />
+        <meta property="og:image:url" content={image?.src} />
         {/* <meta property="og:image:width" content= /> */}
-        <meta property="og:image" content={image.src} />
+        <meta property="og:image" content={image?.src} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content={site.name} />
         <meta property="og:title" content={title} />
@@ -247,8 +250,8 @@ const orgStructuredData = {
           content={article?.author.twitter ?? site.socials.twitter.handle}
         />
         <meta property="twitter:description" content={description} />
-        <meta property="twitter:image:alt" content={image.alt} />
-        <meta property="twitter:image" content={image.src} />
+        <meta property="twitter:image:alt" content={image?.alt} />
+        <meta property="twitter:image" content={image?.src} />
         <meta property="twitter:site" content={site.socials.twitter.handle} />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:url" content={canonicalUrl} />
