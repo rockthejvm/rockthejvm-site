@@ -18,7 +18,7 @@ User-agent: Meta-ExternalFetcher
 User-agent: Omgilibot
 User-agent: PerplexityBot
 User-agent: Timpibot
-Disallow: /articles
+Disallow: /articles*
 
 User-agent: *
 Allow: /
