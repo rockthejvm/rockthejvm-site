@@ -24,7 +24,6 @@ export async function getStaticPaths() {
 
 const { articles, tag } = Astro.props;
 const title = `Articles tagged with '${tag.id}'`;
-console.log(articles.length);
 ---
 
 <BaseLayout {title} description={title}>
