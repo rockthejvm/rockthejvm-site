@@ -43,14 +43,14 @@ In this article, I will demonstrate you how the Scala ecosystem changed the game
 
 Without compromising type safety guarantees of Scala and in the meantime being able to embed library from JavaScript/TypeScript ecosystem.
 
-## Prerequisites:
+## Prerequisites
 
 - **Sbt**: The build tool
 - **NodeJS**: The JavaScript runtime
 - **Docker**: For the database
 - **VSCode**: The editor of choice
 
-## What is inside
+## What Is Inside
 
 - **ZIO**: Functional Effect System on both back and front side.
   - Quill for database access.
@@ -103,7 +103,7 @@ Leveraging the [tasks VSCode](https://code.visualstudio.com/docs/editor/tasks) s
 
   Visit the [registration from at http://localhost:5173/](http://localhost:5173/demos/scalariform) and register a person, you should see the registered user in the UI.
 
-## The build
+## The Build
 
 In this section, we'll briefly cover the most important details about the project build.
 
@@ -118,7 +118,7 @@ For **ScalaJS**
 - "ch.epfl.scala" % "[sbt-scalajs-bundler](https://scalacenter.github.io/scalajs-bundler/index.html)" % "0.21.1" will bundle the app
 - "ch.epfl.scala" % "[sbt-web-scalajs-bundler](https://scalacenter.github.io/scalajs-bundler/getting-started.html#sbt-web)" % "0.21.1" will expose the bundle as classpath resource for sbt-web (websjar).
 
-### Cross building
+### Cross Building
 
 "org.portable-scala" % "[sbt-scalajs-crossproject](https://github.com/portable-scala/sbt-crossproject)" % "1.3.2"
 
@@ -130,7 +130,7 @@ Shared project configuration 👇
 
 ScalaJS and ScalaJS bundler are smart enough to cross-compile and deploy `module/shared/src/main/scala` sources in both target.
 
-### JS integration
+### JS Integration
 
 JS integration is also a classical one with NPM and Vite, here a again specific configuration is limited to vite.config.js
 
@@ -175,7 +175,7 @@ In this setup:
 
 This setting will allow Vite to hot reload changes on the fly, giving an incredible developer experience.
 
-## Project structure
+## Project Structure
 
 Thanks to the power of SBT and multi-module support, it easy to compile and package all together.
 
@@ -218,7 +218,7 @@ Sometimes we need to [generate some static files](https://github.com/cheleb/zio-
 
 Let's see how ZIO, Laminar and Tapir can be combined to build a full stack web app.
 
-## Server side
+## Server Side
 
 We will now focus on the server side, but the same principles will apply to the client side.
 
@@ -291,7 +291,7 @@ object HttpServer extends ZIOAppDefault {
 
 To be runnable, those dependencies need to be satisfied **(5)**. This is what layers are made for. A layer is a ZIO concept that will provide a service, and that can depend on other services. Letțs see how ZIO, assembles the application, one layer after another.
 
-#### Repository data layer
+#### Repository Data Layer
 
 Repository `datalayer` is the first layer of the application, it abstracts the database access. In this project, a classic Repository object connects the database through a classical JDBC DataSource.
 
@@ -470,7 +470,7 @@ Lifting a new dependency in the service is just a matter of adding it to the con
 
 This is really powerful, convenient during development, and efficient at runtime &mdash; a truly modular and scalable application.
 
-#### Server layer
+#### Server Layer
 
 The Server layer is a layer that will handle the HTTP server. It is provided by ZIO HTTP with convenient default configuration.
 
@@ -545,7 +545,7 @@ This is a huge win, because it allows us to:
 
 Here is an example of a Tapir endpoint definition:
 
-### Shared Endpoint definitions
+### Shared Endpoint Definitions
 
 In the shared module, the API endpoints are defined as immutable data structures.
 
@@ -577,7 +577,7 @@ This is a simple GET endpoint that will return a Person and a POST endpoint that
 
 From this definition, Tapir will help generate the client and server side code, the documentation and the tests.
 
-### Server side
+### Server Side
 
 On the **server side**, Tapir `Endpoints.create` will be implemented by a ZIO effect, through the **zServerLogic** combinator.
 
@@ -624,7 +624,7 @@ Everything is described as ZIO effects. `URIO[PersonService, PersonController]` 
 
 Tapir provides a [lot of combinators](https://tapir.softwaremill.com/en/latest/server/logic.html#other-server-logic-variants) to handle the ZIO effect, Cats Effect or Future.
 
-### Client side
+### Client Side
 
 On the **client side**, Tapir will allow to interact as client, it will leverage the same endpoint definition to generate the client side code.
 
@@ -658,7 +658,7 @@ Et voilà, a form is derived from the case class, and can be rendered in the UI.
 
 ![Laminar](./images/form-derived.png)
 
-### Http client, unsecured and secured
+### HTTP Client, Unsecured and Secured
 
 On the **client side**, Tapir will allow to interact as client, is a very straightforward way:
 
@@ -917,13 +917,13 @@ extension [I, E <: Throwable, O](endpoint: Endpoint[String, I, E, O, Any])    //
 - **(3)** The session is a class that will provide access to the UserToken.
 - **(4)** The `securedEndpointRequestZIO`is the method which will handle the token through the session and local storage.
 
-### Take away on Http client
+### Take Away on HTTP Client
 
 With this extension methods, secured endpoints can be called in the same way as unsecured endpoints, and the token will be handled in a full type safe manner.
 
 This is part of an [external library](https://github.com/cheleb/zio-laminar-tapir).
 
-## All together
+## All Together
 
 Here is the [full code](https://github.com/cheleb/zio-laminar-demo/blob/master/modules/client/src/main/scala/com/example/ziolaminardemo/app/demos/scalariform/ScalariformDemoPage.scala#L32) of the page that will create a Person and display the registered User in the UI.
 
@@ -988,7 +988,7 @@ object ScalariformDemoPage:
 
 This is a lot of magic in a single page.
 
-## Interacting with JavaScript ecosystem
+## Interacting with JavaScript Ecosystem
 
 We can leverage the JavaScript ecosystem in a type safe manner, either by using a Scala.js façade or by using the JavaScript API directly.
 
@@ -1049,7 +1049,7 @@ The [g8 starter](https://github.com/cheleb/zio-scalajs-laminar.g8) project needs
 
 This is the subject of a future article.
 
-## In the end
+## In the End
 
 Hope you liked this introduction.
 
