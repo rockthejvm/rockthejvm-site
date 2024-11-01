@@ -18,19 +18,19 @@ const membershipTypes = [
 //     id: "5",
 //     name: "5-Team",
 //     price: 900,
-//     url: "https://rockthejvm.com/purchase?product_id=4476809",
+//     url: "https://courses.rockthejvm.com/purchase?product_id=4476809",
 //   },
 //   {
 //     id: "10",
 //     name: "10-Team",
 //     price: 1800,
-//     url: "https://rockthejvm.com/purchase?product_id=4476810",
+//     url: "https://courses.rockthejvm.com/purchase?product_id=4476810",
 //   },
 //   {
 //     id: "15",
 //     name: "15-Team",
 //     price: 2700,
-//     url: "https://rockthejvm.com/purchase?product_id=3514316",
+//     url: "https://courses.rockthejvm.com/purchase?product_id=3514316",
 //   },
 // ];
 
@@ -307,7 +307,7 @@ export default function Example(props) {
                 </li>
               </ul>
               <a
-                href="https://rockthejvm.com/purchase?product_id=4131055"
+                href="https://courses.rockthejvm.com/purchase?product_id=4131055"
                 aria-describedby="tier-hobby"
                 className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
               >
@@ -477,7 +477,7 @@ export default function Example(props) {
                 </li>
               </ul>
               <a
-                href="https://rockthejvm.com/purchase?product_id=4131056"
+                href="https://courses.rockthejvm.com/purchase?product_id=4131056"
                 aria-describedby="tier-enterprise"
                 className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
               >
