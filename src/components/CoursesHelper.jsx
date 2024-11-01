@@ -16,7 +16,7 @@ export default function Example(props) {
                 <img
                   className="my-auto w-full"
                   src={props.category.data.logo}
-                  alt={`${props.category.data.name} logo`}
+                  alt={props.category.data.name}
                 ></img>
               </div>
               <span className="flex-1 text-base font-semibold leading-7">
