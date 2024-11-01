@@ -87,12 +87,8 @@ const getLecture = async (
     apiKey,
   );
 
-function sleep(ms) {
+function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function batchPromises(promises: Promise[]): Promise[] {
-  return promises.map((promise, index) => sleep(index * 100).then(promise));
 }
 
 export async function onRequestGet(context: EventContext): PagesFunction<Env> {
@@ -131,25 +127,22 @@ export async function onRequestGet(context: EventContext): PagesFunction<Env> {
       .map(async (lectureSection) => ({
         name: lectureSection.name,
         lectures: await Promise.all(
-          batchPromises(
-            lectureSection.lectures
-              .filter((lecture) => lecture.is_published)
-              .sort((a, b) => (a.position < b.position ? -1 : 1))
-              .map(async (lecture) => ({
+          lectureSection.lectures
+            .filter((lecture) => lecture.is_published)
+            .sort((a, b) => (a.position < b.position ? -1 : 1))
+            .map(async (lecture, index) => {
+              await delay(index * 1000); // Delay each request by 1 second multiplied by the index
+              const lectureData = await getLecture(
+                courseId,
+                lecture.id,
+                context.env.TEACHABLE_API_KEY,
+              );
+              const lectureJson = await lectureData.json();
+              return {
                 id: lecture.id,
-                name: (
-                  (
-                    await (
-                      await getLecture(
-                        courseId,
-                        lecture.id,
-                        context.env.TEACHABLE_API_KEY,
-                      )
-                    ).json()
-                  )["lecture"] as Lecture
-                ).name,
-              })),
-          ),
+                name: (lectureJson["lecture"] as Lecture).name,
+              };
+            }),
         ),
       })),
   );
