@@ -87,6 +87,14 @@ const getLecture = async (
     apiKey,
   );
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function batchPromises(promises: Array<Promise>): Array<Promise> {
+  return promises.map((promise, index) => sleep(index * 100).then(promise));
+}
+
 export async function onRequestGet(context: EventContext): PagesFunction<Env> {
   const { env, params } = context;
   const apiKey = env.TEACHABLE_API_KEY;
