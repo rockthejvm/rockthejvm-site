@@ -14,7 +14,9 @@ export async function getStaticPaths() {
   return tags.map((tag) => ({
     params: { id: tag.id },
     props: {
-      articles: articles.filter((article) => article.data.tags.includes(tag)),
+      articles: articles.filter((article) =>
+        article.data.tags.map((t) => t.id).includes(tag.id),
+      ),
       tag,
     },
   }));
@@ -22,6 +24,7 @@ export async function getStaticPaths() {
 
 const { articles, tag } = Astro.props;
 const title = `Articles tagged with '${tag.id}'`;
+console.log(articles.length);
 ---
 
 <BaseLayout {title} description={title}>
