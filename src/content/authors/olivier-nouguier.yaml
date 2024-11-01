@@ -1,0 +1,10 @@
+biography: Senior Scala developer, conference speaker, specializing in Big Data, Kafka, Akka Streams, ZIO and streaming architectures.
+location:
+  city: Montpellier
+  country: France
+name: Olivier Nouguier
+photo: ./olivier-nouguier.png
+socials:
+  github: cheleb
+  linkedin: olivier-nouguier
+  twitter: "@oNouguier"
