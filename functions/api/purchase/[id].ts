@@ -130,7 +130,7 @@ export async function onRequestGet(context: EventContext): PagesFunction<Env> {
       .sort((a, b) => (a.position < b.position ? -1 : 1))
       .map(async (lectureSection) => ({
         name: lectureSection.name,
-        lectures: await Promise.all(
+        lectures: await batchPromises(
           lectureSection.lectures
             .filter((lecture) => lecture.is_published)
             .sort((a, b) => (a.position < b.position ? -1 : 1))
