@@ -110,12 +110,12 @@ export async function onRequestGet(context: EventContext): PagesFunction<Env> {
   // const courseResponse = await getCourse(courseId, apiKey);
   // const { course }: { course: Course } = await courseResponse.json();
   // const { name, heading, lecture_sections: lectureSections } = course;
-  const response = await fetch(`/api/curriculums/${courseId}`);
-  const courseInfo = (await response.json()) as CourseInfo;
+  // const response = await fetch(`/api/curriculums/${courseId}`);
+  // const courseInfo = (await response.json()) as CourseInfo;
 
   return new Response(
     JSON.stringify({
-      ...courseInfo,
+      // ...courseInfo,
       price,
     }),
     {
