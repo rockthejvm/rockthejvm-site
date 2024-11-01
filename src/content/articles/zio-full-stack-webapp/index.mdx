@@ -43,14 +43,14 @@ In this article, I will demonstrate you how the Scala ecosystem changed the game
 
 Without compromising type safety guarantees of Scala and in the meantime being able to embed library from JavaScript/TypeScript ecosystem.
 
-## 1. Prerequisites:
+## Prerequisites:
 
 - **Sbt**: The build tool
 - **NodeJS**: The JavaScript runtime
 - **Docker**: For the database
 - **VSCode**: The editor of choice
 
-## 2. What is inside
+## What is inside
 
 - **ZIO**: Functional Effect System on both back and front side.
   - Quill for database access.
@@ -61,7 +61,7 @@ The approach is to build a full stack web app with the same language (Scala) on 
 
 This is a very powerful combination, that allows to build a full stack web app in a type safe manner. And in the meantime we can leverage the JavaScript ecosystem, without compromising type safety, architecture and scalability of the application.
 
-## 3. Setup
+## Setup
 
 Within a single repository, we will set up a multi-modules application using:
 
@@ -103,11 +103,11 @@ Leveraging the [tasks VSCode](https://code.visualstudio.com/docs/editor/tasks) s
 
   Visit the [registration from at http://localhost:5173/](http://localhost:5173/demos/scalariform) and register a person, you should see the registered user in the UI.
 
-## 4. The build
+## The build
 
 In this section, we'll briefly cover the most important details about the project build.
 
-### 4.1. Scala/ScalaJS
+### Scala/ScalaJS
 
 Scala build here is driven by SBT in a rather classic way, except for the `shared` project that will be cast in two different worlds `.jvm` and `.js`
 Generated build contains documentation on details. Please take a look and don't hesitate to ask question/provide PR on the g8.
@@ -118,7 +118,7 @@ For **ScalaJS**
 - "ch.epfl.scala" % "[sbt-scalajs-bundler](https://scalacenter.github.io/scalajs-bundler/index.html)" % "0.21.1" will bundle the app
 - "ch.epfl.scala" % "[sbt-web-scalajs-bundler](https://scalacenter.github.io/scalajs-bundler/getting-started.html#sbt-web)" % "0.21.1" will expose the bundle as classpath resource for sbt-web (websjar).
 
-### 4.2. Cross building
+### Cross building
 
 "org.portable-scala" % "[sbt-scalajs-crossproject](https://github.com/portable-scala/sbt-crossproject)" % "1.3.2"
 
@@ -130,7 +130,7 @@ Shared project configuration 👇
 
 ScalaJS and ScalaJS bundler are smart enough to cross-compile and deploy `module/shared/src/main/scala` sources in both target.
 
-### 4.3. JS integration
+### JS integration
 
 JS integration is also a classical one with NPM and Vite, here a again specific configuration is limited to vite.config.js
 
@@ -175,7 +175,7 @@ In this setup:
 
 This setting will allow Vite to hot reload changes on the fly, giving an incredible developer experience.
 
-## 5. Project structure
+## Project structure
 
 Thanks to the power of SBT and multi-module support, it easy to compile and package all together.
 
@@ -218,7 +218,7 @@ Sometimes we need to [generate some static files](https://github.com/cheleb/zio-
 
 Let's see how ZIO, Laminar and Tapir can be combined to build a full stack web app.
 
-## 6. Server side
+## Server side
 
 We will now focus on the server side, but the same principles will apply to the client side.
 
@@ -228,7 +228,7 @@ We will see how ZIO will combine:
 - services
 - Rest API
 
-### 6.1. ZIO
+### ZIO
 
 A library for asynchronous and concurrent programming in Scala. There's a lot to say about it and Rock the JVM teaches this in detail in a [dedicated ZIO course](https://rockthejvm.com/p/zio), but we'll cover the essentials below.
 
@@ -291,7 +291,7 @@ object HttpServer extends ZIOAppDefault {
 
 To be runnable, those dependencies need to be satisfied **(5)**. This is what layers are made for. A layer is a ZIO concept that will provide a service, and that can depend on other services. Letțs see how ZIO, assembles the application, one layer after another.
 
-#### 6.1.1. Repository data layer
+#### Repository data layer
 
 Repository `datalayer` is the first layer of the application, it abstracts the database access. In this project, a classic Repository object connects the database through a classical JDBC DataSource.
 
@@ -331,7 +331,7 @@ object Repository {
 
 ZIO contains a rich variety of type aliases that after a while will make the code very readable.
 
-### 6.1.2. User Repository
+### User Repository
 
 The User Repository is a classic repository that will handle the User entity.
 
@@ -378,7 +378,7 @@ INSERT INTO users (name,email,age,creation_date) VALUES (?, ?, ?, ?) RETURNING i
 SELECT x4.id, x4.name, x4.email, x4.age, x4.creation_date AS creationDate FROM users x4 WHERE x4.id IS NULL AND ? IS NULL OR x4.id = ?;
 ```
 
-### 6.1.3. Flyway Service
+### Flyway Service
 
 In the same way, Flyway service is a layer that will handle the database migrations.
 
@@ -403,7 +403,7 @@ object FlywayServiceLive {
 - **(1)** is a layer that will provide a **FlywayService**, it depends on the availability of **FlywayConfig** service.
 - **(2)** Inject a **FlywayConfig** in a the previous layer and the remove the dependency on the config.
 
-#### 6.1.4. Person Service
+#### Person Service
 
 Person service is a layer that will handle the business logic of the application. It may for example validate the data before calling the repository.
 
@@ -470,7 +470,7 @@ Lifting a new dependency in the service is just a matter of adding it to the con
 
 This is really powerful, convenient during development, and efficient at runtime &mdash; a truly modular and scalable application.
 
-#### 6.1.5. Server layer
+#### Server layer
 
 The Server layer is a layer that will handle the HTTP server. It is provided by ZIO HTTP with convenient default configuration.
 
@@ -532,7 +532,7 @@ As it leverages Tapir, see the next section for more details.
 
 In the meantime, enjoy the Mermaid [diagram of the dependencies](https://mermaid-js.github.io/mermaid-live-editor/edit/#eyJjb2RlIjoiZ3JhcGggQlRcbkwwKFwiU2VydmVyLmRlZmF1bHRcIilcbkwxKFwiUmVwb3NpdG9yeS5kYXRhTGF5ZXJcIikgLS0+IEwyKFwiVXNlclJlcG9zaXRvcnlMaXZlLmxheWVyXCIpXG5MMVxuTDIgLS0+IEwzKFwiUGVyc29uU2VydmljZUxpdmUubGF5ZXJcIilcbkw0KFwiRmx5d2F5U2VydmljZUxpdmUuY29uZmlndXJlZExheWVyXCIpIiwibWVybWFpZCI6ICJ7XCJ0aGVtZVwiOiBcImRlZmF1bHRcIn0ifQ==) compiled by ZIO.
 
-## 7. Tapir
+## Tapir
 
 Tapir is a library for defining API endpoint as immutable data structures.
 
@@ -545,7 +545,7 @@ This is a huge win, because it allows us to:
 
 Here is an example of a Tapir endpoint definition:
 
-### 7.1. Shared Endpoint definitions
+### Shared Endpoint definitions
 
 In the shared module, the API endpoints are defined as immutable data structures.
 
@@ -577,7 +577,7 @@ This is a simple GET endpoint that will return a Person and a POST endpoint that
 
 From this definition, Tapir will help generate the client and server side code, the documentation and the tests.
 
-### 7.2. Server side
+### Server side
 
 On the **server side**, Tapir `Endpoints.create` will be implemented by a ZIO effect, through the **zServerLogic** combinator.
 
@@ -624,13 +624,13 @@ Everything is described as ZIO effects. `URIO[PersonService, PersonController]` 
 
 Tapir provides a [lot of combinators](https://tapir.softwaremill.com/en/latest/server/logic.html#other-server-logic-variants) to handle the ZIO effect, Cats Effect or Future.
 
-### 7.3. Client side
+### Client side
 
 On the **client side**, Tapir will allow to interact as client, it will leverage the same endpoint definition to generate the client side code.
 
 It will smartly generate the client side code, that will be used in the Laminar UI.
 
-## 8. Laminar
+## Laminar
 
 [Laminar](https://laminar.dev) is a 100% Scala reactive UI library. In few words, Laminar provides reactive variables and events that can be watched and consumed in the UI:
 
@@ -658,7 +658,7 @@ Et voilà, a form is derived from the case class, and can be rendered in the UI.
 
 ![Laminar](./images/form-derived.png)
 
-### 8.1 Http client, unsecured and secured
+### Http client, unsecured and secured
 
 On the **client side**, Tapir will allow to interact as client, is a very straightforward way:
 
@@ -778,7 +778,7 @@ In short term, in this one-liner we:
 - wait for the result.
 - piped the deserialized result in UI.
 
-### 8.2. Secured Endpoint
+### Secured Endpoint
 
 In the same way, a secured client can be defined, that will handle the authentication and the authorization.
 
@@ -804,7 +804,7 @@ Notice the first type parameter of the endpoint, it is a String, that will be th
 
 This is a secured endpoint, that will require a bearer token to be called.
 
-#### 8.2.1. Secured Server
+#### Secured Server
 
 The server will need to handle the authentication and the authorization.
 
@@ -865,7 +865,7 @@ class PersonController private (personService: PersonService, jwtService: JWTSer
 
 One-liners again!
 
-#### 8.2.2. Secured Client
+#### Secured Client
 
 On client side, the secured client will be defined with an extension method that will handle the authentication. Not to brag, but I believe this is the most impressive part of this article (_Daniel here: I agree!_)
 
@@ -917,7 +917,7 @@ extension [I, E <: Throwable, O](endpoint: Endpoint[String, I, E, O, Any])    //
 - **(3)** The session is a class that will provide access to the UserToken.
 - **(4)** The `securedEndpointRequestZIO`is the method which will handle the token through the session and local storage.
 
-### 8.3. Take away on Http client
+### Take away on Http client
 
 With this extension methods, secured endpoints can be called in the same way as unsecured endpoints, and the token will be handled in a full type safe manner.
 
@@ -1027,7 +1027,7 @@ Notice, this package.json is not the application one, because I want to limit th
 
 Then you can refer to TypeScript library very easily, see [here](https://github.com/cheleb/zio-laminar-demo/blob/master/modules/client/src/main/scala/com/example/ziolaminardemo/app/demos/ScalablytypedDemoPage.scala#L103).
 
-## Short conclusion
+## Conclusion
 
 This is a very simple example, but it shows how ZIO, Laminar and Tapir can be combined to build a full stack web app.
 
@@ -1039,7 +1039,7 @@ This is a very simple example, but it shows how ZIO, Laminar and Tapir can be co
 
 A powerful combination, that allows to build a full stack web app in a type safe manner. And in the meantime we can leverage the JavaScript ecosystem, without compromising type safety, architecture and scalability of the application.
 
-## Further improvements
+## Further Improvements
 
 The [g8 starter](https://github.com/cheleb/zio-scalajs-laminar.g8) project needs:
 
