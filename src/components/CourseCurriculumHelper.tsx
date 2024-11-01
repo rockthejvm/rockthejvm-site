@@ -103,26 +103,6 @@ export default function Example(props: Props) {
       apiKey,
     );
 
-  // const getCourseCurriculum = async (pricingPlanId) => {
-  //   try {
-  //     const response = await fetch(`/api/purchase/${pricingPlanId}`, {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const course = await response.json();
-
-  //     lectureSectionData = course.updatedLectureSections;
-  //     setLectureSections(course.updatedLectureSections);
-  //   } catch (error) {
-  //     console.error("Failed to fetch course price:", error);
-  //   }
-  // };
-
   const getTeachableCurriculum = async (pricingPlanId: number) => {
     setLoading(true);
     const apiKey = import.meta.env.PUBLIC_REACT_APP_API_KEY || "";
