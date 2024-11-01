@@ -1,10 +1,20 @@
 export function onRequestGet() {
   return new Response(
     JSON.stringify({
-      heading:
-        "Become a Kotlin expert. Learn the rare knowledge of Kotlin internals and type system that will bring you to the top 1% of Kotlin developers.",
-      name: "Advanced Kotlin",
       updatedLectureSections: [
+        {
+          name: "Welcome",
+          lectures: [
+            {
+              id: 55067809,
+              name: "Welcome!",
+            },
+            {
+              id: 55015092,
+              name: "Kotlin Essentials Recap",
+            },
+          ],
+        },
         {
           name: "Mastering the Type System",
           lectures: [
@@ -35,19 +45,6 @@ export function onRequestGet() {
             {
               id: 55015085,
               name: "Delegated Properties in the Standard Library",
-            },
-          ],
-        },
-        {
-          name: "Welcome",
-          lectures: [
-            {
-              id: 55067809,
-              name: "Welcome!",
-            },
-            {
-              id: 55015092,
-              name: "Kotlin Essentials Recap",
             },
           ],
         },
