@@ -118,7 +118,7 @@ export default function Example(props) {
         <div className="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
           <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
             <img
-              src="src/content/memberships/personal.png"
+              src="/content/memberships/personal.png"
               alt="Personal"
               className="mx-auto mb-2"
               width="150"
@@ -495,7 +495,7 @@ export default function Example(props) {
         <div>
           <div className="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
             <img
-              src="src/content/memberships/team.png"
+              src="/content/memberships/team.png"
               alt="Personal"
               className="mx-auto mb-2"
               width="150"
