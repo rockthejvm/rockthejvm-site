@@ -1,6 +1,9 @@
 import type { APIRoute } from "astro";
 
 const getRobotsTxt = (sitemapURL: URL) => `
+User-agent: GPTBot
+Disallow: /articles
+
 User-agent: *
 Allow: /
 
