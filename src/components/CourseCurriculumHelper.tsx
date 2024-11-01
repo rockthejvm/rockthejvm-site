@@ -175,7 +175,7 @@ export default function Example(props: Props) {
     //   await getTeachableCurriculum(props.pricingPlanId);
     // };
     const call = async () => {
-      const response = await fetch(`/api/purchase/${props.pricingPlanId}`);
+      const response = await fetch(`/api/curriculums/${props.courseSlug}`);
       const course: CourseResponse = (await response.json()) as CourseResponse;
       lectureSectionData = course.updatedLectureSections;
       if (lectureSectionData.length === 1) {
