@@ -130,24 +130,26 @@ export async function onRequestGet(context: EventContext): PagesFunction<Env> {
       .sort((a, b) => (a.position < b.position ? -1 : 1))
       .map(async (lectureSection) => ({
         name: lectureSection.name,
-        lectures: await batchPromises(
-          lectureSection.lectures
-            .filter((lecture) => lecture.is_published)
-            .sort((a, b) => (a.position < b.position ? -1 : 1))
-            .map(async (lecture) => ({
-              id: lecture.id,
-              name: (
-                (
-                  await (
-                    await getLecture(
-                      courseId,
-                      lecture.id,
-                      context.env.TEACHABLE_API_KEY,
-                    )
-                  ).json()
-                )["lecture"] as Lecture
-              ).name,
-            })),
+        lectures: await Promise.all(
+          batchPromises(
+            lectureSection.lectures
+              .filter((lecture) => lecture.is_published)
+              .sort((a, b) => (a.position < b.position ? -1 : 1))
+              .map(async (lecture) => ({
+                id: lecture.id,
+                name: (
+                  (
+                    await (
+                      await getLecture(
+                        courseId,
+                        lecture.id,
+                        context.env.TEACHABLE_API_KEY,
+                      )
+                    ).json()
+                  )["lecture"] as Lecture
+                ).name,
+              })),
+          ),
         ),
       })),
   );
