@@ -91,7 +91,7 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function batchPromises(promises: Array<Promise>): Array<Promise> {
+function batchPromises(promises: Promise[]): Promise[] {
   return promises.map((promise, index) => sleep(index * 100).then(promise));
 }
 
