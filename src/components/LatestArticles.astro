@@ -24,7 +24,7 @@ const latestArticles = articles
     </a>
     <div class="mx-auto mb-4 w-full">
       <div class="mx-auto">
-        <a href={`/articles`} class="no-underline hover:no-underline">
+        <a href={`/articles/1`} class="no-underline hover:no-underline">
           <h3
             class="my-4 text-center text-3xl font-bold tracking-tight text-content hover:text-accent-2 sm:text-4xl"
           >
@@ -52,7 +52,7 @@ const latestArticles = articles
                         href={`articles/${article.slug}`}
                         class="text-content no-underline hover:text-content-2 hover:no-underline"
                       >
-                        <h4 class="mx-auto my-1 py-2.5 px-4 text-center text-lg font-normal leading-6 no-underline hover:text-content-2 article-home-link">
+                        <h4 class="article-home-link mx-auto my-1 px-4 py-2.5 text-center text-lg font-normal leading-6 no-underline hover:text-content-2">
                           <span class="absolute inset-0" />
                           {article.data.title}
                         </h4>
