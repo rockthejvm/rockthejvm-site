@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import ArticleTag from "./ArticleTag.astro";
 
 interface Props {
   tags: CollectionEntry<"articles">["data"]["tags"];
@@ -8,12 +7,22 @@ interface Props {
 const { tags } = Astro.props;
 ---
 
-<div>
-  {tags.map((tag) => <ArticleTag {tag} />)}
-</div>
-<style>
-  div {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
-  }
-</style>
+<section class="pb-8 sm:py-2 md:pb-16">
+  <h2 class="m-8">Article Tags</h2>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div
+      class="mx-auto mt-16 grid max-w-sm grid-cols-1 gap-x-8 gap-y-20 text-base sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4"
+    >
+      {
+        tags.map((tag) => (
+          <a
+            href={`/tags/${tag.id}`}
+            class="relative z-10 rounded-full bg-tag px-3 py-1.5 text-center font-medium hover:bg-gray-100"
+          >
+            <p class="text-indigo-800">{tag.id}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
