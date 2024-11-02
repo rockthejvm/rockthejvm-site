@@ -4,4 +4,4 @@ faqs:
     answer: Probably not directly. While some have learned to code in Scala through Rock the JVM, we don’t cover the fundamental computer science topics needed to understand Scala's design and functionality. However, if you want to dive in, go for it! You'll have my support and that of the community whenever you need help.
 name: Scala
 ordinal: 1
-logo: /logos/scala-3.svg
+logo: src/assets/images/logos/scala-3.svg

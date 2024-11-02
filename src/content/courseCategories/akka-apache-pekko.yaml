@@ -4,4 +4,4 @@ faqs:
     answer: Both offer identical APIs. If you want to stay open-source, use Pekko; if your company uses (and pays for) Akka, go with that. We set things up at the beginning of the project (either Akka or Pekko), and the IDE will provide the correct package name suggestions. There's very little you need to do beyond that.
 name: Akka/Pekko
 ordinal: 7
-logo: /logos/akka.svg
+logo: src/assets/images/logos/akka.svg

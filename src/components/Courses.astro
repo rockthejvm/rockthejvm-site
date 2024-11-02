@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import CourseEntry from "./CourseEntry.astro";
@@ -40,6 +41,13 @@ const categories = await getCollection("courseCategories");
                         .map((courses) => (
                           <CourseEntry {courses} />
                         ))}
+                    </Fragment>
+                    <Fragment slot="categoryImage">
+                      <Image
+                        className="my-auto w-full"
+                        src={category.data.logo}
+                        alt={category.data.name}
+                      />
                     </Fragment>
                   </CoursesHelper>
                 </Fragment>
