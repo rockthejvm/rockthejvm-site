@@ -1,7 +1,11 @@
 ---
 import MembershipPricingHelper from "@components/MembershipPricingHelper";
 import Section from "@components/Section.astro";
+import { Image } from "astro:assets";
 import { getCollection, getEntry } from "astro:content";
+
+import PersonalImage from "src/assets/images/logos/personal.png";
+import TeamImage from "src/assets/images/logos/team.png";
 
 const membership = await getEntry("memberships", "personal");
 
@@ -31,5 +35,16 @@ const membershipLinesOfCode = (await getCollection("courses"))
     {membershipHours}
     {membershipLinesOfCode}
     client:visible={{ rootMargin: "2160px" }}
-  />
+  >
+    <Fragment slot="personalImage">
+      <Image
+        src={PersonalImage}
+        alt="Personal"
+        class="mx-auto mb-2 w-[150px]"
+      />
+    </Fragment>
+    <Fragment slot="teamImage">
+      <Image src={TeamImage} alt="Team" class="mx-auto mb-2 w-[150px]" />
+    </Fragment>
+  </MembershipPricingHelper>
 </Section>
