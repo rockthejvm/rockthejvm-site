@@ -58,7 +58,7 @@ const {
   videoId,
 } = _frontmatter;
 
-const structuredData = {
+const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Course",
   name: title,
@@ -86,14 +86,14 @@ const structuredData = {
       ],
     },
   ],
-};
+});
 ---
 
 <BaseLayout
   {description}
   {title}
   image={{ alt: title, src: heroImage.src }}
-  structuredData={JSON.stringify(structuredData)}
+  {structuredData}
 >
   <article>
     <Hero {description} {heroImage} {pricingPlanId} {title} />
