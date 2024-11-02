@@ -217,7 +217,7 @@ export default function Example(props: Props) {
                         <p>{lecture.name}</p>
                       </div>
                       <a
-                        href={`https://rockthejvm.com/courses/${props.courseSlug}/lectures/${lecture.id}`}
+                        href={`https://courses.rockthejvm.com/courses/${props.courseSlug}/lectures/${lecture.id}`}
                         style={{ background: props.color }}
                         className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
