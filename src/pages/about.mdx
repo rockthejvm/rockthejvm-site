@@ -5,7 +5,7 @@ title: The Rock the JVM Story
 
 import site from "@utils/site.json";
 
-export const structuredData = {
+export const structuredData = JSON.stringify({
   "@context": "https://schema.org/",
   "@type": "Organization",
   description: frontmatter.description,
@@ -13,7 +13,7 @@ export const structuredData = {
   logo: Astro.site + "/logos/rtjvm.png", // TODO
   name: site.name,
   url: Astro.site,
-};
+});
 
 import Informational from "../components/InformationalLayout.astro";
 
