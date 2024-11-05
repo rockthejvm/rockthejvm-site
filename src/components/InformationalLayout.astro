@@ -5,13 +5,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 interface Props {
   description: string;
+  structuredData: string;
   title: string;
 }
 
-const { description, title } = Astro.props;
+const { description, structuredData, title } = Astro.props;
 ---
 
-<BaseLayout {description} {title}>
+<BaseLayout {description} {structuredData} {title}>
   <NarrowContainer>
     <article class="py-4 md:py-8">
       <header class="my-16">

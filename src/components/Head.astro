@@ -40,40 +40,7 @@ const image = {
   src: `https://${site.domain}${_image.src}`,
 };
 
-const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
-
-const orgStructuredData = {
-  "@context": "https://schema.org/",
-  "@type": "Organization",
-  // "name": "Elite Strategies",
-  // "legalName" : "Elite Strategies Llc",
-  url: Astro.site,
-  // "logo": "http://cdn.elite-strategies.com/wp-content/uploads/2013/04/elitestrategies.png",
-  // "foundingDate": "2009",
-  // "founders": [
-  // {
-  // "@type": "Person",
-  // "name": "Patrick Coombe"
-  // },
-  // {
-  // "@type": "Person",
-  // "name": ""
-  // } ],
-  // "address": {
-  // "@type": "PostalAddress",
-  // "streetAddress": "900 Linton Blvd Suite 104",
-  // "addressLocality": "Delray Beach",
-  // "addressRegion": "FL",
-  // "postalCode": "33444",
-  // "addressCountry": "USA"
-  // },
-  // "contactPoint": {
-  // "@type": "ContactPoint",
-  // "contactType": "customer support",
-  // "email": "info@elite-strategies.com"
-  // },
-  sameAs: socialLinks,
-};
+// const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
 ---
 
 <head>
@@ -82,7 +49,6 @@ const orgStructuredData = {
       <script type="application/ld+json" set:html={structuredData} />
     )
   }
-  <script type="application/ld+json" set:html={orgStructuredData} />
   <script is:inline>
     const setDataTheme = () => {
       document.documentElement.setAttribute(

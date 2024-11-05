@@ -109,13 +109,15 @@ const structuredData = JSON.stringify({
         name: instructor.data.name,
         description:
           instructor.data.biography ??
-          `${instructor.data.company.role} at ${instructor.data.company?.entity}.`,
+          (instructor.data.company
+            ? `${instructor.data.company.role} at ${instructor.data.company?.entity}.`
+            : ""),
         image: instructor.data.photo.src,
       })),
     },
   ],
   availableLanguage: ["en"],
-  educationalLevel: capitalizeFirstChar(difficulty),
+  educationalLevel: capitalizeFirstChar(difficulty!),
   image: [heroImage.src],
   inLanguage: "en",
   publisher: {
