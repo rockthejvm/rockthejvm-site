@@ -75,7 +75,7 @@ if (!response.ok) {
   throw new Error(`Network response was not ok: ${response.statusText}`);
 }
 
-const price = ((await response.json()) as Response).price;
+const { price }: Response = await response.json();
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org/",
