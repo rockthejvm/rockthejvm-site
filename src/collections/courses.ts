@@ -5,6 +5,7 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
+        includedInMembership: z.boolean().default(true),
         archived: z.boolean().default(false),
         bundledCourses: z
           .array(reference("courses"))

@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { type CollectionEntry } from "astro:content";
 
 // const articles = await getCollection("articles");
@@ -20,9 +21,9 @@ const { course } = Astro.props;
       class="h-full max-w-sm hover:no-underline"
     >
       <div class="max-h-52 w-full overflow-hidden">
-        <img
-          src={course.data.heroImage.src}
-          alt={`${course.data.title}`}
+        <Image
+          src={course.data.heroImage}
+          alt={course.data.title}
           class="min-h-full min-w-full object-cover object-center"
         />
       </div>

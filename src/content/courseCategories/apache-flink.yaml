@@ -4,4 +4,4 @@ faqs:
     answer: That's a valid question. You can safely use the Java language and API in this course, as the Scala API is nearly identical (one reason for its deprecation). Many students have successfully taken this course in Java. We plan to re-record it in Java after Flink releases version 2.0.
 name: Apache Flink
 ordinal: 5
-logo: /logos/flink.png
+logo: src/assets/images/logos/flink.png

@@ -50,6 +50,7 @@ const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
 );
 const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
+  includedInMembership,
   benefits,
   description,
   difficulty,
@@ -132,7 +133,7 @@ const structuredData = JSON.stringify({
   {description}
   {title}
   image={{ alt: title, src: heroImage.src }}
-  structuredData={JSON.stringify(structuredData)}
+  {structuredData}
 >
   <article>
     <Hero {description} {heroImage} {pricingPlanId} {title} />
@@ -182,6 +183,7 @@ const structuredData = JSON.stringify({
       )
     }
     <Pricing
+      {includedInMembership}
       {benefits}
       {bundledCourses}
       color={categoryColor}
