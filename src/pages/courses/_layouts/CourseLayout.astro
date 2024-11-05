@@ -44,6 +44,7 @@ const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
 );
 const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
+  includedInMembership,
   benefits,
   description,
   faqs,
@@ -143,6 +144,7 @@ const structuredData = JSON.stringify({
       )
     }
     <Pricing
+      {includedInMembership}
       {benefits}
       {bundledCourses}
       color={categoryColor}
