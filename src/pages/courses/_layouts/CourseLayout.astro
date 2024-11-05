@@ -1,5 +1,7 @@
 ---
 import Profile from "@components/Profile.astro";
+import site from "@data/site.json";
+import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
@@ -13,6 +15,10 @@ import Pricing from "../_sections/Pricing.astro";
 import Question from "../_sections/Question.astro";
 import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
+
+interface Response {
+  price: number;
+}
 
 const course = await getEntry(
   "courses",
@@ -46,9 +52,11 @@ const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
   benefits,
   description,
+  difficulty,
   faqs,
   features,
   heroImage,
+  instructors: _instructors,
   isFree,
   pricingPlanId,
   question,
@@ -58,35 +66,64 @@ const {
   videoId,
 } = _frontmatter;
 
-const structuredData = {
-  "@context": "https://schema.org",
+const instructors = await getEntries<"authors">(_instructors);
+
+const response = await fetch(`/api/purchase/${pricingPlanId}`);
+
+if (!response.ok) {
+  throw new Error(`Network response was not ok: ${response.statusText}`);
+}
+
+const price = ((await response.json()) as Response).price;
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org/",
   "@type": "Course",
   name: title,
   description: description,
-  // datePublished:
-  image: heroImage,
   provider: {
     "@type": "Organization",
-    name: "Rock the JVM",
-    url: "https://rockthejvm.com/",
+    name: site.name,
+    url: Astro.site,
   },
-  isAccessibleForFree: isFree,
+  offers: [
+    isFree
+      ? {
+          "@type": "Offer",
+          category: "Free",
+        }
+      : {
+          "@type": "Offer",
+          category: "Paid",
+          priceCurrency: "USD",
+          price: price,
+        },
+  ],
   hasCourseInstance: [
     {
       "@type": "CourseInstance",
       courseMode: "Online",
-      courseWorkload: `PT${bundledCourses.length > 0 ? bundledCourses.reduce((b, a) => b + a.data.benefits!.hours, 0) : benefits!.hours}H`,
-      instructor: [
-        {
-          "@type": "Person",
-          name: "Kai S.",
-          description: "Professor at X-University",
-          image: "http://examplePerson.jpg",
-        },
-      ],
+      courseWorkload: `PT${2 * (bundledCourses.length > 0 ? bundledCourses.reduce((b, a) => b + a.data.benefits!.hours, 0) : benefits!.hours)}H`,
+      instructor: instructors.map((instructor) => ({
+        "@type": "Person",
+        name: instructor.data.name,
+        description:
+          instructor.data.biography ??
+          `${instructor.data.company.role} at ${instructor.data.company?.entity}.`,
+        image: instructor.data.photo.src,
+      })),
     },
   ],
-};
+  availableLanguage: ["en"],
+  educationalLevel: capitalizeFirstChar(difficulty),
+  image: [heroImage.src],
+  inLanguage: "en",
+  publisher: {
+    "@type": "Organization",
+    name: site.name,
+    url: Astro.site,
+  },
+});
 ---
 
 <BaseLayout

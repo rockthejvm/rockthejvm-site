@@ -43,11 +43,11 @@ const image = {
 const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
 
 const orgStructuredData = {
-  "@context": "https://schema.org",
+  "@context": "https://schema.org/",
   "@type": "Organization",
   // "name": "Elite Strategies",
   // "legalName" : "Elite Strategies Llc",
-  url: "https://rockthejvm.com",
+  url: Astro.site,
   // "logo": "http://cdn.elite-strategies.com/wp-content/uploads/2013/04/elitestrategies.png",
   // "foundingDate": "2009",
   // "founders": [
