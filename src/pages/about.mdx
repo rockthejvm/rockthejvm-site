@@ -10,9 +10,9 @@ export const structuredData = JSON.stringify({
   "@type": "Organization",
   description: frontmatter.description,
   legalName: site.legalName,
-  logo: Astro.site + "/logos/rtjvm.png", // TODO
+  logo: "https://rockthejvm.com/logos/rtjvm.png", // TODO
   name: site.name,
-  url: Astro.site,
+  url: "https://rockthejvm.com",
 });
 
 import Informational from "../components/InformationalLayout.astro";
