@@ -40,9 +40,7 @@ const image = {
   src: `https://${site.domain}${_image.src}`,
 };
 
-const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
-
-const orgStructuredData = {
+const orgStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Organization",
   // "name": "Elite Strategies",
@@ -72,17 +70,17 @@ const orgStructuredData = {
   // "contactType": "customer support",
   // "email": "info@elite-strategies.com"
   // },
-  sameAs: socialLinks,
-};
+  sameAs: Object.entries(site.socials).map((social) => social[1].url),
+});
 ---
 
 <head>
   {
     structuredData && (
-      <script type="application/ld+json" set:html={structuredData} />
+      <script type="application/ld+json" set:html={structuredData} is:inline />
     )
   }
-  <script type="application/ld+json" set:html={orgStructuredData} />
+  <script type="application/ld+json" set:html={orgStructuredData} is:inline />
   <script is:inline>
     const setDataTheme = () => {
       document.documentElement.setAttribute(

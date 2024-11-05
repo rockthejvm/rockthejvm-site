@@ -58,13 +58,13 @@ const {
   videoId,
 } = _frontmatter;
 
-const structuredData = {
+const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Course",
   name: title,
   description: description,
   // datePublished:
-  image: heroImage,
+  image: heroImage.src,
   provider: {
     "@type": "Organization",
     name: "Rock the JVM",
@@ -86,14 +86,14 @@ const structuredData = {
       ],
     },
   ],
-};
+});
 ---
 
 <BaseLayout
   {description}
   {title}
   image={{ alt: title, src: heroImage.src }}
-  structuredData={JSON.stringify(structuredData)}
+  {structuredData}
 >
   <article>
     <Hero {description} {heroImage} {pricingPlanId} {title} />

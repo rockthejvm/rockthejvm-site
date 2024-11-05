@@ -40,7 +40,7 @@ const author = await getEntry(
 );
 const tags = await getEntries(frontmatter.tags);
 
-const structuredData = {
+const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: title,
@@ -58,7 +58,7 @@ const structuredData = {
     name: author.data.name,
     url: `https://rockthejvm.com/authors/${author.id}`,
   },
-};
+});
 ---
 
 <BaseLayout
@@ -81,7 +81,7 @@ const structuredData = {
   image={heroImage
     ? { alt: heroImage.alt, src: heroImage.image.src }
     : undefined}
-  structuredData={JSON.stringify(structuredData)}
+  {structuredData}
   {title}
   type="article"
 >
