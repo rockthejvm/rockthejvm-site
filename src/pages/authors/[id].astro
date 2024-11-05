@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 const { articles, author } = Astro.props;
 const title = `Articles written by '${author.data.name}'`;
 
-const structuredData = {
+const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ProfilePage",
   mainEntity: {
@@ -32,14 +32,10 @@ const structuredData = {
     identifier: author.id,
     image: author.data.photo.src,
   },
-};
+});
 ---
 
-<BaseLayout
-  {title}
-  description={title}
-  structuredData={JSON.stringify(structuredData)}
->
+<BaseLayout {title} description={title} {structuredData}>
   <FullContainer>
     <header class="pt-8 md:pt-16">
       <h1 class="mx-6 text-center text-content-1 lg:mx-8">
