@@ -198,7 +198,7 @@ export default function Example(props: Props) {
   }, []);
 
   return (
-    <div className="mx-2 mx-auto max-w-3xl sm:mx-4 lg:mx-8">
+    <div className="mx-auto max-w-3xl px-2 sm:px-4 lg:px-8">
       {lectureSections.map((section) => (
         <ul role="list" className="mx-auto divide-y divide-gray-100">
           <li className="flex justify-between gap-x-6 py-5">
