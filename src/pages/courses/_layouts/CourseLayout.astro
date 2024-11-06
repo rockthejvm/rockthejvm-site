@@ -1,6 +1,7 @@
 ---
 import Profile from "@components/Profile.astro";
 import site from "@data/site.json";
+import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
@@ -14,7 +15,6 @@ import Pricing from "../_sections/Pricing.astro";
 import Question from "../_sections/Question.astro";
 import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
-
 interface Response {
   price: number;
 }
@@ -136,12 +136,14 @@ const structuredData = JSON.stringify({
   availableLanguage: ["en"],
   educationalLevel:
     difficulty ??
-    bundledCourses
-      .map((course) => course.data.difficulty)
-      .reduce(
-        (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
-        "beginner",
-      ),
+    capitalizeFirstChar(
+      bundledCourses
+        .map((course) => course.data.difficulty)
+        .reduce(
+          (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
+          "beginner",
+        ),
+    ),
   image: [heroImage.src],
   inLanguage: "en",
   publisher: {
