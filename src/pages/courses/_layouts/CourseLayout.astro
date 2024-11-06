@@ -1,7 +1,6 @@
 ---
 import Profile from "@components/Profile.astro";
 import site from "@data/site.json";
-import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
@@ -79,6 +78,21 @@ if (!response.ok) {
 
 const { price }: Response = await response.json();
 
+function difficultyToOrdinal(
+  difficulty: "beginner" | "intermediate" | "advanced",
+): number {
+  switch (difficulty) {
+    case "beginner":
+      return 1;
+    case "intermediate":
+      return 2;
+    case "advanced":
+      return 3;
+    default:
+      return 0;
+  }
+}
+
 const structuredData = JSON.stringify({
   "@context": "https://schema.org/",
   "@type": "Course",
@@ -120,7 +134,14 @@ const structuredData = JSON.stringify({
     },
   ],
   availableLanguage: ["en"],
-  educationalLevel: difficulty ? capitalizeFirstChar(difficulty) : "",
+  educationalLevel:
+    difficulty ??
+    bundledCourses
+      .map((course) => course.data.difficulty)
+      .reduce(
+        (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
+        "beginner",
+      ),
   image: [heroImage.src],
   inLanguage: "en",
   publisher: {
