@@ -135,16 +135,15 @@ const structuredData = JSON.stringify({
     },
   ],
   availableLanguage: ["en"],
-  educationalLevel: difficulty ? capitalizeFirstChar(difficulty) : "",
-  // educationalLevel: capitalizeFirstChar(
-  //   difficulty ??
-  //     bundledCourses
-  //       .map((course) => course.data.difficulty)
-  //       .reduce(
-  //         (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
-  //         "beginner",
-  //       ),
-  // ),
+  educationalLevel: capitalizeFirstChar(
+    difficulty ??
+      bundledCourses
+        .map((course) => course.data.difficulty ?? "beginner")
+        .reduce(
+          (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
+          "beginner",
+        ),
+  ),
   image: [heroImage.src],
   inLanguage: "en",
   publisher: {
