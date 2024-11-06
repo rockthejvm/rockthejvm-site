@@ -15,6 +15,7 @@ import Pricing from "../_sections/Pricing.astro";
 import Question from "../_sections/Question.astro";
 import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
+
 interface Response {
   price: number;
 }
@@ -134,15 +135,16 @@ const structuredData = JSON.stringify({
     },
   ],
   availableLanguage: ["en"],
-  educationalLevel: capitalizeFirstChar(
-    difficulty ??
-      bundledCourses
-        .map((course) => course.data.difficulty)
-        .reduce(
-          (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
-          "beginner",
-        ),
-  ),
+  educationalLevel: difficulty ? capitalizeFirstChar(difficulty) : "",
+  // educationalLevel: capitalizeFirstChar(
+  //   difficulty ??
+  //     bundledCourses
+  //       .map((course) => course.data.difficulty)
+  //       .reduce(
+  //         (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
+  //         "beginner",
+  //       ),
+  // ),
   image: [heroImage.src],
   inLanguage: "en",
   publisher: {
