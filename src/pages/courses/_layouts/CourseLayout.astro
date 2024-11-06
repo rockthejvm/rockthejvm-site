@@ -121,7 +121,7 @@ const structuredData = JSON.stringify({
     {
       "@type": "CourseInstance",
       courseMode: "Online",
-      courseWorkload: `PT${2 * (bundledCourses.length > 0 ? bundledCourses.reduce((b, a) => b + a.data.benefits!.hours, 0) : benefits!.hours)}H`,
+      courseWorkload: `PT${2 * (bundledCourses.length > 0 ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)}H`,
       instructor: instructors.map((instructor) => ({
         "@type": "Person",
         name: instructor.data.name,
