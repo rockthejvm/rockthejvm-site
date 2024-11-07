@@ -4,10 +4,13 @@ import ArticleTags from "../../components/ArticleTags.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const articles = await getCollection("articles");
-const input = articles
-  .map((article) => article.data.tags.map((tag) => tag.id.toString()))
-  .flat();
-const tags = [...new Set(input)];
+const tags = [
+  ...new Set(
+    articles
+      .map((article) => article.data.tags.map((tag) => tag.id.toString()))
+      .flat(),
+  ),
+];
 ---
 
 <BaseLayout title="Tag index" description="The tags index">
