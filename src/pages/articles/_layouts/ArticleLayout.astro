@@ -44,21 +44,22 @@ const tags = await getEntries(frontmatter.tags);
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
+  author: [
+    {
+      "@type": "Person",
+      name: author.data.name,
+      url: `${Astro.site}/authors/${author.id}`,
+    },
+  ],
+  publisher: {
+    "@type": "Organization",
+    name: site.name,
+    url: Astro.site,
+  },
+  dateModified: updatedDate,
+  datePublished: publishedDate,
   headline: title,
   image: heroImage?.image.src,
-  genre: "software engineering",
-  keywords: tags.reduce((a, b) => a + " " + b.id, ""),
-  publisher: site.name,
-  url: Astro.site,
-  datePublished: publishedDate,
-  dateCreated: publishedDate,
-  dateModified: updatedDate,
-  description: description,
-  author: {
-    "@type": "Person",
-    name: author.data.name,
-    url: `${Astro.site}/authors/${author.id}`,
-  },
 });
 ---
 
