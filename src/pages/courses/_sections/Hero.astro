@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
@@ -15,12 +15,13 @@ const { description, heroImage, pricingPlanId, title } = Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
-  <Image
+  <Picture
     alt={title}
     src={heroImage}
     quality="low"
     class="absolute inset-0 size-full object-cover"
     slot="image"
+    formats={["avif", "webp"]}
   />
   <div class="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"></div>
   <div
