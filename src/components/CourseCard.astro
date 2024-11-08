@@ -5,9 +5,10 @@ import BadgeLarge from "./BadgeLarge.astro";
 
 interface Props {
   course: CollectionEntry<"courses">;
+  prices?: Map<string, [number, number]>;
 }
 
-const { course } = Astro.props;
+const { course, prices } = Astro.props;
 ---
 
 <div
@@ -42,6 +43,13 @@ const { course } = Astro.props;
         <a href={`/courses/${course.slug}`}>
           {course.data.title}
         </a>
+        {
+          prices && (
+            <Fragment>
+              <s>${prices.get(course.slug)[0]}</s> ${prices.get(course.slug)[1]}
+            </Fragment>
+          )
+        }
       </h3>
     </span>
     <Fragment set:html={course.data.excerpt} class="mt-1 text-content-1" />

@@ -1,0 +1,96 @@
+---
+import CourseEntry from "@components/CourseEntry.astro";
+import Hero from "@components/Hero.astro";
+import DiscountBundle from "@pages/black-friday/_components/DiscountBundle.astro";
+import { zip } from "@utils/zip";
+import { Image } from "astro:assets";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+
+const courseSeriess = (await getCollection("seriess")).filter(
+  (series) => series.data.members[0].collection === "courses",
+);
+const memberss = courseSeriess.map((series) => series.data.members);
+const coursess = await Promise.all(
+  (memberss as CollectionEntry<"courses">[][]).map((members) =>
+    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+  ),
+);
+const categories = await Promise.all(
+  coursess.map((courses) =>
+    getEntry("courseCategories", courses[0]?.data.category.id),
+  ),
+);
+const mycourses = zip(categories, coursess);
+
+const prices = new Map<string, [number, number]>([
+  ["scala-at-light-speed", [0, 0]],
+  ["scala-3-new-features", [35, 35]],
+  ["scala-essentials", [85, 85]],
+  ["scala-and-functional-programming-interview-practice", [95, 95]],
+  ["advanced-scala", [85, 95]],
+  ["kotlin-at-light-speed", [0, 0]],
+  ["kotlin-essentials", [95, 95]],
+  ["kotlin-coroutines-and-concurrency", [75, 75]],
+  ["advanced-kotlin", [75, 75]],
+  ["zio", [95, 95]],
+  ["zio-rite-of-passage", [495, 495]],
+  ["cats", [85, 85]],
+  ["cats-effect", [95, 95]],
+  ["typelevel-rite-of-passage", [495, 495]],
+  ["apache-flink-with-scala", [85, 85]],
+  ["apache-spark-essentials-with-scala", [75, 75]],
+  ["apache-spark-streaming-with-scala", [75, 75]],
+  ["apache-spark-optimization-with-scala", [85, 85]],
+  ["apache-spark-performance-tuning-with-scala", [75, 75]],
+  ["akka-apache-pekko-essentials-with-scala", [85, 85]],
+  ["akka-apache-pekko-streams-with-scala", [95, 95]],
+  ["akka-apache-pekko-http-with-scala", [50, 50]],
+  ["the-scala-bundle", [195, 195]],
+  ["the-kotlin-bundle", [160, 160]],
+  ["the-apache-spark-bundle-with-scala", [180, 180]],
+  ["the-akka-apache-pekko-bundle-with-scala", [180, 180]],
+]);
+
+interface Props {
+  title: string;
+  subtitle1: string;
+  subtitle2: string;
+  annotation: string;
+  imageName: string;
+}
+
+const { title, subtitle1, subtitle2, annotation, imageName } = Astro.props;
+---
+
+<BaseLayout
+  description="All of the Rock the JVM premium content, at your service."
+  title="The Rock the JVM Membership"
+>
+  <Hero {title} {subtitle1} {subtitle2} {annotation} {imageName} />
+  <DiscountBundle />
+  <article>
+    {
+      mycourses
+        .sort(
+          (category1, category2) =>
+            category1[0].data.ordinal - category2[0].data.ordinal,
+        )
+        .map(([category, courses]) => (
+          <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
+            <div class="flex flex-row gap-x-4">
+              <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
+                <Image
+                  src={category.data.logo}
+                  alt={category.data.name}
+                  class="my-auto w-full"
+                />
+              </div>
+              <h2 class="my-auto">{category.data.name}</h2>
+            </div>
+            <CourseEntry {courses} {prices} />
+          </section>
+        ))
+    }
+  </article>
+</BaseLayout>
