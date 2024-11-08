@@ -189,10 +189,10 @@ const membershipIncludedCardClassNames =
       featuredBundles &&
         featuredBundles.map((bundle) => (
           <div class="mx-auto my-8 flex max-w-5xl flex-col items-start gap-x-8 gap-y-6 rounded-3xl bg-secondary p-8 ring-2 ring-content-1/10 sm:gap-y-10 sm:p-10 lg:col-span-2 lg:flex-row lg:items-center">
-            <img
+            <Image
               class="rounded-lg"
               width="250"
-              src={bundle.data.heroImage.src}
+              src={bundle.data.heroImage}
               alt={bundle.data.title}
             />
             <div class="lg:min-w-0 lg:flex-1">
