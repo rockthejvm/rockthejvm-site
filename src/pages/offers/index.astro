@@ -1,0 +1,125 @@
+---
+import FAQ from "@components/FAQ";
+import Prose from "@components/Prose.astro";
+import NarrowContainer from "@containers/NarrowContainer";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import After1 from "./_assets/after1.png";
+import After3 from "./_assets/after3.png";
+import Before1 from "./_assets/before1.png";
+import Before3 from "./_assets/before3.png";
+import HorizontalContent from "./_components/HorizontalContent.astro";
+import HorizontalImages from "./_components/HorizontalImages.astro";
+
+const videoId = "_afyiQB7N0Y";
+
+const faqs = [
+  {
+    question: "Is this actually free?",
+    answer: "Yes, we don't even collect payment information.",
+  },
+  {
+    question: "Will this change how my store looks?",
+    answer:
+      "Our goal is to increase your page speed without significant visual changes. Minor changes may be required to load certain assets more quickly. We will review your store and determine if any visual changes are needed before starting.",
+  },
+  {
+    question: "Will you have to rewrite my entire website?",
+    answer:
+      "We won't know the full scope of work before reviewing your site. Generally, custom sites load singificantly faster than website builders like Shopify. This is because website builders run large scripts that significantly hurt page speeds. ",
+  },
+  {
+    question: "How will I know if it works?",
+    answer:
+      "We will help you run a split test to compare bounce rates/conversions between the old and new sites. If you are happy with the results, you can switch to our site for free.",
+  },
+  {
+    question: "Can I keep all my tracking and analytics software?",
+    answer: "Yes, this will not impact any tracking for your campaigns.",
+  },
+];
+---
+
+<BaseLayout
+  canonicalUrl={undefined}
+  description={"We optimize ecom stores for lower bounce rates and higher sales with no extra ad spend."}
+  image={undefined}
+  title={"More sales for the same ad spend | Ecom Owners"}
+  hideFooter="false"
+  hideHeader="false"
+>
+  <NarrowContainer>
+    <section class="pt-16 md:pt-8">
+      <header>
+        <Prose class="max-w-none">
+          <h1 class="text-center">More Sales for the Same Ad Spend</h1>
+        </Prose>
+      </header>
+      <HorizontalContent {videoId}>
+        <h2>We'll do it for <u>FREE</u></h2>
+        <p>
+          <u>Ecom owners</u>, your page speeds are killing your ad campaigns.
+          You could be missing out on 20+% more sales because of high bounce
+          rates.
+        </p>
+        <p>
+          We'll optimize your store's performance for free. We just want case
+          studies.
+        </p>
+      </HorizontalContent>
+    </section>
+    <section class="mb-16">
+      <Prose class="mx-auto my-8"
+        ><h2 class="text-center">
+          Optimized for high conversions and retention
+        </h2></Prose
+      >
+      <HorizontalImages>
+        <Image src={Before3} alt="First before example" slot="leftImage" />
+        <Image src={After3} alt="First after example" slot="rightImage" />
+      </HorizontalImages>
+      <HorizontalImages>
+        <Image src={Before1} alt="Second before example" slot="leftImage" />
+        <Image src={After1} alt="Second after example" slot="rightImage" />
+      </HorizontalImages>
+    </section>
+    <section class="mb-16">
+      <Prose class="mx-auto my-8">
+        <h2 class="text-center">Here's the proof</h2>
+      </Prose>
+      <Prose class="mx-auto max-w-5xl">
+        <ul>
+          <li>
+            The average website takes around 8.6 seconds to load on mobile
+            devices.
+          </li>
+          <li>
+            83% of online users expect websites they visit to load in three
+            seconds or less.
+          </li>
+          <li>
+            40% of online users will abandon a website that takes longer than
+            three seconds to load.
+          </li>
+          <li>
+            Pages that take only one or two seconds to load have an average
+            bounce rate of 9%, but pages that take five seconds to load have an
+            average bounce rate of 38%.
+          </li>
+          <li>
+            Nearly 70% of users say that an online retailer's site speed has an
+            impact on how willing they are to buy from that retailer.
+          </li>
+          <li>
+            The top 10 ecommerce websites in the US have an average page load
+            time of 1.96 seconds.
+          </li>
+        </ul>
+      </Prose>
+    </section>
+    <section class="mb-16">
+      <Prose class="mx-auto my-8"><h2 class="text-center">FAQs</h2></Prose>
+      <FAQ {faqs} client:visible />
+    </section>
+  </NarrowContainer>
+</BaseLayout>

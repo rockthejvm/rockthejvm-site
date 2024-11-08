@@ -14,10 +14,6 @@ export default function Example({ faqs }: Props) {
   return (
     <div>
       <div className="mx-auto max-w-7xl px-6 py-1 sm:py-2 lg:px-8 lg:py-3">
-        {/* <div className="mx-auto max-w-4xl divide-y divide-gray-900/10"> */}
-        {/* <h2 className="text-2xl font-bold leading-10 tracking-tight text-content-1">
-            Frequently asked questions
-          </h2> */}
         <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
           {faqs.map((faq) => (
             <Disclosure key={faq.question} as="div" className="pt-6">

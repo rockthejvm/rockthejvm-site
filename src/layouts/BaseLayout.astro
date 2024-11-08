@@ -20,6 +20,8 @@ interface Props {
   };
   canonicalUrl?: URL;
   description: string;
+  hideFooter?: boolean;
+  hideHeader?: boolean;
   image?: {
     alt: string;
     src: string;
@@ -36,6 +38,8 @@ const {
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
   description,
   error = false,
+  hideFooter = false,
+  hideHeader = false,
   image = site.logo,
   isHomePage = false,
   structuredData,
@@ -57,10 +61,10 @@ const {
     {type}
   />
   <body class=`${isHomePage ? "body-gradient" : ""} min-h-screen bg-bkg`>
-    <Header />
+    {!hideHeader && <Header />}
     <main>
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>
