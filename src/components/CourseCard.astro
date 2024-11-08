@@ -46,7 +46,8 @@ const { course, prices } = Astro.props;
         {
           prices && (
             <Fragment>
-              <s>${prices.get(course.slug)[0]}</s> ${prices.get(course.slug)[1]}
+              <s>${prices!.get(course.slug)![0]}</s> $
+              {prices!.get(course.slug)![1]}
             </Fragment>
           )
         }
