@@ -4,30 +4,35 @@ import Hero from "@components/Hero.astro";
 import DiscountBundle from "@pages/black-friday/_components/DiscountBundle.astro";
 import { zip } from "@utils/zip";
 import { Image } from "astro:assets";
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import { CollectionEntry, getCollection } from "astro:content";
+import { groupBy } from "fp-ts/NonEmptyArray";
 import BaseLayout from "./BaseLayout.astro";
 
-const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0].collection === "courses",
+const categories = await getCollection("courseCategories");
+const courses = (await getCollection("courses")).filter(
+  (course) =>
+    !new Set([
+      "akka-classic-essentials-with-scala",
+      "akka-classic-persistence-with-scala",
+      "akka-classic-remoting-and-clustering-with-scala",
+      "akka-classic-serialization-with-scala",
+    ]).has(course.slug),
 );
-const memberss = courseSeriess.map((series) => series.data.members);
-const coursess = await Promise.all(
-  (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug))),
-  ),
-);
-const categories = await Promise.all(
-  coursess.map((courses) =>
-    getEntry("courseCategories", courses[0]?.data.category.id),
-  ),
-);
-const mycourses = zip(categories, coursess);
+
+const courseMap = groupBy<CollectionEntry<"courses">>(
+  (course) => course.data.category.id,
+)(courses);
+
+const orderedCourses = categories.map((category) => courseMap[category.id]);
+const mycourses = zip(categories, orderedCourses);
 
 const prices = new Map<string, [number, number]>([
   ["scala-at-light-speed", [0, 0]],
   ["scala-3-new-features", [35, 35]],
   ["scala-essentials", [85, 85]],
   ["scala-and-functional-programming-interview-practice", [95, 95]],
+  ["scala-essentials-old", [50, 50]],
+  ["advanced-scala-old", [50, 50]],
   ["advanced-scala", [85, 95]],
   ["kotlin-at-light-speed", [0, 0]],
   ["kotlin-essentials", [95, 95]],

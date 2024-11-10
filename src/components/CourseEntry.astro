@@ -8,6 +8,8 @@ interface Props {
 }
 
 const { courses, prices } = Astro.props;
+
+console.log(courses.map((course) => course.slug));
 ---
 
 {
