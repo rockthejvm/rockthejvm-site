@@ -2,9 +2,15 @@
 import RockTheJVM from "@components/icons/RockTheJVM.astro";
 import HeaderHelper from "./HeaderHelper";
 import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  hideThemeToggle?: boolean;
+}
+
+const { hideThemeToggle } = Astro.props;
 ---
 
 <HeaderHelper client:media="(width < 1024px)">
   <RockTheJVM class="h-10 w-auto sm:h-11 md:h-12 lg:h-14" slot="logo" />
-  <ThemeToggle id="themeToggle" slot="themeToggle" />
+  {hideThemeToggle && <ThemeToggle id="themeToggle" slot="themeToggle" />}
 </HeaderHelper>

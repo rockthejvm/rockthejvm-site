@@ -14,6 +14,7 @@ interface Props {
     video?: URL;
   };
   canonicalUrl: URL;
+  defaultTheme?: string;
   description: string;
   error: boolean;
   image: {
@@ -27,6 +28,7 @@ interface Props {
 const {
   article,
   canonicalUrl,
+  defaultTheme,
   description,
   error,
   image: _image,
@@ -81,16 +83,20 @@ const orgStructuredData = JSON.stringify({
     )
   }
   <script type="application/ld+json" set:html={orgStructuredData} is:inline />
-  <script is:inline>
+  <script is:inline define:vars={{ defaultTheme: defaultTheme }}>
     const setDataTheme = () => {
-      document.documentElement.setAttribute(
-        "data-theme",
-        localStorage.getItem("theme") === "system"
-          ? window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light"
-          : localStorage.getItem("theme"),
-      );
+      if (defaultTheme) {
+        document.documentElement.setAttribute("data-theme", defaultTheme);
+      } else {
+        document.documentElement.setAttribute(
+          "data-theme",
+          localStorage.getItem("theme") === "system"
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : localStorage.getItem("theme"),
+        );
+      }
     };
     const setThemeToggle = () => {
       ["systemTheme", "lightTheme", "darkTheme"].forEach(
