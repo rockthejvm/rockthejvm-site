@@ -5,7 +5,7 @@ import DiscountBundle from "@pages/black-friday/_components/DiscountBundle.astro
 import { zip } from "@utils/zip";
 import { Image } from "astro:assets";
 import { type CollectionEntry, getCollection } from "astro:content";
-import { groupBy } from "fp-ts/NonEmptyArray";
+import { groupBy } from "fp-ts/lib/NonEmptyArray.js";
 import BaseLayout from "./BaseLayout.astro";
 
 const categories = await getCollection("courseCategories");
