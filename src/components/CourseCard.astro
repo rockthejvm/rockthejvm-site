@@ -5,7 +5,10 @@ import BadgeLarge from "./BadgeLarge.astro";
 
 interface Props {
   course: CollectionEntry<"courses">;
-  prices?: Map<string, [number, number]>;
+  prices?: {
+    old: number;
+    new: number;
+  };
 }
 
 const { course, prices } = Astro.props;
@@ -46,8 +49,8 @@ const { course, prices } = Astro.props;
         {
           prices && (
             <Fragment>
-              <s class="text-content">${prices!.get(course.slug)![0]}</s>
-              <span class="text-accent-1">${prices!.get(course.slug)![1]}</span>
+              <s class="text-content">${prices.old}</s>
+              <span class="text-accent-1">${prices.new}</span>
             </Fragment>
           )
         }

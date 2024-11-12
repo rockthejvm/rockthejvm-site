@@ -2,60 +2,142 @@
 import CourseEntry from "@components/CourseEntry.astro";
 import Hero from "@components/Hero.astro";
 import DiscountBundle from "@pages/black-friday/_components/DiscountBundle.astro";
-import { zip } from "@utils/zip";
 import { Image } from "astro:assets";
 import { type CollectionEntry, getCollection } from "astro:content";
-import { groupBy } from "fp-ts/lib/NonEmptyArray.js";
 import BaseLayout from "./BaseLayout.astro";
 
+type Course = {
+  category: CollectionEntry<"courseCategories">;
+  course: CollectionEntry<"courses">;
+  prices: { old: number; new: number };
+};
+
 const categories = await getCollection("courseCategories");
-const courses = (await getCollection("courses")).filter(
-  (course) =>
-    !new Set([
-      "akka-classic-essentials-with-scala",
-      "akka-classic-persistence-with-scala",
-      "akka-classic-remoting-and-clustering-with-scala",
-      "akka-classic-serialization-with-scala",
-    ]).has(course.slug),
-);
+const _courses = await getCollection("courses");
 
-const courseMap = groupBy<CollectionEntry<"courses">>(
-  (course) => course.data.category.id,
-)(courses);
-
-const orderedCourses = categories.map((category) => courseMap[category.id]);
-const mycourses = zip(categories, orderedCourses);
-
-const prices = new Map<string, [number, number]>([
-  ["scala-at-light-speed", [0, 0]],
-  ["scala-3-new-features", [35, 35]],
-  ["scala-essentials", [85, 85]],
-  ["scala-and-functional-programming-interview-practice", [95, 95]],
-  ["scala-essentials-old", [50, 50]],
-  ["advanced-scala-old", [50, 50]],
-  ["advanced-scala", [85, 95]],
-  ["kotlin-at-light-speed", [0, 0]],
-  ["kotlin-essentials", [95, 95]],
-  ["kotlin-coroutines-and-concurrency", [75, 75]],
-  ["advanced-kotlin", [75, 75]],
-  ["zio", [95, 95]],
-  ["zio-rite-of-passage", [495, 495]],
-  ["cats", [85, 85]],
-  ["cats-effect", [95, 95]],
-  ["typelevel-rite-of-passage", [495, 495]],
-  ["apache-flink-with-scala", [85, 85]],
-  ["apache-spark-essentials-with-scala", [75, 75]],
-  ["apache-spark-streaming-with-scala", [75, 75]],
-  ["apache-spark-optimization-with-scala", [85, 85]],
-  ["apache-spark-performance-tuning-with-scala", [75, 75]],
-  ["akka-apache-pekko-essentials-with-scala", [85, 85]],
-  ["akka-apache-pekko-streams-with-scala", [95, 95]],
-  ["akka-apache-pekko-http-with-scala", [50, 50]],
-  ["the-scala-bundle", [195, 195]],
-  ["the-kotlin-bundle", [160, 160]],
-  ["the-apache-spark-bundle-with-scala", [180, 180]],
-  ["the-akka-apache-pekko-bundle-with-scala", [180, 180]],
-]);
+const courses: Course[] = [
+  {
+    course: "scala-at-light-speed",
+    prices: { old: 0, new: 0 },
+  },
+  {
+    course: "scala-3-new-features",
+    prices: { old: 35, new: 35 },
+  },
+  {
+    course: "scala-essentials",
+    prices: { old: 85, new: 85 },
+  },
+  {
+    course: "scala-and-functional-programming-interview-practice",
+    prices: { old: 95, new: 95 },
+  },
+  {
+    course: "scala-essentials-old",
+    prices: { old: 50, new: 50 },
+  },
+  {
+    course: "advanced-scala-old",
+    prices: { old: 50, new: 50 },
+  },
+  {
+    course: "advanced-scala",
+    prices: { old: 85, new: 95 },
+  },
+  {
+    course: "kotlin-at-light-speed",
+    prices: { old: 0, new: 0 },
+  },
+  {
+    course: "kotlin-essentials",
+    prices: { old: 95, new: 95 },
+  },
+  {
+    course: "kotlin-coroutines-and-concurrency",
+    prices: { old: 75, new: 75 },
+  },
+  {
+    course: "advanced-kotlin",
+    prices: { old: 75, new: 75 },
+  },
+  {
+    course: "zio",
+    prices: { old: 95, new: 95 },
+  },
+  {
+    course: "zio-rite-of-passage",
+    prices: { old: 495, new: 495 },
+  },
+  {
+    course: "cats",
+    prices: { old: 85, new: 85 },
+  },
+  {
+    course: "cats-effect",
+    prices: { old: 95, new: 95 },
+  },
+  {
+    course: "typelevel-rite-of-passage",
+    prices: { old: 495, new: 495 },
+  },
+  {
+    course: "apache-flink-with-scala",
+    prices: { old: 85, new: 85 },
+  },
+  {
+    course: "apache-spark-essentials-with-scala",
+    prices: { old: 75, new: 75 },
+  },
+  {
+    course: "apache-spark-streaming-with-scala",
+    prices: { old: 75, new: 75 },
+  },
+  {
+    course: "apache-spark-optimization-with-scala",
+    prices: { old: 85, new: 85 },
+  },
+  {
+    course: "apache-spark-performance-tuning-with-scala",
+    prices: { old: 75, new: 75 },
+  },
+  {
+    course: "akka-apache-pekko-essentials-with-scala",
+    prices: { old: 85, new: 85 },
+  },
+  {
+    course: "akka-apache-pekko-streams-with-scala",
+    prices: { old: 95, new: 95 },
+  },
+  {
+    course: "akka-apache-pekko-http-with-scala",
+    prices: { old: 50, new: 50 },
+  },
+  {
+    course: "the-scala-bundle",
+    prices: { old: 195, new: 195 },
+  },
+  {
+    course: "the-kotlin-bundle",
+    prices: { old: 160, new: 160 },
+  },
+  {
+    course: "the-apache-spark-bundle-with-scala",
+    prices: { old: 180, new: 180 },
+  },
+  {
+    course: "the-akka-apache-pekko-bundle-with-scala",
+    prices: { old: 180, new: 180 },
+  },
+].map(({ course, prices }) => {
+  const retrievedCourse = _courses.find((c) => c.slug === course)!;
+  return {
+    category: categories.find(
+      (c) => c.id === retrievedCourse.data.category.id,
+    )!,
+    course: retrievedCourse,
+    prices,
+  };
+});
 
 interface Props {
   title: string;
@@ -77,26 +159,21 @@ const { title, subtitle1, subtitle2, annotation, imageName } = Astro.props;
   <DiscountBundle />
   <article>
     {
-      mycourses
-        .sort(
-          (category1, category2) =>
-            category1[0].data.ordinal - category2[0].data.ordinal,
-        )
-        .map(([category, courses]) => (
-          <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
-            <div class="flex flex-row gap-x-4">
-              <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
-                <Image
-                  src={category.data.logo}
-                  alt={category.data.name}
-                  class="my-auto w-full"
-                />
-              </div>
-              <h2 class="my-auto">{category.data.name}</h2>
+      courses.map(({ category, course, prices }) => (
+        <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
+          <div class="flex flex-row gap-x-4">
+            <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
+              <Image
+                src={category.data.logo}
+                alt={category.data.name}
+                class="my-auto w-full"
+              />
             </div>
-            <CourseEntry {courses} {prices} />
-          </section>
-        ))
+            <h2 class="my-auto">{category.data.name}</h2>
+          </div>
+          <CourseEntry {course} {prices} />
+        </section>
+      ))
     }
   </article>
 </BaseLayout>

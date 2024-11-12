@@ -3,19 +3,16 @@ import type { CollectionEntry } from "astro:content";
 import CourseCard from "./CourseCard.astro";
 
 interface Props {
-  courses: CollectionEntry<"courses">[];
-  prices?: Map<string, [number, number]>;
+  course: CollectionEntry<"courses">;
+  prices?: {
+    old: number;
+    new: number;
+  };
 }
 
-const { courses, prices } = Astro.props;
-
-console.log(courses.map((course) => course.slug));
+const { course, prices } = Astro.props;
 ---
 
-{
-  courses.map((course) => (
-    <dd class="mt-2" id="faq-0">
-      <CourseCard {course} {prices} />
-    </dd>
-  ))
-}
+<dd class="mt-2" id="faq-0">
+  <CourseCard {course} {prices} />
+</dd>
