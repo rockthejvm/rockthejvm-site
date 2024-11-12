@@ -38,8 +38,10 @@ export default defineCollection({
               .strict(),
           )
           .optional(),
-        description: z.string(),
-        // .max(200, "Description must be at most 200 characters"),
+        description: z
+          .string()
+          .min(70, "Description must be at least 70 characters")
+          .max(500, "Description must be at most 500 characters"), // Recommended is 240 characters
         difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
         excerpt: z
           .string()
@@ -54,7 +56,7 @@ export default defineCollection({
           ),
         extra: z
           .object({
-            title: z.string(),
+            title: z.string().max(70, "Title must be at most 70 characters"),
           })
           .optional(),
         faqs: z
@@ -126,9 +128,10 @@ export default defineCollection({
             },
           )
           .optional(),
-        title: z.string(),
-        // .min(30, "Title must be at least 30 characters")
-        // .max(70, "Title must be at most 70 characters"),
+        title: z
+          .string()
+          // .min(30, "Title must be at least 30 characters")
+          .max(70, "Title must be at most 70 characters"),
         repositoryUrl: z.string().optional(),
         videoId: z.string().optional(),
       })

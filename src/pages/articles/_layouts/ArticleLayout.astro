@@ -4,6 +4,7 @@ import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
+import site from "@data/site.json";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry } from "astro:content";
@@ -43,21 +44,22 @@ const tags = await getEntries(frontmatter.tags);
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
+  author: [
+    {
+      "@type": "Person",
+      name: author.data.name,
+      url: `${Astro.site}/authors/${author.id}`,
+    },
+  ],
+  publisher: {
+    "@type": "Organization",
+    name: site.name,
+    url: Astro.site,
+  },
+  dateModified: updatedDate,
+  datePublished: publishedDate,
   headline: title,
   image: heroImage?.image.src,
-  genre: "software engineering",
-  keywords: tags.reduce((a, b) => a + " " + b.id, ""),
-  publisher: "Rock the JVM",
-  url: Astro.site,
-  datePublished: publishedDate,
-  dateCreated: publishedDate,
-  dateModified: updatedDate,
-  description: description,
-  author: {
-    "@type": "Person",
-    name: author.data.name,
-    url: `https://rockthejvm.com/authors/${author.id}`,
-  },
 });
 ---
 
