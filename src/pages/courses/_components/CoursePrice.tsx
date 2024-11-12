@@ -56,7 +56,7 @@ export default function Example({ pricingPlanId }: Props) {
       const response = await fetch(`/api/purchase/${pricingPlanId}`);
 
       if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
+        throw new Error(response.statusText);
       }
 
       const course: Response = await response.json();
