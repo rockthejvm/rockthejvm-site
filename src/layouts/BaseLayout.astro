@@ -19,7 +19,7 @@ interface Props {
     video?: URL;
   };
   canonicalUrl?: URL;
-  defaultTheme?: string;
+  forcedTheme?: string;
   description: string;
   image?: {
     alt: string;
@@ -35,7 +35,7 @@ interface Props {
 const {
   article,
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
-  defaultTheme,
+  forcedTheme,
   description,
   error = false,
   image = site.logo,
@@ -51,7 +51,7 @@ const {
   <Head
     {article}
     {canonicalUrl}
-    {defaultTheme}
+    {forcedTheme}
     {description}
     {error}
     {image}
@@ -60,7 +60,7 @@ const {
     {type}
   />
   <body class=`${isHomePage ? "body-gradient" : ""} min-h-screen bg-bkg`>
-    <Header hideThemeToggle={defaultTheme ? false : true} />
+    <Header hideThemeToggle={!forcedTheme} />
     <main>
       <slot />
     </main>

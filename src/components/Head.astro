@@ -14,7 +14,7 @@ interface Props {
     video?: URL;
   };
   canonicalUrl: URL;
-  defaultTheme?: string;
+  forcedTheme?: string;
   description: string;
   error: boolean;
   image: {
@@ -28,7 +28,7 @@ interface Props {
 const {
   article,
   canonicalUrl,
-  defaultTheme,
+  forcedTheme,
   description,
   error,
   image: _image,
@@ -83,10 +83,10 @@ const orgStructuredData = JSON.stringify({
     )
   }
   <script type="application/ld+json" set:html={orgStructuredData} is:inline />
-  <script is:inline define:vars={{ defaultTheme: defaultTheme }}>
+  <script is:inline define:vars={{ forcedTheme }}>
     const setDataTheme = () => {
-      if (defaultTheme) {
-        document.documentElement.setAttribute("data-theme", defaultTheme);
+      if (forcedTheme) {
+        document.documentElement.setAttribute("data-theme", forcedTheme);
       } else {
         document.documentElement.setAttribute(
           "data-theme",
