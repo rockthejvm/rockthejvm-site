@@ -86,17 +86,16 @@ const orgStructuredData = JSON.stringify({
   <script is:inline define:vars={{ forcedTheme }}>
     const setDataTheme = () => {
       if (forcedTheme) {
-        document.documentElement.setAttribute("data-theme", forcedTheme);
-      } else {
-        document.documentElement.setAttribute(
-          "data-theme",
-          localStorage.getItem("theme") === "system"
-            ? window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light"
-            : localStorage.getItem("theme"),
-        );
+        document.documentElement.setAttribute("holiday-theme", forcedTheme);
       }
+      document.documentElement.setAttribute(
+        "data-theme",
+        localStorage.getItem("theme") === "system"
+          ? window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+          : localStorage.getItem("theme"),
+      );
     };
     const setThemeToggle = () => {
       ["systemTheme", "lightTheme", "darkTheme"].forEach(
@@ -126,20 +125,22 @@ const orgStructuredData = JSON.stringify({
     setDataTheme();
     document.addEventListener("DOMContentLoaded", () => {
       setProse();
-      setThemeToggle();
-      document.getElementById("themeToggle").addEventListener("click", () => {
-        localStorage.setItem(
-          "theme",
-          localStorage.getItem("theme") === "system"
-            ? "light"
-            : localStorage.getItem("theme") === "light"
-              ? "dark"
-              : "system",
-        );
-        setDataTheme();
-        setProse();
+      if (!forcedTheme) {
         setThemeToggle();
-      });
+        document.getElementById("themeToggle").addEventListener("click", () => {
+          localStorage.setItem(
+            "theme",
+            localStorage.getItem("theme") === "system"
+              ? "light"
+              : localStorage.getItem("theme") === "light"
+                ? "dark"
+                : "system",
+          );
+          setDataTheme();
+          setProse();
+          setThemeToggle();
+        });
+      }
     });
   </script>
   <Fragment>

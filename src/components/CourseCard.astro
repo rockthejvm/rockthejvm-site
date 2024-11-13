@@ -5,25 +5,24 @@ import BadgeLarge from "./BadgeLarge.astro";
 
 interface Props {
   course: CollectionEntry<"courses">;
+  holiday?: boolean;
   prices?: {
     old: number;
     new: number;
   };
 }
 
-const { course, prices } = Astro.props;
+const { course, holiday = false, prices } = Astro.props;
 ---
 
 <div
-  class="card-shadow card-shadow-color mt-8 w-full overflow-hidden rounded-2xl bg-secondary md:flex md:h-52"
+  class={`card-shadow card-shadow-color mt-8 w-full overflow-hidden rounded-2xl ${holiday ? "bg-holiday-secondary" : "bg-secondary"} md:flex md:h-52`}
 >
   <div
     class="mb-4 shrink-0 overflow-hidden md:mb-0 md:mr-4 md:min-h-full md:rounded-l-2xl"
   >
     <a href={`/courses/${course.slug}`}>
-      <div
-        class="h-72 w-full overflow-hidden text-gray-300 md:h-full md:w-64 lg:w-96"
-      >
+      <div class="h-72 w-full overflow-hidden md:h-full md:w-64 lg:w-96">
         <Image
           src={course.data.heroImage}
           alt={`${course.data.title}`}
@@ -35,27 +34,42 @@ const { course, prices } = Astro.props;
   <div class="my-8 px-8 md:my-auto md:px-8">
     <span class="flex gap-x-2">
       <h3
-        class="text-center text-lg font-bold text-content-2 hover:text-accent-2 md:text-left"
+        class={`text-center text-lg font-bold ${holiday ? "text-holiday-card-content-2" : "text-content-2"} hover:text-accent-2 md:text-left`}
       >
-        {course.data.isFree && <BadgeLarge> Free! </BadgeLarge>}
+        {course.data.isFree && <BadgeLarge {holiday}> Free! </BadgeLarge>}
         {
           course.data.isNew && !course.data.isFree && (
-            <BadgeLarge> New! </BadgeLarge>
+            <BadgeLarge {holiday}> New! </BadgeLarge>
           )
         }
-        <a href={`/courses/${course.slug}`}>
+        <a
+          href={`/courses/${course.slug}`}
+          class={`${holiday ? "text-holiday-card-accent-1 hover:text-holiday-card-accent-2" : ""}`}
+        >
           {course.data.title}
         </a>
         {
           prices && (
             <Fragment>
-              <s class="text-content">${prices.old}</s>
-              <span class="text-accent-1">${prices.new}</span>
+              <s
+                class={`${holiday ? "text-holiday-card-content" : "text-content"}`}
+              >
+                ${prices.old}
+              </s>
+              <span
+                class={`${holiday ? "text-holiday-card-accent-1" : "text-accent-1"}`}
+              >
+                ${prices.new}
+              </span>
             </Fragment>
           )
         }
       </h3>
     </span>
-    <Fragment set:html={course.data.excerpt} class="mt-1 text-content-1" />
+    <div
+      class={`mt-1 ${holiday ? "text-holiday-card-content-1" : "text-content-1"}`}
+    >
+      <Fragment set:html={course.data.excerpt} />
+    </div>
   </div>
 </div>

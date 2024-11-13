@@ -59,7 +59,9 @@ const {
     {title}
     {type}
   />
-  <body class=`${isHomePage ? "body-gradient" : ""} min-h-screen bg-bkg`>
+  <body
+    class={`${isHomePage ? "body-gradient" : ""} min-h-screen ${forcedTheme ? "bg-holiday-bkg" : "bg-bkg"}`}
+  >
     <Header hideThemeToggle={!forcedTheme} />
     <main>
       <slot />

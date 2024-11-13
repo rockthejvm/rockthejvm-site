@@ -8,11 +8,12 @@ interface Props {
     old: number;
     new: number;
   };
+  holiday?: boolean;
 }
 
-const { course, prices } = Astro.props;
+const { course, holiday = false, prices } = Astro.props;
 ---
 
 <dd class="mt-2" id="faq-0">
-  <CourseCard {course} {prices} />
+  <CourseCard {course} {holiday} {prices} />
 </dd>
