@@ -13,7 +13,6 @@ const navigation = [
 ];
 
 export default function Example(props) {
-  console.log(props.holiday);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

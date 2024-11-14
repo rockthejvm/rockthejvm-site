@@ -8,7 +8,6 @@ interface Props {
 }
 
 const { showThemeToggle } = Astro.props;
-console.log(`HIDE THEME TOGGLE: ${showThemeToggle}`);
 ---
 
 <HeaderHelper client:media="(width < 1024px)" holiday={!showThemeToggle}>
