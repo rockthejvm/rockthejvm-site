@@ -1,4 +1,5 @@
 ---
+import NotificationBanner from "@components/NotificationBanner.astro";
 import "@styles/base.css";
 import "@styles/fonts.css";
 import Footer from "../components/Footer.astro";
@@ -62,7 +63,8 @@ const {
   <body
     class={`${isHomePage ? "body-gradient" : ""} min-h-screen ${forcedTheme ? "bg-holiday-bkg" : "bg-bkg"}`}
   >
-    <Header hideThemeToggle={!forcedTheme} />
+    {!forcedTheme && <NotificationBanner />}
+    <Header showThemeToggle={!forcedTheme} />
     <main>
       <slot />
     </main>

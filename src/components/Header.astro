@@ -4,13 +4,18 @@ import HeaderHelper from "./HeaderHelper";
 import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
-  hideThemeToggle?: boolean;
+  showThemeToggle?: boolean;
 }
 
-const { hideThemeToggle } = Astro.props;
+const { showThemeToggle } = Astro.props;
+console.log(`HIDE THEME TOGGLE: ${showThemeToggle}`);
 ---
 
-<HeaderHelper client:media="(width < 1024px)">
-  <RockTheJVM class="h-10 w-auto sm:h-11 md:h-12 lg:h-14" slot="logo" />
-  {hideThemeToggle && <ThemeToggle id="themeToggle" slot="themeToggle" />}
+<HeaderHelper client:media="(width < 1024px)" holiday={!showThemeToggle}>
+  <RockTheJVM
+    class="h-10 w-auto sm:h-11 md:h-12 lg:h-14"
+    suffix="-black-friday"
+    slot="logo"
+  />
+  {showThemeToggle && <ThemeToggle id="themeToggle" slot="themeToggle" />}
 </HeaderHelper>

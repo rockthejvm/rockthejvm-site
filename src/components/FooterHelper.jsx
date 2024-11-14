@@ -130,24 +130,29 @@ export default function Example(props) {
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-content">
+                <h3
+                  className={`text-sm font-semibold leading-6 ${props.holiday ? "text-holiday-content-1" : "text-content"}`}
+                >
                   Content
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.content.map((item) => (
                     <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className="text-sm leading-6 text-content hover:text-accent-1"
-                      >
-                        {item.name}
+                      <a href={item.href} className="text-sm leading-6">
+                        <span
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                        >
+                          {item.name}
+                        </span>
                       </a>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-content">
+                <h3
+                  className={`text-sm font-semibold leading-6 ${props.holiday ? "text-holiday-content-1" : "text-content"}`}
+                >
                   Support
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -157,7 +162,11 @@ export default function Example(props) {
                         href={item.href}
                         className="text-sm leading-6 text-content hover:text-accent-1"
                       >
-                        {item.name}
+                        <span
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                        >
+                          {item.name}
+                        </span>
                       </a>
                     </li>
                   ))}
@@ -166,7 +175,9 @@ export default function Example(props) {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-content">
+                <h3
+                  className={`text-sm font-semibold leading-6 ${props.holiday ? "text-holiday-content-1" : "text-content"}`}
+                >
                   Company
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -174,16 +185,22 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-content hover:text-accent-1"
+                        className="text-sm leading-6 hover:text-accent-1"
                       >
-                        {item.name}
+                        <span
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                        >
+                          {item.name}
+                        </span>
                       </a>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-content">
+                <h3
+                  className={`text-sm font-semibold leading-6 ${props.holiday ? "text-holiday-content-1" : "text-content"}`}
+                >
                   Legal
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
@@ -191,9 +208,13 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-content hover:text-accent-1"
+                        className="text-sm leading-6 hover:text-accent-1"
                       >
-                        {item.name}
+                        <span
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                        >
+                          {item.name}
+                        </span>
                       </a>
                     </li>
                   ))}

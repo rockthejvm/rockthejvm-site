@@ -6,9 +6,15 @@ import LinkedIn from "./icons/LinkedIn.astro";
 import RSS from "./icons/RSS.astro";
 import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
+
+interface Props {
+  holiday?: boolean;
+}
+
+const { holiday } = Astro.props;
 ---
 
-<FooterHelper client:visible>
+<FooterHelper client:visible {holiday}>
   <Facebook slot="facebook" />
   <GitHub slot="github" />
   <LinkedIn slot="linkedin" />
@@ -25,7 +31,9 @@ import YouTube from "./icons/YouTube.astro";
         target="_blank"
       >
         <div id="mc_embed_signup_scroll">
-          <h3 class="text-sm font-semibold leading-6 text-content">
+          <h3
+            class={`text-sm font-semibold leading-6 ${holiday ? "text-holiday-content-1" : "text-content"}`}
+          >
             Subscribe to our newsletter
           </h3>
           <div>
