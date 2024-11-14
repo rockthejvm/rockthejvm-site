@@ -171,13 +171,13 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 
 After frontmatter, add this import
 
-```
+```javascript
 import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 ```
 
 and then insert your admonition tag wherever you want in the article:
 
-```
+```javascript
 <NoteAdmonition>
   This is my note. Make note of it, or I will make note of you.
 </NoteAdmonition>
