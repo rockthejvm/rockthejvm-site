@@ -52,6 +52,7 @@ Each article has a front-matter header that looks like below (example from one o
 
 ```yaml
 ---
+author: your-id
 category: guide
 title: Comparing Akka Streams, Kafka Streams and Spark Streaming
 excerpt: Explore how Akka Streams, Kafka Streams, and Spark Streaming stack up and find out which one is best for your use case
@@ -165,6 +166,22 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 - List items should not end with a period unless they contain multiple sentences
 
 ## Admonitions
+
+## How to Use
+
+After frontmatter, add this import
+
+```javascript
+import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
+```
+
+and then insert your admonition tag wherever you want in the article:
+
+```javascript
+<NoteAdmonition>
+  This is my note. Make note of it, or I will make note of you.
+</NoteAdmonition>
+```
 
 ### When to Use
 
