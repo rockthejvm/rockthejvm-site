@@ -2,9 +2,9 @@
 author: riccardo-cardin
 category: guide
 title: "Project Loom: Structured Concurrency in Java"
-excerpt: "Concurrency is a complex topic that requires a deep understanding of the underlying mechanisms of the programming language and the runtime environment. Fortunately, Project Loom is here to help. In this article, we will explore the concept of structured concurrency and how it simplifies writing concurrent code in Java."
+excerpt: "In this article, we will explore the concept of structured concurrency and how Project Loom simplifies writing concurrent code in Java"
 publishedDate: 2024-11-18
-tags: [java, loom, structured-concurrency]
+tags: [java, loom, concurrency]
 ---
 
 ## Introduction
@@ -28,6 +28,22 @@ Java 23 was released in mid-September 2024, bringing many new features and impro
     </plugin>
   </pluginManagement>
 </build>
+```
+
+We'll use also the SLF4J logging facade with the Logback implementation for doing some logging. So, we need to add the following dependencies to the `pom.xml` file:
+
+```xml
+<dependency>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>logback-classic</artifactId>
+  <version>1.5.8</version>
+</dependency>
+```
+
+The logger we will use is the following:
+
+```java
+private static final Logger LOGGER = LoggerFactory.getLogger("GitHubApp");
 ```
 
 Once we have set up the project, we can start writing some code to explore structured concurrency in Java. We need an example to work with in detail. This time, we'll take the interaction with GitHub APIs (or at least a simplified version) as an example. So, without further ado, let's start writing some code.
@@ -80,6 +96,15 @@ interface FindRepositoriesByUserIdPort {
 The implementations of these interfaces are straightforward. They return fixed information and simulate a delay in the response. Here is the implementation of both the interfaces:
 
 ```java
+import java.net.URI;
+import java.time.Duration;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 class GitHubRepository implements FindUserByIdPort, FindRepositoriesByUserIdPort {
 
   @Override
@@ -103,7 +128,7 @@ class GitHubRepository implements FindUserByIdPort, FindRepositoriesByUserIdPort
   }
 }
 
-private static void delay(Duration duration) throws InterruptedException {
+void delay(Duration duration) throws InterruptedException {
   Thread.sleep(duration);
 }
 ```
@@ -154,7 +179,7 @@ We can now write the concurrent version of the code:
 ```java
 @Override
 public GitHubUser findGitHubUser(UserId userId)
-    throws InterruptedException, ExecutionException {\
+    throws InterruptedException, ExecutionException {
 
   try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
     var user = executor.submit(() -> findUserByIdPort.findUser(userId));
@@ -758,7 +783,14 @@ Exception in thread "main" java.util.concurrent.ExecutionException: java.util.No
 
 As we can see, the log reports the first exception thrown by the `cache` task. The second exception, the `RuntimeException("Socket timeout")`, was caught by the `scope` but it was suppressed. The `StructuredTaskScope.ShutdownOnSuccess` re-throws the first exception if all the tasks throw an exception.
 
-We can remap the exception thrown by the `result` method as we did for the `throwIfFailed` method. The `result` method has an override that takes a function as input to map the exception. Here is the code:
+We can remap the exception thrown by the `result` method as we did for the `throwIfFailed` method. The `result` method has an override that takes a function as input to map the exception:
+
+```java
+// Java SDK
+public <X extends Throwable> T result(Function<Throwable, ? extends X> esf) throws X
+```
+
+It's a bit weird, but the function passed to the `result` method still maps the exception thrown by the `result` method. So, we can use the identity function to re-throw the original exception:
 
 ```java
 scope.join().result(Function.identity());
@@ -766,7 +798,9 @@ scope.join().result(Function.identity());
 
 The same warnings about exceptions' remapping we gave for the `throwIfFailed` method hold for the `result` method.
 
-We can use the `StructuredTaskScope.ShutdownOnSuccess` to implement another concurrency primitive present in other well-known libraries, such as ZIO and Softwaremill Ox: The `raceAll` function. The `raceAll` function takes two tasks and returns the result of the first successfully completed task. If both tasks throw an exception, the first exception thrown is re-thrown. Here is how we can implement it in Java using the `StructuredTaskScope.ShutdownOnSuccess` policy:
+We can use the `StructuredTaskScope.ShutdownOnSuccess` to implement another concurrency primitive present in other well-known libraries, such as ZIO and Softwaremill Ox: The `raceAll` function. The `raceAll` function takes a list of tasks and returns the result of the first successfully completed task. If all the tasks throw an exception, the first exception thrown is re-thrown. For the sake of simplicity, we'll implement a simplified version that takes only two subtasks.
+
+Here is how we can implement it in Java using the `StructuredTaskScope.ShutdownOnSuccess` policy:
 
 ```java
 static <T> T raceAll(Callable<T> first, Callable<T> second)
@@ -1285,7 +1319,7 @@ Now, we can retry the `race` function with the `mineBitcoinWithConsciousness` co
 
 ```java
 public static void main() throws ExecutionException, InterruptedException {
-  final GitHubRepository gitHubRepository = new GitHubRepository();\
+  final GitHubRepository gitHubRepository = new GitHubRepository();
 
   var repositories = race(
           () -> gitHubRepository.findRepositories(new UserId(42L)),
@@ -1389,7 +1423,7 @@ Exception in thread "main" java.util.concurrent.ExecutionException: java.util.co
 
 First, we saw that the four leaves of the above tree started concurrently, with four virtual threads assigned to each leaf: `virtual-29`, `virtual-30`, `virtual-31`, and `virtual-32`. After more or less 500 milliseconds from the start of the computation, the two leaves that retrieve the user information are completed successfully. However, the two leaves that retrieved the repositories didn't complete within the given interval. The scope stopped the computation, and the `race` function implementing the `timeout` function threw a `TimeoutException` exception as expected.
 
-Again, enjoy that the above code does not have a thread leak. The scopes stopped all the forked tasks within four nested levels of computations.
+Again, appreciate that the above code does not have a thread leak. The scopes stopped all the forked tasks within four nested levels of computations.
 
 How does the whole thing work? As we saw in the previous section, **the core mechanism is thread interruption**. The `race` function creates the outer scope inside the `timeout` function. The scope is a `ShutdownOnResult`, so it waits for the first result. The scope is waiting on the `scope.join()` statement:
 
@@ -1521,7 +1555,7 @@ The above example introduced another piece in the structured concurrency puzzle 
 
 ## Conclusion
 
-We finally reach the conclusions of the article. We introduced what structured concurrency is and what its benefits are. We saw it's hard to avoid thread leaks using the traditional Java concurrency API. Fortunately, Project Loom is available in version 19 of Java. The project introduced virtual threads and structured concurrency. We saw the different shutdown policies that the JDK brings, and we implemented one custom policy to dive deep into the main concepts of structured concurrency. We were able to implement structured concurrency primitives that we find in many libraries like Scala ZIO and Cats Effects. Finally, we saw the parent-children relationship in structured concurrency in action and how the `close` method is the last line of defense to ensure that all the children tasks that are not needed anymore are interrupted.
+We finally reach the conclusions of the article. We introduced what structured concurrency is and what its benefits are. We saw it's hard to avoid thread leaks using the traditional Java concurrency API. Fortunately, Project Loom is available in version 19 of Java. The project introduced virtual threads and structured concurrency. We saw the different shutdown policies that the JDK brings, and we implemented one custom policy to dive deep into the main concepts of structured concurrency. We were able to implement structured concurrency primitives that we find in many libraries like Scala ZIO and Cats Effect. Finally, we saw the parent-children relationship in structured concurrency in action and how the `close` method is the last line of defense to ensure that all the children tasks that are not needed anymore are interrupted.
 
 I hope you enjoyed the article and learned something new. Thanks for reading, and I look forward to the next one!
 
