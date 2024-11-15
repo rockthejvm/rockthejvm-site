@@ -17,7 +17,7 @@ const _courses = await getCollection("courses");
 
 const courses: Course[] = [
   {
-    category: "Rite of Passage",
+    category: "Project Based",
     courses: [
       {
         id: "zio-rite-of-passage",
@@ -65,6 +65,18 @@ const courses: Course[] = [
       {
         id: "advanced-scala",
         prices: { old: 85, new: 42.5 },
+      },
+      {
+        id: "scala-3-new-features",
+        prices: { old: 35, new: 17.5 },
+      },
+      {
+        id: "scala-essentials-old",
+        prices: { old: 50, new: 25 },
+      },
+      {
+        id: "advanced-scala-old",
+        prices: { old: 50, new: 25 },
       },
     ],
   },
@@ -155,35 +167,18 @@ const courses: Course[] = [
     ],
   },
   {
-    category: "Old",
+    category: "Still Free",
     courses: [
       {
-        id: "scala-3-new-features",
-        prices: { old: 35, new: 17.5 },
+        id: "scala-at-light-speed",
+        prices: { old: 0, new: 0 },
       },
       {
-        id: "scala-essentials-old",
-        prices: { old: 50, new: 25 },
-      },
-      {
-        id: "advanced-scala-old",
-        prices: { old: 50, new: 25 },
+        id: "kotlin-at-light-speed",
+        prices: { old: 0, new: 0 },
       },
     ],
   },
-  // {
-  //   category: "Free",
-  //   courses: [
-  //     {
-  //       id: "scala-at-light-speed",
-  //       prices: { old: 0, new: 0 },
-  //     },
-  //     {
-  //       id: "kotlin-at-light-speed",
-  //       prices: { old: 0, new: 0 },
-  //     },
-  //   ],
-  // },
 ].map(({ category, courses }) => ({
   category: category,
   courses: courses.map((course) => ({

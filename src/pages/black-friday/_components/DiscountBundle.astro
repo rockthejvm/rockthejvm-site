@@ -1,6 +1,6 @@
 ---
-import MembershipImage from "@content/memberships/personal.png";
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
+import BundleImage from "../_assets/black-friday-bundle.png";
 ---
 
 <section class="mb-8 md:mb-16">
@@ -13,11 +13,12 @@ import { Image } from "astro:assets";
         <div
           class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
         >
-          <Image
-            src={MembershipImage}
-            alt="Personal membership"
+          <Picture
+            src={BundleImage}
+            alt="Black Friday bundle"
             class="w-full flex-none rounded-2xl lg:max-w-lg"
             slot="image"
+            formats={["avif", "webp"]}
           />
           <div class="w-full flex-auto">
             <h3
