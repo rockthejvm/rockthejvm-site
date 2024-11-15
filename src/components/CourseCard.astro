@@ -57,7 +57,7 @@ const { course, holiday = false, prices } = Astro.props;
                 ${prices.old}
               </s>
               <span
-                class={`${holiday ? "text-holiday-card-accent-1" : "text-accent-1"}`}
+                class={`text-orange-500 ${holiday ? "text-holiday-card-accent-1" : "text-accent-1"}`}
               >
                 ${prices.new}
               </span>
