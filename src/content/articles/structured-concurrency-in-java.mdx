@@ -108,7 +108,7 @@ import org.slf4j.LoggerFactory;
 class GitHubRepository implements FindUserByIdPort, FindRepositoriesByUserIdPort {
 
   @Override
-  public User findUser(UserId userId) throws InterruptedException {
+  public User findUser(UserId userId) throws InterruptedException, ExecutionException {
     LOGGER.info("Finding user with id '{}'", userId);
     delay(Duration.ofMillis(500L));
     LOGGER.info("User '{}' found", userId);
@@ -116,7 +116,7 @@ class GitHubRepository implements FindUserByIdPort, FindRepositoriesByUserIdPort
   }
 
   @Override
-  public List<Repository> findRepositories(UserId userId) throws InterruptedException {
+  public List<Repository> findRepositories(UserId userId) throws InterruptedException, ExecutionException {
     LOGGER.info("Finding repositories for user with id '{}'", userId);
     delay(Duration.ofSeconds(1L));
     LOGGER.info("Repositories found for user '{}'", userId);
@@ -141,7 +141,7 @@ Now that we have our clients, we can start writing the code to retrieve the nece
 
 ```java
 interface FindGitHubUserUseCase {
-  GitHubUser findGitHubUser(UserId userId) throws InterruptedException;
+  GitHubUser findGitHubUser(UserId userId) throws InterruptedException, ExecutionException;
 }
 
 class FindGitHubUserSequentialService implements FindGitHubUserUseCase {
@@ -157,7 +157,7 @@ class FindGitHubUserSequentialService implements FindGitHubUserUseCase {
   }
 
   @Override
-  public GitHubUser findGitHubUser(UserId userId) throws InterruptedException {
+  public GitHubUser findGitHubUser(UserId userId) throws InterruptedException, ExecutionException {
     var user = findUserByIdPort.findUser(userId);
     var repositories = findRepositoriesByUserIdPort.findRepositories(userId);
     return new GitHubUser(user, repositories);
@@ -172,7 +172,18 @@ Although the code could be more efficient, it has a lot of good features:
  2. The computation has a clear scope. After the completion of the `findGitHubUser` method, the computation is done, and the JVM knows it can clean up all the used resources used.
  3. The exception handling management is straightforward.
 
-Let's say the `findUserByIdPort.findUser(userId)` call throws an exception. The exception is propagated to the caller, and the `findRepositoriesByUserIdPort.findRepositories(userId)` will never start. All resources are well-spent in this case.
+Let's say the `findUserByIdPort.findUser(userId)` call throws an exception:
+
+```java
+@Override
+public User findUser(UserId userId) throws InterruptedException {
+  LOGGER.info("Finding user with id '{}'", userId);
+  delay(Duration.ofMillis(100L));
+  throw new RuntimeException("Socket timeout");
+}
+```
+
+The exception is propagated to the caller, and the `findRepositoriesByUserIdPort.findRepositories(userId)` will never start. All resources are well-spent in this case.
 
 We can now write the concurrent version of the code:
 
@@ -302,11 +313,11 @@ As we said, despite being sequential and not optimized, the above computation ha
 
 **The code's syntactic structure reflects the computation's semantic structure**, so it is structured.
 
-**Structured concurrency is a concurrency model that satisfies the above properties and executes concurrently in the case of code**. Martin Sústrik introduced it in his blog post [Structured Concurrency](https://250bpm.com/blog:71/), and then popularized by Nathaniel J. Smith in his blog post [Notes on structured concurrency, or: Go statement considered harmful](https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/).
+**To satisfy the above properties, we need structured concurrency**. Martin Sústrik introduced the concept of structured concurrency in his blog post [Structured Concurrency](https://250bpm.com/blog:71/), and then popularized by Nathaniel J. Smith in his blog post [Notes on structured concurrency, or: Go statement considered harmful](https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/).
 
 At the core, its main objective is to provide a way to structure concurrent computation so that the syntactic structure of the code reflects the semantic structure of the concurrency, satisfying the properties we've seen so far for sequential code. The relationships between the parent and the children tasks form a tree.
 
-![Structured Concurrency Tasks Tree](/articles/structured-concurrency-in-java/images/structured-concurrency.png)
+![Structured Concurrency Tasks Tree](images/structured-concurrency.png)
 
 The task execution in a node is guaranteed to be completed only when all the children tasks are completed. In our example, once we set up the structured concurrency, the execution of the `findGitHubUser` method will be completed when the `findUserByIdPort.findUser(userId)` and `findRepositoriesByUserIdPort.findRepositories(userId)` methods are completed.
 
@@ -317,7 +328,7 @@ Java implements structured concurrency through the `java.util.concurrent.Structu
 ```java
 @Override
 public GitHubUser findGitHubUser(UserId userId) throws ExecutionException {
-  try (var scope = new StructuredTaskScope<T>()) {
+  try (var scope = new StructuredTaskScope<>()) {
     // TODO
     return null;
   }
@@ -1390,7 +1401,7 @@ public List<GitHubUser> findGitHubUsers(UserId first, UserId second, Duration ti
 
 The `findGitHubUser` is the method we implemented so far. Despite the conciseness of the code, the above code is an example of a tree of nested tasks. Let's sketch the relationships among tasks as we did previously:
 
-![Parent-Children Tree](/articles/structured-concurrency-in-java/images/parent-child.png)
+![Parent-Children Tree](images/parent-child.png)
 
 As we can see, we have at least three levels of nested computations. Now, it's time to exploit the full power of structured concurrency. As we said, we want the whole computation to stop if it cannot be accomplished in a maximum amount of time. As we might remember, retrieving basic user information takes 500 milliseconds, while retrieving repositories takes 1 second. So, to see structured concurrency in action, we can set up the whole timeout to 700 milliseconds:
 
@@ -1547,7 +1558,7 @@ public GitHubUser findGitHubUser(UserId userId)
 
 The execution of the `par` method is waiting in the `ShutdownOnFailure.join` method, which will throw an `InterruptedException` exception...and the story goes on as we just saw. At first reading, the process could seem complex, but it's not. For those of you who are familiar with UML sequence diagrams, here is a sequence diagram of the above use case:
 
-![Parent-Children Tree](/articles/structured-concurrency-in-java/images/sc-sequence.png)
+![Parent-Children Tree](images/sc-sequence.png)
 
 For the sake of simplicity, the diagram doesn't show threads retrieving the information from GitHub for the second user, but it gives a nice picture of what happens in the code.
 
