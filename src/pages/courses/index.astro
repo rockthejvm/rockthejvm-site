@@ -80,15 +80,28 @@ const categories = await Promise.all(
     getEntry("courseCategories", courses[0]?.data.category.id),
   ),
 );
-const mycourses = zip(categories, coursess);
-// const courseList = coursess.reduce(
-//   (accumulator, value) => accumulator.concat(value),
-//   [],
-// );
+const mycoursess = zip(categories, coursess).sort(
+  (category1, category2) =>
+    category1[0].data.ordinal - category2[0].data.ordinal,
+);
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: mycoursess
+    .map(([, courses]) => courses)
+    .flat()
+    .map((course, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${Astro.site}/courses/${course.slug}`,
+    })),
+});
 ---
 
 <BaseLayout
   description="All of the Rock the JVM premium content, at your service."
+  {structuredData}
   title="The Rock the JVM Membership"
 >
   <header class="pt-8 md:pt-16">
@@ -96,37 +109,30 @@ const mycourses = zip(categories, coursess);
       Rock the JVM Courses
     </h1>
   </header>
-  <div>
-    <BackgroundGradient />
-  </div>
+  <BackgroundGradient />
   <article>
     {
-      mycourses
-        .sort(
-          (category1, category2) =>
-            category1[0].data.ordinal - category2[0].data.ordinal,
-        )
-        .map(([category, courses]) => (
-          <section class="pt-8 md:pt-12">
-            <div class="flex flex-row gap-x-4">
-              <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
-                <Image
-                  src={category.data.logo}
-                  alt={category.data.name}
-                  class="my-auto w-full"
-                />
-              </div>
-              <h2 class="my-auto">{category.data.name}</h2>
+      mycoursess.map(([category, courses]) => (
+        <section class="pt-8 md:pt-12">
+          <div class="flex flex-row gap-x-4">
+            <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
+              <Image
+                src={category.data.logo}
+                alt={category.data.name}
+                class="my-auto w-full"
+              />
             </div>
-            <ul class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
-              {courses.map((course) => (
-                <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
-                  <CourseCardVertical {course} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
+            <h2 class="my-auto">{category.data.name}</h2>
+          </div>
+          <ul class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
+            {courses.map((course) => (
+              <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
+                <CourseCardVertical {course} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
     }
   </article>
 </BaseLayout>

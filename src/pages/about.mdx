@@ -3,9 +3,21 @@ description: The best training material on Java, Scala, Akka and the JVM, on the
 title: The Rock the JVM Story
 ---
 
+import site from "@data/site.json";
+
+export const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  description: frontmatter.description,
+  legalName: site.legalName,
+  logo: "https://rockthejvm.com/logos/rtjvm.png", // TODO
+  name: site.name,
+  url: "https://rockthejvm.com",
+});
+
 import Informational from "../components/InformationalLayout.astro";
 
-<Informational description={frontmatter.description} title={frontmatter.title}>
+<Informational description={frontmatter.description} structuredData={structuredData} title={frontmatter.title}>
   ## The one-liner
 
 Rock the JVM aims to be the go-to resource for learning Scala, Akka, Spark and everything JVM. Everything is battle-tested on yours truly.

@@ -42,38 +42,7 @@ const image = {
   src: `https://${site.domain}${_image.src}`,
 };
 
-const orgStructuredData = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  // "name": "Elite Strategies",
-  // "legalName" : "Elite Strategies Llc",
-  url: "https://rockthejvm.com",
-  // "logo": "http://cdn.elite-strategies.com/wp-content/uploads/2013/04/elitestrategies.png",
-  // "foundingDate": "2009",
-  // "founders": [
-  // {
-  // "@type": "Person",
-  // "name": "Patrick Coombe"
-  // },
-  // {
-  // "@type": "Person",
-  // "name": ""
-  // } ],
-  // "address": {
-  // "@type": "PostalAddress",
-  // "streetAddress": "900 Linton Blvd Suite 104",
-  // "addressLocality": "Delray Beach",
-  // "addressRegion": "FL",
-  // "postalCode": "33444",
-  // "addressCountry": "USA"
-  // },
-  // "contactPoint": {
-  // "@type": "ContactPoint",
-  // "contactType": "customer support",
-  // "email": "info@elite-strategies.com"
-  // },
-  sameAs: Object.entries(site.socials).map((social) => social[1].url),
-});
+// const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
 ---
 
 <head>
@@ -82,7 +51,6 @@ const orgStructuredData = JSON.stringify({
       <script type="application/ld+json" set:html={structuredData} is:inline />
     )
   }
-  <script type="application/ld+json" set:html={orgStructuredData} is:inline />
   <script is:inline define:vars={{ forcedTheme }}>
     const setDataTheme = () => {
       if (forcedTheme) {
