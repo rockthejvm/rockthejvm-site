@@ -29,7 +29,8 @@ const {
   title,
 } = Astro.props;
 
-const prices = { old: 2470, new: 345 };
+const prices = { old: 2630, new: 395 };
+const bigCoupon = "BLACK_FRIDAY_2024";
 ---
 
 <BaseLayout {description} {forcedTheme} {title}>
@@ -41,5 +42,5 @@ const prices = { old: 2470, new: 345 };
     {prices}
     {title}
   />
-  <HolidayCourseList {courses} />
+  <HolidayCourseList {courses} {bigCoupon} />
 </BaseLayout>

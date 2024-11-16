@@ -9,20 +9,24 @@ interface Props {
 }
 
 const { bundleImage, offer, prices, title } = Astro.props;
+const productId = 5951531;
+const checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${productId}`;
 ---
 
 <section class="mb-8 min-h-[60vh] md:mb-16">
   <div class="relative isolate">
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div
-        class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
+        class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
       >
-        <Picture
-          src={bundleImage}
-          alt={`${title} bundle`}
-          class="w-full flex-none rounded-2xl lg:max-w-lg"
-          formats={["avif", "webp"]}
-        />
+        <a href={checkoutURL}>
+          <Picture
+            src={bundleImage}
+            alt={`${title} bundle`}
+            class="w-full flex-none lg:max-w-lg"
+            formats={["avif", "webp"]}
+          />
+        </a>
         <div class="w-full flex-auto">
           <h2
             class="text-4xl font-bold tracking-tight text-holiday-content-1 sm:text-5xl"
@@ -44,10 +48,10 @@ const { bundleImage, offer, prices, title } = Astro.props;
             class="mt-8 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
           >
             <a
-              href={`https://courses.rockthejvm.com/purchase?product_id=${5951531}`}
+              href={checkoutURL}
               class="rounded-md bg-holiday-cta px-3.5 py-2.5 text-sm font-semibold text-holiday-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
-              <span class="blink">Get it now</span>
+              <span>Get it now</span>
             </a>
             <a
               href="/courses/black-friday-2024"
@@ -61,26 +65,3 @@ const { bundleImage, offer, prices, title } = Astro.props;
     </div>
   </div>
 </section>
-<style>
-  @keyframes blink {
-    0% {
-      color: white;
-    }
-    100% {
-      color: black;
-    }
-  }
-  @-webkit-keyframes blink {
-    0% {
-      color: white;
-    }
-    100% {
-      color: black;
-    }
-  }
-  .blink {
-    -webkit-animation: blink 8s linear infinite;
-    -moz-animation: blink 8s linear infinite;
-    animation: blink 8s linear infinite;
-  }
-</style>

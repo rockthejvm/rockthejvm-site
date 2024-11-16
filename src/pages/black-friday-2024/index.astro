@@ -11,6 +11,7 @@ const courses: HolidayCourse[] = _courses.map(({ category, courses }) => ({
   category: category,
   courses: courses.map((course) => ({
     id: __courses.find((_course) => _course.slug === course.id)!,
+    productId: course.productId,
     prices: course.prices,
   })),
 }));
