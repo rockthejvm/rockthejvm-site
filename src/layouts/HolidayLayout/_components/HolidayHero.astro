@@ -40,7 +40,7 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
           <p class="mb-4 text-lg text-gray-400">
             {subtitle1.toUpperCase()}
           </p>
-          <p class="mb-5 text-lg text-gray-400">
+          <p class="rainbow-text mb-5 text-lg">
             {subtitle2.toUpperCase()}
           </p>
         </div>
@@ -48,3 +48,19 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
     </div>
   </div>
 </header>
+<style>
+  .rainbow-text {
+    background-image: linear-gradient(
+      to left,
+      violet,
+      indigo,
+      blue,
+      green,
+      yellow,
+      orange,
+      red
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
