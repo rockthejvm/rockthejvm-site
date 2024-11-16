@@ -1,7 +1,7 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Photo from "../assets/images/latest/articles.png";
+import MyPicture from "./MyPicture.astro";
 
 const articles = await getCollection("articles");
 const latestArticles = articles
@@ -15,7 +15,7 @@ const latestArticles = articles
   >
     <a href={`/articles`}>
       <div class="max-h-40 w-full overflow-hidden">
-        <Image
+        <MyPicture
           src={Photo}
           alt="articles thumbnail"
           class="object-cover object-center"

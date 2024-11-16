@@ -1,9 +1,9 @@
 ---
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import CourseEntry from "./CourseEntry.astro";
 import CoursesHelper from "./CoursesHelper";
+import MyPicture from "./MyPicture.astro";
 
 const courseSeriess = (await getCollection("seriess")).filter(
   (series) => series.data.members[0].collection === "courses",
@@ -43,7 +43,7 @@ const categories = await getCollection("courseCategories");
                         ))}
                     </Fragment>
                     <Fragment slot="categoryImage">
-                      <Image
+                      <MyPicture
                         class="my-auto w-full"
                         src={category.data.logo}
                         alt={category.data.name}

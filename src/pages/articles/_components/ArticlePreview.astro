@@ -1,8 +1,8 @@
 ---
 import ArticleTag from "@components/ArticleTag.astro";
 import FormattedDate from "@components/FormattedDate.astro";
+import MyPicture from "@components/MyPicture.astro";
 import { getReadingTime } from "@utils/getReadingTime.ts";
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 
@@ -25,13 +25,13 @@ const entity = author.data.company
   <!-- <div class="relative w-full">
     {
       heroImage ? (
-        <Image
+        <MyPicture
           src={heroImage.image}
           alt={heroImage.alt}
           class="aspect-[16/9] w-full rounded-2xl bg-secondary object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
         />
       ) : (
-        <Image
+        <MyPicture
           src={Placeholder}
           alt="Placeholder"
           class="aspect-[16/9] w-full rounded-2xl bg-secondary object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
@@ -64,7 +64,7 @@ const entity = author.data.company
     </p>
   </div>
   <div class="relative mt-4 flex items-center gap-x-4">
-    <Image
+    <MyPicture
       src={author.data.photo}
       alt={author.data.name}
       class="size-10 rounded-full bg-gray-100"

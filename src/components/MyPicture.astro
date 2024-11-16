@@ -1,0 +1,32 @@
+---
+import type { ImageMetadata } from "@types/ImageMetadata";
+import { Picture } from "astro:assets";
+
+interface Props {
+  class?: string;
+  alt: string;
+  loading?: "lazy" | "eager";
+  src: ImageMetadata;
+  width: number;
+  height: number;
+}
+
+const {
+  alt,
+  class: additionalClasses,
+  loading = "lazy",
+  src,
+  width,
+  height,
+} = Astro.props;
+---
+
+<Picture
+  {alt}
+  class:list={["", additionalClasses]}
+  formats={["avif", "webp", "jpeg"]}
+  {loading}
+  {src}
+  {width}
+  {height}
+/>

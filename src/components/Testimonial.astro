@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
 import { getEntry, type CollectionEntry } from "astro:content";
+import MyPicture from "./MyPicture.astro";
 import TestimonialHelper from "./TestimonialHelper";
 
 interface Props {
@@ -19,7 +19,7 @@ const companyRole = frontmatter.company.role;
 
 <TestimonialHelper {companyTitle} {link} {location} {name} {companyRole}>
   <Content />
-  <Image
+  <MyPicture
     src={photo}
     alt={name}
     class="mx-auto size-20 rounded-full shadow-lg"

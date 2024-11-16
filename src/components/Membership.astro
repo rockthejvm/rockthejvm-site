@@ -1,13 +1,13 @@
 ---
-import { Image } from "astro:assets";
 import MembershipImage from "../content/memberships/personal.png";
 import MembershipHelper from "./MembershipHelper";
+import MyPicture from "./MyPicture.astro";
 ---
 
 <section class="mb-8 md:mb-16">
   <h2 class="mb-12 text-center font-bold text-content">The Membership</h2>
   <MembershipHelper>
-    <Image
+    <MyPicture
       src={MembershipImage}
       alt="Personal membership"
       class="w-full flex-none rounded-2xl lg:max-w-lg"

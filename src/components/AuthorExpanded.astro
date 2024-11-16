@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import Facebook from "./icons/Facebook.astro";
@@ -8,6 +7,7 @@ import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
 import Website from "./icons/Website.astro";
 import YouTube from "./icons/YouTube.astro";
+import MyPicture from "./MyPicture.astro";
 
 interface Props {
   author: CollectionEntry<"authors">;
@@ -34,7 +34,7 @@ const companyWebsite = company
   <div class="mx-auto max-w-7xl px-6 text-center lg:px-8">
     <div class="mx-auto max-w-2xl">
       <a href={`/authors/${author.id}`}>
-        <Image
+        <MyPicture
           src={photo}
           alt={name}
           class="mx-auto size-56 rounded-full shadow-lg"

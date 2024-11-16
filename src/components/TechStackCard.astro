@@ -1,12 +1,6 @@
 ---
-import { Image } from "astro:assets";
-
-interface ImageMetadata {
-  src: string;
-  width: number;
-  height: number;
-  format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg" | "avif";
-}
+import type { ImageMetadata } from "@types/ImageMetadata";
+import MyPicture from "./MyPicture.astro";
 
 interface Props {
   title: string;
@@ -29,7 +23,7 @@ const { title, description, image } = Astro.props;
           alt={`${course.data.title}`}
           class="min-w-full min-h-full object-cover object-center"
         /> -->
-      <Image class="max-h-full w-auto" src={image} alt="" />
+      <MyPicture class="max-h-full w-auto" src={image} alt="" />
     </div>
   </div>
   <div class="my-8 px-8 md:my-auto md:px-8">

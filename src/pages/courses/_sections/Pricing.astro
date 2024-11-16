@@ -1,8 +1,8 @@
 ---
 import MoneyBackGuarantee from "@assets/images/money-back-guarantee.svg";
+import MyPicture from "@components/MyPicture.astro";
 import Prose from "@components/Prose.astro";
 import Section from "@components/Section.astro";
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import CoursePrice from "../_components/CoursePrice";
@@ -189,10 +189,10 @@ const membershipIncludedCardClassNames =
       featuredBundles &&
         featuredBundles.map((bundle) => (
           <div class="mx-auto my-8 flex max-w-5xl flex-col items-start gap-x-8 gap-y-6 rounded-3xl bg-secondary p-8 ring-2 ring-content-1/10 sm:gap-y-10 sm:p-10 lg:col-span-2 lg:flex-row lg:items-center">
-            <img
+            <MyPicture
               class="rounded-lg"
               width="250"
-              src={bundle.data.heroImage.src}
+              src={bundle.data.heroImage}
               alt={bundle.data.title}
             />
             <div class="lg:min-w-0 lg:flex-1">
@@ -247,7 +247,7 @@ const membershipIncludedCardClassNames =
           <div
             class={`-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:overflow-hidden`}
           >
-            <Image
+            <MyPicture
               class="mx-auto max-w-sm rounded-xl"
               width="250"
               src={MoneyBackGuarantee}
