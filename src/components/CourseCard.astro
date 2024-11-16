@@ -51,10 +51,8 @@ const { course, holiday = false, prices } = Astro.props;
         </a>
         {
           prices?.old > 0 && (
-            <Fragment>
-              <s
-                class={`${holiday ? "text-holiday-card-content" : "text-content"}`}
-              >
+            <span class="text-2xl font-bold">
+              <s class={`${holiday ? "text-gray-300" : "text-content"}`}>
                 ${prices.old}
               </s>
               <span
@@ -62,7 +60,7 @@ const { course, holiday = false, prices } = Astro.props;
               >
                 ${prices.new}
               </span>
-            </Fragment>
+            </span>
           )
         }
       </h3>

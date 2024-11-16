@@ -29,15 +29,19 @@ const { bundleImage, offer, prices, title } = Astro.props;
           >
             {`Just for ${title}...`.toUpperCase()}
           </h2>
-          <p class="mt-6 text-lg leading-8 text-holiday-content-1">
+          <div class="mt-6 text-lg leading-8 text-holiday-content-1">
             {offer}
-            <br />
-            <strong class="text-2xl"
-              ><s>${prices.old}</s> {" "} ${prices.new}</strong
+          </div>
+          <div class="mt-6 text-3xl font-bold">
+            <span class="text-holiday-card-content-1"><s>${prices.old}</s></span
             >
-          </p>
+            {" "}
+            <span class="text-holiday-card-accent-1 text-orange-500"
+              >${prices.new}</span
+            >
+          </div>
           <div
-            class="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
+            class="mt-8 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
           >
             <a
               href="/memberships"
