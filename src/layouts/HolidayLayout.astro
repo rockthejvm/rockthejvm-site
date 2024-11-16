@@ -226,7 +226,7 @@ const { title, subtitle1, subtitle2, annotation, imageName } = Astro.props;
         </section>
       ))
     }
-    <NewsletterForm />
+    <NewsletterForm client:visible />
     {
       courses.slice(2).map(({ category, courses }) => (
         <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
