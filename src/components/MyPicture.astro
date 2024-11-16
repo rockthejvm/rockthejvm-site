@@ -1,5 +1,5 @@
 ---
-import type { ImageMetadata } from "@types/ImageMetadata";
+import type { ImageMetadata } from "@types/ImageMetadata.ts";
 import { Picture } from "astro:assets";
 
 interface Props {
@@ -7,8 +7,8 @@ interface Props {
   alt: string;
   loading?: "lazy" | "eager";
   src: ImageMetadata;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
 const {
