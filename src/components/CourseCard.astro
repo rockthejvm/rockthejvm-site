@@ -16,10 +16,10 @@ const { course, holiday = false, prices } = Astro.props;
 ---
 
 <div
-  class={`card-shadow card-shadow-color mt-8 w-full overflow-hidden rounded-2xl ${holiday ? "bg-holiday-secondary" : "bg-secondary"} md:flex md:h-52`}
+  class={`card-shadow card-shadow-color mt-8 w-full overflow-hidden rounded-2xl md:flex md:h-52`}
 >
   <div
-    class="mb-4 shrink-0 overflow-hidden md:mb-0 md:mr-4 md:min-h-full md:rounded-l-2xl"
+    class="mb-0 shrink-0 overflow-hidden md:mb-0 md:min-h-full md:rounded-l-2xl"
   >
     <a href={`/courses/${course.slug}`}>
       <div class="h-72 w-full overflow-hidden md:h-full md:w-64 lg:w-96">
@@ -32,7 +32,9 @@ const { course, holiday = false, prices } = Astro.props;
       </div>
     </a>
   </div>
-  <div class="my-8 px-8 md:my-auto md:px-8">
+  <div
+    class={`my-0 px-8 py-8 md:py-0 md:my-auto md:px-8 flex flex-col align-middle justify-center w-full h-full ${holiday ? "bg-holiday-secondary" : "bg-secondary"}`}
+  >
     <span class="flex gap-x-2">
       <h3
         class={`text-center text-xl font-bold ${holiday ? "text-holiday-card-content-2" : "text-content-2"} hover:text-accent-2 md:text-left`}
