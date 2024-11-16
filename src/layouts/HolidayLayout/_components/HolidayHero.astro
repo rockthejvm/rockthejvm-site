@@ -39,12 +39,23 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
           >
             {`${title} ${new Date().getFullYear()}`.toUpperCase()}
           </h1>
-          <p class="mb-4 text-xl text-gray-300">
+          <p class="mb-8 text-xl text-gray-300">
             {subtitle1.toUpperCase()}
           </p>
-          <p class="rainbow-text mb-5 text-lg font-semibold italic">
+          <p class="rainbow-text mb-24 text-2xl font-semibold italic">
             {subtitle2.toUpperCase()}
           </p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="10em"
+            height="10em"
+            viewBox="0 0 512 512"
+            class="blink text-white"
+            ><path
+              fill="currentColor"
+              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7L86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+            ></path></svg
+          >
         </div>
       </div>
     </div>
@@ -64,5 +75,26 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+  @keyframes blink {
+    0% {
+      color: white;
+    }
+    100% {
+      color: black;
+    }
+  }
+  @-webkit-keyframes blink {
+    0% {
+      color: white;
+    }
+    100% {
+      color: black;
+    }
+  }
+  .blink {
+    -webkit-animation: blink 3s linear infinite;
+    -moz-animation: blink 3s linear infinite;
+    animation: blink 3s linear infinite;
   }
 </style>
