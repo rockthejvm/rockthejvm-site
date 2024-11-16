@@ -13,14 +13,8 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
 ---
 
 <header>
-  <div class="min-h-[92vh] pb-40 pt-20">
-    <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-      <!-- <div
-        class="relative rounded-full px-3 py-1 text-base leading-6 text-holiday-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20"
-      >
-
-      </div> -->
-    </div>
+  <div class="min-h-[50vh] pb-40 pt-20">
+    <div class="hidden sm:mb-8 sm:flex sm:justify-center"></div>
     <div class="flex">
       <div class="mx-8 my-auto md:mx-24 md:flex">
         <div class="mb-4 shrink-0 sm:mb-0 sm:mr-4">
@@ -45,56 +39,8 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
           <p class="rainbow-text mb-24 text-2xl font-semibold italic">
             {subtitle2.toUpperCase()}
           </p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10em"
-            height="10em"
-            viewBox="0 0 512 512"
-            class="blink text-white"
-            ><path
-              fill="currentColor"
-              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7L86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
-            ></path></svg
-          >
         </div>
       </div>
     </div>
   </div>
 </header>
-<style>
-  .rainbow-text {
-    background-image: linear-gradient(
-      to left,
-      violet,
-      indigo,
-      blue,
-      green,
-      yellow,
-      orange,
-      red
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  @keyframes blink {
-    0% {
-      color: white;
-    }
-    100% {
-      color: black;
-    }
-  }
-  @-webkit-keyframes blink {
-    0% {
-      color: white;
-    }
-    100% {
-      color: black;
-    }
-  }
-  .blink {
-    -webkit-animation: blink 3s linear infinite;
-    -moz-animation: blink 3s linear infinite;
-    animation: blink 3s linear infinite;
-  }
-</style>

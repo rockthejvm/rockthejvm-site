@@ -12,7 +12,7 @@ interface Props {
   };
 }
 
-const { course, holiday = false, prices } = Astro.props;
+const { course, holiday = false, coupon, productId, prices } = Astro.props;
 ---
 
 <div
@@ -21,16 +21,30 @@ const { course, holiday = false, prices } = Astro.props;
   <div
     class="mb-0 shrink-0 overflow-hidden md:mb-0 md:min-h-full md:rounded-l-2xl"
   >
-    <a href={`/courses/${course.slug}`}>
-      <div class="h-72 w-full overflow-hidden md:h-full md:w-64 lg:w-96">
+    <div class="relative h-72 w-full overflow-hidden md:h-full md:w-64 lg:w-96">
+      <a href="href={`/courses/${course.slug}`}">
         <Picture
           src={course.data.heroImage}
           alt={`${course.data.title}`}
           class="min-h-full min-w-full object-cover object-center"
           formats={["avif", "webp"]}
         />
+      </a>
+      <div class="absolute bottom-0 flex w-full">
+        <a
+          class="flex-1 bg-holiday-accent-1 p-2 text-center"
+          href={`https://courses.rockthejvm.com/purchase?product_id=${productId}&couponCode=${coupon}`}
+        >
+          1-click buy
+        </a>
+        <a
+          class="flex-1 bg-white p-2 text-center"
+          href={`/courses/${course.slug}`}
+        >
+          Learn more
+        </a>
       </div>
-    </a>
+    </div>
   </div>
   <div
     class={`my-0 px-8 py-8 md:py-0 md:my-auto md:px-8 flex flex-col align-middle justify-center w-full h-full ${holiday ? "bg-holiday-secondary" : "bg-secondary"}`}

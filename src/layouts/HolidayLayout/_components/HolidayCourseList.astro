@@ -7,33 +7,27 @@ interface Props {
   courses: HolidayCourse[];
 }
 
-const { courses } = Astro.props;
+const { courses, bigCoupon } = Astro.props;
 ---
 
 <article>
   {
-    courses.slice(0, 2).map(({ category, courses }) => (
+    courses.map(({ category, courses }) => (
       <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
         <div class="flex flex-row gap-x-4">
           <h2 class="my-auto w-full text-center">{category}</h2>
         </div>
-        {courses.map(({ id, prices }) => (
-          <CourseEntry course={id} holiday={true} {prices} />
+        {courses.map(({ id, productId, prices }) => (
+          <CourseEntry
+            course={id}
+            holiday={true}
+            coupon={bigCoupon}
+            {productId}
+            {prices}
+          />
         ))}
       </section>
     ))
   }
   <NewsletterForm />
-  {
-    courses.slice(2).map(({ category, courses }) => (
-      <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
-        <div class="flex flex-row gap-x-4">
-          <h2 class="my-auto w-full text-center">{category}</h2>
-        </div>
-        {courses.map(({ id, prices }) => (
-          <CourseEntry course={id} holiday={true} {prices} />
-        ))}
-      </section>
-    ))
-  }
 </article>
