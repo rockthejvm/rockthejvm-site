@@ -31,16 +31,18 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
           />
         </div>
         <div>
-          <div class="text-gray-500">{annotation.toUpperCase()}</div>
+          <div class="text-xl font-semibold text-gray-500">
+            {annotation.toUpperCase()}
+          </div>
           <h1
             class="mb-4 mt-2 text-5xl font-extrabold text-holiday-content sm:text-6xl md:text-7xl"
           >
             {`${title} ${new Date().getFullYear()}`.toUpperCase()}
           </h1>
-          <p class="mb-4 text-lg text-gray-400">
+          <p class="mb-4 text-lg text-gray-300">
             {subtitle1.toUpperCase()}
           </p>
-          <p class="rainbow-text mb-5 text-lg">
+          <p class="rainbow-text mb-5 text-lg italic">
             {subtitle2.toUpperCase()}
           </p>
         </div>
