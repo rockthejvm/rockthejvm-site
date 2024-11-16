@@ -40,11 +40,17 @@ const membershipLinesOfCode = (await getCollection("courses"))
       <MyPicture
         src={PersonalImage}
         alt="Personal"
+        quality="mid"
         class="mx-auto mb-2 w-[150px]"
       />
     </Fragment>
     <Fragment slot="teamImage">
-      <MyPicture src={TeamImage} alt="Team" class="mx-auto mb-2 w-[150px]" />
+      <MyPicture
+        src={TeamImage}
+        alt="Team"
+        quality="mid"
+        class="mx-auto mb-2 w-[150px]"
+      />
     </Fragment>
   </MembershipPricingHelper>
 </Section>

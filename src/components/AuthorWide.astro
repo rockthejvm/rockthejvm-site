@@ -12,9 +12,10 @@ import MyPicture from "./MyPicture.astro";
 
 interface Props {
   author: CollectionEntry<"authors">;
+  loading?: "lazy" | "eager";
 }
 
-const { author } = Astro.props;
+const { author, loading = "lazy" } = Astro.props;
 const { biography, company, name, photo, socials } = author.data;
 const role = company?.role;
 const companyName = company
@@ -47,6 +48,8 @@ const companyWebsite = company
       src={photo}
       alt={name}
       class="mx-auto size-56 rounded-full shadow-lg"
+      {loading}
+      quality="mid"
       slot="photo"
     />
     <Website slot="website" />
