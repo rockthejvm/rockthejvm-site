@@ -12,9 +12,6 @@ const { bundleImage, offer, prices, title } = Astro.props;
 ---
 
 <section class="mb-8 min-h-[100vh] md:mb-16">
-  <h2 class="mb-12 text-center font-bold text-holiday-content-1">
-    {`${title} ${new Date().getFullYear()}`}
-  </h2>
   <div class="relative isolate">
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div
@@ -27,11 +24,11 @@ const { bundleImage, offer, prices, title } = Astro.props;
           formats={["avif", "webp"]}
         />
         <div class="w-full flex-auto">
-          <h3
+          <h2
             class="text-3xl font-bold tracking-tight text-holiday-content-1 sm:text-4xl"
           >
-            Just for {title}...
-          </h3>
+            {`Just for ${title}...`.toUpperCase()}
+          </h2>
           <p class="mt-6 text-lg leading-8 text-holiday-content-1">
             {offer}
             <br />
