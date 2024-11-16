@@ -11,45 +11,43 @@ interface Props {
 const { bundleImage, offer, prices, title } = Astro.props;
 ---
 
-<section class="mb-8 md:mb-16">
+<section class="mb-8 min-h-[100vh] md:mb-16">
   <h2 class="mb-12 text-center font-bold text-holiday-content-1">
     {`${title} ${new Date().getFullYear()}`}
   </h2>
-  <div class="">
-    <div class="relative isolate">
-      <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div
-          class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
-        >
-          <Picture
-            src={bundleImage}
-            alt={`${title} bundle`}
-            class="w-full flex-none rounded-2xl lg:max-w-lg"
-            formats={["avif", "webp"]}
-          />
-          <div class="w-full flex-auto">
-            <h3
-              class="text-3xl font-bold tracking-tight text-holiday-content-1 sm:text-4xl"
+  <div class="relative isolate">
+    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div
+        class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
+      >
+        <Picture
+          src={bundleImage}
+          alt={`${title} bundle`}
+          class="w-full flex-none rounded-2xl lg:max-w-lg"
+          formats={["avif", "webp"]}
+        />
+        <div class="w-full flex-auto">
+          <h3
+            class="text-3xl font-bold tracking-tight text-holiday-content-1 sm:text-4xl"
+          >
+            Just for {title}...
+          </h3>
+          <p class="mt-6 text-lg leading-8 text-holiday-content-1">
+            {offer}
+            <br />
+            <strong class="text-2xl"
+              ><s>${prices.old}</s> {" "} ${prices.new}</strong
             >
-              Just for {title}...
-            </h3>
-            <p class="mt-6 text-lg leading-8 text-holiday-content-1">
-              {offer}
-              <br />
-              <strong class="text-2xl"
-                ><s>${prices.old}</s> {" "} ${prices.new}</strong
-              >
-            </p>
-            <div
-              class="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
+          </p>
+          <div
+            class="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
+          >
+            <a
+              href="/memberships"
+              class="rounded-md bg-holiday-cta px-3.5 py-2.5 text-sm font-semibold text-holiday-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
-              <a
-                href="/memberships"
-                class="rounded-md bg-holiday-cta px-3.5 py-2.5 text-sm font-semibold text-holiday-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <span class="text-holiday-ctatext">Get it now</span>
-              </a>
-            </div>
+              <span class="text-holiday-ctatext">Get it now</span>
+            </a>
           </div>
         </div>
       </div>
