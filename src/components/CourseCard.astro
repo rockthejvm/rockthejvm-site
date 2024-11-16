@@ -50,7 +50,7 @@ const { course, holiday = false, prices } = Astro.props;
           {course.data.title}
         </a>
         {
-          prices && (
+          prices?.old > 0 && (
             <Fragment>
               <s
                 class={`${holiday ? "text-holiday-card-content" : "text-content"}`}
