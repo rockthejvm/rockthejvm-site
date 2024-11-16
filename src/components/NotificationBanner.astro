@@ -1,6 +1,5 @@
 <div
-  id="banner"
-  class="relative isolate flex items-center gap-x-6 overflow-hidden bg-secondary px-6 py-2.5 sm:px-3.5 sm:before:flex-1"
+  class="relative isolate flex items-center justify-center gap-x-6 overflow-hidden bg-secondary px-6 py-2.5 text-center sm:px-3.5 sm:before:flex-1"
 >
   <div
     class="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
@@ -33,30 +32,4 @@
       >
     </a>
   </p>
-  <div class="flex flex-1 justify-end">
-    <button
-      type="button"
-      id="banner-dismiss"
-      class="-m-3 p-3 focus-visible:outline-offset-[-4px]"
-    >
-      <span class="sr-only">Dismiss</span>
-      <svg
-        class="size-5 text-gray-900"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-        data-slot="icon"
-      >
-        <path
-          d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"
-        ></path>
-      </svg>
-    </button>
-  </div>
 </div>
-
-<script defer is:inline>
-  document.getElementById("banner-dismiss").addEventListener("click", () => {
-    document.getElementById("banner").style.display = "none";
-  });
-</script>
