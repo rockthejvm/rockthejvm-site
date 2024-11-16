@@ -9,7 +9,7 @@ export const _courses: {
   }[];
 }[] = [
   {
-    category: "Project Based",
+    category: "Full-Stack Applications",
     courses: [
       {
         id: "zio-rite-of-passage",
@@ -159,7 +159,7 @@ export const _courses: {
     ],
   },
   {
-    category: "Still Free",
+    category: "Still Free!",
     courses: [
       {
         id: "scala-at-light-speed",
