@@ -35,7 +35,7 @@ const { course, holiday = false, prices } = Astro.props;
   <div class="my-8 px-8 md:my-auto md:px-8">
     <span class="flex gap-x-2">
       <h3
-        class={`text-center text-lg font-bold ${holiday ? "text-holiday-card-content-2" : "text-content-2"} hover:text-accent-2 md:text-left`}
+        class={`text-center text-xl font-bold ${holiday ? "text-holiday-card-content-2" : "text-content-2"} hover:text-accent-2 md:text-left`}
       >
         {course.data.isFree && <BadgeLarge {holiday}> Free! </BadgeLarge>}
         {
