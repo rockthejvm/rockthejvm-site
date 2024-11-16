@@ -19,12 +19,16 @@ const {
   width,
   height,
 } = Astro.props;
+
+const defaultFormats = ["webp", "jpeg", src.format];
 ---
 
 <Picture
   {alt}
   class:list={["", additionalClasses]}
-  formats={["avif", "webp", "jpeg"]}
+  formats={src.format !== "gif"
+    ? ["avif", ...defaultFormats]
+    : [...defaultFormats]}
   {loading}
   {src}
   {width}
