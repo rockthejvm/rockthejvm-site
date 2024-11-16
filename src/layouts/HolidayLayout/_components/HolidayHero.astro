@@ -1,23 +1,15 @@
 ---
 import RockTheJVM from "@components/icons/RockTheJVM.astro";
-import site from "@data/site.json";
-import HeroAnnotation from "./HeroAnnotation.astro";
 
 interface Props {
-  title?: string;
-  subtitle1?: string;
-  subtitle2?: string;
-  annotation?: string;
-  imageName?: string;
+  annotation: string;
+  imageSuffix: string;
+  subtitle1: string;
+  subtitle2: string;
+  title: string;
 }
 
-const {
-  annotation,
-  imageName,
-  title = site.name.toUpperCase(),
-  subtitle1 = "The zero-to-master online courses and hands-on training for Scala, Kotlin, Apache Spark, Apache Flink, ZIO, Akka/Apache Pekko and more.",
-  subtitle2 = "No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king.",
-} = Astro.props;
+const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
 ---
 
 <header>
@@ -26,7 +18,7 @@ const {
       <div
         class="relative rounded-full px-3 py-1 text-base leading-6 text-holiday-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20"
       >
-        {annotation ? annotation : <HeroAnnotation />}
+        {annotation.toUpperCase()}
       </div>
     </div>
     <div class="flex">
@@ -35,20 +27,20 @@ const {
           <RockTheJVM
             class="h-48 w-full md:h-64"
             slot="logo"
-            suffix="-black-friday"
+            suffix={imageSuffix}
           />
         </div>
         <div>
           <h1
             class="my-6 text-5xl font-extrabold text-holiday-content sm:text-6xl md:text-7xl"
           >
-            {title}
+            {`${title} ${new Date().getFullYear()}`.toUpperCase()}
           </h1>
           <p class="mb-5 text-lg text-holiday-content">
-            {subtitle1}
+            {subtitle1.toUpperCase()}
           </p>
           <p class="mb-5 text-lg text-holiday-content">
-            {subtitle2}
+            {subtitle2.toUpperCase()}
           </p>
         </div>
       </div>

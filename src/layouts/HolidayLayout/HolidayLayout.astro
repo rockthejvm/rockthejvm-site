@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import HolidayCourseList from "@layouts/HolidayLayout/_components/HolidayCourseList.astro";
+import HolidayDiscountBundle from "./_components/HolidayDiscountBundle.astro";
+import HolidayHero from "./_components/HolidayHero.astro";
+import type { HolidayCourse } from "./_types/holidayCourse";
+
+interface Props {
+  annotation: string;
+  bundleImage: ImageMetadata;
+  courses: HolidayCourse[];
+  description: string;
+  forcedTheme: string;
+  imageSuffix: string;
+  subtitle1: string;
+  subtitle2: string;
+  title: string;
+}
+
+const {
+  annotation,
+  bundleImage,
+  courses,
+  description,
+  forcedTheme,
+  imageSuffix,
+  subtitle1,
+  subtitle2,
+  title,
+} = Astro.props;
+
+const prices = { old: 2470, new: 345 };
+---
+
+<BaseLayout {description} {forcedTheme} {title}>
+  <HolidayHero {annotation} {imageSuffix} {subtitle1} {subtitle2} {title} />
+  <HolidayDiscountBundle
+    {bundleImage}
+    offer={`... you get a one-time "everything" offer. Everything currently
+              published ($${prices.old} worth of courses), at an unbeatable price.`}
+    {prices}
+    {title}
+  />
+  <HolidayCourseList {courses} />
+</BaseLayout>

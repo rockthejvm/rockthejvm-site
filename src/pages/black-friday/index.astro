@@ -1,11 +1,29 @@
 ---
-import HolidayLayout from "@layouts/HolidayLayout.astro";
+import type { HolidayCourse } from "@layouts/HolidayLayout/_types/holidayCourse";
+import HolidayLayout from "@layouts/HolidayLayout/HolidayLayout.astro";
+import { getCollection } from "astro:content";
+import { _courses } from "./_data/courses.ts";
+import BundleImage from "./_images/black-friday-bundle.png";
 
-const title = "BLACK FRIDAY 2023";
-const subtitle1 = "50% off site-wide! Valid until EOD Nov 27, 2023.";
-const subtitle2 = "EVERYTHING MUST GO!";
-const annotation = "Rock the JVM's annual offer you can't refuse";
-const imageName = "-black-friday";
+const __courses = await getCollection("courses");
+
+const courses: HolidayCourse[] = _courses.map(({ category, courses }) => ({
+  category: category,
+  courses: courses.map((course) => ({
+    id: __courses.find((_course) => _course.slug === course.id)!,
+    prices: course.prices,
+  })),
+}));
 ---
 
-<HolidayLayout {title} {subtitle1} {subtitle2} {annotation} {imageName} />
+<HolidayLayout
+  annotation="Rock the JVM's annual offer you can't refuse"
+  bundleImage={BundleImage}
+  {courses}
+  description="TODO"
+  forcedTheme="black-friday"
+  imageSuffix="-black-friday"
+  subtitle1="TODO"
+  subtitle2="Everything must go!"
+  title="Black Friday"
+/>

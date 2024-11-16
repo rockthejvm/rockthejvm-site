@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import Picture from "astro/components/Picture.astro";
 import type { CollectionEntry } from "astro:content";
 import BadgeLarge from "./BadgeLarge.astro";
 
@@ -23,10 +23,11 @@ const { course, holiday = false, prices } = Astro.props;
   >
     <a href={`/courses/${course.slug}`}>
       <div class="h-72 w-full overflow-hidden md:h-full md:w-64 lg:w-96">
-        <Image
+        <Picture
           src={course.data.heroImage}
           alt={`${course.data.title}`}
           class="min-h-full min-w-full object-cover object-center"
+          formats={["avif", "webp"]}
         />
       </div>
     </a>

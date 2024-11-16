@@ -1,22 +1,13 @@
----
-import CourseEntry from "@components/CourseEntry.astro";
-import HolidayHero from "@components/HolidayHero.astro";
-import DiscountBundle from "@pages/black-friday/_components/DiscountBundle.astro";
-import { type CollectionEntry, getCollection } from "astro:content";
-import NewsletterForm from "../pages/black-friday/_components/NewsletterForm.astro";
-import BaseLayout from "./BaseLayout.astro";
-
-type Course = {
+export const _courses: {
   category: string;
   courses: {
-    id: CollectionEntry<"courses">;
-    prices: { old: number; new: number };
+    id: string;
+    prices: {
+      old: number;
+      new: number;
+    };
   }[];
-};
-
-const _courses = await getCollection("courses");
-
-const courses: Course[] = [
+}[] = [
   {
     category: "Project Based",
     courses: [
@@ -180,71 +171,4 @@ const courses: Course[] = [
       },
     ],
   },
-].map(({ category, courses }) => ({
-  category: category,
-  courses: courses.map((course) => ({
-    id: _courses.find((_course) => _course.slug === course.id)!,
-    prices: course.prices,
-  })),
-}));
-
-interface Props {
-  title: string;
-  subtitle1: string;
-  subtitle2: string;
-  annotation: string;
-  imageName: string;
-}
-
-const { title, subtitle1, subtitle2, annotation, imageName } = Astro.props;
----
-
-<BaseLayout
-  forcedTheme="black-friday"
-  description="All of the Rock the JVM premium content, at your service."
-  title="The Rock the JVM Membership"
->
-  <HolidayHero {title} {subtitle1} {subtitle2} {annotation} {imageName} />
-  <DiscountBundle />
-  <article>
-    {
-      courses.slice(0, 2).map(({ category, courses }) => (
-        <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
-          <div class="flex flex-row gap-x-4">
-            {/* <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
-              <Image
-                src={category.id.data.logo}
-                alt={category.id.data.name}
-                class="my-auto w-full"
-              />
-            </div> */}
-            <h2 class="my-auto w-full text-center">{category}</h2>
-          </div>
-          {courses.map(({ id, prices }) => (
-            <CourseEntry course={id} holiday={true} {prices} />
-          ))}
-        </section>
-      ))
-    }
-    <NewsletterForm client:visible />
-    {
-      courses.slice(2).map(({ category, courses }) => (
-        <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
-          <div class="flex flex-row gap-x-4">
-            {/* <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
-              <Image
-                src={category.id.data.logo}
-                alt={category.id.data.name}
-                class="my-auto w-full"
-              />
-            </div> */}
-            <h2 class="my-auto w-full text-center">{category}</h2>
-          </div>
-          {courses.map(({ id, prices }) => (
-            <CourseEntry course={id} holiday={true} {prices} />
-          ))}
-        </section>
-      ))
-    }
-  </article>
-</BaseLayout>
+];
