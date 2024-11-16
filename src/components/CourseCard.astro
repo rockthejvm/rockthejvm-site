@@ -50,7 +50,7 @@ const { course, holiday = false, prices } = Astro.props;
           {course.data.title}
         </a>
         {
-          prices?.old > 0 && (
+          prices && prices.old > 0 && (
             <span class="text-2xl font-bold">
               <s class={`${holiday ? "text-gray-300" : "text-content"}`}>
                 ${prices.old}
