@@ -6,11 +6,13 @@ interface Props {
   offer: string;
   prices: { old: number; new: number };
   title: string;
+  slug: string;
+  pricingPlanId: number;
 }
 
-const { bundleImage, offer, prices, title } = Astro.props;
-const productId = 5951531;
-const checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${productId}`;
+const { bundleImage, offer, prices, title, slug, pricingPlanId } = Astro.props;
+const checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`;
+const learnMoreURL = `/courses/${slug}`;
 ---
 
 <section class="mb-8 min-h-[60vh] md:mb-16">
@@ -19,7 +21,7 @@ const checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${produc
       <div
         class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
       >
-        <a href={checkoutURL}>
+        <a href={learnMoreURL}>
           <Picture
             src={bundleImage}
             alt={`${title} bundle`}
@@ -54,7 +56,7 @@ const checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${produc
               <span>Get it now</span>
             </a>
             <a
-              href="/courses/black-friday-2024"
+              href={learnMoreURL}
               class="rounded-md px-3.5 py-2.5 text-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <span class="text-gray-100">Learn more</span>

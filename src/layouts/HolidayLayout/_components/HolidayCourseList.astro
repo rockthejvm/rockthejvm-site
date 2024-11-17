@@ -18,12 +18,12 @@ const { courses, bigCoupon } = Astro.props;
         <div class="flex flex-row gap-x-4">
           <h2 class="my-auto w-full text-center">{category}</h2>
         </div>
-        {courses.map(({ id, productId, prices }) => (
+        {courses.map(({ id, prices }) => (
           <CourseEntry
             course={id}
             holiday={true}
             coupon={bigCoupon}
-            {productId}
+            pricingPlanId={id.data.pricingPlanId}
             {prices}
           />
         ))}

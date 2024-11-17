@@ -31,6 +31,8 @@ const {
 
 const prices = { old: 2630, new: 395 };
 const bigCoupon = "BLACK_FRIDAY_2024";
+const pricingPlanId = 5951531;
+const slug = "black-friday-2024";
 ---
 
 <BaseLayout {description} {forcedTheme} {title}>
@@ -39,6 +41,8 @@ const bigCoupon = "BLACK_FRIDAY_2024";
     {bundleImage}
     offer={`... you get a one-time "everything" offer. Everything currently
               published ($${prices.old} worth of courses), at an unbeatable price.`}
+    {pricingPlanId}
+    {slug}
     {prices}
     {title}
   />
