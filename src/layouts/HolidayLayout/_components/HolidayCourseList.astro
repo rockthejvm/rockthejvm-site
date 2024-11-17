@@ -19,12 +19,7 @@ const { courses, bigCoupon } = Astro.props;
           <h2 class="my-auto w-full text-center">{category}</h2>
         </div>
         {courses.map(({ id, prices }) => (
-          <CourseEntry
-            course={id}
-            holiday={true}
-            coupon={bigCoupon}
-            {prices}
-          />
+          <CourseEntry course={id} holiday={true} coupon={bigCoupon} {prices} />
         ))}
       </section>
     ))
