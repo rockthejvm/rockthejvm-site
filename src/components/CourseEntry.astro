@@ -4,8 +4,7 @@ import CourseCard from "./CourseCard.astro";
 
 interface Props {
   course: CollectionEntry<"courses">;
-  pricingPlanId: number;
-  coupon: string;
+  coupon?: string;
   prices?: {
     old: number;
     new: number;
@@ -13,7 +12,8 @@ interface Props {
   holiday?: boolean;
 }
 
-const { course, holiday = false, prices, pricingPlanId, coupon } = Astro.props;
+const { course, holiday = false, prices, coupon } = Astro.props;
+const pricingPlanId = course.data.pricingPlanId;
 ---
 
 <dd class="mt-2" id="faq-0">

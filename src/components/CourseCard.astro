@@ -7,7 +7,7 @@ import CourseCardLinks from "./CourseCardLinks.astro";
 interface Props {
   course: CollectionEntry<"courses">;
   pricingPlanId: number;
-  coupon: string;
+  coupon?: string;
   holiday?: boolean;
   prices?: {
     old: number;
@@ -34,7 +34,7 @@ const { course, holiday = false, coupon, pricingPlanId, prices } = Astro.props;
         />
       </a>
       {
-        holiday && (
+        holiday && coupon && (
           <CourseCardLinks slug={course.slug} {pricingPlanId} {coupon} />
         )
       }
