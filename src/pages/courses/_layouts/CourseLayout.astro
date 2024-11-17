@@ -73,10 +73,6 @@ const response = await fetch(
   `https://rockthejvm.com/api/purchase/${pricingPlanId}`,
 );
 
-if (!response.ok) {
-  throw new Error(response.statusText);
-}
-
 const { price }: Response = await response.json();
 
 function difficultyToOrdinal(
