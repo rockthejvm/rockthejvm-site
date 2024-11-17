@@ -13,6 +13,7 @@
       "@layouts/*": ["src/layouts/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
+      "@types/*": ["src/types/*"],
       "@utils/*": ["src/utils/*"]
     },
     "jsx": "react-jsx",

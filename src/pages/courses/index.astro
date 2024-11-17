@@ -1,8 +1,8 @@
 ---
 import BackgroundGradient from "@components/BackgroundGradient.astro";
 import CourseCardVertical from "@components/CourseCardVertical.astro";
+import MyPicture from "@components/MyPicture.astro";
 import { zip } from "@utils/zip";
-import { Image } from "astro:assets";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 // const { slug } = Astro.params;
@@ -116,9 +116,10 @@ const structuredData = JSON.stringify({
         <section class="pt-8 md:pt-12">
           <div class="flex flex-row gap-x-4">
             <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
-              <Image
+              <MyPicture
                 src={category.data.logo}
                 alt={category.data.name}
+                quality="low"
                 class="my-auto w-full"
               />
             </div>
