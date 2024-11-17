@@ -6,16 +6,14 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
+  const tags = await getCollection("tags");
   const articles = await getCollection("articles");
-  const tags = [
-    ...new Set(articles.map((article) => article.data.tags).flat()),
-  ];
 
   return tags.map((tag) => ({
     params: { id: tag.id },
     props: {
       articles: articles.filter((article) =>
-        article.data.tags.map((t) => t.id).includes(tag.id),
+        article.data.tags.map(({ id }) => id).includes(tag.id),
       ),
       tag,
     },
