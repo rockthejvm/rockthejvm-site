@@ -25,7 +25,7 @@ const { course, holiday = false, coupon, pricingPlanId, prices } = Astro.props;
     class="mb-0 shrink-0 overflow-hidden md:mb-0 md:min-h-full md:rounded-l-2xl"
   >
     <div class="relative h-72 w-full overflow-hidden md:h-full md:w-64 lg:w-96">
-      <a href="href={`/courses/${course.slug}`}">
+      <a href=`/courses/${course.slug}`>
         <Picture
           src={course.data.heroImage}
           alt={`${course.data.title}`}
