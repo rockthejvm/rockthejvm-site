@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import AuthorWideHelper from "./AuthorWideHelper";
@@ -9,12 +8,14 @@ import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
 import Website from "./icons/Website.astro";
 import YouTube from "./icons/YouTube.astro";
+import MyPicture from "./MyPicture.astro";
 
 interface Props {
   author: CollectionEntry<"authors">;
+  loading?: "lazy" | "eager";
 }
 
-const { author } = Astro.props;
+const { author, loading = "lazy" } = Astro.props;
 const { biography, company, name, photo, socials } = author.data;
 const role = company?.role;
 const companyName = company
@@ -43,10 +44,12 @@ const companyWebsite = company
     {companyWebsite}
     {socials}
   >
-    <Image
+    <MyPicture
       src={photo}
       alt={name}
       class="mx-auto size-56 rounded-full shadow-lg"
+      {loading}
+      quality="mid"
       slot="photo"
     />
     <Website slot="website" />

@@ -1,8 +1,14 @@
 ---
+<<<<<<< HEAD
 import Picture from "astro/components/Picture.astro";
 import type { CollectionEntry } from "astro:content";
 import BadgeLarge from "./BadgeLarge.astro";
 import CourseCardLinks from "./CourseCardLinks.astro";
+=======
+import type { CollectionEntry } from "astro:content";
+import BadgeLarge from "./BadgeLarge.astro";
+import MyPicture from "./MyPicture.astro";
+>>>>>>> main
 
 interface Props {
   course: CollectionEntry<"courses">;
@@ -24,11 +30,14 @@ const { course, holiday = false, coupon, pricingPlanId, prices } = Astro.props;
   <div
     class="mb-0 shrink-0 overflow-hidden md:mb-0 md:min-h-full md:rounded-l-2xl"
   >
-    <div class="relative h-72 w-full overflow-hidden md:h-full md:w-64 lg:w-96">
-      <a href=`/courses/${course.slug}`>
-        <Picture
+    <a href={`/courses/${course.slug}`}>
+      <div
+        class="h-72 w-full overflow-hidden text-gray-300 md:h-full md:w-64 lg:w-96"
+      >
+        <MyPicture
           src={course.data.heroImage}
           alt={`${course.data.title}`}
+          quality="mid"
           class="min-h-full min-w-full object-cover object-center"
           formats={["avif", "webp"]}
         />

@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import MyPicture from "@components/MyPicture.astro";
 import MembershipImage from "../../content/memberships/personal.png";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Courses from "./_sections/Courses.astro";
@@ -90,10 +90,11 @@ import MembershipPricingSection from "./_sections/MembershipPricingSection.astro
             <div
               class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
             >
-              <Image
+              <MyPicture
                 src={MembershipImage}
                 alt="Personal membership"
                 class="w-full flex-none rounded-2xl lg:max-w-lg"
+                quality="mid"
                 slot="image"
               />
               <div class="w-full flex-auto">

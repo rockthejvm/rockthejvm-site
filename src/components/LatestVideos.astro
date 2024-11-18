@@ -27,8 +27,8 @@ const latestVideos: { title: string; url: string }[] = [
   },
 ];
 
-import { Image } from "astro:assets";
 import Photo from "../assets/images/latest/videos.png";
+import MyPicture from "./MyPicture.astro";
 ---
 
 <div class="rounded-3xl">
@@ -37,9 +37,10 @@ import Photo from "../assets/images/latest/videos.png";
   >
     <div class="max-h-40 w-full max-w-7xl overflow-hidden">
       <a href={`https://www.youtube.com/@rockthejvm`}>
-        <Image
+        <MyPicture
           src={Photo}
           alt="videos thumbnail"
+          quality="mid"
           class="object-cover object-center"
         />
       </a>
