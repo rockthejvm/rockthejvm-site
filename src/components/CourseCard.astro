@@ -1,14 +1,7 @@
 ---
-<<<<<<< HEAD
-import Picture from "astro/components/Picture.astro";
-import type { CollectionEntry } from "astro:content";
-import BadgeLarge from "./BadgeLarge.astro";
-import CourseCardLinks from "./CourseCardLinks.astro";
-=======
 import type { CollectionEntry } from "astro:content";
 import BadgeLarge from "./BadgeLarge.astro";
 import MyPicture from "./MyPicture.astro";
->>>>>>> main
 
 interface Props {
   course: CollectionEntry<"courses">;
@@ -41,13 +34,13 @@ const { course, holiday = false, coupon, pricingPlanId, prices } = Astro.props;
           class="min-h-full min-w-full object-cover object-center"
           formats={["avif", "webp"]}
         />
-      </a>
+      </div>
       {
         holiday && coupon && (
           <CourseCardLinks slug={course.slug} {pricingPlanId} {coupon} />
         )
       }
-    </div>
+    </a>
   </div>
   <div
     class={`my-0 p-8 md:py-0 md:my-auto md:px-8 flex flex-col align-middle justify-center size-full ${holiday ? "bg-holiday-secondary" : "bg-secondary"}`}
