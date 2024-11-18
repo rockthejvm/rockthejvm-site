@@ -29,7 +29,6 @@ bundledCourses:
   - kotlin-at-light-speed
   - scala-at-light-speed
 category: bundle
-# promotional: true
 includedInMembership: false
 description: Everything you need to be a master of Scala, Kotlin, big data, functional programming and distributed systems. Years of experience compressed into weeks. An outrageous offer that comes once a year.
 excerpt: "<p>Everything you need to be a master of Scala, Kotlin, big data, functional programming and distributed systems. Years of experience compressed into weeks. An outrageous offer that comes once a year!</p>"
@@ -49,21 +48,39 @@ faqs:
 heroImage: images/black-friday-2024.png
 title: Black Friday 2024
 pricingPlanId: 5951531
+hasGoal: false
+hasSkills: false
+instructorEnabled: false
 ---
 
+import Prose from "@components/Prose.astro";
+import Section from "@components/Section.astro";
 import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
 <CourseLayout>
-<Fragment slot="goal">
-### The best deal of the year
+<Fragment slot="description">
+    <Section title="$2630 worth of courses for $395." color="#003366">
+        <Prose class="mx-auto max-w-3xl">
+With this bundle, you won't need to take another learning product for at least another year, because you'll have more than enough:
 
-TODO
+- mastery of Scala
+- mastery of Kotlin
+- giant project-based courses that you can use to start a startup: ZIO & Typelevel Rite of Passage
+- data engineering mastery with Spark
+- functional programming skills of the top 1%
+- distributed systems mastery with Akka/Apache Pekko
+- data streaming with Apache Flink
 
-</Fragment>
-<Fragment slot="skills">
-### You will be a master
+In short, in this bundle you'll have more STRUCTURED learning than you'll need for at least a few different careers, and each course individually has the potential to take you one level up, whether that's a promotion, a career shift, or a startup.
 
-TODO
+This is the single best investment you can make this year. The ROI is >100% the moment you step into your job after one of these courses, and the sky is the limit with what you can achieve.
+
+And in the one in a trillion chance you don't like it, you get your money back.
+
+What are you waiting for?
+
+</Prose>
+</Section>
 
 </Fragment>
 </CourseLayout>
