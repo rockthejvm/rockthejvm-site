@@ -5,8 +5,11 @@
   "scripts": {
     "build": "astro check --minimumSeverity error && astro build",
     "dev": "astro dev",
+    "fmt": "trunk fmt",
+    "lint": "trunk check",
     "preview": "astro preview",
-    "start": "astro dev"
+    "start": "astro dev",
+    "trunk": "trunk"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
