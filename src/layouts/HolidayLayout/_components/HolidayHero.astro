@@ -3,13 +3,13 @@ import RockTheJVM from "@components/icons/RockTheJVM.astro";
 
 interface Props {
   annotation: string;
-  imageSuffix: string;
+  logoSuffix: string;
   subtitle1: string;
   subtitle2: string;
   title: string;
 }
 
-const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
+const { annotation, logoSuffix, subtitle1, subtitle2, title } = Astro.props;
 ---
 
 <header>
@@ -21,7 +21,7 @@ const { annotation, imageSuffix, subtitle1, subtitle2, title } = Astro.props;
           <RockTheJVM
             class="h-48 w-full md:h-64"
             slot="logo"
-            suffix={imageSuffix}
+            suffix={logoSuffix}
           />
         </div>
         <div>

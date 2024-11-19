@@ -12,7 +12,7 @@ interface Props {
   courses: HolidayCourse[];
   description: string;
   forcedTheme: string;
-  imageSuffix: string;
+  logoSuffix: string;
   subtitle1: string;
   subtitle2: string;
   title: string;
@@ -24,7 +24,7 @@ const {
   courses,
   description,
   forcedTheme,
-  imageSuffix,
+  logoSuffix,
   subtitle1,
   subtitle2,
   title,
@@ -37,7 +37,7 @@ const slug = "black-friday-2024";
 ---
 
 <BaseLayout {description} {forcedTheme} {title}>
-  <HolidayHero {annotation} {imageSuffix} {subtitle1} {subtitle2} {title} />
+  <HolidayHero {annotation} {logoSuffix} {subtitle1} {subtitle2} {title} />
   <HolidayDiscountBundle
     {bundleImage}
     offer={`... you get a one-time "everything" offer. Everything currently
