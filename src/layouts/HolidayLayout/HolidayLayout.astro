@@ -17,7 +17,7 @@ interface Props {
   logoSuffix: string;
   offer: string;
   prices: { old: number; new: number };
-  slug: string;
+  courseSlug: string;
   subtitle1: string;
   subtitle2: string;
   title: string;
@@ -34,7 +34,7 @@ const {
   logoSuffix,
   offer,
   prices,
-  slug,
+  courseSlug,
   subtitle1,
   subtitle2,
   title,
@@ -47,7 +47,7 @@ const {
     {bundleImage}
     {offer}
     pricingPlanId={bundlePricingPlanId}
-    {slug}
+    {courseSlug}
     {prices}
     {title}
   />

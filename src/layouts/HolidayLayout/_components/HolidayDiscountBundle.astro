@@ -7,13 +7,14 @@ interface Props {
   offer: string;
   prices: { old: number; new: number };
   title: string;
-  slug: string;
+  courseSlug: string;
   pricingPlanId: number;
 }
 
-const { bundleImage, offer, prices, title, slug, pricingPlanId } = Astro.props;
+const { bundleImage, offer, prices, title, courseSlug, pricingPlanId } =
+  Astro.props;
 const checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`;
-const learnMoreURL = `/courses/${slug}`;
+const learnMoreURL = `/courses/${courseSlug}`;
 ---
 
 <section class="mb-8 min-h-[60vh] md:mb-16">
