@@ -1,5 +1,5 @@
 ---
-import type { HolidayCourse } from "@layouts/HolidayLayout/_types/holidayCourse";
+import type { HolidayCategory } from "@layouts/HolidayLayout/_types/holidayCategory.ts";
 import HolidayLayout from "@layouts/HolidayLayout/HolidayLayout.astro";
 import { getCollection } from "astro:content";
 import { _courses } from "./_data/courses.ts";
@@ -7,11 +7,11 @@ import BundleImage from "./_images/black-friday-bundle.png";
 
 const __courses = await getCollection("courses");
 
-const courses: HolidayCourse[] = _courses.map(({ category, courses }) => ({
-  category: category,
-  courses: courses.map((course) => ({
-    id: __courses.find((_course) => _course.slug === course.id)!,
-    prices: course.prices,
+const categories: HolidayCategory[] = _courses.map(({ category, courses }) => ({
+  category,
+  courses: courses.map(({ id, prices }) => ({
+    course: __courses.find((_course) => _course.slug === id)!,
+    prices,
   })),
 }));
 ---
@@ -19,7 +19,7 @@ const courses: HolidayCourse[] = _courses.map(({ category, courses }) => ({
 <HolidayLayout
   annotation="Rock the JVM's annual offer you can't refuse"
   bundleImage={BundleImage}
-  {courses}
+  {categories}
   description="Everything on Rock the JVM at an outrageous price, available for a limited time"
   forcedTheme="black-friday"
   logoSuffix="-black-friday"

@@ -1,9 +1,9 @@
 import type { CollectionEntry } from "astro:content";
 
-export interface HolidayCourse {
+export interface HolidayCategory {
   category: string;
   courses: {
-    id: CollectionEntry<"courses">;
+    course: CollectionEntry<"courses">;
     prices: { old: number; new: number };
   }[];
 }

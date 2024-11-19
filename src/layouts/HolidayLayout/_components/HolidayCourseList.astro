@@ -1,25 +1,25 @@
 ---
 import CourseEntry from "@components/CourseEntry.astro";
 import NewsletterForm from "@components/NewsletterForm.astro";
-import type { HolidayCourse } from "../_types/holidayCourse";
+import type { HolidayCategory } from "../_types/holidayCategory.ts";
 
 interface Props {
-  courses: HolidayCourse[];
+  categories: HolidayCategory[];
   bigCoupon: string;
 }
 
-const { courses, bigCoupon } = Astro.props;
+const { categories, bigCoupon } = Astro.props;
 ---
 
 <article>
   {
-    courses.map(({ category, courses }) => (
+    categories.map(({ category, courses }) => (
       <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
         <div class="flex flex-row gap-x-4">
           <h2 class="my-auto w-full text-center">{category}</h2>
         </div>
-        {courses.map(({ id, prices }) => (
-          <CourseEntry course={id} holiday={true} coupon={bigCoupon} {prices} />
+        {courses.map(({ course, prices }) => (
+          <CourseEntry {course} holiday={true} coupon={bigCoupon} {prices} />
         ))}
       </section>
     ))
