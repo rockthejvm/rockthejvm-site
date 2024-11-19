@@ -170,25 +170,4 @@ export const _courses: {
       },
     ],
   },
-  {
-    category: "Classic Courses",
-    courses: [
-      {
-        id: "akka-classic-essentials-with-scala",
-        prices: { old: 50, new: 50 },
-      },
-      {
-        id: "akka-classic-persistence-with-scala",
-        prices: { old: 50, new: 50 },
-      },
-      {
-        id: "akka-classic-remoting-and-clustering-with-scala",
-        prices: { old: 50, new: 50 },
-      },
-      {
-        id: "akka-classic-serialization-with-scala",
-        prices: { old: 30, new: 30 },
-      },
-    ],
-  },
 ];
