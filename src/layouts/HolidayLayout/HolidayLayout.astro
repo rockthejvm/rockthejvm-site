@@ -31,7 +31,7 @@ const {
 } = Astro.props;
 
 const prices = categories
-  .filter(it => it.category !== "Bundles")
+  .filter((it) => it.category !== "Bundles")
   .flatMap(({ courses }) => courses)
   .map(({ prices }) => prices)
   .reduce(
