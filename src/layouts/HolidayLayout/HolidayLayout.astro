@@ -9,10 +9,15 @@ import type { HolidayCategory } from "./_types/holidayCategory.ts";
 interface Props {
   annotation: string;
   bundleImage: ImageMetadata;
+  bundlePricingPlanId: number;
   categories: HolidayCategory[];
+  couponCode: string;
   description: string;
   forcedTheme: string;
   logoSuffix: string;
+  offer: string;
+  prices: { old: number; new: number };
+  slug: string;
   subtitle1: string;
   subtitle2: string;
   title: string;
@@ -21,37 +26,27 @@ interface Props {
 const {
   annotation,
   bundleImage,
+  bundlePricingPlanId,
   categories,
+  couponCode,
   description,
   forcedTheme,
   logoSuffix,
+  offer,
+  prices,
+  slug,
   subtitle1,
   subtitle2,
   title,
 } = Astro.props;
-
-const prices = categories
-  .flatMap(({ courses }) => courses)
-  .map(({ prices }) => prices)
-  .reduce(
-    (acc, element) => ({
-      old: acc.old + element.old,
-      new: acc.new,
-    }),
-    { old: 0, new: 395 },
-  );
-const couponCode = "BLACK_FRIDAY_2024";
-const pricingPlanId = 5951531;
-const slug = "black-friday-2024";
 ---
 
 <BaseLayout {description} {forcedTheme} {title}>
   <HolidayHero {annotation} {logoSuffix} {subtitle1} {subtitle2} {title} />
   <HolidayDiscountBundle
     {bundleImage}
-    offer={`... you get a one-time "everything" offer. Everything currently
-              published ($${prices.old} worth of courses), at an unbeatable price.`}
-    {pricingPlanId}
+    {offer}
+    pricingPlanId={bundlePricingPlanId}
     {slug}
     {prices}
     {title}
