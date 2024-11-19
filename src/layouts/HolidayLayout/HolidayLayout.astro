@@ -16,7 +16,7 @@ interface Props {
   forcedTheme: string;
   logoSuffix: string;
   offer: string;
-  prices: { old: number; new: number };
+  bundlePrices: { old: number; new: number };
   courseSlug: string;
   subtitle1: string;
   subtitle2: string;
@@ -33,7 +33,7 @@ const {
   forcedTheme,
   logoSuffix,
   offer,
-  prices,
+  bundlePrices,
   courseSlug,
   subtitle1,
   subtitle2,
@@ -48,7 +48,7 @@ const {
     {offer}
     pricingPlanId={bundlePricingPlanId}
     {courseSlug}
-    {prices}
+    prices={bundlePrices}
     {title}
   />
   <HolidayCourseList {categories} {couponCode} />
