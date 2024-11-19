@@ -5,10 +5,10 @@ import type { HolidayCategory } from "../_types/holidayCategory.ts";
 
 interface Props {
   categories: HolidayCategory[];
-  bigCoupon: string;
+  couponCode: string;
 }
 
-const { categories, bigCoupon } = Astro.props;
+const { categories, couponCode } = Astro.props;
 ---
 
 <article>
@@ -19,7 +19,7 @@ const { categories, bigCoupon } = Astro.props;
           <h2 class="my-auto w-full text-center">{category}</h2>
         </div>
         {courses.map(({ course, prices }) => (
-          <CourseEntry {course} holiday={true} coupon={bigCoupon} {prices} />
+          <CourseEntry {course} holiday={true} {couponCode} {prices} />
         ))}
       </section>
     ))

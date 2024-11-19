@@ -7,7 +7,7 @@ import MyPicture from "./MyPicture.astro";
 interface Props {
   course: CollectionEntry<"courses">;
   pricingPlanId: number;
-  coupon?: string;
+  couponCode?: string;
   holiday?: boolean;
   prices?: {
     old: number;
@@ -15,7 +15,13 @@ interface Props {
   };
 }
 
-const { course, holiday = false, coupon, pricingPlanId, prices } = Astro.props;
+const {
+  course,
+  holiday = false,
+  couponCode,
+  pricingPlanId,
+  prices,
+} = Astro.props;
 ---
 
 <div
@@ -36,8 +42,8 @@ const { course, holiday = false, coupon, pricingPlanId, prices } = Astro.props;
         />
       </div>
       {
-        holiday && coupon && (
-          <CourseCardLinks slug={course.slug} {pricingPlanId} {coupon} />
+        holiday && couponCode && (
+          <CourseCardLinks slug={course.slug} {pricingPlanId} {couponCode} />
         )
       }
     </a>
