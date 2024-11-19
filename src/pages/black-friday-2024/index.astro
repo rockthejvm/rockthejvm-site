@@ -14,7 +14,17 @@ const categories: HolidayCategory[] = _courses.map(({ category, courses }) => ({
     prices,
   })),
 }));
-const prices = { old: 2630, new: 395 };
+const prices = categories
+  .filter(({ category }) => category !== "Bundles")
+  .flatMap(({ courses }) => courses)
+  .map(({ prices }) => prices)
+  .reduce(
+    (acc, element) => ({
+      old: acc.old + element.old,
+      new: acc.new,
+    }),
+    { old: 0, new: 395 },
+  );
 ---
 
 <HolidayLayout

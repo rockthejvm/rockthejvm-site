@@ -28,7 +28,7 @@ const {
   class={`card-shadow card-shadow-color mt-8 w-full overflow-hidden rounded-2xl md:flex md:h-52`}
 >
   <div
-    class="mb-0 shrink-0 overflow-hidden md:mb-0 md:min-h-full md:rounded-l-2xl"
+    class="relative mb-0 shrink-0 overflow-hidden md:mb-0 md:min-h-full md:rounded-l-2xl"
   >
     <a href={`/courses/${course.slug}`}>
       <div
@@ -41,12 +41,12 @@ const {
           class="min-h-full min-w-full object-cover object-center"
         />
       </div>
-      {
-        holiday && couponCode && (
-          <CourseCardLinks slug={course.slug} {pricingPlanId} {couponCode} />
-        )
-      }
     </a>
+    {
+      holiday && couponCode && (
+        <CourseCardLinks slug={course.slug} {pricingPlanId} {couponCode} />
+      )
+    }
   </div>
   <div
     class={`my-0 flex size-full flex-col justify-center p-8 align-middle md:my-auto md:px-8 md:py-0 ${holiday ? "bg-holiday-secondary" : "bg-secondary"}`}
