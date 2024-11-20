@@ -13,12 +13,18 @@
       >
         Subscribe to our newsletter for exclusive discounts and extra content.
       </div>
-      <form class="mx-auto mt-10 flex max-w-md gap-x-4">
+      <form
+        class="mx-auto mt-10 flex max-w-md flex-col gap-4"
+        action="https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&id=2c292e211e&f_id=003d27ebf0"
+        method="post"
+        id="mc-embedded-subscribe-form"
+        name="mc-embedded-subscribe-form"
+        required=""
+        value=""
+      >
         <div class="flex gap-x-4">
-          <label for="email-address" class="sr-only">Email address</label>
+          <label for="mce-EMAIL" class="sr-only">Email address</label>
           <input
-            id="email-address"
-            name="email"
             type="email"
             name="EMAIL"
             id="mce-EMAIL"
@@ -33,8 +39,8 @@
           >
         </div>
         <div id="mce-responses" class="mx-auto">
-          <div id="mce-error-response" style={{ display: "none" }}></div>
-          <div id="mce-success-response" style={{ display: "none" }}></div>
+          <div id="mce-error-response" style={`display: "none"`}></div>
+          <div id="mce-success-response" style={`display: "none"`}></div>
         </div>
         <script
           is:inline

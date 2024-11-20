@@ -2,6 +2,7 @@
 import NotificationBanner from "@components/NotificationBanner.astro";
 import "@styles/base.css";
 import "@styles/fonts.css";
+import { undefined } from "astro:schema";
 import Footer from "../components/Footer.astro";
 import Head from "../components/Head.astro";
 import Header from "../components/Header.astro";
@@ -68,6 +69,6 @@ const {
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer holiday={forcedTheme !== undefined} />
   </body>
 </html>
