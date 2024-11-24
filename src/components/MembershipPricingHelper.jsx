@@ -308,7 +308,7 @@ export default function Example(props) {
               >
                 Join Now
               </a>
-              <small className="mt-16 text-sm text-ctatext">
+              <small className="mt-16 text-sm text-content-1">
                 <i className="mt-8">
                   This is a subscription product billed on a monthly basis until
                   you cancel. Cancel anytime from the account management page.
