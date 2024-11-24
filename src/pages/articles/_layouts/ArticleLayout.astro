@@ -108,7 +108,7 @@ const structuredData = JSON.stringify({
           }
           <TagList {tags} />
         </Byline>
-        <SocialShare />
+        <div class="hidden lg:block"><SocialShare /></div>
         {videoId && <MyYouTube id={videoId} />}
       </header>
       <!-- <div class="lg:hidden fixed bottom-4 right-4">
@@ -134,7 +134,7 @@ const structuredData = JSON.stringify({
         </div>
       </div>
       <footer>
-        <SocialShare />
+        <div class="hidden lg:block"><SocialShare /></div>
         <AuthorWide {author} />
       </footer>
     </article>
