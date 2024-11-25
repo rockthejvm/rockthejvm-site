@@ -39,9 +39,14 @@ const {
   subtitle2,
   title,
 } = Astro.props;
+
+const image = {
+  src: bundleImage.src,
+  alt: title,
+};
 ---
 
-<BaseLayout {description} {forcedTheme} {title}>
+<BaseLayout {description} {forcedTheme} {title} {image}>
   <HolidayHero {annotation} {logoSuffix} {subtitle1} {subtitle2} {title} />
   <HolidayDiscountBundle
     {bundleImage}
