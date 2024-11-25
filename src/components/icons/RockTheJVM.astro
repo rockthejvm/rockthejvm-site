@@ -1,11 +1,16 @@
 ---
 import { Icon } from "astro-icon/components";
 import site from "../../data/site.json";
-const { ...rest } = Astro.props;
+
+// interface Props {
+//   suffix?: string;
+// }
+
+const { suffix = "", ...rest } = Astro.props;
 ---
 
 <Icon
-  name="companies/rock-the-jvm"
+  name=`companies/rock-the-jvm${suffix}`
   title={site.name}
   aria-hidden="true"
   {...rest}

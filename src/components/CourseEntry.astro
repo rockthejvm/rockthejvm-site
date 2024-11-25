@@ -3,17 +3,19 @@ import type { CollectionEntry } from "astro:content";
 import CourseCard from "./CourseCard.astro";
 
 interface Props {
-  courses: CollectionEntry<"courses">[];
+  course: CollectionEntry<"courses">;
+  couponCode?: string;
+  prices?: {
+    old: number;
+    new: number;
+  };
+  holiday?: boolean;
 }
 
-const { courses } = Astro.props;
+const { course, holiday = false, prices, couponCode } = Astro.props;
+const pricingPlanId = course.data.pricingPlanId;
 ---
 
-{
-  courses.map((course) => (
-    <dd class="mt-2" id="faq-0">
-      {/* <p class="text-base leading-7 text-gray-600">{course.data.title}</p> */}
-      <CourseCard {course} />
-    </dd>
-  ))
-}
+<dd class="mt-2" id="faq-0">
+  <CourseCard {course} {holiday} {prices} {pricingPlanId} {couponCode} />
+</dd>

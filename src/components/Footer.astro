@@ -6,67 +6,82 @@ import LinkedIn from "./icons/LinkedIn.astro";
 import RSS from "./icons/RSS.astro";
 import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
+
+interface Props {
+  holiday?: boolean;
+}
+
+const { holiday } = Astro.props;
 ---
 
-<FooterHelper client:visible>
+<FooterHelper client:visible {holiday}>
   <Facebook slot="facebook" />
   <GitHub slot="github" />
   <LinkedIn slot="linkedin" />
   <Twitter slot="twitter" />
   <YouTube slot="youtube" />
   <RSS slot="rss" />
-  <div id="mc_embed_shell" slot="newsletter">
-    <div id="mc_embed_signup">
-      <form
-        action="https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&id=2c292e211e&f_id=003d27ebf0"
-        method="post"
-        id="mc-embedded-subscribe-form"
-        name="mc-embedded-subscribe-form"
-        target="_blank"
-      >
-        <div id="mc_embed_signup_scroll">
-          <h3 class="text-sm font-semibold leading-6 text-content">
-            Subscribe to our newsletter
-          </h3>
-          <div>
-            <input
-              type="email"
-              name="EMAIL"
-              class="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
-              id="mce-EMAIL"
-              required=""
-              value=""
-              placeholder="Enter your email"
-            />
-          </div>
-          <div id="mce-responses">
-            <div id="mce-error-response" style="display: none;"></div>
-            <div id="mce-success-response" style="display: none;"></div>
-          </div><div
-            aria-hidden="true"
-            style="position: absolute; left: -5000px;"
+  {
+    !holiday && (
+      <div id="mc_embed_shell" slot="newsletter">
+        <div id="mc_embed_signup">
+          <form
+            action="https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&id=2c292e211e&f_id=003d27ebf0"
+            method="post"
+            id="mc-embedded-subscribe-form"
+            name="mc-embedded-subscribe-form"
+            target="_blank"
           >
-            <input
-              type="text"
-              name="b_f7e7dcf30c1dd4f49893c696b_2c292e211e"
-              tabindex="-1"
-              value=""
-            />
-          </div><div class="my-2">
-            <input
-              type="submit"
-              name="subscribe"
-              id="mc-embedded-subscribe"
-              class="flex items-center justify-center rounded-md bg-cta px-3 py-2 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              value="Subscribe"
-            />
-          </div>
+            <div id="mc_embed_signup_scroll">
+              <h3
+                class={`text-sm font-semibold leading-6 ${holiday ? "text-holiday-content-1" : "text-content"}`}
+              >
+                Subscribe to our newsletter
+              </h3>
+              <div>
+                <input
+                  type="email"
+                  name="EMAIL"
+                  class="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
+                  id="mce-EMAIL"
+                  required=""
+                  value=""
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div id="mce-responses">
+                <div id="mce-error-response" style="display: none;" />
+                <div id="mce-success-response" style="display: none;" />
+              </div>
+              <div
+                aria-hidden="true"
+                style="position: absolute; left: -5000px;"
+              >
+                <input
+                  type="text"
+                  name="b_f7e7dcf30c1dd4f49893c696b_2c292e211e"
+                  tabindex="-1"
+                  value=""
+                />
+              </div>
+              <div class="my-2">
+                <input
+                  type="submit"
+                  name="subscribe"
+                  id="mc-embedded-subscribe"
+                  class="flex items-center justify-center rounded-md bg-cta px-3 py-2 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  value="Subscribe"
+                />
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
-    <script
-      type="text/javascript"
-      src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"
-      defer></script>
-  </div>
+        <script
+          type="text/javascript"
+          src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"
+          defer
+        />
+      </div>
+    )
+  }
 </FooterHelper>
