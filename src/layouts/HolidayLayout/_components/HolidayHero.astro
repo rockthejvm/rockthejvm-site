@@ -1,0 +1,46 @@
+---
+import RockTheJVM from "@components/icons/RockTheJVM.astro";
+
+interface Props {
+  annotation: string;
+  logoSuffix: string;
+  subtitle1: string;
+  subtitle2: string;
+  title: string;
+}
+
+const { annotation, logoSuffix, subtitle1, subtitle2, title } = Astro.props;
+---
+
+<header>
+  <div class="min-h-[50vh] pb-40 pt-20">
+    <div class="hidden sm:mb-8 sm:flex sm:justify-center"></div>
+    <div class="mx-auto flex justify-center">
+      <div class="mx-8 my-auto md:mx-24 md:flex">
+        <div class="mb-4 shrink-0 sm:mb-0 sm:mr-4">
+          <RockTheJVM
+            class="h-48 w-full md:h-64"
+            slot="logo"
+            suffix={logoSuffix}
+          />
+        </div>
+        <div>
+          <div class="text-xl font-semibold text-gray-500">
+            {annotation.toUpperCase()}
+          </div>
+          <h1
+            class="mb-4 mt-2 text-5xl font-extrabold text-holiday-content sm:text-6xl md:text-7xl"
+          >
+            {`${title} ${new Date().getFullYear()}`.toUpperCase()}
+          </h1>
+          <p class="mb-8 text-xl text-gray-300">
+            {subtitle1.toUpperCase()}
+          </p>
+          <p class="rainbow-text mb-24 text-2xl font-semibold italic">
+            {subtitle2.toUpperCase()}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

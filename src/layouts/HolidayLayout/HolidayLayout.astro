@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { ImageMetadata } from "astro";
+import HolidayCourseList from "./_components/HolidayCourseList.astro";
+import HolidayDiscountBundle from "./_components/HolidayDiscountBundle.astro";
+import HolidayHero from "./_components/HolidayHero.astro";
+import type { HolidayCategory } from "./_types/holidayCategory.ts";
+
+interface Props {
+  annotation: string;
+  bundleImage: ImageMetadata;
+  bundlePricingPlanId: number;
+  categories: HolidayCategory[];
+  couponCode: string;
+  description: string;
+  forcedTheme: string;
+  logoSuffix: string;
+  offer: string;
+  bundlePrices: { old: number; new: number };
+  courseSlug: string;
+  subtitle1: string;
+  subtitle2: string;
+  title: string;
+}
+
+const {
+  annotation,
+  bundleImage,
+  bundlePricingPlanId,
+  categories,
+  couponCode,
+  description,
+  forcedTheme,
+  logoSuffix,
+  offer,
+  bundlePrices,
+  courseSlug,
+  subtitle1,
+  subtitle2,
+  title,
+} = Astro.props;
+---
+
+<BaseLayout {description} {forcedTheme} {title}>
+  <HolidayHero {annotation} {logoSuffix} {subtitle1} {subtitle2} {title} />
+  <HolidayDiscountBundle
+    {bundleImage}
+    {offer}
+    pricingPlanId={bundlePricingPlanId}
+    {courseSlug}
+    prices={bundlePrices}
+    {title}
+  />
+  <HolidayCourseList {categories} {couponCode} />
+</BaseLayout>
