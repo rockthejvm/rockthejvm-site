@@ -1,5 +1,13 @@
+---
+interface Props {
+  holiday?: boolean;
+}
+
+const { holiday = false } = Astro.props;
+---
+
 <span
-  class="inline-flex items-center rounded-full bg-content-2 px-2 text-lg font-bold text-secondary ring-1 ring-inset ring-blue-700/10"
+  class={`inline-flex items-center rounded-full ${holiday ? "bg-holiday-card-content-2" : "bg-content-2"} px-2 text-lg font-bold ${holiday ? "text-holiday-secondary" : "text-secondary"} ring-1 ring-inset ring-blue-700/10`}
 >
   <slot />
 </span>

@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  a {
+    @apply text-accent-1 no-underline;
+  }
+
+  a:hover {
+    @apply text-accent-2 underline;
+  }
+
   :root[data-theme="light"] {
     color-scheme: light;
 
@@ -49,7 +57,6 @@
 
     --color-content1: 217deg 17% 98%;
     --color-content2: 217deg 17% 87%;
-
     --color-accent1: 30deg 70% 75%;
     --color-accent2: 168deg 83.8% 48.2%;
 
@@ -76,12 +83,50 @@
     }
   }
 
-  a {
-    @apply text-accent-1 no-underline;
-  }
+  :root[holiday-theme="black-friday"] {
+    color-scheme: dark;
 
-  a:hover {
-    @apply text-accent-2 underline;
+    --color-holiday-bkg: 0deg 0% 0%;
+
+    --color-holiday-content1: 217deg 17% 98%;
+    --color-holiday-content2: 217deg 17% 87%;
+    --color-holiday-accent1: 30deg 100% 70%;
+    --color-holiday-accent2: 168deg 83.8% 48.2%;
+
+    --color-holiday-card-content1: 217deg 11.41% 38.71%;
+    --color-holiday-card-content2: 217deg 32.6% 25%;
+    --color-holiday-card-accent1: 0deg 0% 0%;
+    --color-holiday-card-accent2: 0deg 84% 30%;
+
+    --color-holiday-primary: 221deg 90% 74%;
+    --color-holiday-secondary: 360deg 100% 100%;
+
+    --color-holiday-base: 360deg 100% 0%;
+    --color-holiday-text-cta: 24deg 93% 55%;
+    --color-holiday-cta: 360deg 0% 95%;
+    --color-holiday-tag: 226deg 100% 94%;
+
+    .card-shadow {
+      @apply shadow-[0px_4px_50px_0px_#000000];
+    }
+
+    .card-shadow-color {
+      @apply shadow-indigo-600/15;
+    }
+
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+    }
+
+    a {
+      @apply text-holiday-card-accent-1 no-underline;
+    }
+
+    a:hover {
+      @apply text-holiday-card-accent-2 underline;
+    }
   }
 
   h1,
@@ -145,4 +190,19 @@
     position: absolute;
     bottom: -0.2rem;
   }
+}
+
+.rainbow-text {
+  background-image: linear-gradient(
+    to left,
+    violet,
+    indigo,
+    blue,
+    green,
+    yellow,
+    orange,
+    red
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

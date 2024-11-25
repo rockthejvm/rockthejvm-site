@@ -1,4 +1,5 @@
 ---
+import NotificationBanner from "@components/NotificationBanner.astro";
 import "@styles/base.css";
 import "@styles/fonts.css";
 import Footer from "../components/Footer.astro";
@@ -19,6 +20,7 @@ interface Props {
     video?: URL;
   };
   canonicalUrl?: URL;
+  forcedTheme?: string;
   description: string;
   image?: {
     alt: string;
@@ -34,6 +36,7 @@ interface Props {
 const {
   article,
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
+  forcedTheme,
   description,
   error = false,
   image = site.logo,
@@ -49,6 +52,7 @@ const {
   <Head
     {article}
     {canonicalUrl}
+    {forcedTheme}
     {description}
     {error}
     {image}
@@ -56,11 +60,14 @@ const {
     {title}
     {type}
   />
-  <body class=`${isHomePage ? "body-gradient" : ""} min-h-screen bg-bkg`>
-    <Header />
+  <body
+    class={`${isHomePage ? "body-gradient" : ""} min-h-screen ${forcedTheme ? "bg-holiday-bkg" : "bg-bkg"}`}
+  >
+    {!forcedTheme && <NotificationBanner />}
+    <Header showThemeToggle={!forcedTheme} />
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer holiday={!!forcedTheme} />
   </body>
 </html>

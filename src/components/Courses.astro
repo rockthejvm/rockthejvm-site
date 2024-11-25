@@ -38,9 +38,11 @@ const categories = await getCollection("courseCategories");
                                 ?.data as CollectionEntry<"courses">["data"]
                             ).category.id === category.id,
                         )
-                        .map((courses) => (
-                          <CourseEntry {courses} />
-                        ))}
+                        .map((courses) =>
+                          courses.map((course) => (
+                            <CourseEntry course={course} />
+                          )),
+                        )}
                     </Fragment>
                     <Fragment slot="categoryImage">
                       <MyPicture

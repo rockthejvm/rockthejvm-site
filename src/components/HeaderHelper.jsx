@@ -31,16 +31,24 @@ export default function Example(props) {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-sm font-semibold leading-6 text-content"
+                className={`text-sm font-semibold leading-6`}
               >
-                {item.name}
+                <span
+                  className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                >
+                  {item.name}
+                </span>
               </a>
             ))}
             <a
               href="https://sso.teachable.com/secure/256201/identity/login/password"
-              className="text-sm font-semibold leading-6 text-content"
+              className={`text-sm font-semibold leading-6`}
             >
-              Log in <span aria-hidden="true">&rarr;</span>
+              <span
+                className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+              >
+                Log in <span aria-hidden="true">&rarr;</span>
+              </span>
             </a>
           </div>
           {props.themeToggle}
@@ -48,10 +56,14 @@ export default function Example(props) {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-content-1"
+              className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5`}
             >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon aria-hidden="true" className="size-6" />
+              <span
+                className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+              >
+                <span className="sr-only">Open main menu</span>
+                <Bars3Icon aria-hidden="true" className="size-6" />
+              </span>
             </button>
           </div>
         </div>
@@ -84,18 +96,26 @@ export default function Example(props) {
                   <a
                     key={item.name}
                     href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-content hover:bg-gray-50"
+                    className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-gray-50`}
                   >
-                    {item.name}
+                    <span
+                      className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                    >
+                      {item.name}
+                    </span>
                   </a>
                 ))}
               </div>
               <div className="py-6">
                 <a
                   href="https://sso.teachable.com/secure/256201/identity/login/password"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-content hover:bg-gray-50"
+                  className={`-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-gray-50`}
                 >
-                  Log in
+                  <span
+                    className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                  >
+                    Log in
+                  </span>
                 </a>
               </div>
               {/* {props.themeToggle} */}

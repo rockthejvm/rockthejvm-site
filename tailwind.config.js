@@ -25,6 +25,37 @@ export default {
           2: "hsl(var(--color-content2) / <alpha-value>)",
           DEFAULT: "hsl(var(--color-content1) / <alpha-value>)",
         },
+        holiday: {
+          accent: {
+            1: "hsl(var(--color-holiday-accent1) / <alpha-value>)",
+            2: "hsl(var(--color-holiday-accent2) / <alpha-value>)",
+          },
+          bkg: "hsl(var(--color-holiday-bkg) / <alpha-value>)",
+          card: {
+            accent: {
+              1: "hsl(var(--color-holiday-card-accent1) / <alpha-value>)",
+              2: "hsl(var(--color-holiday-card-accent2) / <alpha-value>)",
+            },
+            content: {
+              1: "hsl(var(--color-holiday-card-content1) / <alpha-value>)",
+              2: "hsl(var(--color-holiday-card-content2) / <alpha-value>)",
+              DEFAULT:
+                "hsl(var(--color-holiday-card-content1) / <alpha-value>)",
+            },
+          },
+          content: {
+            1: "hsl(var(--color-holiday-content1) / <alpha-value>)",
+            2: "hsl(var(--color-holiday-content2) / <alpha-value>)",
+            DEFAULT: "hsl(var(--color-holiday-content1) / <alpha-value>)",
+          },
+          primary: "hsl(var(--color-holiday-primary) / <alpha-value>)",
+          secondary: "hsl(var(--color-holiday-secondary) / <alpha-value>)",
+          basecolor: "hsl(var(--color-holiday-base) / <alpha-value>)",
+          opposite: "hsl(var(--color-holiday-shadow) / <alpha-value>)",
+          cta: "hsl(var(--color-holiday-cta) / <alpha-value>)",
+          ctatext: "hsl(var(--color-holiday-text-cta) / <alpha-value>)",
+          tag: "hsl(var(--color-holiday-tag) / <alpha-value>)",
+        },
         primary: "hsl(var(--color-primary) / <alpha-value>)",
         secondary: "hsl(var(--color-secondary) / <alpha-value>)",
         basecolor: "hsl(var(--color-base) / <alpha-value>)",

@@ -14,6 +14,7 @@ interface Props {
     video?: URL;
   };
   canonicalUrl: URL;
+  forcedTheme?: string;
   description: string;
   error: boolean;
   image: {
@@ -27,6 +28,7 @@ interface Props {
 const {
   article,
   canonicalUrl,
+  forcedTheme,
   description,
   error,
   image: _image,
@@ -49,8 +51,11 @@ const image = {
       <script type="application/ld+json" set:html={structuredData} is:inline />
     )
   }
-  <script is:inline>
+  <script is:inline define:vars={{ forcedTheme }}>
     const setDataTheme = () => {
+      if (forcedTheme) {
+        document.documentElement.setAttribute("holiday-theme", forcedTheme);
+      }
       document.documentElement.setAttribute(
         "data-theme",
         localStorage.getItem("theme") === "system"
@@ -88,20 +93,22 @@ const image = {
     setDataTheme();
     document.addEventListener("DOMContentLoaded", () => {
       setProse();
-      setThemeToggle();
-      document.getElementById("themeToggle").addEventListener("click", () => {
-        localStorage.setItem(
-          "theme",
-          localStorage.getItem("theme") === "system"
-            ? "light"
-            : localStorage.getItem("theme") === "light"
-              ? "dark"
-              : "system",
-        );
-        setDataTheme();
-        setProse();
+      if (!forcedTheme) {
         setThemeToggle();
-      });
+        document.getElementById("themeToggle").addEventListener("click", () => {
+          localStorage.setItem(
+            "theme",
+            localStorage.getItem("theme") === "system"
+              ? "light"
+              : localStorage.getItem("theme") === "light"
+                ? "dark"
+                : "system",
+          );
+          setDataTheme();
+          setProse();
+          setThemeToggle();
+        });
+      }
     });
   </script>
   <Fragment>
