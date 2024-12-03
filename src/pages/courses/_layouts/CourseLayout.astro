@@ -68,6 +68,7 @@ const {
   hasGoal,
   hasSkills,
   instructorEnabled,
+  active,
 } = _frontmatter;
 
 const instructors = await getEntries<"authors">(_instructors);
@@ -160,7 +161,7 @@ const structuredData = JSON.stringify({
   {structuredData}
 >
   <article>
-    <Hero {description} {heroImage} {pricingPlanId} {title} />
+    <Hero {description} {heroImage} {pricingPlanId} {title} {active} />
     {
       videoId && (
         <CourseVideo color={categoryColor} {videoId}>
@@ -227,6 +228,7 @@ const structuredData = JSON.stringify({
       courseSlug={course.slug}
       {pricingPlanId}
       {title}
+      {active}
     />
     <CourseFAQ
       {categoryFaqs}
