@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 
 interface Props {
   pricingPlanId: number;
-  active: boolean;
+  active?: boolean;
 }
 
 interface Response {
   price: number;
 }
 
-export default function Example({ pricingPlanId, active }: Props) {
+export default function Example({ pricingPlanId, active = true }: Props) {
   const [price, setPrice] = useState("Free");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
