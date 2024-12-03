@@ -2,36 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 
 interface Props {
   pricingPlanId: number;
+  active?: boolean;
 }
-
-// interface Response {
-//   pricing_plan: {
-//     id: number;
-//     created_at: string;
-//     updated_at: string;
-//     name: string;
-//     price: number;
-//     currency: string;
-//     course_id: number;
-//     frequency: {
-//       type: string;
-//       billing_interval: string;
-//       billing_interval_count: number;
-//       access_limit_date: string | null;
-//       access_limit_interval: string | null;
-//       access_limit_duration: string | null;
-//     };
-//     description: string;
-//     free_trial_length: number | null;
-//     enrollment_cap: number | null;
-//   };
-// }
 
 interface Response {
   price: number;
 }
 
-export default function Example({ pricingPlanId }: Props) {
+export default function Example({ pricingPlanId, active = true }: Props) {
   const [price, setPrice] = useState("Free");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,19 +18,6 @@ export default function Example({ pricingPlanId }: Props) {
     setLoading(true);
     setError(null);
     try {
-      // const options = {
-      //   method: "GET",
-      //   headers: {
-      //     accept: "application/json",
-      //     apiKey: import.meta.env.PUBLIC_REACT_APP_API_KEY || "",
-      //   },
-      // };
-
-      // const response = await fetch(
-      //   `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
-      //   options,
-      // );
-
       const response = await fetch(`/api/purchase/${pricingPlanId}`);
 
       if (!response.ok) {
@@ -81,6 +46,10 @@ export default function Example({ pricingPlanId }: Props) {
       getCoursePrice(pricingPlanId);
     }
   }, [pricingPlanId, getCoursePrice]);
+
+  if (!active) {
+    return <div>Currently unavailable</div>;
+  }
 
   if (loading) {
     return <div>Loading...</div>;
