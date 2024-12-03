@@ -9,6 +9,9 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://rockthejvm.com",
   trailingSlash: "never",
+  build: {
+    format: "file",
+  },
   integrations: [
     icon({
       include: {
