@@ -40,7 +40,7 @@ export default defineCollection({
           .optional(),
         description: z
           .string()
-          .min(70, "Description must be at least 70 characters")
+          .min(20, "Description must be at least 20 characters")
           .max(500, "Description must be at most 500 characters"), // Recommended is 240 characters
         difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
         excerpt: z
