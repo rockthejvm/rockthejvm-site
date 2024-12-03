@@ -8,6 +8,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://rockthejvm.com",
+  trailingSlash: "never",
   integrations: [
     icon({
       include: {
