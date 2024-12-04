@@ -51,72 +51,66 @@ import Search from "astro-pagefind/components/Search";
       </div>
     </div>
   </div>
-
-  <!-- JavaScript Logic -->
-  <script>
-    const openModalButton = document.getElementById("open-modal");
-    // const closeModalButton = document.getElementById("close-modal");
-    const modal = document.getElementById("modal");
-    const modalBackdrop = document.getElementById("modal-backdrop");
-    const modalPanel = document.getElementById("modal-panel");
-
-    // Show the modal
-    function showModal() {
-      modal.classList.remove("hidden");
-      modalBackdrop.classList.add("opacity-100");
-      modalBackdrop.classList.remove("opacity-0");
-      modalPanel.classList.add("opacity-100", "translate-y-0", "sm:scale-100");
-      modalPanel.classList.remove(
-        "opacity-0",
-        "translate-y-4",
-        "sm:translate-y-0",
-        "sm:scale-95",
-      );
-
-      // Focus on the input field inside the Astro component
-      const searchInput = document.querySelector('#search input[type="text"]');
-      if (searchInput) {
-        searchInput.focus();
-      }
-    }
-
-    // Hide the modal
-    function hideModal() {
-      modal.classList.add("hidden");
-      modalBackdrop.classList.add("opacity-0");
-      modalBackdrop.classList.remove("opacity-100");
-      modalPanel.classList.add(
-        "opacity-0",
-        "translate-y-4",
-        "sm:translate-y-0",
-        "sm:scale-95",
-      );
-      modalPanel.classList.remove(
-        "opacity-100",
-        "translate-y-0",
-        "sm:scale-100",
-      );
-    }
-
-    openModalButton.addEventListener("click", showModal);
-    // closeModalButton.addEventListener("click", hideModal);
-
-    // Close the modal when clicking outside of the panel
-    modalBackdrop.addEventListener("click", hideModal);
-
-    // Close the modal with the "Escape" key
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        hideModal();
-      }
-    });
-
-    // Close the modal when clicking outside the modal content
-    modal.addEventListener("click", (event) => {
-      const modalPanel = document.getElementById("modal-panel");
-      if (!modalPanel.contains(event.target)) {
-        hideModal();
-      }
-    });
-  </script>
 </div>
+<script>
+  const openModalButton = document.getElementById("open-modal");
+  // const closeModalButton = document.getElementById("close-modal");
+  const modal = document.getElementById("modal");
+  const modalBackdrop = document.getElementById("modal-backdrop");
+  const modalPanel = document.getElementById("modal-panel");
+
+  // Show the modal
+  function showModal() {
+    modal.classList.remove("hidden");
+    modalBackdrop.classList.add("opacity-100");
+    modalBackdrop.classList.remove("opacity-0");
+    modalPanel.classList.add("opacity-100", "translate-y-0", "sm:scale-100");
+    modalPanel.classList.remove(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
+
+    // Focus on the input field inside the Astro component
+    const searchInput = document.querySelector('#search input[type="text"]');
+    if (searchInput) {
+      searchInput.focus();
+    }
+  }
+
+  // Hide the modal
+  function hideModal() {
+    modal.classList.add("hidden");
+    modalBackdrop.classList.add("opacity-0");
+    modalBackdrop.classList.remove("opacity-100");
+    modalPanel.classList.add(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
+    modalPanel.classList.remove("opacity-100", "translate-y-0", "sm:scale-100");
+  }
+
+  openModalButton.addEventListener("click", showModal);
+  // closeModalButton.addEventListener("click", hideModal);
+
+  // Close the modal when clicking outside of the panel
+  modalBackdrop.addEventListener("click", hideModal);
+
+  // Close the modal with the "Escape" key
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      hideModal();
+    }
+  });
+
+  // Close the modal when clicking outside the modal content
+  modal.addEventListener("click", (event) => {
+    const modalPanel = document.getElementById("modal-panel");
+    if (!modalPanel.contains(event.target)) {
+      hideModal();
+    }
+  });
+</script>
