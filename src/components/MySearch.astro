@@ -59,8 +59,16 @@ import Search from "astro-pagefind/components/Search";
   const modalBackdrop = document.getElementById("modal-backdrop");
   const modalPanel = document.getElementById("modal-panel");
 
+  if (!openModalButton || !modal || !modalBackdrop || !modalPanel) {
+    throw new Error("Could not find the modal elements");
+  }
+
   // Show the modal
   function showModal() {
+    if (!modal || !modalBackdrop || !modalPanel) {
+      return;
+    }
+
     modal.classList.remove("hidden");
     modalBackdrop.classList.add("opacity-100");
     modalBackdrop.classList.remove("opacity-0");
@@ -73,7 +81,9 @@ import Search from "astro-pagefind/components/Search";
     );
 
     // Focus on the input field inside the Astro component
-    const searchInput = document.querySelector('#search input[type="text"]');
+    const searchInput = document.querySelector(
+      '#search input[type="text"]',
+    ) as HTMLInputElement;
     if (searchInput) {
       searchInput.focus();
     }
@@ -81,6 +91,10 @@ import Search from "astro-pagefind/components/Search";
 
   // Hide the modal
   function hideModal() {
+    if (!modal || !modalBackdrop || !modalPanel) {
+      return;
+    }
+
     modal.classList.add("hidden");
     modalBackdrop.classList.add("opacity-0");
     modalBackdrop.classList.remove("opacity-100");
@@ -117,9 +131,14 @@ import Search from "astro-pagefind/components/Search";
   });
 
   // Close the modal when clicking outside the modal content
-  modal.addEventListener("click", (event) => {
+  modal.addEventListener("click", ({ target }) => {
     const modalPanel = document.getElementById("modal-panel");
-    if (!modalPanel.contains(event.target)) {
+
+    if (!modalPanel) {
+      return;
+    }
+
+    if (!modalPanel.contains(target as Node | null)) {
       hideModal();
     }
   });
