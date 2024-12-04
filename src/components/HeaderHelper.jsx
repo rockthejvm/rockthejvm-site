@@ -51,6 +51,7 @@ export default function Example(props) {
               </span>
             </a>
           </div>
+          {props.search}
           {props.themeToggle}
           <div className="flex lg:hidden">
             <button
