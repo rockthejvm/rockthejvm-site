@@ -99,8 +99,18 @@ import Search from "astro-pagefind/components/Search";
   // Close the modal when clicking outside of the panel
   modalBackdrop.addEventListener("click", hideModal);
 
-  // Close the modal with the "Escape" key
+  // Handle keyboard shortcuts
   document.addEventListener("keydown", (event) => {
+    const isMac = navigator.platform.toUpperCase().includes("MAC");
+    const ctrlOrCmdKey = isMac ? event.metaKey : event.ctrlKey;
+
+    // Open the modal with Ctrl+K or Cmd+K
+    if (ctrlOrCmdKey && event.key === "k") {
+      event.preventDefault(); // Prevent default browser behavior
+      showModal();
+    }
+
+    // Close the modal with the "Escape" key
     if (event.key === "Escape") {
       hideModal();
     }
