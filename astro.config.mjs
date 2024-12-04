@@ -20,7 +20,7 @@ export default defineConfig({
           "youtube",
         ],
         "fa6-solid": ["caret-up", "house", "table-list", "rss"],
-        heroicons: ["computer-desktop", "moon", "sun"],
+        heroicons: ["computer-desktop", "magnifying-glass", "moon", "sun"],
       },
     }),
     mdx(),

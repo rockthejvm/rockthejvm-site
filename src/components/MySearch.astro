@@ -1,44 +1,49 @@
 ---
+import { Icon } from "astro-icon/components";
 import Search from "astro-pagefind/components/Search";
 ---
 
-<div>
-  <!-- Button to open the modal -->
-  <button
-    id="open-modal"
-    class="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-black/80"
+<!-- Button to open the modal -->
+<button
+  id="open-modal"
+  class="flex items-center space-x-2 rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+>
+  <Icon name="heroicons:magnifying-glass" title="Search" class="size-4" />
+  <span class="hidden text-gray-200 lg:inline">Search</span>
+  <span
+    class="hidden rounded-md border border-gray-600 bg-gray-950 p-1 text-xs text-gray-400 md:inline"
+    >Ctrl+K</span
   >
-    Search (Ctrl+K)
-  </button>
+</button>
 
-  <!-- Modal container -->
+<!-- Modal container -->
+<div
+  id="modal"
+  class="relative z-10 hidden"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <!-- Background backdrop -->
   <div
-    id="modal"
-    class="relative z-10 hidden"
-    aria-labelledby="modal-title"
-    role="dialog"
-    aria-modal="true"
+    id="modal-backdrop"
+    class="fixed inset-0 bg-gray-500/75 opacity-0 transition-opacity"
+    aria-hidden="true"
   >
-    <!-- Background backdrop -->
-    <div
-      id="modal-backdrop"
-      class="fixed inset-0 bg-gray-500/75 opacity-0 transition-opacity"
-      aria-hidden="true"
-    >
-    </div>
+  </div>
 
-    <!-- Modal panel -->
-    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+  <!-- Modal panel -->
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div
+      class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 lg:items-start"
+    >
       <div
-        class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 lg:items-start"
+        class="relative translate-y-4 overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left opacity-0 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:translate-y-0 sm:scale-95 sm:p-6 md:max-w-xl lg:max-w-2xl xl:max-w-3xl"
+        id="modal-panel"
       >
-        <div
-          class="relative translate-y-4 overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left opacity-0 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:translate-y-0 sm:scale-95 sm:p-6 md:max-w-xl lg:max-w-2xl xl:max-w-3xl"
-          id="modal-panel"
-        >
-          <!-- Modal content -->
-          <Search id="search" uiOptions={{ showImages: false }} />
-          <!-- <div class="mt-5 sm:mt-6">
+        <!-- Modal content -->
+        <Search id="search" uiOptions={{ showImages: false }} />
+        <!-- <div class="mt-5 sm:mt-6">
             <button
               id="close-modal"
               type="button"
@@ -47,11 +52,11 @@ import Search from "astro-pagefind/components/Search";
               Close
             </button>
           </div> -->
-        </div>
       </div>
     </div>
   </div>
 </div>
+
 <script>
   const openModalButton = document.getElementById("open-modal");
   // const closeModalButton = document.getElementById("close-modal");
