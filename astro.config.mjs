@@ -24,13 +24,13 @@ export default defineConfig({
       },
     }),
     mdx(),
-    pagefind(),
     tailwind({
       applyBaseStyles: false,
       nesting: true,
     }),
     react(),
     sitemap(),
+    pagefind(), // Should be last
   ],
   markdown: {
     remarkPlugins: [],
