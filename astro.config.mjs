@@ -4,6 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import sectionize from "@hbsnow/rehype-sectionize";
 import icon from "astro-icon";
+import pagefind from "astro-pagefind";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
       },
     }),
     mdx(),
+    pagefind(),
     tailwind({
       applyBaseStyles: false,
       nesting: true,
