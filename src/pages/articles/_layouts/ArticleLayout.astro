@@ -37,6 +37,7 @@ const {
   videoId,
 } = frontmatter;
 const date = updatedDate ?? publishedDate;
+const category = await getEntry("articleCategories", article.data.category.id);
 const author = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
@@ -91,7 +92,24 @@ const structuredData = JSON.stringify({
   searchIndexable={true}
 >
   <NarrowContainer>
-    <div data-pagefind-filter="type:article"></div>
+    <div data-pagefind-filter="Category:Articles (All)"></div>
+    <div
+      data-pagefind-filter={`Category:Articles (${(() => {
+        switch (category.data.name) {
+          case "explanation":
+            return "Explanations";
+          case "guide":
+            return "Guides";
+          case "opinion":
+            return "Opinions";
+          case "retrospective":
+            return "Retrospectives";
+          default:
+            return "";
+        }
+      })()})`}
+    >
+    </div>
     <div data-pagefind-filter={`authors:${author.data.name}`}></div>
     {tags.map((tag) => <div data-pagefind-filter={tag.id} />)}
     <div data-pagefind-meta={`date:${formatDate(date)}`}></div>
