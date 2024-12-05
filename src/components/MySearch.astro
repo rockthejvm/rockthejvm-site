@@ -6,9 +6,13 @@ import Search from "astro-pagefind/components/Search";
 <!-- Button to open the modal -->
 <button
   id="open-modal"
-  class="flex items-center space-x-2 rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+  class="flex items-center space-x-2 rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black md:bg-gray-800"
 >
-  <Icon name="heroicons:magnifying-glass" title="Search" class="size-4" />
+  <Icon
+    name="heroicons:magnifying-glass"
+    title="Search"
+    class="size-6 md:size-4"
+  />
   <span class="hidden text-gray-200 lg:inline">Search</span>
   <span
     class="hidden rounded-md border border-gray-600 bg-gray-950 p-1 text-xs text-gray-400 md:inline"
