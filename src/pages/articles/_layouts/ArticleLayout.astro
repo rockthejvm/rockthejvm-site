@@ -89,15 +89,16 @@ const structuredData = JSON.stringify({
   searchIndexable={true}
 >
   <NarrowContainer>
-    <article
-      class="pt-16 md:pt-8"
-      data-pagefind-filter={`type:article, authors:${author.data.name}, ${tags
-        .map((tag) => `articleTags:${tag.id}`)
-        .join(", ")}`}
-    >
-      <header>
+    <article class="pt-16 md:pt-8" data-pagefind-filter="type:article">
+      <header data-pagefind-filter={`authors:${author.data.name}`}>
         <Prose class="max-w-none">
-          <h1>{title}</h1>
+          <h1
+            data-pagefind-filter={`articleTags:${tags
+              .map((tag) => tag.id)
+              .join(", ")}`}
+          >
+            {title}
+          </h1>
         </Prose>
         <Byline {author}>
           {
