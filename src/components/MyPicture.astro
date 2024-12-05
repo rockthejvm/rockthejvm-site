@@ -10,6 +10,7 @@ interface Props {
   width?: number;
   height?: number;
   quality: ImageQuality;
+  searchImage?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   width,
   height,
   quality,
+  searchImage,
 } = Astro.props;
 
 const defaultFormats = ["webp", src.format];
@@ -36,4 +38,5 @@ const defaultFormats = ["webp", src.format];
   {width}
   {height}
   {quality}
+  {...searchImage ? { "data-pagefind-meta": "image[src], image_alt[alt]" } : {}}
 />
