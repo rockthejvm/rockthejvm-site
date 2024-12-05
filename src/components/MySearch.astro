@@ -42,7 +42,13 @@ import Search from "astro-pagefind/components/Search";
         id="modal-panel"
       >
         <!-- Modal content -->
-        <Search id="search" uiOptions={{ showSubResults: true }} />
+        <Search
+          id="search"
+          uiOptions={{
+            showEmptyFilters: false,
+            showSubResults: true,
+          }}
+        />
         <!-- <div class="mt-5 sm:mt-6">
             <button
               id="close-modal"
