@@ -11,7 +11,14 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const { excerpt, publishedDate, tags, title, updatedDate } = article.data;
+const {
+  excerpt,
+  publishedDate: _publishedDate,
+  tags,
+  title,
+  updatedDate: _updatedDate,
+} = article.data;
+const date = _updatedDate ?? _publishedDate;
 const author = await getEntry("authors", article.data.author.id);
 const category = await getEntry("articleCategories", article.data.category.id);
 const entity = author.data.company
@@ -53,7 +60,7 @@ const entity = author.data.company
     </h2>
     <p class="mt-4 text-content-2">
       {getReadingTime(article.body)} min read &nbsp;•&nbsp; {
-        (<FormattedDate date={updatedDate ? updatedDate : publishedDate} />)
+        (<FormattedDate {date} />)
       } &nbsp;•&nbsp; {category.data.name}
     </p>
     <div class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs">

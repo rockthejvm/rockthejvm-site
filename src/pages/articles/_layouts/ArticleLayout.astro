@@ -5,6 +5,7 @@ import Prose from "@components/Prose.astro";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
 import site from "@data/site.json";
+import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry } from "astro:content";
@@ -35,6 +36,7 @@ const {
   updatedDate,
   videoId,
 } = frontmatter;
+const date = updatedDate ?? publishedDate;
 const author = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
@@ -103,15 +105,8 @@ const structuredData = JSON.stringify({
         <Byline {author}>
           {
             minutesRead && (
-              <p
-                data-pagefind-meta={`date:${(updatedDate ?? publishedDate).toISOString()}`}
-              >
-                {minutesRead} min read &nbsp;•&nbsp;{" "}
-                {
-                  <FormattedDate
-                    date={updatedDate ? updatedDate : publishedDate}
-                  />
-                }
+              <p data-pagefind-meta={`date:${formatDate(date)}`}>
+                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}
               </p>
             )
           }
