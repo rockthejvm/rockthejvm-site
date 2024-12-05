@@ -89,7 +89,10 @@ const structuredData = JSON.stringify({
   searchIndexable={true}
 >
   <NarrowContainer>
-    <article class="pt-16 md:pt-8">
+    <article
+      class="pt-16 md:pt-8"
+      data-pagefind-filter={`author:${author.data.name}`}
+    >
       <header>
         <Prose class="max-w-none">
           <h1>{title}</h1>
