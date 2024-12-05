@@ -91,21 +91,21 @@ const structuredData = JSON.stringify({
   searchIndexable={true}
 >
   <NarrowContainer>
-    <article class="pt-16 md:pt-8" data-pagefind-filter="type:article">
-      <header data-pagefind-filter={`authors:${author.data.name}`}>
+    <div data-pagefind-filter="type:article"></div>
+    <div data-pagefind-filter={`authors:${author.data.name}`}></div>
+    {tags.map((tag) => <div data-pagefind-filter={tag.id} />)}
+    <div data-pagefind-meta={`date:${formatDate(date)}`}></div>
+    <article class="pt-16 md:pt-8">
+      <header>
         <Prose class="max-w-none">
-          <h1
-            data-pagefind-filter={`articleTags:${tags
-              .map((tag) => tag.id)
-              .join(", ")}`}
-          >
+          <h1>
             {title}
           </h1>
         </Prose>
         <Byline {author}>
           {
             minutesRead && (
-              <p data-pagefind-meta={`date:${formatDate(date)}`}>
+              <p>
                 {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}
               </p>
             )

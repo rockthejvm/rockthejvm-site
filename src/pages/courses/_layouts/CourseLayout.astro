@@ -161,7 +161,8 @@ const structuredData = JSON.stringify({
   {structuredData}
   searchIndexable={true}
 >
-  <article data-pagefind-filter={`type:course`}>
+  <div data-pagefind-filter="type:course"></div>
+  <article>
     <Hero {description} {heroImage} {pricingPlanId} {title} {active} />
     {
       videoId && (
