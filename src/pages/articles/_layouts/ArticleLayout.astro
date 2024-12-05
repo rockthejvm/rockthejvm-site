@@ -111,7 +111,7 @@ const structuredData = JSON.stringify({
     >
     </div>
     <div data-pagefind-filter={`authors:${author.data.name}`}></div>
-    {tags.map((tag) => <div data-pagefind-filter={tag.id} />)}
+    {tags.map((tag) => <div data-pagefind-filter={`Tags:${tag.id}`} />)}
     <div data-pagefind-meta={`date:${formatDate(date)}`}></div>
     <article class="pt-16 md:pt-8">
       <header>
