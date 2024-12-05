@@ -91,7 +91,9 @@ const structuredData = JSON.stringify({
   <NarrowContainer>
     <article
       class="pt-16 md:pt-8"
-      data-pagefind-filter={`type:article, authors:${author.data.name}`}
+      data-pagefind-filter={`type:article, authors:${author.data.name}, ${tags
+        .map((tag) => `articleTags:${tag.id}`)
+        .join(", ")}`}
     >
       <header>
         <Prose class="max-w-none">
