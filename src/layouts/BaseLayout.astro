@@ -30,11 +30,13 @@ interface Props {
   title: string;
   type?: string;
   error?: boolean;
+  searchIndexable?: boolean;
 }
 
 const {
   article,
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
+  searchIndexable = false,
   forcedTheme,
   description,
   error = false,
@@ -63,7 +65,7 @@ const {
     class={`${isHomePage ? "body-gradient" : ""} min-h-screen ${forcedTheme ? "bg-holiday-bkg" : "bg-bkg"}`}
   >
     <Header showThemeToggle={!forcedTheme} />
-    <main>
+    <main {...searchIndexable ? { "data-pagefind-body": true } : {}}>
       <slot />
     </main>
     <Footer holiday={!!forcedTheme} />
