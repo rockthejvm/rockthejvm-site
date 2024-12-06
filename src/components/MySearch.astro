@@ -125,9 +125,6 @@ import Search from "astro-pagefind/components/Search";
   openModalButton.addEventListener("click", showModal);
   // closeModalButton.addEventListener("click", hideModal);
 
-  // Close the modal when clicking outside of the panel
-  modalBackdrop.addEventListener("click", hideModal);
-
   // Handle keyboard shortcuts
   document.addEventListener("keydown", (event) => {
     const isMac = navigator.platform.toUpperCase().includes("MAC");
