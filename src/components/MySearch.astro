@@ -6,16 +6,18 @@ import Search from "astro-pagefind/components/Search";
 <!-- Button to open the modal -->
 <button
   id="open-modal"
-  class="flex items-center space-x-2 rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black md:bg-gray-800"
+  class="group flex items-center space-x-2 rounded-lg bg-none px-4 py-2 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black md:bg-search"
 >
   <Icon
     name="heroicons:magnifying-glass"
     title="Search"
-    class="size-6 md:size-4"
+    class="size-6 fill-content-1 text-content-1 group-hover:fill-white group-hover:text-white md:size-4"
   />
-  <span class="hidden text-gray-200 lg:inline">Search</span>
+  <span class="hidden text-content-1 group-hover:text-white lg:inline"
+    >Search</span
+  >
   <span
-    class="hidden rounded-md border border-gray-600 bg-gray-950 p-1 text-xs text-gray-400 md:inline"
+    class="hidden rounded-md border border-gray-600 bg-key p-1 text-xs text-content-1 md:inline"
     >Ctrl+K</span
   >
 </button>
@@ -42,7 +44,7 @@ import Search from "astro-pagefind/components/Search";
       class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 lg:items-start"
     >
       <div
-        class="relative max-w-sm translate-y-4 overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left opacity-0 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md sm:translate-y-0 sm:scale-95 sm:p-6 md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl"
+        class="relative max-w-sm translate-y-4 overflow-hidden rounded-lg bg-search px-4 pb-4 pt-5 text-left text-content-1 opacity-0 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md sm:translate-y-0 sm:scale-95 sm:p-6 md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl"
         id="modal-panel"
       >
         <!-- Modal content -->
@@ -155,3 +157,101 @@ import Search from "astro-pagefind/components/Search";
     }
   });
 </script>
+<style is:global>
+  :root {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-border-width: 2px;
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-image-border-radius: 8px;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+  }
+  [data-theme="light"] {
+    --pagefind-ui-primary: var(--menu-surface);
+    --pagefind-ui-text: black;
+    --pagefind-ui-message-text: black;
+    --pagefind-ui-result-title-text: black;
+    --pagefind-ui-result-text: black;
+    /* --pagefind-ui-background: red; */
+    --pagefind-input-background: var(--brand);
+    --pagefind-ui-border: var(--accent1);
+    --pagefind-ui-tag: #0d0a01;
+    --pagefind-button-color: var(--pagefind-ui-text);
+  }
+  [data-theme="dark"] {
+    --pagefind-ui-primary: var(--menu-surface);
+    --pagefind-ui-text: white;
+    --pagefind-ui-message-text: var(--pagefind-ui-text);
+    --pagefind-ui-result-title-text: white;
+    --pagefind-ui-result-text: white;
+    /* --pagefind-ui-background: #83645a; */
+    --pagefind-input-background: var(--brand);
+    --pagefind-ui-border: var(--brand);
+    --pagefind-ui-tag: #b59c94;
+  }
+  #search .pagefind-ui__search-input,
+  #search .pagefind-ui__search-clear {
+    background-color: var(--pagefind-input-background);
+    color: var(--pagefind-ui-text);
+  }
+  #search .pagefind-ui__result-title,
+  #search .pagefind-ui__result-link {
+    display: inline-block;
+    font-weight: 700;
+    font-size: calc(40px * var(--pagefind-ui-scale));
+    color: var(--pagefind-ui-result-title-text);
+  }
+  #search .pagefind-ui__result-excerpt {
+    color: var(--pagefind-ui-result-text);
+    font-weight: 400;
+    font-size: calc(1.5rem * var(--pagefind-ui-scale));
+  }
+  #search .pagefind-ui__message {
+    color: var(--pagefind-ui-message-text);
+    margin: calc(0.5rem * var(--pagefind-ui-scale)) 0
+      calc(1.5rem * var(--pagefind-ui-scale))
+      calc(0.5rem * var(--pagefind-ui-scale));
+  }
+  #search .pagefind-ui__button {
+    color: var(--pagefind-button-color);
+    background: var(--pagefind-button-background);
+  }
+  #search .pagefind-ui__result-thumb {
+    display: none;
+  }
+</style>
+<!-- <style is:global>
+  .pagefind-ui {
+    /* --pagefind-ui-scale: 0.75; */
+    --pagefind-ui-primary: navy;
+    --pagefind-ui-text: black;
+    --pagefind-ui-border: slategrey;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0.25rem;
+
+    width: 50%;
+  }
+
+  .pagefind-ui .pagefind-ui__drawer:not(.pagefind-ui__hidden) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-top: 0px;
+    z-index: 9999;
+    padding: 0 2em 1em;
+    overflow-y: auto;
+    box-shadow:
+      0 10px 10px -5px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    border-bottom-right-radius: var(--pagefind-ui-border-radius);
+    border-bottom-left-radius: var(--pagefind-ui-border-radius);
+    background-color: var(--pagefind-ui-background);
+  }
+
+  .pagefind-ui .pagefind-ui__result-link {
+    color: var(--pagefind-ui-primary);
+  }
+
+  .pagefind-ui .pagefind-ui__result-excerpt {
+    color: var(--pagefind-ui-text);
+  }
+</style> -->

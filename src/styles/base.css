@@ -28,6 +28,9 @@
     --color-text-cta: 217deg 17% 98%;
     --color-tag: 226deg 100% 94%;
 
+    --color-search: 173deg 12% 84%;
+    --color-key: 0deg 0% 88%;
+
     .card-shadow {
       @apply shadow-[0_10px_20px_#000000];
     }
@@ -67,6 +70,9 @@
     --color-text-cta: 217deg 17% 98%;
     --color-cta: 221deg 90% 50%;
     --color-tag: 226deg 100% 94%;
+
+    --color-search: 217deg 32.6% 18%;
+    --color-key: 0deg 0% 11%;
 
     .card-shadow {
       @apply shadow-[0px_4px_50px_0px_#000000];
