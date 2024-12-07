@@ -5,10 +5,91 @@ import tailwind from "@astrojs/tailwind";
 import sectionize from "@hbsnow/rehype-sectionize";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
+import fs from "fs";
+import path from "path";
+
+const articleFiles = new Map();
+
+const articleObjs = [];
+
+function ThroughDirectory(directory, articleDir) {
+  fs.readdirSync(directory).forEach((file) => {
+    const Absolute = path.join(directory, file);
+    let fileName = file.toString();
+
+    if (fileName.indexOf(".") >= 0) {
+      fileName = fileName.substring(0, fileName.indexOf("."));
+    }
+    console.log(`${fileName}, ${directory}, ${articleDir}`);
+    if (fs.statSync(Absolute).isDirectory())
+      return ThroughDirectory(Absolute, fileName);
+    else if (file.endsWith(".mdx") || file.endsWith(".md"))
+      articleFiles.set(fileName == "index" ? articleDir : fileName, Absolute);
+    else console.log("NOTHING DONE");
+  });
+}
+
+function buildArticleJson() {
+  console.log(`Length: ${articleFiles.length}`);
+  articleFiles.forEach((value, key) => {
+    console.log(`${key}, ${value}`);
+    const obj = {
+      slug: key,
+      content: fs.readFileSync(path.join(value), "utf8").substring(0, 3000),
+    };
+    // console.log(obj);
+    articleObjs.push(obj);
+  });
+
+  console.log(articleObjs.length);
+}
+
+// Custom function you want to run
+async function addEmbeddedArticles() {
+  console.log("Starting Astro build...");
+  // Add your logic here
+  // For example, generating data files, cleaning directories, etc.
+
+  const directory = "./src/content/articles"; // Replace with your directory path
+
+  ThroughDirectory(directory, null);
+  buildArticleJson();
+
+  console.log("working");
+  console.log(articleObjs);
+
+  try {
+    const externalResponse = await fetch(
+      "https://related-articles.andrei-023.workers.dev/add_articles",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articles: articleObjs }),
+      },
+    );
+
+    console.log(`RESPONSE: ${(await externalResponse.json()).body}`);
+  } catch (error) {
+    console.error("Error sending files:", error);
+  }
+}
+
+// Custom Astro integration
+function buildStart() {
+  return {
+    name: "my-build-start",
+    hooks: {
+      "astro:build:start": async () => {
+        addEmbeddedArticles();
+      },
+    },
+  };
+}
 
 export default defineConfig({
   site: "https://rockthejvm.com",
   integrations: [
+    buildStart(),
     icon({
       include: {
         "fa6-brands": [
