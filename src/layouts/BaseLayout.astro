@@ -34,7 +34,7 @@ interface Props {
 
 const {
   article,
-  canonicalUrl = new URL(Astro.url.pathname, Astro.site),
+  canonicalUrl = new URL(Astro.url.pathname.replace(/\.html$/, ""), Astro.site),
   forcedTheme,
   description,
   error = false,
