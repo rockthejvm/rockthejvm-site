@@ -35,7 +35,7 @@ function buildArticleJson() {
     console.log(`${key}, ${value}`);
     const obj = {
       slug: key,
-      content: fs.readFileSync(path.join(value), "utf8").substring(0, 3000),
+      content: fs.readFileSync(path.join(value), "utf8").substring(0, 100),
     };
     // console.log(obj);
     articleObjs.push(obj);
