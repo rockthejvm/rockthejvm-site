@@ -41,8 +41,8 @@ const articleSeries = articless.find((articles) =>
         <ol class="divide-y divide-gray-200 px-4 py-5 text-content-1 sm:p-6">
           {articleSeries.map((seriesArticle) =>
             seriesArticle.slug === article.slug ? (
-              <li class="px-6 py-4 text-content">
-                <span class="italic">{seriesArticle.data.title}</span>
+              <li class="py-4 text-content">
+                <span class="px-2 italic">{seriesArticle.data.title}</span>
                 <span class="text-accent-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ const articleSeries = articless.find((articles) =>
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="mx-2 inline-block size-6 align-middle"
+                    class="mr-2 inline-block size-6 align-middle"
                   >
                     <path
                       stroke-linecap="round"
