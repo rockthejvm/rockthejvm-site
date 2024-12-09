@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const articleSeriess = (await getCollection("seriess")).filter(
+  (series) => series.data.members[0].collection === "articles",
+);
+const memberss = articleSeriess.map((series) => series.data.members);
+const articless = await Promise.all(
+  (memberss as CollectionEntry<"articles">[][]).map((members) =>
+    Promise.all(members.map((member) => getEntry("articles", member.slug))),
+  ),
+);
+const articleSeries = articless.find((articles) =>
+  articles.map((article) => article.slug).includes(article.slug),
+);
+---
+
+{
+  articleSeries && (
+    <section>
+      <h2 class="">Missed the previous articles?</h2>
+      <ol>
+        {articleSeries.map((seriesArticle) =>
+          seriesArticle.slug === article.slug ? (
+            <li class="text-content">
+              {seriesArticle.data.title}
+              <span class="text-accent-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="mx-2 inline-block size-6 align-middle"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                  />
+                </svg>
+                <span class="italic text-accent-1">You are here</span>
+              </span>
+            </li>
+          ) : (
+            <li>
+              <a href={`/articles/${seriesArticle.slug}`}>
+                {seriesArticle.data.title}
+              </a>
+            </li>
+          ),
+        )}
+      </ol>
+    </section>
+  )
+}
