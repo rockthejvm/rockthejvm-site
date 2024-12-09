@@ -48,6 +48,7 @@ const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
       : [],
   ],
 );
+const tags = await getEntries(_frontmatter.tags);
 const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
   includedInMembership,
@@ -160,6 +161,17 @@ const structuredData = JSON.stringify({
   image={{ alt: title, src: heroImage.src }}
   {structuredData}
 >
+  {
+    instructors.map((instructor) => (
+      <div data-pagefind-filter={`Authors:${instructor.data.name}`} />
+    ))
+  }
+  {
+    collaborators.map((collaborator) => (
+      <div data-pagefind-filter={`Authors:${collaborator.frontmatter.name}`} />
+    ))
+  }
+  {tags.map((tag) => <div data-pagefind-filter={`Tags:${tag.id}`} />)}
   <article>
     <Hero {description} {heroImage} {pricingPlanId} {title} {active} />
     {
