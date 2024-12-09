@@ -23,7 +23,7 @@ const articleSeries = articless.find((articles) =>
 ---
 
 {
-  articleSeries && (
+  articleSeries && articleSeries[0].slug !== article.slug && (
     <section>
       <WarningAdmonition>
         <h2 class="">Missed the previous articles?</h2>
