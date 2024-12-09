@@ -47,17 +47,14 @@ const articleSeries = articless.find((articles) =>
                       d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
                     />
                   </svg>
-                  <span class="italic text-accent-1">You are here</span>
                 </span>
               </li>
             ) : (
-              seriesArticle.slug(
-                <li>
-                  <a href={`/articles/${seriesArticle.slug}`}>
-                    {seriesArticle.data.title}
-                  </a>
-                </li>,
-              )
+              <li>
+                <a href={`/articles/${seriesArticle.slug}`}>
+                  {seriesArticle.data.title}
+                </a>
+              </li>
             ),
           )}
         </ol>
