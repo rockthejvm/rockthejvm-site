@@ -1,6 +1,5 @@
 ---
-import ArticleSeriesBottom from "@components/ArticleSeriesBottom.astro";
-import ArticleSeriesTop from "@components/ArticleSeriesTop.astro";
+import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
 import SocialShare from "@components/SocialShare.astro";
@@ -123,9 +122,9 @@ const structuredData = JSON.stringify({
           <div id="toc" class="hidden lg:block xl:hidden">
             <TableOfContents {headings} {repositoryUrl} {videoId} />
           </div>
-          <ArticleSeriesTop {article} />
+          <ArticleSeries {article} />
           <slot />
-          <ArticleSeriesBottom {article} />
+          <ArticleSeries {article} />
         </Prose>
         <div
           class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 xl:block"
