@@ -5,7 +5,7 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        description: z.string(),
+        description: z.string().optional(),
         image: image().optional(),
         members: z.union([
           z
