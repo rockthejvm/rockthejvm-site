@@ -126,13 +126,10 @@ const structuredData = JSON.stringify({
           <slot />
           <ArticleSeries {article} open={true} />
         </Prose>
-        <div
-          class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 xl:block"
+        <Prose
+          class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 prose-h2:mt-2 xl:block"
+          ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
         >
-          <Prose class="prose-h2:mt-2"
-            ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
-          >
-        </div>
       </div>
       <footer>
         <div class="hidden lg:block"><SocialShare /></div>
