@@ -109,7 +109,10 @@ const structuredData = JSON.stringify({
           <TagList {tags} />
         </Byline>
         <div class="hidden lg:block"><SocialShare /></div>
-        <ArticleSeries {article} label="Missed a previous article?" />
+        <ArticleSeries
+          {article}
+          label="Missed a previous article in this series?"
+        />
         {videoId && <MyYouTube id={videoId} />}
         <!-- <div class="lg:hidden fixed bottom-4 right-4">
           <a class="flex flex-col align-center justify-center content-center" href="#toc">
