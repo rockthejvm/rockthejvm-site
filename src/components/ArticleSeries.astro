@@ -33,10 +33,10 @@ const articleSeries = articless.find((articles) =>
         <summary class="px-4 py-5 sm:px-6">
           <h2 class="inline underline">{label ?? "Continue reading:"}</h2>
         </summary>
-        <ol class="divide-y divide-gray-200 bg-gray-50 prose-ol:m-0 prose-ol:px-4 prose-ol:py-5 sm:prose-ol:p-6">
+        <ol class="m-0 divide-y divide-gray-200 bg-gray-50 px-4 py-5 sm:p-6">
           {articleSeries.map((seriesArticle) =>
             seriesArticle.slug === article.slug ? (
-              <li class="text-content prose-li:px-6 prose-li:py-4">
+              <li class="px-6 py-4 text-content">
                 <span class="italic">{seriesArticle.data.title}</span>
                 <span class="text-accent-1">
                   <svg
