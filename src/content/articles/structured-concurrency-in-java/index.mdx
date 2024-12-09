@@ -168,9 +168,10 @@ class FindGitHubUserSequentialService implements FindGitHubUserUseCase {
 Despite all the ceremony Java needs, the above code is quite simple. The tasks are performed in sequence, and we expect to wait at least 1.5 seconds for the result.
 
 Although the code could be more efficient, it has a lot of good features:
- 1. It's easy to understand.
- 2. The computation has a clear scope. After the completion of the `findGitHubUser` method, the computation is done, and the JVM knows it can clean up all the used resources used.
- 3. The exception handling management is straightforward.
+
+1.  It's easy to understand.
+1.  The computation has a clear scope. After the completion of the `findGitHubUser` method, the computation is done, and the JVM knows it can clean up all the used resources used.
+1.  The exception handling management is straightforward.
 
 Let's say the `findUserByIdPort.findUser(userId)` call throws an exception:
 
@@ -1649,6 +1650,3 @@ As we promised at the beginning of the article, we provide the full `pom.xml` fi
 </project>
 
 ```
-
-
-
