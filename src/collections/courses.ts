@@ -55,11 +55,6 @@ export default defineCollection({
               path: ["excerpt"],
             },
           ),
-        extra: z
-          .object({
-            title: z.string().max(70, "Title must be at most 70 characters"),
-          })
-          .optional(),
         faqs: z
           .array(
             z
