@@ -23,7 +23,7 @@ interface Props {
 }
 
 const { article, headings, minutesRead } = Astro.props;
-const frontmatter = article.data;
+const _frontmatter = article.data;
 const {
   canonicalUrl,
   description,
@@ -34,12 +34,12 @@ const {
   title,
   updatedDate,
   videoId,
-} = frontmatter;
+} = _frontmatter;
 const author = await getEntry(
-  frontmatter.author.collection,
-  frontmatter.author.id,
+  _frontmatter.author.collection,
+  _frontmatter.author.id,
 );
-const tags = await getEntries(frontmatter.tags);
+const tags = await getEntries(_frontmatter.tags);
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
