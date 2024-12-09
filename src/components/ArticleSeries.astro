@@ -25,7 +25,7 @@ const articleSeries = articless.find((articles) =>
 
 {
   articleSeries && (
-    <section>
+    <section class="py-2">
       <details
         {open}
         class="divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow"
@@ -33,7 +33,7 @@ const articleSeries = articless.find((articles) =>
         <summary class="px-4 py-5 sm:px-6">
           <h2 class="inline underline">{label ?? "Continue reading:"}</h2>
         </summary>
-        <ol class="m-0 divide-y divide-gray-200 bg-gray-50 px-4 py-5 sm:p-6">
+        <ol class="divide-y divide-gray-200 bg-gray-50 px-4 py-5 sm:p-6">
           {articleSeries.map((seriesArticle) =>
             seriesArticle.slug === article.slug ? (
               <li class="px-6 py-4 text-content">
