@@ -29,7 +29,7 @@ const articleSeries = articless.find((articles) =>
         {articleSeries.map((seriesArticle) =>
           seriesArticle.slug === article.slug ? (
             <li class="text-content">
-              {seriesArticle.data.title}
+              <mark class="bg-blue-200">{seriesArticle.data.title}</mark>
               <span class="text-accent-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
