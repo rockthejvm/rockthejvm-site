@@ -109,22 +109,21 @@ const structuredData = JSON.stringify({
           <TagList {tags} />
         </Byline>
         <div class="hidden lg:block"><SocialShare /></div>
+        <ArticleSeries {article} label="Missed a previous article?" />
         {videoId && <MyYouTube id={videoId} />}
-      </header>
-      <!-- <div class="lg:hidden fixed bottom-4 right-4">
-        <a class="flex flex-col align-center justify-center content-center" href="#toc">
-          <div class="mx-auto"><CaretUp /></div>
+        <!-- <div class="lg:hidden fixed bottom-4 right-4">
+          <a class="flex flex-col align-center justify-center content-center" href="#toc">
+            <div class="mx-auto"><CaretUp /></div>
           <TOC />
         </a>
-      </div> -->
+        </div> -->
+      </header>
       <div class="xl:flex xl:flex-row">
         <Prose class="my-4 prose-h2:mt-2">
           <div id="toc" class="hidden lg:block xl:hidden">
             <TableOfContents {headings} {repositoryUrl} {videoId} />
           </div>
-          <ArticleSeries {article} label="Missed a previous article?" />
           <slot />
-          <ArticleSeries {article} open={true} />
         </Prose>
         <Prose
           class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 prose-h2:mt-2 xl:block"
@@ -132,6 +131,7 @@ const structuredData = JSON.stringify({
         >
       </div>
       <footer>
+        <ArticleSeries {article} open={true} />
         <div class="hidden lg:block"><SocialShare /></div>
         <AuthorWide {author} />
       </footer>
