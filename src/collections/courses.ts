@@ -138,6 +138,7 @@ export default defineCollection({
           // .min(30, "Title must be at least 30 characters")
           .max(70, "Title must be at most 70 characters"),
         repositoryUrl: z.string().optional(),
+        updatedDate: z.date().optional(),
         videoId: z.string().optional(),
         hasGoal: z.boolean().default(true),
         hasSkills: z.boolean().default(true),
