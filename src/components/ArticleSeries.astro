@@ -29,14 +29,12 @@ const articleSeries = articless.find((articles) =>
       class:list={[
         "bg-gradient-to-b",
         open ? "from-bkg to-secondary" : "from-secondary to-bkg",
+        "divide-y divide-gray-200 overflow-hidden rounded-md shadow",
       ]}
     >
-      <details
-        {open}
-        class="divide-y divide-gray-200 overflow-hidden rounded-md shadow"
-      >
+      <details {open} class="">
         <summary class="px-4 py-5 text-content-1 sm:px-6">
-          <h2 class="inline underline">{label ?? "Continue reading:"}</h2>
+          <h2 class="inline">{label ?? "Continue reading:"}</h2>
         </summary>
         <ol class="divide-y divide-gray-200 px-4 py-5 text-content-1 sm:p-6">
           {articleSeries.map((seriesArticle) =>
@@ -61,7 +59,7 @@ const articleSeries = articless.find((articles) =>
                 </span>
               </li>
             ) : (
-              <li>
+              <li class="py-4 text-content">
                 <a href={`/articles/${seriesArticle.slug}`}>
                   {seriesArticle.data.title}
                 </a>
