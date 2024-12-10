@@ -55,13 +55,13 @@
 
     --color-bkg: 210deg 40% 10%;
 
-    --color-content1: 217deg 17% 98%;
+    --color-content1: 217deg 17% 92%;
     --color-content2: 217deg 17% 87%;
     --color-accent1: 30deg 70% 75%;
     --color-accent2: 168deg 83.8% 48.2%;
 
     --color-primary: 221deg 90% 43%;
-    --color-secondary: 221deg 70% 30%;
+    --color-secondary: 227deg 43% 24%;
 
     --color-base: 360deg 100% 0%;
     --color-text-cta: 217deg 17% 98%;
@@ -69,7 +69,9 @@
     --color-tag: 226deg 100% 94%;
 
     .card-shadow {
-      @apply shadow-[0px_4px_50px_0px_#000000];
+      @apply shadow-[0px_4px_12px_0px_#000000];
+      @apply border;
+      @apply border-gray-800;
     }
 
     .card-shadow-color {
