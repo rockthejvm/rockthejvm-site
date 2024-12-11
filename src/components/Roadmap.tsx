@@ -5,6 +5,7 @@ import {
   ReactFlow,
   useEdgesState,
   useNodesState,
+  type Connection,
 } from "@xyflow/react";
 import { useCallback } from "react";
 
@@ -21,7 +22,7 @@ export default function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
 
