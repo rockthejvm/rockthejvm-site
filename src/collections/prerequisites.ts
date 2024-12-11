@@ -1,8 +1,8 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, reference, z } from "astro:content";
 import type { ZodType } from "astro:schema";
 
 const courseNode: ZodType = z.object({
-  value: z.string(),
+  value: reference("courses"),
   children: z.array(z.lazy((): ZodType => courseNode)),
 });
 
