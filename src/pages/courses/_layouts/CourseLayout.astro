@@ -197,7 +197,7 @@ const structuredData = JSON.stringify({
         </Features>
       )
     }
-    <Roadmap client:load />
+    {!(bundledCourses.length > 0) && <Roadmap client:load />}
     {technologies && <TechStack {technologies} color={categoryColor} />}
     {
       hasSkills && (
