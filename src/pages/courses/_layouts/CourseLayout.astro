@@ -1,5 +1,6 @@
 ---
 import Profile from "@components/Profile.astro";
+import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
@@ -196,6 +197,7 @@ const structuredData = JSON.stringify({
         </Features>
       )
     }
+    <Roadmap client:load />
     {technologies && <TechStack {technologies} color={categoryColor} />}
     {
       hasSkills && (
