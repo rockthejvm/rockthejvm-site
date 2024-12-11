@@ -191,7 +191,7 @@ const membershipIncludedCardClassNames =
     {
       featuredBundles &&
         featuredBundles.map((bundle) => (
-          <div class="mx-auto my-8 flex max-w-5xl flex-col items-start gap-x-8 gap-y-6 rounded-3xl bg-secondary p-8 ring-2 ring-content-1/10 sm:gap-y-10 sm:p-10 lg:col-span-2 lg:flex-row lg:items-center">
+          <div class="mx-auto my-8 flex max-w-5xl flex-col items-center gap-x-8 gap-y-6 rounded-3xl bg-secondary p-8 ring-2 ring-content-1/10 sm:gap-y-10 sm:p-10 lg:col-span-2 lg:flex-row">
             <MyPicture
               class="rounded-lg"
               width={250}
@@ -200,10 +200,10 @@ const membershipIncludedCardClassNames =
               quality="max"
             />
             <div class="lg:min-w-0 lg:flex-1">
-              <h3 class="text-lg font-semibold leading-8 tracking-tight text-accent-1">
+              <h3 class="text-center text-lg font-semibold leading-8 tracking-tight text-accent-1 lg:text-start">
                 <a href={`/courses/${bundle.slug}`}>{bundle.data.title}</a>
               </h3>
-              <div class="mt-1 text-center text-base leading-7 text-content-1 lg:text-left">
+              <div class="mt-1 text-center text-base leading-7 text-content-1 lg:text-start">
                 <Fragment set:html={bundle.data.excerpt} />
               </div>
             </div>
