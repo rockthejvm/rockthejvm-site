@@ -23,6 +23,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.9",
     "@types/react-dom": "^18.3.0",
+    "@xyflow/react": "^12.3.6",
     "astro": "^4.15.6",
     "astro-embed": "^0.7.2",
     "astro-icon": "^1.1.1",
