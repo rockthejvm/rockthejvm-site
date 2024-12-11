@@ -1,9 +1,15 @@
 import { defineCollection, reference, z } from "astro:content";
-import type { ZodType } from "astro:schema";
 
-const courseNode: ZodType = z.object({
+const baseTreeNodeSchema = z.object({
   value: reference("courses"),
-  children: z.array(z.lazy((): ZodType => courseNode)),
+});
+
+type TreeNode = z.infer<typeof baseTreeNodeSchema> & {
+  children: TreeNode[];
+};
+
+const treeNodeSchema: z.ZodType<TreeNode> = baseTreeNodeSchema.extend({
+  children: z.lazy(() => treeNodeSchema.array()),
 });
 
 export default defineCollection({
@@ -11,7 +17,7 @@ export default defineCollection({
   schema: z
     .object({
       title: z.string(),
-      root: courseNode,
+      root: treeNodeSchema,
     })
     .strict(),
 });
