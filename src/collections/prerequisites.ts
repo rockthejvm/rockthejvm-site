@@ -3,7 +3,7 @@ import { defineCollection, reference, z } from "astro:content";
 const CourseNode = z.lazy(() =>
   z.object({
     course: reference("courses"),
-    children: z.array(CourseNode).optional(),
+    children: z.array(CourseNode),
   }),
 );
 
