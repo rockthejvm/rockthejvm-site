@@ -1,4 +1,4 @@
-interface TreeNode<T> {
+export interface TreeNode<T> {
   value: T;
   children: TreeNode<T>[];
 }
