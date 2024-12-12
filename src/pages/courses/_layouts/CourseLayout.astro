@@ -94,6 +94,11 @@ function difficultyToOrdinal(
       return 0;
   }
 }
+const prerequisites = await getEntry("prerequisites", "scala");
+// const roadmap = await Promise
+//   .all
+//   // prerequisites.data.root
+//   ();
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -197,6 +202,8 @@ const structuredData = JSON.stringify({
         </Features>
       )
     }
+    <h2>{`${prerequisites.data.title} Roadmap`}</h2>
+    roadmap
     {!(bundledCourses.length > 0) && <Roadmap client:load />}
     {technologies && <TechStack {technologies} color={categoryColor} />}
     {
