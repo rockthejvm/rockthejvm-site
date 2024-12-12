@@ -3,6 +3,28 @@ root:
   value: scala-essentials
   children:
     - value: advanced-scala
-      children: []
+      children:
+        - value: cats
+          children:
+            - value: cats-effect
+              children:
+                - value: typelevel-rite-of-passage
+                  children: []
     - value: scala-and-functional-programming-interview-practice
       children: []
+    - value: apache-flink-with-scala
+      children: []
+    - value: apache-spark-essentials-with-scala
+      children:
+        - value: apache-spark-streaming-with-scala
+          children: []
+        - value: apache-spark-optimization-with-scala
+          children: []
+        - value: apache-spark-performance-tuning-with-scala
+          children: []
+    - value: akka-apache-pekko-essentials-with-scala
+      children:
+        - value: akka-apache-pekko-streams-with-scala
+          children:
+            - value: akka-apache-pekko-http-with-scala
+              children: []
