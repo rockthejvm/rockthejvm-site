@@ -113,7 +113,7 @@ interface EdgeTreeNode {
 }
 function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
   return {
-    value: { id: "", source: "", target: "" },
+    value: { id: "", source: "", target: "", animated: true },
     children: root.children.map((child) => ({
       value: {
         id: `${root.value}TO${child.value}`,
@@ -121,7 +121,7 @@ function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
         target: child.value,
         animated: true,
       },
-      children: _slugToEdge(child, root.value).children,
+      children: _slugToEdge(child).children,
     })),
   };
 }
@@ -251,7 +251,6 @@ const structuredData = JSON.stringify({
       )
     }
     <h2>{`${prerequisites.data.title} Roadmap`}</h2>
-    roadmap
     {
       !(bundledCourses.length > 0) && (
         <Roadmap client:load {initialNodes} {initialEdges} />

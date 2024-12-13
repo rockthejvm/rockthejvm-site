@@ -41,7 +41,12 @@ interface Props {
       label: string;
     };
   };
-  initialEdges: Connection[];
+  initialEdges: {
+    id: string;
+    source: string;
+    target: string;
+    animated: boolean;
+  };
 }
 
 export default function App(props: Props) {
