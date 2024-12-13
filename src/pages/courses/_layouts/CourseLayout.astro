@@ -94,7 +94,7 @@ function difficultyToOrdinal(
       return 0;
   }
 }
-const prerequisites = await getEntry("prerequisites", "kotlin");
+const prerequisites = await getEntry("prerequisites", "scala");
 
 type Slug = string;
 interface SlugTreeNode {
@@ -130,6 +130,21 @@ const _treeToList = (root: EdgeTreeNode): Edge[] =>
   root.children.flatMap((child) => [child.value, ..._treeToList(child)]);
 
 const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
+// console.log(JSON.stringify(initialEdges, null, 2));
+const _nodes = [
+  ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
+];
+const initialNodes = _nodes.map((node) => ({
+  id: node,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  data: {
+    label: node,
+  },
+}));
+console.log(initialNodes);
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -235,7 +250,11 @@ const structuredData = JSON.stringify({
     }
     <h2>{`${prerequisites.data.title} Roadmap`}</h2>
     roadmap
-    {!(bundledCourses.length > 0) && <Roadmap client:load {initialEdges} />}
+    {
+      !(bundledCourses.length > 0) && (
+        <Roadmap client:load {initialNodes} {initialEdges} />
+      )
+    }
     {technologies && <TechStack {technologies} color={categoryColor} />}
     {
       hasSkills && (

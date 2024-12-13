@@ -11,31 +11,41 @@ import { useCallback } from "react";
 
 import "@xyflow/react/dist/style.css";
 
-const initialNodes = [
-  {
-    id: "kotlin-essentials",
-    position: { x: 0, y: 0 },
-    data: { label: "kotlin-essentials" },
-  },
-  {
-    id: "kotlin-coroutines-and-concurrency",
-    position: { x: 0, y: 100 },
-    data: { label: "kotlin-coroutines-and-concurrency" },
-  },
-  {
-    id: "advanced-kotlin",
-    position: { x: 0, y: 200 },
-    data: { label: "advanced-kotlin" },
-  },
-];
+// const initialNodes = [
+//   {
+//     id: "kotlin-essentials",
+//     position: { x: 0, y: 0 },
+//     data: { label: "kotlin-essentials" },
+//   },
+//   {
+//     id: "kotlin-coroutines-and-concurrency",
+//     position: { x: 0, y: 100 },
+//     data: { label: "kotlin-coroutines-and-concurrency" },
+//   },
+//   {
+//     id: "advanced-kotlin",
+//     position: { x: 0, y: 200 },
+//     data: { label: "advanced-kotlin" },
+//   },
+// ];
 // const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
 
 interface Props {
+  initialNodes: {
+    id: string;
+    position: {
+      x: number;
+      y: number;
+    };
+    data: {
+      label: string;
+    };
+  };
   initialEdges: Connection[];
 }
 
 export default function App(props: Props) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(props.initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(props.initialEdges);
 
   const onConnect = useCallback(
