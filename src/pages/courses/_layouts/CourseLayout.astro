@@ -95,10 +95,36 @@ function difficultyToOrdinal(
   }
 }
 const prerequisites = await getEntry("prerequisites", "scala");
-// const roadmap = await Promise
-//   .all
-//   // prerequisites.data.root
-//   ();
+
+type Slug = string;
+interface SlugTreeNode {
+  value: Slug;
+  children: SlugTreeNode[];
+}
+interface Edge {
+  id: string;
+  source: string;
+  target: string;
+}
+interface EdgeTreeNode {
+  value: Edge;
+  children: EdgeTreeNode[];
+}
+function _slugToEdge(root: SlugTreeNode, source?: string): EdgeTreeNode {
+  return {
+    value: { id: "", source: "", target: "" },
+    children: root.children.map((child) => ({
+      value: {
+        id: `${root.value}TO${child.value}`,
+        source: root.value,
+        target: child.value,
+      },
+      children: _slugToEdge(child, root.value).children,
+    })),
+  };
+}
+// console.log(JSON.stringify(prerequisites.data.root, null, 2));
+console.log(JSON.stringify(_slugToEdge(prerequisites.data.root), null, 2));
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
