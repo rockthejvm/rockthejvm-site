@@ -110,7 +110,7 @@ interface EdgeTreeNode {
   value: Edge;
   children: EdgeTreeNode[];
 }
-function _slugToEdge(root: SlugTreeNode, source?: string): EdgeTreeNode {
+function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
   return {
     value: { id: "", source: "", target: "" },
     children: root.children.map((child) => ({
@@ -124,7 +124,14 @@ function _slugToEdge(root: SlugTreeNode, source?: string): EdgeTreeNode {
   };
 }
 // console.log(JSON.stringify(prerequisites.data.root, null, 2));
-console.log(JSON.stringify(_slugToEdge(prerequisites.data.root), null, 2));
+// console.log(JSON.stringify(_slugToEdge(prerequisites.data.root), null, 2));
+
+const _treeToList = (root: EdgeTreeNode): Edge[] =>
+  root.children.flatMap((child) => [child.value, ..._treeToList(child)]);
+
+console.log(
+  JSON.stringify(_treeToList(_slugToEdge(prerequisites.data.root)), null, 2),
+);
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
