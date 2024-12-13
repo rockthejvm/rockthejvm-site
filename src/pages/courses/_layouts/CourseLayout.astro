@@ -105,6 +105,7 @@ interface Edge {
   id: string;
   source: string;
   target: string;
+  animated: boolean;
 }
 interface EdgeTreeNode {
   value: Edge;
@@ -118,6 +119,7 @@ function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
         id: `${root.value}TO${child.value}`,
         source: root.value,
         target: child.value,
+        animated: true,
       },
       children: _slugToEdge(child, root.value).children,
     })),
@@ -134,11 +136,11 @@ const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
 const _nodes = [
   ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
 ];
-const initialNodes = _nodes.map((node) => ({
+const initialNodes = _nodes.map((node, index) => ({
   id: node,
   position: {
-    x: 0,
-    y: 0,
+    x: index * 100,
+    y: index * 100,
   },
   data: {
     label: node,
