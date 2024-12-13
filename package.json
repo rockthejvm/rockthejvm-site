@@ -15,6 +15,7 @@
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.0",
+    "@dagrejs/dagre": "^1.1.4",
     "@headlessui/react": "^2.1.8",
     "@heroicons/react": "^2.1.5",
     "@iconify-json/fa6-brands": "^1.2.0",
