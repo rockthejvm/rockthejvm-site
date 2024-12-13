@@ -1,0 +1,4 @@
+title: WebSockets in Scala
+members:
+  - websockers-in-scala-part-1-http4s
+  - websockers-in-scala-part-2-integrating-redis-and-postgresql
