@@ -105,6 +105,7 @@ interface Edge {
   id: string;
   source: string;
   target: string;
+  type: string;
   animated: boolean;
 }
 interface EdgeTreeNode {
@@ -119,6 +120,7 @@ function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
         id: `${root.value}TO${child.value}`,
         source: root.value,
         target: child.value,
+        type: "smoothstep",
         animated: true,
       },
       children: _slugToEdge(child).children,
@@ -136,11 +138,11 @@ const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
 const _nodes = [
   ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
 ];
-const initialNodes = _nodes.map((node, index) => ({
+const initialNodes = _nodes.map((node) => ({
   id: node,
   position: {
-    x: index * 100,
-    y: index * 100,
+    x: 0,
+    y: 0,
   },
   data: {
     label: node,
@@ -253,7 +255,9 @@ const structuredData = JSON.stringify({
     <h2>{`${prerequisites.data.title} Roadmap`}</h2>
     {
       !(bundledCourses.length > 0) && (
-        <Roadmap client:load {initialNodes} {initialEdges} />
+        <div id="app">
+          <Roadmap client:load {initialNodes} {initialEdges} />
+        </div>
       )
     }
     {technologies && <TechStack {technologies} color={categoryColor} />}
@@ -298,3 +302,9 @@ const structuredData = JSON.stringify({
     />
   </article>
 </BaseLayout>
+<style is:global>
+  #app {
+    width: 100vw;
+    height: 100vh;
+  }
+</style>

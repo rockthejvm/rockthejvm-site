@@ -1,34 +1,21 @@
+import dagre from "@dagrejs/dagre";
 import {
   addEdge,
-  Controls,
-  MiniMap,
+  Background,
+  ConnectionLineType,
+  Panel,
   ReactFlow,
   useEdgesState,
   useNodesState,
-  type Connection,
 } from "@xyflow/react";
 import { useCallback } from "react";
 
 import "@xyflow/react/dist/style.css";
 
-// const initialNodes = [
-//   {
-//     id: "kotlin-essentials",
-//     position: { x: 0, y: 0 },
-//     data: { label: "kotlin-essentials" },
-//   },
-//   {
-//     id: "kotlin-coroutines-and-concurrency",
-//     position: { x: 0, y: 100 },
-//     data: { label: "kotlin-coroutines-and-concurrency" },
-//   },
-//   {
-//     id: "advanced-kotlin",
-//     position: { x: 0, y: 200 },
-//     data: { label: "advanced-kotlin" },
-//   },
-// ];
-// const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
+const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
+
+const nodeWidth = 172;
+const nodeHeight = 36;
 
 interface Props {
   initialNodes: {
@@ -49,27 +36,85 @@ interface Props {
   };
 }
 
+const getLayoutedElements = (nodes, edges, direction = "TB") => {
+  const isHorizontal = direction === "LR";
+  dagreGraph.setGraph({ rankdir: direction });
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const newNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    const newNode = {
+      ...node,
+      targetPosition: isHorizontal ? "left" : "top",
+      sourcePosition: isHorizontal ? "right" : "bottom",
+      // We are shifting the dagre node position (anchor=center center) to the top left
+      // so it matches the React Flow node anchor point (top left).
+      position: {
+        x: nodeWithPosition.x - nodeWidth / 2,
+        y: nodeWithPosition.y - nodeHeight / 2,
+      },
+    };
+
+    return newNode;
+  });
+
+  return { nodes: newNodes, edges };
+};
+
 export default function App(props: Props) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(props.initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(props.initialEdges);
+  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+    props.initialNodes,
+    props.initialEdges,
+  );
+  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
 
   const onConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges],
+    (params) =>
+      setEdges((eds) =>
+        addEdge(
+          { ...params, type: ConnectionLineType.SmoothStep, animated: true },
+          eds,
+        ),
+      ),
+    [],
+  );
+  const onLayout = useCallback(
+    (direction) => {
+      const { nodes: layoutedNodes, edges: layoutedEdges } =
+        getLayoutedElements(nodes, edges, direction);
+
+      setNodes([...layoutedNodes]);
+      setEdges([...layoutedEdges]);
+    },
+    [nodes, edges],
   );
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <Controls />
-        <MiniMap />
-      </ReactFlow>
-    </div>
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      connectionLineType={ConnectionLineType.SmoothStep}
+      fitView
+      style={{ backgroundColor: "#F7F9FB" }}
+    >
+      <Panel position="top-right">
+        <button onClick={() => onLayout("TB")}>vertical layout</button>
+        <button onClick={() => onLayout("LR")}>horizontal layout</button>
+      </Panel>
+      <Background />
+    </ReactFlow>
   );
 }
