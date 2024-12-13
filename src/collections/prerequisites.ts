@@ -1,10 +1,10 @@
-import { defineCollection, reference, z } from "astro:content";
+import { defineCollection, z } from "astro:content";
 
 const baseTreeNodeSchema = z.object({
-  value: reference("courses"),
+  value: z.string(), // Should be reference but doesn't type check
 });
 
-type TreeNode = z.infer<typeof baseTreeNodeSchema> & {
+export type TreeNode = z.infer<typeof baseTreeNodeSchema> & {
   children: TreeNode[];
 };
 
