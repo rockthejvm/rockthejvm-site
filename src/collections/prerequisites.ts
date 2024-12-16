@@ -5,6 +5,7 @@ const nodeSchema = reference("courses");
 const edgeSchema = z.object({
   from: reference("courses"),
   to: reference("courses"),
+  optional: z.boolean(),
 });
 
 // const baseTreeNodeSchema = z.object({
