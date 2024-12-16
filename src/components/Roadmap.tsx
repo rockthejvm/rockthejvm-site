@@ -18,7 +18,7 @@ const nodeWidth = 172;
 const nodeHeight = 36;
 
 interface Props {
-  initialNodes: {
+  nodes: {
     id: string;
     position: {
       x: number;
@@ -28,7 +28,7 @@ interface Props {
       label: string;
     };
   };
-  initialEdges: {
+  edges: {
     id: string;
     source: string;
     target: string;
@@ -72,8 +72,8 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
 
 export default function App(props: Props) {
   const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-    props.initialNodes,
-    props.initialEdges,
+    props.nodes,
+    props.edges,
   );
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
