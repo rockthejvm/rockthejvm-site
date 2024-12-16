@@ -1,0 +1,10 @@
+title: Kotlin
+nodes:
+  - advanced-kotlin
+  - kotlin-coroutines-and-concurrency
+  - kotlin-essentials
+edges:
+  - from: kotlin-essentials
+    to: advanced-kotlin
+  - from: kotlin-essentials
+    to: kotlin-coroutines-and-concurrency

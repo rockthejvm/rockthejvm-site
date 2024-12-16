@@ -1,9 +1,14 @@
 ---
 import Profile from "@components/Profile.astro";
+import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  type ReactFlowEdge,
+  type ReactFlowNode,
+} from "../../../types/ReactFlow.ts";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
@@ -93,6 +98,75 @@ function difficultyToOrdinal(
       return 0;
   }
 }
+const prerequisites = await getEntry("prerequisites", "scala");
+
+const reactFlowNodes: ReactFlowNode[] = await Promise.all(
+  prerequisites.data.nodes.map(async (node) => ({
+    id: node.slug,
+    position: { x: 0, y: 0 },
+    data: { label: (await getEntry("courses", node.slug)).data.title },
+  })),
+);
+
+const reactFlowEdges: ReactFlowEdge[] = prerequisites.data.edges.map(
+  (edge) => ({
+    id: `${edge.from.slug}TO${edge.to.slug}`,
+    source: edge.from.slug,
+    target: edge.to.slug,
+    type: "smoothstep",
+    animated: edge.optional ? true : false,
+  }),
+);
+
+// type Slug = string;
+// interface SlugTreeNode {
+//   value: Slug;
+//   children: SlugTreeNode[];
+// }
+// interface Edge {
+//   id: string;
+//   source: string;
+//   target: string;
+//   type: string;
+//   animated: boolean;
+// }
+// interface EdgeTreeNode {
+//   value: Edge;
+//   children: EdgeTreeNode[];
+// }
+// function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
+//   return {
+//     value: { id: "", source: "", target: "", animated: true },
+//     children: root.children.map((child) => ({
+//       value: {
+//         id: `${root.value}TO${child.value}`,
+//         source: root.value,
+//         target: child.value,
+//         type: "smoothstep",
+//         animated: false,
+//       },
+//       children: _slugToEdge(child).children,
+//     })),
+//   };
+// }
+
+// const _treeToList = (root: EdgeTreeNode): Edge[] =>
+//   root.children.flatMap((child) => [child.value, ..._treeToList(child)]);
+
+// const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
+// const _nodes = [
+//   ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
+// ];
+// const initialNodes = _nodes.map((node) => ({
+//   id: node,
+//   position: {
+//     x: 0,
+//     y: 0,
+//   },
+//   data: {
+//     label: node,
+//   },
+// }));
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -196,6 +270,18 @@ const structuredData = JSON.stringify({
         </Features>
       )
     }
+    <h2>{`${prerequisites.data.title} Roadmap`}</h2>
+    {
+      !(bundledCourses.length > 0) && (
+        <div id="app">
+          <Roadmap
+            client:load
+            initialNodes={reactFlowNodes}
+            initialEdges={reactFlowEdges}
+          />
+        </div>
+      )
+    }
     {technologies && <TechStack {technologies} color={categoryColor} />}
     {
       hasSkills && (
@@ -238,3 +324,9 @@ const structuredData = JSON.stringify({
     />
   </article>
 </BaseLayout>
+<style is:global>
+  #app {
+    width: 100vw;
+    height: 100vh;
+  }
+</style>

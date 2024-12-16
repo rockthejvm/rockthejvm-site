@@ -79,8 +79,11 @@
     ".astro/collections/authors.schema.json": ["/src/content/authors/**"],
     ".astro/collections/categories.schema.json": ["/src/content/categories/**"],
     ".astro/collections/companies.schema.json": ["/src/content/companies/**"],
-    "./.astro/collections/memberships.schema.json": [
+    ".astro/collections/memberships.schema.json": [
       "/src/content/memberships/**"
+    ],
+    ".astro/collections/prerequisites.schema.json": [
+      "/src/content/prerequisites/**"
     ],
     ".astro/collections/seriess.schema.json": ["/src/content/seriess/**"],
     ".astro/collections/socials.schema.json": ["/src/content/socials/**"],

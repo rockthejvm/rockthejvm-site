@@ -1,0 +1,61 @@
+title: Scala
+nodes:
+  - advanced-scala
+  - akka-apache-pekko-essentials-with-scala
+  - akka-apache-pekko-http-with-scala
+  - akka-apache-pekko-streams-with-scala
+  - apache-flink-with-scala
+  - apache-spark-essentials-with-scala
+  - apache-spark-optimization-with-scala
+  - apache-spark-performance-tuning-with-scala
+  - apache-spark-streaming-with-scala
+  - cats
+  - cats-effect
+  - scala-and-functional-programming-interview-practice
+  - scala-essentials
+  - typelevel-rite-of-passage
+  - zio
+  - zio-rite-of-passage
+edges:
+  - from: scala-essentials
+    to: advanced-scala
+  - from: advanced-scala
+    to: cats
+  - from: cats
+    to: cats-effect
+  - from: cats-effect
+    to: typelevel-rite-of-passage
+  - from: scala-essentials
+    to: scala-and-functional-programming-interview-practice
+  - from: advanced-scala
+    to: scala-and-functional-programming-interview-practice
+    optional: true
+  - from: scala-essentials
+    to: apache-flink-with-scala
+  - from: advanced-scala
+    to: apache-flink-with-scala
+    optional: true
+  - from: scala-essentials
+    to: apache-spark-essentials-with-scala
+  - from: advanced-scala
+    to: apache-spark-essentials-with-scala
+    optional: true
+  - from: apache-spark-essentials-with-scala
+    to: apache-spark-streaming-with-scala
+  - from: apache-spark-essentials-with-scala
+    to: apache-spark-optimization-with-scala
+  - from: apache-spark-essentials-with-scala
+    to: apache-spark-performance-tuning-with-scala
+  - from: scala-essentials
+    to: akka-apache-pekko-essentials-with-scala
+  - from: advanced-scala
+    to: akka-apache-pekko-essentials-with-scala
+    optional: true
+  - from: akka-apache-pekko-essentials-with-scala
+    to: akka-apache-pekko-streams-with-scala
+  - from: akka-apache-pekko-streams-with-scala
+    to: akka-apache-pekko-http-with-scala
+  - from: advanced-scala
+    to: zio
+  - from: zio
+    to: zio-rite-of-passage
