@@ -1,6 +1,0 @@
-title: ZIO
-root:
-  value: zio
-  children:
-    - value: zio-rite-of-passage
-      children: []

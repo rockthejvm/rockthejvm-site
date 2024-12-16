@@ -28,3 +28,7 @@ root:
           children:
             - value: akka-apache-pekko-http-with-scala
               children: []
+    - value: zio
+      children:
+        - value: zio-rite-of-passage
+          children: []
