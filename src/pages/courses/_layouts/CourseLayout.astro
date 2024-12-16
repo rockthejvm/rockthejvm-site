@@ -103,8 +103,12 @@ const prerequisites = await getEntry("prerequisites", "scala");
 const reactFlowNodes: ReactFlowNode[] = await Promise.all(
   prerequisites.data.nodes.map(async (node) => ({
     id: node.slug,
+    type: "linkNode",
     position: { x: 0, y: 0 },
-    data: { label: (await getEntry("courses", node.slug)).data.title },
+    data: {
+      label: (await getEntry("courses", node.slug)).data.title,
+      href: `/courses/${node.slug}`,
+    },
   })),
 );
 

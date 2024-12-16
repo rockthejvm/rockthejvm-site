@@ -7,10 +7,11 @@ import {
   useNodesState,
   useReactFlow,
 } from "@xyflow/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 import "@xyflow/react/dist/style.css";
 import type { ReactFlowEdge, ReactFlowNode } from "../types/ReactFlow.ts";
+import MyLinkNode from "./MyLinkNode";
 
 interface Props {
   initialNodes: ReactFlowNode[];
@@ -70,6 +71,10 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
     }
   }, [nodes, edges, onLayout]);
 
+  const nodeTypes = {
+    linkNode: MyLinkNode,
+  };
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -77,6 +82,7 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       fitView
+      nodeTypes={nodeTypes}
     >
       <Panel position="top-right">
         <button onClick={() => onLayout("TB")}>vertical layout</button>

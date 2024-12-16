@@ -1,7 +1,11 @@
-import { Handle, NodeProps } from "@xyflow/react";
-import { FC } from "react";
+import { Handle, Position } from "@xyflow/react";
+import { memo } from "react";
 
-const MyLinkNode: FC<NodeProps> = ({ data }) => {
+export default memo(({ data, isConnectable }) => {
+  const handleClick = () => {
+    window.open(data.href, "_blank");
+  };
+
   return (
     <div
       style={{
@@ -9,20 +13,25 @@ const MyLinkNode: FC<NodeProps> = ({ data }) => {
         border: "1px solid #ddd",
         borderRadius: "5px",
         background: "#fff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        position: "relative",
       }}
+      onClick={handleClick}
     >
-      <a
-        href={data.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ color: "#0077cc", textDecoration: "none" }}
-      >
-        {data.label}
-      </a>
-      <Handle type="source" position="right" />
-      <Handle type="target" position="left" />
+      <Handle
+        type="target"
+        position={Position.Top}
+        isConnectable={isConnectable}
+      />
+      {data.label || "Clickable Node"}
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        isConnectable={isConnectable}
+      />
     </div>
   );
-};
-
-export default MyLinkNode;
+});
