@@ -2,10 +2,13 @@
 import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
-import type { ReactFlowEdge, ReactFlowNode } from "@types/ReactFlow";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  type ReactFlowEdge,
+  type ReactFlowNode,
+} from "../../../types/ReactFlow.ts";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
@@ -95,7 +98,7 @@ function difficultyToOrdinal(
       return 0;
   }
 }
-const prerequisites = await getEntry("prerequisites", "kotlin");
+const prerequisites = await getEntry("prerequisites", "scala");
 
 const reactFlowNodes: ReactFlowNode[] = prerequisites.data.nodes.map(
   (node) => ({
@@ -271,7 +274,11 @@ const structuredData = JSON.stringify({
     {
       !(bundledCourses.length > 0) && (
         <div id="app">
-          <Roadmap client:load nodes={reactFlowNodes} edges={reactFlowEdges} />
+          <Roadmap
+            client:load
+            initialNodes={reactFlowNodes}
+            initialEdges={reactFlowEdges}
+          />
         </div>
       )
     }
