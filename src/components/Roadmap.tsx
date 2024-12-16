@@ -10,6 +10,7 @@ import {
 } from "@xyflow/react";
 import { useCallback } from "react";
 
+import type { ReactFlowEdge, ReactFlowNode } from "@types/ReactFlow";
 import "@xyflow/react/dist/style.css";
 
 const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
@@ -18,22 +19,8 @@ const nodeWidth = 172;
 const nodeHeight = 36;
 
 interface Props {
-  nodes: {
-    id: string;
-    position: {
-      x: number;
-      y: number;
-    };
-    data: {
-      label: string;
-    };
-  };
-  edges: {
-    id: string;
-    source: string;
-    target: string;
-    animated: boolean;
-  };
+  nodes: ReactFlowNode[];
+  edges: ReactFlowEdge[];
 }
 
 const getLayoutedElements = (nodes, edges, direction = "TB") => {
