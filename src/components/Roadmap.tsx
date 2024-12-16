@@ -64,6 +64,12 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
     [nodes, edges],
   );
 
+  useEffect(() => {
+    if (nodes.length && edges.length) {
+      onLayout("TB");
+    }
+  }, [nodes, edges, onLayout]);
+
   return (
     <ReactFlow
       nodes={nodes}
