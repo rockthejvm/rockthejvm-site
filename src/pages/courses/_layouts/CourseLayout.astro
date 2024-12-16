@@ -2,6 +2,7 @@
 import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
+import type { ReactFlowEdge, ReactFlowNode } from "@types/ReactFlow";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
@@ -94,61 +95,75 @@ function difficultyToOrdinal(
       return 0;
   }
 }
-const prerequisites = await getEntry("prerequisites", "scala");
+const prerequisites = await getEntry("prerequisites", "kotlin");
 
-type Slug = string;
-interface SlugTreeNode {
-  value: Slug;
-  children: SlugTreeNode[];
-}
-interface Edge {
-  id: string;
-  source: string;
-  target: string;
-  type: string;
-  animated: boolean;
-}
-interface EdgeTreeNode {
-  value: Edge;
-  children: EdgeTreeNode[];
-}
-function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
-  return {
-    value: { id: "", source: "", target: "", animated: true },
-    children: root.children.map((child) => ({
-      value: {
-        id: `${root.value}TO${child.value}`,
-        source: root.value,
-        target: child.value,
-        type: "smoothstep",
-        animated: true,
-      },
-      children: _slugToEdge(child).children,
-    })),
-  };
-}
-// console.log(JSON.stringify(prerequisites.data.root, null, 2));
-// console.log(JSON.stringify(_slugToEdge(prerequisites.data.root), null, 2));
+const reactFlowNodes: ReactFlowNode[] = prerequisites.data.nodes.map(
+  (node) => ({
+    id: node.slug,
+    position: { x: 0, y: 0 },
+    data: { label: node.slug },
+  }),
+);
 
-const _treeToList = (root: EdgeTreeNode): Edge[] =>
-  root.children.flatMap((child) => [child.value, ..._treeToList(child)]);
+const reactFlowEdges: ReactFlowEdge[] = prerequisites.data.edges.map(
+  (edge) => ({
+    id: `${edge.from.slug}TO${edge.to.slug}`,
+    source: edge.from.slug,
+    target: edge.to.slug,
+    type: "smoothstep",
+    animated: edge.optional ? true : false,
+  }),
+);
 
-const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
-// console.log(JSON.stringify(initialEdges, null, 2));
-const _nodes = [
-  ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
-];
-const initialNodes = _nodes.map((node) => ({
-  id: node,
-  position: {
-    x: 0,
-    y: 0,
-  },
-  data: {
-    label: node,
-  },
-}));
-console.log(initialNodes);
+// type Slug = string;
+// interface SlugTreeNode {
+//   value: Slug;
+//   children: SlugTreeNode[];
+// }
+// interface Edge {
+//   id: string;
+//   source: string;
+//   target: string;
+//   type: string;
+//   animated: boolean;
+// }
+// interface EdgeTreeNode {
+//   value: Edge;
+//   children: EdgeTreeNode[];
+// }
+// function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
+//   return {
+//     value: { id: "", source: "", target: "", animated: true },
+//     children: root.children.map((child) => ({
+//       value: {
+//         id: `${root.value}TO${child.value}`,
+//         source: root.value,
+//         target: child.value,
+//         type: "smoothstep",
+//         animated: false,
+//       },
+//       children: _slugToEdge(child).children,
+//     })),
+//   };
+// }
+
+// const _treeToList = (root: EdgeTreeNode): Edge[] =>
+//   root.children.flatMap((child) => [child.value, ..._treeToList(child)]);
+
+// const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
+// const _nodes = [
+//   ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
+// ];
+// const initialNodes = _nodes.map((node) => ({
+//   id: node,
+//   position: {
+//     x: 0,
+//     y: 0,
+//   },
+//   data: {
+//     label: node,
+//   },
+// }));
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -256,7 +271,7 @@ const structuredData = JSON.stringify({
     {
       !(bundledCourses.length > 0) && (
         <div id="app">
-          <Roadmap client:load {initialNodes} {initialEdges} />
+          <Roadmap client:load nodes={reactFlowNodes} edges={reactFlowEdges} />
         </div>
       )
     }
