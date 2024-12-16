@@ -100,12 +100,12 @@ function difficultyToOrdinal(
 }
 const prerequisites = await getEntry("prerequisites", "scala");
 
-const reactFlowNodes: ReactFlowNode[] = prerequisites.data.nodes.map(
-  (node) => ({
+const reactFlowNodes: ReactFlowNode[] = await Promise.all(
+  prerequisites.data.nodes.map(async (node) => ({
     id: node.slug,
     position: { x: 0, y: 0 },
-    data: { label: node.slug },
-  }),
+    data: { label: (await getEntry("courses", node.slug)).data.title },
+  })),
 );
 
 const reactFlowEdges: ReactFlowEdge[] = prerequisites.data.edges.map(
