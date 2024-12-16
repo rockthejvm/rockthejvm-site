@@ -1,8 +1,10 @@
 title: Kotlin
-root:
-  value: kotlin-essentials
-  children:
-    - value: kotlin-coroutines-and-concurrency
-      children: []
-    - value: advanced-kotlin
-      children: []
+nodes:
+  - advanced-kotlin
+  - kotlin-coroutines-and-concurrency
+  - kotlin-essentials
+edges:
+  - from: kotlin-essentials
+    to: advanced-kotlin
+  - from: kotlin-essentials
+    to: kotlin-coroutines-and-concurrency
