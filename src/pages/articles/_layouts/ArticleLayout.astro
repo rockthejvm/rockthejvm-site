@@ -15,6 +15,7 @@ import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
+import NewsletterSection from "../_components/NewsletterSection.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -133,9 +134,10 @@ const structuredData = JSON.stringify({
         >
       </div>
       <footer>
-        <ArticleSeries {article} open={true} />
         <div class="hidden lg:block"><SocialShare /></div>
+        <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
+        <NewsletterSection />
       </footer>
     </article>
   </NarrowContainer>
