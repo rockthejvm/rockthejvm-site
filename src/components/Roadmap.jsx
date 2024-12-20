@@ -10,7 +10,7 @@ import {
 import { useCallback, useEffect } from "react";
 
 import "@xyflow/react/dist/style.css";
-import MyLinkNode from "./MyLinkNode.tsx";
+import MyLinkNode from "./MyLinkNode";
 
 const getLayoutedElements = (nodes, edges, options) => {
   const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
