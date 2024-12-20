@@ -114,6 +114,7 @@ const reactFlowNodes: ReactFlowNode[] = await Promise.all(
     type: "linkNode",
     position: { x: 0, y: 0 },
     data: {
+      difficulty: (await getEntry("courses", node.slug)).data.difficulty,
       label: (await getEntry("courses", node.slug)).data.title,
       href: `/courses/${node.slug}`,
     },
