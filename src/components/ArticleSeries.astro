@@ -32,8 +32,8 @@ const articleSeries = articless.find((articles) =>
         "divide-y divide-gray-200 overflow-hidden rounded-md shadow",
       ]}
     >
-      <details {open} class="">
-        <summary class="px-4 py-5 text-content-1 sm:px-6">
+      <details {open}>
+        <summary class="cursor-pointer list-none px-4 py-5 text-content-1 sm:px-6">
           <h2 class="inline">{label ?? "Continue reading:"}</h2>
         </summary>
         <ol class="divide-y divide-gray-200 px-4 py-5 text-content-1 sm:p-6">
