@@ -1,6 +1,5 @@
 import Dagre from "@dagrejs/dagre";
 import {
-  Panel,
   ReactFlow,
   ReactFlowProvider,
   useEdgesState,
@@ -78,10 +77,10 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
       fitView
       nodeTypes={nodeTypes}
     >
-      <Panel position="top-right">
+      {/* <Panel position="top-right">
         <button onClick={() => onLayout("TB")}>vertical layout</button>
         <button onClick={() => onLayout("LR")}>horizontal layout</button>
-      </Panel>
+      </Panel> */}
     </ReactFlow>
   );
 };
