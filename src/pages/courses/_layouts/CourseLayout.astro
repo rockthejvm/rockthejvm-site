@@ -3,7 +3,12 @@ import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
-import { getEntries, getEntry, type CollectionEntry } from "astro:content";
+import {
+  getCollection,
+  getEntries,
+  getEntry,
+  type CollectionEntry,
+} from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
   type ReactFlowEdge,
@@ -98,7 +103,10 @@ function difficultyToOrdinal(
       return 0;
   }
 }
-const prerequisites = await getEntry("prerequisites", "scala");
+const prerequisitess = await getCollection("prerequisites");
+const prerequisites = prerequisitess.find((prerequisites) =>
+  prerequisites.data.nodes.find((node) => node.slug === course.slug),
+);
 
 const reactFlowNodes: ReactFlowNode[] = await Promise.all(
   prerequisites.data.nodes.map(async (node) => ({
