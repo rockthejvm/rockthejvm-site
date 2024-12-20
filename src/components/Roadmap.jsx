@@ -10,13 +10,7 @@ import {
 import { useCallback, useEffect } from "react";
 
 import "@xyflow/react/dist/style.css";
-import type { ReactFlowEdge, ReactFlowNode } from "../types/ReactFlow.ts";
-import MyLinkNode from "./MyLinkNode";
-
-interface Props {
-  initialNodes: ReactFlowNode[];
-  initialEdges: ReactFlowEdge[];
-}
+import MyLinkNode from "./MyLinkNode.tsx";
 
 const getLayoutedElements = (nodes, edges, options) => {
   const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
@@ -92,7 +86,7 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
   );
 };
 
-export default function (props: Props) {
+export default function (props) {
   return (
     <ReactFlowProvider>
       <LayoutFlow {...props} />
