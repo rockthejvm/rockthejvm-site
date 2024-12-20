@@ -106,7 +106,7 @@ function difficultyToOrdinal(
 const prerequisitess = await getCollection("prerequisites");
 const prerequisites = prerequisitess.find((prerequisites) =>
   prerequisites.data.nodes.find((node) => node.slug === course.slug),
-);
+)!;
 
 const reactFlowNodes: ReactFlowNode[] = await Promise.all(
   prerequisites.data.nodes.map(async (node) => ({
