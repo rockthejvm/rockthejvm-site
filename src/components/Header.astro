@@ -11,10 +11,6 @@ const { showThemeToggle } = Astro.props;
 ---
 
 <HeaderHelper client:media="(width < 1024px)" holiday={!showThemeToggle}>
-  <RockTheJVM
-    class="h-10 w-auto sm:h-11 md:h-12 lg:h-14"
-    suffix="-black-friday"
-    slot="logo"
-  />
+  <RockTheJVM class="h-10 w-auto sm:h-11 md:h-12 lg:h-14" slot="logo" />
   {showThemeToggle && <ThemeToggle id="themeToggle" slot="themeToggle" />}
 </HeaderHelper>
