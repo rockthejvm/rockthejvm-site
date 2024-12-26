@@ -56,7 +56,10 @@ export default defineConfig({
     "/p/team-pack": "/memberships",
     "/p/terms": "/legal/terms",
     "/black-friday-2024": "/black-friday",
-    "/black-friday": "/",
+    "/black-friday": {
+      status: 302,
+      destination: "/",
+    },
     // Courses
     "/p/advanced-kotlin": "/courses/advanced-kotlin",
     "/p/advanced-scala": "/courses/advanced-scala",
