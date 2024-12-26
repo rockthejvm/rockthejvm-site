@@ -55,11 +55,7 @@ export default defineConfig({
     "/p/privacy": "/legal/privacy",
     "/p/team-pack": "/memberships",
     "/p/terms": "/legal/terms",
-    // Holiday
-    "/black-friday-2024": {
-      status: 301,
-      destination: "/black-friday",
-    },
+    "/black-friday-2024": "/black-friday",
     "/black-friday": "/",
     // Courses
     "/p/advanced-kotlin": "/courses/advanced-kotlin",
