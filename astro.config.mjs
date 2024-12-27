@@ -12,7 +12,7 @@ const articleFiles = new Map();
 
 const articleObjs = [];
 
-function ThroughDirectory(directory, articleDir) {
+function readDirectory(directory, articleDir) {
   fs.readdirSync(directory).forEach((file) => {
     const Absolute = path.join(directory, file);
     let fileName = file.toString();
@@ -20,43 +20,36 @@ function ThroughDirectory(directory, articleDir) {
     if (fileName.indexOf(".") >= 0) {
       fileName = fileName.substring(0, fileName.indexOf("."));
     }
-    console.log(`${fileName}, ${directory}, ${articleDir}`);
+
     if (fs.statSync(Absolute).isDirectory())
-      return ThroughDirectory(Absolute, fileName);
+      return readDirectory(Absolute, fileName);
     else if (file.endsWith(".mdx") || file.endsWith(".md"))
       articleFiles.set(fileName == "index" ? articleDir : fileName, Absolute);
-    else console.log("NOTHING DONE");
   });
 }
 
 function buildArticleJson() {
-  console.log(`Length: ${articleFiles.length}`);
   articleFiles.forEach((value, key) => {
-    console.log(`${key}, ${value}`);
     const obj = {
       slug: key,
       content: fs.readFileSync(path.join(value), "utf8").substring(0, 100),
     };
-    // console.log(obj);
     articleObjs.push(obj);
   });
 
-  console.log(articleObjs.length);
+  console.log(`Read ${articleObjs.length} articles.`);
 }
 
 // Custom function you want to run
 async function addEmbeddedArticles() {
-  console.log("Starting Astro build...");
+  console.log("Vectorizing articles...");
   // Add your logic here
   // For example, generating data files, cleaning directories, etc.
 
   const directory = "./src/content/articles"; // Replace with your directory path
 
-  ThroughDirectory(directory, null);
+  readDirectory(directory, null);
   buildArticleJson();
-
-  console.log("working");
-  console.log(articleObjs);
 
   try {
     const externalResponse = await fetch(
@@ -68,7 +61,7 @@ async function addEmbeddedArticles() {
       },
     );
 
-    console.log(`RESPONSE: ${(await externalResponse.json()).body}`);
+    console.log("Uploaded articles");
   } catch (error) {
     console.error("Error sending files:", error);
   }
