@@ -12,9 +12,11 @@ export default function Example({ article, articleSeries, label, open }) {
   return (
     <details open={open} onClick={handleClick}>
       <summary className="cursor-pointer list-none px-4 py-5 text-content-1 sm:px-6">
-        <div className="flex flex-row justify-between">
-          <h2 className="inline max-w-full">{label ?? "Continue reading:"}</h2>{" "}
-          <p className="text-3xl">{detailsOpen ? "▼" : "►"}</p>
+        <div className="flex flex-row items-center justify-start">
+          <span className="text-3xl">{detailsOpen ? "⮛" : "➣"}</span>
+          <h2 className="inline max-w-full">
+            {label ?? "Continue reading:"}
+          </h2>{" "}
         </div>
       </summary>
       <ol className="divide-y divide-gray-200 px-4 py-5 text-content-1 sm:p-6">
