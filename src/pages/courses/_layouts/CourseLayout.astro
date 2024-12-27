@@ -106,30 +106,31 @@ function difficultyToOrdinal(
 const prerequisitess = await getCollection("prerequisites");
 const prerequisites = prerequisitess.find((prerequisites) =>
   prerequisites.data.nodes.find((node) => node.slug === course.slug),
-)!;
-
-const reactFlowNodes: ReactFlowNode[] = await Promise.all(
-  prerequisites.data.nodes.map(async (node) => ({
-    id: node.slug,
-    type: "linkNode",
-    position: { x: 0, y: 0 },
-    data: {
-      difficulty: (await getEntry("courses", node.slug)).data.difficulty,
-      label: (await getEntry("courses", node.slug)).data.title,
-      href: `/courses/${node.slug}`,
-    },
-  })),
 );
 
-const reactFlowEdges: ReactFlowEdge[] = prerequisites.data.edges.map(
-  (edge) => ({
+const reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
+  ? await Promise.all(
+      prerequisites?.data.nodes.map(async (node) => ({
+        id: node.slug,
+        type: "linkNode",
+        position: { x: 0, y: 0 },
+        data: {
+          difficulty: (await getEntry("courses", node.slug)).data.difficulty,
+          label: (await getEntry("courses", node.slug)).data.title,
+          href: `/courses/${node.slug}`,
+        },
+      })),
+    )
+  : undefined;
+
+const reactFlowEdges: ReactFlowEdge[] | undefined =
+  prerequisites?.data.edges.map((edge) => ({
     id: `${edge.from.slug}TO${edge.to.slug}`,
     source: edge.from.slug,
     target: edge.to.slug,
     type: "smoothstep",
     animated: edge.optional ? true : false,
-  }),
-);
+  }));
 
 // type Slug = string;
 // interface SlugTreeNode {
@@ -283,16 +284,20 @@ const structuredData = JSON.stringify({
         </Features>
       )
     }
-    <h2>{`${prerequisites.data.title} Roadmap`}</h2>
     {
-      !(bundledCourses.length > 0) && (
-        <div id="app">
-          <Roadmap
-            client:load
-            initialNodes={reactFlowNodes}
-            initialEdges={reactFlowEdges}
-          />
-        </div>
+      prerequisites && (
+        <Fragment>
+          <h2>{`${prerequisites.data.title} Roadmap`}</h2>
+          {!(bundledCourses.length > 0) && (
+            <div id="app">
+              <Roadmap
+                client:load
+                initialNodes={reactFlowNodes}
+                initialEdges={reactFlowEdges}
+              />
+            </div>
+          )}
+        </Fragment>
       )
     }
     {technologies && <TechStack {technologies} color={categoryColor} />}
