@@ -2,19 +2,15 @@
 
 import { useState } from "react";
 
-export default function Example(props) {
+export default function Example({ article, articleSeries, label, open }) {
   const [detailsOpen, setDetailsOpen] = useState(false);
-
-  const articleSeries = props.articleSeries;
-  const article = props.article;
-  const label = props.label;
 
   const handleClick = () => {
     setDetailsOpen(!detailsOpen);
   };
 
   return (
-    <details open={props.open} onClick={handleClick}>
+    <details open={open} onClick={handleClick}>
       <summary class="cursor-pointer list-none px-4 py-5 text-content-1 sm:px-6">
         <div class="flex flex-row justify-between">
           <h2 class="inline max-w-full">{label ?? "Continue reading:"}</h2>{" "}

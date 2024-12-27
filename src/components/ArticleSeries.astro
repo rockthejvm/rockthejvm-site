@@ -1,5 +1,5 @@
 ---
-import ArticleSeries from "@components/ArticleSeries";
+import ArticleSeriesHelper from "@components/ArticleSeriesHelper";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 
@@ -33,7 +33,7 @@ const articleSeries = articless.find((articles) =>
         "divide-y divide-gray-200 overflow-hidden rounded-md shadow",
       ]}
     >
-      <ArticleSeries
+      <ArticleSeriesHelper
         {article}
         {articleSeries}
         {open}
