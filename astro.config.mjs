@@ -9,6 +9,10 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://rockthejvm.com",
+  trailingSlash: "never",
+  build: {
+    format: "file",
+  },
   integrations: [
     icon({
       include: {
@@ -53,6 +57,11 @@ export default defineConfig({
     "/p/privacy": "/legal/privacy",
     "/p/team-pack": "/memberships",
     "/p/terms": "/legal/terms",
+    "/black-friday-2024": "/black-friday",
+    "/black-friday": {
+      status: 302,
+      destination: "/",
+    },
     // Courses
     "/p/advanced-kotlin": "/courses/advanced-kotlin",
     "/p/advanced-scala": "/courses/advanced-scala",

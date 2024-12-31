@@ -16,5 +16,6 @@ export async function GET(context) {
     site: context.site,
     stylesheet: "/rss/styles.xsl",
     title: `${site.name} Articles`,
+    trailingSlash: false,
   });
 }

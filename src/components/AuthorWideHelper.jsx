@@ -54,7 +54,7 @@ export default function Example(props) {
             {props.socials.linkedin && (
               <li>
                 <a
-                  href={`https://www.linkedin.com/${props.socials.linkedin}`}
+                  href={`https://www.linkedin.com/in/${props.socials.linkedin}`}
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
