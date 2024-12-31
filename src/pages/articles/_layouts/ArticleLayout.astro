@@ -4,6 +4,7 @@ import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
+import { all_matches } from "@data/matchedArticles.json";
 import site from "@data/site.json";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
@@ -61,6 +62,8 @@ const structuredData = JSON.stringify({
   headline: title,
   image: heroImage?.image.src,
 });
+
+console.log(all_matches);
 ---
 
 <BaseLayout
