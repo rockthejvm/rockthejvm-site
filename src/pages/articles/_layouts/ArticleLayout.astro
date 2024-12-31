@@ -15,6 +15,7 @@ import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
+import NewsletterSection from "../_components/NewsletterSection.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -109,33 +110,34 @@ const structuredData = JSON.stringify({
           <TagList {tags} />
         </Byline>
         <div class="hidden lg:block"><SocialShare /></div>
+        <div class="my-5">
+          <ArticleSeries {article} label="This article is part of a series" />
+        </div>
         {videoId && <MyYouTube id={videoId} />}
-      </header>
-      <!-- <div class="lg:hidden fixed bottom-4 right-4">
-        <a class="flex flex-col align-center justify-center content-center" href="#toc">
-          <div class="mx-auto"><CaretUp /></div>
+        <!-- <div class="lg:hidden fixed bottom-4 right-4">
+          <a class="flex flex-col align-center justify-center content-center" href="#toc">
+            <div class="mx-auto"><CaretUp /></div>
           <TOC />
         </a>
-      </div> -->
+        </div> -->
+      </header>
       <div class="xl:flex xl:flex-row">
         <Prose class="my-4 prose-h2:mt-2">
           <div id="toc" class="hidden lg:block xl:hidden">
             <TableOfContents {headings} {repositoryUrl} {videoId} />
           </div>
           <slot />
-          <ArticleSeries {article} />
         </Prose>
-        <div
-          class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 xl:block"
+        <Prose
+          class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 prose-h2:mt-2 xl:block"
+          ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
         >
-          <Prose class="prose-h2:mt-2"
-            ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
-          >
-        </div>
       </div>
       <footer>
         <div class="hidden lg:block"><SocialShare /></div>
+        <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
+        <NewsletterSection />
       </footer>
     </article>
   </NarrowContainer>
