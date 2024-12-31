@@ -1,3 +1,4 @@
+import { unique } from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
@@ -55,11 +56,6 @@ export default defineCollection({
               path: ["excerpt"],
             },
           ),
-        extra: z
-          .object({
-            title: z.string().max(70, "Title must be at most 70 characters"),
-          })
-          .optional(),
         faqs: z
           .array(
             z
@@ -100,6 +96,7 @@ export default defineCollection({
         isFree: z.boolean().default(false),
         isNew: z.boolean().default(false),
         pricingPlanId: z.number().int().positive(),
+        publishedDate: z.date(),
         question: z
           .object({
             image: image(),
@@ -107,6 +104,13 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        tags: unique(
+          z
+            .array(reference("tags"))
+            .min(1, "Course must have at least one tag")
+            .max(10, "Course must have at most ten tags"),
+          "tags",
+        ),
         technologies: z
           .array(
             z
@@ -134,6 +138,7 @@ export default defineCollection({
           // .min(30, "Title must be at least 30 characters")
           .max(70, "Title must be at most 70 characters"),
         repositoryUrl: z.string().optional(),
+        updatedDate: z.date().optional(),
         videoId: z.string().optional(),
         hasGoal: z.boolean().default(true),
         hasSkills: z.boolean().default(true),
