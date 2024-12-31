@@ -6,6 +6,110 @@ import sectionize from "@hbsnow/rehype-sectionize";
 import icon from "astro-icon";
 import pagefind from "astro-pagefind";
 import { defineConfig } from "astro/config";
+import fs from "fs";
+import path from "path";
+
+const articleFiles = new Map();
+
+const articleObjs = [];
+
+export var articleMatches = [];
+
+function readDirectory(directory, articleDir) {
+  fs.readdirSync(directory).forEach((file) => {
+    const Absolute = path.join(directory, file);
+    let fileName = file.toString();
+
+    if (fileName.indexOf(".") >= 0) {
+      fileName = fileName.substring(0, fileName.indexOf("."));
+    }
+
+    if (fs.statSync(Absolute).isDirectory())
+      return readDirectory(Absolute, fileName);
+    else if (file.endsWith(".mdx") || file.endsWith(".md"))
+      articleFiles.set(fileName == "index" ? articleDir : fileName, Absolute);
+  });
+}
+
+function buildArticleJson() {
+  articleFiles.forEach((value, key) => {
+    const obj = {
+      slug: key,
+      content: fs.readFileSync(path.join(value), "utf8").substring(0, 100),
+    };
+    articleObjs.push(obj);
+  });
+
+  console.log(`Read ${articleObjs.length} articles.`);
+}
+
+// Custom function you want to run
+async function addEmbeddedArticles() {
+  console.log("Vectorizing articles...");
+  // Add your logic here
+  // For example, generating data files, cleaning directories, etc.
+
+  const directory = "./src/content/articles"; // Replace with your directory path
+
+  readDirectory(directory, null);
+  buildArticleJson();
+
+  try {
+    const externalResponse = await fetch(
+      "https://related-articles.andrei-023.workers.dev/add_articles",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articles: articleObjs }),
+      },
+    );
+
+    console.log("Uploaded articles");
+  } catch (error) {
+    console.error("Error sending files:", error);
+  }
+}
+
+async function getArticleMatches() {
+  try {
+    const res = await fetch(
+      "https://related-articles.andrei-023.workers.dev/match_articles",
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+
+    const body = await res.json();
+
+    fs.writeFile(
+      "src/data/matchedArticles.json",
+      JSON.stringify(body),
+      (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("JSON data saved to data.json");
+      },
+    );
+  } catch (error) {
+    console.error("Error sending files:", error);
+  }
+}
+
+// Custom Astro integration
+function buildStart() {
+  return {
+    name: "my-build-start",
+    hooks: {
+      "astro:build:start": async () => {
+        await addEmbeddedArticles();
+        await getArticleMatches();
+      },
+    },
+  };
+}
 
 export default defineConfig({
   site: "https://rockthejvm.com",
@@ -14,6 +118,7 @@ export default defineConfig({
     format: "file",
   },
   integrations: [
+    buildStart(),
     icon({
       include: {
         "fa6-brands": [
