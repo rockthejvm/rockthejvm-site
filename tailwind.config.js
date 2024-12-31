@@ -63,6 +63,8 @@ export default {
         cta: "hsl(var(--color-cta) / <alpha-value>)",
         ctatext: "hsl(var(--color-text-cta) / <alpha-value>)",
         tag: "hsl(var(--color-tag) / <alpha-value>)",
+        search: "hsl(var(--color-search) / <alpha-value>)",
+        key: "hsl(var(--color-key) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Montserrat", ...defaultTheme.fontFamily.sans],

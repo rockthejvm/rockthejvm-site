@@ -1,0 +1,189 @@
+---
+import { Icon } from "astro-icon/components";
+import Search from "astro-pagefind/components/Search";
+---
+
+<!-- Button to open the modal -->
+<button
+  id="open-modal"
+  class="group flex items-center space-x-2 rounded-lg bg-none px-4 py-2 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black md:bg-search"
+>
+  <Icon
+    name="heroicons:magnifying-glass"
+    title="Search"
+    class="size-6 fill-content-1 text-content-1 group-hover:fill-white group-hover:text-white md:size-4"
+  />
+  <span class="hidden text-content-1 group-hover:text-white lg:inline"
+    >Search</span
+  >
+  <span
+    class="hidden rounded-md border border-gray-600 bg-key p-1 text-xs text-content-1 md:inline"
+    >Ctrl+K</span
+  >
+</button>
+
+<!-- Modal container -->
+<div
+  id="modal"
+  class="relative z-50 hidden"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <!-- Background backdrop -->
+  <div
+    id="modal-backdrop"
+    class="fixed inset-0 bg-gray-500/75 opacity-0 transition-opacity"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Modal panel -->
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div
+      class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 lg:items-start"
+    >
+      <div
+        class="relative max-w-sm translate-y-4 overflow-hidden rounded-lg bg-search px-4 pb-4 pt-5 text-left text-content-1 opacity-0 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md sm:translate-y-0 sm:scale-95 sm:p-6 md:max-w-xl lg:max-w-2xl xl:max-w-4xl 2xl:max-w-5xl"
+        id="modal-panel"
+      >
+        <!-- Modal content -->
+        <Search
+          id="search"
+          uiOptions={{
+            showEmptyFilters: false,
+            showSubResults: true,
+          }}
+        />
+        <!-- <div class="mt-5 sm:mt-6">
+            <button
+              id="close-modal"
+              type="button"
+              class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Close
+            </button>
+          </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const openModalButton = document.getElementById("open-modal");
+  // const closeModalButton = document.getElementById("close-modal");
+  const modal = document.getElementById("modal");
+  const modalBackdrop = document.getElementById("modal-backdrop");
+  const modalPanel = document.getElementById("modal-panel");
+
+  if (!openModalButton || !modal || !modalBackdrop || !modalPanel) {
+    throw new Error("Could not find the modal elements");
+  }
+
+  // Show the modal
+  function showModal() {
+    if (!modal || !modalBackdrop || !modalPanel) {
+      return;
+    }
+
+    modal.classList.remove("hidden");
+    modalBackdrop.classList.add("opacity-100");
+    modalBackdrop.classList.remove("opacity-0");
+    modalPanel.classList.add("opacity-100", "translate-y-0", "sm:scale-100");
+    modalPanel.classList.remove(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
+
+    // Focus on the input field inside the Astro component
+    const searchInput = document.querySelector(
+      '#search input[type="text"]',
+    ) as HTMLInputElement;
+    if (searchInput) {
+      searchInput.focus();
+    }
+  }
+
+  // Hide the modal
+  function hideModal() {
+    if (!modal || !modalBackdrop || !modalPanel) {
+      return;
+    }
+
+    modal.classList.add("hidden");
+    modalBackdrop.classList.add("opacity-0");
+    modalBackdrop.classList.remove("opacity-100");
+    modalPanel.classList.add(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
+    modalPanel.classList.remove("opacity-100", "translate-y-0", "sm:scale-100");
+  }
+
+  openModalButton.addEventListener("click", showModal);
+  // closeModalButton.addEventListener("click", hideModal);
+
+  // Handle keyboard shortcuts
+  document.addEventListener("keydown", (event) => {
+    const isMac = navigator.platform.toUpperCase().includes("MAC");
+    const ctrlOrCmdKey = isMac ? event.metaKey : event.ctrlKey;
+
+    // Open the modal with Ctrl+K or Cmd+K
+    if (ctrlOrCmdKey && event.key === "k") {
+      event.preventDefault(); // Prevent default browser behavior
+      showModal();
+    }
+
+    // Close the modal with the "Escape" key
+    if (event.key === "Escape") {
+      hideModal();
+    }
+  });
+
+  // Close the modal when clicking outside the modal content
+  modal.addEventListener("click", ({ target }) => {
+    const modalPanel = document.getElementById("modal-panel");
+
+    if (!modalPanel) {
+      return;
+    }
+
+    if (!modalPanel.contains(target as Node | null)) {
+      hideModal();
+    }
+  });
+</script>
+<style is:global>
+  :root {
+    --pagefind-ui-border-width: 2px;
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-image-border-radius: 8px;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+  }
+  [data-theme="light"] {
+    --pagefind-ui-primary: var(--menu-surface);
+    --pagefind-ui-text: hsl(217, 32.6%, 17.5%);
+    --pagefind-ui-message-text: hsl(217, 32.6%, 17.5%);
+    --pagefind-ui-result-title-text: hsl(217, 32.6%, 17.5%);
+    --pagefind-ui-result-text: hsl(217, 32.6%, 17.5%);
+    --pagefind-ui-background: hsl(173, 12%, 84%);
+    --pagefind-input-background: gray;
+    --pagefind-ui-border: gray;
+    --pagefind-ui-tag: hsl(173, 12%, 84%);
+  }
+  [data-theme="dark"] {
+    --pagefind-ui-primary: var(--menu-surface);
+    --pagefind-ui-text: hsl(217, 17% 98%);
+    --pagefind-ui-message-text: var(--pagefind-ui-text);
+    --pagefind-ui-result-title-text: hsl(217, 17% 98%);
+    --pagefind-ui-result-text: hsl(217, 17% 98%);
+    --pagefind-ui-background: hsl(217, 32.6%, 18%);
+    --pagefind-input-background: gray;
+    --pagefind-ui-border: gray;
+    --pagefind-ui-tag: hsl(217, 32.6%, 18%);
+  }
+</style>

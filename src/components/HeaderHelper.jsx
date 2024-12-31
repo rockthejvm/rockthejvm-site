@@ -25,8 +25,8 @@ export default function Example(props) {
           <span className="sr-only">{site.name}</span>
           {props.logo}
         </a>
-        <div className="flex gap-x-4 lg:gap-x-12">
-          <div className="hidden lg:flex lg:gap-x-12">
+        <div className="flex items-center gap-x-4 lg:gap-x-12">
+          <div className="hidden items-center lg:flex lg:gap-x-12">
             {navigation.map((item) => (
               <a
                 key={item.name}
@@ -51,8 +51,9 @@ export default function Example(props) {
               </span>
             </a>
           </div>
+          {props.search}
           {props.themeToggle}
-          <div className="flex lg:hidden">
+          <div className="flex items-center lg:hidden">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
