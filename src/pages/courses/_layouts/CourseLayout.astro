@@ -159,7 +159,13 @@ const structuredData = JSON.stringify({
   {title}
   image={{ alt: title, src: heroImage.src }}
   {structuredData}
+  searchIndexable={true}
 >
+  <div data-pagefind-filter="Categories:Courses (All)"></div>
+  <div
+    data-pagefind-filter={`Categories:${bundledCourses.length > 0 ? "Courses (Bundles)" : "Courses (Singles)"}`}
+  >
+  </div>
   <article>
     <Hero {description} {heroImage} {pricingPlanId} {title} {active} />
     {
