@@ -5,6 +5,7 @@ import Prose from "@components/Prose.astro";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
 import site from "@data/site.json";
+import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry } from "astro:content";
@@ -36,6 +37,8 @@ const {
   updatedDate,
   videoId,
 } = frontmatter;
+const date = updatedDate ?? publishedDate;
+const category = await getEntry("articleCategories", article.data.category.id);
 const author = await getEntry(
   frontmatter.author.collection,
   frontmatter.author.id,
@@ -87,23 +90,42 @@ const structuredData = JSON.stringify({
   {structuredData}
   {title}
   type="article"
+  searchIndexable={true}
 >
   <NarrowContainer>
+    <div data-pagefind-filter="Categories:Articles (All)"></div>
+    <div
+      data-pagefind-filter={`Categories:Articles (${(() => {
+        switch (category.data.name) {
+          case "Explanation":
+            return "Explanations";
+          case "Guide":
+            return "Guides";
+          case "Opinion":
+            return "Opinions";
+          case "Retrospective":
+            return "Retrospectives";
+          default:
+            return "";
+        }
+      })()})`}
+    >
+    </div>
+    <div data-pagefind-filter={`Authors:${author.data.name}`}></div>
+    {tags.map((tag) => <div data-pagefind-filter={`Tags:${tag.id}`} />)}
+    <div data-pagefind-meta={`Date:${formatDate(date)}`}></div>
     <article class="pt-16 md:pt-8">
       <header>
         <Prose class="max-w-none">
-          <h1>{title}</h1>
+          <h1>
+            {title}
+          </h1>
         </Prose>
         <Byline {author}>
           {
             minutesRead && (
               <p>
-                {minutesRead} min read &nbsp;•&nbsp;{" "}
-                {
-                  <FormattedDate
-                    date={updatedDate ? updatedDate : publishedDate}
-                  />
-                }
+                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}
               </p>
             )
           }
