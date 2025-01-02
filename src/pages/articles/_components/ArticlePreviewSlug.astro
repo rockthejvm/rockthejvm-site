@@ -1,0 +1,90 @@
+---
+import ArticleTag from "@components/ArticleTag.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import MyPicture from "@components/MyPicture.astro";
+import { getReadingTime } from "@utils/getReadingTime.ts";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+interface Props {
+  articleSlug: CollectionEntry<"articles">["slug"];
+}
+
+const { articleSlug } = Astro.props;
+const article = await getEntry("articles", articleSlug);
+const { excerpt, publishedDate, tags, title, updatedDate } = article.data;
+const author = await getEntry("authors", article.data.author.id);
+const category = await getEntry("articleCategories", article.data.category.id);
+const entity = author.data.company
+  ? await getEntry("companies", author.data.company.entity.id)
+  : undefined;
+---
+
+<article
+  class="card-shadow card-shadow-color flex flex-col items-start justify-between rounded-2xl bg-secondary p-4"
+>
+  <!-- <div class="relative w-full">
+    {
+      heroImage ? (
+        <MyPicture
+          src={heroImage.image}
+          alt={heroImage.alt}
+          class="aspect-[16/9] w-full rounded-2xl bg-secondary object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+        />
+      ) : (
+        <MyPicture
+          src={Placeholder}
+          alt="Placeholder"
+          class="aspect-[16/9] w-full rounded-2xl bg-secondary object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+        />
+      )
+    }
+    <div
+      class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
+    >
+    </div>
+  </div> -->
+  <div class="relative w-full">
+    <h2
+      class="mt-3 line-clamp-3 text-xl font-semibold leading-6 md:text-2xl lg:min-h-28 lg:text-3xl"
+    >
+      <a href={`/articles/${article.slug}`} class="text-content-2">
+        {title}
+      </a>
+    </h2>
+    <p class="mt-4 text-content-2">
+      {getReadingTime(article.body)} min read &nbsp;•&nbsp; {
+        (<FormattedDate date={updatedDate ? updatedDate : publishedDate} />)
+      } &nbsp;•&nbsp; {category.data.name}
+    </p>
+    <div class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs">
+      {tags.slice(0, 3).map((tag) => <ArticleTag tagId={tag.id} />)}
+    </div>
+    <p class="mt-4 text-sm leading-6 text-content">
+      {excerpt}
+    </p>
+  </div>
+  <div class="relative mt-4 flex items-center gap-x-4">
+    <MyPicture
+      src={author.data.photo}
+      alt={author.data.name}
+      quality="mid"
+      class="size-10 rounded-full bg-gray-100"
+    />
+    <div class="text-sm leading-6">
+      <p class="font-semibold text-content">
+        <a href={`/authors/${author.id}`}>
+          <span class="absolute inset-0"></span>
+          {author.data.name}
+        </a>
+      </p>
+      {
+        author.data.company && (
+          <p class="text-content">
+            {author.data.company.role} | {entity?.data.title}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</article>
