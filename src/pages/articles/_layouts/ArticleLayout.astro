@@ -2,9 +2,10 @@
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
+import RelatedArticles from "@components/RelatedArticles";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
-import { all_matches } from "@data/matchedArticles.json";
+import matchedArticles from "@data/matchedArticles.json";
 import site from "@data/site.json";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
@@ -15,15 +16,19 @@ import FormattedDate from "../../../components/FormattedDate.astro";
 import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
+
+console.log("working3");
 
 interface Props {
   article: CollectionEntry<"articles">;
+  articles: CollectionEntry<"articles">[];
   headings: MarkdownHeading[];
   minutesRead?: number;
 }
 
-const { article, headings, minutesRead } = Astro.props;
+const { article, articles, headings, minutesRead } = Astro.props;
 const frontmatter = article.data;
 const {
   canonicalUrl,
@@ -41,6 +46,8 @@ const author = await getEntry(
   frontmatter.author.id,
 );
 const tags = await getEntries(frontmatter.tags);
+
+console.log("working4");
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -63,7 +70,22 @@ const structuredData = JSON.stringify({
   image: heroImage?.image.src,
 });
 
-console.log(all_matches);
+console.log("working5");
+
+console.log(matchedArticles);
+
+const matches = matchedArticles.all_matches.filter(
+  (match) => match.source_slug === article.slug,
+);
+matches.sort((a, b) => b.similarity - a.similarity);
+
+console.log(matches);
+
+const relatedArticles = matches.map((match) =>
+  articles.find((article) => article.slug === match.matched_slug),
+);
+
+console.log(relatedArticles);
 ---
 
 <BaseLayout
@@ -139,6 +161,23 @@ console.log(all_matches);
       <footer>
         <div class="hidden lg:block"><SocialShare /></div>
         <AuthorWide {author} />
+        <!-- <RelatedArticles
+          client:load
+          components={[
+            <ArticlePreview article={relatedArticles[0]} />,
+            <ArticlePreview article={relatedArticles[1]} />,
+            <ArticlePreview article={relatedArticles[2]} />,
+            <ArticlePreview article={relatedArticles[3]} />,
+            <ArticlePreview article={relatedArticles[4]} />,
+          ]}
+        /> -->
+        <RelatedArticles client:load>
+          <ArticlePreview slot="firstArticle" article={relatedArticles[0]} />
+          <ArticlePreview slot="secondArticle" article={relatedArticles[1]} />
+          <ArticlePreview slot="thirdArticle" article={relatedArticles[2]} />
+          <ArticlePreview slot="fourthArticle" article={relatedArticles[3]} />
+          <ArticlePreview slot="fifthArticle" article={relatedArticles[4]} />
+        </RelatedArticles>
       </footer>
     </article>
   </NarrowContainer>

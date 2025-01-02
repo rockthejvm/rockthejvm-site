@@ -6,16 +6,25 @@ import ArticleLayout from "./_layouts/ArticleLayout.astro";
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
 
+  console.log("working1");
+
   return articles.map((article) => ({
     params: { slug: article.slug },
-    props: { article },
+    props: { article, articles },
   }));
 }
 
-const { article } = Astro.props;
+const { article, articles } = Astro.props;
 const { Content, headings } = await article.render();
+
+console.log("working2");
 ---
 
-<ArticleLayout {article} {headings} minutesRead={getReadingTime(article.body)}>
+<ArticleLayout
+  {article}
+  {articles}
+  {headings}
+  minutesRead={getReadingTime(article.body)}
+>
   <Content />
 </ArticleLayout>

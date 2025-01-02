@@ -26,11 +26,6 @@
       "source_slug": "2020-retrospective"
     },
     {
-      "matched_slug": "scala-3-givens-vs-implicits",
-      "similarity": 1,
-      "source_slug": "2021-retrospective"
-    },
-    {
       "matched_slug": "2020-retrospective",
       "similarity": 0.944353398344125,
       "source_slug": "2021-retrospective"
@@ -51,17 +46,17 @@
       "source_slug": "2021-retrospective"
     },
     {
-      "matched_slug": "scala-3-indentation",
-      "similarity": 1,
-      "source_slug": "3-call-by-name-tricks-in-scala"
+      "matched_slug": "learning-doobie-for-the-greater-good",
+      "similarity": 0.771564172003519,
+      "source_slug": "2021-retrospective"
     },
     {
-      "matched_slug": "eta-expansion-and-partially-applied-functions-in-scala",
+      "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
       "similarity": 0.804152452450704,
       "source_slug": "3-call-by-name-tricks-in-scala"
     },
     {
-      "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
+      "matched_slug": "eta-expansion-and-partially-applied-functions-in-scala",
       "similarity": 0.804152452450704,
       "source_slug": "3-call-by-name-tricks-in-scala"
     },
@@ -76,9 +71,9 @@
       "source_slug": "3-call-by-name-tricks-in-scala"
     },
     {
-      "matched_slug": "scala-3-mastering-path-dependent-types-and-type-projections",
-      "similarity": 1,
-      "source_slug": "4-handy-ways-to-read-files-in-scala"
+      "matched_slug": "functional-collections-in-scala",
+      "similarity": 0.77797080409701,
+      "source_slug": "3-call-by-name-tricks-in-scala"
     },
     {
       "matched_slug": "scala-3-match-types",
@@ -101,9 +96,9 @@
       "source_slug": "4-handy-ways-to-read-files-in-scala"
     },
     {
-      "matched_slug": "scala-3-match-types",
-      "similarity": 1,
-      "source_slug": "5-code-expressiveness-tricks-in-scala"
+      "matched_slug": "getting-started-with-scala-options",
+      "similarity": 0.770152651374121,
+      "source_slug": "4-handy-ways-to-read-files-in-scala"
     },
     {
       "matched_slug": "scala-3-extension-methods",
@@ -111,12 +106,12 @@
       "source_slug": "5-code-expressiveness-tricks-in-scala"
     },
     {
-      "matched_slug": "scala-3-new-types",
+      "matched_slug": "8-pattern-matching-tricks-in-scala",
       "similarity": 0.823483418018627,
       "source_slug": "5-code-expressiveness-tricks-in-scala"
     },
     {
-      "matched_slug": "8-pattern-matching-tricks-in-scala",
+      "matched_slug": "scala-3-new-types",
       "similarity": 0.823483418018627,
       "source_slug": "5-code-expressiveness-tricks-in-scala"
     },
@@ -126,9 +121,9 @@
       "source_slug": "5-code-expressiveness-tricks-in-scala"
     },
     {
-      "matched_slug": "scala-3-new-types",
-      "similarity": 1,
-      "source_slug": "8-pattern-matching-tricks-in-scala"
+      "matched_slug": "getting-started-with-scala-generics",
+      "similarity": 0.82141790645336,
+      "source_slug": "5-code-expressiveness-tricks-in-scala"
     },
     {
       "matched_slug": "custom-pattern-matching-in-scala",
@@ -141,19 +136,19 @@
       "source_slug": "8-pattern-matching-tricks-in-scala"
     },
     {
-      "matched_slug": "5-code-expressiveness-tricks-in-scala",
-      "similarity": 0.823483418018627,
-      "source_slug": "8-pattern-matching-tricks-in-scala"
-    },
-    {
       "matched_slug": "scala-3-match-types",
       "similarity": 0.823483418018627,
       "source_slug": "8-pattern-matching-tricks-in-scala"
     },
     {
-      "matched_slug": "scala-3-opaque-types",
-      "similarity": 1,
-      "source_slug": "a-backtracking-sudoku-solver-in-scala"
+      "matched_slug": "5-code-expressiveness-tricks-in-scala",
+      "similarity": 0.823483418018627,
+      "source_slug": "8-pattern-matching-tricks-in-scala"
+    },
+    {
+      "matched_slug": "scala-3-given-and-using-clauses",
+      "similarity": 0.816743179144101,
+      "source_slug": "8-pattern-matching-tricks-in-scala"
     },
     {
       "matched_slug": "creating-a-cli-sudoku-solver-with-scala-native",
@@ -171,14 +166,14 @@
       "source_slug": "a-backtracking-sudoku-solver-in-scala"
     },
     {
-      "matched_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala",
+      "matched_slug": "an-introduction-to-monads-in-scala",
       "similarity": 0.798808312629168,
       "source_slug": "a-backtracking-sudoku-solver-in-scala"
     },
     {
-      "matched_slug": "sending-http-requests-with-scala-and-akka-in-5-minutes",
-      "similarity": 1,
-      "source_slug": "abstract-classes-vs-traits-in-scala-differences"
+      "matched_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala",
+      "similarity": 0.798808312629168,
+      "source_slug": "a-backtracking-sudoku-solver-in-scala"
     },
     {
       "matched_slug": "getting-started-with-scala-generics",
@@ -196,22 +191,22 @@
       "source_slug": "abstract-classes-vs-traits-in-scala-differences"
     },
     {
+      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
+      "similarity": 0.793768058721579,
+      "source_slug": "abstract-classes-vs-traits-in-scala-differences"
+    },
+    {
       "matched_slug": "free-monads-in-scala",
       "similarity": 0.793768058721579,
       "source_slug": "abstract-classes-vs-traits-in-scala-differences"
     },
     {
-      "matched_slug": "scala-3-traits",
-      "similarity": 1,
-      "source_slug": "a-distributed-code-execution-engine-in-pekko-with-scala"
-    },
-    {
-      "matched_slug": "finagle-twitters-rpc-library-for-scala",
+      "matched_slug": "why-is-contravariance-so-hard-in-scala",
       "similarity": 0.807119775242794,
       "source_slug": "a-distributed-code-execution-engine-in-pekko-with-scala"
     },
     {
-      "matched_slug": "why-is-contravariance-so-hard-in-scala",
+      "matched_slug": "finagle-twitters-rpc-library-for-scala",
       "similarity": 0.807119775242794,
       "source_slug": "a-distributed-code-execution-engine-in-pekko-with-scala"
     },
@@ -221,14 +216,14 @@
       "source_slug": "a-distributed-code-execution-engine-in-pekko-with-scala"
     },
     {
-      "matched_slug": "what-the-functor",
+      "matched_slug": "event-streaming-in-apache-pulsar-with-scala",
       "similarity": 0.801627922155139,
       "source_slug": "a-distributed-code-execution-engine-in-pekko-with-scala"
     },
     {
-      "matched_slug": "scala-3-type-lambdas",
-      "similarity": 1,
-      "source_slug": "a-fresh-perspective-on-monads"
+      "matched_slug": "what-the-functor",
+      "similarity": 0.801627922155139,
+      "source_slug": "a-distributed-code-execution-engine-in-pekko-with-scala"
     },
     {
       "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
@@ -251,9 +246,9 @@
       "source_slug": "a-fresh-perspective-on-monads"
     },
     {
-      "matched_slug": "scala-3-type-level-programming",
-      "similarity": 1,
-      "source_slug": "a-functional-load-balancer-with-scala-http4s-and-cats-effect"
+      "matched_slug": "cats-essential-type-class-hierarchy",
+      "similarity": 0.8592489361763,
+      "source_slug": "a-fresh-perspective-on-monads"
     },
     {
       "matched_slug": "functional-parallel-programming-with-scala-and-cats-effect",
@@ -261,12 +256,12 @@
       "source_slug": "a-functional-load-balancer-with-scala-http4s-and-cats-effect"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
+      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
       "similarity": 0.832757020972879,
       "source_slug": "a-functional-load-balancer-with-scala-http4s-and-cats-effect"
     },
     {
-      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
+      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
       "similarity": 0.832757020972879,
       "source_slug": "a-functional-load-balancer-with-scala-http4s-and-cats-effect"
     },
@@ -276,9 +271,9 @@
       "source_slug": "a-functional-load-balancer-with-scala-http4s-and-cats-effect"
     },
     {
-      "matched_slug": "scala-testing-with-scalatest-a-beginners-guide-to-testing-styles",
-      "similarity": 1,
-      "source_slug": "a-guide-to-choosing-the-best-scala-course"
+      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
+      "similarity": 0.82144281800262,
+      "source_slug": "a-functional-load-balancer-with-scala-http4s-and-cats-effect"
     },
     {
       "matched_slug": "cats-essential-type-class-hierarchy",
@@ -301,9 +296,9 @@
       "source_slug": "a-guide-to-choosing-the-best-scala-course"
     },
     {
-      "matched_slug": "sort-lists-in-scala-with-tail-recursion",
-      "similarity": 1,
-      "source_slug": "akka-http-3-json-libraries"
+      "matched_slug": "cats-effect-3-racing-ios",
+      "similarity": 0.804731392296392,
+      "source_slug": "a-guide-to-choosing-the-best-scala-course"
     },
     {
       "matched_slug": "akka-typed-adapting-messages",
@@ -321,22 +316,22 @@
       "source_slug": "akka-http-3-json-libraries"
     },
     {
+      "matched_slug": "structured-concurrency-in-java",
+      "similarity": 0.803093385512032,
+      "source_slug": "akka-http-3-json-libraries"
+    },
+    {
       "matched_slug": "akka-typed-actors-stateful-and-stateless",
       "similarity": 0.803093385512032,
       "source_slug": "akka-http-3-json-libraries"
     },
     {
-      "matched_slug": "stateful-streams-with-apache-pulsar-and-apache-flink",
-      "similarity": 1,
-      "source_slug": "akka-http-to-heroku-in-10-minutes"
-    },
-    {
-      "matched_slug": "using-scala-as-a-junior-developer",
+      "matched_slug": "deploy-a-scala-application-to-aws-lambda",
       "similarity": 0.786410178374036,
       "source_slug": "akka-http-to-heroku-in-10-minutes"
     },
     {
-      "matched_slug": "deploy-a-scala-application-to-aws-lambda",
+      "matched_slug": "using-scala-as-a-junior-developer",
       "similarity": 0.786410178374036,
       "source_slug": "akka-http-to-heroku-in-10-minutes"
     },
@@ -351,8 +346,13 @@
       "source_slug": "akka-http-to-heroku-in-10-minutes"
     },
     {
-      "matched_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming",
-      "similarity": 1,
+      "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
+      "similarity": 0.780515127059191,
+      "source_slug": "akka-http-to-heroku-in-10-minutes"
+    },
+    {
+      "matched_slug": "from-akka-streams-to-actors-and-back",
+      "similarity": 0.842803716659552,
       "source_slug": "akka-streams-backpressure"
     },
     {
@@ -361,8 +361,8 @@
       "source_slug": "akka-streams-backpressure"
     },
     {
-      "matched_slug": "from-akka-streams-to-actors-and-back",
-      "similarity": 0.842803716659552,
+      "matched_slug": "type-level-programming-in-scala-part-3-sorting-lists",
+      "similarity": 0.812747273549926,
       "source_slug": "akka-streams-backpressure"
     },
     {
@@ -371,22 +371,17 @@
       "source_slug": "akka-streams-backpressure"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-3-sorting-lists",
-      "similarity": 0.812747273549926,
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "similarity": 0.808773946239118,
       "source_slug": "akka-streams-backpressure"
     },
     {
-      "matched_slug": "streaming-sql-with-apache-flink-introduction",
-      "similarity": 1,
-      "source_slug": "akka-typed-actor-discovery-with-akka-receptionist"
-    },
-    {
-      "matched_slug": "structured-concurrency-in-java",
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
       "similarity": 0.844100227600351,
       "source_slug": "akka-typed-actor-discovery-with-akka-receptionist"
     },
     {
-      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "matched_slug": "structured-concurrency-in-java",
       "similarity": 0.844100227600351,
       "source_slug": "akka-typed-actor-discovery-with-akka-receptionist"
     },
@@ -401,9 +396,9 @@
       "source_slug": "akka-typed-actor-discovery-with-akka-receptionist"
     },
     {
-      "matched_slug": "structured-concurrency-in-java",
-      "similarity": 1,
-      "source_slug": "akka-typed-actors-stateful-and-stateless"
+      "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
+      "similarity": 0.830671380122235,
+      "source_slug": "akka-typed-actor-discovery-with-akka-receptionist"
     },
     {
       "matched_slug": "tagless-final-in-scala",
@@ -426,9 +421,9 @@
       "source_slug": "akka-typed-actors-stateful-and-stateless"
     },
     {
-      "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
-      "similarity": 1,
-      "source_slug": "akka-typed-adapting-messages"
+      "matched_slug": "how-akka-typed-incentivizes-writing-good-code",
+      "similarity": 0.860708832740784,
+      "source_slug": "akka-typed-actors-stateful-and-stateless"
     },
     {
       "matched_slug": "how-akka-typed-incentivizes-writing-good-code",
@@ -436,12 +431,12 @@
       "source_slug": "akka-typed-adapting-messages"
     },
     {
-      "matched_slug": "structured-concurrency-in-java",
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
       "similarity": 0.861663298408598,
       "source_slug": "akka-typed-adapting-messages"
     },
     {
-      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "matched_slug": "structured-concurrency-in-java",
       "similarity": 0.861663298408598,
       "source_slug": "akka-typed-adapting-messages"
     },
@@ -451,17 +446,17 @@
       "source_slug": "akka-typed-adapting-messages"
     },
     {
-      "matched_slug": "tagless-final-in-scala",
-      "similarity": 1,
-      "source_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns"
+      "matched_slug": "akka-typed-actor-discovery-with-akka-receptionist",
+      "similarity": 0.830671380122235,
+      "source_slug": "akka-typed-adapting-messages"
     },
     {
-      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "matched_slug": "structured-concurrency-in-java",
       "similarity": 0.878436207771301,
       "source_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns"
     },
     {
-      "matched_slug": "structured-concurrency-in-java",
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
       "similarity": 0.878436207771301,
       "source_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns"
     },
@@ -476,9 +471,9 @@
       "source_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns"
     },
     {
-      "matched_slug": "the-big-kotlin-tutorial",
-      "similarity": 1,
-      "source_slug": "algebraic-data-types-in-scala"
+      "matched_slug": "akka-typed-adapting-messages",
+      "similarity": 0.828593632150461,
+      "source_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns"
     },
     {
       "matched_slug": "cats-essential-type-class-hierarchy",
@@ -496,14 +491,14 @@
       "source_slug": "algebraic-data-types-in-scala"
     },
     {
-      "matched_slug": "an-introduction-to-monads-in-scala",
+      "matched_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala",
       "similarity": 0.82044627727409,
       "source_slug": "algebraic-data-types-in-scala"
     },
     {
-      "matched_slug": "the-brilliance-of-materialized-values-in-akka-streams",
-      "similarity": 1,
-      "source_slug": "all-the-joins-in-spark-dataframes"
+      "matched_slug": "an-introduction-to-monads-in-scala",
+      "similarity": 0.82044627727409,
+      "source_slug": "algebraic-data-types-in-scala"
     },
     {
       "matched_slug": "broadcast-joins-in-apache-spark-an-optimization-technique",
@@ -526,17 +521,17 @@
       "source_slug": "all-the-joins-in-spark-dataframes"
     },
     {
-      "matched_slug": "self-types-in-scala-overview",
-      "similarity": 1,
-      "source_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala"
+      "matched_slug": "objects-and-companions-in-scala",
+      "similarity": 0.748860046199575,
+      "source_slug": "all-the-joins-in-spark-dataframes"
     },
     {
-      "matched_slug": "free-monads-in-scala",
+      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
       "similarity": 0.898539638171135,
       "source_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala"
     },
     {
-      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
+      "matched_slug": "free-monads-in-scala",
       "similarity": 0.898539638171135,
       "source_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala"
     },
@@ -551,9 +546,9 @@
       "source_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala"
     },
     {
-      "matched_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala",
-      "similarity": 1,
-      "source_slug": "an-introduction-to-monads-in-scala"
+      "matched_slug": "a-fresh-perspective-on-monads",
+      "similarity": 0.853981077671051,
+      "source_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala"
     },
     {
       "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
@@ -566,19 +561,19 @@
       "source_slug": "an-introduction-to-monads-in-scala"
     },
     {
-      "matched_slug": "a-fresh-perspective-on-monads",
-      "similarity": 0.880663461645637,
-      "source_slug": "an-introduction-to-monads-in-scala"
-    },
-    {
       "matched_slug": "scala-3-type-lambdas",
       "similarity": 0.880663461645637,
       "source_slug": "an-introduction-to-monads-in-scala"
     },
     {
-      "matched_slug": "semigroups-and-monoids-in-scala",
-      "similarity": 1,
-      "source_slug": "a-scala-project-with-akka-cats-and-cassandra"
+      "matched_slug": "a-fresh-perspective-on-monads",
+      "similarity": 0.880663461645637,
+      "source_slug": "an-introduction-to-monads-in-scala"
+    },
+    {
+      "matched_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala",
+      "similarity": 0.864425846074473,
+      "source_slug": "an-introduction-to-monads-in-scala"
     },
     {
       "matched_slug": "cats-essential-type-class-hierarchy",
@@ -596,16 +591,16 @@
       "source_slug": "a-scala-project-with-akka-cats-and-cassandra"
     },
     {
+      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
+      "similarity": 0.816759326071665,
+      "source_slug": "a-scala-project-with-akka-cats-and-cassandra"
+    },
+    {
       "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
       "similarity": 0.816759326071665,
       "source_slug": "a-scala-project-with-akka-cats-and-cassandra"
     },
     {
-      "matched_slug": "things-that-dont-make-sense-scala-variables",
-      "similarity": 1,
-      "source_slug": "authentication-with-scala-and-http4s"
-    },
-    {
       "matched_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication",
       "similarity": 0.906993238033881,
       "source_slug": "authentication-with-scala-and-http4s"
@@ -626,9 +621,9 @@
       "source_slug": "authentication-with-scala-and-http4s"
     },
     {
-      "matched_slug": "the-ultimate-guide-to-java-virtual-threads",
-      "similarity": 1,
-      "source_slug": "authentication-with-scala-and-http4s-oauth"
+      "matched_slug": "configuring-http4s-security-handling-cors-and-csrf",
+      "similarity": 0.858117256816726,
+      "source_slug": "authentication-with-scala-and-http4s"
     },
     {
       "matched_slug": "authentication-with-scala-and-http4s",
@@ -638,6 +633,11 @@
     {
       "matched_slug": "things-that-dont-make-sense-scala-variables",
       "similarity": 0.884124478556311,
+      "source_slug": "authentication-with-scala-and-http4s-oauth"
+    },
+    {
+      "matched_slug": "things-that-dont-make-sense-scala-loops",
+      "similarity": 0.876484840754315,
       "source_slug": "authentication-with-scala-and-http4s-oauth"
     },
     {
@@ -646,13 +646,13 @@
       "source_slug": "authentication-with-scala-and-http4s-oauth"
     },
     {
-      "matched_slug": "things-that-dont-make-sense-scala-loops",
-      "similarity": 0.876484840754315,
+      "matched_slug": "types-kinds-and-type-constructors-in-scala",
+      "similarity": 0.804145836953704,
       "source_slug": "authentication-with-scala-and-http4s-oauth"
     },
     {
-      "matched_slug": "things-that-dont-make-sense-scala-loops",
-      "similarity": 1,
+      "matched_slug": "things-that-dont-make-sense-scala-variables",
+      "similarity": 0.906993238033881,
       "source_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication"
     },
     {
@@ -661,8 +661,8 @@
       "source_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication"
     },
     {
-      "matched_slug": "things-that-dont-make-sense-scala-variables",
-      "similarity": 0.906993238033881,
+      "matched_slug": "the-ultimate-guide-to-java-virtual-threads",
+      "similarity": 0.876484840754315,
       "source_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication"
     },
     {
@@ -671,14 +671,9 @@
       "source_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication"
     },
     {
-      "matched_slug": "the-ultimate-guide-to-java-virtual-threads",
-      "similarity": 0.876484840754315,
+      "matched_slug": "types-kinds-and-type-constructors-in-scala",
+      "similarity": 0.831618532691759,
       "source_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication"
-    },
-    {
-      "matched_slug": "top-10-skills-and-mental-models-for-becoming-a-scala-developer",
-      "similarity": 1,
-      "source_slug": "broadcast-joins-in-apache-spark-an-optimization-technique"
     },
     {
       "matched_slug": "the-brilliance-of-materialized-values-in-akka-streams",
@@ -701,9 +696,9 @@
       "source_slug": "broadcast-joins-in-apache-spark-an-optimization-technique"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
-      "similarity": 1,
-      "source_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack"
+      "matched_slug": "what-the-functor",
+      "similarity": 0.763237995522393,
+      "source_slug": "broadcast-joins-in-apache-spark-an-optimization-technique"
     },
     {
       "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
@@ -721,14 +716,14 @@
       "source_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack"
     },
     {
-      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
+      "matched_slug": "zio-http",
       "similarity": 0.856423267339275,
       "source_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types",
-      "similarity": 1,
-      "source_slug": "cats-effect-3-introduction-to-fibers"
+      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
+      "similarity": 0.856423267339275,
+      "source_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack"
     },
     {
       "matched_slug": "cats-effect-3-racing-ios",
@@ -751,9 +746,9 @@
       "source_slug": "cats-effect-3-introduction-to-fibers"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-1-numbers-and-comparisons",
-      "similarity": 1,
-      "source_slug": "cats-effect-3-racing-ios"
+      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
+      "similarity": 0.852306024936384,
+      "source_slug": "cats-effect-3-introduction-to-fibers"
     },
     {
       "matched_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types",
@@ -771,14 +766,14 @@
       "source_slug": "cats-effect-3-racing-ios"
     },
     {
-      "matched_slug": "zio-http",
+      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
       "similarity": 0.831450790503481,
       "source_slug": "cats-effect-3-racing-ios"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
-      "similarity": 1,
-      "source_slug": "cats-essential-type-class-hierarchy"
+      "matched_slug": "zio-http",
+      "similarity": 0.831450790503481,
+      "source_slug": "cats-effect-3-racing-ios"
     },
     {
       "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
@@ -801,9 +796,9 @@
       "source_slug": "cats-essential-type-class-hierarchy"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-3-sorting-lists",
-      "similarity": 1,
-      "source_slug": "comparing-akka-streams-kafka-streams-spark-streaming"
+      "matched_slug": "zio-http",
+      "similarity": 0.863450296911581,
+      "source_slug": "cats-essential-type-class-hierarchy"
     },
     {
       "matched_slug": "kafka-101-streams",
@@ -826,17 +821,17 @@
       "source_slug": "comparing-akka-streams-kafka-streams-spark-streaming"
     },
     {
-      "matched_slug": "types-kinds-and-type-constructors-in-scala",
-      "similarity": 1,
-      "source_slug": "configuring-http4s-security-handling-cors-and-csrf"
+      "matched_slug": "akka-streams-backpressure",
+      "similarity": 0.812747273549926,
+      "source_slug": "comparing-akka-streams-kafka-streams-spark-streaming"
     },
     {
-      "matched_slug": "authentication-with-scala-and-http4s",
+      "matched_slug": "things-that-dont-make-sense-scala-variables",
       "similarity": 0.858117256816726,
       "source_slug": "configuring-http4s-security-handling-cors-and-csrf"
     },
     {
-      "matched_slug": "things-that-dont-make-sense-scala-variables",
+      "matched_slug": "authentication-with-scala-and-http4s",
       "similarity": 0.858117256816726,
       "source_slug": "configuring-http4s-security-handling-cors-and-csrf"
     },
@@ -851,9 +846,9 @@
       "source_slug": "configuring-http4s-security-handling-cors-and-csrf"
     },
     {
-      "matched_slug": "udp-with-scala-and-fs2",
-      "similarity": 1,
-      "source_slug": "controllable-futures-in-scala"
+      "matched_slug": "authentication-with-scala-and-http4s-oauth",
+      "similarity": 0.804145836953704,
+      "source_slug": "configuring-http4s-security-handling-cors-and-csrf"
     },
     {
       "matched_slug": "evaluation-modes-in-scala",
@@ -876,17 +871,17 @@
       "source_slug": "controllable-futures-in-scala"
     },
     {
-      "matched_slug": "underscores-are-overloaded-in-scala",
-      "similarity": 1,
-      "source_slug": "create-your-own-custom-string-interpolator"
+      "matched_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns",
+      "similarity": 0.761366665363312,
+      "source_slug": "controllable-futures-in-scala"
     },
     {
-      "matched_slug": "custom-pattern-matching-in-scala",
+      "matched_slug": "understanding-spark-query-plans",
       "similarity": 0.765184209655776,
       "source_slug": "create-your-own-custom-string-interpolator"
     },
     {
-      "matched_slug": "understanding-spark-query-plans",
+      "matched_slug": "custom-pattern-matching-in-scala",
       "similarity": 0.765184209655776,
       "source_slug": "create-your-own-custom-string-interpolator"
     },
@@ -901,17 +896,17 @@
       "source_slug": "create-your-own-custom-string-interpolator"
     },
     {
-      "matched_slug": "understanding-spark-directed-acyclic-graphs",
-      "similarity": 1,
-      "source_slug": "creating-a-cli-sudoku-solver-with-scala-native"
+      "matched_slug": "scala-3-match-types",
+      "similarity": 0.748481720504966,
+      "source_slug": "create-your-own-custom-string-interpolator"
     },
     {
-      "matched_slug": "a-backtracking-sudoku-solver-in-scala",
+      "matched_slug": "scala-3-opaque-types",
       "similarity": 0.898912045392055,
       "source_slug": "creating-a-cli-sudoku-solver-with-scala-native"
     },
     {
-      "matched_slug": "scala-3-opaque-types",
+      "matched_slug": "a-backtracking-sudoku-solver-in-scala",
       "similarity": 0.898912045392055,
       "source_slug": "creating-a-cli-sudoku-solver-with-scala-native"
     },
@@ -926,9 +921,9 @@
       "source_slug": "creating-a-cli-sudoku-solver-with-scala-native"
     },
     {
-      "matched_slug": "understanding-spark-query-plans",
-      "similarity": 1,
-      "source_slug": "custom-pattern-matching-in-scala"
+      "matched_slug": "a-fresh-perspective-on-monads",
+      "similarity": 0.805473459256306,
+      "source_slug": "creating-a-cli-sudoku-solver-with-scala-native"
     },
     {
       "matched_slug": "8-pattern-matching-tricks-in-scala",
@@ -951,9 +946,9 @@
       "source_slug": "custom-pattern-matching-in-scala"
     },
     {
-      "matched_slug": "use-akka-streams-graph-dsl",
-      "similarity": 1,
-      "source_slug": "demystifying-variance-positions-in-scala"
+      "matched_slug": "objects-and-companions-in-scala",
+      "similarity": 0.821449377709559,
+      "source_slug": "custom-pattern-matching-in-scala"
     },
     {
       "matched_slug": "why-are-scala-type-classes-useful",
@@ -966,18 +961,23 @@
       "source_slug": "demystifying-variance-positions-in-scala"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
-      "similarity": 0.829141577584561,
-      "source_slug": "demystifying-variance-positions-in-scala"
-    },
-    {
       "matched_slug": "cats-essential-type-class-hierarchy",
       "similarity": 0.829141577584561,
       "source_slug": "demystifying-variance-positions-in-scala"
     },
     {
-      "matched_slug": "using-scala-as-a-junior-developer",
-      "similarity": 1,
+      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
+      "similarity": 0.829141577584561,
+      "source_slug": "demystifying-variance-positions-in-scala"
+    },
+    {
+      "matched_slug": "getting-started-with-scala-generics",
+      "similarity": 0.81722510950417,
+      "source_slug": "demystifying-variance-positions-in-scala"
+    },
+    {
+      "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
+      "similarity": 0.788065816394595,
       "source_slug": "deploy-a-scala-application-to-aws-lambda"
     },
     {
@@ -986,8 +986,8 @@
       "source_slug": "deploy-a-scala-application-to-aws-lambda"
     },
     {
-      "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
-      "similarity": 0.788065816394595,
+      "matched_slug": "scala-3-match-types",
+      "similarity": 0.787060307685157,
       "source_slug": "deploy-a-scala-application-to-aws-lambda"
     },
     {
@@ -996,14 +996,9 @@
       "source_slug": "deploy-a-scala-application-to-aws-lambda"
     },
     {
-      "matched_slug": "scala-3-match-types",
-      "similarity": 0.787060307685157,
+      "matched_slug": "stateful-streams-with-apache-pulsar-and-apache-flink",
+      "similarity": 0.786410178374036,
       "source_slug": "deploy-a-scala-application-to-aws-lambda"
-    },
-    {
-      "matched_slug": "value-classes-in-scala",
-      "similarity": 1,
-      "source_slug": "elevate-your-tests-testing-functional-kotlin-with-arrow-and-raise"
     },
     {
       "matched_slug": "functional-error-handling-in-kotlin-part-3-the-raise-dsl",
@@ -1016,19 +1011,19 @@
       "source_slug": "elevate-your-tests-testing-functional-kotlin-with-arrow-and-raise"
     },
     {
-      "matched_slug": "zio-streams-introduction",
-      "similarity": 0.823488842040967,
-      "source_slug": "elevate-your-tests-testing-functional-kotlin-with-arrow-and-raise"
-    },
-    {
       "matched_slug": "functional-error-handling-in-kotlin-part-1-absent-values",
       "similarity": 0.823488842040967,
       "source_slug": "elevate-your-tests-testing-functional-kotlin-with-arrow-and-raise"
     },
     {
-      "matched_slug": "websockers-in-scala-part-1-http4s",
-      "similarity": 1,
-      "source_slug": "enums-in-scala-3"
+      "matched_slug": "zio-streams-introduction",
+      "similarity": 0.823488842040967,
+      "source_slug": "elevate-your-tests-testing-functional-kotlin-with-arrow-and-raise"
+    },
+    {
+      "matched_slug": "functional-error-handling-in-kotlin-part-2-result-and-either",
+      "similarity": 0.815843983687411,
+      "source_slug": "elevate-your-tests-testing-functional-kotlin-with-arrow-and-raise"
     },
     {
       "matched_slug": "refined-types-in-scala",
@@ -1051,9 +1046,9 @@
       "source_slug": "enums-in-scala-3"
     },
     {
-      "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
-      "similarity": 1,
-      "source_slug": "eta-expansion-and-partially-applied-functions-in-scala"
+      "matched_slug": "scala-3-match-types",
+      "similarity": 0.802205467618491,
+      "source_slug": "enums-in-scala-3"
     },
     {
       "matched_slug": "higher-order-functions-for-object-oriented-programmers",
@@ -1076,9 +1071,9 @@
       "source_slug": "eta-expansion-and-partially-applied-functions-in-scala"
     },
     {
-      "matched_slug": "what-is-referential-transparency-and-why-should-you-care",
-      "similarity": 1,
-      "source_slug": "evaluation-modes-in-scala"
+      "matched_slug": "5-code-expressiveness-tricks-in-scala",
+      "similarity": 0.819150756648151,
+      "source_slug": "eta-expansion-and-partially-applied-functions-in-scala"
     },
     {
       "matched_slug": "scala-3-general-type-projections",
@@ -1091,19 +1086,19 @@
       "source_slug": "evaluation-modes-in-scala"
     },
     {
-      "matched_slug": "a-fresh-perspective-on-monads",
-      "similarity": 0.787732720375061,
-      "source_slug": "evaluation-modes-in-scala"
-    },
-    {
       "matched_slug": "scala-3-type-lambdas",
       "similarity": 0.787732720375061,
       "source_slug": "evaluation-modes-in-scala"
     },
     {
-      "matched_slug": "what-the-functor",
-      "similarity": 1,
-      "source_slug": "event-streaming-in-apache-pulsar-with-scala"
+      "matched_slug": "a-fresh-perspective-on-monads",
+      "similarity": 0.787732720375061,
+      "source_slug": "evaluation-modes-in-scala"
+    },
+    {
+      "matched_slug": "algebraic-data-types-in-scala",
+      "similarity": 0.784237574121738,
+      "source_slug": "evaluation-modes-in-scala"
     },
     {
       "matched_slug": "kafka-101-streams",
@@ -1111,12 +1106,12 @@
       "source_slug": "event-streaming-in-apache-pulsar-with-scala"
     },
     {
-      "matched_slug": "scala-3-traits",
+      "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
       "similarity": 0.801627922155139,
       "source_slug": "event-streaming-in-apache-pulsar-with-scala"
     },
     {
-      "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
+      "matched_slug": "scala-3-traits",
       "similarity": 0.801627922155139,
       "source_slug": "event-streaming-in-apache-pulsar-with-scala"
     },
@@ -1126,9 +1121,9 @@
       "source_slug": "event-streaming-in-apache-pulsar-with-scala"
     },
     {
-      "matched_slug": "why-are-scala-type-classes-useful",
-      "similarity": 1,
-      "source_slug": "exploiting-implicit-ambiguity-in-scala"
+      "matched_slug": "comparing-akka-streams-kafka-streams-spark-streaming",
+      "similarity": 0.785014535782994,
+      "source_slug": "event-streaming-in-apache-pulsar-with-scala"
     },
     {
       "matched_slug": "scala-3-anti-givens",
@@ -1151,8 +1146,13 @@
       "source_slug": "exploiting-implicit-ambiguity-in-scala"
     },
     {
-      "matched_slug": "why-is-contravariance-so-hard-in-scala",
-      "similarity": 1,
+      "matched_slug": "scala-3-given-and-using-clauses",
+      "similarity": 0.8400922703578,
+      "source_slug": "exploiting-implicit-ambiguity-in-scala"
+    },
+    {
+      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
+      "similarity": 0.808418881391355,
       "source_slug": "finagle-twitters-rpc-library-for-scala"
     },
     {
@@ -1161,8 +1161,8 @@
       "source_slug": "finagle-twitters-rpc-library-for-scala"
     },
     {
-      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
-      "similarity": 0.808418881391355,
+      "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
+      "similarity": 0.807119775242794,
       "source_slug": "finagle-twitters-rpc-library-for-scala"
     },
     {
@@ -1171,22 +1171,17 @@
       "source_slug": "finagle-twitters-rpc-library-for-scala"
     },
     {
-      "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
-      "similarity": 0.807119775242794,
+      "matched_slug": "functional-parallel-programming-with-scala-and-cats-effect",
+      "similarity": 0.806101226988472,
       "source_slug": "finagle-twitters-rpc-library-for-scala"
     },
     {
-      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
-      "similarity": 1,
-      "source_slug": "free-monads-in-scala"
-    },
-    {
-      "matched_slug": "scala-3-type-lambdas",
+      "matched_slug": "a-fresh-perspective-on-monads",
       "similarity": 0.915198186683248,
       "source_slug": "free-monads-in-scala"
     },
     {
-      "matched_slug": "a-fresh-perspective-on-monads",
+      "matched_slug": "scala-3-type-lambdas",
       "similarity": 0.915198186683248,
       "source_slug": "free-monads-in-scala"
     },
@@ -1201,9 +1196,9 @@
       "source_slug": "free-monads-in-scala"
     },
     {
-      "matched_slug": "zio-full-stack-webapp",
-      "similarity": 1,
-      "source_slug": "from-akka-streams-to-actors-and-back"
+      "matched_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala",
+      "similarity": 0.898539638171135,
+      "source_slug": "free-monads-in-scala"
     },
     {
       "matched_slug": "comparing-akka-streams-kafka-streams-spark-streaming",
@@ -1216,19 +1211,19 @@
       "source_slug": "from-akka-streams-to-actors-and-back"
     },
     {
-      "matched_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming",
-      "similarity": 0.842803716659552,
-      "source_slug": "from-akka-streams-to-actors-and-back"
-    },
-    {
       "matched_slug": "akka-streams-backpressure",
       "similarity": 0.842803716659552,
       "source_slug": "from-akka-streams-to-actors-and-back"
     },
     {
-      "matched_slug": "zio-http",
-      "similarity": 1,
-      "source_slug": "fs2-more-than-functional-streaming-in-scala"
+      "matched_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming",
+      "similarity": 0.842803716659552,
+      "source_slug": "from-akka-streams-to-actors-and-back"
+    },
+    {
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "similarity": 0.83162849137953,
+      "source_slug": "from-akka-streams-to-actors-and-back"
     },
     {
       "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
@@ -1251,9 +1246,9 @@
       "source_slug": "fs2-more-than-functional-streaming-in-scala"
     },
     {
-      "matched_slug": "zio-kafka",
-      "similarity": 1,
-      "source_slug": "functional-collections-in-scala"
+      "matched_slug": "functional-parallel-programming-with-scala-and-cats-effect",
+      "similarity": 0.851380859274246,
+      "source_slug": "fs2-more-than-functional-streaming-in-scala"
     },
     {
       "matched_slug": "higher-order-functions-for-object-oriented-programmers",
@@ -1266,19 +1261,19 @@
       "source_slug": "functional-collections-in-scala"
     },
     {
-      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
-      "similarity": 0.823258785592137,
-      "source_slug": "functional-collections-in-scala"
-    },
-    {
       "matched_slug": "free-monads-in-scala",
       "similarity": 0.823258785592137,
       "source_slug": "functional-collections-in-scala"
     },
     {
-      "matched_slug": "zio-streams-introduction",
-      "similarity": 1,
-      "source_slug": "functional-error-handling-in-kotlin-part-1-absent-values"
+      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
+      "similarity": 0.823258785592137,
+      "source_slug": "functional-collections-in-scala"
+    },
+    {
+      "matched_slug": "scala-3-type-lambdas",
+      "similarity": 0.822192619908297,
+      "source_slug": "functional-collections-in-scala"
     },
     {
       "matched_slug": "functional-error-handling-in-kotlin-part-2-result-and-either",
@@ -1298,6 +1293,11 @@
     {
       "matched_slug": "kotlin-101-context-receivers",
       "similarity": 0.828204800379564,
+      "source_slug": "functional-error-handling-in-kotlin-part-1-absent-values"
+    },
+    {
+      "matched_slug": "idiomatic-error-handling-in-scala",
+      "similarity": 0.823790693992099,
       "source_slug": "functional-error-handling-in-kotlin-part-1-absent-values"
     },
     {
@@ -2251,11 +2251,6 @@
       "source_slug": "scala-3-givens-and-implicits"
     },
     {
-      "matched_slug": "2021-retrospective",
-      "similarity": 1,
-      "source_slug": "scala-3-givens-vs-implicits"
-    },
-    {
       "matched_slug": "2020-retrospective",
       "similarity": 0.944353398344125,
       "source_slug": "scala-3-givens-vs-implicits"
@@ -2276,8 +2271,13 @@
       "source_slug": "scala-3-givens-vs-implicits"
     },
     {
-      "matched_slug": "3-call-by-name-tricks-in-scala",
-      "similarity": 1,
+      "matched_slug": "learning-doobie-for-the-greater-good",
+      "similarity": 0.771564172003519,
+      "source_slug": "scala-3-givens-vs-implicits"
+    },
+    {
+      "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
+      "similarity": 0.804152452450704,
       "source_slug": "scala-3-indentation"
     },
     {
@@ -2286,8 +2286,8 @@
       "source_slug": "scala-3-indentation"
     },
     {
-      "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
-      "similarity": 0.804152452450704,
+      "matched_slug": "5-code-expressiveness-tricks-in-scala",
+      "similarity": 0.799156832644752,
       "source_slug": "scala-3-indentation"
     },
     {
@@ -2296,14 +2296,9 @@
       "source_slug": "scala-3-indentation"
     },
     {
-      "matched_slug": "5-code-expressiveness-tricks-in-scala",
-      "similarity": 0.799156832644752,
+      "matched_slug": "functional-collections-in-scala",
+      "similarity": 0.77797080409701,
       "source_slug": "scala-3-indentation"
-    },
-    {
-      "matched_slug": "4-handy-ways-to-read-files-in-scala",
-      "similarity": 1,
-      "source_slug": "scala-3-mastering-path-dependent-types-and-type-projections"
     },
     {
       "matched_slug": "scala-3-match-types",
@@ -2326,9 +2321,9 @@
       "source_slug": "scala-3-mastering-path-dependent-types-and-type-projections"
     },
     {
-      "matched_slug": "5-code-expressiveness-tricks-in-scala",
-      "similarity": 1,
-      "source_slug": "scala-3-match-types"
+      "matched_slug": "getting-started-with-scala-options",
+      "similarity": 0.770152651374121,
+      "source_slug": "scala-3-mastering-path-dependent-types-and-type-projections"
     },
     {
       "matched_slug": "scala-3-extension-methods",
@@ -2336,12 +2331,12 @@
       "source_slug": "scala-3-match-types"
     },
     {
-      "matched_slug": "scala-3-new-types",
+      "matched_slug": "8-pattern-matching-tricks-in-scala",
       "similarity": 0.823483418018627,
       "source_slug": "scala-3-match-types"
     },
     {
-      "matched_slug": "8-pattern-matching-tricks-in-scala",
+      "matched_slug": "scala-3-new-types",
       "similarity": 0.823483418018627,
       "source_slug": "scala-3-match-types"
     },
@@ -2351,9 +2346,9 @@
       "source_slug": "scala-3-match-types"
     },
     {
-      "matched_slug": "8-pattern-matching-tricks-in-scala",
-      "similarity": 1,
-      "source_slug": "scala-3-new-types"
+      "matched_slug": "getting-started-with-scala-generics",
+      "similarity": 0.82141790645336,
+      "source_slug": "scala-3-match-types"
     },
     {
       "matched_slug": "custom-pattern-matching-in-scala",
@@ -2366,19 +2361,19 @@
       "source_slug": "scala-3-new-types"
     },
     {
-      "matched_slug": "5-code-expressiveness-tricks-in-scala",
-      "similarity": 0.823483418018627,
-      "source_slug": "scala-3-new-types"
-    },
-    {
       "matched_slug": "scala-3-match-types",
       "similarity": 0.823483418018627,
       "source_slug": "scala-3-new-types"
     },
     {
-      "matched_slug": "a-backtracking-sudoku-solver-in-scala",
-      "similarity": 1,
-      "source_slug": "scala-3-opaque-types"
+      "matched_slug": "5-code-expressiveness-tricks-in-scala",
+      "similarity": 0.823483418018627,
+      "source_slug": "scala-3-new-types"
+    },
+    {
+      "matched_slug": "scala-3-given-and-using-clauses",
+      "similarity": 0.816743179144101,
+      "source_slug": "scala-3-new-types"
     },
     {
       "matched_slug": "creating-a-cli-sudoku-solver-with-scala-native",
@@ -2401,17 +2396,17 @@
       "source_slug": "scala-3-opaque-types"
     },
     {
-      "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
-      "similarity": 1,
-      "source_slug": "scala-3-traits"
+      "matched_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala",
+      "similarity": 0.798808312629168,
+      "source_slug": "scala-3-opaque-types"
     },
     {
-      "matched_slug": "finagle-twitters-rpc-library-for-scala",
+      "matched_slug": "why-is-contravariance-so-hard-in-scala",
       "similarity": 0.807119775242794,
       "source_slug": "scala-3-traits"
     },
     {
-      "matched_slug": "why-is-contravariance-so-hard-in-scala",
+      "matched_slug": "finagle-twitters-rpc-library-for-scala",
       "similarity": 0.807119775242794,
       "source_slug": "scala-3-traits"
     },
@@ -2421,22 +2416,22 @@
       "source_slug": "scala-3-traits"
     },
     {
+      "matched_slug": "event-streaming-in-apache-pulsar-with-scala",
+      "similarity": 0.801627922155139,
+      "source_slug": "scala-3-traits"
+    },
+    {
       "matched_slug": "what-the-functor",
       "similarity": 0.801627922155139,
       "source_slug": "scala-3-traits"
     },
     {
-      "matched_slug": "a-fresh-perspective-on-monads",
-      "similarity": 1,
-      "source_slug": "scala-3-type-lambdas"
-    },
-    {
-      "matched_slug": "free-monads-in-scala",
+      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
       "similarity": 0.915198186683248,
       "source_slug": "scala-3-type-lambdas"
     },
     {
-      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
+      "matched_slug": "free-monads-in-scala",
       "similarity": 0.915198186683248,
       "source_slug": "scala-3-type-lambdas"
     },
@@ -2451,9 +2446,9 @@
       "source_slug": "scala-3-type-lambdas"
     },
     {
-      "matched_slug": "a-functional-load-balancer-with-scala-http4s-and-cats-effect",
-      "similarity": 1,
-      "source_slug": "scala-3-type-level-programming"
+      "matched_slug": "cats-essential-type-class-hierarchy",
+      "similarity": 0.8592489361763,
+      "source_slug": "scala-3-type-lambdas"
     },
     {
       "matched_slug": "functional-parallel-programming-with-scala-and-cats-effect",
@@ -2461,12 +2456,12 @@
       "source_slug": "scala-3-type-level-programming"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
+      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
       "similarity": 0.832757020972879,
       "source_slug": "scala-3-type-level-programming"
     },
     {
-      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
+      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
       "similarity": 0.832757020972879,
       "source_slug": "scala-3-type-level-programming"
     },
@@ -2476,8 +2471,13 @@
       "source_slug": "scala-3-type-level-programming"
     },
     {
-      "matched_slug": "a-guide-to-choosing-the-best-scala-course",
-      "similarity": 1,
+      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
+      "similarity": 0.82144281800262,
+      "source_slug": "scala-3-type-level-programming"
+    },
+    {
+      "matched_slug": "cats-essential-type-class-hierarchy",
+      "similarity": 0.839108824729919,
       "source_slug": "scala-testing-with-scalatest-a-beginners-guide-to-testing-styles"
     },
     {
@@ -2486,8 +2486,8 @@
       "source_slug": "scala-testing-with-scalatest-a-beginners-guide-to-testing-styles"
     },
     {
-      "matched_slug": "cats-essential-type-class-hierarchy",
-      "similarity": 0.839108824729919,
+      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
+      "similarity": 0.805205583572388,
       "source_slug": "scala-testing-with-scalatest-a-beginners-guide-to-testing-styles"
     },
     {
@@ -2496,13 +2496,13 @@
       "source_slug": "scala-testing-with-scalatest-a-beginners-guide-to-testing-styles"
     },
     {
-      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
-      "similarity": 0.805205583572388,
+      "matched_slug": "cats-effect-3-racing-ios",
+      "similarity": 0.804731392296392,
       "source_slug": "scala-testing-with-scalatest-a-beginners-guide-to-testing-styles"
     },
     {
-      "matched_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala",
-      "similarity": 1,
+      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
+      "similarity": 0.898539638171135,
       "source_slug": "self-types-in-scala-overview"
     },
     {
@@ -2511,8 +2511,8 @@
       "source_slug": "self-types-in-scala-overview"
     },
     {
-      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
-      "similarity": 0.898539638171135,
+      "matched_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala",
+      "similarity": 0.864425846074473,
       "source_slug": "self-types-in-scala-overview"
     },
     {
@@ -2521,14 +2521,9 @@
       "source_slug": "self-types-in-scala-overview"
     },
     {
-      "matched_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala",
-      "similarity": 0.864425846074473,
+      "matched_slug": "a-fresh-perspective-on-monads",
+      "similarity": 0.853981077671051,
       "source_slug": "self-types-in-scala-overview"
-    },
-    {
-      "matched_slug": "a-scala-project-with-akka-cats-and-cassandra",
-      "similarity": 1,
-      "source_slug": "semigroups-and-monoids-in-scala"
     },
     {
       "matched_slug": "cats-essential-type-class-hierarchy",
@@ -2551,9 +2546,9 @@
       "source_slug": "semigroups-and-monoids-in-scala"
     },
     {
-      "matched_slug": "abstract-classes-vs-traits-in-scala-differences",
-      "similarity": 1,
-      "source_slug": "sending-http-requests-with-scala-and-akka-in-5-minutes"
+      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
+      "similarity": 0.816759326071665,
+      "source_slug": "semigroups-and-monoids-in-scala"
     },
     {
       "matched_slug": "getting-started-with-scala-generics",
@@ -2576,17 +2571,17 @@
       "source_slug": "sending-http-requests-with-scala-and-akka-in-5-minutes"
     },
     {
-      "matched_slug": "akka-http-3-json-libraries",
-      "similarity": 1,
-      "source_slug": "sort-lists-in-scala-with-tail-recursion"
+      "matched_slug": "free-monads-in-scala",
+      "similarity": 0.793768058721579,
+      "source_slug": "sending-http-requests-with-scala-and-akka-in-5-minutes"
     },
     {
-      "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
+      "matched_slug": "akka-typed-adapting-messages",
       "similarity": 0.806699608558488,
       "source_slug": "sort-lists-in-scala-with-tail-recursion"
     },
     {
-      "matched_slug": "akka-typed-adapting-messages",
+      "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
       "similarity": 0.806699608558488,
       "source_slug": "sort-lists-in-scala-with-tail-recursion"
     },
@@ -2596,13 +2591,18 @@
       "source_slug": "sort-lists-in-scala-with-tail-recursion"
     },
     {
+      "matched_slug": "structured-concurrency-in-java",
+      "similarity": 0.803093385512032,
+      "source_slug": "sort-lists-in-scala-with-tail-recursion"
+    },
+    {
       "matched_slug": "akka-typed-actors-stateful-and-stateless",
       "similarity": 0.803093385512032,
       "source_slug": "sort-lists-in-scala-with-tail-recursion"
     },
     {
-      "matched_slug": "akka-http-to-heroku-in-10-minutes",
-      "similarity": 1,
+      "matched_slug": "deploy-a-scala-application-to-aws-lambda",
+      "similarity": 0.786410178374036,
       "source_slug": "stateful-streams-with-apache-pulsar-and-apache-flink"
     },
     {
@@ -2611,8 +2611,8 @@
       "source_slug": "stateful-streams-with-apache-pulsar-and-apache-flink"
     },
     {
-      "matched_slug": "deploy-a-scala-application-to-aws-lambda",
-      "similarity": 0.786410178374036,
+      "matched_slug": "sort-lists-in-scala-with-tail-recursion",
+      "similarity": 0.781515100923462,
       "source_slug": "stateful-streams-with-apache-pulsar-and-apache-flink"
     },
     {
@@ -2621,22 +2621,17 @@
       "source_slug": "stateful-streams-with-apache-pulsar-and-apache-flink"
     },
     {
-      "matched_slug": "sort-lists-in-scala-with-tail-recursion",
-      "similarity": 0.781515100923462,
+      "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
+      "similarity": 0.780515127059191,
       "source_slug": "stateful-streams-with-apache-pulsar-and-apache-flink"
     },
     {
-      "matched_slug": "akka-streams-backpressure",
-      "similarity": 1,
-      "source_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming"
-    },
-    {
-      "matched_slug": "zio-full-stack-webapp",
+      "matched_slug": "from-akka-streams-to-actors-and-back",
       "similarity": 0.842803716659552,
       "source_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming"
     },
     {
-      "matched_slug": "from-akka-streams-to-actors-and-back",
+      "matched_slug": "zio-full-stack-webapp",
       "similarity": 0.842803716659552,
       "source_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming"
     },
@@ -2651,9 +2646,9 @@
       "source_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming"
     },
     {
-      "matched_slug": "akka-typed-actor-discovery-with-akka-receptionist",
-      "similarity": 1,
-      "source_slug": "streaming-sql-with-apache-flink-introduction"
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "similarity": 0.808773946239118,
+      "source_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming"
     },
     {
       "matched_slug": "akka-typed-actors-stateful-and-stateless",
@@ -2671,13 +2666,18 @@
       "source_slug": "streaming-sql-with-apache-flink-introduction"
     },
     {
+      "matched_slug": "akka-typed-adapting-messages",
+      "similarity": 0.830671380122235,
+      "source_slug": "streaming-sql-with-apache-flink-introduction"
+    },
+    {
       "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
       "similarity": 0.830671380122235,
       "source_slug": "streaming-sql-with-apache-flink-introduction"
     },
     {
-      "matched_slug": "akka-typed-actors-stateful-and-stateless",
-      "similarity": 1,
+      "matched_slug": "tagless-final-in-scala",
+      "similarity": 0.878436207771301,
       "source_slug": "structured-concurrency-in-java"
     },
     {
@@ -2686,11 +2686,6 @@
       "source_slug": "structured-concurrency-in-java"
     },
     {
-      "matched_slug": "tagless-final-in-scala",
-      "similarity": 0.878436207771301,
-      "source_slug": "structured-concurrency-in-java"
-    },
-    {
       "matched_slug": "sync-async-and-non-blocking-in-scala-and-akka",
       "similarity": 0.861663298408598,
       "source_slug": "structured-concurrency-in-java"
@@ -2701,13 +2696,18 @@
       "source_slug": "structured-concurrency-in-java"
     },
     {
-      "matched_slug": "akka-typed-adapting-messages",
-      "similarity": 1,
-      "source_slug": "sync-async-and-non-blocking-in-scala-and-akka"
+      "matched_slug": "how-akka-typed-incentivizes-writing-good-code",
+      "similarity": 0.860708832740784,
+      "source_slug": "structured-concurrency-in-java"
     },
     {
       "matched_slug": "how-akka-typed-incentivizes-writing-good-code",
       "similarity": 0.864152328473058,
+      "source_slug": "sync-async-and-non-blocking-in-scala-and-akka"
+    },
+    {
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "similarity": 0.861663298408598,
       "source_slug": "sync-async-and-non-blocking-in-scala-and-akka"
     },
     {
@@ -2716,8 +2716,8 @@
       "source_slug": "sync-async-and-non-blocking-in-scala-and-akka"
     },
     {
-      "matched_slug": "akka-typed-actors-stateful-and-stateless",
-      "similarity": 0.861663298408598,
+      "matched_slug": "streaming-sql-with-apache-flink-introduction",
+      "similarity": 0.830671380122235,
       "source_slug": "sync-async-and-non-blocking-in-scala-and-akka"
     },
     {
@@ -2726,17 +2726,12 @@
       "source_slug": "sync-async-and-non-blocking-in-scala-and-akka"
     },
     {
-      "matched_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns",
-      "similarity": 1,
-      "source_slug": "tagless-final-in-scala"
-    },
-    {
-      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "matched_slug": "structured-concurrency-in-java",
       "similarity": 0.878436207771301,
       "source_slug": "tagless-final-in-scala"
     },
     {
-      "matched_slug": "structured-concurrency-in-java",
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
       "similarity": 0.878436207771301,
       "source_slug": "tagless-final-in-scala"
     },
@@ -2751,9 +2746,9 @@
       "source_slug": "tagless-final-in-scala"
     },
     {
-      "matched_slug": "algebraic-data-types-in-scala",
-      "similarity": 1,
-      "source_slug": "the-big-kotlin-tutorial"
+      "matched_slug": "akka-typed-adapting-messages",
+      "similarity": 0.828593632150461,
+      "source_slug": "tagless-final-in-scala"
     },
     {
       "matched_slug": "cats-essential-type-class-hierarchy",
@@ -2776,9 +2771,9 @@
       "source_slug": "the-big-kotlin-tutorial"
     },
     {
-      "matched_slug": "all-the-joins-in-spark-dataframes",
-      "similarity": 1,
-      "source_slug": "the-brilliance-of-materialized-values-in-akka-streams"
+      "matched_slug": "an-introduction-to-monads-in-scala",
+      "similarity": 0.82044627727409,
+      "source_slug": "the-big-kotlin-tutorial"
     },
     {
       "matched_slug": "broadcast-joins-in-apache-spark-an-optimization-technique",
@@ -2801,17 +2796,17 @@
       "source_slug": "the-brilliance-of-materialized-values-in-akka-streams"
     },
     {
-      "matched_slug": "an-introduction-to-monads-in-scala",
-      "similarity": 1,
-      "source_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala"
+      "matched_slug": "objects-and-companions-in-scala",
+      "similarity": 0.748860046199575,
+      "source_slug": "the-brilliance-of-materialized-values-in-akka-streams"
     },
     {
-      "matched_slug": "free-monads-in-scala",
+      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
       "similarity": 0.910316153225251,
       "source_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala"
     },
     {
-      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
+      "matched_slug": "free-monads-in-scala",
       "similarity": 0.910316153225251,
       "source_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala"
     },
@@ -2826,9 +2821,9 @@
       "source_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala"
     },
     {
-      "matched_slug": "authentication-with-scala-and-http4s-oauth",
-      "similarity": 1,
-      "source_slug": "the-ultimate-guide-to-java-virtual-threads"
+      "matched_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala",
+      "similarity": 0.864425846074473,
+      "source_slug": "the-differences-between-null-nothing-nil-none-and-unit-in-scala"
     },
     {
       "matched_slug": "authentication-with-scala-and-http4s",
@@ -2851,9 +2846,9 @@
       "source_slug": "the-ultimate-guide-to-java-virtual-threads"
     },
     {
-      "matched_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication",
-      "similarity": 1,
-      "source_slug": "things-that-dont-make-sense-scala-loops"
+      "matched_slug": "types-kinds-and-type-constructors-in-scala",
+      "similarity": 0.804145836953704,
+      "source_slug": "the-ultimate-guide-to-java-virtual-threads"
     },
     {
       "matched_slug": "things-that-dont-make-sense-scala-variables",
@@ -2876,17 +2871,17 @@
       "source_slug": "things-that-dont-make-sense-scala-loops"
     },
     {
-      "matched_slug": "authentication-with-scala-and-http4s",
-      "similarity": 1,
-      "source_slug": "things-that-dont-make-sense-scala-variables"
+      "matched_slug": "types-kinds-and-type-constructors-in-scala",
+      "similarity": 0.831618532691759,
+      "source_slug": "things-that-dont-make-sense-scala-loops"
     },
     {
-      "matched_slug": "things-that-dont-make-sense-scala-loops",
+      "matched_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication",
       "similarity": 0.906993238033881,
       "source_slug": "things-that-dont-make-sense-scala-variables"
     },
     {
-      "matched_slug": "authentication-with-scala-and-http4s-oauth-two-factor-authentication",
+      "matched_slug": "things-that-dont-make-sense-scala-loops",
       "similarity": 0.906993238033881,
       "source_slug": "things-that-dont-make-sense-scala-variables"
     },
@@ -2901,17 +2896,17 @@
       "source_slug": "things-that-dont-make-sense-scala-variables"
     },
     {
-      "matched_slug": "broadcast-joins-in-apache-spark-an-optimization-technique",
-      "similarity": 1,
-      "source_slug": "top-10-skills-and-mental-models-for-becoming-a-scala-developer"
+      "matched_slug": "configuring-http4s-security-handling-cors-and-csrf",
+      "similarity": 0.858117256816726,
+      "source_slug": "things-that-dont-make-sense-scala-variables"
     },
     {
-      "matched_slug": "all-the-joins-in-spark-dataframes",
+      "matched_slug": "the-brilliance-of-materialized-values-in-akka-streams",
       "similarity": 0.865899952435511,
       "source_slug": "top-10-skills-and-mental-models-for-becoming-a-scala-developer"
     },
     {
-      "matched_slug": "the-brilliance-of-materialized-values-in-akka-streams",
+      "matched_slug": "all-the-joins-in-spark-dataframes",
       "similarity": 0.865899952435511,
       "source_slug": "top-10-skills-and-mental-models-for-becoming-a-scala-developer"
     },
@@ -2926,17 +2921,17 @@
       "source_slug": "top-10-skills-and-mental-models-for-becoming-a-scala-developer"
     },
     {
-      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
-      "similarity": 1,
-      "source_slug": "type-level-programming-in-scala-3-part-1-comparing-types"
+      "matched_slug": "what-the-functor",
+      "similarity": 0.763237995522393,
+      "source_slug": "top-10-skills-and-mental-models-for-becoming-a-scala-developer"
     },
     {
-      "matched_slug": "cats-essential-type-class-hierarchy",
+      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
       "similarity": 0.891650676727295,
       "source_slug": "type-level-programming-in-scala-3-part-1-comparing-types"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
+      "matched_slug": "cats-essential-type-class-hierarchy",
       "similarity": 0.891650676727295,
       "source_slug": "type-level-programming-in-scala-3-part-1-comparing-types"
     },
@@ -2946,14 +2941,14 @@
       "source_slug": "type-level-programming-in-scala-3-part-1-comparing-types"
     },
     {
-      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
+      "matched_slug": "zio-http",
       "similarity": 0.856423267339275,
       "source_slug": "type-level-programming-in-scala-3-part-1-comparing-types"
     },
     {
-      "matched_slug": "cats-effect-3-introduction-to-fibers",
-      "similarity": 1,
-      "source_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types"
+      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
+      "similarity": 0.856423267339275,
+      "source_slug": "type-level-programming-in-scala-3-part-1-comparing-types"
     },
     {
       "matched_slug": "cats-effect-3-racing-ios",
@@ -2971,14 +2966,14 @@
       "source_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
+      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
       "similarity": 0.852306024936384,
       "source_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types"
     },
     {
-      "matched_slug": "cats-effect-3-racing-ios",
-      "similarity": 1,
-      "source_slug": "type-level-programming-in-scala-part-1-numbers-and-comparisons"
+      "matched_slug": "type-level-programming-in-scala-3-part-1-comparing-types",
+      "similarity": 0.852306024936384,
+      "source_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types"
     },
     {
       "matched_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types",
@@ -2996,14 +2991,14 @@
       "source_slug": "type-level-programming-in-scala-part-1-numbers-and-comparisons"
     },
     {
-      "matched_slug": "zio-http",
+      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
       "similarity": 0.831450790503481,
       "source_slug": "type-level-programming-in-scala-part-1-numbers-and-comparisons"
     },
     {
-      "matched_slug": "cats-essential-type-class-hierarchy",
-      "similarity": 1,
-      "source_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types"
+      "matched_slug": "zio-http",
+      "similarity": 0.831450790503481,
+      "source_slug": "type-level-programming-in-scala-part-1-numbers-and-comparisons"
     },
     {
       "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
@@ -3026,9 +3021,9 @@
       "source_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types"
     },
     {
-      "matched_slug": "comparing-akka-streams-kafka-streams-spark-streaming",
-      "similarity": 1,
-      "source_slug": "type-level-programming-in-scala-part-3-sorting-lists"
+      "matched_slug": "zio-http",
+      "similarity": 0.863450296911581,
+      "source_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types"
     },
     {
       "matched_slug": "kafka-101-streams",
@@ -3036,12 +3031,12 @@
       "source_slug": "type-level-programming-in-scala-part-3-sorting-lists"
     },
     {
-      "matched_slug": "from-akka-streams-to-actors-and-back",
+      "matched_slug": "zio-full-stack-webapp",
       "similarity": 0.845900604373194,
       "source_slug": "type-level-programming-in-scala-part-3-sorting-lists"
     },
     {
-      "matched_slug": "zio-full-stack-webapp",
+      "matched_slug": "from-akka-streams-to-actors-and-back",
       "similarity": 0.845900604373194,
       "source_slug": "type-level-programming-in-scala-part-3-sorting-lists"
     },
@@ -3051,9 +3046,9 @@
       "source_slug": "type-level-programming-in-scala-part-3-sorting-lists"
     },
     {
-      "matched_slug": "configuring-http4s-security-handling-cors-and-csrf",
-      "similarity": 1,
-      "source_slug": "types-kinds-and-type-constructors-in-scala"
+      "matched_slug": "akka-streams-backpressure",
+      "similarity": 0.812747273549926,
+      "source_slug": "type-level-programming-in-scala-part-3-sorting-lists"
     },
     {
       "matched_slug": "things-that-dont-make-sense-scala-variables",
@@ -3076,9 +3071,9 @@
       "source_slug": "types-kinds-and-type-constructors-in-scala"
     },
     {
-      "matched_slug": "controllable-futures-in-scala",
-      "similarity": 1,
-      "source_slug": "udp-with-scala-and-fs2"
+      "matched_slug": "authentication-with-scala-and-http4s-oauth",
+      "similarity": 0.804145836953704,
+      "source_slug": "types-kinds-and-type-constructors-in-scala"
     },
     {
       "matched_slug": "evaluation-modes-in-scala",
@@ -3091,19 +3086,19 @@
       "source_slug": "udp-with-scala-and-fs2"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types",
-      "similarity": 0.761610337639782,
-      "source_slug": "udp-with-scala-and-fs2"
-    },
-    {
       "matched_slug": "cats-effect-3-introduction-to-fibers",
       "similarity": 0.761610337639782,
       "source_slug": "udp-with-scala-and-fs2"
     },
     {
-      "matched_slug": "create-your-own-custom-string-interpolator",
-      "similarity": 1,
-      "source_slug": "underscores-are-overloaded-in-scala"
+      "matched_slug": "type-level-programming-in-scala-3-part-2-a-quicksort-on-types",
+      "similarity": 0.761610337639782,
+      "source_slug": "udp-with-scala-and-fs2"
+    },
+    {
+      "matched_slug": "akka-typed-how-the-pipe-pattern-prevents-anti-patterns",
+      "similarity": 0.761366665363312,
+      "source_slug": "udp-with-scala-and-fs2"
     },
     {
       "matched_slug": "understanding-spark-query-plans",
@@ -3126,9 +3121,9 @@
       "source_slug": "underscores-are-overloaded-in-scala"
     },
     {
-      "matched_slug": "creating-a-cli-sudoku-solver-with-scala-native",
-      "similarity": 1,
-      "source_slug": "understanding-spark-directed-acyclic-graphs"
+      "matched_slug": "scala-3-match-types",
+      "similarity": 0.748481720504966,
+      "source_slug": "underscores-are-overloaded-in-scala"
     },
     {
       "matched_slug": "scala-3-opaque-types",
@@ -3151,17 +3146,17 @@
       "source_slug": "understanding-spark-directed-acyclic-graphs"
     },
     {
-      "matched_slug": "custom-pattern-matching-in-scala",
-      "similarity": 1,
-      "source_slug": "understanding-spark-query-plans"
+      "matched_slug": "a-fresh-perspective-on-monads",
+      "similarity": 0.805473459256306,
+      "source_slug": "understanding-spark-directed-acyclic-graphs"
     },
     {
-      "matched_slug": "scala-3-new-types",
+      "matched_slug": "8-pattern-matching-tricks-in-scala",
       "similarity": 0.915967295650573,
       "source_slug": "understanding-spark-query-plans"
     },
     {
-      "matched_slug": "8-pattern-matching-tricks-in-scala",
+      "matched_slug": "scala-3-new-types",
       "similarity": 0.915967295650573,
       "source_slug": "understanding-spark-query-plans"
     },
@@ -3176,9 +3171,9 @@
       "source_slug": "understanding-spark-query-plans"
     },
     {
-      "matched_slug": "demystifying-variance-positions-in-scala",
-      "similarity": 1,
-      "source_slug": "use-akka-streams-graph-dsl"
+      "matched_slug": "objects-and-companions-in-scala",
+      "similarity": 0.821449377709559,
+      "source_slug": "understanding-spark-query-plans"
     },
     {
       "matched_slug": "why-are-scala-type-classes-useful",
@@ -3191,19 +3186,19 @@
       "source_slug": "use-akka-streams-graph-dsl"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
-      "similarity": 0.829141577584561,
-      "source_slug": "use-akka-streams-graph-dsl"
-    },
-    {
       "matched_slug": "cats-essential-type-class-hierarchy",
       "similarity": 0.829141577584561,
       "source_slug": "use-akka-streams-graph-dsl"
     },
     {
-      "matched_slug": "deploy-a-scala-application-to-aws-lambda",
-      "similarity": 1,
-      "source_slug": "using-scala-as-a-junior-developer"
+      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
+      "similarity": 0.829141577584561,
+      "source_slug": "use-akka-streams-graph-dsl"
+    },
+    {
+      "matched_slug": "getting-started-with-scala-generics",
+      "similarity": 0.81722510950417,
+      "source_slug": "use-akka-streams-graph-dsl"
     },
     {
       "matched_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql",
@@ -3226,9 +3221,9 @@
       "source_slug": "using-scala-as-a-junior-developer"
     },
     {
-      "matched_slug": "elevate-your-tests-testing-functional-kotlin-with-arrow-and-raise",
-      "similarity": 1,
-      "source_slug": "value-classes-in-scala"
+      "matched_slug": "stateful-streams-with-apache-pulsar-and-apache-flink",
+      "similarity": 0.786410178374036,
+      "source_slug": "using-scala-as-a-junior-developer"
     },
     {
       "matched_slug": "functional-error-handling-in-kotlin-part-3-the-raise-dsl",
@@ -3241,19 +3236,19 @@
       "source_slug": "value-classes-in-scala"
     },
     {
-      "matched_slug": "zio-streams-introduction",
-      "similarity": 0.823488842040967,
-      "source_slug": "value-classes-in-scala"
-    },
-    {
       "matched_slug": "functional-error-handling-in-kotlin-part-1-absent-values",
       "similarity": 0.823488842040967,
       "source_slug": "value-classes-in-scala"
     },
     {
-      "matched_slug": "enums-in-scala-3",
-      "similarity": 1,
-      "source_slug": "websockers-in-scala-part-1-http4s"
+      "matched_slug": "zio-streams-introduction",
+      "similarity": 0.823488842040967,
+      "source_slug": "value-classes-in-scala"
+    },
+    {
+      "matched_slug": "functional-error-handling-in-kotlin-part-2-result-and-either",
+      "similarity": 0.815843983687411,
+      "source_slug": "value-classes-in-scala"
     },
     {
       "matched_slug": "refined-types-in-scala",
@@ -3276,9 +3271,9 @@
       "source_slug": "websockers-in-scala-part-1-http4s"
     },
     {
-      "matched_slug": "eta-expansion-and-partially-applied-functions-in-scala",
-      "similarity": 1,
-      "source_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql"
+      "matched_slug": "scala-3-match-types",
+      "similarity": 0.802205467618491,
+      "source_slug": "websockers-in-scala-part-1-http4s"
     },
     {
       "matched_slug": "higher-order-functions-for-object-oriented-programmers",
@@ -3301,9 +3296,9 @@
       "source_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql"
     },
     {
-      "matched_slug": "evaluation-modes-in-scala",
-      "similarity": 1,
-      "source_slug": "what-is-referential-transparency-and-why-should-you-care"
+      "matched_slug": "5-code-expressiveness-tricks-in-scala",
+      "similarity": 0.819150756648151,
+      "source_slug": "websockers-in-scala-part-2-integrating-redis-and-postgresql"
     },
     {
       "matched_slug": "scala-3-general-type-projections",
@@ -3316,19 +3311,19 @@
       "source_slug": "what-is-referential-transparency-and-why-should-you-care"
     },
     {
-      "matched_slug": "a-fresh-perspective-on-monads",
-      "similarity": 0.787732720375061,
-      "source_slug": "what-is-referential-transparency-and-why-should-you-care"
-    },
-    {
       "matched_slug": "scala-3-type-lambdas",
       "similarity": 0.787732720375061,
       "source_slug": "what-is-referential-transparency-and-why-should-you-care"
     },
     {
-      "matched_slug": "event-streaming-in-apache-pulsar-with-scala",
-      "similarity": 1,
-      "source_slug": "what-the-functor"
+      "matched_slug": "a-fresh-perspective-on-monads",
+      "similarity": 0.787732720375061,
+      "source_slug": "what-is-referential-transparency-and-why-should-you-care"
+    },
+    {
+      "matched_slug": "algebraic-data-types-in-scala",
+      "similarity": 0.784237574121738,
+      "source_slug": "what-is-referential-transparency-and-why-should-you-care"
     },
     {
       "matched_slug": "kafka-101-streams",
@@ -3336,12 +3331,12 @@
       "source_slug": "what-the-functor"
     },
     {
-      "matched_slug": "scala-3-traits",
+      "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
       "similarity": 0.801627922155139,
       "source_slug": "what-the-functor"
     },
     {
-      "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
+      "matched_slug": "scala-3-traits",
       "similarity": 0.801627922155139,
       "source_slug": "what-the-functor"
     },
@@ -3351,9 +3346,9 @@
       "source_slug": "what-the-functor"
     },
     {
-      "matched_slug": "exploiting-implicit-ambiguity-in-scala",
-      "similarity": 1,
-      "source_slug": "why-are-scala-type-classes-useful"
+      "matched_slug": "comparing-akka-streams-kafka-streams-spark-streaming",
+      "similarity": 0.785014535782994,
+      "source_slug": "what-the-functor"
     },
     {
       "matched_slug": "scala-3-anti-givens",
@@ -3376,9 +3371,9 @@
       "source_slug": "why-are-scala-type-classes-useful"
     },
     {
-      "matched_slug": "finagle-twitters-rpc-library-for-scala",
-      "similarity": 1,
-      "source_slug": "why-is-contravariance-so-hard-in-scala"
+      "matched_slug": "scala-3-given-and-using-clauses",
+      "similarity": 0.8400922703578,
+      "source_slug": "why-are-scala-type-classes-useful"
     },
     {
       "matched_slug": "fs2-more-than-functional-streaming-in-scala",
@@ -3391,27 +3386,27 @@
       "source_slug": "why-is-contravariance-so-hard-in-scala"
     },
     {
-      "matched_slug": "scala-3-traits",
-      "similarity": 0.807119775242794,
-      "source_slug": "why-is-contravariance-so-hard-in-scala"
-    },
-    {
       "matched_slug": "a-distributed-code-execution-engine-in-pekko-with-scala",
       "similarity": 0.807119775242794,
       "source_slug": "why-is-contravariance-so-hard-in-scala"
     },
     {
-      "matched_slug": "free-monads-in-scala",
-      "similarity": 1,
-      "source_slug": "zio-fibers-concurrency-and-lightweight-threads"
+      "matched_slug": "scala-3-traits",
+      "similarity": 0.807119775242794,
+      "source_slug": "why-is-contravariance-so-hard-in-scala"
     },
     {
-      "matched_slug": "scala-3-type-lambdas",
+      "matched_slug": "functional-parallel-programming-with-scala-and-cats-effect",
+      "similarity": 0.806101226988472,
+      "source_slug": "why-is-contravariance-so-hard-in-scala"
+    },
+    {
+      "matched_slug": "a-fresh-perspective-on-monads",
       "similarity": 0.915198186683248,
       "source_slug": "zio-fibers-concurrency-and-lightweight-threads"
     },
     {
-      "matched_slug": "a-fresh-perspective-on-monads",
+      "matched_slug": "scala-3-type-lambdas",
       "similarity": 0.915198186683248,
       "source_slug": "zio-fibers-concurrency-and-lightweight-threads"
     },
@@ -3426,9 +3421,9 @@
       "source_slug": "zio-fibers-concurrency-and-lightweight-threads"
     },
     {
-      "matched_slug": "from-akka-streams-to-actors-and-back",
-      "similarity": 1,
-      "source_slug": "zio-full-stack-webapp"
+      "matched_slug": "a-monad-is-a-monoid-in-the-category-of-endofunctors-scala",
+      "similarity": 0.898539638171135,
+      "source_slug": "zio-fibers-concurrency-and-lightweight-threads"
     },
     {
       "matched_slug": "comparing-akka-streams-kafka-streams-spark-streaming",
@@ -3441,18 +3436,23 @@
       "source_slug": "zio-full-stack-webapp"
     },
     {
-      "matched_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming",
-      "similarity": 0.842803716659552,
-      "source_slug": "zio-full-stack-webapp"
-    },
-    {
       "matched_slug": "akka-streams-backpressure",
       "similarity": 0.842803716659552,
       "source_slug": "zio-full-stack-webapp"
     },
     {
-      "matched_slug": "fs2-more-than-functional-streaming-in-scala",
-      "similarity": 1,
+      "matched_slug": "streaming-analytics-with-apache-pulsar-and-spark-structured-streaming",
+      "similarity": 0.842803716659552,
+      "source_slug": "zio-full-stack-webapp"
+    },
+    {
+      "matched_slug": "akka-typed-actors-stateful-and-stateless",
+      "similarity": 0.83162849137953,
+      "source_slug": "zio-full-stack-webapp"
+    },
+    {
+      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
+      "similarity": 0.863450296911581,
       "source_slug": "zio-http"
     },
     {
@@ -3461,8 +3461,8 @@
       "source_slug": "zio-http"
     },
     {
-      "matched_slug": "type-level-programming-in-scala-part-2-adding-numbers-as-types",
-      "similarity": 0.863450296911581,
+      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
+      "similarity": 0.856423267339275,
       "source_slug": "zio-http"
     },
     {
@@ -3471,14 +3471,9 @@
       "source_slug": "zio-http"
     },
     {
-      "matched_slug": "building-a-full-stack-scala-3-application-with-the-typelevel-stack",
-      "similarity": 0.856423267339275,
+      "matched_slug": "functional-parallel-programming-with-scala-and-cats-effect",
+      "similarity": 0.851380859274246,
       "source_slug": "zio-http"
-    },
-    {
-      "matched_slug": "functional-collections-in-scala",
-      "similarity": 1,
-      "source_slug": "zio-kafka"
     },
     {
       "matched_slug": "higher-order-functions-for-object-oriented-programmers",
@@ -3491,19 +3486,19 @@
       "source_slug": "zio-kafka"
     },
     {
-      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
-      "similarity": 0.823258785592137,
-      "source_slug": "zio-kafka"
-    },
-    {
       "matched_slug": "free-monads-in-scala",
       "similarity": 0.823258785592137,
       "source_slug": "zio-kafka"
     },
     {
-      "matched_slug": "functional-error-handling-in-kotlin-part-1-absent-values",
-      "similarity": 1,
-      "source_slug": "zio-streams-introduction"
+      "matched_slug": "zio-fibers-concurrency-and-lightweight-threads",
+      "similarity": 0.823258785592137,
+      "source_slug": "zio-kafka"
+    },
+    {
+      "matched_slug": "scala-3-type-lambdas",
+      "similarity": 0.822192619908297,
+      "source_slug": "zio-kafka"
     },
     {
       "matched_slug": "functional-error-handling-in-kotlin-part-2-result-and-either",
@@ -3523,6 +3518,11 @@
     {
       "matched_slug": "kotlin-101-context-receivers",
       "similarity": 0.828204800379564,
+      "source_slug": "zio-streams-introduction"
+    },
+    {
+      "matched_slug": "idiomatic-error-handling-in-scala",
+      "similarity": 0.823790693992099,
       "source_slug": "zio-streams-introduction"
     }
   ]
