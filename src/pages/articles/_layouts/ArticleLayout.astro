@@ -172,11 +172,46 @@ console.log(relatedArticles);
           ]}
         /> -->
         <RelatedArticles client:load>
-          <ArticlePreview slot="firstArticle" article={relatedArticles[0]} />
-          <ArticlePreview slot="secondArticle" article={relatedArticles[1]} />
-          <ArticlePreview slot="thirdArticle" article={relatedArticles[2]} />
-          <ArticlePreview slot="fourthArticle" article={relatedArticles[3]} />
-          <ArticlePreview slot="fifthArticle" article={relatedArticles[4]} />
+          {
+            relatedArticles[0] && (
+              <ArticlePreview
+                slot="firstArticle"
+                article={relatedArticles[0]}
+              />
+            )
+          }
+          {
+            relatedArticles[1] && (
+              <ArticlePreview
+                slot="secondArticle"
+                article={relatedArticles[1]}
+              />
+            )
+          }
+          {
+            relatedArticles[2] && (
+              <ArticlePreview
+                slot="thirdArticle"
+                article={relatedArticles[2]}
+              />
+            )
+          }
+          {
+            relatedArticles[3] && (
+              <ArticlePreview
+                slot="fourthArticle"
+                article={relatedArticles[3]}
+              />
+            )
+          }
+          {
+            relatedArticles[4] && (
+              <ArticlePreview
+                slot="fifthArticle"
+                article={relatedArticles[4]}
+              />
+            )
+          }
         </RelatedArticles>
       </footer>
     </article>

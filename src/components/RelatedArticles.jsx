@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Carousel,
   CarouselContent,
@@ -6,16 +8,10 @@ import {
   CarouselPrevious,
 } from "@components/ui/carousel";
 
-import React from "react";
-
-interface CarouselSpacingProps {
-  children: React.ReactNode;
-}
-
 export default function CarouselSpacing(props) {
   return (
     <section>
-      <h2 class="mx-auto text-center">Related Articles</h2>
+      <h2 className="mx-auto text-center">Related Articles</h2>
       <Carousel className="mx-auto w-full max-w-full p-4">
         <CarouselContent className="-ml-1 p-4">
           <CarouselItem key={0} className="pl-4 md:basis-1/2 lg:basis-1/3">
