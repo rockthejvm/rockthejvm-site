@@ -59,14 +59,8 @@ export default {
           ctatext: "hsl(var(--color-holiday-text-cta) / <alpha-value>)",
           tag: "hsl(var(--color-holiday-tag) / <alpha-value>)",
         },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
+        primary: "hsl(var(--color-primary) / <alpha-value>)",
+        secondary: "hsl(var(--color-secondary) / <alpha-value>)",
         basecolor: "hsl(var(--color-base) / <alpha-value>)",
         opposite: "hsl(var(--color-shadow) / <alpha-value>)",
         cta: "hsl(var(--color-cta) / <alpha-value>)",
@@ -111,5 +105,5 @@ export default {
       },
     },
   },
-  plugins: [aspectRatio, forms, typography, require("tailwindcss-animate")],
+  plugins: [aspectRatio, forms, typography],
 };
