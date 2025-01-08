@@ -6,6 +6,7 @@ import sectionize from "@hbsnow/rehype-sectionize";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import fs from "fs";
+import matter from "gray-matter";
 import path from "path";
 
 const articleFiles = new Map();
@@ -32,10 +33,13 @@ function readDirectory(directory, articleDir) {
 
 function buildArticleJson() {
   articleFiles.forEach((value, key) => {
+    const article = fs.readFileSync(path.join(value), "utf8");
+    const { data } = matter(article);
     const obj = {
       slug: key,
-      content: fs.readFileSync(path.join(value), "utf8").substring(0, 100),
+      content: `${data.title} ${data.excerpt} ${data.tags.join(" ")}`,
     };
+    console.log(obj);
     articleObjs.push(obj);
   });
 
@@ -103,6 +107,11 @@ function buildStart() {
     name: "my-build-start",
     hooks: {
       "astro:build:start": async () => {
+        // const branch = process.env.CF_PAGES_BRANCH || "unknown"
+        // if (branch !== "main") {
+        //   await addEmbeddedArticles();
+        //   await getArticleMatches();
+        // }
         await addEmbeddedArticles();
         await getArticleMatches();
       },

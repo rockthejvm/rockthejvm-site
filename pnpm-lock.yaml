@@ -77,6 +77,9 @@ importers:
       fp-ts:
         specifier: ^2.16.9
         version: 2.16.9
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       lucide-react:
         specifier: ^0.469.0
         version: 0.469.0(react@18.3.1)
