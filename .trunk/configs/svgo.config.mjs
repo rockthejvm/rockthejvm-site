@@ -1,4 +1,4 @@
-module.exports = {
+module.exports {
   plugins: [
     {
       name: "preset-default",
