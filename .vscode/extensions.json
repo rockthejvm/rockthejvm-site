@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "GitHub.github-vscode-theme",
+    "PKief.material-icon-theme"
+  ],
+  "unwantedRecommendations": [
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "donjayamanne.githistory"
+  ]
+}
