@@ -36,8 +36,7 @@
   },
   "javascript": {
     "formatter": {
-      "arrowParentheses": "asNeeded",
-      "semicolons": "asNeeded"
+      "semicolons": "always" // Required to prevent issues with Astro Check
     }
   },
   "overrides": [

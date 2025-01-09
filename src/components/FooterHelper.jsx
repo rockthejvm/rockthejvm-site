@@ -322,6 +322,7 @@ export default function Example(props) {
                 href={site.socials.feed.url}
                 target="_blank"
                 className="text-content hover:text-accent-1"
+                rel="noreferrer"
               >
                 {props.rss}
               </a>

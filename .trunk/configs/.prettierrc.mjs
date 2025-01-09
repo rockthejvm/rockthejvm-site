@@ -13,4 +13,4 @@ export default {
   astroSkipFrontmatter: true,
   printWidth: 80,
   proseWrap: "never",
-}
+};

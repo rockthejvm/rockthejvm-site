@@ -7,8 +7,7 @@ const articles = await getCollection("articles");
 const tags = [
   ...new Set(
     articles
-      .map((article) => article.data.tags.map((tag) => tag.id))
-      .flat()
+      .flatMap((article) => article.data.tags.map((tag) => tag.id))
       .sort(),
   ),
 ];
