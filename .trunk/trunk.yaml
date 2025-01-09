@@ -47,6 +47,9 @@ lint:
     - name: astro
       extensions:
         - astro
+      comments:
+        - html-tag
+        - brace-slashes-block
   ignore:
     - linters: [ALL]
       security: false
