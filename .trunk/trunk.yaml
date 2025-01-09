@@ -12,25 +12,20 @@ runtimes:
     - python@3.10.8
 lint:
   definitions:
-    - name: eslint
-      files:
-        - astro
-        - javascript
-        - typescript
+    - name: biome
+      commands:
+        - name: fmt
+          run: biome check --fix "${target}"
+          success_codes: [0, 1]
     - name: prettier
       files:
         - astro
-        - css
-        - graphql
         - html
-        - javascript
-        - json
         - markdown
-        - postcss
-        - prettier_supported_configs
-        - sass
-        - typescript
         - yaml
+    - name: eslint
+      files:
+        - astro
   files:
     - name: astro
       extensions:
