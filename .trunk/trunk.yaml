@@ -30,6 +30,13 @@ lint:
     - name: astro
       extensions:
         - astro
+  ignore:
+    - linters: [ALL]
+      security: false
+      paths:
+        - "**/.gitignore"
+        - "**/{,*-,*.}{lock,lockfile}{,-*,.*}"
+        - "**/{CHANGELOG,LICENSE,LEGAL}{,.*}"
   disabled:
     - markdownlint-cli2
   enabled:
