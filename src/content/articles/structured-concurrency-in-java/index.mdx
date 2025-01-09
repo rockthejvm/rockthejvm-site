@@ -1002,6 +1002,7 @@ static class ShutdownOnResult<T> extends StructuredTaskScope<T> {
   }
 
   public T resultOrThrow() throws ExecutionException {
+    ensureOwnerAndJoined();
     if (firstException != null) {
       throw new ExecutionException(firstException);
     }
