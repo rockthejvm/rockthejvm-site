@@ -13,12 +13,12 @@ We may collect personal identification information from Students in a variety of
 
 The School may collect and use Students’ personal identification information for the following purposes:
 
-- To improve customer service
-  Information you provide helps us respond to your customer service requests and support needs more efficiently.
-- To personalize user experience
-  We may use information in the aggregate to understand how our Students as a group use the services and resources provided in our School.
-- To send periodic emails
-  We may use Student email addresses to send Students information and updates pertaining to their order. Student email addresses may also be used to respond to Student inquiries, questions, or other requests.
+- To improve customer service:
+    - Information you provide helps us respond to your customer service requests and support needs more efficiently.
+- To personalize user experience:
+    - We may use information in the aggregate to understand how our Students as a group use the services and resources provided in our School.
+- To send periodic emails:
+    - We may use Student email addresses to send Students information and updates pertaining to their order. Student email addresses may also be used to respond to Student inquiries, questions, or other requests.
 
 ## Sharing your personal information
 
