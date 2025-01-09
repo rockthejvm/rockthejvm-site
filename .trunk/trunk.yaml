@@ -77,7 +77,7 @@ actions:
       triggers:
         - git_hooks:
             - pre-push
-      run: npx astro check
+      run: npx astro check --minimumFailingSeverity error
   disabled:
     - trunk-announce
     - trunk-check-pre-push
