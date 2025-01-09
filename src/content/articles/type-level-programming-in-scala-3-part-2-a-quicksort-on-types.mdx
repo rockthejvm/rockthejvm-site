@@ -150,8 +150,8 @@ The axioms of partitioning are as follows:
 1. Partitioning a one-element list results in that same list on the "left" and the empty list on the "right".
 1. Considering a list with at least two elements `P :: N :: T` (pivot, next number and tail of the list), we'll need to assume a recursive partitioning of `T` into a "left" `L` (with elements smaller than the pivot) and a "right" `R` (with elements >= the pivot). Now we need to decide where `N` is going to stay.
 
-   - If `P <= N`, then `N` will stay on the "right" side.
-   - If `N < P`, then `N` will stay on the "left" side.
+    - If `P <= N`, then `N` will stay on the "right" side.
+    - If `N < P`, then `N` will stay on the "left" side.
 
 Axioms 1 and 2 are more easily translatable to givens. The first axiom creates a given for a Partition where the original list is HNil and the "left" and "right" side of the split are both HNil.
 
@@ -246,9 +246,9 @@ The sorting axioms are as follows:
 
 - Sorting an empty list gives us back an empty list.
 - Sorting a non-empty list, say `N :: T` has several requirements:
-  - The correct partitioning of the list into a "left" `N :: L` (remember, the pivot is here) and a "right" `R`
-  - Recursive sorting of `L` and `R` into, say `SL` (sorted "left") and `SR` (sorted "right")
-  - The concatenation of the results: `SL` comes first, then `N` the pivot, then `SR`
+    - The correct partitioning of the list into a "left" `N :: L` (remember, the pivot is here) and a "right" `R`
+    - Recursive sorting of `L` and `R` into, say `SL` (sorted "left") and `SR` (sorted "right")
+    - The concatenation of the results: `SL` comes first, then `N` the pivot, then `SR`
 
 The first axiom is similar to the basic axioms of the other operations:
 

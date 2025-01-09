@@ -8,6 +8,12 @@ export default {
         parser: "astro",
       },
     },
+    {
+      files: ["*.md", "*.mdx"],
+      options: {
+        embeddedLanguageFormatting: "off",
+      },
+    },
   ],
   astroAllowShorthand: true,
   astroSkipFrontmatter: true,

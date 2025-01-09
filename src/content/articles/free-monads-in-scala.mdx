@@ -375,8 +375,8 @@ So the final piece that we need to implement is `foldMap`. The `foldMap` method 
 - If this instance is a `Pure`, then return a "pure" `G[A]`. Because `G` is a monad, we can do that easily.
 - If this instance is a `Suspend`, then take the `M[A]` wrapped inside and turn that into a `G[A]` because we have the natural transformation handy.
 - If this instance is a `FlatMap`, then this instance has two fields: another Free instance and a transformation function.
-  - Run a recursive `foldMap` on the wrapped Free instance, returning a `G[A]`.
-  - Then `flatMap` that because `G` is a monad, so we can use the Monad instance to do it.
+    - Run a recursive `foldMap` on the wrapped Free instance, returning a `G[A]`.
+    - Then `flatMap` that because `G` is a monad, so we can use the Monad instance to do it.
 
 Notice how the presence of a given/implicit `Monad[G]` in scope is crucial here. Our code for `foldMap` is as follows:
 

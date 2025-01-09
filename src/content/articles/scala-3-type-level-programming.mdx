@@ -185,6 +185,7 @@ Using `Tuple.fromProductTyped` we can convert a `User` value to its correspondin
 So how do we iterate over a tuple?
 
 If we were working with actual lists, the `map` function would come in handy for our problem.
+
 The new Scala 3 tuples now too have the `map` function which sounds like it could be what we're looking for. Here's the code that I wish I could write:
 
 ```scala
@@ -494,33 +495,33 @@ Some interesting observations about this approach:
 - The user has to debug compilation errors in code that was never written by the said user. As the logic of code generation grows more sophisticated, the debugging process can become non-trivial.
 - Preserving type information is very important. Missing type information can prevent the compiler from fully inlining. For example:
 
-  ```scala
-  scala> val tuple: Tuple = (1, "abc", true)
+    ```scala
+    scala> val tuple: Tuple = (1, "abc", true)
 
-         val list = tupleToJson(tuple)
-  -- Error: ----------------------------------------------------------------------
-  3 |val list = tupleToJson(tuple)
-    |           ^^^^^^^^^^^^^^^^^^
-    |           cannot reduce inline match with
-    |            scrutinee:  tuple : (tuple : Tuple)
-    |            patterns :  case EmptyTuple
-    |                        case tup @ _:*:[h @ _, t @ _]
-    |-----------------------------------------------------------------------------
-    |Inline stack trace
-    |- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    |This location contains code that was inlined from rs$line$6:2
-  2 |  inline tuple match
-    |         ^
-  3 |    case EmptyTuple => Nil // 2
-  4 |    case tup: (h *: t) => // 3
-  5 |      val encoder = summonInline[Encoder[h]] // 4
-  6 |      val json = encoder(tup.head) // 5
-  7 |      json :: tupleToJson(tup.tail) // 6
-    -----------------------------------------------------------------------------
-  1 error found
-  ```
+           val list = tupleToJson(tuple)
+    -- Error: ----------------------------------------------------------------------
+    3 |val list = tupleToJson(tuple)
+      |           ^^^^^^^^^^^^^^^^^^
+      |           cannot reduce inline match with
+      |            scrutinee:  tuple : (tuple : Tuple)
+      |            patterns :  case EmptyTuple
+      |                        case tup @ _:*:[h @ _, t @ _]
+      |-----------------------------------------------------------------------------
+      |Inline stack trace
+      |- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      |This location contains code that was inlined from rs$line$6:2
+    2 |  inline tuple match
+      |         ^
+    3 |    case EmptyTuple => Nil // 2
+    4 |    case tup: (h *: t) => // 3
+    5 |      val encoder = summonInline[Encoder[h]] // 4
+    6 |      val json = encoder(tup.head) // 5
+    7 |      json :: tupleToJson(tup.tail) // 6
+      -----------------------------------------------------------------------------
+    1 error found
+    ```
 
-  Here we purposefully lost type information by marking the `tuple: Tuple`. The compiler gets stuck when inlining as it doesn't know the full type of the provided tuple, and then spits out a vaguely inscrutable compilation error. Eerily reminiscent of macro induced errors.
+    Here we purposefully lost type information by marking the `tuple: Tuple`. The compiler gets stuck when inlining as it doesn't know the full type of the provided tuple, and then spits out a vaguely inscrutable compilation error. Eerily reminiscent of macro induced errors.
 
 But all is well, this is perfectly serviceable for our purposes.
 
@@ -1298,8 +1299,7 @@ What type will that tuple have? This is exactly what `Map` is for. The type we a
 Map[mirror.MirroredElemTypes, Decoder]
 ```
 
-Now we could iterate over this type and `summonInline` each `Decoder` one by one[^summonExercise], but we don't have
-to. The standard library already provides us with a solution:
+Now we could iterate over this type and `summonInline` each `Decoder` one by one[^summonExercise], but we don't have to. The standard library already provides us with a solution:
 
 ```scala
 scala.compiletime.summonAll
@@ -1337,23 +1337,23 @@ This is much more modular than what we had before. `Tuple.Map` and `summonAll` a
 We won't be further improving the `decodeTuple` function, but I will leave you with a few of exercises in that direction.
 
 1. The `encodeTuple` function suffers from the same lack of modularity as the old `decodeTuple`. We can reimplement in a similar way. Try implementing the following signature[^implementedInTheRepo]:
-   ```scala
-   inline def encodeTuple[T <: Tuple](encoders: Map[T, Encoder.AsObject]): Encoder.AsObject[T]
-   ```
-   You will need a couple of helper definitions:
-   ```scala
-   val emptyEncoder: Encoder.AsObject[EmptyTuple]
-   def combineObjectEncoders[H, T <: Tuple](eh: Encoder.AsObject[H], et: Encoder.AsObject[T]): Encoder.AsObject[H *: T]
-   ```
+    ```scala
+    inline def encodeTuple[T <: Tuple](encoders: Map[T, Encoder.AsObject]): Encoder.AsObject[T]
+    ```
+    You will need a couple of helper definitions:
+    ```scala
+    val emptyEncoder: Encoder.AsObject[EmptyTuple]
+    def combineObjectEncoders[H, T <: Tuple](eh: Encoder.AsObject[H], et: Encoder.AsObject[T]): Encoder.AsObject[H *: T]
+    ```
 1. `decodeTuple` is very similar in structure to the famous `sequence` function from functional programming[^listAnalogy]. Generalize `decodeTuple` and implement the following signature[^cats]:
-   ```scala
-   def sequenceTuple[T <: Tuple, F[_]: cats.Applicative](fs: Map[T, F]): F[T]
-   ```
+    ```scala
+    def sequenceTuple[T <: Tuple, F[_]: cats.Applicative](fs: Map[T, F]): F[T]
+    ```
 1. Reimplement `decodeTuple` in terms of `sequenceTuple`. Can you think of other usages for `sequenceTuple`?
 1. The new implementation of `encodeTuple` is very similar to `decodeTuple`. Unfortunately `sequenceTuple` won't work for it[^contravariant]. We can generalize `sequenceTuple` even further. Try implementing the following signature:
-   ```scala
-   def sequenceInvariantTuple[T <: Tuple, F[_]: cats.InvariantMonoidal](fs: Map[T, F]): F[T]
-   ```
+    ```scala
+    def sequenceInvariantTuple[T <: Tuple, F[_]: cats.InvariantMonoidal](fs: Map[T, F]): F[T]
+    ```
 1. Reimplement `encodeTuple` in terms of `sequenceInvariantTuple`.
 1. Reimplement `sequenceTuple` in terms of `sequenceInvariantTuple`.
 

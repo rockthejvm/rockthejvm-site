@@ -14,6 +14,7 @@ import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 ## Introduction
 
 UDP stands for User Datagram Protocol, it's a transport layer communication protocol built on top of IP that is used to transmit data across a network. It works by bundling up data in a UDP packet, adding header information, and sending these packets to the target destination.
+
 The UDP header is fixed at 8 bytes and contains a source port, destination port, the checksum used to verify packet integrity by the receiving device, and the length of the packet which equates to the sum of the payload and header.
 
 UDP has the following characteristics:
@@ -232,6 +233,7 @@ object NioUdp extends IOApp {
 ### The UDP Client
 
 Creating a UDP client is very similar to creating a server, the only change is we'll be preparing the data to send to the server which we later decode and print once it's echoed back.
+
 Here's how it's implemented:
 
 ```scala
@@ -1352,6 +1354,7 @@ ffplay udp://225.4.5.6:5555
 ```
 
 This should bring up a popup screen with some audio visualizations while the radio station is playing.
+
 Here's a picture of this program running on Ubuntu 22.04 with two clients connected.
 
 ![Screenshot of three terminals open and two audio visualizations](images/udp-audio-visualization.png)
