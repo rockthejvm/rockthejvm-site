@@ -210,7 +210,7 @@ There are four operators to compose these "HTTP applications": `++`, `<>`, `>>>`
 
 ## Server
 
-At this pont, we have everything needed to start up an instance of our web server:
+At this point, we have everything needed to start up an instance of our web server:
 
 ```scala
   val program: ZIO[Any, Throwable, ExitCode] = for {
@@ -244,7 +244,7 @@ At this stage, we've covered some `zhttp` basics, like pattern matching on a req
 
 ### Middleware
 
-Broadly, the definition of _middleware_ is context dependent; in our realm of our discussion, if we're turning a `Request` into a `Response`, then it's anything we do _in the middle_ of that process. It may be something behind the scenes, like adding logging through the process, or more center-stage like modifying the request to add headers to the request. Middleware is great at helping de-couple/re-use business logic.
+Broadly, the definition of _middleware_ is context dependent; in our realm of our discussion, if we're turning a `Request` into a `Response`, then it's anything we do _in the middle_ of that process. It may be something behind the scenes, like adding logging through the process, or more center-stage like modifying the request to add headers to the request. Middleware is great at helping de-couple/reuse business logic.
 
 Specifically, in the context of `zhttp`, a `Middleware` is a transformation function that converts _one_ `Http` to _another_.
 
@@ -458,7 +458,7 @@ For example, you might start with `CorsConfig(allowedOrigins = _ == "myhost.com"
 
 ### CSRF
 
-CSRF stands for _Cross-Site Request Forgery_. At a broad level, this is when some _nefarious code_ tries to trick you into performing an action with your _already logged in_ credentials. For example, let's say you were logged into a popular online store, and a browser plugin went rouge. Opening the plugin takes you to a link that _actually_ triggers an email change for your account with the store via a hidden form - which your browser happily send along your sessions information, giving a chance for an attacker to take over your account. CSRF tries to help stop/lessen that attack vector.
+CSRF stands for _Cross-Site Request Forgery_. At a broad level, this is when some _nefarious code_ tries to trick you into performing an action with your _already logged in_ credentials. For example, let's say you were logged into a popular online store, and a browser plugin went rogue. Opening the plugin takes you to a link that _actually_ triggers an email change for your account with the store via a hidden form - which your browser happily send along your sessions information, giving a chance for an attacker to take over your account. CSRF tries to help stop/lessen that attack vector.
 
 CSRF involves the generation of a fairly secure/unique string (we'll call it a `token`), and submitting it back to our trusted site when we send information, as an extra level of verification that it was intentionally sent by the user.
 

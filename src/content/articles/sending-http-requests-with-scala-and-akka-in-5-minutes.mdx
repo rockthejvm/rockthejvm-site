@@ -12,7 +12,7 @@ This article is for the Scala programmer who wants to run one-off HTTP requests 
 
 ## Introduction
 
-The Rock the JVM blog is built with me typing my posts in plain text with minimal Markdown formatting, and then generating a uniform HTML out of it, with a simple Scala parser (I hate typing HTML). For syntax highlighting, I use markup.su/highlighter, which happens to have a REST endpoint. Naturally, I don't want to do it by hand, so as my HTML is generated, the syntax is automatically retrieved via Akka HTTP as client, with little code. My HMTL generator currently has less than 100 lines of code in total.
+The Rock the JVM blog is built with me typing my posts in plain text with minimal Markdown formatting, and then generating a uniform HTML out of it, with a simple Scala parser (I hate typing HTML). For syntax highlighting, I use markup.su/highlighter, which happens to have a REST endpoint. Naturally, I don't want to do it by hand, so as my HTML is generated, the syntax is automatically retrieved via Akka HTTP as client, with little code. My HTML generator currently has less than 100 lines of code in total.
 
 In this article, I'm going to get you started with the simplest Akka HTTP client API in 5 minutes.
 

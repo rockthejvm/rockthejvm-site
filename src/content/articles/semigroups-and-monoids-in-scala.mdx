@@ -44,7 +44,7 @@ val stringSemigroup: Semigroup[String] = new Semigroup[String] {
 
 ## Semigroups as a Type Class
 
-To make these semigroups &mdash; which are essentially 2-arg combination funcitons &mdash; actually useful, we're going to follow the [type class](/articles/why-are-scala-type-classes-useful) pattern. We've already defined the general API of the type class' trait, so we're going to turn to these type class instances and turn them into [given instances](/articles/scala-3-given-and-using-clauses), or into implicit values/objects for Scala 2. For ergonomics, we'll also move them into an appropriate enclosure (usually an object):
+To make these semigroups &mdash; which are essentially 2-arg combination functions &mdash; actually useful, we're going to follow the [type class](/articles/why-are-scala-type-classes-useful) pattern. We've already defined the general API of the type class' trait, so we're going to turn to these type class instances and turn them into [given instances](/articles/scala-3-given-and-using-clauses), or into implicit values/objects for Scala 2. For ergonomics, we'll also move them into an appropriate enclosure (usually an object):
 
 ```scala
 object SemigroupInstances {

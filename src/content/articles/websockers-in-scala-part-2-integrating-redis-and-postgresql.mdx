@@ -632,7 +632,7 @@ new PostgresProtocol[F] {
 }.pure[F]
 ```
 
-Here we use the `stream` method on `cmd`, passing it the roomId and `chunckSize` of `32`, this returns an `F[Stream[F, FetchMessage]]`. The `stream` method repeatedly emits chunks of data from Postgres based on our query.
+Here we use the `stream` method on `cmd`, passing it the roomId and `chunkSize` of `32`, this returns an `F[Stream[F, FetchMessage]]`. The `stream` method repeatedly emits chunks of data from Postgres based on our query.
 
 Finally, let's implement the last function of `PostgresProtocol`. The `deleteRoomMessages()`, is a function that deletes messages by `RoomId`, this requires a `Command[RoomId]`.
 
@@ -708,7 +708,7 @@ trait RedisProtocol[F[_]] {
 }
 ```
 
-Just like with Postgres, we'll be implementing each of these functions, and by the end of this section, we will have learned alot about Redis and the redis4cats package.
+Just like with Postgres, we'll be implementing each of these functions, and by the end of this section, we will have learned a lot about Redis and the redis4cats package.
 
 We'll also need to create the companion object for `RedisProtocol` along with a `make()` function.
 
@@ -1445,7 +1445,7 @@ new RedisProtocol[F] {
                     .mkString(s"$r Room Members:\n\t", "\n\t", "")
                 }
             case None =>
-              s"An error occured while fetching rooms".pure[F]
+              s"An error occurred while fetching rooms".pure[F]
           }
         }
       }
@@ -1726,7 +1726,7 @@ import rockthejvm.websockets.domain.user.User
     }
 ```
 
-Under the `/ws` once again we replace `protocol` with `chatP` in the `recieve()` handle. Everything else remains unchanged.
+Under the `/ws` once again we replace `protocol` with `chatP` in the `receive()` handle. Everything else remains unchanged.
 
 ```scala
 ...
@@ -1982,4 +1982,4 @@ Now to run our application, we first need to start our Redis and Postgres Docker
 
 In conclusion, this article has gone in-depth on how to implement Redis and Postgres in a Scala application using the redis4cats and skunk libraries. Now we can persist our messages, and rip all the benefits of storing our information in Redis such as high availability and persistence.
 
-In this version we simply dump all the previous messages to the new user but this should be done progressively whenever the user scrolls up, however, this was beyound the scope of this tutorial.
+In this version we simply dump all the previous messages to the new user but this should be done progressively whenever the user scrolls up, however, this was beyond the scope of this tutorial.

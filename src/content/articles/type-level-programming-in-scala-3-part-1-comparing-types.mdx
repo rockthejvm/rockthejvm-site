@@ -115,7 +115,7 @@ This one is valid. The code compiles. Let's see what the compiler does behind th
 
 - We're requesting a `given` of type `<[_3, _5]`. The compiler needs to find if it can generate one from either of the two `given` synthesizers we specified earlier.
 - The second `given` works, because the compiler looks at the signature of the as-of-yet-ungenerated given: `<[Succ[_2], Succ[_4]]`. However, in order to generate that, it needs to find or create a given of type `<[_2, _4]`.
-- Again, teh second `given` can be used, for the same reason. For that, the compiler needs a given of type `<[_1, _3]`.
+- Again, the second `given` can be used, for the same reason. For that, the compiler needs a given of type `<[_1, _3]`.
 - Same deal, the compiler can create a `given` of type `<[_1, _3]` if it can find a given of type `<[_0, _2]`.
 - Using the _first_ given this time around, we see that the compiler can create a given of type `<[_0, _2]` because `_2 = Succ[_1]`.
 - Walking backwards, the compiler can generate all the intermediate givens in order to create the given we requested.

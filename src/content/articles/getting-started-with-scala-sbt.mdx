@@ -136,7 +136,7 @@ Let's start the sbt console by executing the command `sbt` at the root of the pr
 
 To compile the project, we can use _compile_ in the command. This will compile all the Scala files in the project and creates .class files. These files are kept under the directory _target_.
 
-**sbt uses _incremental compilation_ to speed up the compilation. In this way, sbt will compile only the modified files, and re-use the previously compiled class files for the rest of the files.**
+**sbt uses _incremental compilation_ to speed up the compilation. In this way, sbt will compile only the modified files, and reuse the previously compiled class files for the rest of the files.**
 
 We can use the _clean_ command to remove all the generated class files.
 
@@ -231,7 +231,7 @@ Now that we added the dependency, we can add a test file as:
 package com.rockthejvm
 import org.scalatest.funsuite.AnyFunSuite
 class SimpleTest extends AnyFunSuite {
-  test("comapare 2 strings ignoring case") {
+  test("compare 2 strings ignoring case") {
     val calculatedString = "ROCKtheJVM"
     val expectedString = "rockthejvm"
     assert(calculatedString.toLowerCase == expectedString)

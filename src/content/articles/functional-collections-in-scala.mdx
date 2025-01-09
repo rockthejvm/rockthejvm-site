@@ -179,7 +179,7 @@ aSeq(1) // 2
 aSeq(5) // Out of bounds!
 ```
 
-Question: what functional "thing" is invokable like a function, but _not on all arguments_?
+Question: what functional "thing" is invocable like a function, but _not on all arguments_?
 
 Hint: it starts with "P" and rhymes with "artialFunction".
 
@@ -207,7 +207,7 @@ trait Seq[+A]
 
 As a mental exercise: try implementing a Seq as a `PartialFunction[Int, A]`!
 
-Same idea is applicable to Maps. Maps are "invokable" objects on a key, returning a value (if it exists) or throwing an exception (if it doesn't). What's that again? PartialFunction!
+Same idea is applicable to Maps. Maps are "invocable" objects on a key, returning a value (if it exists) or throwing an exception (if it doesn't). What's that again? PartialFunction!
 
 ```scala
 // scala.collection.immutable

@@ -212,7 +212,7 @@ We can also _compose_ `ZPipeline`s together to form a new `ZPipeline` with `>>>`
     stringStream.via(appLogic).run(sum)
 ```
 
-An interesting thing we're seeing here for the first time, is that connecting a `ZSink` to a `ZStream` results in a `ZIO`. In oder to process of our stream logic, we need to connect streams to sinks to produce a `ZIO` we can evaluate.
+An interesting thing we're seeing here for the first time, is that connecting a `ZSink` to a `ZStream` results in a `ZIO`. In order to process of our stream logic, we need to connect streams to sinks to produce a `ZIO` we can evaluate.
 
 Along with the typical collection-like operations you'd expect, there are a number of addition ones that are available directly on `ZStream`, and can be referenced in the [official docs](https://zio.dev/reference/stream/zstream/operations) .
 
@@ -247,7 +247,7 @@ but what does that mean in use? We're not going to intentionally instantiate a `
   }
 ```
 
-Our `RealFakeInputStream` will make the elements of the string `"0123456789"` available. In the constructor, we can pass in a `failAt` to indicate the point when we should throw an exception, and `failWith` is the exception we should throw. By setting `failAt` higher than the length of our string, we wont fail. By passing in different instances of `failsWith`, we can control wether or not if the error is in the `E` channel of our `ZStream[R, E, O]`.
+Our `RealFakeInputStream` will make the elements of the string `"0123456789"` available. In the constructor, we can pass in a `failAt` to indicate the point when we should throw an exception, and `failWith` is the exception we should throw. By setting `failAt` higher than the length of our string, we won't fail. By passing in different instances of `failsWith`, we can control whether or not if the error is in the `E` channel of our `ZStream[R, E, O]`.
 
 With this in mind, let's set up some stream components that we can run together, and test different error cases. Note that we set the `chunkSize` of our `ZStream.fromInputStream` to 1.
 

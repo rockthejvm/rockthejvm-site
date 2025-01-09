@@ -257,7 +257,7 @@ object main extends IOApp {
 }
 ```
 
-We first load configuration values from `application.conf`. If values are properly set up, we pass the config values to both methods `singleSession` and `pooledSession` to establish our database connections with the help of `DbConnection` object we previously created and run both connections in a sequence. Otherwise, we print errors to the console to better understand what went wrong. We now test our database connections by fetching the current date and time of our system, and if our connections was succesfully established, we should have an output similar to the following.
+We first load configuration values from `application.conf`. If values are properly set up, we pass the config values to both methods `singleSession` and `pooledSession` to establish our database connections with the help of `DbConnection` object we previously created and run both connections in a sequence. Otherwise, we print errors to the console to better understand what went wrong. We now test our database connections by fetching the current date and time of our system, and if our connections was successfully established, we should have an output similar to the following.
 
 ```text
 Using a single session...

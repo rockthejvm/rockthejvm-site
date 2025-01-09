@@ -838,7 +838,7 @@ object Main extends IOApp {
 }
 ```
 
-In the `run()` function we call both `httpServer` and `grpcServer` in parellel. We also call `evalMap()` on the `grpcServer` `Resource` to start the server and make sure it keeps running by calling `useForever()`.
+In the `run()` function we call both `httpServer` and `grpcServer` in parallel. We also call `evalMap()` on the `grpcServer` `Resource` to start the server and make sure it keeps running by calling `useForever()`.
 
 Now Let's test our application.
 
