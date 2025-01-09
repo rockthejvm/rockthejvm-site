@@ -19,8 +19,6 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 
-console.log("working3");
-
 interface Props {
   article: CollectionEntry<"articles">;
   articles: CollectionEntry<"articles">[];
@@ -47,8 +45,6 @@ const author = await getEntry(
 );
 const tags = await getEntries(frontmatter.tags);
 
-console.log("working4");
-
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -70,22 +66,14 @@ const structuredData = JSON.stringify({
   image: heroImage?.image.src,
 });
 
-console.log("working5");
-
-console.log(matchedArticles);
-
 const matches = matchedArticles.all_matches.filter(
   (match) => match.source_slug === article.slug,
 );
 matches.sort((a, b) => b.similarity - a.similarity);
 
-console.log(matches);
-
 const relatedArticles = matches.map((match) =>
   articles.find((article) => article.slug === match.matched_slug),
 );
-
-console.log(relatedArticles);
 ---
 
 <BaseLayout
@@ -171,48 +159,42 @@ console.log(relatedArticles);
             <ArticlePreview article={relatedArticles[4]} />,
           ]}
         /> -->
-        <RelatedArticles client:load>
-          {
-            relatedArticles[0] && (
-              <ArticlePreview
-                slot="firstArticle"
-                article={relatedArticles[0]}
-              />
-            )
-          }
-          {
-            relatedArticles[1] && (
-              <ArticlePreview
-                slot="secondArticle"
-                article={relatedArticles[1]}
-              />
-            )
-          }
-          {
-            relatedArticles[2] && (
-              <ArticlePreview
-                slot="thirdArticle"
-                article={relatedArticles[2]}
-              />
-            )
-          }
-          {
-            relatedArticles[3] && (
-              <ArticlePreview
-                slot="fourthArticle"
-                article={relatedArticles[3]}
-              />
-            )
-          }
-          {
-            relatedArticles[4] && (
-              <ArticlePreview
-                slot="fifthArticle"
-                article={relatedArticles[4]}
-              />
-            )
-          }
-        </RelatedArticles>
+        {
+          relatedArticles.length > 0 && (
+            <RelatedArticles client:load>
+              {relatedArticles[0] && (
+                <ArticlePreview
+                  slot="firstArticle"
+                  article={relatedArticles[0]}
+                />
+              )}
+              {relatedArticles[1] && (
+                <ArticlePreview
+                  slot="secondArticle"
+                  article={relatedArticles[1]}
+                />
+              )}
+              {relatedArticles[2] && (
+                <ArticlePreview
+                  slot="thirdArticle"
+                  article={relatedArticles[2]}
+                />
+              )}
+              {relatedArticles[3] && (
+                <ArticlePreview
+                  slot="fourthArticle"
+                  article={relatedArticles[3]}
+                />
+              )}
+              {relatedArticles[4] && (
+                <ArticlePreview
+                  slot="fifthArticle"
+                  article={relatedArticles[4]}
+                />
+              )}
+            </RelatedArticles>
+          )
+        }
       </footer>
     </article>
   </NarrowContainer>
