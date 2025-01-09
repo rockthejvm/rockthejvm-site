@@ -7,6 +7,8 @@ import icon from "astro-icon";
 import pagefind from "astro-pagefind";
 import { defineConfig } from "astro/config";
 
+import expressiveCode from "astro-expressive-code";
+
 export default defineConfig({
   site: "https://rockthejvm.com",
   trailingSlash: "never",
@@ -27,6 +29,7 @@ export default defineConfig({
         heroicons: ["computer-desktop", "magnifying-glass", "moon", "sun"],
       },
     }),
+    expressiveCode(), // Must come before mdx
     mdx(),
     tailwind({
       applyBaseStyles: false,
