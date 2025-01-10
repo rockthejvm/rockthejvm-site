@@ -7,29 +7,23 @@ tags: [cats, doobie, scala]
 title: Learning doobie for the Greater Good
 ---
 
-import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 The vast majority of applications today connect with some form of a persistent layer, and, sooner or later, every developer faces the challenge of connecting to a database. We rely on the JDBC specification if we need to connect to SQL databases in the JVM ecosystem. However, JDBC is not a good fit if we use functional programming since the library performs a lot of side effects. Fortunately, a library called [doobie](https://tpolecat.github.io/doobie/) provides a higher-level API on top of JDBC, using an effectful style through the Cats and Cats Effect libraries.
 
 So, without further ado, let's introduce the doobie library.
 
-<NoteAdmonition>
-  This article is brought to you by Riccardo Cardin, a proud student of the
-  [Scala with Cats course](/courses/cats) and guest contributor to the blog.
-  Riccardo is a senior developer, a teacher and a passionate technical blogger.
-  He's on his way to mastering functional programming and in he's constantly
-  outdoing himself with his coverage of various libraries in his articles. We
-  worked together over a month on this blog post.
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  This article uses advanced Scala features. We teach these in the [Advanced
-  Scala](/courses/advanced-scala) course.
-</TipAdmonition>
+This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats) and guest contributor to the blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's on his way to mastering functional programming and in he's constantly outdoing himself with his coverage of various libraries in his articles. We worked together over a month on this blog post.
+
+:::
+
+:::tip
+
+This article uses advanced Scala features. We teach these in the [Advanced Scala](/courses/advanced-scala) course.
+
+:::
 
 ## Setup
 
@@ -212,14 +206,11 @@ val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
 
 This approach is the most straightforward, but it is not the most efficient. The reason is that the JDBC driver manager will try to load the driver for each connection, which can be pretty expensive. Moreover, the driver manager has no upper bound on the number of connections it will create. However, while experimenting and testing doobie features, this approach works quite well.
 
-<CautionAdmonition>
-  As we said in the introduction, doobie is just a wrapper over the JDBC
-  specification in Java, and it uses the Cats Effect library under the hood.
-  Since **JDBC provides only a blocking interface** to interact with SQL
-  databases, we should be careful to also use the blocking facilities available
-  in Cats Effect. Fortunately, **doobie takes care of using the `Blocking`
-  context for us**:
-</CautionAdmonition>
+:::caution
+
+As we said in the introduction, doobie is just a wrapper over the JDBC specification in Java, and it uses the Cats Effect library under the hood. Since **JDBC provides only a blocking interface** to interact with SQL databases, we should be careful to also use the blocking facilities available in Cats Effect. Fortunately, **doobie takes care of using the `Blocking` context for us**:
+
+:::
 
 ```scala
 // doobie library's code
@@ -554,11 +545,11 @@ def saveActorAndGetIdProgram(name: String): IO[Int] = {
 }
 ```
 
-<CautionAdmonition>
-  Only some databases natively implement this feature, such as H2 or Postgres.
-  Moreover, the method `withUniqueGeneratedKeys` will fail if the number of
-  modified rows is more than one.
-</CautionAdmonition>
+:::caution
+
+Only some databases natively implement this feature, such as H2 or Postgres. Moreover, the method `withUniqueGeneratedKeys` will fail if the number of modified rows is more than one.
+
+:::
 
 Now that we know how to insert and retrieve information from a table, we can create a program that both inserts and retrieves an actor in sequence:
 
@@ -876,10 +867,11 @@ In the above code, we extracted information from the `movies` table, the `direct
 
 Now that we know all the pieces of a program that connects to a database using doobie, we can create a more complex example. For this purpose, we will use the _tagless final_ approach. Again, the details of the tagless final approach are far beyond the scope of this tutorial. In summary, it's **a technique that allows us to manage dependencies between our components and abstract away the details of the concrete effect implementation**.
 
-<TipAdmonition>
-  More on tagless final in the [dedicated
-  article](/articles/tagless-final-in-scala).
-</TipAdmonition>
+:::tip
+
+More on tagless final in the [dedicated article](/articles/tagless-final-in-scala).
+
+:::
 
 In a tagless final approach, we first define an _algebra_ as a `trait`, storing all the functions we implement for a type. If we take the `Director` type, we can define the following algebra:
 

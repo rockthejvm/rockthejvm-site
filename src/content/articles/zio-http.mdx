@@ -10,10 +10,6 @@ updatedDate: 2022-09-15
 videoId: i__kKmwhUI4
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
-
 ## Introduction
 
 In this post, we're going to go over an introduction to the zio-http library, and take a look at some of the basic utilities it provides to get you up and running.
@@ -25,18 +21,17 @@ By the end, we'll cover
 - Response streaming
 - Websockets
 
-<NoteAdmonition>
-  This article is brought to you by [Mark
-  Rudolph](https://github.com/alterationx10) - his second contribution to Rock
-  the JVM. Mark is a senior developer, who has been working with Scala for a
-  number of years. He also has been diving into the ZIO ecosystem, and loves
-  sharing his learnings.
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  If you want to learn more about the core ZIO library, check out the [ZIO
-  course](/courses/zio).
-</TipAdmonition>
+This article is brought to you by [Mark Rudolph](https://github.com/alterationx10) - his second contribution to Rock the JVM. Mark is a senior developer, who has been working with Scala for a number of years. He also has been diving into the ZIO ecosystem, and loves sharing his learnings.
+
+:::
+
+:::tip
+
+If you want to learn more about the core ZIO library, check out the [ZIO course](/courses/zio).
+
+:::
 
 ## Setup
 
@@ -90,12 +85,13 @@ object OwlServer extends ZIOAppDefault {
 
 In `zhttp`, `Request`s are processed into `Response`s via implementations of a `sealed trait Http[-R, +E, -A, +B]`, which itself `extends (A => ZIO[R, Option[E], B])`. From the latter, we can quickly infer that `R` and `E` are the _resource_ and _Error_ channels of a `ZIO` effect, and we're going to be converting an `A` to a `B` effectually.
 
-<NoteAdmonition>
+:::note
+
 There are some included type aliases to shorten this signature, however in this article we will try to stick to the full version.
 
 Also, due to the first type alias, the official documentation tends to often refer to their code examples as an "http app" or "app" - this jargon might leak into this post as well.
 
-</NoteAdmonition>
+:::
 
 ```scala
 type HttpApp[-R, +E] = Http[R, E, Request, Response]
@@ -104,10 +100,11 @@ type RHttpApp[-R]    = HttpApp[R, Throwable]
 type UHttp[-A, +B]   = Http[Any, Nothing, A, B]
 ```
 
-<NoteAdmonition>
-  This section will have `R` as `Any` and `E` as `Nothing`. We will discuss
-  including resources, and error handling later in the article.
-</NoteAdmonition>
+:::note
+
+This section will have `R` as `Any` and `E` as `Nothing`. We will discuss including resources, and error handling later in the article.
+
+:::
 
 Let's take a moment to dig into our first endpoint:
 
@@ -174,10 +171,11 @@ Hooty/The/Owl says: Hoot!%
 
 We can see in the second, and third case, we're partially matching the remaining path, and it can capture more than just one segment representing a name!
 
-<TipAdmonition>
-  You can't use `/` and `/:` in the same case statement, as left- and
-  right-associative operators with same precedence may not be mixed.
-</TipAdmonition>
+:::tip
+
+You can't use `/` and `/:` in the same case statement, as left- and right-associative operators with same precedence may not be mixed.
+
+:::
 
 ### Composing many Http[-R, +E, -A, +B]
 
@@ -224,19 +222,17 @@ At this point, we have everything needed to start up an instance of our web serv
 
 This is a simple entry point, and we only need to give `Server.start` a port (defined as `9000` above), and our _composed_ `Http[R, E, Request, Response]`.
 
-<WarningAdmonition>
-  `Server.start` internally calls `ZIO.never`, and will block your
-  for-comprehension at that point. You should include it last, or append
-  `.forkDaemon`, and provide your own logic afterwards.
-</WarningAdmonition>
+:::danger
 
-<NoteAdmonition>
-  You can apply some configuration to the `Server` instance, however we won't
-  cover this in much capacity in this article. If interested, you can see the
-  official documentation
-  [here](https://zio.github.io/zio-http/docs/v1.x/dsl/server/) and
-  [here](https://zio.github.io/zio-http/docs/v1.x/examples/advanced-examples/advanced_server).
-</NoteAdmonition>
+`Server.start` internally calls `ZIO.never`, and will block your for-comprehension at that point. You should include it last, or append `.forkDaemon`, and provide your own logic afterwards.
+
+:::
+
+:::note
+
+You can apply some configuration to the `Server` instance, however we won't cover this in much capacity in this article. If interested, you can see the official documentation [here](https://zio.github.io/zio-http/docs/v1.x/dsl/server/) and [here](https://zio.github.io/zio-http/docs/v1.x/examples/advanced-examples/advanced_server).
+
+:::
 
 ## Next Steps
 
@@ -433,7 +429,8 @@ If we make the request again, with a valid `Origin` header, we can see the CORS 
 Hoot!%
 ```
 
-<NoteAdmonition>
+:::note
+
 The `CorsConfig` case class has a lot of default values provided, and it may be unintuitive at first:
 
 ```scala
@@ -454,7 +451,7 @@ final case class CorsConfig(
 
 For example, you might start with `CorsConfig(allowedOrigins = _ == "myhost.com")`, but the `anyOrigin` value is defaulted to `true`.
 
-</NoteAdmonition>
+:::
 
 ### CSRF
 
@@ -719,10 +716,11 @@ SaRcAsM Is hArD To cOnVeY On tHe iNtErNeT
 
 Streaming responses is handled via `ZStream`, and works straight forwardly, if you are comfortable with that topic.
 
-<TipAdmonition>
-  If you would like to dig into `ZStream`s a bit further, I suggest you check
-  out this [article](/articles/zio-streams-introduction).
-</TipAdmonition>
+:::tip
+
+If you would like to dig into `ZStream`s a bit further, I suggest you check out this [article](/articles/zio-streams-introduction).
+
+:::
 
 In our example below, we take a `String` sentence, and repeat it 1000 times to bulk it up a bit, being sure to use the `HTTP_CHARSET` encoding when we create a `Chunk` for it. At this point, it's as easy as `HttpData.fromStream(ZStream.fromChunk(data))`! Anything you can `ZStream.from...` is fair game to stream, which is fairly powerful.
 

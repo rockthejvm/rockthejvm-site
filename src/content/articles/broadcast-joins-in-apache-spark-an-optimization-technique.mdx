@@ -6,8 +6,6 @@ tags: [spark]
 title: "Broadcast Joins in Apache Spark: An Optimization Technique"
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for the Spark programmers who know some fundamentals: how data is split, how Spark generally works as a computing engine, plus some essential DataFrame APIs.
@@ -190,12 +188,11 @@ or deactivate it altogether by setting the value to -1.
 spark.conf.set("spark.sql.autoBroadcastJoinThreshold", -1)
 ```
 
-<TipAdmonition>
-  This is also a good tip to use while testing your joins in the absence of this
-  automatic optimization. We also use this in our [Spark Optimization
-  course](/courses/spark-optimization) when we want to test other optimization
-  techniques.
-</TipAdmonition>
+:::tip
+
+This is also a good tip to use while testing your joins in the absence of this automatic optimization. We also use this in our [Spark Optimization course](/courses/spark-optimization) when we want to test other optimization techniques.
+
+:::
 
 ## Conclusion
 

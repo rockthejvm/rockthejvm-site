@@ -7,8 +7,6 @@ title: ALL the Joins in Spark DataFrames
 updatedDate: 2020-10-14
 ---
 
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for the beginner Spark programmer. If you're just starting out and you're curious about the kinds of operations Spark supports, this blog post is for you.
@@ -271,12 +269,11 @@ This would produce the quite-big-for-small-data table:
 +---+-------+----+------+--------------------+
 ```
 
-<WarningAdmonition>
-  As you can see, the size of your resulting data simply explodes. Being a
-  cartesian product, the size of the resulting DF is the product of the
-  individual sizes of the joined DFs. So be careful in production - I'd
-  generally avoid cross joins unless absolutely necessary.
-</WarningAdmonition>
+:::danger
+
+As you can see, the size of your resulting data simply explodes. Being a cartesian product, the size of the resulting DF is the product of the individual sizes of the joined DFs. So be careful in production - I'd generally avoid cross joins unless absolutely necessary.
+
+:::
 
 ## Conclusion
 

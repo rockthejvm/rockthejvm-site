@@ -10,8 +10,6 @@ title: gRPC in Scala with FS2 and ScalaPB
 videoId: CpUBZI1mr7w
 ---
 
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
-
 ## Introduction
 
 RPC stands for Remote Procedure Call, it's a client-server communication protocol where one program can request a service on a different address that may be on the same or different system connected by a network. It enables users to work with remote procedures as if they were local.
@@ -885,11 +883,11 @@ package com.rockthejvm.protos;
 import "scalapb/scalapb.proto";
 ```
 
-<WarningAdmonition>
-  If you are using IntelliJ, this import might show `red` because the proto
-  plugin hasn't scanned the `protobuf_external` path, therefore, you'll need to
-  add it there. IntelliJ will show this as a suggestion.
-</WarningAdmonition>
+:::danger
+
+If you are using IntelliJ, this import might show `red` because the proto plugin hasn't scanned the `protobuf_external` path, therefore, you'll need to add it there. IntelliJ will show this as a suggestion.
+
+:::
 
 Now we can make changes to the `amount` and `total` for `Item` and `OrderReply`.
 

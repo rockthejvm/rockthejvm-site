@@ -10,9 +10,6 @@ title: A Distributed Code Execution Engine in Pekko with Scala
 videoId: 1uP6FTUn8_E
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 In this article we will attempt to build the remote code execution engine - the backend platform for websites such as [Hackerrank](https://hackerrank.com), [LeetCode](https://leetcode.com) and others.
@@ -43,20 +40,17 @@ Put simply, the goal of this project is to get familiar with [Apache Pekko](http
 
 Let's get started then, shall we?
 
-<NoteAdmonition>
-  Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job
-  showcasing its features in a compact project we can explore exhaustively in
-  this article.
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  If you need to get started with Pekko, I've covered Pekko (and Akka) in a
-  comprehensive bundle of courses about [Akka/Pekko
-  Actors](/courses/akka-pekko-essentials), [Akka/Pekko
-  Streams](/courses/akka-pekko-streams), and [Akka/Pekko
-  HTTP](/courses/akka-pekko-http), all of which are used in this article. Check
-  them out if you're interested.
-</TipAdmonition>
+Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job showcasing its features in a compact project we can explore exhaustively in this article.
+
+:::
+
+:::tip
+
+If you need to get started with Pekko, I've covered Pekko (and Akka) in a comprehensive bundle of courses about [Akka/Pekko Actors](/courses/akka-pekko-essentials), [Akka/Pekko Streams](/courses/akka-pekko-streams), and [Akka/Pekko HTTP](/courses/akka-pekko-http), all of which are used in this article. Check them out if you're interested.
+
+:::
 
 ## Project Structure
 

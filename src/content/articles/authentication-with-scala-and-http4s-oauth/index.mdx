@@ -10,9 +10,6 @@ updatedDate: 2023-07-29
 videoId: NZwnZhwVPrs
 ---
 
-import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 This is a follow-up to the [Authentication with Scala and http4s: 2FA (Two-Factor Authentication)](/articles/authentication-with-scala-and-http4s-oauth-two-factor-authentication) article that was written earlier, and as such is the third article in the series.
@@ -317,11 +314,11 @@ object OauthImpl{
 
 `getJsonString()` is a utility method that sends a request to an API and returns its response. The `use()` method from `EmberClientBuilder` gives us access to a `Client` which submits `Request`s to a server and processes the `Response`. The `client.expect[String]()` method decodes the Response to a string on success.
 
-<CautionAdmonition>
-  `client.expect` could fail for several reasons and will return an appropriate
-  status code depending on the reason, however, we'll handle these errors in the
-  coming section.
-</CautionAdmonition>
+:::caution
+
+`client.expect` could fail for several reasons and will return an appropriate status code depending on the reason, however, we'll handle these errors in the coming section.
+
+:::
 
 Since this function is polymorphic in `F`, we'll need to bind an implicit `Async` from cats effect for this function to work. All the functions in this application will be polymorphic in `F` to allow for the use of any effect type, not necessarily `IO`.
 
@@ -681,7 +678,8 @@ Once authorization is provided, you will be redirected to our application with a
 
 We have learned about OAuth, and how to connect an application to another using this framework protocol. Once you are familiar with the OAuth [flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/which-oauth-2-0-flow-should-i-use), implementing it becomes easier.
 
-<TipAdmonition>
-  For more information on GitHub's web application flow, check out this
-  [link](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
-</TipAdmonition>
+:::tip
+
+For more information on GitHub's web application flow, check out this [link](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
+
+:::

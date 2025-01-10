@@ -8,9 +8,6 @@ tags: [fp, scala, scala-3, type-system]
 title: "Scala 3: Type-Level Programming"
 ---
 
-import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Introduction
 
 Scala 3 boasts many features that are meant to simplify and enhance type-level programming: match types, inlines, diverse compile-time operations, and the list goes on. With all these new features it is quite easy to get lost when trying to solve a concrete problem using type-level techniques.
@@ -726,14 +723,11 @@ val res2: Int = 3
 
 As expected the size of the tuple is `3`.
 
-<NoteAdmonition>
-  I'm using `_` instead of naming the value in the pattern match. This is a
-  non-negotiable limitation of `erasedValue`. Since all we have is a type, there
-  isn't any value that we can **actually** use at runtime. As a result, the
-  pattern match that we are performing is not allowed to ever use the (fake)
-  value we are pattern-matching on. All we can do is react to the types that we
-  are encountering on each branch[^atRuntime].
-</NoteAdmonition>
+:::note
+
+I'm using `_` instead of naming the value in the pattern match. This is a non-negotiable limitation of `erasedValue`. Since all we have is a type, there isn't any value that we can **actually** use at runtime. As a result, the pattern match that we are performing is not allowed to ever use the (fake) value we are pattern-matching on. All we can do is react to the types that we are encountering on each branch[^atRuntime].
+
+:::
 
 [^atRuntime]: You can actually name the branches, instead of using `_`. But if, by mistake, you try to use the named value the compiler will complain and abort compilation.
 
@@ -1443,10 +1437,11 @@ Let us implement the last safety requirement, that will prevent these errors at 
 
 ### So Many Mirrors
 
-<CautionAdmonition>
-  This is by far the most incomprehensible part of this post as well as the most
-  speculative. I hope we make it out okay...
-</CautionAdmonition>
+:::caution
+
+This is by far the most incomprehensible part of this post as well as the most speculative. I hope we make it out okay...
+
+:::
 
 Before we can check for duplicate fields we need to somehow get a list of all the fields we are going to write. The `Mirror`s for our types can provide us with this. Let us summon all the relevant `Mirror`s:
 

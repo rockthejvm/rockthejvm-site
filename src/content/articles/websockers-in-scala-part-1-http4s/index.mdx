@@ -8,8 +8,6 @@ tags: [http4s, scala]
 title: "WebSockets in Scala: Part 1 - http4s"
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 The WebSocket protocol enables persistent two-way communication between a client and a server where packets can be passed in both directions without the need for additional HTTP requests.
@@ -479,11 +477,14 @@ Here we add a `Stream` that publishes a `WebSocketFrame.Ping()` to our `Topic` e
 
 In this section, we modify our application and add a lot of extra features such as user names, rooms, and metrics.
 
-<TipAdmonition>
-  To properly follow along with the code example, check out the code on{" "}
+:::tip
+
+To properly follow along with the code example, check out the code on{" "}
+
   <a href={`${frontmatter.repositoryUrl}`}>GitHub</a> since this section may
   contain large code snippets.
-</TipAdmonition>
+
+:::
 
 ### Users and Rooms
 

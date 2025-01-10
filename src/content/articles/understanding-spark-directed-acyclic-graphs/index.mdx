@@ -6,8 +6,6 @@ tags: [spark]
 title: Understanding Spark DAGs (Directed Acyclic Graphs)
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for the Spark programmer who has at least some fundamentals, e.g. how to create a DataFrame and how to do basic operations like selects and joins, but has not dived into how Spark works yet. Perhaps you're interested in boosting the performance out of your Spark jobs.
@@ -57,9 +55,11 @@ split7.take(2)
 
 Same operation first, but the next step is an Exchange, which is another name for a shuffle. You're probably aware - a shuffle is an operation in which data is exchanged (hence the name) between all the executors in the cluster. The more massive your data and your cluster is, the more expensive this shuffle will be, because sending data over takes time. For performance reasons, it's best to keep shuffles to a minimum.
 
-<TipAdmonition>
-  Whenever you see Exchange in a DAG, that's a performance bottleneck.
-</TipAdmonition>
+:::tip
+
+Whenever you see Exchange in a DAG, that's a performance bottleneck.
+
+:::
 
 Also notice that after this shuffle, the next steps of the DAG are on another "column", it's like another vertical sequence started. This is a _stage_. After every Exchange will follow another stage. Exchanges (aka shuffles) are the operations that happen in between stages. This is how Spark decomposes a job into stages.
 

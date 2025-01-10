@@ -7,9 +7,6 @@ tags: [kafka, kafka-streams, streaming]
 title: "Kafka 101: Streams Quickly Explained"
 ---
 
-import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Introduction
 
 Apache Kafka nowadays is clearly the leading technology concerning message brokers. It's scalable, resilient, and easy to use. Moreover, it leverages a bunch of exciting client libraries that offer a vast set of additional features. One of these libraries is _Kafka Streams_.
@@ -18,15 +15,11 @@ Kafka Streams brings a complete stateful streaming system based directly on top 
 
 Because the Kafka Streams library is quite complex, this article will introduce only its main features, such as the architecture, the Stream DSL with its basic types `KStream`, `KTable`, and `GlobalKTable`, and the transformations defined on them.
 
-<NoteAdmonition>
-  Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a
-  frequent contributor to the Rock the JVM blog. Riccardo is a senior developer,
-  a teacher and a passionate technical blogger. He's well versed with Apache
-  Kafka; he recently published an article on [how to integrate ZIO and
-  Kafka](/articles/zio-kafka). So now he rolled up his sleeves in the quest of
-  writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you
-  enjoy it!
-</NoteAdmonition>
+:::note
+
+Another great round by [Riccardo Cardin](/authors/riccardo-cardin), now a frequent contributor to the Rock the JVM blog. Riccardo is a senior developer, a teacher and a passionate technical blogger. He's well versed with Apache Kafka; he recently published an article on [how to integrate ZIO and Kafka](/articles/zio-kafka). So now he rolled up his sleeves in the quest of writing **the ultimate end-to-end tutorial on Kafka Streams**. We hope you enjoy it!
+
+:::
 
 ## Setup
 
@@ -372,12 +365,11 @@ val discountProfilesGTable: GlobalKTable[Profile, Discount] =
 
 Again, under the hood, the library creates an instance of a `Consumed` object.
 
-<CautionAdmonition>
-  So, what is the difference between a `KTable` and a `GlobalKTable`? The
-  difference is that a `KTable` is partitioned between the nodes of the Kafka
-  cluster. However, every node of the cluster receives a full copy of a
-  `GlobalKTable`. So, be careful with `GlobalKTable`.
-</CautionAdmonition>
+:::caution
+
+So, what is the difference between a `KTable` and a `GlobalKTable`? The difference is that a `KTable` is partitioned between the nodes of the Kafka cluster. However, every node of the cluster receives a full copy of a `GlobalKTable`. So, be careful with `GlobalKTable`.
+
+:::
 
 The `GlobalKTable` type doesn't define any method. So, why should we ever create an instance of a `GlobalKTable`? The answer is in the word "joins". But first, we need to introduce streams transformations.
 
