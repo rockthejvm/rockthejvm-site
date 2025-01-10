@@ -25,6 +25,11 @@ export default {
           2: "hsl(var(--color-content2) / <alpha-value>)",
           DEFAULT: "hsl(var(--color-content1) / <alpha-value>)",
         },
+        difficulty: {
+          beginner: "hsl(var(--color-beginner) / <alpha-value>)",
+          intermediate: "hsl(var(--color-intermediate) / <alpha-value>)",
+          advanced: "hsl(var(--color-advanced) / <alpha-value>)",
+        },
         holiday: {
           accent: {
             1: "hsl(var(--color-holiday-accent1) / <alpha-value>)",

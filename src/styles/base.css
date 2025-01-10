@@ -28,6 +28,10 @@
     --color-text-cta: 217deg 17% 98%;
     --color-tag: 226deg 100% 94%;
 
+    --color-beginner: 134deg 41% 88%;
+    --color-intermediate: 46deg 100% 90.2%;
+    --color-advanced: 355deg 70.2% 90.8%;
+
     .card-shadow {
       @apply shadow-[0_10px_20px_#000000];
     }
@@ -67,6 +71,10 @@
     --color-text-cta: 217deg 17% 98%;
     --color-cta: 221deg 90% 50%;
     --color-tag: 226deg 100% 94%;
+
+    --color-beginner: 134deg 41% 58%;
+    --color-intermediate: 46deg 100% 58%;
+    --color-advanced: 355deg 70.2% 58%;
 
     .card-shadow {
       @apply shadow-[0px_4px_50px_0px_#000000];

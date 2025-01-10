@@ -9,13 +9,13 @@ export default memo(({ data, isConnectable }) => {
   const getBackgroundColor = (difficulty) => {
     switch (difficulty) {
       case "beginner":
-        return "#d4edda"; // light green
+        return "bg-difficulty-beginner"; // light green
       case "intermediate":
-        return "#fff3cd"; // light yellow
+        return "bg-difficulty-intermediate"; // light yellow
       case "advanced":
-        return "#f8d7da"; // light red
+        return "bg-difficulty-advanced"; // light red
       default:
-        return "#fff"; // default white
+        return "bg-white"; // default white
     }
   };
 
@@ -25,7 +25,6 @@ export default memo(({ data, isConnectable }) => {
         padding: "10px",
         border: "1px solid #ddd",
         borderRadius: "5px",
-        background: getBackgroundColor(data.difficulty),
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -33,13 +32,14 @@ export default memo(({ data, isConnectable }) => {
         position: "relative",
       }}
       onClick={handleClick}
+      className={`${getBackgroundColor(data.difficulty)}`}
     >
       <Handle
         type="target"
         position={Position.Top}
         isConnectable={isConnectable}
       />
-      {data.label || "Clickable Node"}
+      <span className="text-content">{data.label || "Clickable Node"}</span>
       <Handle
         type="source"
         position={Position.Bottom}
