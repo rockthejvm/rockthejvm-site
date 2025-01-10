@@ -719,9 +719,13 @@ Simply said, with this extension in scope, now createEndpoint can be used as a f
 def createEndpoint[I, O](payload: I): RIO[BackendClient, O]
 ```
 
-> Note: **RIO** is just a type alias where error are Throwable:
->
-> `type RIO[R, A]= ZIO[R, Throwable, A]`
+:::note
+
+`RIO` is just a type alias where error are Throwable:
+
+`type RIO[R, A]= ZIO[R, Throwable, A]`
+
+:::
 
 This effect needs a BackendClient to run - look at `ZIO.service[BackendClient]`.
 

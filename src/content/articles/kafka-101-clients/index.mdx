@@ -209,7 +209,11 @@ Kafka does a lot of things under the hood when the `send()` method is invoked, s
 
 1. On the leader broker, the messages are written on disk and sent to the followers for replication. One thing to note here is that the messages are first written on the PageCache and periodically are flushed on disk.
 
-    (_Note:_ PageCache to disk is an extreme case for message loss, but still you might want to be aware of that)
+    :::note
+
+    PageCache to disk is an extreme case for message loss, but still you might want to be aware of that
+
+    :::
 
 1. The followers (in-sync replicas) store and sent an acknowledgment back they have replicated the message.
 1. A `RecordMetadata` response is sent back to the client.
