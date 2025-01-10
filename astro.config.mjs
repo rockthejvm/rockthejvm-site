@@ -33,8 +33,13 @@ export default defineConfig({
       },
     }),
     expressiveCode({
-      themes: ["github-dark-default", "github-light-default"],
       plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
+      themes: ["github-dark-default", "github-light-default"],
+      customizeTheme: (theme) => {
+        theme.name = theme.name === "github-dark-default" ? "dark" : "light";
+        return theme;
+      },
+      useDarkModeMediaQuery: false,
       defaultProps: {
         wrap: true,
         overridesByLang: {
