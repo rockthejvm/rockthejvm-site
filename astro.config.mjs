@@ -43,7 +43,7 @@ export default defineConfig({
       defaultProps: {
         wrap: true,
         overridesByLang: {
-          "shell,sh,bash,ps,zsh": {
+          "shell,sh,ps,zsh": {
             preserveIndent: false,
             showLineNumbers: false,
           },
