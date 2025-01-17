@@ -31,13 +31,33 @@ function readDirectory(directory, articleDir) {
   });
 }
 
+function parseIntroduction(markdown) {
+  const regex = /## Introduction\s+([\s\S]*?)(?=\n\n## |$)/;
+  const match = markdown.match(regex);
+
+  if (match) {
+    console.log(match[1].trim());
+  }
+  return match ? match[1].trim() : "";
+}
+
+function parseConclusion(markdown) {
+  const regex = /## Conclusion\s+([\s\S]*?)(?=\n\n|$)/;
+  const match = markdown.match(regex);
+
+  if (match) {
+    console.log(match[1].trim());
+  }
+  return match ? match[1].trim() : "";
+}
+
 function buildArticleJson() {
   articleFiles.forEach((value, key) => {
     const article = fs.readFileSync(path.join(value), "utf8");
     const { data } = matter(article);
     const obj = {
       slug: key,
-      content: `${data.title} ${data.excerpt} ${data.tags.join(" ")}`,
+      content: `${data.title}. ${data.excerpt}. ${data.tags.join(" ")}. ${parseIntroduction(article)}`,
     };
     console.log(obj);
     articleObjs.push(obj);
@@ -46,13 +66,10 @@ function buildArticleJson() {
   console.log(`Read ${articleObjs.length} articles.`);
 }
 
-// Custom function you want to run
 async function addEmbeddedArticles() {
   console.log("Vectorizing articles...");
-  // Add your logic here
-  // For example, generating data files, cleaning directories, etc.
 
-  const directory = "./src/content/articles"; // Replace with your directory path
+  const directory = "./src/content/articles";
 
   readDirectory(directory, null);
   buildArticleJson();
@@ -107,13 +124,13 @@ function buildStart() {
     name: "my-build-start",
     hooks: {
       "astro:build:start": async () => {
-        // const branch = process.env.CF_PAGES_BRANCH || "unknown"
-        // if (branch !== "main") {
-        //   await addEmbeddedArticles();
-        //   await getArticleMatches();
-        // }
-        await addEmbeddedArticles();
-        await getArticleMatches();
+        const branch = process.env.CF_PAGES_BRANCH || "unknown"
+        if (branch !== "main") {
+          await addEmbeddedArticles();
+          await getArticleMatches();
+        }
+        // await addEmbeddedArticles();
+        // await getArticleMatches();
       },
     },
   };
