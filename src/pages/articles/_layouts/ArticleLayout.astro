@@ -71,9 +71,11 @@ const matches = matchedArticles.all_matches.filter(
 );
 matches.sort((a, b) => b.similarity - a.similarity);
 
-const relatedArticles = matches.map((match) =>
-  articles.find((article) => article.slug === match.matched_slug),
+// @ts-ignore
+const relatedArticles: CollectionEntry<"articles">[] = matches.map((match) =>
+  (articles as CollectionEntry<"articles">[]).find((article) => article.slug === match.matched_slug),
 );
+
 ---
 
 <BaseLayout
