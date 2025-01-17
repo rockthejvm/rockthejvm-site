@@ -66,19 +66,20 @@ const structuredData = JSON.stringify({
   image: heroImage?.image.src,
 });
 
-/* eslint-disable */
-
+// Ignore type errors when matchedArticles is blank
+// @ts-ignore
 const matches = matchedArticles.all_matches.filter(
+  // @ts-ignore
   (match) => match.source_slug === article.slug,
 );
+// @ts-ignore
 matches.sort((a, b) => b.similarity - a.similarity);
 
 // @ts-ignore
 const relatedArticles: CollectionEntry<"articles">[] = matches.map((match) =>
+  // @ts-ignore
   (articles as CollectionEntry<"articles">[]).find((article) => article.slug === match.matched_slug),
 );
-
-/* eslint-enable */
 
 ---
 
