@@ -10,6 +10,76 @@ title: A Distributed Code Execution Engine in Pekko with Scala
 videoId: 1uP6FTUn8_E
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs syncKey="languages">
+    <TabItem label="Scala">
+        ```scala
+        def fibonacciSequence: LazyList[Int] =
+            lazy val fibs: LazyList[Int] = 0 #:: 1 #:: fibs.zip(fibs.tail).map(_ + _)
+            fibs
+        ```
+    </TabItem>
+    <TabItem label="Haskell">
+        ```haskell
+        fibonacciSequence :: [Int]
+        fibonacciSequence = 0 : 1 : zipWith (+) fibonacciSequence (tail fibonacciSequence)
+        ```
+    </TabItem>
+</Tabs>
+
+<Tabs syncKey="languages">
+    <TabItem label="Scala">
+        ```scala
+        def americanTime(n: Int): Int =
+            val cycle = LazyList.continually(0 to 11).flatten
+            cycle(n)
+        ```
+    </TabItem>
+    <TabItem label="Haskell">
+        ```haskell
+        americanTime :: Int -> Int
+        americanTime n = cycle [0..11] !! n
+        ```
+    </TabItem>
+</Tabs>
+
+<Tabs syncKey="commands">
+    <TabItem label="npm">
+        ```shell
+        npm install software
+        ```
+    </TabItem>
+    <TabItem label="pnpm">
+        ```shell
+        pnpm install software
+        ```
+    </TabItem>
+        <TabItem label="yarn">
+        ```shell
+        yarn install software
+        ```
+    </TabItem>
+</Tabs>
+
+<Tabs syncKey="commands">
+    <TabItem label="npm">
+        ```shell
+        npm install software
+        ```
+    </TabItem>
+    <TabItem label="pnpm">
+        ```shell
+        pnpm install software
+        ```
+    </TabItem>
+        <TabItem label="yarn">
+        ```shell
+        yarn install software
+        ```
+    </TabItem>
+</Tabs>
+
 ## Introduction
 
 In this article we will attempt to build the remote code execution engine - the backend platform for websites such as [Hackerrank](https://hackerrank.com), [LeetCode](https://leetcode.com) and others.

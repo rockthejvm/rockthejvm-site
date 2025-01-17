@@ -8,3 +8,4 @@ no-duplicate-heading:
 no-inline-html: false
 no-trailing-punctuation: false
 no-space-in-emphasis: false # Required to allow comments in MDX files
+no-bare-urls: false # Creates issues with MDX files

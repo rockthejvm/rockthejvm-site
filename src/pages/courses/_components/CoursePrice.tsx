@@ -35,7 +35,7 @@ export default function Example({ pricingPlanId, active = true }: Props) {
       setError(
         `Failed to fetch course price: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
-      console.error("Failed to fetch course price:", error);
+      // console.error("Failed to fetch course price:", error);
     } finally {
       setLoading(false);
     }

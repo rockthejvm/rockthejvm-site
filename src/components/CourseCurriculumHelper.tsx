@@ -133,7 +133,7 @@ export default function Example(props: Props) {
                         await (
                           await getLecture(courseId, lecture.id, apiKey)
                         ).json()
-                      )["lecture"] as Lecture
+                      ).lecture as Lecture
                     ).name,
                   })),
               ),
@@ -170,6 +170,7 @@ export default function Example(props: Props) {
     }
   };
 
+  /* trunk-ignore(biome/lint/correctness/useExhaustiveDependencies) */
   useEffect(() => {
     // const fetchPrice = async () => {
     //   await getTeachableCurriculum(props.pricingPlanId);
@@ -178,6 +179,7 @@ export default function Example(props: Props) {
       const response = await fetch(`/api/curriculums/${props.courseSlug}`);
       const course: CourseResponse = (await response.json()) as CourseResponse;
       lectureSectionData = course.updatedLectureSections;
+
       if (lectureSectionData.length === 1) {
         setLectureSections(lectureSectionData);
         setLoading(false);
@@ -185,8 +187,8 @@ export default function Example(props: Props) {
         setLectureSections([lectureSectionData[0], lectureSectionData[1]]);
         setLoading(false);
       }
-      // setLectureSections(updatedLect`ureSections);
       setExpanded(false);
+      // setLectureSections(updatedLect`ureSections);
     };
 
     // For local testing
@@ -195,12 +197,12 @@ export default function Example(props: Props) {
     collapse();
     // fetchPrice();
     call();
-  }, []);
+  }, [props.courseSlug]);
 
   return (
     <div className="mx-auto max-w-3xl px-2 sm:px-4 lg:px-8">
       {lectureSections.map((section) => (
-        <ul role="list" className="mx-auto divide-y divide-gray-100">
+        <ul key={section.id} className="mx-auto divide-y divide-gray-100">
           <li className="flex justify-between gap-x-6 py-5">
             <div className="w-full">
               <div
@@ -210,9 +212,12 @@ export default function Example(props: Props) {
                 <h3 className="py-4 pl-4">{section.name}</h3>
               </div>
               <div>
-                <ul role="list" className="">
+                <ul>
                   {section.lectures.map((lecture) => (
-                    <li className="flex justify-between gap-x-6 py-2">
+                    <li
+                      key={lecture.id}
+                      className="flex justify-between gap-x-6 py-2"
+                    >
                       <div className="flex min-w-0 gap-x-4">
                         <p>{lecture.name}</p>
                       </div>
@@ -236,6 +241,7 @@ export default function Example(props: Props) {
         <div className="mx-auto my-4 flex justify-center text-5xl">
           {!expanded && (
             <button
+              type="button"
               className="px-2 text-content-2 ring-1 ring-content-2"
               onClick={expand}
             >
@@ -244,6 +250,7 @@ export default function Example(props: Props) {
           )}
           {expanded && (
             <button
+              type="button"
               className="px-2 text-content-2 ring-1 ring-content-2"
               onClick={collapse}
             >
