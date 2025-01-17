@@ -1,6 +1,7 @@
 ---
 import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
+import Section from "@components/Section.astro";
 import site from "@data/site.json";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import {
@@ -286,18 +287,22 @@ const structuredData = JSON.stringify({
     }
     {
       prerequisites && (
-        <Fragment>
-          <h2>{`${prerequisites.data.title} Roadmap`}</h2>
-          {!(bundledCourses.length > 0) && (
-            <div id="app">
-              <Roadmap
-                client:load
-                initialNodes={reactFlowNodes}
-                initialEdges={reactFlowEdges}
-              />
-            </div>
-          )}
-        </Fragment>
+        <Section
+          title={`${prerequisites.data.title} Roadmap`}
+          color={categoryColor}
+        >
+          <Fragment>
+            {!(bundledCourses.length > 0) && (
+              <div id="app">
+                <Roadmap
+                  client:load
+                  initialNodes={reactFlowNodes}
+                  initialEdges={reactFlowEdges}
+                />
+              </div>
+            )}
+          </Fragment>
+        </Section>
       )
     }
     {technologies && <TechStack {technologies} color={categoryColor} />}

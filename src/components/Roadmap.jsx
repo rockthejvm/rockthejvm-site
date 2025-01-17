@@ -1,5 +1,8 @@
+"use client";
+
 import Dagre from "@dagrejs/dagre";
 import {
+  Panel,
   ReactFlow,
   ReactFlowProvider,
   useEdgesState,
@@ -43,6 +46,8 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  var doit;
+
   const onLayout = useCallback(
     (direction) => {
       console.log(nodes);
@@ -58,11 +63,26 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
     [nodes, edges],
   );
 
-  useEffect(() => {
-    if (nodes.length && edges.length) {
-      onLayout("TB");
+  const handleResize = () => {
+    if (window.innerWidth < 1060) {
+      setTimeout(() => onLayout("LR"), 0);
+    } else {
+      setTimeout(() => onLayout("TB"), 0);
     }
-  }, [nodes, edges, onLayout]);
+  };
+
+  const clickButton = () => {
+    document.getElementById("layoutButton").click();
+  };
+
+  useEffect(() => {
+    window.onresize = function () {
+      clearTimeout(doit);
+      doit = setTimeout(clickButton, 100);
+    };
+
+    setTimeout(clickButton, 200);
+  }, []);
 
   const nodeTypes = {
     linkNode: MyLinkNode,
@@ -77,10 +97,11 @@ const LayoutFlow = ({ initialNodes, initialEdges }) => {
       fitView
       nodeTypes={nodeTypes}
     >
-      {/* <Panel position="top-right">
-        <button onClick={() => onLayout("TB")}>vertical layout</button>
-        <button onClick={() => onLayout("LR")}>horizontal layout</button>
-      </Panel> */}
+      <Panel position="top-right">
+        <button id="layoutButton" hidden onClick={() => handleResize()}>
+          vertical layout
+        </button>
+      </Panel>
     </ReactFlow>
   );
 };
