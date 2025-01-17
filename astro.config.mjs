@@ -129,6 +129,7 @@ function buildStart() {
         //   await addEmbeddedArticles();
         //   await getArticleMatches();
         // }
+        //
         await addEmbeddedArticles();
         await getArticleMatches();
       },
