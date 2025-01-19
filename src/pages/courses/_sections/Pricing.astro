@@ -27,7 +27,6 @@ const {
   courseSlug,
   pricingPlanId,
   title,
-  active,
 } = Astro.props;
 const monthlyMembershipPricingPlanId = (
   await getEntry("memberships", "personal")
