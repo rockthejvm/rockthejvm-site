@@ -9,10 +9,9 @@ interface Props {
   heroImage: CourseFrontmatter["heroImage"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
-  active: CourseFrontmatter["active"];
 }
 
-const { description, heroImage, pricingPlanId, title, active } = Astro.props;
+const { description, heroImage, pricingPlanId, title } = Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
@@ -37,19 +36,15 @@ const { description, heroImage, pricingPlanId, title, active } = Astro.props;
     >
       {description}
     </p>
-    {
-      active && (
         <div class="mt-10 text-center">
-          <a
+            <a
             href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`}
             class="rounded-md bg-cta px-3.5 py-2.5 text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             target="_blank"
             rel="noopener noreferrer"
-          >
+            >
             Enroll now
-          </a>
+            </a>
         </div>
-      )
-    }
   </div>
 </header>

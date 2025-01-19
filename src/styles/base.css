@@ -214,3 +214,11 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+[data-theme="light"] .featured-clients {
+  color: white !important;
+}
+
+[data-theme="dark"] .featured-clients {
+  color: black !important;
+}
