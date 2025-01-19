@@ -105,7 +105,7 @@ const structuredData = JSON.stringify({
   title="The Rock the JVM Membership"
 >
   <header class="pt-8 md:pt-16">
-    <h1 class="mx-6 text-center text-content-1 lg:mx-8">
+    <h1 class="m-16 text-center text-content-1 lg:m-20">
       Rock the JVM Courses
     </h1>
   </header>
@@ -114,18 +114,20 @@ const structuredData = JSON.stringify({
     {
       mycoursess.map(([category, courses]) => (
         <section class="pt-8 md:pt-12">
-          <div class="flex flex-row gap-x-4">
-            <div class="ml-8 flex size-16 justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
-              <MyPicture
-                src={category.data.logo}
-                alt={category.data.name}
-                quality="low"
-                class="my-auto w-full"
-              />
+          <div class="flex flex-col items-center">
+            <div class="flex flex-row gap-x-4 align-middle">
+              <div class="ml-8 flex size-16 items-center justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
+                <MyPicture
+                  src={category.data.logo}
+                  alt={category.data.name}
+                  quality="low"
+                  class="my-auto w-full"
+                />
+              </div>
+              <h2 class="my-auto">{category.data.name}</h2>
             </div>
-            <h2 class="my-auto">{category.data.name}</h2>
           </div>
-          <ul class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
+          <ul class="mx-auto my-8 grid max-w-7xl grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
             {courses.map((course) => (
               <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
                 <CourseCardVertical {course} />
