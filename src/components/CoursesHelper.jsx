@@ -12,7 +12,7 @@ export default function Example(props) {
         <dt>
           <DisclosureButton className="card-shadow card-shadow-color group flex min-h-32 w-full items-center justify-between rounded-2xl bg-secondary p-8 text-left text-content">
             <div className="flex flex-1 items-center gap-x-4">
-              <div className="flex size-16 justify-center rounded-full bg-white p-3 align-middle ring-1 ring-content-2 md:p-4 lg:size-28 lg:p-5">
+              <div className="flex size-16 items-center justify-center rounded-full bg-white p-3 align-middle ring-1 ring-content-2 md:p-4 lg:size-28 lg:p-5">
                 {props.categoryImage}
               </div>
               <span className="flex-1 text-base font-semibold leading-7">

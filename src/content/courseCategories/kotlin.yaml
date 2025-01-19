@@ -5,5 +5,5 @@ faqs:
   - question: Do you have any affiliation with JetBrains or the Kotlin Foundation?
     answer: No, this course is not affiliated with JetBrains (the creators of Kotlin), Google, or the Kotlin Foundation. However, I hope they'll have positive things to say about it once they see it!
 name: Kotlin
-ordinal: 2
+ordinal: 3
 logo: src/assets/images/logos/kotlin.svg

@@ -17,7 +17,6 @@ interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
-  active: CourseFrontmatter["active"];
 }
 
 const {
@@ -28,7 +27,6 @@ const {
   courseSlug,
   pricingPlanId,
   title,
-  active,
 } = Astro.props;
 const monthlyMembershipPricingPlanId = (
   await getEntry("memberships", "personal")
@@ -56,6 +54,7 @@ const categories = (await getCollection("courseCategories"))
 const featuredBundles = _courses.filter((course) =>
   course.data.bundledCourses?.some((course) => course.slug === courseSlug),
 );
+
 // remove this when including the RoP courses in the membership
 const membershipIncludedClassNames = includedInMembership && "grid grid-cols-1";
 const membershipIncludedCardClassNames =
@@ -81,7 +80,6 @@ const membershipIncludedCardClassNames =
           class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
         >
           <CoursePrice
-            {active}
             {pricingPlanId}
             client:visible={{ rootMargin: "2160px" }}
           />
@@ -118,19 +116,15 @@ const membershipIncludedCardClassNames =
             ))
           }
         </ul>
-        {
-          active && (
-            <a
-              href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`}
-              aria-describedby="tier-hobby"
-              class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get Now
-            </a>
-          )
-        }
+        <a
+            href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`}
+            aria-describedby="tier-hobby"
+            class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Get Now
+        </a>
       </div>
       {
         includedInMembership && (
