@@ -17,7 +17,6 @@ interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
-  active: CourseFrontmatter["active"];
 }
 
 const {
@@ -53,10 +52,8 @@ const monthlyMembershipLinesOfCode = _courses
 const categories = (await getCollection("courseCategories"))
   .filter((category) => category.id !== "bundle")
   .sort((a, b) => (a.data.ordinal <= b.data.ordinal ? -1 : 1));
-const featuredBundles = _courses.filter(
-  (course) =>
-    course.data.active &&
-    course.data.bundledCourses?.some((course) => course.slug === courseSlug),
+const featuredBundles = _courses.filter((course) =>
+  course.data.bundledCourses?.some((course) => course.slug === courseSlug),
 );
 
 // remove this when including the RoP courses in the membership
