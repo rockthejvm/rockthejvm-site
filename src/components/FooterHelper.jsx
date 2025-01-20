@@ -1,19 +1,5 @@
 import site from "../data/site.json";
 
-/*
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 const navigation = {
   content: [
     { name: "Articles", href: "/articles/1" },
