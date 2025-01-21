@@ -9,11 +9,12 @@ export default function Example({
   children,
   ariaDescribedBy = "",
 }) {
-  const [code, setCode] = useState(undefined);
+  const [cookies, setCookies] = useState(undefined);
 
   useEffect(() => {
+    const cookiesAccepted = Cookies.get("cookies-accepted");
     const affiliateCode = Cookies.get("teachable-affiliate");
-    setCode(affiliateCode);
+    setCookies([cookiesAccepted, affiliateCode]);
   }, []);
 
   return (
@@ -23,7 +24,11 @@ export default function Example({
       href={
         "https://courses.rockthejvm.com/purchase?product_id=" +
         pricingPlanId +
-        (code !== undefined ? `&affcode=${code}` : "")
+        (cookies !== undefined &&
+        cookies[0] === "true" &&
+        cookies[1] !== undefined
+          ? `&affcode=${cookies[1]}`
+          : "")
       }
     >
       {children}
