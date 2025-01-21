@@ -61,13 +61,16 @@ importers:
         version: 1.1.1
       astro-pagefind:
         specifier: ^1.6.0
-        version: 1.6.0(astro@4.15.11(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2))
+        version: 1.6.0(astro@4.16.18(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2))
       effect:
         specifier: ^3.10.13
         version: 3.10.13
       fp-ts:
         specifier: ^2.16.9
         version: 2.16.9
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
       mdast-util-to-string:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1437,18 +1440,13 @@ packages:
   astro-icon@1.1.1:
     resolution: {integrity: sha512-HKBesWk2Faw/0+klLX+epQVqdTfSzZz/9+5vxXUjTJaN/HnpDf608gRPgHh7ZtwBPNJMEFoU5GLegxoDcT56OQ==}
 
-<<<<<<< HEAD
   astro-pagefind@1.6.0:
     resolution: {integrity: sha512-U/WuE0ktkZkoFJf6yopWO4DjIJ3+wrnopE2L3kUYiyqNTJpqmp13bFLR8gir6B+KzQ5dsXQtJZYTQtKJg1FxIA==}
     peerDependencies:
       astro: ^2.0.4 || ^3.0.0 || ^4.0.0
 
-  astro@4.15.11:
-    resolution: {integrity: sha512-uA9fenaRR+j6ksPFsmhM88ttz94a66SET1TZxAJLxctxWkDlgz58BxZYUc1gNlt0azhgzOgh4hP3q9M4YzAmBA==}
-=======
   astro@4.16.18:
     resolution: {integrity: sha512-G7zfwJt9BDHEZwlaLNvjbInIw2hPryyD654314KV/XT34pJU6SfN1S+mWa8RAkALcZNJnJXCJmT3JXLQStD3Lw==}
->>>>>>> origin/main
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2610,6 +2608,10 @@ packages:
   jiti@1.21.6:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
+
+  js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -5952,18 +5954,14 @@ snapshots:
       - debug
       - supports-color
 
-<<<<<<< HEAD
-  astro-pagefind@1.6.0(astro@4.15.11(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2)):
+  astro-pagefind@1.6.0(astro@4.16.18(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2)):
     dependencies:
       '@pagefind/default-ui': 1.2.0
-      astro: 4.15.11(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2)
+      astro: 4.16.18(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2)
       pagefind: 1.2.0
       sirv: 2.0.4
 
-  astro@4.15.11(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2):
-=======
   astro@4.16.18(@types/node@22.7.4)(rollup@4.24.0)(typescript@5.6.2):
->>>>>>> origin/main
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.1
@@ -7502,6 +7500,8 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jiti@1.21.6: {}
+
+  js-cookie@3.0.5: {}
 
   js-tokens@4.0.0: {}
 
