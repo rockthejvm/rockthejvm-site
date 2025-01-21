@@ -8,10 +8,11 @@ interface Props {
       name: string;
       twitter?: string;
     };
-    updatedTime?: Date;
+    minutesRead: number;
     publishedTime: Date;
     section: string;
     tags: string[];
+    updatedTime?: Date;
     video?: URL;
   };
   canonicalUrl: URL;
@@ -207,7 +208,7 @@ const image = {
             authorName={article.author.name}
             authorImage="TEST_IMAGE"
             {title}
-            minutesRead={999}
+            minutesRead={article.minutesRead}
             date={article.updatedTime ?? article.publishedTime}
             category="TEST_CATEGORY"
             tags={article.tags}
