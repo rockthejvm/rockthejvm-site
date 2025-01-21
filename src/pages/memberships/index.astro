@@ -1,5 +1,6 @@
 ---
 import MyPicture from "@components/MyPicture.astro";
+import PurchaseLink from "@components/PurchaseLink";
 import MembershipImage from "../../content/memberships/personal.png";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Courses from "./_sections/Courses.astro";
@@ -76,6 +77,7 @@ import MembershipPricingSection from "./_sections/MembershipPricingSection.astro
 // const title = (await getEntry("memberships", "personal")).data.title;
 
 // const yearlyPrice = await getMembershipPrice(yearlyMembershipPricingPlanId);
+const monthlyMembershipPricingPlanId = 4131055;
 ---
 
 <BaseLayout
@@ -109,12 +111,13 @@ import MembershipPricingSection from "./_sections/MembershipPricingSection.astro
                 <div
                   class="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
                 >
-                  <a
-                    href="https://sso.teachable.com/secure/256201/checkout/4131055/membership"
+                  <PurchaseLink
+                    pricingPlanId={monthlyMembershipPricingPlanId}
                     class="rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    client:load
                   >
                     Enroll
-                  </a>
+                  </PurchaseLink>
                 </div>
               </div>
             </div>

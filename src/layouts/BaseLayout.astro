@@ -73,3 +73,17 @@ const {
     <Footer holiday={!!forcedTheme} />
   </body>
 </html>
+<script>
+  import Cookies from "js-cookie";
+
+  function getURLParameter(paramName) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(paramName);
+  }
+
+  const code = getURLParameter("affcode");
+
+  if (code && Cookies.get("cookies-accepted") === "true") {
+    Cookies.set("teachable-affiliate", code, { expires: 30 });
+  }
+</script>

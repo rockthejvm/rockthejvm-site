@@ -2,6 +2,7 @@
 import MoneyBackGuarantee from "@assets/images/money-back-guarantee.svg";
 import MyPicture from "@components/MyPicture.astro";
 import Prose from "@components/Prose.astro";
+import PurchaseLink from "@components/PurchaseLink";
 import Section from "@components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
@@ -116,15 +117,14 @@ const membershipIncludedCardClassNames =
             ))
           }
         </ul>
-        <a
-            href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`}
-            aria-describedby="tier-hobby"
-            class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-            target="_blank"
-            rel="noopener noreferrer"
+        <PurchaseLink
+          {pricingPlanId}
+          ariaDescribedby="tier-hobby"
+          class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+          client:load
         >
-            Get Now
-        </a>
+          Get Now</PurchaseLink
+        >
       </div>
       {
         includedInMembership && (
@@ -172,15 +172,14 @@ const membershipIncludedCardClassNames =
                 </li>
               ))}
             </ul>
-            <a
-              href={`https://courses.rockthejvm.com/purchase?product_id=${monthlyMembershipPricingPlanId}`}
-              aria-describedby="tier-enterprise"
+            <PurchaseLink
+              pricingPlanId={monthlyMembershipPricingPlanId}
+              ariaDescribedby="tier-enterprise"
               class="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-              target="_blank"
-              rel="noopener noreferrer"
+              client:load
             >
               Join Now
-            </a>
+            </PurchaseLink>
           </div>
         )
       }

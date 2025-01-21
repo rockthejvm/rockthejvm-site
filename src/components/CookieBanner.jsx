@@ -15,12 +15,23 @@ export default function Example() {
   const accept = () => {
     Cookies.set("cookies-accepted", "true", { expires: 365 });
     setHide(true);
+
+    const code = getURLParameter("affcode");
+
+    if (code) {
+      Cookies.set("teachable-affiliate", code, { expires: 30 });
+    }
   };
 
   const reject = () => {
     Cookies.set("cookies-accepted", "false", { expires: 365 });
     setHide(true);
   };
+
+  function getURLParameter(paramName) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(paramName);
+  }
 
   return (
     <div
