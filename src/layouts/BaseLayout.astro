@@ -1,4 +1,5 @@
 ---
+import AffiliateScript from "@components/scripts/AffiliateScript.astro";
 import "@styles/base.css";
 import "@styles/fonts.css";
 import CookieBanner from "../components/CookieBanner";
@@ -73,17 +74,4 @@ const {
     <Footer holiday={!!forcedTheme} />
   </body>
 </html>
-<script>
-  import Cookies from "js-cookie";
-
-  function getURLParameter(paramName: string) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(paramName);
-  }
-
-  const affCode = getURLParameter("affcode");
-
-  if (affCode && Cookies.get("cookies-accepted") === "true") {
-    Cookies.set("teachable-affiliate", affCode, { expires: 30 });
-  }
-</script>
+<AffiliateScript />

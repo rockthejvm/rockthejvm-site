@@ -1,5 +1,5 @@
 ---
-import Theme from "@components/scripts/Theme.astro";
+import ThemeScript from "@components/scripts/ThemeScript.astro";
 import site from "@data/site.json";
 
 interface Props {
@@ -52,7 +52,7 @@ const image = {
       <script type="application/ld+json" set:html={structuredData} is:inline />
     )
   }
-  <Theme {forcedTheme} />
+  <ThemeScript {forcedTheme} />
 
   <Fragment>
     <meta charset="utf-8" />
