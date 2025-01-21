@@ -479,7 +479,7 @@ export default function Example(props) {
               <PurchaseLink
                 pricingPlanId={yearlyMembershipPricingPlanId}
                 ariaDescribedBy="tier-enterprise"
-                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-ctatext focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
                 client:load
               >
                 Join Now
