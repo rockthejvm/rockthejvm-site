@@ -81,9 +81,9 @@ const {
     return urlParams.get(paramName);
   }
 
-  const code = getURLParameter("affcode");
+  const affCode = getURLParameter("affcode");
 
-  if (code && Cookies.get("cookies-accepted") === "true") {
-    Cookies.set("teachable-affiliate", code, { expires: 30 });
+  if (affCode && Cookies.get("cookies-accepted") === "true") {
+    Cookies.set("teachable-affiliate", affCode, { expires: 30 });
   }
 </script>

@@ -16,10 +16,10 @@ export default function Example() {
     Cookies.set("cookies-accepted", "true", { expires: 365 });
     setHide(true);
 
-    const code = getURLParameter("affcode");
+    const affCode = getURLParameter("affcode");
 
-    if (code) {
-      Cookies.set("teachable-affiliate", code, { expires: 30 });
+    if (affCode) {
+      Cookies.set("teachable-affiliate", affCode, { expires: 30 });
     }
   };
 
