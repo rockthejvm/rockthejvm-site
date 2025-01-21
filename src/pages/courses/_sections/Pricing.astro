@@ -121,7 +121,7 @@ const membershipIncludedCardClassNames =
           {pricingPlanId}
           ariaDescribedBy="tier-hobby"
           className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-          client:load
+          client:visible={{ rootMargin: "2160px" }}
         >
           Get Now</PurchaseLink
         >
@@ -176,7 +176,7 @@ const membershipIncludedCardClassNames =
               pricingPlanId={monthlyMembershipPricingPlanId}
               ariaDescribedBy="tier-enterprise"
               className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-              client:load
+              client:visible={{ rootMargin: "2160px" }}
             >
               Join Now
             </PurchaseLink>
