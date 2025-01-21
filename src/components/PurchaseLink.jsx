@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 export default function Example({
   pricingPlanId,
   className,
-  ariaDescribedBy,
   children,
+  ariaDescribedBy = "",
 }) {
   const [code, setCode] = useState(undefined);
 
@@ -19,7 +19,7 @@ export default function Example({
   return (
     <a
       className={className}
-      aria-describedby={ariaDescribedBy ? ariaDescribedBy : ""}
+      aria-describedBy={ariaDescribedBy}
       href={
         "https://courses.rockthejvm.com/purchase?product_id=" +
         pricingPlanId +

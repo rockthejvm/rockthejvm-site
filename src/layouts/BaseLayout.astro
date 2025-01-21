@@ -76,7 +76,7 @@ const {
 <script>
   import Cookies from "js-cookie";
 
-  function getURLParameter(paramName) {
+  function getURLParameter(paramName: string) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(paramName);
   }
