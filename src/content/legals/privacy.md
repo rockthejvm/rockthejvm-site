@@ -22,7 +22,7 @@ The School may collect and use Students’ personal identification information f
 
 ## Cookies
 
-Our website may use cookies to store affiliate codes for up to 30 days. These cookies are only used when you access our website through an affiliate link. The purpose is to ensure that sales are attributed to the correct affiliate. All cookies automatically expire after 30 days.
+We use cookies and similar technologies to enhance your experience on our site. For detailed information, please refer to our [Cookie Policy](/legal/cookies).
 
 ## Sharing your personal information
 

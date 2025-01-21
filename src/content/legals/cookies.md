@@ -9,6 +9,10 @@ Cookies are small text files stored on your device by websites you visit. They s
 
 ## How do we use cookies?
 
-Our website may use cookies to store affiliate codes for up to 30 days. These cookies are only used when you access our website through an affiliate link. The purpose is to ensure that sales are attributed to the correct affiliate. All cookies automatically expire after 30 days.
+Our website may use cookies to store cookie preferences and affiliate codes. Neither store any personally identifying information.
 
-If a user enters our website from a non-affiliate link, we do not use cookies to store any information.
+The cookie preferences cookie is only used when the user selects their cookie preferences in the cookie banner and can be cleared by the user through a button in the footer. Its purpose is solely whether or not to continue displaying the banner to the user. This cookie is considered strictly necessary. This cookie automatically expires after 1 year.
+
+The affiliate cookies are only used when you access our website through an affiliate link. The purpose is to ensure that sales are attributed to the correct affiliate. This cookie automatically expires after 30 days.
+
+If a user enters our website from a non-affiliate link, we do not use cookies to store any information. Also, if the user does not specify their cookie preferences or rejects all cookies, no affiliate cookie will be made.
