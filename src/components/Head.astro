@@ -1,4 +1,5 @@
 ---
+import ArticleMetaImage from "@components/ArticleMetaImage.astro";
 import site from "../data/site.json";
 
 interface Props {
@@ -200,31 +201,46 @@ const image = {
             )}
           </Fragment>
         )}
-        <meta property="og:description" content={description} />
-        <meta property="og:image:alt" content={image.alt} />
-        {/* <meta property="og:image:height" content= /> */}
-        <meta property="og:image:secure_url" content={image.src} />
-        {/* <meta property="og:image:type" content=`image/${}` /> */}
-        <meta property="og:image:url" content={image.src} />
-        {/* <meta property="og:image:width" content= /> */}
-        <meta property="og:image" content={image.src} />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:site_name" content={site.name} />
-        <meta property="og:title" content={title} />
-        <meta property="og:type" content={type} />
 
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="twitter:card" content="summary_large_image" />
+        {article ? (
+          <ArticleMetaImage
+            authorName={article.author.name}
+            authorImage="TEST_IMAGE"
+            {title}
+            minutesRead={999}
+            date={article.updatedTime ?? article.publishedTime}
+            category="TEST_CATEGORY"
+            tags={article.tags}
+          />
+        ) : (
+          <Fragment>
+            <meta property="og:image" content={image.src} />
+            <meta property="og:image:alt" content={image.alt} />
+            {/* <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" /> */}
+
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:image" content={image.src} />
+            <meta property="twitter:image:alt" content={image.alt} />
+          </Fragment>
+        )}
+
+        <meta property="og:description" content={description} />
+
         <meta
           property="twitter:creator"
           content={article?.author.twitter ?? site.socials.twitter.handle}
         />
         <meta property="twitter:description" content={description} />
-        <meta property="twitter:image:alt" content={image.alt} />
-        <meta property="twitter:image" content={image.src} />
         <meta property="twitter:site" content={site.socials.twitter.handle} />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:url" content={canonicalUrl} />
+
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:site_name" content={site.name} />
+        <meta property="og:title" content={title} />
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={canonicalUrl} />
       </Fragment>
     )
   }
