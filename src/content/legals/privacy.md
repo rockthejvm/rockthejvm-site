@@ -20,6 +20,10 @@ The School may collect and use Students’ personal identification information f
 - To send periodic emails
   We may use Student email addresses to send Students information and updates pertaining to their order. Student email addresses may also be used to respond to Student inquiries, questions, or other requests.
 
+## Cookies
+
+Our website may use cookies to store affiliate codes for up to 30 days. These cookies are only used when you access our website through an affiliate link. The purpose is to ensure that sales are attributed to the correct affiliate. All cookies automatically expire after 30 days.
+
 ## Sharing your personal information
 
 We do not sell, trade, or rent Student personal identification information to others.
