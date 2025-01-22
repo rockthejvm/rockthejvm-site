@@ -13,6 +13,7 @@ interface Props {
       name: string;
       twitter?: string;
     };
+    category: CollectionEntry<"articleCategories">["id"];
     minutesRead: number;
     photo: CollectionEntry<"authors">["data"]["photo"];
     publishedTime: Date;

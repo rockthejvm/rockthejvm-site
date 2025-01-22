@@ -9,6 +9,7 @@ interface Props {
       name: string;
       twitter?: string;
     };
+    category: CollectionEntry<"articleCategories">["id"];
     minutesRead: number;
     photo: CollectionEntry<"authors">["data"]["photo"];
     publishedTime: Date;
@@ -212,7 +213,7 @@ const image = {
             {title}
             minutesRead={article.minutesRead}
             date={article.updatedTime ?? article.publishedTime}
-            category="TEST_CATEGORY"
+            category={article.category}
             tags={article.tags}
           />
         ) : (
