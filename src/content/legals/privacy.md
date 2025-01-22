@@ -20,6 +20,10 @@ The School may collect and use Students’ personal identification information f
 - To send periodic emails
   We may use Student email addresses to send Students information and updates pertaining to their order. Student email addresses may also be used to respond to Student inquiries, questions, or other requests.
 
+## Cookies
+
+We use cookies and similar technologies to enhance your experience on our site. For detailed information, please refer to our [Cookie Policy](/legal/cookies).
+
 ## Sharing your personal information
 
 We do not sell, trade, or rent Student personal identification information to others.

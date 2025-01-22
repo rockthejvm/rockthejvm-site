@@ -1,5 +1,6 @@
 "use client";
 
+import PurchaseLink from "@components/PurchaseLink";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -12,6 +13,9 @@ const membershipTypes = [
   { value: "Monthly", label: "Monthly", priceSuffix: "/month" },
   { value: "Yearly", label: "Yearly", priceSuffix: "/year" },
 ];
+
+const monthlyMembershipPricingPlanId = 4131055;
+const yearlyMembershipPricingPlanId = 4131056;
 
 // const plans = [
 //   {
@@ -301,15 +305,14 @@ export default function Example(props) {
                   </p>
                 </li>
               </ul>
-              <a
-                href="https://courses.rockthejvm.com/purchase?product_id=4131055"
-                aria-describedby="tier-hobby"
+              <PurchaseLink
+                pricingPlanId={monthlyMembershipPricingPlanId}
+                ariaDescribedBy="tier-hobby"
                 className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-                target="_blank"
-                rel="noopener noreferrer"
+                client:load
               >
                 Join Now
-              </a>
+              </PurchaseLink>
               <small className="mt-16 text-sm text-content-1">
                 <i className="mt-8">
                   This is a subscription product billed on a monthly basis until
@@ -473,15 +476,14 @@ export default function Example(props) {
                   </p>
                 </li>
               </ul>
-              <a
-                href="https://courses.rockthejvm.com/purchase?product_id=4131056"
-                aria-describedby="tier-enterprise"
-                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-                target="_blank"
-                rel="noopener noreferrer"
+              <PurchaseLink
+                pricingPlanId={yearlyMembershipPricingPlanId}
+                ariaDescribedBy="tier-enterprise"
+                className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-ctatext focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+                client:load
               >
                 Join Now
-              </a>
+              </PurchaseLink>
               <small className="mt-16 text-sm text-content-1">
                 <i className="mt-8">
                   This is a subscription product billed on a yearly basis until

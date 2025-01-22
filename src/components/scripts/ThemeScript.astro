@@ -1,0 +1,68 @@
+---
+interface Props {
+  forcedTheme?: string;
+}
+
+const { forcedTheme } = Astro.props;
+---
+
+<script is:inline define:vars={{ forcedTheme }}>
+  const setDataTheme = () => {
+    if (forcedTheme) {
+      document.documentElement.setAttribute("holiday-theme", forcedTheme);
+    }
+    document.documentElement.setAttribute(
+      "data-theme",
+      localStorage.getItem("theme") === "system"
+        ? window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light"
+        : localStorage.getItem("theme"),
+    );
+  };
+  const setThemeToggle = () => {
+    ["systemTheme", "lightTheme", "darkTheme"].forEach(
+      (id) => (document.getElementById(id).style.display = "none"),
+    );
+    const theme = localStorage.getItem("theme");
+    document.getElementById(
+      theme === "system"
+        ? "systemTheme"
+        : theme === "light"
+          ? "lightTheme"
+          : "darkTheme",
+    ).style.display = "block";
+  };
+  const setProse = () => {
+    for (const element of document.getElementsByClassName("prose"))
+      if (document.documentElement.getAttribute("data-theme") === "dark") {
+        element.classList.add("prose-invert");
+      } else {
+        element.classList.remove("prose-invert");
+      }
+  };
+
+  if (localStorage.getItem("theme") === null) {
+    localStorage.setItem("theme", "system");
+  }
+  setDataTheme();
+  document.addEventListener("DOMContentLoaded", () => {
+    setProse();
+    if (!forcedTheme) {
+      setThemeToggle();
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        localStorage.setItem(
+          "theme",
+          localStorage.getItem("theme") === "system"
+            ? "light"
+            : localStorage.getItem("theme") === "light"
+              ? "dark"
+              : "system",
+        );
+        setDataTheme();
+        setProse();
+        setThemeToggle();
+      });
+    }
+  });
+</script>
