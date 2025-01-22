@@ -18,6 +18,7 @@ import site from "../data/site.json";
 const clearCookies = () => {
   Cookies.remove("cookies-accepted");
   Cookies.remove("teachable-affiliate");
+  window.location.reload(false);
 };
 
 const navigation = {
