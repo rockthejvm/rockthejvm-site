@@ -209,11 +209,11 @@ const image = {
         {article ? (
           <ArticleMetaImage
             {title}
-            authorImage={article.photo.src}
+            authorImage={new URL(article.photo.src, Astro.url.origin).href}
             authorName={article.author.name}
             category={article.category}
             date={article.updatedTime ?? article.publishedTime}
-            heroImage={site.logo.src}
+            heroImage={new URL(site.logo.src, Astro.url.origin).href}
             minutesRead={article.minutesRead}
             tags={article.tags}
           />
