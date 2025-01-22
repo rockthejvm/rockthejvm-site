@@ -1,6 +1,8 @@
 ---
+import AffiliateScript from "@components/scripts/AffiliateScript.astro";
 import "@styles/base.css";
 import "@styles/fonts.css";
+import CookieBanner from "../components/CookieBanner";
 import Footer from "../components/Footer.astro";
 import Head from "../components/Head.astro";
 import Header from "../components/Header.astro";
@@ -67,7 +69,9 @@ const {
     <Header showThemeToggle={!forcedTheme} />
     <main {...searchIndexable ? { "data-pagefind-body": true } : {}}>
       <slot />
+      <CookieBanner client:load />
     </main>
     <Footer holiday={!!forcedTheme} />
   </body>
 </html>
+<AffiliateScript />
