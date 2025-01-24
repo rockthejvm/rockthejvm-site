@@ -1,5 +1,6 @@
 ---
 import ArticleMetaImage from "@components/ArticleMetaImage.astro";
+import formatDate from "@utils/formatDate";
 import type { CollectionEntry } from "astro:content";
 import site from "../data/site.json";
 
@@ -208,14 +209,19 @@ const image = {
 
         {article ? (
           <ArticleMetaImage
-            {title}
             authorImage={new URL(article.photo.src, Astro.url.origin).href}
             authorName={article.author.name}
-            category={article.category}
-            date={article.updatedTime ?? article.publishedTime}
-            heroImage={new URL(site.logo.src, Astro.url.origin).href}
-            minutesRead={article.minutesRead}
-            tags={article.tags}
+            logo={new URL(site.logo.src, Astro.url.origin).href}
+            metadata1={`${article.minutesRead} min read`}
+            metadata2={formatDate(article.updatedTime ?? article.publishedTime)}
+            metadata3={
+              article.category.slice(0, 1).toUpperCase() +
+              article.category.slice(1)
+            }
+            tag1={article.tags[0]}
+            tag2={article.tags[1] ?? ""}
+            tag3={article.tags[2] ?? ""}
+            {title}
           />
         ) : (
           <Fragment>
