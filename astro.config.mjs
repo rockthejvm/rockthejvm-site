@@ -124,14 +124,14 @@ function buildStart() {
     name: "my-build-start",
     hooks: {
       "astro:build:start": async () => {
-        // const branch = process.env.CF_PAGES_BRANCH || "unknown"
-        // if (branch !== "main") {
-        //   await addEmbeddedArticles();
-        //   await getArticleMatches();
-        // }
-        //
-        await addEmbeddedArticles();
-        await getArticleMatches();
+        const branch = process.env.CF_PAGES_BRANCH || "unknown";
+        if (branch !== "wkenned1/issue206") {
+          await addEmbeddedArticles();
+          await getArticleMatches();
+        }
+
+        // await addEmbeddedArticles();
+        // await getArticleMatches();
       },
     },
   };
