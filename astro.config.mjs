@@ -125,7 +125,7 @@ function buildStart() {
     hooks: {
       "astro:build:start": async () => {
         const branch = process.env.CF_PAGES_BRANCH || "unknown";
-        if (branch !== "wkenned1/issue206") {
+        if (branch === "wkenned1/issue206") {
           await addEmbeddedArticles();
           await getArticleMatches();
         }
