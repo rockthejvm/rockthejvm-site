@@ -1,13 +1,6 @@
-import { z } from "astro:content";
+import type { ZodArray } from "astro:schema";
 
-export const unique = <T extends z.ZodTypeAny>(
-  collection: z.ZodArray<T, "many">,
-  field: string,
-) =>
-  // collection.refine(
-  //   (array) => new Set(array.map((item) => item[field])).size === array.length,
-  //   {
-  //     message: `${field} must be unique`,
-  //   },
-  // );
-  collection;
+export default (array: ZodArray, elements: string) =>
+  array.refine((items) => new Set(items).size === items.length, {
+    message: `All ${elements} must be unique`,
+  });

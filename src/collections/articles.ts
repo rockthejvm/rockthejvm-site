@@ -1,4 +1,4 @@
-import { unique } from "@utils/unique";
+import unique from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
