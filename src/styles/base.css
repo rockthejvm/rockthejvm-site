@@ -137,15 +137,6 @@
     }
   }
 
-  #search .pagefind-ui__result-title,
-  #search .pagefind-ui__result-link {
-    @apply text-content-1;
-  }
-
-  #search .pagefind-ui__result-excerpt {
-    @apply text-content-1;
-  }
-
   h1,
   h2,
   h3 {
