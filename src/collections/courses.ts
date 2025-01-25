@@ -164,5 +164,11 @@ export default defineCollection({
             "Either difficulty or bundledCourses must be provided, but not both",
           path: ["difficulty", "bundledCourses"],
         },
+      )
+      .refine(
+        (data) => !data.updatedDate || data.updatedDate >= data.publishedDate,
+        {
+          message: "Updated date must be on or after the published date",
+        },
       ),
 });
