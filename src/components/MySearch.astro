@@ -171,7 +171,7 @@ import Search from "astro-pagefind/components/Search";
     --pagefind-ui-result-title-text: hsl(217, 32.6%, 17.5%);
     --pagefind-ui-result-text: hsl(217, 32.6%, 17.5%);
     --pagefind-ui-background: hsl(173, 12%, 84%);
-    --pagefind-input-background: gray;
+    --pagefind-input-background: white;
     --pagefind-input-text: black;
     --pagefind-ui-border: gray;
     --pagefind-ui-tag: hsl(173, 12%, 84%);
@@ -208,14 +208,14 @@ import Search from "astro-pagefind/components/Search";
       calc(0.5rem * var(--pagefind-ui-scale));
   }
   #search .pagefind-ui__button {
-    color: var(--pagefind-button-color);
+    color: var(--pagefind-ui-text);
     background: var(--pagefind-button-background);
   }
   #search .pagefind-ui__filter-name {
-    color: var(--pagefind-ui-text);
+    color: var(--pagefind-ui-result-title-text);
   }
   #search .pagefind-ui__filter-group {
-    color: var(--pagefind-ui-text);
+    color: var(--pagefind-ui-result-title-text);
   }
   #search .pagefind-ui__result-thumb {
     display: none;
