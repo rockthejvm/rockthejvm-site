@@ -1,4 +1,5 @@
 ---
+import ArticleDifficulty from "@components/ArticleDifficulty.astro";
 import ArticleTag from "@components/ArticleTag.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import MyPicture from "@components/MyPicture.astro";
@@ -58,6 +59,9 @@ const entity = author.data.company
         {title}
       </a>
     </h2>
+    <p class="mt-4 text-content-2">
+      <ArticleDifficulty difficultyId={article.data.difficulty} />
+    </p>
     <p class="mt-4 text-content-2">
       {getReadingTime(article.body)} min read &nbsp;•&nbsp; {
         (<FormattedDate {date} />)
