@@ -1,4 +1,3 @@
-import unique from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
@@ -6,8 +5,16 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        articles: unique(z.array(reference("articles")), "articles"),
-        courses: unique(z.array(reference("courses")), "courses"),
+        articles: z
+          .array(reference("articles"))
+          .refine((items) => new Set(items).size === items.length, {
+            message: "All articles must be unique",
+          }),
+        courses: z
+          .array(reference("courses"))
+          .refine((items) => new Set(items).size === items.length, {
+            message: "All courses must be unique",
+          }),
         description: z
           .string()
           .max(200, "Description must be at most 200 characters"),

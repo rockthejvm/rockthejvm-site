@@ -1,4 +1,3 @@
-import unique from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
@@ -34,13 +33,13 @@ export default defineCollection({
           .optional(),
         publishedDate: z.date(),
         repositoryUrl: z.string().url().optional(),
-        tags: unique(
-          z
-            .array(reference("tags"))
-            .min(1, "Article must have at least one tag")
-            .max(10, "Article must have at most three tags"),
-          "tags",
-        ),
+        tags: z
+          .array(reference("tags"))
+          .min(1, "Article must have at least one tag")
+          .max(10, "Article must have at most three tags")
+          .refine((items) => new Set(items).size === items.length, {
+            message: "All tags must be unique",
+          }),
         title: z
           .string()
           .min(30, "Title must be at least 30 characters")
