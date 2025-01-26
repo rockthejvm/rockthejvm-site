@@ -1,14 +1,23 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import Facebook from "./icons/Facebook.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
 import SocialShareHelper from "./SocialShareHelper";
+
+interface Props {
+  title: string;
+  tags: CollectionEntry<"tags">["id"][];
+  url: string;
+}
+
+const { title, url, tags } = Astro.props;
 ---
 
 <div class="my-4">
-  <SocialShareHelper shareUrl="rockthejvm" client:idle>
-    <Facebook slot="facebook" />
-    <LinkedIn slot="linkedin" />
+  <SocialShareHelper {title} shareUrl={url} {tags} client:idle>
     <Twitter slot="twitter" />
+    <LinkedIn slot="linkedin" />
+    <Facebook slot="facebook" />
   </SocialShareHelper>
 </div>
