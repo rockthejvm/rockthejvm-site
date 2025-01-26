@@ -1,0 +1,53 @@
+---
+author: riccardo-cardin
+category: guide
+title: "Revisiting Design Patterns: The Builder Pattern"
+excerpt: ""
+publishedDate: 2025-02-10
+tags: [design, design-patterns]
+---
+
+## Introduction
+
+It's been 30 years since the Gang of Four published their seminal book on design patterns, called "Design Patterns: Elements of Reusable Object-Oriented Software". In the last three decades, the software industry has evolved significantly, and so have the best practices and patterns that we use to build software. Are the design patterns from the 90s still relevant today? Many software engineers would argue that they are not. In this series of articles, we will revisit some of the most popular design patterns and see how they evolved over time and which is the real legacy they left us. Since we have to start somewhere, let's start with the Builder Pattern.
+
+## Setting the Stage
+
+In the book "[Design Patterns: Elements of Reusable Object-Oriented Software](https://books.google.it/books/about/Design_Patterns.html?id=6oHuKQe3TjQC&redir_esc=y)", each pattern describes a problem that occurs over and over again in our environment, and then describes the core of the solution to that problem, in such a way that you can use this solution a million times over, without ever doing it the same way twice. So, before we dive into the Builder Pattern, let's first understand the problem it tries to solve.
+
+Imagine you have a complex object that you need to create. This object has many properties, some of which are mandatory, and some are optional. We could even have different flavors of the same object, with diffeerent properties. Let's make a concrete example.
+
+Imagine we have to model a travel solution. A `Travel` is a very complex object, with many properties and constraint. Let's use the Java language to model it for now:
+
+```java
+public record Travel(
+    String origin,
+    String destination,
+    LocalDate departureDate,
+    LocalDate returnDate,
+    int numberOfPassengers,
+    List<Passenger> adults,
+    List<Passenger> children
+) {}
+
+public record Passenger(
+    String name,
+    LocalDate birthDate,
+    String passportNumber
+    List<Ancillary> ancillaries
+) {}
+
+public record Ancillary(
+    String name,
+    Cost cost
+) {}
+
+public record Cost(
+    BigDecimal amount,
+    Currency currency
+) {}
+```
+
+Even in this simple example, we can see that creating a `Travel` object is not trivial. We have many properties, some of which are mandatory, and some are optional. For example, a travel can be one-way or round-trip, and we have to specify the number of passengers, the list of adults, the list of children, and the list of ancillaries. The `Passenger` and `Ancillary` objects are also complex objects, with their own properties.
+
+If we leave the creation of the `Travel` object to the client code, we will end up with a lot of boilerplate code, and the client code will be tightly coupled with the `Travel` object. We will copy and paste the same code over and over again, and if we need to change the `Travel` object, we will have to change all the client code that creates it.
