@@ -13,7 +13,7 @@ export default defineCollection({
           .string()
           .max(200, "Description must be at most 200 characters")
           .optional(),
-git         difficulty: reference("difficulties"),
+        difficulty: reference("difficulties"),
         excerpt: z.string().refine((excerpt) => !excerpt.endsWith("."), {
           message: "Excerpt must not end with a period",
         }),
