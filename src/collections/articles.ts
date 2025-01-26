@@ -55,4 +55,7 @@ export default defineCollection({
           message: "Updated date must be on or after the published date",
         },
       ),
+  // .refine((data) => data.tags.every((tag) => !tag.id.includes("-")), {
+  //   message: "Tags must not contain dashes",
+  // }),
 });
