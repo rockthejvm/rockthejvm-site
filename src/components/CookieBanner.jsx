@@ -35,7 +35,7 @@ export default function Example() {
 
   return (
     <div
-      className={`${hide ? "hidden" : ""} fixed inset-x-0 bottom-0 flex flex-col justify-between gap-x-8 gap-y-4 bg-secondary p-6 ring-1 ring-gray-900/10 md:flex-row md:items-center lg:px-8`}
+      className={`${hide ? "hidden" : ""} fixed inset-x-0 bottom-0 z-50 flex flex-col justify-between gap-x-8 gap-y-4 bg-secondary p-6 ring-1 ring-gray-900/10 md:flex-row md:items-center lg:px-8`}
     >
       <p className="max-w-4xl text-sm/6 text-content-1">
         This site uses cookies. Check our cookie policy (TLDR: no personal
