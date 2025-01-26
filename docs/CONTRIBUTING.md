@@ -56,7 +56,7 @@ author: your-id
 category: guide
 title: Comparing Akka Streams, Kafka Streams and Spark Streaming
 excerpt: Explore how Akka Streams, Kafka Streams, and Spark Streaming stack up and find out which one is best for your use case
-tags: [akka, akkaStreams, kafka, spark, spark-streaming]
+tags: [akka, akka-streams, kafka, spark, spark-streaming]
 publishedDate: 2020-06-17
 updatedDate: 2024-09-06
 ---
