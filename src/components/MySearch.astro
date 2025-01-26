@@ -171,19 +171,50 @@ import Search from "astro-pagefind/components/Search";
     --pagefind-ui-result-title-text: hsl(217, 32.6%, 17.5%);
     --pagefind-ui-result-text: hsl(217, 32.6%, 17.5%);
     --pagefind-ui-background: hsl(173, 12%, 84%);
-    --pagefind-input-background: gray;
+    --pagefind-input-background: white;
+    --pagefind-input-text: black;
     --pagefind-ui-border: gray;
     --pagefind-ui-tag: hsl(173, 12%, 84%);
   }
   [data-theme="dark"] {
     --pagefind-ui-primary: var(--menu-surface);
-    --pagefind-ui-text: hsl(217, 17% 98%);
-    --pagefind-ui-message-text: var(--pagefind-ui-text);
-    --pagefind-ui-result-title-text: hsl(217, 17% 98%);
-    --pagefind-ui-result-text: hsl(217, 17% 98%);
+    --pagefind-ui-text: hsl(217deg, 17%, 92%);
+    --pagefind-ui-message-text: hsl(217deg, 17%, 92%);
+    --pagefind-ui-result-title-text: hsl(217deg, 17%, 92%);
+    --pagefind-ui-result-text: hsl(217deg, 17%, 92%);
     --pagefind-ui-background: hsl(217, 32.6%, 18%);
-    --pagefind-input-background: gray;
+    --pagefind-input-background: hsl(217deg, 17%, 92%);
+    --pagefind-input-text: black;
     --pagefind-ui-border: gray;
     --pagefind-ui-tag: hsl(217, 32.6%, 18%);
+  }
+  #search .pagefind-ui__search-input,
+  #search .pagefind-ui__search-clear {
+    background-color: var(--pagefind-input-background);
+    color: var(--pagefind-input-text);
+  }
+  #search .pagefind-ui__result-title,
+  #search .pagefind-ui__result-link {
+    display: inline-block;
+    color: var(--pagefind-ui-result-title-text);
+  }
+  #search .pagefind-ui__result-excerpt {
+    color: var(--pagefind-ui-result-text);
+  }
+  #search .pagefind-ui__message {
+    color: var(--pagefind-ui-message-text);
+    margin: calc(0.5rem * var(--pagefind-ui-scale)) 0
+      calc(1.5rem * var(--pagefind-ui-scale))
+      calc(0.5rem * var(--pagefind-ui-scale));
+  }
+  #search .pagefind-ui__button {
+    color: var(--pagefind-ui-text);
+    background: var(--pagefind-button-background);
+  }
+  #search .pagefind-ui__filter-name {
+    color: var(--pagefind-ui-result-title-text);
+  }
+  #search .pagefind-ui__filter-group {
+    color: var(--pagefind-ui-result-title-text);
   }
 </style>
