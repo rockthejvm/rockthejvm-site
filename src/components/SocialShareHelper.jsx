@@ -6,28 +6,36 @@ import {
   TwitterShareButton,
 } from "react-share";
 
-export default function Example(props) {
+export default function Example({
+  description,
+  title,
+  url,
+  hashTags,
+  facebook,
+  twitter,
+  linkedin,
+}) {
   return (
     <div className="my-4 flex flex-row gap-x-3">
       <p className="my-auto italic">Share on:</p>
       <TwitterShareButton
-        title={props.title}
-        url={props.shareUrl}
-        hashtags={[...props.tags, "rockthejvm"]}
+        title={title}
+        url={url}
+        hashtags={[...hashTags, "rockthejvm"]}
         related={["@rockthejvm"]}
       >
-        {props.twitter}
+        {twitter}
       </TwitterShareButton>
       <LinkedinShareButton
-        title={props.title}
-        summary={props.description}
-        source={"Rock the JVM"}
-        url={props.shareUrl}
+        title={title}
+        summary={description}
+        source={"https://rockthejvm.com"}
+        url={url}
       >
-        {props.linkedin}
+        {linkedin}
       </LinkedinShareButton>
-      <FacebookShareButton hashtag="#rockthejvm" url={props.shareUrl}>
-        {props.facebook}
+      <FacebookShareButton hashtag="#rockthejvm" url={url}>
+        {facebook}
       </FacebookShareButton>
     </div>
   );

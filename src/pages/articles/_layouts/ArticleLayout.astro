@@ -136,7 +136,7 @@ const structuredData = JSON.stringify({
             title={article.data.title}
             description={article.data.description}
             url={Astro.url.href}
-            tags={article.data.tags.map((tag) => tag.id)}
+            tags={article.data.tags}
           />
         </div>
         <div class="my-5">
@@ -168,7 +168,7 @@ const structuredData = JSON.stringify({
             title={article.data.title}
             description={article.data.description}
             url={Astro.url.href}
-            tags={article.data.tags.map((tag) => tag.id)}
+            tags={article.data.tags}
           />
         </div>
         <ArticleSeries {article} open={true} />
@@ -190,7 +190,7 @@ const structuredData = JSON.stringify({
       title={article.data.title}
       description={article.data.description}
       url={Astro.url.href}
-      tags={article.data.tags.map((tag) => tag.id)}
+      tags={article.data.tags}
       slot="share"
     />
   </FloatingActionMenuHelper>

@@ -1,4 +1,5 @@
 ---
+import tagToHashTag from "@utils/tagToHashTag";
 import type { CollectionEntry } from "astro:content";
 import Facebook from "./icons/Facebook.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
@@ -8,15 +9,16 @@ import SocialShareHelper from "./SocialShareHelper";
 interface Props {
   description: string;
   title: string;
-  tags: CollectionEntry<"tags">["id"][];
+  tags: CollectionEntry<"tags">[];
   url: string;
 }
 
-const { description, title, url, tags } = Astro.props;
+const { description, title, url, tags: _tags } = Astro.props;
+const hashTags = _tags.map(({ id }) => tagToHashTag(id));
 ---
 
 <div class="my-4">
-  <SocialShareHelper {description} {title} shareUrl={url} {tags} client:idle>
+  <SocialShareHelper {description} {title} {url} {hashTags} client:idle>
     <Twitter slot="twitter" />
     <LinkedIn slot="linkedin" />
     <Facebook slot="facebook" />
