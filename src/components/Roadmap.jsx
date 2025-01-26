@@ -116,15 +116,25 @@ function LayoutFlow({ initialNodes, initialEdges }) {
     >
       <Panel position="top-left" class="pr-16">
         <ZoomSlider />
-        {/* <button onClick={() => onLayout({ direction: 'RIGHT' })}>
-          horizontal layout
-        </button> */}
-        <div class="mt-24 w-36 bg-red-500">
-          []
-          <p class="text-black">
-            A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W,
-            X, Y, Z
-          </p>
+        <div class="mt-24 w-36 bg-secondary p-4">
+          <div class="legend text-content-1">
+            <div class="legend-item">
+              <span class="legend-color beginner"></span> Beginner
+            </div>
+            <div class="legend-item">
+              <span class="legend-color intermediate"></span> Intermediate
+            </div>
+            <div class="legend-item">
+              <span class="legend-color advanced"></span> Advanced
+            </div>
+
+            <div class="legend-item">
+              <span class="legend-line"></span> Required
+            </div>
+            <div class="legend-item">
+              <span class="legend-line dashed"></span> Optional
+            </div>
+          </div>
         </div>
       </Panel>
       <Background />

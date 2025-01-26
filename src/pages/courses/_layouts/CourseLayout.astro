@@ -361,4 +361,46 @@ const structuredData = JSON.stringify({
   .react-flow__handle {
     opacity: 0;
   }
+  .legend {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    gap: 1em; /* Spacing between items */
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 0.5em;
+    border: 1px solid #333; /* Optional border */
+  }
+
+  /* Example colors */
+  .beginner {
+    background-color: #7fff00; /* Light green */
+  }
+  .intermediate {
+    background-color: #ffd700; /* Gold */
+  }
+  .advanced {
+    background-color: #ff4500; /* OrangeRed */
+  }
+
+  .legend-line {
+    width: 40px;
+    height: 0;
+    border-top: 2px solid black;
+    margin-right: 0.5em;
+  }
+
+  .dashed {
+    border-top-style: dashed;
+  }
 </style>
