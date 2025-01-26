@@ -1,7 +1,6 @@
 ---
 import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
-import Section from "@components/Section.astro";
 import site from "@data/site.json";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
 import {
@@ -10,6 +9,7 @@ import {
   getEntry,
   type CollectionEntry,
 } from "astro:content";
+import H2 from "../../../components/H2.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
   type ReactFlowEdge,
@@ -129,7 +129,7 @@ const reactFlowEdges: ReactFlowEdge[] | undefined =
     id: `${edge.from.slug}TO${edge.to.slug}`,
     source: edge.from.slug,
     target: edge.to.slug,
-    type: "smoothstep",
+    type: "smart",
     animated: edge.optional ? true : false,
   }));
 
@@ -287,22 +287,28 @@ const structuredData = JSON.stringify({
     }
     {
       prerequisites && (
-        <Section
-          title={`${prerequisites.data.title} Roadmap`}
-          color={categoryColor}
-        >
-          <Fragment>
-            {!(bundledCourses.length > 0) && (
-              <div id="app">
-                <Roadmap
-                  client:load
-                  initialNodes={reactFlowNodes}
-                  initialEdges={reactFlowEdges}
-                />
-              </div>
-            )}
-          </Fragment>
-        </Section>
+        <section>
+          {
+            <header class="mx-auto" style={`background: ${categoryColor}`}>
+              <H2 color={categoryColor} class="mx-auto text-center">
+                {prerequisites.data.title} Roadmap
+              </H2>
+            </header>
+          }
+          <div class="relative mx-auto w-full overflow-y-hidden overflow-x-visible px-2 py-16 sm:px-8">
+            <div class="z-10 mx-auto w-full overflow-hidden">
+              {!(bundledCourses.length > 0) && (
+                <div id="app" class="w-full overflow-hidden">
+                  <Roadmap
+                    client:load
+                    initialNodes={reactFlowNodes}
+                    initialEdges={reactFlowEdges}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
       )
     }
     {technologies && <TechStack {technologies} color={categoryColor} />}
@@ -351,5 +357,8 @@ const structuredData = JSON.stringify({
   #app {
     width: 100vw;
     height: 100vh;
+  }
+  .react-flow__handle {
+    opacity: 0;
   }
 </style>

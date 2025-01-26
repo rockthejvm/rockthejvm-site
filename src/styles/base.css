@@ -198,6 +198,9 @@
     position: absolute;
     bottom: -0.2rem;
   }
+  :root {
+    --radius: 0.5rem;
+  }
 }
 
 .rainbow-text {

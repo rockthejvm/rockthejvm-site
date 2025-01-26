@@ -1,7 +1,6 @@
-"use client";
-
-import Dagre from "@dagrejs/dagre";
 import {
+  addEdge,
+  Background,
   Panel,
   ReactFlow,
   ReactFlowProvider,
@@ -9,107 +8,137 @@ import {
   useNodesState,
   useReactFlow,
 } from "@xyflow/react";
-import { useCallback, useEffect } from "react";
+import ELK from "elkjs/lib/elk.bundled.js";
+import { useCallback, useLayoutEffect } from "react";
+import { ZoomSlider } from "../assets/components/zoom-slider";
 
 import "@xyflow/react/dist/style.css";
 import MyLinkNode from "./MyLinkNode";
 
-const getLayoutedElements = (nodes, edges, options) => {
-  const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-  g.setGraph({ rankdir: options.direction });
+const elk = new ELK();
 
-  edges.forEach((edge) => g.setEdge(edge.source, edge.target));
-  nodes.forEach((node) =>
-    g.setNode(node.id, {
-      ...node,
-      width: node.measured?.width ?? 0,
-      height: node.measured?.height ?? 0,
-    }),
-  );
-
-  Dagre.layout(g);
-
-  return {
-    nodes: nodes.map((node) => {
-      const position = g.node(node.id);
-      const x = position.x - (node.measured?.width ?? 0) / 2;
-      const y = position.y - (node.measured?.height ?? 0) / 2;
-
-      return { ...node, position: { x, y } };
-    }),
-    edges,
-  };
+// Elk has a *huge* amount of options to configure. To see everything you can
+// tweak check out:
+//
+// - https://www.eclipse.org/elk/reference/algorithms.html
+// - https://www.eclipse.org/elk/reference/options.html
+const elkOptions = {
+  "elk.algorithm": "layered",
+  "elk.layered.spacing.nodeNodeBetweenLayers": "100",
+  "elk.spacing.nodeNode": "80",
 };
 
-const LayoutFlow = ({ initialNodes, initialEdges }) => {
+const getLayoutedElements = (nodes, edges, options = {}) => {
+  const isHorizontal = options?.["elk.direction"] === "RIGHT";
+  const graph = {
+    id: "root",
+    layoutOptions: options,
+    children: nodes.map((node) => ({
+      ...node,
+      // Adjust the target and source handle positions based on the layout
+      // direction.
+      targetPosition: isHorizontal ? "left" : "top",
+      sourcePosition: isHorizontal ? "right" : "bottom",
+
+      // Hardcode a width and height for elk to use when layouting.
+      width:
+        node.data.label.length > 30
+          ? 400
+          : node.data.label.length > 20
+            ? 300
+            : 150,
+      height: 50,
+    })),
+    edges: edges,
+  };
+
+  return elk
+    .layout(graph)
+    .then((layoutedGraph) => ({
+      nodes: layoutedGraph.children.map((node) => ({
+        ...node,
+        // React Flow expects a position property on the node instead of `x`
+        // and `y` fields.
+        position: { x: node.x, y: node.y },
+      })),
+
+      edges: layoutedGraph.edges,
+    }))
+    .catch(console.error);
+};
+
+const nodeTypes = {
+  linkNode: MyLinkNode,
+};
+
+function LayoutFlow({ initialNodes, initialEdges }) {
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { fitView } = useReactFlow();
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  var doit;
-
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [],
+  );
   const onLayout = useCallback(
-    (direction) => {
-      console.log(nodes);
-      const layouted = getLayoutedElements(nodes, edges, { direction });
+    ({ direction, useInitialNodes = false }) => {
+      const opts = { "elk.direction": direction, ...elkOptions };
+      const ns = useInitialNodes ? initialNodes : nodes;
+      const es = useInitialNodes ? initialEdges : edges;
 
-      setNodes([...layouted.nodes]);
-      setEdges([...layouted.edges]);
+      getLayoutedElements(ns, es, opts).then(
+        ({ nodes: layoutedNodes, edges: layoutedEdges }) => {
+          setNodes(layoutedNodes);
+          setEdges(layoutedEdges);
 
-      window.requestAnimationFrame(() => {
-        fitView();
-      });
+          window.requestAnimationFrame(() => fitView());
+        },
+      );
     },
     [nodes, edges],
   );
 
-  const handleResize = () => {
-    if (window.innerWidth < 1060) {
-      setTimeout(() => onLayout("LR"), 0);
-    } else {
-      setTimeout(() => onLayout("TB"), 0);
-    }
-  };
-
-  const clickButton = () => {
-    document.getElementById("layoutButton").click();
-  };
-
-  useEffect(() => {
-    window.onresize = function () {
-      clearTimeout(doit);
-      doit = setTimeout(clickButton, 100);
-    };
-
-    setTimeout(clickButton, 200);
+  // Calculate the initial layout on mount.
+  useLayoutEffect(() => {
+    onLayout({ direction: "DOWN", useInitialNodes: true });
   }, []);
-
-  const nodeTypes = {
-    linkNode: MyLinkNode,
-  };
 
   return (
     <ReactFlow
       nodes={nodes}
+      nodeTypes={nodeTypes}
       edges={edges}
+      onConnect={onConnect}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       fitView
-      nodeTypes={nodeTypes}
+      style={{ backgroundColor: "#F7F9FB" }}
     >
-      <Panel position="top-right">
-        <button id="layoutButton" hidden onClick={() => handleResize()}>
-          vertical layout
-        </button>
+      <Panel position="top-left" class="pr-16">
+        <ZoomSlider />
+        {/* <button onClick={() => onLayout({ direction: 'RIGHT' })}>
+          horizontal layout
+        </button> */}
+        <div class="mt-24 w-36 bg-red-500">
+          []
+          <p class="text-black">
+            A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W,
+            X, Y, Z
+          </p>
+        </div>
       </Panel>
+      <Background />
     </ReactFlow>
   );
-};
+}
 
 export default function (props) {
   return (
     <ReactFlowProvider>
-      <LayoutFlow {...props} />
+      <LayoutFlow
+        initialNodes={props.initialNodes}
+        initialEdges={props.initialEdges}
+      />
     </ReactFlowProvider>
   );
 }
