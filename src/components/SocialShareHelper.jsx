@@ -26,7 +26,7 @@ export default function Example(props) {
       >
         {props.linkedin}
       </LinkedinShareButton>
-      <FacebookShareButton hashtag="rockthejvm" url={props.shareUrl}>
+      <FacebookShareButton hashtag="#rockthejvm" url={props.shareUrl}>
         {props.facebook}
       </FacebookShareButton>
     </div>
