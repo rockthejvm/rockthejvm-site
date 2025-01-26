@@ -18,12 +18,17 @@ export default function Example(props) {
       >
         {props.twitter}
       </TwitterShareButton>
+      <LinkedinShareButton
+        title={props.title}
+        summary={props.description}
+        source={"Rock the JVM"}
+        url={props.shareUrl}
+      >
+        {props.linkedin}
+      </LinkedinShareButton>
       <FacebookShareButton hashtag="rockthejvm" url={props.shareUrl}>
         {props.facebook}
       </FacebookShareButton>
-      <LinkedinShareButton hashtag="rockthejvm" url={props.shareUrl}>
-        {props.linkedin}
-      </LinkedinShareButton>
     </div>
   );
 }

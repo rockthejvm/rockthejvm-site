@@ -134,6 +134,7 @@ const structuredData = JSON.stringify({
         <div class="hidden lg:block">
           <SocialShare
             title={article.data.title}
+            description={article.data.description}
             url={Astro.url.href}
             tags={article.data.tags.map((tag) => tag.id)}
           />
@@ -165,6 +166,7 @@ const structuredData = JSON.stringify({
         <div class="hidden lg:block">
           <SocialShare
             title={article.data.title}
+            description={article.data.description}
             url={Astro.url.href}
             tags={article.data.tags.map((tag) => tag.id)}
           />
@@ -186,6 +188,7 @@ const structuredData = JSON.stringify({
     </Prose>
     <SocialShare
       title={article.data.title}
+      description={article.data.description}
       url={Astro.url.href}
       tags={article.data.tags.map((tag) => tag.id)}
       slot="share"
