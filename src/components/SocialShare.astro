@@ -6,16 +6,17 @@ import Twitter from "./icons/Twitter.astro";
 import SocialShareHelper from "./SocialShareHelper";
 
 interface Props {
+  description: string;
   title: string;
   tags: CollectionEntry<"tags">["id"][];
   url: string;
 }
 
-const { title, url, tags } = Astro.props;
+const { description, title, url, tags } = Astro.props;
 ---
 
 <div class="my-4">
-  <SocialShareHelper {title} shareUrl={url} {tags} client:idle>
+  <SocialShareHelper {description} {title} shareUrl={url} {tags} client:idle>
     <Twitter slot="twitter" />
     <LinkedIn slot="linkedin" />
     <Facebook slot="facebook" />
