@@ -11,7 +11,7 @@ import SocialShareHelper from "./SocialShareHelper";
 interface Props {
   description: string;
   title: string;
-  tags: CollectionEntry<"tags">[];
+  tags: CollectionEntry<"articles">["data"]["tags"];
   url: string;
 }
 

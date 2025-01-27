@@ -8,17 +8,8 @@ import {
   TwitterShareButton,
 } from "react-share";
 
-export default function Example({
-  description,
-  title,
-  url,
-  hashTags,
-  facebook,
-  twitter,
-  linkedin,
-  reddit,
-  pocket,
-}) {
+export default function Example(props) {
+  const { description, title, url, hashTags } = props;
   return (
     <div className="my-4 flex flex-row gap-x-3">
       <p className="my-auto italic">Share on:</p>
@@ -28,7 +19,7 @@ export default function Example({
         hashtags={[...hashTags, "rockthejvm"]}
         related={["@rockthejvm"]}
       >
-        {twitter}
+        {props.twitter}
       </TwitterShareButton>
       <LinkedinShareButton
         title={title}
@@ -36,13 +27,13 @@ export default function Example({
         source={"https://rockthejvm.com"}
         url={url}
       >
-        {linkedin}
+        {props.linkedin}
       </LinkedinShareButton>
       <FacebookShareButton hashtag="#rockthejvm" url={url}>
-        {facebook}
+        {props.facebook}
       </FacebookShareButton>
-      <RedditShareButton title={title}>{reddit}</RedditShareButton>
-      <PocketShareButton title={title}>{pocket}</PocketShareButton>
+      <RedditShareButton title={title}>{props.reddit}</RedditShareButton>
+      <PocketShareButton title={title}>{props.pocket}</PocketShareButton>
     </div>
   );
 }
