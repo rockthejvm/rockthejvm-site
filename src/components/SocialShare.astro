@@ -3,6 +3,7 @@ import tagToHashTag from "@utils/tagToHashTag";
 import type { CollectionEntry } from "astro:content";
 import Facebook from "./icons/Facebook.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
+import Reddit from "./icons/Reddit.astro";
 import Twitter from "./icons/Twitter.astro";
 import SocialShareHelper from "./SocialShareHelper";
 
@@ -22,5 +23,6 @@ const hashTags = _tags.map(({ id }) => tagToHashTag(id));
     <Twitter slot="twitter" />
     <LinkedIn slot="linkedin" />
     <Facebook slot="facebook" />
+    <Reddit slot="reddit" />
   </SocialShareHelper>
 </div>

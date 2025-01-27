@@ -20,6 +20,7 @@ export default defineConfig({
           "facebook",
           "github",
           "linkedin",
+          "reddit",
           "x-twitter",
           "youtube",
         ],
