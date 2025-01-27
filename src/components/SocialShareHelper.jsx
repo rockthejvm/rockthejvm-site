@@ -3,6 +3,7 @@
 import {
   FacebookShareButton,
   LinkedinShareButton,
+  PocketShareButton,
   RedditShareButton,
   TwitterShareButton,
 } from "react-share";
@@ -16,6 +17,7 @@ export default function Example({
   twitter,
   linkedin,
   reddit,
+  pocket,
 }) {
   return (
     <div className="my-4 flex flex-row gap-x-3">
@@ -40,6 +42,7 @@ export default function Example({
         {facebook}
       </FacebookShareButton>
       <RedditShareButton title={title}>{reddit}</RedditShareButton>
+      <PocketShareButton title={title}>{pocket}</PocketShareButton>
     </div>
   );
 }
