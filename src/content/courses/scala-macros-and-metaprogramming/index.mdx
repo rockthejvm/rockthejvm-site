@@ -3,9 +3,17 @@ benefits:
   hours: 13
   linesOfCode: 2600
 category: scala
-description: This course will make you write macros and metaprogramming. AKA TODO.
+description: Become a Scala wizard. Learn how to manipulate Scala code at compile time (with Scala!) and write powerful code and tools that other developers only dream about.
 difficulty: advanced
-excerpt: <p>This course will make you write macros and metaprogramming. AKA TODO</p>
+excerpt: <p>Become a Scala wizard. Learn how to manipulate Scala code at compile time (with Scala!) and write powerful code and tools that other developers only dream about</p>
+question:
+  image: images/question-small.png
+  text: What's a Scala Macro?
+features:
+  one: images/loc.png
+  two: images/typename.png
+  three: images/wartimizer.png
+  four: images/typesafejdbc.png
 faqs:
   - question: Macros look difficult. Do I need to be a genius and have 100 years of programming experience to take this course?
     answer: This looks like magic, but it's really not harder to learn than Scala itself. All you need is half-decent programming skills and be comfortable with Scala.
@@ -18,19 +26,122 @@ import CourseLayout from "@pages/courses/_layouts/CourseLayout.astro";
 
 <CourseLayout>
 <Fragment slot="goal">
-### Scala Rocks.
+### Become a Scala Wizard.
 
-TODO
+As you already know by now, Scala is the most powerful programming languages on the JVM and one of the most powerful programming languages, period. For more than 20 years, Scala has been an inspiration for other languages, starting with Java and Kotlin.
+
+Here's something that the other languages will never be able to match any time soon: the ability to generate, analyze, transform and manipulate code, at compile time, with the same language.
+
+In Scala, this is possible. You can manipulate other Scala code _at compile time_, with Scala as the tool to do it. With this power, you can create libraries, tools and functionality that other developers can only dream about. **Only a few people besides the Scala compiler team know these techniques.**
+
+This is what you'll learn in this course.
 
 </Fragment>
+<Fragment slot="question">
+### Metaprogramming in Scala = Programming on Scala Programs.
+
+Few languages offer true metaprogramming, i.e. the ability to manipulate code as it's being evaluated or compiled. Lisp (with its family) is the gold standard, because it's easy to represent code as data. The dynamic type system also helps, because there is no requirement for how code should look like: it's just a list like anything else! So how do you use it, and how can you make sure that the code you get is correct? Oh yes, you can't.
+
+Scala is different.
+
+For the first time in a statically-typed language, Scala gives us the power to manipulate code at compile-time, with all the types in place, with all the regular data structures we normally use, with even more powerful pattern-matching, with the guarantee that either the code is correctly specified, or it doesn't compile. It's magic.
+
+With these techniques, you can create:
+
+- tools to analyze and auto-improve your code
+- semantic linters and auto-fixers
+- compile-time code optimizers
+- serialization libraries, JSONs be damned
+- statically-typed auto-integrations with other tools
+
+and much more.
+
+</Fragment>
+
+<Fragment slot="feature1">
+### Who is this course for?
+
+This course is for the **seasoned Scala developer**. You're probably a senior developer, a Scala expert in your team, a lead who sets the standard, a library or tooling developer, or all the above.
+
+If you need to write
+
+- complex Scala code that checks or analyzes other code
+- libraries
+- code/productivity improvement tools
+- semantic linters
+- statically-typed integrations with other software
+
+or just want to know the most powerful and rare Scala skills, this course is for you.
+
+We write about 2600 lines of code from scratch in the course - very likely the most powerful Scala you've ever written so far. This picture shows you what we'll do in the course.
+
+</Fragment>
+
+<Fragment slot="feature2">
+### 100% Hands-On
+
+You know the style of Rock the JVM: we learn best by writing code.
+
+We do have slides, but only _after_ we write the code. It's mostly "flash cards" that you can refer back to after you finish the course.
+
+There's no substitute for hands-on practice, and in this course we have plenty of examples. This course is tough, but you'll come out of it as one of the few people that know metaprogramming in Scala with macros.
+
+We also have **two real-life projects** in the course that we'll write from scratch, we'll talk about them in a bit.
+
+More than the code, though, this course will expand your mind on what's possible in a programming language. You'll learn about the compilation process, about what a programming language can and can't do, and you'll get timeless skills that you can transfer to other languages. It will be easy, since Scala has been an inspiration for other languages for decades.
+
+If you need just a one sentence to convince you: **if this course doesn't prove to you that Scala is THE most powerful programming language you've ever seen, nothing will**.
+</Fragment>
+
+<Fragment slot="feature3">
+### Scala Macros Project 1: The Wartimizer.
+
+This is a tool we write from scratch, which is a 2-in-1: it fixes bad code, and makes okay code good.
+
+Here's an example. A combination of `"My string" + aValue` is generally considered bad practice, even though not enforced by the language. The Wartimizer is able to detect instances of this smell in your code and signal a compile error _in the right place_.
+
+Another example. Juniors may not know all the standard libraries, so they may write things like `aList.filter(somePredicate).headOption`, where a `.find(somePredicate)` will do. The Wartimizer detects it, and automatically replaces the calls _at compile time_, without any intervention from you.
+
+You'll design Wartimizer so that you can add as many wart removers (signal bad code) or optimizers (improve okay code) as you want, or apply them selectively on a piece of code.
+</Fragment>
+
+<Fragment slot="feature4">
+### Scala Macros Project 2: Type-Safe JDBC.
+
+This is a tool that will "talk" to a database, figure out table structures, and synthesize correct types for your data, _at compile time_.
+
+Normally, we need ORM libraries or magical stuff like Doobie or Quill to be able to map database types to our data model that we write manually. This project is an experiment: what if we skipped all that and synthesized types automatically with the right fields before the code is even compiled?
+
+This is the most black-magical examples in this course. If you finish this project, you'll be able to build any library or tool in Scala, period.
+</Fragment>
+
 <Fragment slot="skills">
 ### After this course, you'll be able to:
-- write macros
-- profit
+- read, understand and change any Scala code, of any complexity, at any scale, in any library or tool, anywhere - nothing is foreign anymore
+- write complex Scala code that other people fear touching
+- build and improve tools and libraries
+- improve code quality and correctness, as well as the productivity in your team
+- enforce best practice automatically
+- integrate with other tools in a statically-typed way
 
 ### Skills you'll get:
 
-- be a rockstar
+- custom String interpolation
+- match types
+- inlines
+- transparent inlines
+- compile-time operations
+- circumventing type erasure
+- macros (obviously)
+- building expressions programmatically
+- deconstructing expressions
+- matching types
+- synthesizing types
+- dynamically generating values, methods, classes
+- compile-time summoning of givens
+- analyzing ASTs
+- compile-time reflection
+- replacing code at compile time
 
 </Fragment>
 </CourseLayout>
