@@ -1,9 +1,20 @@
 ---
 import Profile from "@components/Profile.astro";
+import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
 import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
-import { getEntries, getEntry, type CollectionEntry } from "astro:content";
+import {
+  getCollection,
+  getEntries,
+  getEntry,
+  type CollectionEntry,
+} from "astro:content";
+import H2 from "../../../components/H2.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  type ReactFlowEdge,
+  type ReactFlowNode,
+} from "../../../types/ReactFlow.ts";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
@@ -92,6 +103,84 @@ function difficultyToOrdinal(
       return 0;
   }
 }
+const prerequisitess = await getCollection("prerequisites");
+const prerequisites = prerequisitess.find((prerequisites) =>
+  prerequisites.data.nodes.find((node) => node.slug === course.slug),
+);
+
+const reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
+  ? await Promise.all(
+      prerequisites?.data.nodes.map(async (node) => ({
+        id: node.slug,
+        type: "linkNode",
+        position: { x: 0, y: 0 },
+        data: {
+          difficulty: (await getEntry("courses", node.slug)).data.difficulty,
+          label: (await getEntry("courses", node.slug)).data.title,
+          href: `/courses/${node.slug}`,
+        },
+      })),
+    )
+  : undefined;
+
+const reactFlowEdges: ReactFlowEdge[] | undefined =
+  prerequisites?.data.edges.map((edge) => ({
+    id: `${edge.from.slug}TO${edge.to.slug}`,
+    source: edge.from.slug,
+    target: edge.to.slug,
+    type: "smart",
+    animated: edge.optional ? true : false,
+  }));
+
+// type Slug = string;
+// interface SlugTreeNode {
+//   value: Slug;
+//   children: SlugTreeNode[];
+// }
+// interface Edge {
+//   id: string;
+//   source: string;
+//   target: string;
+//   type: string;
+//   animated: boolean;
+// }
+// interface EdgeTreeNode {
+//   value: Edge;
+//   children: EdgeTreeNode[];
+// }
+// function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
+//   return {
+//     value: { id: "", source: "", target: "", animated: true },
+//     children: root.children.map((child) => ({
+//       value: {
+//         id: `${root.value}TO${child.value}`,
+//         source: root.value,
+//         target: child.value,
+//         type: "smoothstep",
+//         animated: false,
+//       },
+//       children: _slugToEdge(child).children,
+//     })),
+//   };
+// }
+
+// const _treeToList = (root: EdgeTreeNode): Edge[] =>
+//   root.children.flatMap((child) => [child.value, ..._treeToList(child)]);
+
+// const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
+// const _nodes = [
+//   ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
+// ];
+// const initialNodes = _nodes.map((node) => ({
+//   id: node,
+//   position: {
+//     x: 0,
+//     y: 0,
+//   },
+//   data: {
+//     label: node,
+//   },
+// }));
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -201,6 +290,32 @@ const structuredData = JSON.stringify({
         </Features>
       )
     }
+    {
+      prerequisites && (
+        <section>
+          {
+            <header class="mx-auto" style={`background: ${categoryColor}`}>
+              <H2 color={categoryColor} class="mx-auto text-center">
+                {prerequisites.data.title} Roadmap
+              </H2>
+            </header>
+          }
+          <div class="relative mx-auto w-full overflow-y-hidden overflow-x-visible px-2 py-16 sm:px-8">
+            <div class="z-10 mx-auto w-full overflow-hidden">
+              {!(bundledCourses.length > 0) && (
+                <div id="app" class="w-full overflow-hidden">
+                  <Roadmap
+                    client:load
+                    initialNodes={reactFlowNodes}
+                    initialEdges={reactFlowEdges}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
     {technologies && <TechStack {technologies} color={categoryColor} />}
     {
       hasSkills && (
@@ -242,3 +357,54 @@ const structuredData = JSON.stringify({
     />
   </article>
 </BaseLayout>
+<style is:global>
+  #app {
+    width: 100vw;
+    height: 100vh;
+  }
+  .react-flow__handle {
+    opacity: 0;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    gap: 1em; /* Spacing between items */
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 0.5em;
+    border: 1px solid #333; /* Optional border */
+  }
+
+  /* Example colors */
+  .beginner {
+    background-color: #7fff00; /* Light green */
+  }
+  .intermediate {
+    background-color: #ffd700; /* Gold */
+  }
+  .advanced {
+    background-color: #ff4500; /* OrangeRed */
+  }
+
+  .legend-line {
+    width: 40px;
+    height: 0;
+    border-top: 2px solid black;
+    margin-right: 0.5em;
+  }
+
+  .dashed {
+    border-top-style: dashed;
+  }
+</style>

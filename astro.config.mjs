@@ -4,7 +4,6 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import sectionize from "@hbsnow/rehype-sectionize";
 import icon from "astro-icon";
-import pagefind from "astro-pagefind";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
@@ -24,7 +23,7 @@ export default defineConfig({
           "youtube",
         ],
         "fa6-solid": ["caret-up", "house", "table-list", "rss"],
-        heroicons: ["computer-desktop", "magnifying-glass", "moon", "sun"],
+        heroicons: ["computer-desktop", "moon", "sun", "magnifying-glass"],
       },
     }),
     mdx(),
@@ -34,7 +33,6 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
-    pagefind(), // Should be last
   ],
   markdown: {
     remarkPlugins: [],
@@ -57,11 +55,6 @@ export default defineConfig({
     "/p/privacy": "/legal/privacy",
     "/p/team-pack": "/memberships",
     "/p/terms": "/legal/terms",
-    "/black-friday-2024": "/black-friday",
-    "/black-friday": {
-      status: 302,
-      destination: "/",
-    },
     // Courses
     "/p/advanced-kotlin": "/courses/advanced-kotlin",
     "/p/advanced-scala": "/courses/advanced-scala",
