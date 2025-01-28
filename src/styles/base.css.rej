@@ -1,0 +1,14 @@
+diff a/src/styles/base.css b/src/styles/base.css	(rejected hunks)
+@@ -206,12 +206,3 @@
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+ }
+-
+-@layer base {
+-  * {
+-    @apply border-border;
+-  }
+-  body {
+-    @apply bg-background text-foreground;
+-  }
+-}

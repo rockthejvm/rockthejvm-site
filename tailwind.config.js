@@ -5,6 +5,7 @@ import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ["class"],
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
@@ -18,6 +19,8 @@ export default {
         accent: {
           1: "hsl(var(--color-accent1) / <alpha-value>)",
           2: "hsl(var(--color-accent2) / <alpha-value>)",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         bkg: "hsl(var(--color-bkg) / <alpha-value>)",
         content: {

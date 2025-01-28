@@ -2,8 +2,10 @@
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
+import RelatedArticles from "@components/RelatedArticles";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
+import matchedArticles from "@data/matchedArticles.json";
 import site from "@data/site.json";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
@@ -15,16 +17,18 @@ import FormattedDate from "../../../components/FormattedDate.astro";
 import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
+  articles: CollectionEntry<"articles">[];
   headings: MarkdownHeading[];
   minutesRead?: number;
 }
 
-const { article, headings, minutesRead } = Astro.props;
+const { article, articles, headings, minutesRead } = Astro.props;
 const frontmatter = article.data;
 const {
   canonicalUrl,
@@ -65,6 +69,23 @@ const structuredData = JSON.stringify({
   headline: title,
   image: heroImage?.image.src,
 });
+
+// Ignore type errors when matchedArticles is blank
+// @ts-ignore
+const matches = matchedArticles.all_matches.filter(
+  // @ts-ignore
+  (match) => match.source_slug === article.slug,
+);
+// @ts-ignore
+matches.sort((a, b) => b.similarity - a.similarity);
+
+// @ts-ignore
+const relatedArticles: CollectionEntry<"articles">[] = matches.map((match) =>
+  // @ts-ignore
+  (articles as CollectionEntry<"articles">[]).find(
+    (article) => article.slug === match.matched_slug,
+  ),
+);
 ---
 
 <BaseLayout
@@ -159,6 +180,44 @@ const structuredData = JSON.stringify({
         <div class="hidden lg:block"><SocialShare /></div>
         <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
+
+        {
+          relatedArticles.length > 0 && (
+            <RelatedArticles length={relatedArticles.length} client:load>
+              {relatedArticles.length >= 1 && (
+                <ArticlePreview
+                  slot="firstArticle"
+                  article={relatedArticles[0]}
+                />
+              )}
+              {relatedArticles.length >= 2 && (
+                <ArticlePreview
+                  slot="secondArticle"
+                  article={relatedArticles[1]}
+                />
+              )}
+              {relatedArticles.length >= 3 && (
+                <ArticlePreview
+                  slot="thirdArticle"
+                  article={relatedArticles[2]}
+                />
+              )}
+              {relatedArticles.length >= 4 && (
+                <ArticlePreview
+                  slot="fourthArticle"
+                  article={relatedArticles[3]}
+                />
+              )}
+              {relatedArticles.length >= 5 && (
+                <ArticlePreview
+                  slot="fifthArticle"
+                  article={relatedArticles[4]}
+                />
+              )}
+            </RelatedArticles>
+          )
+        }
+
         <NewsletterSection />
       </footer>
     </article>

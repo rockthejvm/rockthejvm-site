@@ -8,14 +8,19 @@ export async function getStaticPaths() {
 
   return articles.map((article) => ({
     params: { slug: article.slug },
-    props: { article },
+    props: { article, articles },
   }));
 }
 
-const { article } = Astro.props;
+const { article, articles } = Astro.props;
 const { Content, headings } = await article.render();
 ---
 
-<ArticleLayout {article} {headings} minutesRead={getReadingTime(article.body)}>
+<ArticleLayout
+  {article}
+  {articles}
+  {headings}
+  minutesRead={getReadingTime(article.body)}
+>
   <Content />
 </ArticleLayout>
