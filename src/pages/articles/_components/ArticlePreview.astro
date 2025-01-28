@@ -60,7 +60,10 @@ const entity = author.data.company
       </a>
     </h2>
     <p class="mt-4 text-content-2">
-      <ArticleDifficulty difficultyId={article.data.difficulty} />
+      <ArticleDifficulty
+        difficultyId={article.data.difficulty.slice(0, 1).toUpperCase() +
+          article.data.difficulty.slice(1)}
+      />
     </p>
     <p class="mt-4 text-content-2">
       {getReadingTime(article.body)} min read &nbsp;•&nbsp; {

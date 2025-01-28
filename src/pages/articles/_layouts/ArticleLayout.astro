@@ -125,7 +125,10 @@ const structuredData = JSON.stringify({
           {
             minutesRead && (
               <p>
-                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}
+                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}{" "}
+                &nbsp;•&nbsp; {category.data.name} &nbsp;•&nbsp;{" "}
+                {article.data.difficulty.slice(0, 1).toUpperCase() +
+                  article.data.difficulty.slice(1)}
               </p>
             )
           }
