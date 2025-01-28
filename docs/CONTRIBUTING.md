@@ -167,7 +167,7 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 
 ## Admonitions
 
-## How to Use
+### How to Use
 
 After the frontmatter, insert your [admonition tag](https://github.com/OliverSpeir/astro-starlight-remark-asides) wherever you want in the article (keep newlines between the admonition and the content):
 
@@ -201,3 +201,7 @@ Useful tips or recommendations that are relevant to the topic at hand
 #### Warning
 
 Actions to take or avoid to prevent issues
+
+## Tabs
+
+[Documentation](https://starlight.astro.build/components/tabs/)
