@@ -243,7 +243,11 @@ We will be using the [Kafka Flink SQL connector](https://nightlies.apache.org/fl
 
 The following block shows how to create a table from a Kafka topic.
 
-_Note:_ We will be using the default catalogs as well as the default database.
+:::note
+
+We will be using the default catalogs as well as the default database.
+
+:::
 
 ```console
 CREATE TABLE readings (
@@ -287,7 +291,11 @@ We can observe the following column types in Flink SQL:
 1. _Metadata columns:_ like the `ts` column in our statement that is basically Kafka metadata for accessing the `timestamp` from a Kafka Record.
 1. _Computed columns:_ virtual columns like the _eventTime_ltz_ in our statement, that is a formatted timestamp derived from our `timestamp` BIGINT column. Virtual Columns can reference other columns, perform simple computations (like 5 \* reading) or use built-in functions
 
-_Note:_ Specifying a Time attributes (here _eventTime_ltz_) and watermarks is what allows us to operate properly on even time and also set constraints on temporal operators, which we will shortly.
+:::note
+
+Specifying a Time attributes (here _eventTime_ltz_) and watermarks is what allows us to operate properly on even time and also set constraints on temporal operators, which we will shortly.
+
+:::
 
 Let's also create a table for our sensor information topic.
 
@@ -346,7 +354,11 @@ Next up we need some data in our topics (and tables) to work with.
 
 I will use the following Producer code that can be found [here](https://github.com/polyzos/select-star-from-streams/blob/main/src/main/kotlin/io/ipolyzos/producers/SensorProducer.kt) to generate information for _10 sensors_ and _10.000 readings_. You can modify the code to ingest more data if you want.
 
-_Note:_ I skipped added the implementation here since our focus is on Flink SQL.
+:::note
+
+I skipped added the implementation here since our focus is on Flink SQL.
+
+:::
 
 ### Run Our First Query
 
