@@ -1,3 +1,4 @@
+import { unique } from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
@@ -101,6 +102,13 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        tags: unique(
+          z
+            .array(reference("tags"))
+            .min(1, "Course must have at least one tag")
+            .max(10, "Course must have at most ten tags"),
+          "tags",
+        ),
         technologies: z
           .array(
             z
