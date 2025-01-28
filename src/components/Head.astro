@@ -151,12 +151,13 @@ const image = {
 
         {article ? (
           <ArticleMetaImage
-            authorName={article.author.name}
-            authorImage={article.photo.src}
             {title}
-            minutesRead={article.minutesRead}
-            date={article.updatedTime ?? article.publishedTime}
+            authorImage={article.photo.src}
+            authorName={article.author.name}
             category={article.category}
+            date={article.updatedTime ?? article.publishedTime}
+            heroImage={site.logo.src}
+            minutesRead={article.minutesRead}
             tags={article.tags}
           />
         ) : (
