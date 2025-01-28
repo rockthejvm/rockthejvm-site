@@ -18,8 +18,10 @@ export default defineConfig({
       include: {
         "fa6-brands": [
           "facebook",
+          "get-pocket",
           "github",
           "linkedin",
+          "reddit",
           "x-twitter",
           "youtube",
         ],
