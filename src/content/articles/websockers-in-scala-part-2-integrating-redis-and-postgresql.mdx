@@ -663,13 +663,17 @@ new PostgresProtocol[F] {
 ## Redis and Chat Protocols
 
 Before we dive into the Redis implementation, we'll need an overview of how the schema will be.
+
 A Redis hash is a record type structured as a collection of field-value pairs, we'll need the following hashes for our application:
 
 The `users` hash will be a collection of UUID string fields mapped to user name values.
+
 The `rooms` hash will be a collection of UUID string fields mapped to room name values.
+
 The `userroomid` hash will be a collection of user UUID string fields mapped to and room UUID string values.
 
 A Redis set is a collection of unique string values, we'll need a Redis set for each `room` created in our application:
+
 The sets will be named in the format, `room:<room id>`, and will be a collection of user UUID strings.
 
 We'll be creating both the Redis Algebra and Chat Algebra in this section so that we can follow why each Redis function is needed.
@@ -956,6 +960,7 @@ The `enterroom()` function takes a `user` of type `User` and a `room` of type `S
 We start by calling `redisP.getRoomFromName(room)`, if the room exists, we compare that RoomId with the user's `RoomId` which we get from `redisP.getUsersRoomId(user)`. If they are the same we inform the user, otherwise we transfer the user by calling `transferUserToRoom(redisP, postgresP, user, r)`.
 
 If the user doesn't have a `RoomId`, we add the user to the requested room by calling `addToRoom(redisP, postgresP, user, r)`.
+
 Now, if the room name doesn't exist, we create that room by calling `createRoom(redisP, postgresP, room)`, then transfer the user to the new room.
 
 ### Moving to Another Room
@@ -1127,7 +1132,9 @@ new RedisProtocol[F] {
 ```
 
 Here we use the `hmGet()` function that returns multiple values associated with `UserId`s from the `users` hash. It takes the hash name, and one or more field values and returns an `F[Map[String, String]]`.
+
 If `rest` is empty we pass only `userid`, otherwise we pass both `rest`, and `userid` to `hmGet()`. We then `flatMap()` on `idMap`, convert it to a list and map each value to a `User`.
+
 This produces a `List[F[Option[User]]]`, so we call `sequence` twice to convert it into an `F[Option[List[User]]]`.
 
 Finally, let's implement the `broadcastMessage()` function.

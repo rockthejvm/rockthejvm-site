@@ -151,6 +151,7 @@ To begin interacting with the database using Skunk, establish a database connect
 Before establishing our database connection, let's start our Docker container by running the following command; `docker-compose up` in the terminal at the root directory or wherever we placed our `docker-compose.yml` file.
 
 We then create a `main.scala` file in our project where we will test our codes.
+
 Good! Now let's create an object named `DbConnection` to establish a database connection, allowing us to choose between two connection types: `single` or `pooled`, based on the provided configuration values.
 
 ```scala
@@ -189,23 +190,23 @@ In Skunk, given instances such as `Temporal, Trace, Network, and Console` play e
 
 1. `Temporal`
 
-   - **Purpose**: Work with time-related effects that provide operations for dealing with time-based computations such as delays, timeouts, and scheduling.
-   - **Use**: Some common uses are delaying execution through its `sleep` method that suspend a thread for a specific duration, timeout handling which allows you to execute fallback logic or abort computations if they take too long to complete, and task scheduling which enables you to schedule tasks to be executed at a specific point in time or after a certain delay.
+    - **Purpose**: Work with time-related effects that provide operations for dealing with time-based computations such as delays, timeouts, and scheduling.
+    - **Use**: Some common uses are delaying execution through its `sleep` method that suspend a thread for a specific duration, timeout handling which allows you to execute fallback logic or abort computations if they take too long to complete, and task scheduling which enables you to schedule tasks to be executed at a specific point in time or after a certain delay.
 
 1. `Trace`
 
-   - **Purpose**: Responsible for distributed tracing, allowing us to monitor the flow of requests across services and components.
-   - **Use**: Tracing provides insights into database interactions, helping to identify bottlenecks, failures, or performance issues within our application. You can integrate Skunk with your preferred tracing system, such as [Zipkin](https://zipkin.io/pages/quickstart) by providing appropriate Trace instances.
+    - **Purpose**: Responsible for distributed tracing, allowing us to monitor the flow of requests across services and components.
+    - **Use**: Tracing provides insights into database interactions, helping to identify bottlenecks, failures, or performance issues within our application. You can integrate Skunk with your preferred tracing system, such as [Zipkin](https://zipkin.io/pages/quickstart) by providing appropriate Trace instances.
 
 1. `Network`
 
-   - **Purpose**: Work with network-related effects by encapsulating the functionality related to network communication, such as connecting to remote hosts, sending and receiving data over sockets, and managing network resources.
-   - **Use**: The `Network` type class can be used for handling socket connections by providing methods for managing socket connections, including reading and writing data to and from sockets, handling timeouts, and closing connections gracefully.
+    - **Purpose**: Work with network-related effects by encapsulating the functionality related to network communication, such as connecting to remote hosts, sending and receiving data over sockets, and managing network resources.
+    - **Use**: The `Network` type class can be used for handling socket connections by providing methods for managing socket connections, including reading and writing data to and from sockets, handling timeouts, and closing connections gracefully.
 
 1. `Console`
 
-   - **Purpose**: Provides logging functionality to output messages to the console.
-   - **Use**: Console instances are useful for logging debug information, errors, or other messages related to database interactions. They enable us to monitor the behavior of our application and diagnose issues during development and debugging. These messages can be logged to the console or redirected to other logging systems as needed.
+    - **Purpose**: Provides logging functionality to output messages to the console.
+    - **Use**: Console instances are useful for logging debug information, errors, or other messages related to database interactions. They enable us to monitor the behavior of our application and diagnose issues during development and debugging. These messages can be logged to the console or redirected to other logging systems as needed.
 
 In summary, these given instances (`Temporal, Trace, Network, Console`) are crucial for configuring and managing database connections in Skunk as they ensure correct data handling.
 
@@ -267,12 +268,12 @@ Current date and time is 2024-02-20T17:29:21.058790Z.
 
 `Session.single` and `Session.pooled` are two distinct methods for establishing database connections, each with its own approach for managing connections. The following comparison can assist you in selecting the method that is most suitable for your application's needs and scalability requirements. For simplicity, we will use `Session.single` throughout, but feel free to experiment with `Session.pooled` to understand its benefits.
 
-| Feature               | Session.single                                                     | Session.pooled                                      |
-| --------------------- | ------------------------------------------------------------------ | --------------------------------------------------- |
-| Connection Management | Creates a single connection per session.                           | Manages a pool of connections.                      |
-| Suitable For          | Low database load or manual connection management.                 | High database load or automatic connection pooling. |
-| Connection Reuse      | Each call establishes a new connection.                            | Reuses existing connections from the pool.          |
-| Performance           | May have higher overhead due to frequent connection establishment. | Generally more efficient due to connection pooling. |
+| Feature | Session.single | Session.pooled |
+| --- | --- | --- |
+| Connection Management | Creates a single connection per session. | Manages a pool of connections. |
+| Suitable For | Low database load or manual connection management. | High database load or automatic connection pooling. |
+| Connection Reuse | Each call establishes a new connection. | Reuses existing connections from the pool. |
+| Performance | May have higher overhead due to frequent connection establishment. | Generally more efficient due to connection pooling. |
 
 ## Type Mapping in Skunk
 
@@ -309,11 +310,13 @@ object main extends IOApp {
 ```
 
 Twiddle tuples are built incrementally, element by element, via the `*:` and `EmptyTuple` operations which are also made available in Scala 3 standard library and operate exactly the same. On Scala 2, the Twiddles library defines `*:` and `EmptyTuple` as aliases for Shapeless HLists. Check [Twiddle Lists](https://typelevel.org/skunk/reference/TwiddleLists.html) for more details.
+
 The `~` operator build left-associated nested pairs of values to form tuples.
 
 To keep things simple, we will use regular tuples going forward.
 
 Please add the above values to our `main.scala` file as it will help us set up our SQL statements.
+
 We shall soon see these conversions in use as we interact with our database through queries and commands.
 
 ## SQL Interpolation (Query and Command)
@@ -398,6 +401,7 @@ User found: User(b68f2676-611e-4db2-af80-0458e9c52bd3,Jacob,jacob@email.com)
 ## Refactoring
 
 Let's refactor our code in a functional style and add support for basic CRUD operations.
+
 Given we're leveraging the use of a purely functional library, we shall continue writing purely functional code throughout using the tagless final approach.
 
 ### Database Repository
@@ -430,6 +434,7 @@ trait Repository[F[_], E](session: Session[F]) {
 Our trait takes an instance of `Session[F]` useful to establish a database session. However, this is possible only for `Scala 3` as the app written in this article is based on Scala 3 features.
 
 We a `findOneBy` method that can be used to fetch a specific row from a table such as fetching a user given the user's id.
+
 An `update` method for operations that update the state of the database such as deleting from a database.
 
 ### User Repository
@@ -515,6 +520,7 @@ object UserRepository {
 ```
 
 The `UserRepository` defines methods that allow us to interact with our database. It extends our `Repository` trait and specifies the data type that the repository will handle, which in this case is `User`.
+
 A **smart constructor** is placed in its companion object which is used to enforce constraints and control the creation of our `UserRepository` instances.
 
 ```scala

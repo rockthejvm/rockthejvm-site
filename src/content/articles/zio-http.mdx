@@ -16,9 +16,7 @@ import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Introduction
 
-In this post, we're going to go over an introduction to the zio-http library,
-and take a look at some of the basic utilities it provides to get you up and
-running.
+In this post, we're going to go over an introduction to the zio-http library, and take a look at some of the basic utilities it provides to get you up and running.
 
 By the end, we'll cover
 
@@ -42,9 +40,7 @@ By the end, we'll cover
 
 ## Setup
 
-This discussion will be based off of the latest ZIO HTTP code that supports ZIO
-2.0, which is an RC at the time of this writing (September 2022). The
-following dependencies are used:
+This discussion will be based off of the latest ZIO HTTP code that supports ZIO 2.0, which is an RC at the time of this writing (September 2022). The following dependencies are used:
 
 ```scala
 val commonDependencies = Seq(
@@ -56,8 +52,7 @@ Going forward, I will reference the library as `zhttp`.
 
 ## Absolute Basics
 
-We're going to start off by discussing some of the basic concepts of `zhttp`,
-all based off of a fairly unassuming, self-contained program:
+We're going to start off by discussing some of the basic concepts of `zhttp`, all based off of a fairly unassuming, self-contained program:
 
 ```scala
 package com.alterationx10.troto
@@ -93,11 +88,7 @@ object OwlServer extends ZIOAppDefault {
 
 ### Request => Response
 
-In `zhttp`, `Request`s are processed into `Response`s via implementations of a
-`sealed trait Http[-R, +E, -A, +B]`, which itself
-`extends (A => ZIO[R, Option[E], B])`. From the latter, we can quickly infer
-that `R` and `E` are the _resource_ and _Error_ channels of a `ZIO` effect, and
-we're going to be converting an `A` to a `B` effectually.
+In `zhttp`, `Request`s are processed into `Response`s via implementations of a `sealed trait Http[-R, +E, -A, +B]`, which itself `extends (A => ZIO[R, Option[E], B])`. From the latter, we can quickly infer that `R` and `E` are the _resource_ and _Error_ channels of a `ZIO` effect, and we're going to be converting an `A` to a `B` effectually.
 
 <NoteAdmonition>
 There are some included type aliases to shorten this signature, however in this article we will try to stick to the full version.
@@ -126,17 +117,9 @@ Let's take a moment to dig into our first endpoint:
   }
 ```
 
-We will use `A` and `B` here, knowing that above `A = Request` and
-`B = Response`. `Http.collect[A]` is a `PartialCollect[A]` - which behaves like
-a PartialFunction, meaning we're going to pattern match on something relating to
-`A` and return a `B`.
+We will use `A` and `B` here, knowing that above `A = Request` and `B = Response`. `Http.collect[A]` is a `PartialCollect[A]` - which behaves like a PartialFunction, meaning we're going to pattern match on something relating to `A` and return a `B`.
 
-We're matching against a `Request`, so let's look closer at the `case` statement
-above. The tricky syntax is the infixed `->` operator, so let's first look to
-the immediate _right_ of it: `!! / "owls"`. This is a `Path`, and `!!` denotes
-the root of the path (i.e. "/" - not to be confused with the `PathSyntax`
-operator `/`). On the _left_ of `->` is `Method.GET` - a `Method`. What `->`
-does, is tuple2 together the things on the left/right of it. The definition is
+We're matching against a `Request`, so let's look closer at the `case` statement above. The tricky syntax is the infixed `->` operator, so let's first look to the immediate _right_ of it: `!! / "owls"`. This is a `Path`, and `!!` denotes the root of the path (i.e. "/" - not to be confused with the `PathSyntax` operator `/`). On the _left_ of `->` is `Method.GET` - a `Method`. What `->` does, is tuple2 together the things on the left/right of it. The definition is
 
 ```scala
 @inline def -> [B](y: B): (A, B) = (self, y)
@@ -154,33 +137,25 @@ and
 case (Method.GET, !! / "owls") => Response.text("Hoot!")
 ```
 
-should behave identically. So what's going on, is we are looking at a `Request`
-value, and matching on it's `Method` and `Path` - if they match, we will return
-our `Response`.
+should behave identically. So what's going on, is we are looking at a `Request` value, and matching on it's `Method` and `Path` - if they match, we will return our `Response`.
 
-It will be important for later, but we can reference the request `req` in our
-response, for example, via something like
+It will be important for later, but we can reference the request `req` in our response, for example, via something like
 
 ```scala
 case req @ Method.GET -> !! / "owls" => Response.text("Hoot!")
 ```
 
-As a quick aside, `Http.collect` also internally lifts these to `Option`s, so it
-can handle the case of `None` when nothing may match.
+As a quick aside, `Http.collect` also internally lifts these to `Option`s, so it can handle the case of `None` when nothing may match.
 
 A `Method` models an HTTP request method, i.e. `GET`, `POST`, `DELETE`, etc...
 
-A `Path` models an HTTP request path. Let's take a moment to briefly outline
-`!!`, `/`, and `/:`.
+A `Path` models an HTTP request path. Let's take a moment to briefly outline `!!`, `/`, and `/:`.
 
 As mentioned above, `!!` represents the a path root, i.e. a "/".
 
-`/` is a path delimiter that starts extraction of the left-hand side (a left
-associative operator).
+`/` is a path delimiter that starts extraction of the left-hand side (a left associative operator).
 
-`/:` is a path delimiter that starts extraction of the right-hand side (a right
-associative operator), and can match paths partially. For example, if we look at
-the code below:
+`/:` is a path delimiter that starts extraction of the right-hand side (a right associative operator), and can match paths partially. For example, if we look at the code below:
 
 ```scala
 case Method.GET -> "" /: "owls" /: name  => Response.text(s"$name says: Hoot!")
@@ -197,8 +172,7 @@ Hooty says: Hoot!%
 Hooty/The/Owl says: Hoot!%
 ```
 
-We can see in the second, and third case, we're partially matching the remaining
-path, and it can capture more than just one segment representing a name!
+We can see in the second, and third case, we're partially matching the remaining path, and it can capture more than just one segment representing a name!
 
 <TipAdmonition>
   You can't use `/` and `/:` in the same case statement, as left- and
@@ -216,13 +190,7 @@ In our example, we also have:
     }
 ```
 
-`Http.collectZIO[Request]` behaves just like `Http.collect[Request]`,
-except here instead of returning a `Response`, we'll return a
-`ZIO[R, E, Response]`. Being ZIO users, it would make sense to see this form
-heavily in an app that relies on our _resourceful_ logic. In the example above,
-this endpoint will use the built-in `zio.Random` (which no longer needs to be
-declared in the `R` channel, as we're using ZIO 2), and `Hoot` at us 3 to 5
-times randomly, per request.
+`Http.collectZIO[Request]` behaves just like `Http.collect[Request]`, except here instead of returning a `Response`, we'll return a `ZIO[R, E, Response]`. Being ZIO users, it would make sense to see this form heavily in an app that relies on our _resourceful_ logic. In the example above, this endpoint will use the built-in `zio.Random` (which no longer needs to be declared in the `R` channel, as we're using ZIO 2), and `Hoot` at us 3 to 5 times randomly, per request.
 
 We then combine `app` and `zApp` to pass to the server:
 
@@ -230,9 +198,7 @@ We then combine `app` and `zApp` to pass to the server:
   val combined: Http[Any, Nothing, Request, Response] = app ++ zApp
 ```
 
-There are four operators to compose these "HTTP applications": `++`, `<>`, `>>>`
-and `<<<`, and the behavior of each is as described from the
-[official documentation](https://zio.github.io/zio-http/docs/v1.x/dsl/http#composition-of-http-applications).
+There are four operators to compose these "HTTP applications": `++`, `<>`, `>>>` and `<<<`, and the behavior of each is as described from the [official documentation](https://zio.github.io/zio-http/docs/v1.x/dsl/http#composition-of-http-applications).
 
 > `++` is an alias for `defaultWith`. While using `++`, if the first HTTP application returns `None` the second HTTP application will be evaluated, ignoring the result from the first. If the first HTTP application is failing with a `Some[E]` the second HTTP application won't be evaluated.
 
@@ -244,8 +210,7 @@ and `<<<`, and the behavior of each is as described from the
 
 ## Server
 
-At this pont, we have everything needed to start up an instance of our web
-server:
+At this pont, we have everything needed to start up an instance of our web server:
 
 ```scala
   val program: ZIO[Any, Throwable, ExitCode] = for {
@@ -257,8 +222,7 @@ server:
     program
 ```
 
-This is a simple entry point, and we only need to give `Server.start` a port
-(defined as `9000` above), and our _composed_ `Http[R, E, Request, Response]`.
+This is a simple entry point, and we only need to give `Server.start` a port (defined as `9000` above), and our _composed_ `Http[R, E, Request, Response]`.
 
 <WarningAdmonition>
   `Server.start` internally calls `ZIO.never`, and will block your
@@ -276,60 +240,41 @@ This is a simple entry point, and we only need to give `Server.start` a port
 
 ## Next Steps
 
-At this stage, we've covered some `zhttp` basics, like pattern matching on a
-requests method and path, to run the appropriate logic. Out next steps will be
-about adding on extra functionality, like CRSF tokens and Authorization, via
-Middleware.
+At this stage, we've covered some `zhttp` basics, like pattern matching on a requests method and path, to run the appropriate logic. Out next steps will be about adding on extra functionality, like CRSF tokens and Authorization, via Middleware.
 
 ### Middleware
 
-Broadly, the definition of _middleware_ is context dependent; in our realm of
-our discussion, if we're turning a `Request` into a `Response`, then it's
-anything we do _in the middle_ of that process. It may be something behind the
-scenes, like adding logging through the process, or more center-stage like
-modifying the request to add headers to the request. Middleware is great at
-helping de-couple/re-use business logic.
+Broadly, the definition of _middleware_ is context dependent; in our realm of our discussion, if we're turning a `Request` into a `Response`, then it's anything we do _in the middle_ of that process. It may be something behind the scenes, like adding logging through the process, or more center-stage like modifying the request to add headers to the request. Middleware is great at helping de-couple/re-use business logic.
 
-Specifically, in the context of `zhttp`, a `Middleware` is a transformation
-function that converts _one_ `Http` to _another_.
+Specifically, in the context of `zhttp`, a `Middleware` is a transformation function that converts _one_ `Http` to _another_.
 
 ```scala
 type Middleware[R, E, AIn, BIn, AOut, BOut] = Http[R, E, AIn, BIn] => Http[R, E, AOut, BOut]
 ```
 
-We _attach_ middleware to our `Http` via the `@@` operator. For example, we
-could update our logic to use a built-in debug `Middleware` like so:
+We _attach_ middleware to our `Http` via the `@@` operator. For example, we could update our logic to use a built-in debug `Middleware` like so:
 
 ```scala
   val wrapped: Http[Console with Clock, IOException, Request, Response] =
     combined @@ Middleware.debug
 ```
 
-and then, when running our application, we would see some debug messaging
-printed when a client interacts with our server:
+and then, when running our application, we would see some debug messaging printed when a client interacts with our server:
 
 ```text
 [info] Starting server on http://localhost:9000
 [info] 200 GET /owls 9ms
 ```
 
-In the next section, we will build our own Logging Middleware, and then look at
-a few of the other built in ones.
+In the next section, we will build our own Logging Middleware, and then look at a few of the other built in ones.
 
 ### Logging
 
-Our custom middleware is going to log some information about the `Request`
-received, and the `Response` about to be sent back. We'll set up a new object
-`Verbose` and define a method `log` that returns a new `Middleware`, in which we
-will define the trait's `apply` method.
+Our custom middleware is going to log some information about the `Request` received, and the `Response` about to be sent back. We'll set up a new object `Verbose` and define a method `log` that returns a new `Middleware`, in which we will define the trait's `apply` method.
 
-We will be able to do this with the `.mapZIO` and `.contramapZIO` functionality
-of the `http` argument the `Middleware` takes in the `apply` method.
+We will be able to do this with the `.mapZIO` and `.contramapZIO` functionality of the `http` argument the `Middleware` takes in the `apply` method.
 
-For an http of type `Http[R, E, A, B]`, the `A` is the type of input, and `B` is
-the type of the output. In our example, `A = Request` and `B = Response`. If we
-want to do something with the _input_, like printing all of the request headers,
-we can use `.contramapZIO[R1, E1, Request]`:
+For an http of type `Http[R, E, A, B]`, the `A` is the type of input, and `B` is the type of the output. In our example, `A = Request` and `B = Response`. If we want to do something with the _input_, like printing all of the request headers, we can use `.contramapZIO[R1, E1, Request]`:
 
 ```scala
 http
@@ -342,8 +287,7 @@ http
     }
 ```
 
-and if we want to do something with the _output_, like printing all of the
-response headers, we can use `.mapZIO[R1, E1, Response]`:
+and if we want to do something with the _output_, like printing all of the response headers, we can use `.mapZIO[R1, E1, Response]`:
 
 ```scala
 http
@@ -397,14 +341,9 @@ object Verbose {
 }
 ```
 
-We're not modifying the input/output here, so the types remain the same and
-their values un-altered. We used `.contramapZIO` to accesses the `Request`,
-print some information about it, and then return the un-altered value. We then
-did the same thing with `mapZIO` for the `Response`.
+We're not modifying the input/output here, so the types remain the same and their values un-altered. We used `.contramapZIO` to accesses the `Request`, print some information about it, and then return the un-altered value. We then did the same thing with `mapZIO` for the `Response`.
 
-This is a very simple example, but is very illustrative of how you can easily
-update the `Request`/`Response` values if desired, or even fail-fast if a
-particular header is missing, or unverified.
+This is a very simple example, but is very illustrative of how you can easily update the `Request`/`Response` values if desired, or even fail-fast if a particular header is missing, or unverified.
 
 We attach our custom `Middleware` just as before:
 
@@ -413,8 +352,7 @@ val wrapped: Http[Any,Throwable,Request,Response] =
     combined @@ Verbose.log
 ```
 
-and if we run our server, and make a request via curl, in our console we should
-see something like:
+and if we run our server, and make a request via curl, in our console we should see something like:
 
 ```text
 [info] Starting server on http://localhost:9001
@@ -428,28 +366,11 @@ see something like:
 
 ### CORS
 
-CORS stands for _Cross-Origin Resource Sharing_. It is a mechanism to allow a
-website to allow traffic from only certain origins. For example, if we had
-`https:///my-site.com` without any CORS config, then someone at
-`https://their-site` could load our images, content, etc (and we'd get billed
-for the data usage). By applying a CORS configuration, we can make sure our
-resources are loaded when the `Origin` header is set to `my-site.com`. Requests
-trying to render from the other page would then get rejected!
+CORS stands for _Cross-Origin Resource Sharing_. It is a mechanism to allow a website to allow traffic from only certain origins. For example, if we had `https:///my-site.com` without any CORS config, then someone at `https://their-site` could load our images, content, etc (and we'd get billed for the data usage). By applying a CORS configuration, we can make sure our resources are loaded when the `Origin` header is set to `my-site.com`. Requests trying to render from the other page would then get rejected!
 
-In addition to this, CORS can help with verifying you can interact with the
-server at all! Wouldn't it be nice to know you can't upload a 50mb png to a site
-_before_ you sent the request? You can send a CORS (`OPTIONS`) _preflight
-request_ that says "Hey, I'm from _this_ origin, and I would like to _POST_ you
-a file with some _MIME type_ that's _this big_ at _this_ endpoint. We good?" And
-if your pre-flight request succeeds, you know you can make the _actual_
-request - but if it fails, you don't have to waste the time/traffic finding it
-out.
+In addition to this, CORS can help with verifying you can interact with the server at all! Wouldn't it be nice to know you can't upload a 50mb png to a site _before_ you sent the request? You can send a CORS (`OPTIONS`) _preflight request_ that says "Hey, I'm from _this_ origin, and I would like to _POST_ you a file with some _MIME type_ that's _this big_ at _this_ endpoint. We good?" And if your pre-flight request succeeds, you know you can make the _actual_ request - but if it fails, you don't have to waste the time/traffic finding it out.
 
-Many browsers today will automatically try to make pre-flight queries when
-content is being loaded from a domain different that the host being accessed,
-and if there is no CORS policy returned from the server, then the resources
-won't be loaded. This even means between `sub.my-domain.com` and
-`sub2.my-domain.com`.
+Many browsers today will automatically try to make pre-flight queries when content is being loaded from a domain different that the host being accessed, and if there is no CORS policy returned from the server, then the resources won't be loaded. This even means between `sub.my-domain.com` and `sub2.my-domain.com`.
 
 To use the built-in CORS, you need to instantiate a `CorsConfig` such as:
 
@@ -465,10 +386,7 @@ To use the built-in CORS, you need to instantiate a `CorsConfig` such as:
 
 and provide it as an argument via `@@ Middleware.cors(config)`.
 
-If we look at the output of an example using the above config, we can see that
-if we send an `Origin` header that doesn't match our config's `allowedOrigins`,
-no CORS headers are returned - thus a browser would block the request. This
-would be the same as if we sent no `Origin` header.
+If we look at the output of an example using the above config, we can see that if we send an `Origin` header that doesn't match our config's `allowedOrigins`, no CORS headers are returned - thus a browser would block the request. This would be the same as if we sent no `Origin` header.
 
 ```console
 ➜ the-rest-of-the-owl (main) ✗ curl -v --header "Origin: somewhere"  http://localhost:9001/owls
@@ -489,8 +407,7 @@ would be the same as if we sent no `Origin` header.
 Hoot!%
 ```
 
-If we make the request again, with a valid `Origin` header, we can see the CORS
-`access-control-` headers are returned.
+If we make the request again, with a valid `Origin` header, we can see the CORS `access-control-` headers are returned.
 
 ```console
 ➜ the-rest-of-the-owl (main) ✗ curl -v --header "Origin: localhost"  http://localhost:9001/owls
@@ -541,33 +458,13 @@ For example, you might start with `CorsConfig(allowedOrigins = _ == "myhost.com"
 
 ### CSRF
 
-CSRF stands for _Cross-Site Request Forgery_. At a broad level, this is when
-some _nefarious code_ tries to trick you into performing an action with your
-_already logged in_ credentials. For example, let's say you were logged into a
-popular online store, and a browser plugin went rouge. Opening the plugin takes
-you to a link that _actually_ triggers an email change for your account with the
-store via a hidden form - which your browser happily send along your sessions
-information, giving a chance for an attacker to take over your account. CSRF
-tries to help stop/lessen that attack vector.
+CSRF stands for _Cross-Site Request Forgery_. At a broad level, this is when some _nefarious code_ tries to trick you into performing an action with your _already logged in_ credentials. For example, let's say you were logged into a popular online store, and a browser plugin went rouge. Opening the plugin takes you to a link that _actually_ triggers an email change for your account with the store via a hidden form - which your browser happily send along your sessions information, giving a chance for an attacker to take over your account. CSRF tries to help stop/lessen that attack vector.
 
-CSRF involves the generation of a fairly secure/unique string (we'll call it a
-`token`), and submitting it back to our trusted site when we send information,
-as an extra level of verification that it was intentionally sent by the user.
+CSRF involves the generation of a fairly secure/unique string (we'll call it a `token`), and submitting it back to our trusted site when we send information, as an extra level of verification that it was intentionally sent by the user.
 
-A popular way to do this is called _Double Submit Cookie_. This means that a
-secure http-only (i.e. browser javascript cannot access this!) cookie is set
-with the value of the `token`, and any routes you want protected will need to
-_both_ send this cookie, _as well as_ the `token` as a parameter. You could
-imagine that a trusted web page that is rendered with form submissions already
-have this value on a hidden input pre-filled and sets a cookie. When the form is
-submitted, the cookie will go along with the values, and the back-end server can
-verify that they are preset _and_ match! From here, you can also take it a step
-further and encrypt the cookie, so the back-end can verify that it can decrypt
-the `token` as well to ensure authenticity.
+A popular way to do this is called _Double Submit Cookie_. This means that a secure http-only (i.e. browser javascript cannot access this!) cookie is set with the value of the `token`, and any routes you want protected will need to _both_ send this cookie, _as well as_ the `token` as a parameter. You could imagine that a trusted web page that is rendered with form submissions already have this value on a hidden input pre-filled and sets a cookie. When the form is submitted, the cookie will go along with the values, and the back-end server can verify that they are preset _and_ match! From here, you can also take it a step further and encrypt the cookie, so the back-end can verify that it can decrypt the `token` as well to ensure authenticity.
 
-`zhttp` includes `Middleware.csrfGenerate()` and `Middleware.csrfValidate()` as
-built-in options. For our example, we'll split these and add the `csrfGenerate`
-to out `Http` that has the `GET` routes, and the `csrfValidate` to our `POST`:
+`zhttp` includes `Middleware.csrfGenerate()` and `Middleware.csrfValidate()` as built-in options. For our example, we'll split these and add the `csrfGenerate` to out `Http` that has the `GET` routes, and the `csrfValidate` to our `POST`:
 
 ```scala
   val app: Http[Any, Nothing, Request, Response] = Http.collect[Request] {
@@ -604,11 +501,9 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 Hoot!%
 ```
 
-We made a `GET` request, and we can see that the server told us to set a cookie
-with our `x-csrf-token`.
+We made a `GET` request, and we can see that the server told us to set a cookie with our `x-csrf-token`.
 
-If we try to access our `POST` without the `token`, we will get a
-`403 Forbidden`!
+If we try to access our `POST` without the `token`, we will get a `403 Forbidden`!
 
 ```console
 ➜ ~ curl -X POST -v http://localhost:9001/owls
@@ -626,9 +521,7 @@ If we try to access our `POST` without the `token`, we will get a
 * Connection #0 to host localhost left intact
 ```
 
-This middleware does use the _Double Submit Cookie_ method, so if we make a
-`POST` including our `token` as a cookie, _and_ a corresponding header, then we
-can obtain access to our endpoint.
+This middleware does use the _Double Submit Cookie_ method, so if we make a `POST` including our `token` as a cookie, _and_ a corresponding header, then we can obtain access to our endpoint.
 
 ```console
 ➜ ~ curl -X POST -v --cookie "x-csrf-token=2075bc8b-c64b-494c-8249-c3a87ca72fcd" -H "x-csrf-token: 2075bc8b-c64b-494c-8249-c3a87ca72fcd" http://localhost:9001/owls
@@ -652,9 +545,7 @@ Hoot! Hoot! Hoot! %
 
 ### Basic Auth
 
-Basic auth is used for hiding a site behind a simple user/password check. The
-credentials are _base64 encoded_, but not encrypted, so it shouldn't be used
-except over https.
+Basic auth is used for hiding a site behind a simple user/password check. The credentials are _base64 encoded_, but not encrypted, so it shouldn't be used except over https.
 
 We'll add a _super secret_ route to our app using the built-in `Middleware.basicAuth`.
 
@@ -671,10 +562,7 @@ In our example, we use
 final def basicAuth(u: String, p: String): HttpMiddleware[Any, Nothing]
 ```
 
-which takes two parameters, a username and a password. When a request comes in,
-and the credentials are present on the HTTP header, it will compare those values
-to the username and password for validation. If you wanted to pass in your own
-logic for this, you could use
+which takes two parameters, a username and a password. When a request comes in, and the credentials are present on the HTTP header, it will compare those values to the username and password for validation. If you wanted to pass in your own logic for this, you could use
 
 ```scala
 case class Credentials(uname: String, upassword: String)
@@ -682,8 +570,7 @@ final def basicAuth(f: Credentials => Boolean): HttpMiddleware[Any, Nothing]
 final def basicAuthZIO[R, E](f: Credentials => ZIO[R, E, Boolean]): HttpMiddleware[R, E]
 ```
 
-We will not cover it in this article, however there are other helpful pre-made
-`MiddleWare`, for bearer tokens and custom authorization:
+We will not cover it in this article, however there are other helpful pre-made `MiddleWare`, for bearer tokens and custom authorization:
 
 ```scala
 final def bearerAuth(f: String => Boolean): HttpMiddleware[Any, Nothing]
@@ -700,9 +587,7 @@ final def bearerAuthZIO[R, E](f: String => ZIO[R, E, Boolean]): HttpMiddleware[R
   ): HttpMiddleware[R, E]
 ```
 
-Looking back at out basic auth example, if we try to access our endpoint without
-credentials, we'll get a 401 Unauthorized, and a polite `www-authenticate`
-header indicating that we may be able to access it via `Basic` auth.
+Looking back at out basic auth example, if we try to access our endpoint without credentials, we'll get a 401 Unauthorized, and a polite `www-authenticate` header indicating that we may be able to access it via `Basic` auth.
 
 ```console
 ➜ ~ curl -v http://localhost:9001/secret/owls
@@ -743,14 +628,11 @@ We'll use the power of curls `--user` flag to do the encoding for us this time:
 The password is 'Hoot!'%
 ```
 
-We can see that our `Authorization: Basic aG9vdHk6dG9vdGll` was sent in plain
-text (base64 encoded), as well as that our request was successful.
+We can see that our `Authorization: Basic aG9vdHk6dG9vdGll` was sent in plain text (base64 encoded), as well as that our request was successful.
 
 ### Juggling Middleware Priority
 
-At this point, we've tacked on a few pieces of `Middleware`. Combining your
-routes can be very tricky, so let's address some issues. Let's looks at what we
-have so far:
+At this point, we've tacked on a few pieces of `Middleware`. Combining your routes can be very tricky, so let's address some issues. Let's looks at what we have so far:
 
 ```scala
   val app: Http[Any, Nothing, Request, Response] = Http.collect[Request] {
@@ -772,49 +654,25 @@ have so far:
   val combined: Http[Any, Nothing, Request, Response] = app ++ authApp ++ zApp
 ```
 
-We have to add `authApp` _before_ `zApp`, or our basic auth route won't be
-available! _Why is that?_ It's because we aren't sending in any CSRF validation
-tokens! Because we've added `Middleware.csrfValidate()` to `zApp`, that portion
-_happily succeeds_ in handing us back a 403 Forbidden when we don't send the
-CSRF data - thus if our `authApp` were _after_ it, we'd never reach it.
+We have to add `authApp` _before_ `zApp`, or our basic auth route won't be available! _Why is that?_ It's because we aren't sending in any CSRF validation tokens! Because we've added `Middleware.csrfValidate()` to `zApp`, that portion _happily succeeds_ in handing us back a 403 Forbidden when we don't send the CSRF data - thus if our `authApp` were _after_ it, we'd never reach it.
 
-The same situation would occur if we added `authApp` to the front - everything
-afterwards would also require basic auth. This also makes it not possible to
-apply a _second_ `Middleware.basicAuth("hooty2", "tootie2")` at an `Http` passed
-the first, because we'd always fail the credential validation at the first
-middleware evaluation of the credentials (it would check for `user == hooty` and
-`password == tootie`). The best we could do with basic auth is allow a set of
-users/passwords that all have the same level of access to various protected
-routes, _but not fine-grained individual access per route_.
+The same situation would occur if we added `authApp` to the front - everything afterwards would also require basic auth. This also makes it not possible to apply a _second_ `Middleware.basicAuth("hooty2", "tootie2")` at an `Http` passed the first, because we'd always fail the credential validation at the first middleware evaluation of the credentials (it would check for `user == hooty` and `password == tootie`). The best we could do with basic auth is allow a set of users/passwords that all have the same level of access to various protected routes, _but not fine-grained individual access per route_.
 
 ## Extra Credit
 
-Congratulations on making it this far! By now, we've set up a web server that's
-returning content, and added basic levels of security like authorization, CSRF
-tokens, and CORS policies 🎉 In the next, and final section, we will quickly
-visit websocket support and response streaming.
+Congratulations on making it this far! By now, we've set up a web server that's returning content, and added basic levels of security like authorization, CSRF tokens, and CORS policies 🎉 In the next, and final section, we will quickly visit websocket support and response streaming.
 
 ### Websockets
 
-Websockets are also created using `Http`, but instead of collecting `Request`s,
-we typically collect `WebSocketChannelEvent`. Communication happens over the
-channel, so instead of returning `Response` we will return `Unit`. At a lower
-level, there is `Channel[A]`, which allows sending arbitrary messages of type
-`A`.There is also`ChannelEvent`, which encapsulates the types of messages that
-can be sent/received.
+Websockets are also created using `Http`, but instead of collecting `Request`s, we typically collect `WebSocketChannelEvent`. Communication happens over the channel, so instead of returning `Response` we will return `Unit`. At a lower level, there is `Channel[A]`, which allows sending arbitrary messages of type `A`.There is also`ChannelEvent`, which encapsulates the types of messages that can be sent/received.
 
 ```scala
 final case class ChannelEvent[-A, +B](channel: Channel[A], event: ChannelEvent.Event[B])
 ```
 
-`WebSocketChannelEvent` is actually a type alias for
-`ChannelEvent[WebsocketFrame, WebSocketFrame]`.
+`WebSocketChannelEvent` is actually a type alias for `ChannelEvent[WebsocketFrame, WebSocketFrame]`.
 
-In our code example below, in addition to logging on some connections hooks, we
-mainly return back the data sent from the user, but formatted differently. You
-could further pattern match on the incoming message to perform different actions
-based on the incoming payload - our bundled multiple `Http`s with different
-endpoints to handle different functionality.
+In our code example below, in addition to logging on some connections hooks, we mainly return back the data sent from the user, but formatted differently. You could further pattern match on the incoming message to perform different actions based on the incoming payload - our bundled multiple `Http`s with different endpoints to handle different functionality.
 
 ```scala
   val sarcastically: String => String =
@@ -847,9 +705,7 @@ endpoints to handle different functionality.
   }
 ```
 
-We will use a handy cli tool called `websocat` to test our websockets. It will
-allow us to connect to our server, send messages, and see the responses that
-come back.
+We will use a handy cli tool called `websocat` to test our websockets. It will allow us to connect to our server, send messages, and see the responses that come back.
 
 ```console
 ➜ ~ websocat ws://localhost:9002/ws
@@ -861,19 +717,14 @@ SaRcAsM Is hArD To cOnVeY On tHe iNtErNeT
 
 ### Streaming
 
-Streaming responses is handled via `ZStream`, and works straight forwardly, if
-you are comfortable with that topic.
+Streaming responses is handled via `ZStream`, and works straight forwardly, if you are comfortable with that topic.
 
 <TipAdmonition>
   If you would like to dig into `ZStream`s a bit further, I suggest you check
   out this [article](/articles/zio-streams-introduction).
 </TipAdmonition>
 
-In our example below, we take a `String` sentence, and repeat it 1000 times to
-bulk it up a bit, being sure to use the `HTTP_CHARSET` encoding when we create a
-`Chunk` for it. At this point, it's as easy as
-`HttpData.fromStream(ZStream.fromChunk(data))`! Anything you can
-`ZStream.from...` is fair game to stream, which is fairly powerful.
+In our example below, we take a `String` sentence, and repeat it 1000 times to bulk it up a bit, being sure to use the `HTTP_CHARSET` encoding when we create a `Chunk` for it. At this point, it's as easy as `HttpData.fromStream(ZStream.fromChunk(data))`! Anything you can `ZStream.from...` is fair game to stream, which is fairly powerful.
 
 ```scala
   val content: String =
@@ -893,7 +744,4 @@ bulk it up a bit, being sure to use the `HTTP_CHARSET` encoding when we create a
 
 ## Conclusion
 
-Hopefully, after reading this introduction, you feel comfortable enough to spin
-up your own web server with zio-http, start adding on built in security
-features - as well as custom middleware logic, and delve into high performance
-via streaming responses and real-time communication via websockets.
+Hopefully, after reading this introduction, you feel comfortable enough to spin up your own web server with zio-http, start adding on built in security features - as well as custom middleware logic, and delve into high performance via streaming responses and real-time communication via websockets.

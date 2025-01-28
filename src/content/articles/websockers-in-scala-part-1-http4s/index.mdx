@@ -1085,6 +1085,7 @@ The last section of our parser is defined by:
 ```
 
 Can be broken down as follows:
+
 `(leftSide ~ rightSide.?)` means we combine the two parses using the `~` meaning that we keep results from both sides. However the `?` on `rightSide.?` means that rightSide may be present or not. In other words, the same parser can also handle commands with only the `leftSide` for example a help command issued as `/help`, this doesn't require an extra parameter.
 
 `<* wsp.rep.?` means if there's white space that follows our command, we ignore it. Finally, we map the left and right values to `TextCommand`, on the right side we ignore the `Unit` value and only map the `String`.

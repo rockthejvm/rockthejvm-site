@@ -132,16 +132,25 @@ Now that's a nasty one. Let's take a look.
 Notice this plan is now branched. It has two sections:
 
 section 1, bottom:
+
 A Range 1 to 1 million, in steps of 2, in 6 partitions,
+
 which is repartitioned (shuffled) into 9 partitions,
+
 then repartitioned again by a hash partitioner with the key being the column id (identifier 32) into 200 partitions,
+
 then sorted by the column id (identifier 32) ascending.
 
 section 2, less bottom:
+
 A range 1 to 1 million, in steps of 1, in 6 partitions,
+
 repartitioned (shuffled) to 7 partitioned,
+
 modified as id \* 5, with the name id (identifier 36)
+
 then repartitioned again by a hash partitioner with the key being the column id (identifier 36) into 200 partitions
+
 then sorted by that
 
 Then those two sections are used for the SortMergeJoin. The join operation requires that the DFs in question be partitioned with the same partitioning scheme and sorted. This is why Spark does all these operations.

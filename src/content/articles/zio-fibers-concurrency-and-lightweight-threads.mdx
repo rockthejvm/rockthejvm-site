@@ -110,8 +110,7 @@ As we expected, the execution of the `run` show us that ZIO executes all of the 
 
 ## Fibers
 
-If we want to leverage all the power of ZIO and starting to execute effects asynchronously, we must
-introduce the `Fiber` type.
+If we want to leverage all the power of ZIO and starting to execute effects asynchronously, we must introduce the `Fiber` type.
 
 A _fiber_ is a concept that is beyond the ZIO library. In fact, it's a concurrency model. Often, we refer to fibers as _green threads_. **A fiber is a schedulable computation**, much like a thread. However, it's only a data structure, which means **it's up to the ZIO runtime to schedule these fibers for execution** (on the internal JVM thread pool). Unlike a system/JVM thread which is expensive to start and stop, fibers are cheap to allocate and remove. Hence, we can create millions of fibers and switch between them without the overheads associated with threads.
 
@@ -238,8 +237,7 @@ def concurrentWakeUpRoutineWithAliceCall(): ZIO[Clock, Nothing, Unit] = for {
 } yield ()
 ```
 
-As we can see, after Alice's call, we interrupt the `boilingFiber` fiber. The result of executing
-the `concurrentWakeUpRoutineWithAliceCall` method is the following:
+As we can see, after Alice's call, we interrupt the `boilingFiber` fiber. The result of executing the `concurrentWakeUpRoutineWithAliceCall` method is the following:
 
 ```text
 [zio-default-async-1]: Going to the bathroom
@@ -281,8 +279,7 @@ def concurrentWakeUpRoutineWithAliceCallingUsTooLate(): ZIO[Clock, Nothing, Unit
 } yield ()
 ```
 
-As we said, marking as `uninterruptible` the fiber `coffeeFiber` makes it unstoppable. The call of
-the `interrupt` method on it doesn't do anything, and the above code will have the following output:
+As we said, marking as `uninterruptible` the fiber `coffeeFiber` makes it unstoppable. The call of the `interrupt` method on it doesn't do anything, and the above code will have the following output:
 
 ```text
 [zio-default-async-1]: Going to the bathroom

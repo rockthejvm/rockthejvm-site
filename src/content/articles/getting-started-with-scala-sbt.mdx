@@ -52,7 +52,9 @@ The core of sbt is a file named _build.sbt_. We can provide the needed configura
 ### Simplest sbt Project
 
 Let's look at a simple sbt project.
+
 First, let's create an empty directory. We can then create an empty file within the directory as _build.sbt_.
+
 In _build.sbt_, let's configure the Scala version of the project we are going to use:
 
 ```text
@@ -64,9 +66,11 @@ scalaVersion := "2.13.8"
 </NoteAdmonition>
 
 Now, within the same directory, we can just start the sbt session by using the command `sbt`.
+
 If everything is fine, this will load an sbt console successfully. We can execute the command `project` within the sbt console to verify and view the sbt project name.
 
 Now, let's look at the other configuration options in the _build.sbt_ file.
+
 We can provide a version for the project using the option `version` :
 
 ```text
@@ -106,6 +110,7 @@ The Scala code and configurations are placed under _main_ or _test_ subdirectori
 ### sbt Versions
 
 By default, sbt uses the installed sbt version for the projects. We can explicitly provide a specific version of the sbt. This is generally followed since there might be some breaking changes in the sbt releases and that might unknowingly affect the entire project.
+
 We can specify the sbt version for the project by using a file called as _build.properties_ under _project_ directory. We can mention the sbt version in the file as:
 
 ```text
@@ -128,11 +133,15 @@ object Main {
 ```
 
 Let's start the sbt console by executing the command `sbt` at the root of the project.
+
 To compile the project, we can use _compile_ in the command. This will compile all the Scala files in the project and creates .class files. These files are kept under the directory _target_.
+
 **sbt uses _incremental compilation_ to speed up the compilation. In this way, sbt will compile only the modified files, and re-use the previously compiled class files for the rest of the files.**
+
 We can use the _clean_ command to remove all the generated class files.
 
 We can run the application by using the command _run_. If we have multiple main classes in the project, sbt will show a prompt to select the main class to run.
+
 In such case, we can use _runMain_ command by passing the class to run as:
 
 ```text
@@ -156,9 +165,13 @@ libraryDependencies += "com.lihaoyi" %% "fansi" % "0.4.0"
 ```
 
 The method `+=` appends the provided library to the project dependencies.
+
 An sbt dependency contains mainly 3 parts separated by % symbol.
+
 The first part is the groupId of the library. The second part is the library name(artifactId) and the third part is the version of the library to be used. If you notice, you can see that a double percentage symbol (`%%`) is used between groupId and artifactId.
+
 Scala is not binary compatible with different versions (such as 2.11, 2.12, 2.13 etc) except for Scala 3 series. Hence there are separate releases for each Scala libraries for each required versions. %% symbol ensures that sbt uses the same Scala version of library as the project.
+
 That means sbt will automatically append the Scala version of the project before trying to find the library. The above dependency code is equivalent to the following format(notice that a single `%` is used, but artifact id contains the Scala major version):
 
 ```text
@@ -179,13 +192,17 @@ libraryDependencies ++= Seq(
 ## Scala Files Under Project Directory
 
 sbt allows us to keep supporting files(i.e. non-source files, not part of the project "code" itself) for the build as Scala files. This helps to configure most of the required configurations in the known format of Scala classes. We can place the Scala files under the directory _project_.
+
 Generally, depending on the project complexity, we keep various info (e.g. library dependencies) as object in these Scala files; they are accessible directly inside _build.sbt_. This is done so that we can keep and track all the dependencies in a single place, and access them in multiple parts (modules) of the project (more on modules shortly).
 
 ## sbt Console
 
 sbt also can start a REPL session within the project using the command `sbt console` or executing the command `console` within an sbt session. This will start up a REPL session just like the Scala REPL. However, the sbt console REPL will also load all the dependencies jars to the classpath so that we can directly import the classes and use them.
+
 For example, let's try to use the fansi library in the sbt console.
+
 We can then start up the sbt session by using `sbt` command. Then we can use the command _console_ within the sbt session to start a REPL.
+
 Now, within this REPL, we have access to the methods from fansi. We can execute this code:
 
 ```shell
@@ -205,6 +222,7 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.13" % Test
 ```
 
 Notice the special identifier _Test_ after the last % symbol. Adding `Test` informs sbt that this library is needed only for the test cases and accessible under _src/test/scala_ directory. Whenever we make the packaged application from our project, these libraries are not added to the package as they are not needed at the application run time.
+
 Instead of the identifier _Test_, we can also use the string `"test"` (wrapped in double quotes). However, this practice is discouraged as it doesn't provide type safety.
 
 Now that we added the dependency, we can add a test file as:
@@ -262,6 +280,7 @@ We can compile only the test classes by using the command `test:compile` within 
 ## Advanced Configuration in `build.sbt`
 
 In the previous section, we saw configurations like _name_, _organization_, etc. The values we set there are applicable for the entire project. sbt also lets us do some configurations per scope.
+
 For example, by default sbt runs all the tests in parallel. If we somehow want to avoid that and run the tests in sequential way, we can set the config option for that. sbt uses the configuration key _parallelExecution_ for that and it is under the scope of Test.
 
 So, in _build.sbt_, we can use the setting as:
@@ -320,6 +339,7 @@ lazy val module_2 = (project in file("module-2")).settings(
 ## Multi-Module Build Best Practice
 
 We need to first identify and get clarity on different modules. Let's assume that we are building an application that contains database access, HTTP services, utilities etc.
+
 Each of these can be separated as a module. Then we can combine the different parts if one is dependent on another.
 
 Some good practice principles:
@@ -401,6 +421,7 @@ lazy val root = project
 ## Executing Commands on Each Module
 
 Now that we are ready with a multi-module project, let's see how we can execute sbt commands module-wise.
+
 At the root of the project, if we execute `sbt` it will start the sbt session. When we run the compile command, it will compile all the modules.
 
 Once we are inside the sbt session, we can switch to a particular sub-module using:
@@ -414,6 +435,7 @@ Now, when we compile, only this module will get compiled. But, if this module de
 ## Plugins
 
 One of the most important features of sbt is its support for plugins. Plugins help extend sbt with custom features which can be published and shared between multiple teams.
+
 For handling plugins, a special file called as _plugins.sbt_ is used. This file is kept under the `project/` directory. Some common usages of plugins are:
 
 - Packaging plugins to create jar, exe and other executables/deliverables
@@ -435,6 +457,7 @@ assembly / mainClass := Some("com.rockthejvm.Module2Main"),
 ```
 
 Now we can use the sbt command `assembly`. This will create the jar file under the relevant project's target folder.
+
 Similar to `assembly/mainClass` there are many other configurations to customise the jar creation.
 
 This is just one of the plugins. There are many plugins available which can help improve the development experience.
@@ -442,6 +465,7 @@ This is just one of the plugins. There are many plugins available which can help
 ## Global Plugins
 
 In the previous section, we added a plugin to the project. Sometimes, we might need to add some plugins that have nothing to do with the project itself. For example, there may be some plugin to publish the apps to an internal repository. This need not be kept in the git repo, instead can be shared across all the repositories.
+
 sbt allows to do this using global plugins.
 
 Instead of keeping the _plugins.sbt_ within the project, we can create the file in the _.sbt_ path.
@@ -451,6 +475,7 @@ $HOME/.sbt/1.0/plugins
 ```
 
 When sbt starts, it will load all the plugins from the global path. For example, in our previous example, We can remove the _plugins.sbt_ from the _project_ directory and keep it in the above path. On reloading the project, it will still load the plugin, but from the global path instead.
+
 You can notice in the sbt startup logs with some similar logs like:
 
 ```shell
@@ -466,6 +491,7 @@ resolvers += Resolver.url("my-test-repo", url("https://example.org/repo-releases
 ```
 
 Now, apart from Maven Central, sbt will also look at the provided location for libraries.
+
 We can also add resolvers as the local maven directory. For that, we can use the resolver setting as:
 
 ```shell
@@ -519,6 +545,7 @@ lazy val printerTask = taskKey[Unit]("Simple custom task")
 The code `taskKey[Unit]` mentions that the task does an action and just returns with a Unit type.
 
 The custom command will be `printerTask`.
+
 Now, we can define the logic of the custom task in the _build.sbt_ again:
 
 ```shell
@@ -563,8 +590,11 @@ Notice how we used `uuidStringTask.value`. This value method takes the value fro
 Now, when we run the command `printerTask`, it will first generate the UUID and then execute printerTask.
 
 So far, we have created custom tasks. Now, let's look at custom settings. Before that, let's understand the difference between a task and a setting.
+
 An sbt task is something which can be invoked and executed each time. You can think of it like `def` in Scala.
+
 Whereas, a setting is evaluated at the start of sbt session and after that it is memoized. It is like `val` in Scala.
+
 In the similar way, we can create a setting. The only difference is that instead of `taskKey` we will use `settingKey` to define a setting:
 
 ```shell
@@ -603,12 +633,15 @@ Now, in sbt console, we can execute just `ci`. This will automatically execute t
 ## Giter Templates
 
 sbt supports quick project bootstrap using giter(g8) templates. We can just execute the command `sbt new <template>` to create a new project based on the template.
+
 By default, we can only use the templates available under the official g8 repo. However, we can also point to any custom g8 GitHub path to create the project from that template.
 
 ## Cross Build Between Different Scala Versions
 
 Scala releases are not binary compatible with each other(except the Scala 3 series). That means, we need to rebuild a library in all the supported versions for the users to use it.
+
 Doing this manually is not an easy step. sbt tries to make this easier by providing a feature to cross build between different versions.
+
 To support multiple versions, we can provide the settings as:
 
 ```scala
@@ -623,6 +656,7 @@ lazy val crossproject = (project in file("crossproject"))
 ```
 
 Notice that, we have mentioned the default version for this project as Scala 2.12 using `ThisBuild/scalaVersion`. So when we compile, it will use Scala 2.12. Since we have given the `crossScalaVersions`, we can ask sbt to compile in all supported versions.
+
 To do that, we need to add the symbol `+` before sbt command:
 
 ```shell
@@ -666,10 +700,13 @@ sbt -v -J-Xmx3600m
 ### sbt Command Alias with JVM Arguments
 
 We have seen before how to create sbt command aliases. We can create alias with passing jvm arguments.
+
 However, we need to make sure that `fork := true` is set in _build.sbt_. This setting `will ensure that sbt will start a forked jvm and apply the settings.
+
 Without a fork JVM, the jvm parameters we pass are not considered by the sbt.
 
 Let's see how to do that.
+
 Let's add the following line to _build.sbt_ after adding fork:
 
 ```text

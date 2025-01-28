@@ -131,8 +131,7 @@ broker      /etc/confluent/docker/run   Up      0.0.0.0:29092->29092/tcp,:::2909
 zookeeper   /etc/confluent/docker/run   Up      0.0.0.0:2181->2181/tcp,:::2181->2181/tcp, 2888/tcp, 3888/tcp
 ```
 
-Moreover, during the article, we will need to run some commands inside the container. To access the
-Kafka container, we will use the following command:
+Moreover, during the article, we will need to run some commands inside the container. To access the Kafka container, we will use the following command:
 
 ```shell
 docker exec -it broker bash

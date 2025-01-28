@@ -14,8 +14,7 @@ import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 Stream processing is an important requirement in modern data infrastructures. Companies now aim to leverage the power of streaming and real-time analytics in order to provide results faster to their users in order to enhance the user experience and drive business value.
 
-Examples are limitless: think of an online service that wants to provide user recommendations based on the interactions the user makes while on the webpage; or an IoT company that wants to monitor the sensor readings and in order to react on potential malfunctions; or computer vision systems that need to analyze realtime video feeds or fraud detection in banking systems; and the list
-goes on and on.
+Examples are limitless: think of an online service that wants to provide user recommendations based on the interactions the user makes while on the webpage; or an IoT company that wants to monitor the sensor readings and in order to react on potential malfunctions; or computer vision systems that need to analyze realtime video feeds or fraud detection in banking systems; and the list goes on and on.
 
 Typically, streaming data pipelines require a streaming storage layer like Apache Pulsar or Apache Kafka, and then in order to perform more sophisticated stream processing tasks we need a stream compute engine like Apache Flink or Spark Structured Streaming.
 
@@ -56,13 +55,13 @@ With Pulsar Functions you can implement common use cases on streaming data, like
 
 - Simple data aggregations, e.g. counters
 - Routing patterns:
-  - Dynamic or Content-based routing
-  - Splitter pattern
+    - Dynamic or Content-based routing
+    - Splitter pattern
 - Message Transformations:
-  - Data masking for privacy concerns
-  - Data enrichment from external systems
-  - Validation of data payloads
-  - Content filtering
+    - Data masking for privacy concerns
+    - Data enrichment from external systems
+    - Validation of data payloads
+    - Content filtering
 - Realtime Machine Learning model deployment and scoring
 
 'Lightweight' also means that Apache Pulsar is an excellent candidate for _edge analytics_ &mdash; with limited resources, devices can benefit from such a framework and analytics can truly be taken right to the data collection for simple analytical tasks like univariate/multivariate time series analysis.

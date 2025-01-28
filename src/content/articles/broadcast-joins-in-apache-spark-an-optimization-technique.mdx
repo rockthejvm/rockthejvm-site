@@ -115,8 +115,8 @@ In this query plan, we read the operations in dependency order from top to botto
 
 - The final computation of the `id` and the `medal` obtained after the join of the two DataFrames, which requires
 - A sort-merge join on the columns `id` and `id` (with different identifiers under the hash tag), which requires
-  - A sort of the big DataFrame, which comes after
-  - **A shuffle of the big DataFrame**
+    - A sort of the big DataFrame, which comes after
+    - **A shuffle of the big DataFrame**
 - And a sort + shuffle + small filter on the small DataFrame
 
 The shuffle on the big DataFrame - the one at the middle of the query plan - is required, because a join requires matching keys to stay on the same Spark executor, so Spark needs to redistribute the records by hashing the join column. This is a shuffle. But as you may already know, a shuffle is a massively expensive operation. On billions of rows it can take hours, and on more records, it'll take... more.

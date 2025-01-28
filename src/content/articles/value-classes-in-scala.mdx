@@ -211,8 +211,7 @@ val iPhone12Pro: Product = Product(iPhoneBarCode, iPhoneDescription)
 
 As we can see, the code looks like the original `Product` definition. However, we altogether avoid the runtime instantiation of the wrapper classes. Such an improvement!
 
-What about smart constructors? If we choose to use a `case class`, the library will generate the `apply` method in the companion object. If we want to avoid access to the `apply` method, we can use a `class` instead and create our smart constructor in a dedicated companion
-object:
+What about smart constructors? If we choose to use a `case class`, the library will generate the `apply` method in the companion object. If we want to avoid access to the `apply` method, we can use a `class` instead and create our smart constructor in a dedicated companion object:
 
 ```scala
 @newtype class BarCodeWithCompanion(code: String)
@@ -350,8 +349,7 @@ Hence, in the above example, the compiler diligently warns us that the two types
 [error]    |                      Not found: type BarCode
 ```
 
-Finally, we can say that the opaque type aliases seem to be the idiomatic replacement to the NewType
-library in Dotty / Scala 3. Awesome!
+Finally, we can say that the opaque type aliases seem to be the idiomatic replacement to the NewType library in Dotty / Scala 3. Awesome!
 
 ## Conclusion
 

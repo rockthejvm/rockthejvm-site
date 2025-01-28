@@ -199,20 +199,23 @@ Let's examine the `from` function line by line:
 - `s.replace('.', '0')` replaces the `.`s with `0`s to signal the lack of a digit using a value that belongs to type `Int`. Replacing `.` is necessary since we'll use [this generator](https://qqwing.com/generate.html) with "Output format: One line", getting an input value like `8...1...2.7...931.....485...2....8.91..2....3.........7...9...1.5...1.....3.7.29.` that represents the 81 digits of the board.
 - `.asRight[String]` is the first cats utility that we'll use. Defined as
 
-  ```scala
-  def asRight[B]: Either[B, A] = Right(a)
-  ```
+    ```scala
+    def asRight[B]: Either[B, A] = Right(a)
+    ```
 
-  it is an extension method over `a: A`. It wraps the value in a `Right` but requires a type argument `B` to widen the result declaration to `Either[B,A]`. This way, the result will not have type `Right[String]` but `Either[String, String]`, letting us use other utility functions defined over `Either[_,_]`.
+    it is an extension method over `a: A`. It wraps the value in a `Right` but requires a type argument `B` to widen the result declaration to `Either[B,A]`. This way, the result will not have type `Right[String]` but `Either[String, String]`, letting us use other utility functions defined over `Either[_,_]`.
 
 - `.ensure("The sudoku string doesn't contain only digits")(_.forall(_.isDigit))` uses the extension method `ensure`, a guard function that filters either in the case is a `Right` and returns the content of the first parenthesis in case of errors. Its definition (where `eab` is the extended value) is
-  ```scala
-  def ensure(onFailure: => A)(condition: B => Boolean): Either[A, B] = eab match {
-    case Left(_)  => eab
-    case Right(b) => if (condition(b)) eab else Left(onFailure)
-  }
-  ```
-  In this particular case, we use to check that all the characters in the string (`forall`) are digits (`isDigit`) otherwise, we return a `Left("The sudoku string doesn't contain only digits")` to signal the error, short-circuiting all the following validations.
+
+    ```scala
+    def ensure(onFailure: => A)(condition: B => Boolean): Either[A, B] = eab match {
+      case Left(_)  => eab
+      case Right(b) => if (condition(b)) eab else Left(onFailure)
+    }
+    ```
+
+    In this particular case, we use to check that all the characters in the string (`forall`) are digits (`isDigit`) otherwise, we return a `Left("The sudoku string doesn't contain only digits")` to signal the error, short-circuiting all the following validations.
+
 - `.map(_.toVector.map(_.asDigit))` maps over the `Either[String,String]` to transform its content (when it's a `Right`) and then we map every `Char` into an `Int` `map`ping over the vector.[^1]
 - Using the same `ensure` function we check that the string has the correct length
 - Finally, we map the `Either[String, Vector[Int]]` into an `Either[String, Sudoku]` calling `Sudoku`'s constructor, that here in the companion object is accessible.
@@ -580,6 +583,7 @@ $ scala-cli run . -- "4835912679572684316214738958791326541649853722356479187923
 ```
 
 Every argument that we will decide to support in the future will be documented in the `--help` output of our application.
+
 To solve the passed sudoku we must call the `solve` method on it and print both the success and failure cases to stdout and stderr, respectively.
 
 ```scala
