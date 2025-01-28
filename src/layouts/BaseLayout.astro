@@ -2,6 +2,7 @@
 import AffiliateScript from "@components/scripts/AffiliateScript.astro";
 import "@styles/base.css";
 import "@styles/fonts.css";
+import type { CollectionEntry } from "astro:content";
 import CookieBanner from "../components/CookieBanner";
 import Footer from "../components/Footer.astro";
 import Head from "../components/Head.astro";
@@ -15,6 +16,7 @@ interface Props {
       twitter?: string;
     };
     minutesRead: number;
+    photo: CollectionEntry<"authors">["data"]["photo"];
     publishedTime: Date;
     section: string;
     tags: string[];

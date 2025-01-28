@@ -2,6 +2,7 @@
 import ArticleMetaImage from "@components/ArticleMetaImage.astro";
 import ThemeScript from "@components/scripts/ThemeScript.astro";
 import site from "@data/site.json";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
   article?: {
@@ -10,6 +11,7 @@ interface Props {
       twitter?: string;
     };
     minutesRead: number;
+    photo: CollectionEntry<"authors">["data"]["photo"];
     publishedTime: Date;
     section: string;
     tags: string[];
@@ -149,7 +151,7 @@ const image = {
         {article ? (
           <ArticleMetaImage
             authorName={article.author.name}
-            authorImage="TEST_IMAGE"
+            authorImage={article.photo.src}
             {title}
             minutesRead={article.minutesRead}
             date={article.updatedTime ?? article.publishedTime}

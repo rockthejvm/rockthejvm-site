@@ -75,10 +75,11 @@ const structuredData = JSON.stringify({
       twitter: author.data.socials?.twitter,
     },
     minutesRead,
-    updatedTime: updatedDate,
+    photo: author.data.photo,
     publishedTime: publishedDate,
     section: "Programming",
     tags: tags.map((tag) => tag.id),
+    updatedTime: updatedDate,
     // video: video?.data.canonicalUrl
     //   ? new URL(video.data.canonicalUrl)
     //   : undefined,
