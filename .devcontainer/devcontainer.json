@@ -1,9 +1,9 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04",
+  "image": "mcr.microsoft.com/devcontainers/base:1-ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers/features/git-lfs:1": {},
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "20"
+      "version": "22"
     }
   },
   "customizations": {
