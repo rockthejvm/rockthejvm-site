@@ -61,6 +61,7 @@ lint:
     - markdownlint
 actions:
   enabled:
+    - astro-check
     - git-lfs
     - pnpm-install
     - trunk-check-pre-push-always
@@ -72,6 +73,11 @@ actions:
       run: pnpm install
     - id: trunk-check-pre-push-always
       run: trunk check --fix -t git-push --commit-ref-from-pre-push '${hook_stdin_path}'
+    - id: astro-check
+      triggers:
+        - git_hooks:
+            - pre-push
+      run: npx astro check
   disabled:
     - trunk-announce
     - trunk-check-pre-push
