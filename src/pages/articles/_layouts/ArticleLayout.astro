@@ -21,7 +21,7 @@ import NewsletterSection from "../_components/NewsletterSection.astro";
 interface Props {
   article: CollectionEntry<"articles">;
   headings: MarkdownHeading[];
-  minutesRead?: number;
+  minutesRead: number;
 }
 
 const { article, headings, minutesRead } = Astro.props;
@@ -74,6 +74,7 @@ const structuredData = JSON.stringify({
       // add a twitter username if available
       twitter: author.data.socials?.twitter,
     },
+    minutesRead,
     updatedTime: updatedDate,
     publishedTime: publishedDate,
     section: "Programming",
