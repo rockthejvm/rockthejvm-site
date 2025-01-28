@@ -26,7 +26,6 @@ lint:
     - svgo@3.3.2
     - taplo@0.9.3
     - trufflehog@3.88.1
-    - vale@3.9.3
     - yamllint@1.35.1
   definitions:
     - name: biome
@@ -75,7 +74,9 @@ lint:
         - "**/{,*-,*.}{lock,lockfile}{,-*,.*}"
         - "**/{CHANGELOG,LICENSE,LEGAL}{,.*}"
   disabled:
+    - markdown-table-prettify
     - markdownlint
+    - vale
 actions:
   enabled:
     - astro-check
