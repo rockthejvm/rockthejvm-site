@@ -95,6 +95,7 @@ export default defineCollection({
         isFree: z.boolean().default(false),
         isNew: z.boolean().default(false),
         pricingPlanId: z.number().int().positive(),
+        publishedDate: z.date(),
         question: z
           .object({
             image: image(),
