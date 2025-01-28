@@ -57,10 +57,14 @@ lint:
   disabled:
     - markdownlint
 actions:
+  enabled:
+    - trunk-check-pre-push-always
+    - git-lfs
+    - trunk-fmt-pre-commit
+  definitions:
+    - id: trunk-check-pre-push-always
+      run: trunk check --fix -t git-push --commit-ref-from-pre-push '${hook_stdin_path}'
   disabled:
+    - trunk-check-pre-push
     - trunk-announce
     - trunk-upgrade-available
-  enabled:
-    - git-lfs
-    - trunk-check-pre-push
-    - trunk-fmt-pre-commit
