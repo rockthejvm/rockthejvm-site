@@ -169,11 +169,17 @@ The first part is the groupId of the library. The second part is the library nam
 
 Scala is not binary compatible with different versions (such as 2.11, 2.12, 2.13 etc) except for Scala 3 series. Hence there are separate releases for each Scala libraries for each required versions. %% symbol ensures that sbt uses the same Scala version of library as the project.
 
-That means sbt will automatically append the Scala version of the project before trying to find the library. The above dependency code is equivalent to the following format(notice that a single `%` is used, but artifact id contains the Scala major version):
+That means sbt will automatically append the Scala version of the project before trying to find the library. The above dependency code is equivalent to the following format:
 
 ```text
 libraryDependencies += "com.lihaoyi" % "fansi_2.13" % "0.4.0"
 ```
+
+:::note
+
+Notice that a single `%` is used, but artifact id contains the Scala major version.
+
+:::
 
 sbt also has triple % symbol (%%%), which is used to resolve ScalaJS libraries.
 

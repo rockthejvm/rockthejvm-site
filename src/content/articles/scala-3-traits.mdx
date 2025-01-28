@@ -96,7 +96,11 @@ object Green extends Color with Paintable
 object Blue extends Color with Paintable
 ```
 
-(Notice we did not make them `case object`s for brevity. We'll come back to it.)
+:::note
+
+Notice we did not make them `case object`s for brevity. We'll come back to it.
+
+:::
 
 Assume further that the trait `Paintable` is rarely used as a standalone trait, but rather as an auxiliary trait in our library definitions. In this case, if we were to say
 
