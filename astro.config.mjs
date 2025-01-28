@@ -2,12 +2,15 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import sectionize from "@hbsnow/rehype-sectionize";
+import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import pagefind from "astro-pagefind";
+import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig } from "astro/config";
-
-import expressiveCode from "astro-expressive-code";
+import remarkDirective from "remark-directive";
 
 export default defineConfig({
   site: "https://rockthejvm.com",
@@ -29,7 +32,16 @@ export default defineConfig({
         heroicons: ["computer-desktop", "magnifying-glass", "moon", "sun"],
       },
     }),
-    expressiveCode(), // Must come before mdx
+    expressiveCode({
+      themes: ["github-dark-default", "github-light-default"],
+      plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
+      defaultProps: {
+        wrap: true,
+        overridesByLang: {
+          "shell,sh,bash,ps": { preserveIndent: false, showLineNumbers: false },
+        },
+      },
+    }), // Must come before mdx
     mdx(),
     tailwind({
       applyBaseStyles: false,
@@ -40,7 +52,7 @@ export default defineConfig({
     pagefind(), // Should be last
   ],
   markdown: {
-    remarkPlugins: [],
+    remarkPlugins: [remarkDirective, astroStarlightRemarkAsides],
     rehypePlugins: [sectionize],
     shikiConfig: {
       themes: {
