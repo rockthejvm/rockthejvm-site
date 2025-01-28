@@ -24,7 +24,7 @@
         "noUnusedFunctionParameters": "error",
         "noUnusedImports": "off", // Disabled because it does not handle Astro imports properly
         "noUnusedPrivateClassMembers": "error",
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "off" // Disabled because it does not work with Astro
       },
       "nursery": {
         "useSortedClasses": "error"
