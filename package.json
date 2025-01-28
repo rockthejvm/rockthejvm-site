@@ -24,6 +24,7 @@
     "@types/react-dom": "^18.3.5",
     "astro": "^4.16.18",
     "astro-embed": "^0.7.4",
+    "astro-expressive-code": "^0.40.1",
     "astro-icon": "^1.1.5",
     "astro-pagefind": "^1.8.0",
     "js-cookie": "^3.0.5",
