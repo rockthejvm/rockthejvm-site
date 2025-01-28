@@ -6,9 +6,7 @@
 
 You only need to have NPM installed on your machine.
 
-On first clone, run `npm install`.
-To run the website locally, run `npm run dev`, then open `http://localhost:4321`.
-The bundler will run incremental compilation as you make changes.
+On first clone, run `npm install`. To run the website locally, run `npm run dev`, then open `http://localhost:4321`. The bundler will run incremental compilation as you make changes.
 
 ## How to contribute
 

@@ -29,15 +29,15 @@ Here's an example of a YAML file of a long-time contributor on the blog:
 ```yaml
 biography: A proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin.
 location:
-  city: Padua
-  country: Italy
+    city: Padua
+    country: Italy
 name: Riccardo Cardin
 photo: ./riccardo-cardin.png
 socials:
-  github: rcardin
-  linkedin: riccardocardin
-  twitter: "@riccardo_cardin"
-  website: https://blog.rcard.in
+    github: rcardin
+    linkedin: riccardocardin
+    twitter: "@riccardo_cardin"
+    website: https://blog.rcard.in
 ```
 
 ## How to write
@@ -139,8 +139,8 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 ## Links
 
 - Internal links should be root relative
-  - `(/articles/...)` for articles
-  - `(/images/...)` for images
+    - `(/articles/...)` for articles
+    - `(/images/...)` for images
 
 ## Images
 
@@ -155,7 +155,7 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 ### Headings
 
 - Heading should start with `##`
-  - `#` is reserved for the article title
+    - `#` is reserved for the article title
 - All headings should be written in title case
 - Headings should not end with a period
 - Headings should never start with a number
@@ -179,7 +179,7 @@ and then insert your admonition tag wherever you want in the article:
 
 ```javascript
 <NoteAdmonition>
-  This is my note. Make note of it, or I will make note of you.
+    This is my note. Make note of it, or I will make note of you.
 </NoteAdmonition>
 ```
 
