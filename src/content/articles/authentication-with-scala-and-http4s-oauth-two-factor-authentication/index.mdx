@@ -877,7 +877,7 @@ val routes: HttpRoutes[IO] =
           }
           .handleErrorWith { ex =>
             logger.error(s"Verification Error: ${ex.getMessage}") *>
-            Ok("An error occured during verification")
+            Ok("An error occurred during verification")
           }
     }
 ```
@@ -979,7 +979,7 @@ object OtpAuth extends IOApp {
           }
           .handleErrorWith { ex =>
             logger.error(s"Verification Error: ${ex.getMessage}") *>
-              Ok("An error occured during verification")
+              Ok("An error occurred during verification")
           }
     }
 

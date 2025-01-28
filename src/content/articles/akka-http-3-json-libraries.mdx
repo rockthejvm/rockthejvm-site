@@ -164,7 +164,7 @@ $ curl \
 
 ## circe
 
-The [circe](https://github.com/circe/circe) library is very popular within the Typelevel ecosystem. However, it only works well with the Typelevel libraries, so porting it to Akka HTTP is not straightforward. Thankfully, Heiko Seeberger created this [cute repo of JSON libraries](https://github.com/hseeberger/akka-http-json) for Akka HTTP, just in case Spray-json is not enough for you. You can also dive into the code of the libraries, it's not that long - just a few implicit wrappers over the given functionality of circe (and other JSON libraries). The JSON libray support for circe ships in its own distribution, so you'll need to add
+The [circe](https://github.com/circe/circe) library is very popular within the Typelevel ecosystem. However, it only works well with the Typelevel libraries, so porting it to Akka HTTP is not straightforward. Thankfully, Heiko Seeberger created this [cute repo of JSON libraries](https://github.com/hseeberger/akka-http-json) for Akka HTTP, just in case Spray-json is not enough for you. You can also dive into the code of the libraries, it's not that long - just a few implicit wrappers over the given functionality of circe (and other JSON libraries). The JSON library support for circe ships in its own distribution, so you'll need to add
 
 ```scala
 val akkaHttpJsonSerializersVersion = "1.34.0"

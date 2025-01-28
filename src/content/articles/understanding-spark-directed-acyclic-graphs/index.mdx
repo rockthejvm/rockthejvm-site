@@ -61,7 +61,7 @@ Same operation first, but the next step is an Exchange, which is another name fo
   Whenever you see Exchange in a DAG, that's a performance bottleneck.
 </TipAdmonition>
 
-Also notice that after this shuffle, the next steps of the DAG are on another "column", it's like another vertical sequence started. This is a _stage_. After every Exchange will follow another stage. Exchanges (aka shuffles) are the operations tha happen in between stages. This is how Spark decomposes a job into stages.
+Also notice that after this shuffle, the next steps of the DAG are on another "column", it's like another vertical sequence started. This is a _stage_. After every Exchange will follow another stage. Exchanges (aka shuffles) are the operations that happen in between stages. This is how Spark decomposes a job into stages.
 
 Let's do one more, this time make it complex:
 

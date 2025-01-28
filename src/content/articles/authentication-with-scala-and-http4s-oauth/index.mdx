@@ -323,7 +323,7 @@ object OauthImpl{
   coming section.
 </CautionAdmonition>
 
-Since this function is polymorphic in `F`, we'll need to bind an implicit `Async` from cats effect for this function to work. All the functions in this application will be polymoprhic in `F` to allow for the use of any effect type, not necessarily `IO`.
+Since this function is polymorphic in `F`, we'll need to bind an implicit `Async` from cats effect for this function to work. All the functions in this application will be polymorphic in `F` to allow for the use of any effect type, not necessarily `IO`.
 
 ```scala
 // ...

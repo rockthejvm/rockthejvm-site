@@ -343,7 +343,7 @@ def getActorsByMovie(movieId: Long): Future[Seq[Actor]] = {
 }
 ```
 
-The above join operation returns a tuple of both the table results as a _Query_ type. We can then transform the query in the way we want before exeucting it. Her we are applying _map_ and returning only the _Actor_ table results and discarding the other one.
+The above join operation returns a tuple of both the table results as a _Query_ type. We can then transform the query in the way we want before executing it. Her we are applying _map_ and returning only the _Actor_ table results and discarding the other one.
 
 Apart from this, Slick also provide methods for left and right outer joins as well using _joinLeft_ and _joinRight_ combinators.
 
@@ -490,7 +490,7 @@ val locations: List[String] = List("USA", "Germany")
 val query = SpecialTables.movieLocationsTable.filter(_.locations @& locations.bind)
 ```
 
-The operator `@&` will return true if there is an overlap between the input list and the database column. That means, if there is atleast one common item between the column value and input list, it will return true.
+The operator `@&` will return true if there is an overlap between the input list and the database column. That means, if there is at least one common item between the column value and input list, it will return true.
 
 For example, assume that the database column has the countries as `[USA, Canada, Mexico]`. The above query will match and return true since _USA_ is a common value in the input `[USA, Germany]`. The method `bind` will convert the literal value into a database bind type. Bind parameters helps the database to improve the query performance by using pre-compiled prepared queries instead of re-creating separate queries each time.
 

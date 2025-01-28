@@ -164,7 +164,7 @@ Is equivalent (up to field names) to this tuple type:
 (Email, Phone, Address)
 ```
 
-And if we squint even a bit further, tuples are somewhat similar to lists, with the key difference that types of the elements can be different (heterogenous). To tie this all up in a nice package, Scala 3 provides us with list-like operations on tuples directly[^hlist]. Of course, since tuples are not actually lists, the way we work with them will be different, but keep the list analogy in mind as we go on to manipulate tuples in creative ways.
+And if we squint even a bit further, tuples are somewhat similar to lists, with the key difference that types of the elements can be different (heterogeneous). To tie this all up in a nice package, Scala 3 provides us with list-like operations on tuples directly[^hlist]. Of course, since tuples are not actually lists, the way we work with them will be different, but keep the list analogy in mind as we go on to manipulate tuples in creative ways.
 
 [^hlist]: Similar to the functionality of the `HList` type in the [Shapeless](https://github.com/milessabin/shapeless) library for Scala 2.
 
@@ -692,7 +692,7 @@ type MirroredElemTypes = (Email, Phone, Address)
 
 This is exactly the representation of the `User` type as tuple of its field types. And so, this is the tuple type that we will iterate on. Additionally, the `Mirror` provides us with utilities to convert `User` to/from tuples, which we will use later on.
 
-But there's a wrinkle, perviously, when we iterated over a tuple, we had a tuple **value**, something concrete that we actually operate on at runtime. Here, on the other hand, all we have is a tuple **type**? What can we possibly do with just a type?
+But there's a wrinkle, previously, when we iterated over a tuple, we had a tuple **value**, something concrete that we actually operate on at runtime. Here, on the other hand, all we have is a tuple **type**? What can we possibly do with just a type?
 
 ### Erased Values
 
