@@ -1,18 +1,18 @@
 ---
 interface Props {
-  authorName: string;
   authorImage: string;
-  title: string;
-  minutesRead: number;
-  date: Date;
+  authorName: string;
   category: string;
+  date: Date;
+  minutesRead: number;
   tags: string[];
+  title: string;
 }
 
 type URIComponent = string | number | boolean;
 
 const _props = Astro.props;
-const _params: URIComponent[] = {
+const _params: Record<string, URIComponent> = {
   ..._props,
   date: _props.date.toISOString(),
   tags: _props.tags.join(","),
