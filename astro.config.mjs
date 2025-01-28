@@ -38,7 +38,10 @@ export default defineConfig({
       defaultProps: {
         wrap: true,
         overridesByLang: {
-          "shell,sh,bash,ps": { preserveIndent: false, showLineNumbers: false },
+          "shell,sh,bash,ps,zsh": {
+            preserveIndent: false,
+            showLineNumbers: false,
+          },
         },
       },
     }), // Must come before mdx
