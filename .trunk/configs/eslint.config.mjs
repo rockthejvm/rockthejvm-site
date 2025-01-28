@@ -1,6 +1,5 @@
 // @ts-check
 
-// import effect from "@effect/eslint-plugin";
 import js from "@eslint/js";
 import astro from "eslint-plugin-astro";
 import * as mdx from "eslint-plugin-mdx";
@@ -16,7 +15,6 @@ export default ts.config(
   ...tailwind.configs["flat/recommended"],
   ...astro.configs.recommended,
   ...astro.configs["jsx-a11y-strict"],
-  // ...effect.configs.recommended,
   {
     languageOptions: {
       globals: {
