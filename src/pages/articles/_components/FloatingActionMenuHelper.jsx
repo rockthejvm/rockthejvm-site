@@ -40,16 +40,18 @@ export default function Example(props) {
       )}
       <div className="absolute bottom-5 mt-2 grid w-full grid-cols-2 gap-x-4">
         <button
+          type="button"
           onClick={handleTocToggle}
           className="col-span-1 ml-4 h-10 rounded-md border border-content px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           Table of Contents
-        </button>
-        <button
-          onClick={handleShareToggle}
-          className="col-span-1 mr-4 h-10 rounded-md border border-content px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-        >
-          Share
+          <button
+            type="button"
+            onClick={handleShareToggle}
+            className="col-span-1 mr-4 h-10 rounded-md border border-content px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Share
+          </button>
         </button>
       </div>
     </div>

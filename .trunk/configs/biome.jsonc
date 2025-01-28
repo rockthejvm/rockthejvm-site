@@ -13,6 +13,10 @@
   },
   "linter": {
     "rules": {
+      "style": {
+        "useSelfClosingElements": "off", // Causes issues with SVGs
+        "noNonNullAssertion": "off"
+      },
       "complexity": {
         "noExcessiveCognitiveComplexity": "error",
         "noUselessStringConcat": "error",
@@ -27,7 +31,7 @@
         "noUnusedVariables": "off" // Disabled because it does not work with Astro
       },
       "nursery": {
-        "useSortedClasses": "error"
+        "useSortedClasses": "off" // Disabled because it does not currently work
       },
       "suspicious": {
         "noConsole": "error"
