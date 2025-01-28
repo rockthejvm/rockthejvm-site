@@ -34,6 +34,13 @@ lint:
         - name: fmt
           run: biome check --fix "${target}"
           success_codes: [0, 1]
+      files:
+        - astro
+        - css
+        - graphql
+        - javascript
+        - json
+        - typescript
     - name: prettier
       files:
         - astro
