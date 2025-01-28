@@ -7,3 +7,4 @@ no-duplicate-heading:
   siblings_only: true
 no-inline-html: false
 no-trailing-punctuation: false
+no-space-in-emphasis: false # Required to allow comments in MDX files
