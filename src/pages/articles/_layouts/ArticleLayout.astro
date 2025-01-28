@@ -10,7 +10,7 @@ import site from "@data/site.json";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
-import { getEntries, getEntry } from "astro:content";
+import { getEntries, getEntry, z } from "astro:content";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Byline from "../../../components/Byline.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
@@ -23,12 +23,12 @@ import NewsletterSection from "../_components/NewsletterSection.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
-  articles: CollectionEntry<"articles">[];
+  allArticles: CollectionEntry<"articles">[];
   headings: MarkdownHeading[];
   minutesRead?: number;
 }
 
-const { article, articles, headings, minutesRead } = Astro.props;
+const { article, allArticles, headings, minutesRead } = Astro.props;
 const frontmatter = article.data;
 const {
   canonicalUrl,
@@ -70,21 +70,33 @@ const structuredData = JSON.stringify({
   image: heroImage?.image.src,
 });
 
-// Ignore type errors when matchedArticles is blank
-// @ts-ignore
-const matches = matchedArticles.all_matches.filter(
-  // @ts-ignore
+const ArticleMatchSchema = z.object({
+  all_matches: z.array(
+    z.object({
+      matched_slug: z.string(),
+      similarity: z.number(),
+      source_slug: z.string(),
+    }),
+  ),
+});
+
+const matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
+
+if (!matchedArticlesDataResult.success) {
+  throw new Error("Failed to parse matched articles data");
+}
+
+const matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
+  matchedArticlesDataResult.data;
+
+const matches = matchedArticlesData.all_matches.filter(
   (match) => match.source_slug === article.slug,
 );
-// @ts-ignore
+
 matches.sort((a, b) => b.similarity - a.similarity);
 
-// @ts-ignore
-const relatedArticles: CollectionEntry<"articles">[] = matches.map((match) =>
-  // @ts-ignore
-  (articles as CollectionEntry<"articles">[]).find(
-    (article) => article.slug === match.matched_slug,
-  ),
+const relatedArticles = matches.map((match) =>
+  allArticles.find((article) => article.slug === match.matched_slug),
 );
 ---
 
@@ -187,31 +199,31 @@ const relatedArticles: CollectionEntry<"articles">[] = matches.map((match) =>
               {relatedArticles.length >= 1 && (
                 <ArticlePreview
                   slot="firstArticle"
-                  article={relatedArticles[0]}
+                  article={relatedArticles[0]!}
                 />
               )}
               {relatedArticles.length >= 2 && (
                 <ArticlePreview
                   slot="secondArticle"
-                  article={relatedArticles[1]}
+                  article={relatedArticles[1]!}
                 />
               )}
               {relatedArticles.length >= 3 && (
                 <ArticlePreview
                   slot="thirdArticle"
-                  article={relatedArticles[2]}
+                  article={relatedArticles[2]!}
                 />
               )}
               {relatedArticles.length >= 4 && (
                 <ArticlePreview
                   slot="fourthArticle"
-                  article={relatedArticles[3]}
+                  article={relatedArticles[3]!}
                 />
               )}
               {relatedArticles.length >= 5 && (
                 <ArticlePreview
                   slot="fifthArticle"
-                  article={relatedArticles[4]}
+                  article={relatedArticles[4]!}
                 />
               )}
             </RelatedArticles>

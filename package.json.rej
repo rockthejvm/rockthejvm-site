@@ -1,0 +1,9 @@
+diff a/package.json b/package.json	(rejected hunks)
+@@ -32,6 +32,7 @@
+     "effect": "^3.10.13",
+     "embla-carousel-react": "^8.5.1",
+     "fp-ts": "^2.16.9",
++    "gray-matter": "^4.0.3",
+     "lucide-react": "^0.469.0",
+     "mdast-util-to-string": "^4.0.0",
+     "react": "^18.3.1",
