@@ -1,4 +1,3 @@
-import { unique } from "@utils/unique";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
@@ -95,7 +94,7 @@ export default defineCollection({
         isFree: z.boolean().default(false),
         isNew: z.boolean().default(false),
         pricingPlanId: z.number().int().positive(),
-        publishedDate: z.date(),
+        publishedDate: z.date().optional(),
         question: z
           .object({
             image: image(),
@@ -103,13 +102,11 @@ export default defineCollection({
           })
           .strict()
           .optional(),
-        tags: unique(
-          z
-            .array(reference("tags"))
-            .min(1, "Course must have at least one tag")
-            .max(10, "Course must have at most ten tags"),
-          "tags",
-        ),
+        tags: z
+          .array(reference("tags"))
+          .min(1, "Course must have at least one tag")
+          .max(10, "Course must have at most ten tags")
+          .optional(),
         technologies: z
           .array(
             z
@@ -165,7 +162,30 @@ export default defineCollection({
         },
       )
       .refine(
-        (data) => !data.updatedDate || data.updatedDate >= data.publishedDate,
+        (data) =>
+          (data.publishedDate && !data.bundledCourses) ||
+          (!data.publishedDate && !data.updatedDate && data.bundledCourses),
+        {
+          message:
+            "Either publishedDate/updatedDate or bundledCourses must be provided, but not both",
+          path: ["publishedDate", "updatedDate", "bundledCourses"],
+        },
+      )
+      .refine(
+        (data) =>
+          (data.tags && !data.bundledCourses) ||
+          (!data.tags && data.bundledCourses),
+        {
+          message:
+            "Either tags or bundledCourses must be provided, but not both",
+          path: ["tags", "bundledCourses"],
+        },
+      )
+      .refine(
+        (data) =>
+          !data.publishedDate ||
+          !data.updatedDate ||
+          data.updatedDate >= data.publishedDate,
         {
           message: "Updated date must be on or after the published date",
         },

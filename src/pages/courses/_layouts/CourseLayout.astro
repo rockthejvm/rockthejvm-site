@@ -48,7 +48,7 @@ const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
       : [],
   ],
 );
-const tags = await getEntries(_frontmatter.tags);
+const tags = await getEntries(_frontmatter.tags ?? []);
 const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
   includedInMembership,
