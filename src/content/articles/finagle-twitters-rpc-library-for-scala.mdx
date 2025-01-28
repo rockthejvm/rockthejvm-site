@@ -8,8 +8,6 @@ title: "Finagle: Twitter's RPC Library for Scala"
 videoId: EbWuiURnScw
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for Scala developers of all levels - you don't need any fancy Scala knowledge to make the best out of this piece.
@@ -47,15 +45,11 @@ That's it. A Service is a function that takes in an argument and returns a resul
 
 This is the single most powerful concept in Finagle.
 
-<NoteAdmonition>
-  The `Future` type we use in this signature is Twitter's own `Future` type, not
-  that from `scala.concurrent`. It has the same semantics and similar
-  transformers (e.g. `map`, `flatMap`, for-comprehensions, `onComplete`) as the
-  built-in one. If you're wondering why Twitter isn't using the
-  `scala.concurrent` version, it's because Twitter's Future is older than
-  Scala's Future. It's no exaggeration that some Twitter packages inspired
-  what's now in the Scala standard library.
-</NoteAdmonition>
+:::note
+
+The `Future` type we use in this signature is Twitter's own `Future` type, not that from `scala.concurrent`. It has the same semantics and similar transformers (e.g. `map`, `flatMap`, for-comprehensions, `onComplete`) as the built-in one. If you're wondering why Twitter isn't using the `scala.concurrent` version, it's because Twitter's Future is older than Scala's Future. It's no exaggeration that some Twitter packages inspired what's now in the Scala standard library.
+
+:::
 
 ## HTTP Services and Clients
 
@@ -118,10 +112,11 @@ object SimpleClient {
 
 Through `Http.newService(...)` we abstract away a Service, which we can now invoke like a function, _locally_, while the response is actually fetched from the other system. This is what makes Finagle an RPC system. Running this `SimpleClient` application will print the same value as the shell example.
 
-<NoteAdmonition>
-  Notice how Futures can be handled by supplying callback _lambdas_, much like
-  we now do with the Scala standard Futures.
-</NoteAdmonition>
+:::note
+
+Notice how Futures can be handled by supplying callback _lambdas_, much like we now do with the Scala standard Futures.
+
+:::
 
 ## Filters
 

@@ -6,8 +6,6 @@ tags: [scala, scala-3]
 title: "Scala 3: Given and Using Clauses"
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Who This Article Is For
 
 If you're starting out directly on Scala 3, or you're a Scala 2 developer without too much experience with implicits, this one is for you. If you happen to know how implicits work, that'll only be a plus.
@@ -109,14 +107,15 @@ which would make it explicit and easy to track down. Alternatively, if we wanted
 import StandardValues.{given Ordering[Person]}
 ```
 
-<TipAdmonition>
+:::tip
+
 The regular wildcard import `import StandardValues._` would import all definitions _except_ given instances. If we want to bring all given values in scope, we could write:
 
 ```scala
 import StandardValues.{given _}
 ```
 
-</TipAdmonition>
+:::
 
 ## Deriving Givens
 

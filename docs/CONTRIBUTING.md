@@ -169,18 +169,14 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 
 ## How to Use
 
-After frontmatter, add this import
+After the frontmatter, insert your [admonition tag](https://github.com/OliverSpeir/astro-starlight-remark-asides) wherever you want in the article (keep newlines between the admonition and the content):
 
-```javascript
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-```
+```md
+:::<note|tip|caution|danger|success>[optional title]
 
-and then insert your admonition tag wherever you want in the article:
+This is my note. Make note of it, or I will make note of you.
 
-```javascript
-<NoteAdmonition>
-    This is my note. Make note of it, or I will make note of you.
-</NoteAdmonition>
+:::
 ```
 
 ### When to Use

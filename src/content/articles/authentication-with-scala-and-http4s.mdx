@@ -9,21 +9,15 @@ updatedDate: 2023-06-06
 videoId: DxZIuvSDvyA
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
-
 ## Introduction
 
 As a backend developer, authentication is a topic you will encounter numerous times in your career. With numerous authentication methods available, it becomes a challenge not only to choose but also to implement in your application. In this article, we will go through 4 authentication methods and how to implement them in Scala using the http4s library namely, Basic Authentication, Digest Authentication, Session Authentication, and Token Authentication.
 
-<NoteAdmonition>
-  Hey, it's Daniel here. You're reading a big article about the http4s library.
-  http4s is one of the most powerful libraries in the Scala ecosystem, and it's
-  part of the Typelevel stack. If you want to master the Typelevel Scala
-  libraries with real-life practice, check out the [Typelevel Rite of
-  Passage](/courses/typelevel-rite-of-passage) course, a full-stack
-  project-based course. It's my biggest and most jam-packed course yet.
-</NoteAdmonition>
+:::note
+
+Hey, it's Daniel here. You're reading a big article about the http4s library. http4s is one of the most powerful libraries in the Scala ecosystem, and it's part of the Typelevel stack. If you want to master the Typelevel Scala libraries with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
+
+:::
 
 ### Prerequisites
 
@@ -560,14 +554,15 @@ def setToken(user: String, date: String):String =
    Base64.getEncoder.encodeToString(s"${user}:{$today}".getBytes(StandardCharsets.UTF_8))
 ```
 
-<WarningAdmonition>
+:::danger
+
 Do not use this exact encoding in production!
 
 This example is for illustration to ease understanding. Base64 is easily deciphered, and an attacker can easily impersonate someone by knowing their username and a rough time when the server was started.
 
 For true security, such tokens should be signed by a private key. Look [here](https://http4s.org/v1/docs/auth.html#cookies) for more info.
 
-</WarningAdmonition>
+:::
 
 Here we create the unique code or token using the `setToken` function which takes a username as `user` and a date computed by `LocalDateTime.now().toString()`, these values are then combined and encoded using Java's `Base64` utility.
 

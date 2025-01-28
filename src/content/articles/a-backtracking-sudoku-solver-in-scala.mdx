@@ -8,9 +8,6 @@ title: A Backtracking Sudoku Solver in Scala
 videoId: zBLCbqycVzw
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for Scala beginners. After you learn the language, the next big thing you need to master is how to write essential "algorithms" in Scala. As you can probably tell and as senior developers will no doubt tell you, the mindset that comes with the Scala language is very different from what we're usually taught in school, or in programming tutorials. This tends to make algorithms in Scala quite difficult.
@@ -19,19 +16,17 @@ This article is for Scala beginners. After you learn the language, the next big 
 
 This article will show you how to _think_ such "algorithmic" problems with recursion, with a famous example: a Sudoku solver in Scala.
 
-<NoteAdmonition>
-  This article works identically for Scala 2 and Scala 3. In fact, the
-  techniques are applicable to all other languages, including Java, Python,
-  Kotlin and others. All you need is recursion.
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  If you want to master this mindset for Google-style algorithms questions,
-  check out the [Scala & FP interview practice
-  course](/courses/scala-and-functional-programming-interview-practice). It's a
-  long-form, 15-hour course that will take you through all the essential data
-  structures and algorithms, taken in a functional style with Scala.
-</TipAdmonition>
+This article works identically for Scala 2 and Scala 3. In fact, the techniques are applicable to all other languages, including Java, Python, Kotlin and others. All you need is recursion.
+
+:::
+
+:::tip
+
+If you want to master this mindset for Google-style algorithms questions, check out the [Scala & FP interview practice course](/courses/scala-and-functional-programming-interview-practice). It's a long-form, 15-hour course that will take you through all the essential data structures and algorithms, taken in a functional style with Scala.
+
+:::
 
 ## The Sudoku Problem
 
