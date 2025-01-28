@@ -12,7 +12,7 @@ export default defineCollection({
           .string()
           .max(200, "Description must be at most 200 characters")
           .optional(),
-        difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+        difficulty: z.enum(["beginner", "intermediate", "advanced", "burn"]),
         excerpt: z.string().refine((excerpt) => !excerpt.endsWith("."), {
           message: "Excerpt must not end with a period",
         }),
