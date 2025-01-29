@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "astro build",
+    "build": "npx astro check --minimumFailingSeverity error && astro build",
     "dev": "astro dev",
     "preview": "astro preview",
     "start": "astro dev"

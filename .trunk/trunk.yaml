@@ -74,7 +74,7 @@ lint:
     - vale
 actions:
   enabled:
-    - astro-check
+    # - astro-check
     - git-lfs
     - pnpm-install
     - trunk-check-pre-push-always
