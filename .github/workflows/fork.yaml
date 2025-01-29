@@ -1,0 +1,16 @@
+name: Fork
+on:
+  workflow_run:
+    workflows: ["Pull Request"]
+    types: [completed]
+jobs:
+  trunk_check:
+    name: Trunk Code Quality Annotate
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+        with:
+          post-annotations: true
