@@ -30,7 +30,7 @@
         "noUnusedVariables": "error"
       },
       "nursery": {
-        "useSortedClasses": "error"
+        "useSortedClasses": "off" // Not currently working
       },
       "suspicious": {
         "noConsole": "error"
