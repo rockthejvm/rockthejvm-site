@@ -14,7 +14,6 @@
   "linter": {
     "rules": {
       "style": {
-        "useSelfClosingElements": "off", // Causes issues with SVGs
         "noNonNullAssertion": "off"
       },
       "complexity": {
@@ -26,12 +25,12 @@
       },
       "correctness": {
         "noUnusedFunctionParameters": "error",
-        "noUnusedImports": "off", // Disabled because it does not handle Astro imports properly
+        "noUnusedImports": "error",
         "noUnusedPrivateClassMembers": "error",
-        "noUnusedVariables": "off" // Disabled because it does not work with Astro
+        "noUnusedVariables": "error"
       },
       "nursery": {
-        "useSortedClasses": "off" // Disabled because it does not currently work
+        "useSortedClasses": "error"
       },
       "suspicious": {
         "noConsole": "error"
@@ -40,20 +39,8 @@
   },
   "javascript": {
     "formatter": {
-      "semicolons": "always" // Required to prevent issues with Astro Check
+      "arrowParentheses": "asNeeded",
+      "semicolons": "asNeeded"
     }
-  },
-  "overrides": [
-    {
-      "include": ["*.svelte", "*.astro", "*.vue"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useConst": "off",
-            "useImportType": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }

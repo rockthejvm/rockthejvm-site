@@ -16,7 +16,7 @@ export default {
     },
   ],
   astroAllowShorthand: true,
-  astroSkipFrontmatter: true,
+  // astroSkipFrontmatter: true,
   printWidth: 80,
   proseWrap: "never",
 };

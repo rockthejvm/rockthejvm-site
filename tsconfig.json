@@ -20,7 +20,7 @@
     "jsxImportSource": "react",
     "exactOptionalPropertyTypes": false
   },
-  "include": ["src/**/*"],
+  // "include": ["**/*.ts", "**/*.tsx", "**/*.mts"],
   "exclude": ["functions/**/*"],
   "mdx": {
     "checkMdx": true

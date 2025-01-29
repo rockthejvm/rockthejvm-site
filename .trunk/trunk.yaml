@@ -4,7 +4,7 @@ cli:
 plugins:
   sources:
     - id: trunk
-      ref: 90c77cabfe2f5f318c3af2e8e08934858faad89e
+      ref: 71ad7110052e49ef4cad7849ca5b4e1ef753f161
       uri: https://github.com/trunk-io/plugins
 runtimes:
   enabled:
@@ -29,12 +29,7 @@ lint:
     - yamllint@1.35.1
   definitions:
     - name: biome
-      commands:
-        - name: fmt
-          run: biome check --fix "${target}"
-          success_codes: [0, 1]
       files:
-        - astro
         - css
         - graphql
         - javascript
