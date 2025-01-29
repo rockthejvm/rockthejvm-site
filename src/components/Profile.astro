@@ -45,15 +45,14 @@ const author = await getEntry("authors", "daniel-ciocirlan");
     </article>
   </Feature>
   {
-    collaborators &&
-      collaborators.map((collaborator) => (
-        <Feature image={collaborator.frontmatter.photo} imagePosition="right">
-          <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
-          <div>
-            <Fragment set:html={collaborator.biography} />
-          </div>
-        </Feature>
-      ))
+    collaborators?.map((collaborator) => (
+      <Feature image={collaborator.frontmatter.photo} imagePosition="right">
+        <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
+        <div>
+          <Fragment set:html={collaborator.biography} />
+        </div>
+      </Feature>
+    ))
   }
   {
     thanks && (

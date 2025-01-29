@@ -26,7 +26,7 @@ const {
       <div
         class="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20"
       >
-        {annotation ? annotation : <HeroAnnotation />}
+        {annotation ?? <HeroAnnotation />}
       </div>
     </div>
     <div class="flex">

@@ -93,7 +93,7 @@ const structuredData = JSON.stringify({
     .map((course, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `${Astro.site}/courses/${course.slug}`,
+      url: `${Astro.site!}/courses/${course.slug}`,
     })),
 });
 ---

@@ -9,10 +9,10 @@ import TeamImage from "src/assets/images/logos/team.png";
 
 const membership = await getEntry("memberships", "personal");
 
-const monthlyPriceId = membership?.data.packages[0].pricingPlanId;
+const monthlyPriceId = membership.data.packages[0].pricingPlanId;
 const monthlyTitle = "Monthly Membership";
 
-const yearlyPriceId = membership?.data.packages[1].pricingPlanId;
+const yearlyPriceId = membership.data.packages[1].pricingPlanId;
 const yearlyTitle = "Yearly Membership";
 
 const membershipHours = (await getCollection("courses"))

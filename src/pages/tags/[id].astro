@@ -4,6 +4,7 @@ import Prose from "@components/Prose.astro";
 import NarrowContainer from "@containers/NarrowContainer";
 import Articles from "@pages/articles/_components/Articles.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const tags = await getCollection("tags");
@@ -18,6 +19,11 @@ export async function getStaticPaths() {
       tag,
     },
   }));
+}
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+  tag: CollectionEntry<"tags">;
 }
 
 const { articles, tag } = Astro.props;

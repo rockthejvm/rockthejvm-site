@@ -1,4 +1,3 @@
-import { sendTeachableRequest } from "@utils/sendTeachableRequest";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -19,10 +18,10 @@ enum AttachmentKind {
   UPSELL = "upsell",
 }
 
-interface PricingPlan {
-  price: number;
-  course_id: number;
-}
+// interface PricingPlan {
+//   price: number;
+//   course_id: number;
+// }
 
 interface CourseResponse {
   updatedLectureSections: LectureSection[];
@@ -56,13 +55,13 @@ interface LectureSection {
   lectures: Lecture[];
 }
 
-interface Course {
-  name: string;
-  heading: string;
-  is_published: boolean;
-  image_url?: string;
-  lecture_sections: LectureSection[];
-}
+// interface Course {
+//   name: string;
+//   heading: string;
+//   is_published: boolean;
+//   image_url?: string;
+//   lecture_sections: LectureSection[];
+// }
 
 let lectureSectionData: LectureSection[] = [];
 
@@ -71,88 +70,88 @@ export default function Example(props: Props) {
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const getPricingPlan = async (
-    pricingPlanId: number,
-    apiKey: string,
-  ): Promise<Response> =>
-    await sendTeachableRequest(
-      new URL(
-        `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
-      ),
-      apiKey,
-    );
+  // const getPricingPlan = async (
+  //   pricingPlanId: number,
+  //   apiKey: string,
+  // ): Promise<Response> =>
+  //   await sendTeachableRequest(
+  //     new URL(
+  //       `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
+  //     ),
+  //     apiKey,
+  //   );
 
-  const getCourse = async (
-    courseId: number,
-    apiKey: string,
-  ): Promise<Response> =>
-    await sendTeachableRequest(
-      new URL(`https://developers.teachable.com/v1/courses/${courseId}`),
-      apiKey,
-    );
+  // const getCourse = async (
+  //   courseId: number,
+  //   apiKey: string,
+  // ): Promise<Response> =>
+  //   await sendTeachableRequest(
+  //     new URL(`https://developers.teachable.com/v1/courses/${courseId}`),
+  //     apiKey,
+  //   );
 
-  const getLecture = async (
-    courseId: number,
-    lectureId: number,
-    apiKey: string,
-  ): Promise<Response> =>
-    await sendTeachableRequest(
-      new URL(
-        `https://developers.teachable.com/v1/courses/${courseId}/lectures/${lectureId}`,
-      ),
-      apiKey,
-    );
+  // const getLecture = async (
+  //   courseId: number,
+  //   lectureId: number,
+  //   apiKey: string,
+  // ): Promise<Response> =>
+  //   await sendTeachableRequest(
+  //     new URL(
+  //       `https://developers.teachable.com/v1/courses/${courseId}/lectures/${lectureId}`,
+  //     ),
+  //     apiKey,
+  //   );
 
-  const getTeachableCurriculum = async (pricingPlanId: number) => {
-    setLoading(true);
-    const apiKey = import.meta.env.PUBLIC_REACT_APP_API_KEY || "";
-    const pricingPlanResponse = await getPricingPlan(pricingPlanId, apiKey);
+  // const getTeachableCurriculum = async (pricingPlanId: number) => {
+  //   setLoading(true);
+  //   const apiKey = import.meta.env.PUBLIC_REACT_APP_API_KEY || "";
+  //   const pricingPlanResponse = await getPricingPlan(pricingPlanId, apiKey);
 
-    const { pricing_plan: pricingPlan }: { pricing_plan: PricingPlan } =
-      await pricingPlanResponse.json();
-    const { course_id: courseId } = pricingPlan;
-    const courseResponse = await getCourse(courseId, apiKey);
-    const { course }: { course: Course } = await courseResponse.json();
-    const { lecture_sections: lectureSections } = course;
-    const updatedLectureSections: LectureSection[] = await Promise.all(
-      lectureSections
-        .filter((lectureSection) => lectureSection.is_published)
-        .sort((a, b) => (a.position < b.position ? -1 : 1))
-        .map(
-          async (lectureSection) =>
-            ({
-              name: lectureSection.name,
-              lectures: await Promise.all(
-                lectureSection.lectures
-                  .filter((lecture) => lecture.is_published)
-                  .sort((a, b) => (a.position < b.position ? -1 : 1))
-                  .map(async (lecture) => ({
-                    id: lecture.id,
-                    name: (
-                      (
-                        await (
-                          await getLecture(courseId, lecture.id, apiKey)
-                        ).json()
-                      ).lecture as Lecture
-                    ).name,
-                  })),
-              ),
-            }) as LectureSection,
-        ),
-    );
+  //   const { pricing_plan: pricingPlan }: { pricing_plan: PricingPlan } =
+  //     await pricingPlanResponse.json();
+  //   const { course_id: courseId } = pricingPlan;
+  //   const courseResponse = await getCourse(courseId, apiKey);
+  //   const { course }: { course: Course } = await courseResponse.json();
+  //   const { lecture_sections: lectureSections } = course;
+  //   const updatedLectureSections: LectureSection[] = await Promise.all(
+  //     lectureSections
+  //       .filter((lectureSection) => lectureSection.is_published)
+  //       .sort((a, b) => (a.position < b.position ? -1 : 1))
+  //       .map(
+  //         async (lectureSection) =>
+  //           ({
+  //             name: lectureSection.name,
+  //             lectures: await Promise.all(
+  //               lectureSection.lectures
+  //                 .filter((lecture) => lecture.is_published)
+  //                 .sort((a, b) => (a.position < b.position ? -1 : 1))
+  //                 .map(async (lecture) => ({
+  //                   id: lecture.id,
+  //                   name: (
+  //                     (
+  //                       await (
+  //                         await getLecture(courseId, lecture.id, apiKey)
+  //                       ).json()
+  //                     ).lecture as Lecture
+  //                   ).name,
+  //                 })),
+  //             ),
+  //           }) as LectureSection,
+  //       ),
+  //   );
 
-    // lectureSectionData = course.updatedLectureSections;
-    lectureSectionData = updatedLectureSections;
-    if (lectureSectionData.length === 1) {
-      setLectureSections(lectureSectionData);
-      setLoading(false);
-    } else if (lectureSectionData.length >= 2) {
-      setLectureSections([lectureSectionData[0], lectureSectionData[1]]);
-      setLoading(false);
-    }
-    // setLectureSections(updatedLectureSections);
-    setExpanded(false);
-  };
+  //   // lectureSectionData = course.updatedLectureSections;
+  //   lectureSectionData = updatedLectureSections;
+  //   if (lectureSectionData.length === 1) {
+  //     setLectureSections(lectureSectionData);
+  //     setLoading(false);
+  //   } else if (lectureSectionData.length >= 2) {
+  //     setLectureSections([lectureSectionData[0], lectureSectionData[1]]);
+  //     setLoading(false);
+  //   }
+  //   // setLectureSections(updatedLectureSections);
+  //   setExpanded(false);
+  // };
 
   // Show all lecture sections when expanded
   const expand = () => {

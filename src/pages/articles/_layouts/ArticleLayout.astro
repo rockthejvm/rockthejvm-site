@@ -53,7 +53,7 @@ const structuredData = JSON.stringify({
     {
       "@type": "Person",
       name: author.data.name,
-      url: `${Astro.site}/authors/${author.id}`,
+      url: `${Astro.site!}/authors/${author.id}`,
     },
   ],
   publisher: {
