@@ -12,8 +12,6 @@ import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig } from "astro/config";
 import remarkDirective from "remark-directive";
 
-import starlight from "@astrojs/starlight";
-
 export default defineConfig({
   site: "https://rockthejvm.com",
   trailingSlash: "never",
@@ -58,9 +56,6 @@ export default defineConfig({
       nesting: true,
     }),
     react(),
-    starlight({
-      title: "Rock the JVM",
-    }),
     sitemap(),
     pagefind(), // Should be last
   ],
