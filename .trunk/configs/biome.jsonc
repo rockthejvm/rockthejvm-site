@@ -39,8 +39,8 @@
   },
   "javascript": {
     "formatter": {
-      "arrowParentheses": "asNeeded",
-      "semicolons": "asNeeded"
+      // "arrowParentheses": "asNeeded",
+      // "semicolons": "asNeeded"
     }
   }
 }
