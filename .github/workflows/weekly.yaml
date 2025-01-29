@@ -23,3 +23,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Trunk Upgrade
         uses: trunk-io/trunk-action/upgrade@v1
+      - name: Trunk Code Quality
+        uses: trunk-io/trunk-action@v1
+        with:
+          check-mode: all
+          arguments: --github-annotate-new-only=false
