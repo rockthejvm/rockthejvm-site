@@ -130,7 +130,7 @@ const structuredData = JSON.stringify({
         description:
           instructor.data.biography ??
           (instructor.data.company
-            ? `${instructor.data.company.role} at ${companies.find(({ id }) => id === instructor.data.company.entity.id)!.data.title}.`
+            ? `${instructor.data.company.role} at ${companies.find(({ id }) => id === instructor.data.company!.entity.id)!.data.title}.`
             : ""),
         image: instructor.data.photo.src,
       })),
