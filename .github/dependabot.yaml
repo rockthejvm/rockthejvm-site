@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: 02:00
+      time: "02:00"
       timezone: US/Eastern
     reviewers: [andreilgeorgescu]
   - package-ecosystem: github-actions
@@ -13,7 +13,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: 02:00
+      time: "02:00"
       timezone: US/Eastern
     reviewers: [andreilgeorgescu]
   - package-ecosystem: npm
@@ -21,6 +21,6 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: 02:00
+      time: "02:00"
       timezone: US/Eastern
     reviewers: [andreilgeorgescu]
