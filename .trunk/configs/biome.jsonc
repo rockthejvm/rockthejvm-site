@@ -40,8 +40,8 @@
   },
   "javascript": {
     "formatter": {
-      // "arrowParentheses": "asNeeded",
-      // "semicolons": "asNeeded"
+      // "arrowParentheses": "asNeeded", // Inconsistent with current Astro formatting
+      // "semicolons": "asNeeded" // Inconsistent with current Astro formatting
     }
   }
 }
