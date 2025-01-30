@@ -31,3 +31,14 @@ jobs:
         with:
           check-mode: all
           arguments: --github-annotate-new-only=false
+  check_broken_links:
+    name: Check Broken Links
+    runs-on: ubuntu-latest
+    permissions: read-all
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - name: Check Broken Links
+        run: npx linkinator https://rockthejvm.com --recurse
