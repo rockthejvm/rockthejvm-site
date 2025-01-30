@@ -20,8 +20,8 @@
     "jsxImportSource": "react",
     "exactOptionalPropertyTypes": false
   },
-  // "include": ["**/*.ts", "**/*.tsx", "**/*.mts"],
-  "exclude": ["functions/**/*"],
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "functions/**/*"],
   "mdx": {
     "checkMdx": true
   }
