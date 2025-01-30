@@ -2,6 +2,7 @@
 import Prose from "@components/Prose.astro";
 import NarrowContainer from "@containers/NarrowContainer";
 import Articles from "@pages/articles/_components/Articles.astro";
+import { capitalizeFirstChar } from "@utils/capitalizeFirstChar";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -21,7 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { articles, difficulty } = Astro.props;
-const title = `Articles marked as '${difficulty.id}' difficulty`;
+const title = `Articles marked as '${capitalizeFirstChar(difficulty.id)}' difficulty`;
 ---
 
 <BaseLayout {title} description={title}>

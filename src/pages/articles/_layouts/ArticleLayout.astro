@@ -5,6 +5,7 @@ import Prose from "@components/Prose.astro";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
 import site from "@data/site.json";
+import { capitalizeFirstChar } from "@utils/capitalizeFirstChar";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
@@ -128,8 +129,7 @@ const structuredData = JSON.stringify({
               <p>
                 {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}{" "}
                 &nbsp;•&nbsp; {category.data.name} &nbsp;•&nbsp;{" "}
-                {article.data.difficulty.id.slice(0, 1).toUpperCase() +
-                  article.data.difficulty.id.slice(1)}
+                {capitalizeFirstChar(difficulty.id)}
               </p>
             )
           }
