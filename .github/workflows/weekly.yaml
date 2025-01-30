@@ -34,7 +34,6 @@ jobs:
   check_broken_links:
     name: Check Broken Links
     runs-on: ubuntu-latest
-    permissions: read-all
     steps:
       - name: Setup Node.js
         uses: actions/setup-node@v4
