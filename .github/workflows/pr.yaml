@@ -26,3 +26,15 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
+  astro_check:
+    name: Astro Check
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Astro Check
+        run: npx astro check --minimumFailingSeverity error
