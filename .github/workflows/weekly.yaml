@@ -26,6 +26,22 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Trunk Upgrade
         uses: trunk-io/trunk-action/upgrade@v1
+  trunk_check_all:
+    name: Trunk Code Quality
+    runs-on: ubuntu-24.04
+    permissions:
+      checks: write # trunk PR annotations
+      contents: read # code checkout and dependency installation
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
         with:
