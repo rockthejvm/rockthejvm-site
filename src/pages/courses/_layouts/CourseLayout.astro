@@ -133,56 +133,6 @@ const reactFlowEdges: ReactFlowEdge[] | undefined =
     animated: edge.optional ? true : false,
   }));
 
-// type Slug = string;
-// interface SlugTreeNode {
-//   value: Slug;
-//   children: SlugTreeNode[];
-// }
-// interface Edge {
-//   id: string;
-//   source: string;
-//   target: string;
-//   type: string;
-//   animated: boolean;
-// }
-// interface EdgeTreeNode {
-//   value: Edge;
-//   children: EdgeTreeNode[];
-// }
-// function _slugToEdge(root: SlugTreeNode): EdgeTreeNode {
-//   return {
-//     value: { id: "", source: "", target: "", animated: true },
-//     children: root.children.map((child) => ({
-//       value: {
-//         id: `${root.value}TO${child.value}`,
-//         source: root.value,
-//         target: child.value,
-//         type: "smoothstep",
-//         animated: false,
-//       },
-//       children: _slugToEdge(child).children,
-//     })),
-//   };
-// }
-
-// const _treeToList = (root: EdgeTreeNode): Edge[] =>
-//   root.children.flatMap((child) => [child.value, ..._treeToList(child)]);
-
-// const initialEdges = _treeToList(_slugToEdge(prerequisites.data.root));
-// const _nodes = [
-//   ...new Set(initialEdges.flatMap((edge) => [edge.source, edge.target])),
-// ];
-// const initialNodes = _nodes.map((node) => ({
-//   id: node,
-//   position: {
-//     x: 0,
-//     y: 0,
-//   },
-//   data: {
-//     label: node,
-//   },
-// }));
-
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Course",
@@ -368,8 +318,8 @@ const structuredData = JSON.stringify({
   }
   .legend {
     display: flex;
-    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-    gap: 1em; /* Spacing between items */
+    flex-wrap: wrap;
+    gap: 1em;
     align-items: center;
     font-family: Arial, sans-serif;
   }
@@ -384,18 +334,7 @@ const structuredData = JSON.stringify({
     height: 20px;
     display: inline-block;
     margin-right: 0.5em;
-    border: 1px solid #333; /* Optional border */
-  }
-
-  /* Example colors */
-  .beginner {
-    background-color: #7fff00; /* Light green */
-  }
-  .intermediate {
-    background-color: #ffd700; /* Gold */
-  }
-  .advanced {
-    background-color: #ff4500; /* OrangeRed */
+    border: 1px solid #333;
   }
 
   .legend-line {

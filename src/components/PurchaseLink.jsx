@@ -20,7 +20,7 @@ export default function Example({
   return (
     <a
       className={className}
-      aria-describedBy={ariaDescribedBy}
+      aria-describedby={ariaDescribedBy}
       href={
         "https://courses.rockthejvm.com/purchase?product_id=" +
         pricingPlanId +

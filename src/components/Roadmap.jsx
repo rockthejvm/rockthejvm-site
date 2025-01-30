@@ -1,3 +1,5 @@
+"use client";
+
 import {
   addEdge,
   Background,
@@ -9,7 +11,7 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
-import { useCallback, useLayoutEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { ZoomSlider } from "../assets/components/zoom-slider";
 
 import "@xyflow/react/dist/style.css";
@@ -17,11 +19,6 @@ import MyLinkNode from "./MyLinkNode";
 
 const elk = new ELK();
 
-// Elk has a *huge* amount of options to configure. To see everything you can
-// tweak check out:
-//
-// - https://www.eclipse.org/elk/reference/algorithms.html
-// - https://www.eclipse.org/elk/reference/options.html
 const elkOptions = {
   "elk.algorithm": "layered",
   "elk.layered.spacing.nodeNodeBetweenLayers": "100",
@@ -35,12 +32,9 @@ const getLayoutedElements = (nodes, edges, options = {}) => {
     layoutOptions: options,
     children: nodes.map((node) => ({
       ...node,
-      // Adjust the target and source handle positions based on the layout
-      // direction.
       targetPosition: isHorizontal ? "left" : "top",
       sourcePosition: isHorizontal ? "right" : "bottom",
 
-      // Hardcode a width and height for elk to use when layouting.
       width:
         node.data.label.length > 30
           ? 400
@@ -57,8 +51,6 @@ const getLayoutedElements = (nodes, edges, options = {}) => {
     .then((layoutedGraph) => ({
       nodes: layoutedGraph.children.map((node) => ({
         ...node,
-        // React Flow expects a position property on the node instead of `x`
-        // and `y` fields.
         position: { x: node.x, y: node.y },
       })),
 
@@ -98,8 +90,7 @@ function LayoutFlow({ initialNodes, initialEdges }) {
     [nodes, edges],
   );
 
-  // Calculate the initial layout on mount.
-  useLayoutEffect(() => {
+  useEffect(() => {
     onLayout({ direction: "DOWN", useInitialNodes: true });
   }, []);
 
@@ -114,25 +105,25 @@ function LayoutFlow({ initialNodes, initialEdges }) {
       fitView
       style={{ backgroundColor: "#F7F9FB" }}
     >
-      <Panel position="top-left" class="pr-16">
+      <Panel position="top-left" className="pr-16">
         <ZoomSlider />
-        <div class="mt-24 w-36 bg-secondary p-4">
-          <div class="legend text-content-1">
-            <div class="legend-item">
-              <span class="legend-color beginner"></span> Beginner
+        <div className="mt-24 w-36 bg-secondary p-4">
+          <div className="legend text-content-1">
+            <div className="legend-item">
+              <span className="legend-color beginner"></span> Beginner
             </div>
-            <div class="legend-item">
-              <span class="legend-color intermediate"></span> Intermediate
+            <div className="legend-item">
+              <span className="legend-color intermediate"></span> Intermediate
             </div>
-            <div class="legend-item">
-              <span class="legend-color advanced"></span> Advanced
+            <div className="legend-item">
+              <span className="legend-color advanced"></span> Advanced
             </div>
 
-            <div class="legend-item">
-              <span class="legend-line"></span> Required
+            <div className="legend-item">
+              <span className="legend-line"></span> Required
             </div>
-            <div class="legend-item">
-              <span class="legend-line dashed"></span> Optional
+            <div className="legend-item">
+              <span className="legend-line dashed"></span> Optional
             </div>
           </div>
         </div>

@@ -203,6 +203,16 @@
   }
 }
 
+.beginner {
+  background-color: hsl(var(--color-beginner));
+}
+.intermediate {
+  background-color: hsl(var(--color-intermediate));
+}
+.advanced {
+  background-color: hsl(var(--color-advanced));
+}
+
 .rainbow-text {
   background-image: linear-gradient(
     to left,
