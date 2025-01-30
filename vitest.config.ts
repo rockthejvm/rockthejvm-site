@@ -4,5 +4,8 @@ import { getViteConfig } from "astro/config";
 export default getViteConfig({
   test: {
     root: "test/",
+    coverage: {
+      include: ["src/utils/**"],
+    },
   },
 });
