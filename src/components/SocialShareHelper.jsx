@@ -29,11 +29,15 @@ export default function Example(props) {
       >
         {props.linkedin}
       </LinkedinShareButton>
-      <RedditShareButton title={title}>{props.reddit}</RedditShareButton>
+      <RedditShareButton title={title} url={url}>
+        {props.reddit}
+      </RedditShareButton>
       <FacebookShareButton hashtag="#rockthejvm" url={url}>
         {props.facebook}
       </FacebookShareButton>
-      <PocketShareButton title={title}>{props.pocket}</PocketShareButton>
+      <PocketShareButton title={title} url={url}>
+        {props.pocket}
+      </PocketShareButton>
     </div>
   );
 }
