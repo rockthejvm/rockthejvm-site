@@ -1,4 +1,6 @@
 ---
+import { capitalizeFirstChar } from "@utils/capitalizeFirstChar";
+
 interface Props {
   difficultyId: string;
 }
@@ -9,5 +11,5 @@ const { difficultyId } = Astro.props;
   href={`/difficulties/${difficultyId}`}
   class="left-0 top-0 z-10 rounded-full text-center font-medium"
 >
-  {difficultyId.slice(0, 1).toUpperCase() + difficultyId.slice(1)}
+  {capitalizeFirstChar(difficultyId)}
 </a>
