@@ -116,6 +116,7 @@ const reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
         position: { x: 0, y: 0 },
         data: {
           difficulty: (await getEntry("courses", node.slug)).data.difficulty,
+          isCurrent: node.slug === course.slug,
           label: (await getEntry("courses", node.slug)).data.title,
           href: `/courses/${node.slug}`,
         },
