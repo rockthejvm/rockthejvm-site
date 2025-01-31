@@ -24,7 +24,7 @@ const _queryString = Object.keys(_props)
   )
   .join("&");
 const imageURL = `${_domain}${_path}?${_queryString}&fontFamily=Roboto&fontVariant=regular&layout=article&layoutIndex=1`;
-const imageAlt = `Header image for ${_props.authorName}'s article titled '${_props.title}'.`;
+const imageAlt = `Header image for ${_props.authorName.toString()}'s article titled '${_props.title.toString()}'.`;
 ---
 
 <meta property="og:image" content=`${imageURL}&configuration=og` />

@@ -132,5 +132,5 @@
   },
   // trunk.io
   "editor.defaultFormatter": "trunk.io",
-  "trunk.showPreexistingIssues": false
+  "trunk.showPreexistingIssues": true
 }

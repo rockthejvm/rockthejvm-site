@@ -5,6 +5,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
+      # trunk-ignore(yamllint/quoted-strings)
       time: "02:00"
       timezone: US/Eastern
     reviewers: [andreilgeorgescu]
@@ -13,6 +14,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
+      # trunk-ignore(yamllint/quoted-strings)
       time: "02:00"
       timezone: US/Eastern
     reviewers: [andreilgeorgescu]
@@ -21,6 +23,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
+      # trunk-ignore(yamllint/quoted-strings)
       time: "02:00"
       timezone: US/Eastern
     reviewers: [andreilgeorgescu]

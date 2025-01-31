@@ -1,7 +1,7 @@
 name: Fork
 on:
   workflow_run:
-    workflows: ["Pull Request"]
+    workflows: [Pull Request]
     types: [completed]
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
