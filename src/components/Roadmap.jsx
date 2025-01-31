@@ -64,7 +64,7 @@ const nodeTypes = {
 };
 
 function Legend({ open }) {
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(open);
 
   const handleClick = () => {
     setDetailsOpen(!detailsOpen);
@@ -75,7 +75,7 @@ function Legend({ open }) {
       <details open={open} onClick={handleClick}>
         <summary className="cursor-pointer list-none px-4 text-content-1 sm:px-6">
           <div className="flex flex-row items-center justify-start">
-            <h2 className="inline max-w-full text-xl">Details</h2>&nbsp;
+            <h2 className="inline max-w-full text-xl">Legend</h2>&nbsp;
             <span className="text-xl">{detailsOpen ? "⮛" : "➣"}</span>
           </div>
         </summary>
@@ -147,7 +147,7 @@ function LayoutFlow({ initialNodes, initialEdges }) {
     >
       <Panel position="top-left" className="pr-16">
         <ZoomSlider />
-        <Legend open={true} />
+        <Legend open={false} />
       </Panel>
       <Background />
     </ReactFlow>
