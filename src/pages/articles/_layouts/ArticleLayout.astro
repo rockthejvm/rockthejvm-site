@@ -135,7 +135,14 @@ const structuredData = JSON.stringify({
           }
           <TagList {tags} />
         </Byline>
-        <div class="hidden lg:block"><SocialShare /></div>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
         <div class="my-5">
           <ArticleSeries {article} label="This article is part of a series" />
         </div>
@@ -160,7 +167,14 @@ const structuredData = JSON.stringify({
         >
       </div>
       <footer>
-        <div class="hidden lg:block"><SocialShare /></div>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
         <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
         <NewsletterSection />
@@ -176,6 +190,12 @@ const structuredData = JSON.stringify({
         hideButtons={false}
       />
     </Prose>
-    <SocialShare slot="share" />
+    <SocialShare
+      title={article.data.title}
+      description={article.data.description ?? ""}
+      url={Astro.url.href}
+      tags={article.data.tags}
+      slot="share"
+    />
   </FloatingActionMenuHelper>
 </BaseLayout>

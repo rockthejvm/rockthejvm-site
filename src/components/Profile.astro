@@ -18,7 +18,12 @@ const author = await getEntry("authors", "daniel-ciocirlan");
 ---
 
 <Section {color} title="Meet Rock the JVM">
-  <Feature image={author.data.photo} imagePosition="left" imageRounded={true}>
+  <Feature
+    image={author.data.photo}
+    imagePosition="left"
+    imageRounded={true}
+    imageClassName="w-3/4"
+  >
     <h3>Daniel Ciocîrlan</h3>
     <article>
       <p>I'm a software engineer and the founder of Rock the JVM.</p>
@@ -47,7 +52,12 @@ const author = await getEntry("authors", "daniel-ciocirlan");
   {
     collaborators &&
       collaborators.map((collaborator) => (
-        <Feature image={collaborator.frontmatter.photo} imagePosition="right">
+        <Feature
+          image={collaborator.frontmatter.photo}
+          imagePosition="right"
+          imageRounded={true}
+          imageClassName="w-3/4"
+        >
           <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
           <div>
             <Fragment set:html={collaborator.biography} />
