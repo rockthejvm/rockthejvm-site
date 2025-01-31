@@ -2,29 +2,33 @@
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
+import RelatedArticles from "@components/RelatedArticles";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
+import matchedArticles from "@data/matchedArticles.json";
 import site from "@data/site.json";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
-import { getEntries, getEntry } from "astro:content";
+import { getEntries, getEntry, z } from "astro:content";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Byline from "../../../components/Byline.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
+  allArticles: CollectionEntry<"articles">[];
   headings: MarkdownHeading[];
   minutesRead?: number;
 }
 
-const { article, headings, minutesRead } = Astro.props;
+const { article, allArticles, headings, minutesRead } = Astro.props;
 const frontmatter = article.data;
 const {
   canonicalUrl,
@@ -65,6 +69,35 @@ const structuredData = JSON.stringify({
   headline: title,
   image: heroImage?.image.src,
 });
+
+const ArticleMatchSchema = z.object({
+  all_matches: z.array(
+    z.object({
+      matched_slug: z.string(),
+      similarity: z.number(),
+      source_slug: z.string(),
+    }),
+  ),
+});
+
+const matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
+
+if (!matchedArticlesDataResult.success) {
+  throw new Error("Failed to parse matched articles data");
+}
+
+const matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
+  matchedArticlesDataResult.data;
+
+const matches = matchedArticlesData.all_matches.filter(
+  (match) => match.source_slug === article.slug,
+);
+
+matches.sort((a, b) => b.similarity - a.similarity);
+
+const relatedArticles = matches.map((match) =>
+  allArticles.find((article) => article.slug === match.matched_slug),
+);
 ---
 
 <BaseLayout
@@ -173,6 +206,44 @@ const structuredData = JSON.stringify({
         </div>
         <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
+
+        {
+          relatedArticles.length > 0 && (
+            <RelatedArticles length={relatedArticles.length} client:load>
+              {relatedArticles.length >= 1 && (
+                <ArticlePreview
+                  slot="firstArticle"
+                  article={relatedArticles[0]!}
+                />
+              )}
+              {relatedArticles.length >= 2 && (
+                <ArticlePreview
+                  slot="secondArticle"
+                  article={relatedArticles[1]!}
+                />
+              )}
+              {relatedArticles.length >= 3 && (
+                <ArticlePreview
+                  slot="thirdArticle"
+                  article={relatedArticles[2]!}
+                />
+              )}
+              {relatedArticles.length >= 4 && (
+                <ArticlePreview
+                  slot="fourthArticle"
+                  article={relatedArticles[3]!}
+                />
+              )}
+              {relatedArticles.length >= 5 && (
+                <ArticlePreview
+                  slot="fifthArticle"
+                  article={relatedArticles[4]!}
+                />
+              )}
+            </RelatedArticles>
+          )
+        }
+
         <NewsletterSection />
       </footer>
     </article>
