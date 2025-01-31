@@ -1,7 +1,7 @@
 ---
 import Profile from "@components/Profile.astro";
 import site from "@data/site.json";
-import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
+import capitalize from "@utils/capitalize";
 import { getEntries, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
@@ -134,7 +134,7 @@ const structuredData = JSON.stringify({
     },
   ],
   availableLanguage: ["en"],
-  educationalLevel: capitalizeFirstChar(
+  educationalLevel: capitalize(
     difficulty ??
       bundledCourses
         .map((course) => course.data.difficulty ?? "beginner")
