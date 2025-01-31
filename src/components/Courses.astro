@@ -33,10 +33,7 @@ const categories = await getCollection("courseCategories");
                       {coursess
                         .filter(
                           (courses) =>
-                            (
-                              courses[0]
-                                ?.data as CollectionEntry<"courses">["data"]
-                            ).category.id === category.id,
+                            (courses[0]?.data).category.id === category.id,
                         )
                         .map((courses) =>
                           courses.map((course) => (

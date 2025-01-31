@@ -158,8 +158,7 @@ const image = {
             logo={new URL(site.logo.src, Astro.url.origin).href}
             metadata1={`${article.minutesRead} min read`}
             metadata2={formatDate(article.updatedTime ?? article.publishedTime)}
-            metadata3={capitalizeFirstChar(article.category)
-            }
+            metadata3={capitalizeFirstChar(article.category)}
             tag1={article.tags[0]}
             tag2={article.tags[1] ?? ""}
             tag3={article.tags[2] ?? ""}
