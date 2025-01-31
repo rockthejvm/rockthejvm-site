@@ -37,7 +37,7 @@ const { description, heroImage, pricingPlanId, title } = Astro.props;
     >
       {description}
     </p>
-    <div class="mt-10 text-center">
+    <div class="mt-10 flex flex-row justify-center gap-8 text-center">
       <PurchaseLink
         {pricingPlanId}
         className="rounded-md bg-cta px-3.5 py-2.5 text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -45,6 +45,136 @@ const { description, heroImage, pricingPlanId, title } = Astro.props;
       >
         Enroll now</PurchaseLink
       >
+      <button
+        id="open-roadmap-modal"
+        class="rounded-md bg-cta px-3.5 py-2.5 text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
+        Course roadmap
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal container -->
+  <div
+    id="roadmap-modal"
+    class="relative z-50 hidden"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+  >
+    <!-- Background backdrop -->
+    <div
+      id="modal-roadmap-backdrop"
+      class="fixed inset-0 bg-gray-500/75 opacity-0 transition-opacity"
+      aria-hidden="true"
+    >
+    </div>
+
+    <!-- Modal panel -->
+    <div
+      class="w-xl fixed inset-0 z-10 mx-8 my-8 h-3/4 overflow-x-hidden overflow-y-hidden rounded-lg bg-secondary sm:mx-16"
+    >
+      <h2 class="my-4 w-full text-center text-content-1">Course Roadmap</h2>
+      <div
+        class="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0 lg:items-start"
+      >
+        <div
+          class="relative min-w-full translate-y-4 overflow-hidden bg-search pb-4 text-left text-content-1 opacity-0 shadow-xl transition-all sm:max-w-md sm:translate-y-0 sm:scale-95"
+          id="modal-roadmap-panel"
+        >
+          <slot name="roadmap" />
+        </div>
+      </div>
     </div>
   </div>
 </header>
+
+<script>
+  const openModalButton = document.getElementById("open-roadmap-modal");
+  // const closeModalButton = document.getElementById("close-modal");
+  const modal = document.getElementById("roadmap-modal");
+  const modalBackdrop = document.getElementById("modal-roadmap-backdrop");
+  const modalPanel = document.getElementById("modal-roadmap-panel");
+
+  if (!openModalButton || !modal || !modalBackdrop || !modalPanel) {
+    throw new Error("Could not find the modal elements");
+  }
+
+  // Show the modal
+  function showModal() {
+    if (!modal || !modalBackdrop || !modalPanel) {
+      return;
+    }
+    console.log("working");
+
+    modal.classList.remove("hidden");
+    modalBackdrop.classList.add("opacity-100");
+    modalBackdrop.classList.remove("opacity-0");
+    modalPanel.classList.add("opacity-100", "translate-y-0", "sm:scale-100");
+    modalPanel.classList.remove(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
+
+    // Focus on the input field inside the Astro component
+    const searchInput = document.querySelector(
+      '#search input[type="text"]',
+    ) as HTMLInputElement;
+    if (searchInput) {
+      searchInput.focus();
+    }
+  }
+
+  // Hide the modal
+  function hideModal() {
+    if (!modal || !modalBackdrop || !modalPanel) {
+      return;
+    }
+
+    modal.classList.add("hidden");
+    modalBackdrop.classList.add("opacity-0");
+    modalBackdrop.classList.remove("opacity-100");
+    modalPanel.classList.add(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
+    modalPanel.classList.remove("opacity-100", "translate-y-0", "sm:scale-100");
+  }
+
+  openModalButton.addEventListener("click", showModal);
+  // closeModalButton.addEventListener("click", hideModal);
+
+  // Handle keyboard shortcuts
+  document.addEventListener("keydown", (event) => {
+    const isMac = navigator.platform.toUpperCase().includes("MAC");
+    const ctrlOrCmdKey = isMac ? event.metaKey : event.ctrlKey;
+
+    // Open the modal with Ctrl+K or Cmd+K
+    if (ctrlOrCmdKey && event.key === "k") {
+      event.preventDefault(); // Prevent default browser behavior
+      showModal();
+    }
+
+    // Close the modal with the "Escape" key
+    if (event.key === "Escape") {
+      hideModal();
+    }
+  });
+
+  // Close the modal when clicking outside the modal content
+  modal.addEventListener("click", ({ target }) => {
+    const modalPanel = document.getElementById("modal-roadmap-panel");
+
+    if (!modalPanel) {
+      return;
+    }
+
+    if (!modalPanel.contains(target as Node | null)) {
+      hideModal();
+    }
+  });
+</script>
