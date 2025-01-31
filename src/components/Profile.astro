@@ -1,5 +1,5 @@
 ---
-import { getEntry, type CollectionEntry } from "astro:content";
+import { type CollectionEntry, getEntry } from "astro:content";
 import Feature from "../pages/courses/_components/Feature.astro";
 import Section from "./Section.astro";
 
@@ -44,26 +44,25 @@ const author = await getEntry("authors", "daniel-ciocirlan");
       </p>
       <p>
         I have a Master's Degree in Computer Science and I wrote my Bachelor and
-        Master theses on Quantum Computation. Before starting to learn
+        Master thesis on Quantum Computation. Before starting to learn
         programming, I won medals at international Physics competitions.
       </p>
     </article>
   </Feature>
   {
-    collaborators &&
-      collaborators.map((collaborator) => (
-        <Feature
-          image={collaborator.frontmatter.photo}
-          imagePosition="right"
-          imageRounded={true}
-          imageClassName="w-3/4"
-        >
-          <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
-          <div>
-            <Fragment set:html={collaborator.biography} />
-          </div>
-        </Feature>
-      ))
+    collaborators?.map((collaborator) => (
+      <Feature
+        image={collaborator.frontmatter.photo}
+        imagePosition="right"
+        imageRounded={true}
+        imageClassName="w-3/4"
+      >
+        <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
+        <div>
+          <Fragment set:html={collaborator.biography} />
+        </div>
+      </Feature>
+    ))
   }
   {
     thanks && (

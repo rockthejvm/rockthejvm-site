@@ -1,7 +1,7 @@
 ---
-import type { HolidayCategory } from "@layouts/HolidayLayout/_types/holidayCategory.ts";
-import HolidayLayout from "@layouts/HolidayLayout/HolidayLayout.astro";
 import { getCollection } from "astro:content";
+import HolidayLayout from "@layouts/HolidayLayout/HolidayLayout.astro";
+import type { HolidayCategory } from "@layouts/HolidayLayout/_types/holidayCategory.ts";
 import { _courses } from "./_data/courses.ts";
 import BundleImage from "./_images/black-friday-bundle.png";
 
@@ -37,7 +37,7 @@ const bundlePrices = categories
   forcedTheme="black-friday"
   logoSuffix="-black-friday"
   offer={`This is a one-time "everything" offer. Everything currently
-published ($${bundlePrices.old} worth of courses), at an unbeatable price.`}
+published ($${bundlePrices.old.toString()} worth of courses), at an unbeatable price.`}
   {bundlePrices}
   courseSlug="black-friday"
   subtitle1="50% off site-wide, valid until EOD December 2, 2024."

@@ -7,8 +7,6 @@ tags: [fp, scala, scala-3, type-system]
 title: "Type-Level Programming in Scala 3: Part 2 - A Quicksort on Types"
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 This article is the part 2 of the mini-series of type-level programming in Scala 3. If you want an introduction to type-level programming and a gentle tutorial of how we can encapsulate a computational problem as a relationships between types which the compiler can solve, [read the first part here](/articles/type-level-programming-in-scala-3-part-1-comparing-types).
@@ -151,8 +149,8 @@ The axioms of partitioning are as follows:
 1. Partitioning a one-element list results in that same list on the "left" and the empty list on the "right".
 1. Considering a list with at least two elements `P :: N :: T` (pivot, next number and tail of the list), we'll need to assume a recursive partitioning of `T` into a "left" `L` (with elements smaller than the pivot) and a "right" `R` (with elements >= the pivot). Now we need to decide where `N` is going to stay.
 
-   - If `P <= N`, then `N` will stay on the "right" side.
-   - If `N < P`, then `N` will stay on the "left" side.
+    - If `P <= N`, then `N` will stay on the "right" side.
+    - If `N < P`, then `N` will stay on the "left" side.
 
 Axioms 1 and 2 are more easily translatable to givens. The first axiom creates a given for a Partition where the original list is HNil and the "left" and "right" side of the split are both HNil.
 
@@ -218,7 +216,8 @@ This code compiles because the compiler:
 - Can use `basic2[_2]` to build a `Partition[_2 :: HNil, _2 :: HNil, HNil]`
 - Works backwards to build the necessary givens.
 
-<TipAdmonition>
+:::tip
+
 There are alternative partitioning schemes which the compiler will not be able to validate. This partitioning does not work, for example, although it's perfectly valid.
 
 ```scala
@@ -235,7 +234,7 @@ because the relative order of the elements in the list is kept. For the normal q
 
 That is of no consequence for correct sorting, as the compiler will be able to find _at least one_ partitioning that works for quicksort.
 
-</TipAdmonition>
+:::
 
 ## Type-Level Quicksort: The Sorting Operation
 
@@ -247,9 +246,9 @@ The sorting axioms are as follows:
 
 - Sorting an empty list gives us back an empty list.
 - Sorting a non-empty list, say `N :: T` has several requirements:
-  - The correct partitioning of the list into a "left" `N :: L` (remember, the pivot is here) and a "right" `R`
-  - Recursive sorting of `L` and `R` into, say `SL` (sorted "left") and `SR` (sorted "right")
-  - The concatenation of the results: `SL` comes first, then `N` the pivot, then `SR`
+    - The correct partitioning of the list into a "left" `N :: L` (remember, the pivot is here) and a "right" `R`
+    - Recursive sorting of `L` and `R` into, say `SL` (sorted "left") and `SR` (sorted "right")
+    - The concatenation of the results: `SL` comes first, then `N` the pivot, then `SR`
 
 The first axiom is similar to the basic axioms of the other operations:
 

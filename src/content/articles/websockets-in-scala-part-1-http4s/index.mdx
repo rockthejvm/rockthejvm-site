@@ -9,8 +9,6 @@ tags: [http4s, scala]
 title: "WebSockets in Scala: Part 1 - http4s"
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 The WebSocket protocol enables persistent two-way communication between a client and a server where packets can be passed in both directions without the need for additional HTTP requests.
@@ -108,7 +106,7 @@ class Routes[F[_]: Files: MonadThrow] extends Http4sDsl[F] {
 
 Here we have a `Routes` class that extends `Http4sDsl[F]`, it contains a `service()` function when called returns an `HttpApp[F]`, additionally, we create our first route as `/chat.html`.
 
-Within the `HttpRoutes.of[F]{}` method, we use the `StaticFile.fromPath()` method to which we pass an fs2 `Path` with the relative path to `chat.html` and a `Some(request)` as arguments then call `getOrElseF(NotFound())` that sends a 404 error code incase the file isn't found.
+Within the `HttpRoutes.of[F]{}` method, we use the `StaticFile.fromPath()` method to which we pass an fs2 `Path` with the relative path to `chat.html` and a `Some(request)` as arguments then call `getOrElseF(NotFound())` that sends a 404 error code in case the file isn't found.
 
 For this to work we need to add `Files` and `MonadThrow` as implicit arguments to `Routes`.
 
@@ -314,7 +312,7 @@ Next, we initialize a WebSocket connection by passing the path to `new WebSocket
       output.append("[closed] server connection ended");
   };
   socket.onerror = function (error) {
-      output.append("[Error] An error occured while processing data");
+      output.append("[Error] An error occurred while processing data");
       console.log("[error]" + error.data + "\n");
   };
 </script>
@@ -480,11 +478,14 @@ Here we add a `Stream` that publishes a `WebSocketFrame.Ping()` to our `Topic` e
 
 In this section, we modify our application and add a lot of extra features such as user names, rooms, and metrics.
 
-<TipAdmonition>
-  To properly follow along with the code example, check out the code on{" "}
+:::tip
+
+To properly follow along with the code example, check out the code on{" "}
+
   <a href={`${frontmatter.repositoryUrl}`}>GitHub</a> since this section may
   contain large code snippets.
-</TipAdmonition>
+
+:::
 
 ### Users and Rooms
 
@@ -971,7 +972,7 @@ Finally the `disconnect()` function removes the user from the current room in ca
 
 ### Parsing String Inputs
 
-In this section, we'll learn how to parse the input messages we receive from the WebSocket. Create `InputMessage.scala` in `src/main/scala/rockthejvm/websockets/InputMessage.scala` and add the follwing code:
+In this section, we'll learn how to parse the input messages we receive from the WebSocket. Create `InputMessage.scala` in `src/main/scala/rockthejvm/websockets/InputMessage.scala` and add the following code:
 
 ```scala
 package rockthejvm.websockets
@@ -1017,9 +1018,9 @@ override def parse(
     case "" => DiscardMessage.pure[F]
     case txt =>
       userRef.get.flatMap { u =>
-        u.fold {// unregistred
+        u.fold {// unregistered
         ???
-          } { //registred
+          } { //registered
         ???
            }
       }
@@ -1061,7 +1062,7 @@ object InputMessage {
 
 Here, we create a case class `TextCommand` that will hold text commands, it takes, two parameters, `left` of type `String` and `right` value of type `Option[String]`. We use an `Option` because we'll be implementing more commands that may not have the right side present.
 
-Next, we implement `commandParser` that returns a `Paser[TextCommand]`, the `Parser` type comes from cats-parse. Furthermore, `Paser[TextCommand]` means that whatever is parsed through this parser should return a `TextCommand` on success.
+Next, we implement `commandParser` that returns a `Parser[TextCommand]`, the `Parser` type comes from cats-parse. Furthermore, `Parser[TextCommand]` means that whatever is parsed through this parser should return a `TextCommand` on success.
 
 The beauty of cats-parse is that we can combine different parsers to create a single parser using the different combinator functions that work as follows:
 
@@ -1086,6 +1087,7 @@ The last section of our parser is defined by:
 ```
 
 Can be broken down as follows:
+
 `(leftSide ~ rightSide.?)` means we combine the two parses using the `~` meaning that we keep results from both sides. However the `?` on `rightSide.?` means that rightSide may be present or not. In other words, the same parser can also handle commands with only the `leftSide` for example a help command issued as `/help`, this doesn't require an extra parameter.
 
 `<* wsp.rep.?` means if there's white space that follows our command, we ignore it. Finally, we map the left and right values to `TextCommand`, on the right side we ignore the `Unit` value and only map the `String`.
@@ -1369,7 +1371,7 @@ At the `/ws` route level, we now use a for comprehension where we have `userRef`
 
 This is necessary since every new user is identified by a `None`, it would be hard to filter messages for unregistered users, so we give each of them a private queue until they get registered.
 
-Finally, we call `wsb.build()` with custom `send()` and `recieve()` functions. We'll see how these are implemented starting with the latter:
+Finally, we call `wsb.build()` with custom `send()` and `receive()` functions. We'll see how these are implemented starting with the latter:
 
 ```scala
 ...

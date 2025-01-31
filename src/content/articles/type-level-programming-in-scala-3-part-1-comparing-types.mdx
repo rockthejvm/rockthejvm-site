@@ -7,8 +7,6 @@ tags: [fp, scala, scala-3, type-system]
 title: "Type-Level Programming in Scala 3: Part 1 - Comparing Types"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Introduction
 
 This article will introduce you to type-level programming on Scala 3 &mdash; the capability to express computations on _types_ instead of values, by making the compiler figure out some type relationships at compile time. By encoding some computational problem as a type restriction or as an enforcement of a type relationship, we can make the compiler "solve" our computation by searching, inferring or validating the proper use of types.
@@ -41,11 +39,11 @@ The lines above fully represent the entire set of natural numbers: the number ze
   type _5 = Succ[_4]
 ```
 
-<NoteAdmonition>
-  This notation has nothing to do with the literal types [recently added in
-  Scala 3](/articles/scala-3-new-types). The literal types have no relationship
-  to each other, so we'll need to model this relationship ourselves.
-</NoteAdmonition>
+:::note
+
+This notation has nothing to do with the literal types [recently added in Scala 3](/articles/scala-3-new-types). The literal types have no relationship to each other, so we'll need to model this relationship ourselves.
+
+:::
 
 ## Ordering Numbers at the Type Level
 
@@ -88,9 +86,11 @@ Getting that in code leads to the following `given`s:
   given inductive[A <: Nat, B <: Nat](using lt: <[A, B]): <[Succ[A], Succ[B]] with {}
 ```
 
-<NoteAdmonition>
-    That in Scala 3.1 (not out yet at the time of writing) you'll be able to say `<[_0, Succ[B]]()` instead of `<[_0, Succ[B]] with {}`, for conciseness.
-</NoteAdmonition>
+:::note
+
+That in Scala 3.1 (not out yet at the time of writing) you'll be able to say `<[_0, Succ[B]]()` instead of `<[_0, Succ[B]] with {}`, for conciseness.
+
+:::
 
 For ergonomics, we're going to store the above givens in the companion of `<`, so that the code will look like this:
 
@@ -116,7 +116,7 @@ This one is valid. The code compiles. Let's see what the compiler does behind th
 
 - We're requesting a `given` of type `<[_3, _5]`. The compiler needs to find if it can generate one from either of the two `given` synthesizers we specified earlier.
 - The second `given` works, because the compiler looks at the signature of the as-of-yet-ungenerated given: `<[Succ[_2], Succ[_4]]`. However, in order to generate that, it needs to find or create a given of type `<[_2, _4]`.
-- Again, teh second `given` can be used, for the same reason. For that, the compiler needs a given of type `<[_1, _3]`.
+- Again, the second `given` can be used, for the same reason. For that, the compiler needs a given of type `<[_1, _3]`.
 - Same deal, the compiler can create a `given` of type `<[_1, _3]` if it can find a given of type `<[_0, _2]`.
 - Using the _first_ given this time around, we see that the compiler can create a given of type `<[_0, _2]` because `_2 = Succ[_1]`.
 - Walking backwards, the compiler can generate all the intermediate givens in order to create the given we requested.

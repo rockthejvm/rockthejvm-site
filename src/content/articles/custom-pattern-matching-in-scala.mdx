@@ -7,8 +7,6 @@ tags: [fp, scala]
 title: Custom Pattern Matching in Scala
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for Scala developers with _some_ existing experience. The techniques I'm about to show you are not rocket science, but they are nonetheless pretty useful.
@@ -112,12 +110,11 @@ val danielsLegalStatus = daniel.age match {
 
 Making the connections again, the compiler invokes `PersonDrinkingStatus.unapply(daniel.age)`. Returning a non-empty `Option[String]` means that the pattern was matched.
 
-<NoteAdmonition>
-  The name of the pattern, the type subject to pattern matching and the values
-  deconstructed many not have any connection to each other. It's quite common
-  that the `unapply` methods be stored in the companion object of the
-  class/trait in question.
-</NoteAdmonition>
+:::note
+
+The name of the pattern, the type subject to pattern matching and the values deconstructed many not have any connection to each other. It's quite common that the `unapply` methods be stored in the companion object of the class/trait in question.
+
+:::
 
 ## Matching Sequences
 

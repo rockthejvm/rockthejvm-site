@@ -9,20 +9,15 @@ title: ADTs (Algebraic Data Types) in Scala
 updatedDate: 2021-01-20
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Introduction
 
 Every developer using Scala meets the acronym ADT sooner or later. But, what are Algebraic Data Types? Why are they so useful? In this article, we will try to answer all of your questions about ADT.
 
-<NoteAdmonition>
-  This is the first guest post on the blog! This article is brought to you by
-  Riccardo Cardin, a proud student of the [Scala with Cats
-  course](/courses/cats). Riccardo is a senior developer, a teacher and a
-  passionate technical blogger. For the last 15 years, he's learned as much as
-  possible about OOP, and now he is focused on his next challenge: mastering
-  functional programming!
-</NoteAdmonition>
+:::note
+
+This is the first guest post on the blog! This article is brought to you by Riccardo Cardin, a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming!
+
+:::
 
 ## Background
 
@@ -38,8 +33,7 @@ So, let's have a deep dive into the world of ADTs.
 
 ### Sum Types
 
-The best way to understand an abstract concept is to model something
-we know very well. For example, imagine we have to create some type representing a weather forecast service.
+The best way to understand an abstract concept is to model something we know very well. For example, imagine we have to create some type representing a weather forecast service.
 
 We can model the weather in Scala using a base `trait` and then deriving from it every possible weather state:
 

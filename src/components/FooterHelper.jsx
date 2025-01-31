@@ -142,7 +142,7 @@ export default function Example(props) {
                 >
                   Content
                 </h3>
-                <ul role="list" className="mt-6 space-y-4">
+                <ul className="mt-6 space-y-4">
                   {navigation.content.map((item) => (
                     <li key={item.name}>
                       <a href={item.href} className="text-sm leading-6">
@@ -162,7 +162,7 @@ export default function Example(props) {
                 >
                   Support
                 </h3>
-                <ul role="list" className="mt-6 space-y-4">
+                <ul className="space-y-4 mt-6">
                   {navigation.support.map((item) => (
                     <li key={item.name}>
                       <a
@@ -187,7 +187,7 @@ export default function Example(props) {
                 >
                   Company
                 </h3>
-                <ul role="list" className="mt-6 space-y-4">
+                <ul className="mt-6 space-y-4">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
                       <a
@@ -210,7 +210,7 @@ export default function Example(props) {
                 >
                   Legal
                 </h3>
-                <ul role="list" className="mt-6 space-y-4">
+                <ul className="mt-6 space-y-4">
                   {navigation.legal.map((item) => (
                     <li key={item.name}>
                       <a
@@ -264,7 +264,9 @@ export default function Example(props) {
               </div>
             </form> */}
             {props.newsletter}
-            <button onClick={clearCookies}>Clear Cookies</button>
+            <button type="button" onClick={clearCookies}>
+              Clear Cookies
+            </button>
           </div>
         </div>
         <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
@@ -330,6 +332,7 @@ export default function Example(props) {
                 href={site.socials.feed.url}
                 target="_blank"
                 className="text-content hover:text-accent-1"
+                rel="noreferrer"
               >
                 {props.rss}
               </a>

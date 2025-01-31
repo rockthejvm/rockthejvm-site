@@ -1,0 +1,22 @@
+name: Cache
+on:
+  push:
+    branches: [main]
+    paths: [.trunk/trunk.yaml]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+permissions: read-all
+jobs:
+  cache_trunk:
+    name: Cache Trunk
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cache Trunk
+        uses: trunk-io/trunk-action@v1
+        with:
+          check-mode: populate_cache_only

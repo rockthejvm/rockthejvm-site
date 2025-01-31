@@ -8,9 +8,6 @@ tags: [fs2, typelevel]
 title: "FS2: More Than Functional Streaming in Scala"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 Nowadays, modern applications are often built on top of streaming data: Reading from a huge file and processing information or handling continuous data from the network as WebSockets or from a message broker. Streams are the way to go in such situations, and Scala provides its own streams implementation.
@@ -19,11 +16,11 @@ However, streams in the standard library are not as powerful as they could be an
 
 Fortunately, some libraries offer more robust implementation of streams. One of these is the FS2 library, built on top of the Cats and Cats Effect libraries. Moreover, **FS2 provides an entirely functional approach to stream processing**. So, without further ado, let's dive into the details of FS2.
 
-<NoteAdmonition>
-  Another long-form by [Riccardo Cardin](/authors/riccardo-cardin) - having
-  started with the [Scala with Cats course](/courses/cats) a while back, he's
-  now steadily mastering all the critical pieces of the Typelevel ecosystem.
-</NoteAdmonition>
+:::note
+
+Another long-form by [Riccardo Cardin](/authors/riccardo-cardin) - having started with the [Scala with Cats course](/courses/cats) a while back, he's now steadily mastering all the critical pieces of the Typelevel ecosystem.
+
+:::
 
 ## Setup
 
@@ -40,10 +37,11 @@ The `fs2-core` library provides the core functionalities of the library. Many ot
 
 To work well with fs2, you'll need to be comfortable with Scala, of course. Some basics of Cats Effect would be wonderful.
 
-<TipAdmonition>
-  Rock the JVM has this in-depth [Cats Effect course](/courses/cats-effect) if
-  you're interested in mastering it, but it's not required.
-</TipAdmonition>
+:::tip
+
+Rock the JVM has this in-depth [Cats Effect course](/courses/cats-effect) if you're interested in mastering it, but it's not required.
+
+:::
 
 It's usual for us at Rock the JVM to build the examples around a concrete scenario. We can continue to refer to the _myimdb_ project that we used both in the articles on [_http4s_](http4s-unleashing-the-power-of-http-apis-library) and on [_doobie_](/articles/learning-doobie-for-the-greater-good).
 
@@ -570,6 +568,7 @@ val avengersActorsCalledChris: Stream[IO, Unit] =
 ## Using Concurrency in Streams
 
 One of the most used fs2 features is using concurrency in streams. It's possible to implement many concurrency patterns using the primitives provided by the `Stream` type.
+
 The first function we will analyze is `merge`, which lets us run two streams concurrently, collecting the results in a single stream as they are produced. **The execution halts when both streams have halted**. For example, we can merge JLA and Avengers concurrently, adding some sleep to the execution of each stream:
 
 ```scala
@@ -604,6 +603,7 @@ Actor(5,Jason,Momoa)
 ```
 
 As we may expect, the stream contains an actor of the JLA more or less every two actors of the Avengers. Once the Avengers actors are finished, the JLA actors fulfill the rest of the stream.
+
 If we don't care about the results of the second stream running concurrently, we can use the `concurrently` method instead. An everyday use case for this method is implementing a producer-consumer pattern. For example, we can implement a program with a producer that uses a `cats.effect.std.Queue` to share JLA actors with a consumer, which prints them to the console:
 
 ```scala
@@ -632,6 +632,7 @@ val producer: Stream[IO, Unit] =
 ```
 
 The `metered` method allows waiting a given time between two consecutive pulls. We decided to wait one second.
+
 Then, we declare a `consumer` stream, which pulls an actor from the queue and prints it to the console with the thread name:
 
 ```scala
@@ -664,8 +665,11 @@ Running the above program produces an output similar to the following:
 ```
 
 As we can see, the producer and consumer are indeed running concurrently.
+
 A critical feature of running two streams through the `concurrently` method is that **the second stream halts when the first stream is finished**.
+
 Moreover, we can run a set of streams concurrently, deciding the degree of concurrency _a priori_ using streams. The method `parJoin` does precisely this. Contrary to the `concurrently` method, the results of the streams are merged in a single stream, and no assumption is made on streams' termination.
+
 We can try to print the actors playing superheroes of the JLA, the Avengers, and Spider-Man concurrently. First, we define a `Pipe` printing the thread name and the actor being processed:
 
 ```scala
@@ -695,6 +699,7 @@ implicit final class NestedStreamOps[F[_], O](private val outer: Stream[F, Strea
 ```
 
 Each stream is traversed concurrently, and the maximum degree of concurrency is given in input as the parameter `maxOpen`. **As we can see, the effect used to handle concurrency must satisfy the `Concurrent` bound, which is required anywhere concurrency is used in the library**.
+
 We want four threads to pull concurrent values from the three streams in our example. Running the program produces an output similar to the following:
 
 ```text
@@ -716,6 +721,7 @@ We want four threads to pull concurrent values from the three streams in our exa
 ```
 
 As we can see, the threads used by the runtime are precisely four.
+
 Many other methods are available in the fs2 library concerning concurrency, such as `either` and `mergeHaltBoth`. Please, refer to the [documentation](https://oss.sonatype.org/service/local/repositories/releases/archive/co/fs2/fs2-core_2.13/3.2.0/fs2-core_2.13-3.2.0-javadoc.jar/!/fs2/index.html) for more details.
 
 ## Conclusion

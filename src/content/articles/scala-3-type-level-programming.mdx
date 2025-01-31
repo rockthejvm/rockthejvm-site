@@ -9,9 +9,6 @@ tags: [fp, scala, scala-3, type-system]
 title: "Scala 3: Type-Level Programming"
 ---
 
-import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Introduction
 
 Scala 3 boasts many features that are meant to simplify and enhance type-level programming: match types, inlines, diverse compile-time operations, and the list goes on. With all these new features it is quite easy to get lost when trying to solve a concrete problem using type-level techniques.
@@ -165,7 +162,7 @@ Is equivalent (up to field names) to this tuple type:
 (Email, Phone, Address)
 ```
 
-And if we squint even a bit further, tuples are somewhat similar to lists, with the key difference that types of the elements can be different (heterogenous). To tie this all up in a nice package, Scala 3 provides us with list-like operations on tuples directly[^hlist]. Of course, since tuples are not actually lists, the way we work with them will be different, but keep the list analogy in mind as we go on to manipulate tuples in creative ways.
+And if we squint even a bit further, tuples are somewhat similar to lists, with the key difference that types of the elements can be different (heterogeneous). To tie this all up in a nice package, Scala 3 provides us with list-like operations on tuples directly[^hlist]. Of course, since tuples are not actually lists, the way we work with them will be different, but keep the list analogy in mind as we go on to manipulate tuples in creative ways.
 
 [^hlist]: Similar to the functionality of the `HList` type in the [Shapeless](https://github.com/milessabin/shapeless) library for Scala 2.
 
@@ -186,6 +183,7 @@ Using `Tuple.fromProductTyped` we can convert a `User` value to its correspondin
 So how do we iterate over a tuple?
 
 If we were working with actual lists, the `map` function would come in handy for our problem.
+
 The new Scala 3 tuples now too have the `map` function which sounds like it could be what we're looking for. Here's the code that I wish I could write:
 
 ```scala
@@ -495,33 +493,33 @@ Some interesting observations about this approach:
 - The user has to debug compilation errors in code that was never written by the said user. As the logic of code generation grows more sophisticated, the debugging process can become non-trivial.
 - Preserving type information is very important. Missing type information can prevent the compiler from fully inlining. For example:
 
-  ```scala
-  scala> val tuple: Tuple = (1, "abc", true)
+    ```scala
+    scala> val tuple: Tuple = (1, "abc", true)
 
-         val list = tupleToJson(tuple)
-  -- Error: ----------------------------------------------------------------------
-  3 |val list = tupleToJson(tuple)
-    |           ^^^^^^^^^^^^^^^^^^
-    |           cannot reduce inline match with
-    |            scrutinee:  tuple : (tuple : Tuple)
-    |            patterns :  case EmptyTuple
-    |                        case tup @ _:*:[h @ _, t @ _]
-    |-----------------------------------------------------------------------------
-    |Inline stack trace
-    |- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    |This location contains code that was inlined from rs$line$6:2
-  2 |  inline tuple match
-    |         ^
-  3 |    case EmptyTuple => Nil // 2
-  4 |    case tup: (h *: t) => // 3
-  5 |      val encoder = summonInline[Encoder[h]] // 4
-  6 |      val json = encoder(tup.head) // 5
-  7 |      json :: tupleToJson(tup.tail) // 6
-    -----------------------------------------------------------------------------
-  1 error found
-  ```
+           val list = tupleToJson(tuple)
+    -- Error: ----------------------------------------------------------------------
+    3 |val list = tupleToJson(tuple)
+      |           ^^^^^^^^^^^^^^^^^^
+      |           cannot reduce inline match with
+      |            scrutinee:  tuple : (tuple : Tuple)
+      |            patterns :  case EmptyTuple
+      |                        case tup @ _:*:[h @ _, t @ _]
+      |-----------------------------------------------------------------------------
+      |Inline stack trace
+      |- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      |This location contains code that was inlined from rs$line$6:2
+    2 |  inline tuple match
+      |         ^
+    3 |    case EmptyTuple => Nil // 2
+    4 |    case tup: (h *: t) => // 3
+    5 |      val encoder = summonInline[Encoder[h]] // 4
+    6 |      val json = encoder(tup.head) // 5
+    7 |      json :: tupleToJson(tup.tail) // 6
+      -----------------------------------------------------------------------------
+    1 error found
+    ```
 
-  Here we purposefully lost type information by marking the `tuple: Tuple`. The compiler gets stuck when inlining as it doesn't know the full type of the provided tuple, and then spits out a vaguely inscrutable compilation error. Eerily reminiscent of macro induced errors.
+    Here we purposefully lost type information by marking the `tuple: Tuple`. The compiler gets stuck when inlining as it doesn't know the full type of the provided tuple, and then spits out a vaguely inscrutable compilation error. Eerily reminiscent of macro induced errors.
 
 But all is well, this is perfectly serviceable for our purposes.
 
@@ -692,7 +690,7 @@ type MirroredElemTypes = (Email, Phone, Address)
 
 This is exactly the representation of the `User` type as tuple of its field types. And so, this is the tuple type that we will iterate on. Additionally, the `Mirror` provides us with utilities to convert `User` to/from tuples, which we will use later on.
 
-But there's a wrinkle, perviously, when we iterated over a tuple, we had a tuple **value**, something concrete that we actually operate on at runtime. Here, on the other hand, all we have is a tuple **type**? What can we possibly do with just a type?
+But there's a wrinkle, previously, when we iterated over a tuple, we had a tuple **value**, something concrete that we actually operate on at runtime. Here, on the other hand, all we have is a tuple **type**? What can we possibly do with just a type?
 
 ### Erased Values
 
@@ -726,14 +724,11 @@ val res2: Int = 3
 
 As expected the size of the tuple is `3`.
 
-<NoteAdmonition>
-  I'm using `_` instead of naming the value in the pattern match. This is a
-  non-negotiable limitation of `erasedValue`. Since all we have is a type, there
-  isn't any value that we can **actually** use at runtime. As a result, the
-  pattern match that we are performing is not allowed to ever use the (fake)
-  value we are pattern-matching on. All we can do is react to the types that we
-  are encountering on each branch[^atRuntime].
-</NoteAdmonition>
+:::note
+
+I'm using `_` instead of naming the value in the pattern match. This is a non-negotiable limitation of `erasedValue`. Since all we have is a type, there isn't any value that we can **actually** use at runtime. As a result, the pattern match that we are performing is not allowed to ever use the (fake) value we are pattern-matching on. All we can do is react to the types that we are encountering on each branch[^atRuntime].
+
+:::
 
 [^atRuntime]: You can actually name the branches, instead of using `_`. But if, by mistake, you try to use the named value the compiler will complain and abort compilation.
 
@@ -1299,8 +1294,7 @@ What type will that tuple have? This is exactly what `Map` is for. The type we a
 Map[mirror.MirroredElemTypes, Decoder]
 ```
 
-Now we could iterate over this type and `summonInline` each `Decoder` one by one[^summonExercise], but we don't have
-to. The standard library already provides us with a solution:
+Now we could iterate over this type and `summonInline` each `Decoder` one by one[^summonExercise], but we don't have to. The standard library already provides us with a solution:
 
 ```scala
 scala.compiletime.summonAll
@@ -1338,23 +1332,23 @@ This is much more modular than what we had before. `Tuple.Map` and `summonAll` a
 We won't be further improving the `decodeTuple` function, but I will leave you with a few of exercises in that direction.
 
 1. The `encodeTuple` function suffers from the same lack of modularity as the old `decodeTuple`. We can reimplement in a similar way. Try implementing the following signature[^implementedInTheRepo]:
-   ```scala
-   inline def encodeTuple[T <: Tuple](encoders: Map[T, Encoder.AsObject]): Encoder.AsObject[T]
-   ```
-   You will need a couple of helper definitions:
-   ```scala
-   val emptyEncoder: Encoder.AsObject[EmptyTuple]
-   def combineObjectEncoders[H, T <: Tuple](eh: Encoder.AsObject[H], et: Encoder.AsObject[T]): Encoder.AsObject[H *: T]
-   ```
+    ```scala
+    inline def encodeTuple[T <: Tuple](encoders: Map[T, Encoder.AsObject]): Encoder.AsObject[T]
+    ```
+    You will need a couple of helper definitions:
+    ```scala
+    val emptyEncoder: Encoder.AsObject[EmptyTuple]
+    def combineObjectEncoders[H, T <: Tuple](eh: Encoder.AsObject[H], et: Encoder.AsObject[T]): Encoder.AsObject[H *: T]
+    ```
 1. `decodeTuple` is very similar in structure to the famous `sequence` function from functional programming[^listAnalogy]. Generalize `decodeTuple` and implement the following signature[^cats]:
-   ```scala
-   def sequenceTuple[T <: Tuple, F[_]: cats.Applicative](fs: Map[T, F]): F[T]
-   ```
+    ```scala
+    def sequenceTuple[T <: Tuple, F[_]: cats.Applicative](fs: Map[T, F]): F[T]
+    ```
 1. Reimplement `decodeTuple` in terms of `sequenceTuple`. Can you think of other usages for `sequenceTuple`?
 1. The new implementation of `encodeTuple` is very similar to `decodeTuple`. Unfortunately `sequenceTuple` won't work for it[^contravariant]. We can generalize `sequenceTuple` even further. Try implementing the following signature:
-   ```scala
-   def sequenceInvariantTuple[T <: Tuple, F[_]: cats.InvariantMonoidal](fs: Map[T, F]): F[T]
-   ```
+    ```scala
+    def sequenceInvariantTuple[T <: Tuple, F[_]: cats.InvariantMonoidal](fs: Map[T, F]): F[T]
+    ```
 1. Reimplement `encodeTuple` in terms of `sequenceInvariantTuple`.
 1. Reimplement `sequenceTuple` in terms of `sequenceInvariantTuple`.
 
@@ -1444,10 +1438,11 @@ Let us implement the last safety requirement, that will prevent these errors at 
 
 ### So Many Mirrors
 
-<CautionAdmonition>
-  This is by far the most incomprehensible part of this post as well as the most
-  speculative. I hope we make it out okay...
-</CautionAdmonition>
+:::caution
+
+This is by far the most incomprehensible part of this post as well as the most speculative. I hope we make it out okay...
+
+:::
 
 Before we can check for duplicate fields we need to somehow get a list of all the fields we are going to write. The `Mirror`s for our types can provide us with this. Let us summon all the relevant `Mirror`s:
 

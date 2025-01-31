@@ -8,9 +8,6 @@ tags: [flink, kafka, streaming]
 title: "Streaming SQL with Apache Flink: A Gentle Introduction"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 Flink SQL is a powerful high level API for running queries on streaming (and batch) datasets. In this article we will see:
@@ -21,23 +18,23 @@ Flink SQL is a powerful high level API for running queries on streaming (and bat
 1. Understand different kinds of Processing Operators and Functions
 1. Different ways of running Flink SQL Queries
 
-<NoteAdmonition>
-  This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos).
-  Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect
-  with a focus on Event Streaming and Stream Processing Systems.
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  If you need to learn the fundamentals of streaming with Flink, check out the
-  long-form [Flink course](/courses/flink) here at Rock the JVM.
-</TipAdmonition>
+This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
+
+:::
+
+:::tip
+
+If you need to learn the fundamentals of streaming with Flink, check out the long-form [Flink course](/courses/flink) here at Rock the JVM.
+
+:::
 
 ## Streaming (and Batch) SQL
 
 ### Unified Batch and Streaming
 
-When we hear about SQL (referenced as batch SQL here) we think of the following tabular format you typically find in RDBMS,
-on which we operate and run computations - from simple projections (like SELECT and Filter), to Aggregations to Windowed Functions.
+When we hear about SQL (referenced as batch SQL here) we think of the following tabular format you typically find in RDBMS, on which we operate and run computations - from simple projections (like SELECT and Filter), to Aggregations to Windowed Functions.
 
 ![SQL table](images/sql-table.png)
 
@@ -50,6 +47,7 @@ Let's think of a data stream now
 ![Unbounded data stream showing a uniform pipeline of messages](images/unbounded-data-stream.png)
 
 A stream is basically an _unbounded_ dataset of incoming events, i.e. it has no end.
+
 In the heart of a stream is the _append-only log_, i.e. each incoming events can be considered as a _row_ that gets appended at the end of the log - similar to a database table.
 
 In practice if we follow this mental model we can think of a stream as a collection of snapshots of bounded datasets.
@@ -63,8 +61,8 @@ This is what is enables Unified Batch and Streaming Architecture and allows the 
 The rules are as follows:
 
 - The Input tables are constantly changing and possibly unbounded
-  - _Append Only Streams:_ Keeps all the history in the stream. Every new event is an insert operation in the append-only log
-  - _Changelog Streams:_ Keeps the most recent value (for some key).
+    - _Append Only Streams:_ Keeps all the history in the stream. Every new event is an insert operation in the append-only log
+    - _Changelog Streams:_ Keeps the most recent value (for some key).
 - Query results are never final, continuously updated, and potentially unbounded
 
 ![Dynamic SQL table that is is created based on new event records](images/dynamic-sql-table.png)
@@ -85,15 +83,13 @@ A catalog can be non-persisted (In Memory Catalog) or persistent backed by an ex
 
 For In Memory catalogs all metadata will be available only for the lifetime of the session.
 
-In contrast, catalogs like PostgresCatalog enables users to connect the two systems and then Flink
-automatically references existing metadata by mapping them to it's corresponding metadata.
+In contrast, catalogs like PostgresCatalog enables users to connect the two systems and then Flink automatically references existing metadata by mapping them to it's corresponding metadata.
 
 For example, Flink can map Postgres tables to its own table automatically, and users don't have to manually re-writing DDLs in Flink SQL.
 
 Within the catalogs you create databases and tables in these databases.
 
-When creating a table it's full table name identifier is: _\<catalog_name\>.\<database_name\>.\<table_name\>_ and when a catalogs and/or database is not specified
-the default ones are used.
+When creating a table it's full table name identifier is: _\<catalog_name\>.\<database_name\>.\<table_name\>_ and when a catalogs and/or database is not specified the default ones are used.
 
 ## Environment Setup
 
@@ -245,9 +241,14 @@ Topic: sensor.readings	TopicId: HGvGHOeKQQCxG3cly2R7Lw	PartitionCount: 3	Replica
 Let's go back to our Flink SQL cli and the first thing we need is some tables to work with.
 
 We will be using the [Kafka Flink SQL connector](https://nightlies.apache.org/flink/flink-docs-release-1.16/docs/connectors/table/kafka/) to read sensor information and sensor readings from the two Kafka topic we already created.
+
 The following block shows how to create a table from a Kafka topic.
 
-_Note:_ We will be using the default catalogs as well as the default database.
+:::note
+
+We will be using the default catalogs as well as the default database.
+
+:::
 
 ```console
 CREATE TABLE readings (
@@ -291,7 +292,11 @@ We can observe the following column types in Flink SQL:
 1. _Metadata columns:_ like the `ts` column in our statement that is basically Kafka metadata for accessing the `timestamp` from a Kafka Record.
 1. _Computed columns:_ virtual columns like the _eventTime_ltz_ in our statement, that is a formatted timestamp derived from our `timestamp` BIGINT column. Virtual Columns can reference other columns, perform simple computations (like 5 \* reading) or use built-in functions
 
-_Note:_ Specifying a Time attributes (here _eventTime_ltz_) and watermarks is what allows us to operate properly on even time and also set constraints on temporal operators, which we will shortly.
+:::note
+
+Specifying a Time attributes (here _eventTime_ltz_) and watermarks is what allows us to operate properly on even time and also set constraints on temporal operators, which we will shortly.
+
+:::
 
 Let's also create a table for our sensor information topic.
 
@@ -330,8 +335,7 @@ Flink SQL> DESCRIBE sensors;
 
 You might wonder why there is no time attribute or watermark specified on this topic.
 
-The sensor information is basically used to hold _state_ - i.e it's a _changelog stream_ backed by a compacted Kafka topic (compared to an _append-only stream_) because we are only interested in keeping the latest sensor
-information to perform event enrichment later (when we will discuss joins.)
+The sensor information is basically used to hold _state_ - i.e it's a _changelog stream_ backed by a compacted Kafka topic (compared to an _append-only stream_) because we are only interested in keeping the latest sensor information to perform event enrichment later (when we will discuss joins.)
 
 At this point we have two tables created within our default database.
 
@@ -348,10 +352,14 @@ Flink SQL> SHOW TABLES;
 ```
 
 Next up we need some data in our topics (and tables) to work with.
-I will use the following Producer code that can be found [here](https://github.com/polyzos/select-star-from-streams/blob/main/src/main/kotlin/io/ipolyzos/producers/SensorProducer.kt)
-to generate information for _10 sensors_ and _10.000 readings_. You can modify the code to ingest more data if you want.
 
-_Note:_ I skipped added the implementation here since our focus is on Flink SQL.
+I will use the following Producer code that can be found [here](https://github.com/polyzos/select-star-from-streams/blob/main/src/main/kotlin/io/ipolyzos/producers/SensorProducer.kt) to generate information for _10 sensors_ and _10.000 readings_. You can modify the code to ingest more data if you want.
+
+:::note
+
+I skipped added the implementation here since our focus is on Flink SQL.
+
+:::
 
 ### Run Our First Query
 
@@ -450,7 +458,8 @@ GROUP BY sensorId
 ```
 
 _Notice the op column_ - when we have an update for a given _key_ the previous row is deleted and updated to the new value.
-For example
+
+For example:
 
 ```text
 | +I |                              4 |                    1 |
@@ -491,10 +500,10 @@ FROM readings
 
 ```
 
-Both tables are kept in memory which means the state will keep growing for both sides of the joins and thus it's important to
-expire state by using a ttl.
+Both tables are kept in memory which means the state will keep growing for both sides of the joins and thus it's important to expire state by using a ttl.
 
 You can achieve this using [`table.exec.state.ttl`](https://nightlies.apache.org/flink/flink-docs-release-1.16/docs/dev/table/config/#table-exec-state-ttl).
+
 Keep in mind though that there is a tradeoff between accuracy and state size, as expiring state too early might result in incomplete results.
 
 _If you need to keep really large state around you will need to configure Flink to use Rocksdb as a state backend,_
@@ -505,8 +514,7 @@ For example a time Window that is considered _complete_ doesn't need to be kept 
 
 ### Temporal Operators
 
-Temporal Operators are constraint by time. Records and computations are associated with a temporal condition, i.e a time window of 30 seconds
-and accept new records - previously added records can not be updated or deleted.
+Temporal Operators are constraint by time. Records and computations are associated with a temporal condition, i.e a time window of 30 seconds and accept new records - previously added records can not be updated or deleted.
 
 As we previously mentioned they hold records and/or results in state, but only until they are no longer required.
 
@@ -564,10 +572,13 @@ WINDOW minuteInterval AS (
 ## (Temporary) Views
 
 As we mentioned Flink SQL is quite rich and provides a lot of function - so covering everything in this article is impossible.
+
 One more useful feature though I want to mention is _Temporary Views_.
 
 Similar to database Views it can be used to store the results of a query.
+
 A view is not physically materialized, but instead it is run every time the view is referenced in a query.
+
 Temporary Views are very useful to structure and decompose more complicated queries or reuse queries within other queries.
 
 Once more let us better illustrate this with an example.
@@ -621,6 +632,7 @@ WHERE reading > minuteAvgTemp + 2 * minuteStdevTemp
 ## The TableEnvironment and SQL Queries
 
 Up to this point we have been using the Flink SQL cli to submit sql queries.
+
 For production cases though - or if you are running in environments like Kubernetes for example using the [Flink Operator](https://github.com/apache/flink-kubernetes-operator), you might need other ways to achieve this.
 
 _Note 1:_ Flink _1.16_ introduced [_Flink SQL Gateway_](https://nightlies.apache.org/flink/flink-docs-release-1.16/docs/dev/table/sql-gateway/overview/) that you can use to submit queries.
@@ -709,8 +721,7 @@ The TableEnvironment is the entrypoint for Table API and SQL integration and is 
 - Registering a user-defined (scalar, table, or aggregation) function
 - Converting between DataStream and Table (in case of StreamTableEnvironment)
 
-The code snippet illustrated above runs the _Join Operations_ we saw before (you can find the queries [here](https://github.com/polyzos/depths-of-flink/blob/main/src/main/kotlin/io/ipolyzos/compute/Queries.kt))
-and the output should be similar.
+The code snippet illustrated above runs the _Join Operations_ we saw before (you can find the queries [here](https://github.com/polyzos/depths-of-flink/blob/main/src/main/kotlin/io/ipolyzos/compute/Queries.kt)) and the output should be similar.
 
 ### A Short Discussion: Checkpoints and State
 
@@ -723,8 +734,7 @@ We are not going into detail for these concepts here as it's a story for another
 
 ![Project file structure of checkpoints](images/project-file-structure-checkpoints.png)
 
-Since we are consuming (at most) from 3 kafka partitions, I'm using a parallelism of 3 as you might have also noticed in the code and so the stateful operator that runs the join will
-store state for each of the three tasks.
+Since we are consuming (at most) from 3 kafka partitions, I'm using a parallelism of 3 as you might have also noticed in the code and so the stateful operator that runs the join will store state for each of the three tasks.
 
 You can use a sample code file I have added [here](https://github.com/polyzos/depths-of-flink/blob/main/src/main/kotlin/io/ipolyzos/inspect/RocksDBInspect.kt) to see what gets written in state.
 
@@ -741,11 +751,13 @@ Processing state of operator: job_848920cbd5178c2a525827b244d1e530_op_StreamingJ
 ```
 
 You can see that we have two [column families](https://github.com/EighteenZi/rocksdb_wiki/blob/master/Column-Families.md) - one for the left side of the join (sensor readings) and one for the right (sensor information).
+
 Notice for example for the `right-records` since we have _10 sensor ids_ these keys are distributed among the three tasks.
 
 And as discussed previously: since there are no time constraints you will notice the state growing indefinitely (unless `table.exec.state.ttl` is configured).
 
 I hope I sparked some interest for those curious that want to dive deeper themselves.
+
 In this article though we will conclude with this high level overview.
 
 ## Conclusion

@@ -9,9 +9,6 @@ title: A Backtracking Sudoku Solver in Scala
 videoId: zBLCbqycVzw
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for Scala beginners. After you learn the language, the next big thing you need to master is how to write essential "algorithms" in Scala. As you can probably tell and as senior developers will no doubt tell you, the mindset that comes with the Scala language is very different from what we're usually taught in school, or in programming tutorials. This tends to make algorithms in Scala quite difficult.
@@ -20,25 +17,24 @@ This article is for Scala beginners. After you learn the language, the next big 
 
 This article will show you how to _think_ such "algorithmic" problems with recursion, with a famous example: a Sudoku solver in Scala.
 
-<NoteAdmonition>
-  This article works identically for Scala 2 and Scala 3. In fact, the
-  techniques are applicable to all other languages, including Java, Python,
-  Kotlin and others. All you need is recursion.
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  If you want to master this mindset for Google-style algorithms questions,
-  check out the [Scala & FP interview practice
-  course](/courses/scala-and-functional-programming-interview-practice). It's a
-  long-form, 15-hour course that will take you through all the essential data
-  structures and algorithms, taken in a functional style with Scala.
-</TipAdmonition>
+This article works identically for Scala 2 and Scala 3. In fact, the techniques are applicable to all other languages, including Java, Python, Kotlin and others. All you need is recursion.
+
+:::
+
+:::tip
+
+If you want to master this mindset for Google-style algorithms questions, check out the [Scala & FP interview practice course](/courses/scala-and-functional-programming-interview-practice). It's a long-form, 15-hour course that will take you through all the essential data structures and algorithms, taken in a functional style with Scala.
+
+:::
 
 ## The Sudoku Problem
 
 The Sudoku problem is famous, but let's state it here really quick:
 
 You have a 9x9 board, partially filled with numbers 1-9.
+
 You need to fill the board with numbers 1-9, such that
 
 - Every row
@@ -193,13 +189,13 @@ That's more like it - we can now identify things in the Sudoku matrix easily.
 The most important aspect of a constraint satisfaction problem is how to maintain the constraints _as we're building the solution_. We did something similar in the [N-Queens](/articles/n-queens-in-scala) problem. The way we're going to build up our solution will be:
 
 - On every row
-  - On every column
-    - Check if there is a non-zero value there; if it is, that's part of the original puzzle
-    - If there's a zero, we'll try all numbers from 1-9:
-      - Set a value
-      - _Check if it satisfies the Sudoku property_
-      - Move to the next cell to the right, try out all possible solutions from there
-      - Unset the value and try the next one
+    - On every column
+        - Check if there is a non-zero value there; if it is, that's part of the original puzzle
+        - If there's a zero, we'll try all numbers from 1-9:
+            - Set a value
+            - _Check if it satisfies the Sudoku property_
+            - Move to the next cell to the right, try out all possible solutions from there
+            - Unset the value and try the next one
 
 Of course, this is an imperative style, "algorithmic" approach - we'll build up a recursive solution in Scala for Sudoku shortly, but first, we need to be able to validate whether a value we're placing in an empty cell is "correct", i.e. satisfies the Sudoku property. Of course, we don't need to check _all_ rows, columns and boxes, but just those for the cell we're filling.
 

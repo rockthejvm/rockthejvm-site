@@ -1,8 +1,8 @@
 ---
+import { type CollectionEntry, getEntries, getEntry } from "astro:content";
 import Profile from "@components/Profile.astro";
 import site from "@data/site.json";
-import capitalize from "@utils/capitalize";
-import { getEntries, getEntry, type CollectionEntry } from "astro:content";
+import capitalizeFirstChar from "@utils/capitalizeFirstChar.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
@@ -15,6 +15,7 @@ import Pricing from "../_sections/Pricing.astro";
 import Question from "../_sections/Question.astro";
 import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
+import { getCollection } from "astro:content";
 
 interface Response {
   price: number;
@@ -73,10 +74,10 @@ const {
 const instructors = await getEntries<"authors">(_instructors);
 
 const response = await fetch(
-  `https://rockthejvm.com/api/purchase/${pricingPlanId}`,
+  `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed()}`,
 );
 
-const { price }: Response = await response.json();
+const { price } = (await response.json()) as Response;
 
 function difficultyToOrdinal(
   difficulty: "beginner" | "intermediate" | "advanced",
@@ -92,6 +93,8 @@ function difficultyToOrdinal(
       return 0;
   }
 }
+
+const companies = await getCollection("companies");
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -120,21 +123,21 @@ const structuredData = JSON.stringify({
     {
       "@type": "CourseInstance",
       courseMode: "Online",
-      courseWorkload: `PT${2 * (bundledCourses.length > 0 ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)}H`,
+      courseWorkload: `PT${Math.round(2 * (bundledCourses.length > 0 ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)).toFixed()}H`,
       instructor: instructors.map((instructor) => ({
         "@type": "Person",
         name: instructor.data.name,
         description:
           instructor.data.biography ??
           (instructor.data.company
-            ? `${instructor.data.company.role} at ${instructor.data.company?.entity}.`
+            ? `${instructor.data.company.role} at ${companies.find(({ id }) => id === instructor.data.company!.entity.id)!.data.title}.`
             : ""),
         image: instructor.data.photo.src,
       })),
     },
   ],
   availableLanguage: ["en"],
-  educationalLevel: capitalize(
+  educationalLevel: capitalizeFirstChar(
     difficulty ??
       bundledCourses
         .map((course) => course.data.difficulty ?? "beginner")
