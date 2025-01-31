@@ -26,7 +26,7 @@ interface Props {
   article: CollectionEntry<"articles">;
   allArticles: CollectionEntry<"articles">[];
   headings: MarkdownHeading[];
-  minutesRead?: number;
+  minutesRead: number;
 }
 
 const { article, allArticles, headings, minutesRead } = Astro.props;
@@ -109,10 +109,13 @@ const relatedArticles = matches.map((match) =>
       // add a twitter username if available
       twitter: author.data.socials?.twitter,
     },
-    updatedTime: updatedDate,
+    category: category.id,
+    minutesRead,
+    photo: author.data.photo,
     publishedTime: publishedDate,
     section: "Programming",
     tags: tags.map((tag) => tag.id),
+    updatedTime: updatedDate,
     // video: video?.data.canonicalUrl
     //   ? new URL(video.data.canonicalUrl)
     //   : undefined,

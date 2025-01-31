@@ -1,6 +1,9 @@
 ---
+import ArticleMetaImage from "@components/ArticleMetaImage.astro";
 import ThemeScript from "@components/scripts/ThemeScript.astro";
 import site from "@data/site.json";
+import formatDate from "@utils/formatDate";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
   article?: {
@@ -8,10 +11,13 @@ interface Props {
       name: string;
       twitter?: string;
     };
-    updatedTime?: Date;
+    category: CollectionEntry<"articleCategories">["id"];
+    minutesRead: number;
+    photo: CollectionEntry<"authors">["data"]["photo"];
     publishedTime: Date;
     section: string;
     tags: string[];
+    updatedTime?: Date;
     video?: URL;
   };
   canonicalUrl: URL;
@@ -143,31 +149,52 @@ const image = {
             )}
           </Fragment>
         )}
-        <meta property="og:description" content={description} />
-        <meta property="og:image:alt" content={image.alt} />
-        {/* <meta property="og:image:height" content= /> */}
-        <meta property="og:image:secure_url" content={image.src} />
-        {/* <meta property="og:image:type" content=`image/${}` /> */}
-        <meta property="og:image:url" content={image.src} />
-        {/* <meta property="og:image:width" content= /> */}
-        <meta property="og:image" content={image.src} />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:site_name" content={site.name} />
-        <meta property="og:title" content={title} />
-        <meta property="og:type" content={type} />
 
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="twitter:card" content="summary_large_image" />
+        {article ? (
+          <ArticleMetaImage
+            authorImage={new URL(article.photo.src, Astro.url.origin).href}
+            authorName={article.author.name}
+            logo={new URL(site.logo.src, Astro.url.origin).href}
+            metadata1={`${article.minutesRead} min read`}
+            metadata2={formatDate(article.updatedTime ?? article.publishedTime)}
+            metadata3={
+              article.category.slice(0, 1).toUpperCase() +
+              article.category.slice(1)
+            }
+            tag1={article.tags[0]}
+            tag2={article.tags[1] ?? ""}
+            tag3={article.tags[2] ?? ""}
+            {title}
+          />
+        ) : (
+          <Fragment>
+            <meta property="og:image" content={image.src} />
+            <meta property="og:image:alt" content={image.alt} />
+            {/* <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" /> */}
+
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:image" content={image.src} />
+            <meta property="twitter:image:alt" content={image.alt} />
+          </Fragment>
+        )}
+
+        <meta property="og:description" content={description} />
+
         <meta
           property="twitter:creator"
           content={article?.author.twitter ?? site.socials.twitter.handle}
         />
         <meta property="twitter:description" content={description} />
-        <meta property="twitter:image:alt" content={image.alt} />
-        <meta property="twitter:image" content={image.src} />
         <meta property="twitter:site" content={site.socials.twitter.handle} />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:url" content={canonicalUrl} />
+
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:site_name" content={site.name} />
+        <meta property="og:title" content={title} />
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={canonicalUrl} />
       </Fragment>
     )
   }
