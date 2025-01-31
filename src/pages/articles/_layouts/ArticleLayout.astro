@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getEntries, getEntry } from "astro:content";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
@@ -12,7 +11,6 @@ import site from "@data/site.json";
 import capitalizeFirstChar from "@utils/capitalizeFirstChar";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
-import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Byline from "../../../components/Byline.astro";
