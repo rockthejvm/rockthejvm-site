@@ -112,7 +112,7 @@ If we call this method from main (or `run`), we indeed see different threads:
 
 ## Gathering Results from Fibers
 
-Much like we wait for a thread to join to make sure a variable was updated, and we `Await` a Future to compute a result, we also have the concept of joinin a Fiber, except in this case, it's all done in a purely functional way.
+Much like we wait for a thread to join to make sure a variable was updated, and we `Await` a Future to compute a result, we also have the concept of joining a Fiber, except in this case, it's all done in a purely functional way.
 
 ```scala
   def runOnAnotherThread[A](io: IO[A]) = for {

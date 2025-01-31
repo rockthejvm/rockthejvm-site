@@ -2,9 +2,15 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import sectionize from "@hbsnow/rehype-sectionize";
+import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
+import pagefind from "astro-pagefind";
+import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig } from "astro/config";
+import remarkDirective from "remark-directive";
 import {
   addEmbeddedArticles,
   getArticleMatches,
@@ -29,6 +35,10 @@ function buildStart() {
 
 export default defineConfig({
   site: "https://rockthejvm.com",
+  trailingSlash: "never",
+  build: {
+    format: "file",
+  },
   integrations: [
     buildStart(),
     icon({
@@ -46,6 +56,24 @@ export default defineConfig({
         heroicons: ["computer-desktop", "moon", "sun", "magnifying-glass"],
       },
     }),
+    expressiveCode({
+      plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
+      themes: ["github-dark-default", "github-light-default"],
+      customizeTheme: (theme) => {
+        theme.name = theme.name === "github-dark-default" ? "dark" : "light";
+        return theme;
+      },
+      useDarkModeMediaQuery: false,
+      defaultProps: {
+        wrap: true,
+        overridesByLang: {
+          "shell,sh,ps,zsh": {
+            preserveIndent: false,
+            showLineNumbers: false,
+          },
+        },
+      },
+    }), // Must come before mdx
     mdx(),
     tailwind({
       applyBaseStyles: false,
@@ -53,9 +81,10 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
+    pagefind(), // Should be last
   ],
   markdown: {
-    remarkPlugins: [],
+    remarkPlugins: [remarkDirective, astroStarlightRemarkAsides],
     rehypePlugins: [sectionize],
     shikiConfig: {
       themes: {
@@ -75,6 +104,11 @@ export default defineConfig({
     "/p/privacy": "/legal/privacy",
     "/p/team-pack": "/memberships",
     "/p/terms": "/legal/terms",
+    "/black-friday-2024": "/black-friday",
+    "/black-friday": {
+      status: 302,
+      destination: "/",
+    },
     // Courses
     "/p/advanced-kotlin": "/courses/advanced-kotlin",
     "/p/advanced-scala": "/courses/advanced-scala",

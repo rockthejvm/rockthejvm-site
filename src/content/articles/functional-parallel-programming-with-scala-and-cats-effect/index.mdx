@@ -67,6 +67,7 @@ lazy val root = (project in file("."))
 ## Prerequisites
 
 Before doing anything, please generate personal GitHub access token and put it in `src/main/resources/application.conf`, like this:
+
 ![GitHub token shown in a dedicated file](images/github-token.png)
 
 It is necessary to use GitHub token because we'll be using GitHub API for which the requests must be authorized. Also, GitHub token will ensure that GitHub API rate limiter will allow us to issue many requests at once.
@@ -132,6 +133,7 @@ and then test our server by curling it:
 `curl localhost:9000`
 
 To illustrate all that:
+
 ![Output of executing `sbt`, `run`, and `curl`](images/sbt-run-curl-results.png)
 
 Great! Now it's time to move on to some domain modeling.
@@ -154,6 +156,7 @@ Let's start by Organization. Organization is a group of developers that develops
 Turns out that if we send a basic request to `"https://api.github.com/orgs/$orgName"` we will get a JSON response back, in which we could find the amount of public repositories.
 
 For example, let's pick an organization - `typelevel` and test it:
+
 ![Output of curling the Typelevel organization](images/curl-typelevel-organization.png)
 
 Nice, so we have our first interesting domain object - Amount of public repositories, let's model that, shall we? :)
@@ -348,7 +351,7 @@ After a few iterations and refinements I came up with something like this:
 - Send request to our HTTP server with organization name
 - Use organization name to find out how many public repos are available for organization name (let's say 10)
 - Use this number (10) to issue N amount of parallel requests so that our server starts retrieving contributors for each project in parallel
-  - Since there is no way to know how many contributors are available for a project we will need to send requests iteratively until they are exhausted, meaning that at some point the JSON response will contain less than 100 contributors, assuming that we expect to retrieve 100 contributors per page.
+    - Since there is no way to know how many contributors are available for a project we will need to send requests iteratively until they are exhausted, meaning that at some point the JSON response will contain less than 100 contributors, assuming that we expect to retrieve 100 contributors per page.
 
 First of all, we will need to define a basic route which will let us accept organization name as a query parameter, so let's add a new case for our `routes` definition:
 
@@ -411,13 +414,13 @@ The derives clause is part of the new Scala 3 feature called "derivation," which
 In general, there are a few options for managing such things:
 
 - Configuration
-  - Easy to set up
+    - Easy to set up
 - Env variable
-  - Easy to set up
+    - Easy to set up
 - Key chains or secret management systems
-  - Not so easy and requires some time to set up, definitely an overkill for a small project such as ours
+    - Not so easy and requires some time to set up, definitely an overkill for a small project such as ours
 - Hardcoding
-  - Very good for prototyping and development but extremely unsafe, as soon as you publish your token, GitHub will immediately expire it so that nobody can abuse it on your behalf
+    - Very good for prototyping and development but extremely unsafe, as soon as you publish your token, GitHub will immediately expire it so that nobody can abuse it on your behalf
 
 Since we've already seen `ConfigReader` and `pureconfig` dependency in our `build.sbt` it's fairly easy to guess which option we're using in this project, just a personal preference.
 
@@ -572,12 +575,12 @@ After a few revisions and refinement this is the plan I came up with:
 - Send HTTP request to our app on `host:port/org/typelevel`
 - Fetch public repositories information for `typelevel` from a GitHub API endpoint
 - Calculate the number of pages based on the number of public repositories (100 repositories per page) that is owned by `typelevel`
-  - This number will let us issue N amount of parallel requests in the next step
+    - This number will let us issue N amount of parallel requests in the next step
 - Use the computed number and fetch information about repositories to accumulate the list of repository names
-  - We will end up here with smth like `Vector("cats", "cats-effect", ... ,"fs2")`
+    - We will end up here with smth like `Vector("cats", "cats-effect", ... ,"fs2")`
 - For each repository, start fetching contributors in parallel and accumulate their contributions sequentially
-  - So, if we have 3 repositories we will create 3 separate fibers and start accumulating paginated contributors sequentially until they are exhausted. It means that fiber A may take 500 millis, fiber B - 600 millis, fiber C - 300 millis. So, in total, we will have all results in 600 millis since it's based on fork-join algorithm.
-  - Unfortunately there is no clear way of parallelising fetching the contributors for repository because we don't know in advance how many contributors there are. However, if you feel brave you can play with different ideas and also try parallelising that, e.g you can use `fibonacci` approach and issue N amount of request on each iteration until they are exhausted, more on that later.
+    - So, if we have 3 repositories we will create 3 separate fibers and start accumulating paginated contributors sequentially until they are exhausted. It means that fiber A may take 500 millis, fiber B - 600 millis, fiber C - 300 millis. So, in total, we will have all results in 600 millis since it's based on fork-join algorithm.
+    - Unfortunately there is no clear way of parallelising fetching the contributors for repository because we don't know in advance how many contributors there are. However, if you feel brave you can play with different ideas and also try parallelising that, e.g you can use `fibonacci` approach and issue N amount of request on each iteration until they are exhausted, more on that later.
 - Group and sum contributions by contributor login
 - Create a `Vector[Contributor]` instances sorted by contributions
 - Generate a JSON response containing information about contributors and contributions
@@ -790,7 +793,8 @@ Also, in the code snippet above, `contributors` and `response` are two important
 - It is constructed using the `Ok` constructor and contains the result of the entire computation.
 - The result is an instance of the `Contributions` case class, which wraps information about the total number of contributors and the sorted vector of contributors.
 - The `contributors` are sorted based on their contributions in descending order.
-  -The final result is serialized to JSON using the toJson method and included in the HTTP response body.
+
+    -The final result is serialized to JSON using the toJson method and included in the HTTP response body.
 
 - In summary, `"contributors"` represents the processed and aggregated data about GitHub contributors, and `"response"` is the HTTP response containing this information in a serialized form. The route is designed to fetch information about public repositories, their contributors, and then provide a sorted list of contributors along with some summary statistics in the HTTP response.
 
@@ -813,6 +817,7 @@ Let's also have a quick look at the first 30 lines of `typelevel.json`:
 We have built together the GitHub organization contributors aggregator. Here's a summary of what we've accomplished, the tools and libraries used, and how we did it:
 
 **What We Built:**
+
 We built an HTTP server that accepts organization name and aggregates GitHub organization contributors in a matter of seconds. Our program is using minimal but sufficient domain modeling with `play-json` power do work with data. Additionally, it's heavily backed up by the powerful extension method - `parUnorderedFlatTraverse` from `cats` which ensures that each HTTP request is performed in a separate fiber (hence, the power of `cats.effect.IO`).
 
 **Tools and Libraries Used:**

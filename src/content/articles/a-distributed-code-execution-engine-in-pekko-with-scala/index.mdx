@@ -11,9 +11,6 @@ title: A Distributed Code Execution Engine in Pekko with Scala
 videoId: 1uP6FTUn8_E
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 In this article we will attempt to build the remote code execution engine - the backend platform for websites such as [Hackerrank](https://hackerrank.com), [LeetCode](https://leetcode.com) and others.
@@ -44,20 +41,17 @@ Put simply, the goal of this project is to get familiar with [Apache Pekko](http
 
 Let's get started then, shall we?
 
-<NoteAdmonition>
-  Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job
-  showcasing its features in a compact project we can explore exhaustively in
-  this article.
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  If you need to get started with Pekko, I've covered Pekko (and Akka) in a
-  comprehensive bundle of courses about [Akka/Pekko
-  Actors](/courses/akka-pekko-essentials), [Akka/Pekko
-  Streams](/courses/akka-pekko-streams), and [Akka/Pekko
-  HTTP](/courses/akka-pekko-http), all of which are used in this article. Check
-  them out if you're interested.
-</TipAdmonition>
+Hey, it's Daniel here. Apache Pekko is great, and Nika has done a great job showcasing its features in a compact project we can explore exhaustively in this article.
+
+:::
+
+:::tip
+
+If you need to get started with Pekko, I've covered Pekko (and Akka) in a comprehensive bundle of courses about [Akka/Pekko Actors](/courses/akka-pekko-essentials), [Akka/Pekko Streams](/courses/akka-pekko-streams), and [Akka/Pekko HTTP](/courses/akka-pekko-http), all of which are used in this article. Check them out if you're interested.
+
+:::
 
 ## Project Structure
 
@@ -424,30 +418,30 @@ This deployment shell script (`deploy.sh`) sets up a Docker environment and opti
 
 1. Help Function:
 
-   - Provides usage instructions for the script.
+    - Provides usage instructions for the script.
 
 1. Rebuild Argument Check:
 
-   - If "rebuild" is passed as an argument, the script adds `--build` to the `docker-compose up` command.
-   - If an unrecognized argument is passed, it prints the help message and exits.
+    - If "rebuild" is passed as an argument, the script adds `--build` to the `docker-compose up` command.
+    - If an unrecognized argument is passed, it prints the help message and exits.
 
 1. Docker Volume Management:
 
-   - Checks if a Docker volume named `engine` exists.
-   - If not, it creates the volume which is necessary for worker containers to access temporary files to be executed later
+    - Checks if a Docker volume named `engine` exists.
+    - If not, it creates the volume which is necessary for worker containers to access temporary files to be executed later
 
 1. Docker Image Management:
 
-   - Defines a list of Docker images to be pulled (`openjdk:17`, `python`, `node`, `ruby`, `perl`, `php`).
-   - Checks if each image exists locally and pulls it in the background if it does not.
+    - Defines a list of Docker images to be pulled (`openjdk:17`, `python`, `node`, `ruby`, `perl`, `php`).
+    - Checks if each image exists locally and pulls it in the background if it does not.
 
 1. Parallel Image Pulling:
 
-   - Uses background jobs to pull Docker images simultaneously for efficiency.
-   - Waits for all background jobs to complete.
+    - Uses background jobs to pull Docker images simultaneously for efficiency.
+    - Waits for all background jobs to complete.
 
 1. Run Docker Compose:
-   - Executes the `docker-compose up` command, with or without the `--build` flag based on the initial argument.
+    - Executes the `docker-compose up` command, with or without the `--build` flag based on the initial argument.
 
 ## Configuration
 
@@ -560,7 +554,9 @@ transformation {
 ```
 
 Here, it means that each node will have 32 worker actors and master node will have 3 load balancer actors.
+
 In the real world, choosing those numbers would depend on multiple variables that must be collected and analyzed in production.
+
 In my opinion, those numbers are optimized based on empirical evidence rather than theoretical results.
 
 ### Serialization
@@ -1016,12 +1012,12 @@ Here it's worth going into details since it's the meat of the whole project.
 
 1. Constants:
 
-   - `KiloByte`, `MegaByte`, `TwoMegabytes`: Constants for byte size calculations.
-   - `AdjustedMaxSizeInBytes`: Adjusted max size for output (approximately 409.6 KB).
-   - `MaxOutputSize`: Maximum allowed output size for the code execution.
+    - `KiloByte`, `MegaByte`, `TwoMegabytes`: Constants for byte size calculations.
+    - `AdjustedMaxSizeInBytes`: Adjusted max size for output (approximately 409.6 KB).
+    - `MaxOutputSize`: Maximum allowed output size for the code execution.
 
 1. Imports:
-   - Imports various `Pekko` and `Scala` utilities for actor behavior, stream handling, and future operations.
+    - Imports various `Pekko` and `Scala` utilities for actor behavior, stream handling, and future operations.
 
 ### Messages (`In`)
 
@@ -1044,13 +1040,13 @@ The `apply` method defines the actor's behavior using Akka's `Behaviors.receive`
 
 1. Logging: Logs that code execution has started.
 1. Running Docker Command: Constructs and runs a Docker command with a 2-second timeout and memory limits.
-   - The Docker command binds the `engine` volume, sets the working directory to `/data`, and runs the provided compiler and file within the specified Docker image.
+    - The Docker command binds the `engine` volume, sets the working directory to `/data`, and runs the provided compiler and file within the specified Docker image.
 1. Handling Streams: Handles both the standard and error streams from the Docker process.
 1. Reading Output: Reads the success and error streams and joins them with the exit code.
 1. Deleting File: Schedules the file for deletion to free up memory.
 1. Piping Result: Uses `ctx.pipeToSelf` to handle the asynchronous execution result.
-   - On success, checks the exit code and constructs appropriate messages (`ExecutionFailed` for specific exit codes or `ExecutionSucceeded`).
-   - On failure, logs the exception and constructs an `ExecutionFailed` message.
+    - On success, checks the exit code and constructs appropriate messages (`ExecutionFailed` for specific exit codes or `ExecutionSucceeded`).
+    - On failure, logs the exception and constructs an `ExecutionFailed` message.
 
 ### `In.ExecutionSucceeded` case
 
@@ -1092,42 +1088,42 @@ In a distributed system, efficiently managing and coordinating tasks across mult
 
 1. Cluster and Node Configuration:
 
-   - The cluster is initialized using `Cluster(ctx.system)`, and the node's roles and configuration settings are obtained.
+    - The cluster is initialized using `Cluster(ctx.system)`, and the node's roles and configuration settings are obtained.
 
 1. Worker Nodes:
 
-   - Worker Router:
-     - Each `worker` node should initialize a pool of `worker` actors using a `Round Robin` routing strategy. The pool size is configurable via `transformation.workers-per-node`.
-     - The worker router is registered with the `Receptionist`, making it discoverable across the cluster.
+    - Worker Router:
+        - Each `worker` node should initialize a pool of `worker` actors using a `Round Robin` routing strategy. The pool size is configurable via `transformation.workers-per-node`.
+        - The worker router is registered with the `Receptionist`, making it discoverable across the cluster.
 
 1. Master Node:
 
-   - Load Balancers:
-     - A pool of load balancers forwards execution tasks to the worker routers. The pool size is configurable via `transformation.load-balancer`.
-     - Each load balancer uses group routing to distribute tasks to remote worker routers.
+    - Load Balancers:
+        - A pool of load balancers forwards execution tasks to the worker routers. The pool size is configurable via `transformation.load-balancer`.
+        - Each load balancer uses group routing to distribute tasks to remote worker routers.
 
 1. HTTP Server:
-   - The `master` node sets up an HTTP server to accept task submissions. It listens on a configurable host and port.
-   - Incoming tasks are forwarded to a randomly selected load balancer, which then distributes them to the worker nodes.
+    - The `master` node sets up an HTTP server to accept task submissions. It listens on a configurable host and port.
+    - Incoming tasks are forwarded to a randomly selected load balancer, which then distributes them to the worker nodes.
 
 ### Justification for the Components
 
 1. Efficiency and Scalability:
 
-   - Using a cluster setup with dedicated `worker` and `master` nodes allows for efficient task distribution and parallel processing.
-   - The `Round Robin` routing of `worker` actors and load balancers ensures balanced workload distribution.
+    - Using a cluster setup with dedicated `worker` and `master` nodes allows for efficient task distribution and parallel processing.
+    - The `Round Robin` routing of `worker` actors and load balancers ensures balanced workload distribution.
 
 1. Dynamic Discovery and Registration:
 
-   - The `Receptionist` enables dynamic discovery of `worker` routers across the cluster, facilitating seamless scaling and fault tolerance.
+    - The `Receptionist` enables dynamic discovery of `worker` routers across the cluster, facilitating seamless scaling and fault tolerance.
 
 1. Robust and Resilient Execution:
 
-   - Supervisory strategies for `worker` actors enhance fault tolerance by restarting actors on failure.
-   - The use of `ask` patterns with timeouts ensures that task submissions are handled gracefully, even in the event of errors.
+    - Supervisory strategies for `worker` actors enhance fault tolerance by restarting actors on failure.
+    - The use of `ask` patterns with timeouts ensures that task submissions are handled gracefully, even in the event of errors.
 
 1. Configurability:
-   - Key parameters like the number of workers, load balancers, and server settings are configurable, allowing for flexibility and adaptability to different environments and workloads.
+    - Key parameters like the number of workers, load balancers, and server settings are configurable, allowing for flexibility and adaptability to different environments and workloads.
 
 By leveraging these components and strategies, the cluster system can efficiently manage and distribute tasks across multiple nodes, providing a robust solution for distributed computing scenarios.
 
@@ -1471,35 +1467,35 @@ Here are the important points:
 
 1. Actor System Setup:
 
-   - The actor system (`SimulatorSystem`) and execution context are initialized with a configuration file (`simulator.conf`).
+    - The actor system (`SimulatorSystem`) and execution context are initialized with a configuration file (`simulator.conf`).
 
 1. Metrics:
 
-   - Atomic variables are used to track request counts, response times, response details, and errors.
+    - Atomic variables are used to track request counts, response times, response details, and errors.
 
 1. Stream Definition:
 
-   - A stream is defined to generate random codes and send HTTP POST requests to a remote server at regular intervals.
-   - **`generateRandomCode`**: Generates a random code every specified interval (e.g., 160 milliseconds).
-   - **`sendHttpRequest`**: Sends the generated code as an HTTP POST request and records the response time.
-   - **`displayResponseTime`**: Displays the response time for each request.
+    - A stream is defined to generate random codes and send HTTP POST requests to a remote server at regular intervals.
+    - **`generateRandomCode`**: Generates a random code every specified interval (e.g., 160 milliseconds).
+    - **`sendHttpRequest`**: Sends the generated code as an HTTP POST request and records the response time.
+    - **`displayResponseTime`**: Displays the response time for each request.
 
 1. Stream Execution:
 
-   - The stream is run with the name "simulator" and an interval of 160 milliseconds.
+    - The stream is run with the name "simulator" and an interval of 160 milliseconds.
 
 1. Metrics Logging:
 
-   - Every 60 seconds, the code logs metrics such as the number of requests, average response time, error count, and response time percentiles (p50, p90, p99).
+    - Every 60 seconds, the code logs metrics such as the number of requests, average response time, error count, and response time percentiles (p50, p90, p99).
 
 1. Utility Methods:
 
-   - **`randomId`**: Generates a random request ID.
-   - **`percentile`**: Calculates response time percentiles from recorded data.
+    - **`randomId`**: Generates a random request ID.
+    - **`percentile`**: Calculates response time percentiles from recorded data.
 
 1. Enum and Object Definitions:
-   - **`Code` Enum**: Defines various types of codes (e.g., `MemoryIntensive`, `CPUIntensive`).
-   - **`Python` Object**: Contains Python code snippets for different tasks.
+    - **`Code` Enum**: Defines various types of codes (e.g., `MemoryIntensive`, `CPUIntensive`).
+    - **`Python` Object**: Contains Python code snippets for different tasks.
 
 This setup continuously sends HTTP requests, tracks metrics, and periodically logs performance data.
 
@@ -1513,24 +1509,24 @@ In this blog post, we've explored the journey of building a robust, scalable, an
 
 1. Cluster Awareness with Receptionist and Router:
 
-   - By using `Receptionist` and `Router`, we ensured our system is cluster-aware, allowing dynamic scaling and efficient task distribution among worker nodes.
+    - By using `Receptionist` and `Router`, we ensured our system is cluster-aware, allowing dynamic scaling and efficient task distribution among worker nodes.
 
 1. Actors for Task Management:
 
-   - `Worker`: Coordinates tasks on the worker nodes, ensuring seamless processing and communication with the master node.
-   - `FileHandler`: Manages file preparation required for code execution.
-   - `CodeExecutor`: Executes the code snippets in a sibling docker container and collects the output.
+    - `Worker`: Coordinates tasks on the worker nodes, ensuring seamless processing and communication with the master node.
+    - `FileHandler`: Manages file preparation required for code execution.
+    - `CodeExecutor`: Executes the code snippets in a sibling docker container and collects the output.
 
 1. Docker-out-of-Docker (DooD) Approach:
 
-   - Each worker node runs as a Docker container, and within these containers, we utilize the DooD approach to execute sibling containers. This method provides isolation and security, ensuring each code execution happens in a controlled and disposable environment.
+    - Each worker node runs as a Docker container, and within these containers, we utilize the DooD approach to execute sibling containers. This method provides isolation and security, ensuring each code execution happens in a controlled and disposable environment.
 
 1. Resource Management and Security:
 
-   - We've set stringent resource limits (CPU, RAM) and a 2-second timeout for code execution. These measures protect the system from malicious code, such as infinite loops, ensuring stability and security.
+    - We've set stringent resource limits (CPU, RAM) and a 2-second timeout for code execution. These measures protect the system from malicious code, such as infinite loops, ensuring stability and security.
 
 1. Support for Multiple Languages:
-   - Our engine supports six programming languages, demonstrating its versatility and adaptability to various use cases.
+    - Our engine supports six programming languages, demonstrating its versatility and adaptability to various use cases.
 
 ### Scalability and Efficiency
 

@@ -8,21 +8,19 @@ tags: [algorithms, cats, scala-3, scala-cli, scala-native]
 title: Creating a CLI Sudoku Solver with Scala Native
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 [Sudoku](https://en.wikipedia.org/wiki/Sudoku) is a notorious combinatorial puzzle solvable with optimised and efficient algorithms. Today we won't focus on any of those techniques, but we'll leverage the computing power of our machines to brute-force the solution in a functional immutable fashion.
 
 The Scala ecosystem has many fantastic tools and libraries to help us synthesise the solution and package our solver in an ultra-fast native executable with instant startup time using our favourite language and its expressive power. To implement our solution, I chose [scala-cli](https://scala-cli.virtuslab.org/) to structure the project and to compile it with [Scala Native](https://scala-native.org/en/stable/), [decline](https://ben.kirw.in/decline/) to parse command line arguments and [cats](https://typelevel.org/cats/) for its purely functional approach.
 
-<NoteAdmonition>
+:::note
+
 This article is brought to you by [Antonio Gelameris](/authors/antonio-gelameris). Antonio is an alumnus of Rock the JVM, now a senior Scala developer with his own contributions to Scala libraries and junior devs under his mentorship.
 
 Which brings us to this article: Antonio originally started from my [A Backtracking Sudoku Solver in Scala](/articles/a-backtracking-sudoku-solver-in-scala) article and built a Scala CLI tutorial for the juniors he's mentoring. Now, he's sharing his process with us.
 
-</NoteAdmonition>
+:::
 
 ## Scala-CLI: Your Command-Line Best Friend
 
@@ -200,20 +198,23 @@ Let's examine the `from` function line by line:
 - `s.replace('.', '0')` replaces the `.`s with `0`s to signal the lack of a digit using a value that belongs to type `Int`. Replacing `.` is necessary since we'll use [this generator](https://qqwing.com/generate.html) with "Output format: One line", getting an input value like `8...1...2.7...931.....485...2....8.91..2....3.........7...9...1.5...1.....3.7.29.` that represents the 81 digits of the board.
 - `.asRight[String]` is the first cats utility that we'll use. Defined as
 
-  ```scala
-  def asRight[B]: Either[B, A] = Right(a)
-  ```
+    ```scala
+    def asRight[B]: Either[B, A] = Right(a)
+    ```
 
-  it is an extension method over `a: A`. It wraps the value in a `Right` but requires a type argument `B` to widen the result declaration to `Either[B,A]`. This way, the result will not have type `Right[String]` but `Either[String, String]`, letting us use other utility functions defined over `Either[_,_]`.
+    it is an extension method over `a: A`. It wraps the value in a `Right` but requires a type argument `B` to widen the result declaration to `Either[B,A]`. This way, the result will not have type `Right[String]` but `Either[String, String]`, letting us use other utility functions defined over `Either[_,_]`.
 
 - `.ensure("The sudoku string doesn't contain only digits")(_.forall(_.isDigit))` uses the extension method `ensure`, a guard function that filters either in the case is a `Right` and returns the content of the first parenthesis in case of errors. Its definition (where `eab` is the extended value) is
-  ```scala
-  def ensure(onFailure: => A)(condition: B => Boolean): Either[A, B] = eab match {
-    case Left(_)  => eab
-    case Right(b) => if (condition(b)) eab else Left(onFailure)
-  }
-  ```
-  In this particular case, we use to check that all the characters in the string (`forall`) are digits (`isDigit`) otherwise, we return a `Left("The sudoku string doesn't contain only digits")` to signal the error, short-circuiting all the following validations.
+
+    ```scala
+    def ensure(onFailure: => A)(condition: B => Boolean): Either[A, B] = eab match {
+      case Left(_)  => eab
+      case Right(b) => if (condition(b)) eab else Left(onFailure)
+    }
+    ```
+
+    In this particular case, we use to check that all the characters in the string (`forall`) are digits (`isDigit`) otherwise, we return a `Left("The sudoku string doesn't contain only digits")` to signal the error, short-circuiting all the following validations.
+
 - `.map(_.toVector.map(_.asDigit))` maps over the `Either[String,String]` to transform its content (when it's a `Right`) and then we map every `Char` into an `Int` `map`ping over the vector.[^1]
 - Using the same `ensure` function we check that the string has the correct length
 - Finally, we map the `Either[String, Vector[Int]]` into an `Either[String, Sudoku]` calling `Sudoku`'s constructor, that here in the companion object is accessible.
@@ -260,7 +261,8 @@ object Sudoku {
 }
 ```
 
-<TipAdmonition>
+:::tip
+
 We added these methods to the case class itself, but another option we could have chosen is to add this logic in an [extension](https://docs.scala-lang.org/scala3/book/ca-extension-methods.html). Creating an extension over the `Sudoku` datatype will let us call the methods defined in it as if they were methods of the `Sudoku` class.
 
 ```scala
@@ -278,7 +280,7 @@ Extending may be preferable since it keeps data separated from the logic that ma
 
 On the other hand, defining new methods in the class (or in a trait) is easier if you intend to add new operations to that specific type (or trait). Pros and cons of the _type class_ vs _inheritance_ approach to the [Wadler's expression problem](https://en.wikipedia.org/wiki/Expression_problem) will be discussed in a future article.
 
-</TipAdmonition>
+:::
 
 ## Testing
 
@@ -581,6 +583,7 @@ $ scala-cli run . -- "4835912679572684316214738958791326541649853722356479187923
 ```
 
 Every argument that we will decide to support in the future will be documented in the `--help` output of our application.
+
 To solve the passed sudoku we must call the `solve` method on it and print both the success and failure cases to stdout and stderr, respectively.
 
 ```scala

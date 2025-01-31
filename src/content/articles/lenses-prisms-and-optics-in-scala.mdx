@@ -156,7 +156,7 @@ case class Logo(color: String)
 case class BrandIdentity(logo: Logo, icon: Icon)
 ```
 
-If we want to change tha radius of the icon of a brand - assuming it's a circle, or leave it intact otherwise - we would create the appropriate accessors (lenses) and modifiers for our desired type (prism):
+If we want to change the radius of the icon of a brand - assuming it's a circle, or leave it intact otherwise - we would create the appropriate accessors (lenses) and modifiers for our desired type (prism):
 
 ```scala
 val iconLens = GenLens[BrandIdentity](_.icon)

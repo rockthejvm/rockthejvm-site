@@ -1,4 +1,5 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
@@ -7,10 +8,9 @@ import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
 import matchedArticles from "@data/matchedArticles.json";
 import site from "@data/site.json";
-import { capitalizeFirstChar } from "@utils/capitalizeFirstChar";
+import capitalizeFirstChar from "@utils/capitalizeFirstChar";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
-import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Byline from "../../../components/Byline.astro";
@@ -21,6 +21,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
+import "astro-starlight-remark-asides/styles.css";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -58,7 +59,7 @@ const structuredData = JSON.stringify({
     {
       "@type": "Person",
       name: author.data.name,
-      url: `${Astro.site}/authors/${author.id}`,
+      url: `${Astro.site!}/authors/${author.id}`,
     },
   ],
   publisher: {

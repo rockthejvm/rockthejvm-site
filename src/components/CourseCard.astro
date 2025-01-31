@@ -1,6 +1,6 @@
 ---
-import { numberToPrice } from "@utils/numberToPrice";
 import type { CollectionEntry } from "astro:content";
+import { numberToPrice } from "@utils/numberToPrice";
 import BadgeLarge from "./BadgeLarge.astro";
 import CourseCardLinks from "./CourseCardLinks.astro";
 import MyPicture from "./MyPicture.astro";
@@ -37,7 +37,7 @@ const {
       >
         <MyPicture
           src={course.data.heroImage}
-          alt={`${course.data.title}`}
+          alt={course.data.title}
           quality="mid"
           class="min-h-full min-w-full object-cover object-center"
         />
@@ -64,14 +64,16 @@ const {
         }
         <a
           href={`/courses/${course.slug}`}
-          class={`${holiday ? "text-holiday-card-accent-1 hover:text-holiday-card-accent-2" : ""}`}
+          class={holiday
+            ? "text-holiday-card-accent-1 hover:text-holiday-card-accent-2"
+            : ""}
         >
           {course.data.title}
         </a>
         {
           prices && prices.old > 0 && (
             <span class="text-2xl font-bold">
-              <s class={`${holiday ? "text-gray-300" : "text-content"}`}>
+              <s class={holiday ? "text-gray-300" : "text-content"}>
                 ${numberToPrice(prices.old)}
               </s>
               <span

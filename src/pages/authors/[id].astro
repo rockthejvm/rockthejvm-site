@@ -1,6 +1,6 @@
 ---
+import { type CollectionEntry, getCollection } from "astro:content";
 import Articles from "@pages/articles/_components/Articles.astro";
-import { getCollection } from "astro:content";
 import AuthorWide from "../../components/AuthorWide.astro";
 import FullContainer from "../../containers/FullContainer";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -18,6 +18,11 @@ export async function getStaticPaths() {
       author,
     },
   }));
+}
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+  author: CollectionEntry<"authors">;
 }
 
 const { articles, author } = Astro.props;

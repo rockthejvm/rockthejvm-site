@@ -44,6 +44,7 @@ export default function Example() {
           href="/legal/cookies"
           target="_blank"
           className="font-semibold text-accent-1"
+          rel="noreferrer"
         >
           cookie policy
         </a>

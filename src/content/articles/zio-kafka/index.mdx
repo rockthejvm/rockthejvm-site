@@ -8,9 +8,6 @@ tags: [kafka, zio]
 title: "ZIO Kafka: A Practical Streaming Tutorial"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 Modern distributed applications need a communication system between their components that must be reliable, scalable, and efficient. Synchronous communication based on HTTP is not a choice in such applications due to latency problems, insufficient resources' management, etc... Hence, we need an asynchronous messaging system capable of quickly scaling, robust to errors, and low latency.
@@ -21,13 +18,11 @@ In this article, we will go through some primary Kafka's use cases. First, we wi
 
 So, let's proceed without further ado.
 
-<NoteAdmonition>
-  Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud
-  student of the [Scala with Cats course](/courses/cats). Riccardo is a senior
-  developer, a teacher and a passionate technical blogger, and now he's neck
-  deep into ZIO. In this article he'll explore a newer library in the ZIO
-  ecosystem: ZIO Kafka. Enter Riccardo:
-</NoteAdmonition>
+:::note
+
+Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO. In this article he'll explore a newer library in the ZIO ecosystem: ZIO Kafka. Enter Riccardo:
+
+:::
 
 ## Background
 
@@ -132,8 +127,7 @@ broker      /etc/confluent/docker/run   Up      0.0.0.0:29092->29092/tcp,:::2909
 zookeeper   /etc/confluent/docker/run   Up      0.0.0.0:2181->2181/tcp,:::2181->2181/tcp, 2888/tcp, 3888/tcp
 ```
 
-Moreover, during the article, we will need to run some commands inside the container. To access the
-Kafka container, we will use the following command:
+Moreover, during the article, we will need to run some commands inside the container. To access the Kafka container, we will use the following command:
 
 ```shell
 docker exec -it broker bash
@@ -197,10 +191,11 @@ val managedConsumer: RManaged[Clock with Blocking, Consumer.Service] =
 
 In this particular case, we obtain an instance of an `RManaged`, that in the ZIO jargon is a resource that cannot fail. Moreover, we see that the consumer depends upon the `Blocking` service. As the documentation says
 
-<TipAdmonition>
-  The Blocking module provides access to a thread pool that can be used for
-  performing blocking operations.
-</TipAdmonition>
+:::tip
+
+The Blocking module provides access to a thread pool that can be used for performing blocking operations.
+
+:::
 
 In fact, ZIO internally uses such a service to manage the connection pool to the broker for a consumer.
 
@@ -360,10 +355,11 @@ This time, the type class adds a method to our type that encodes it into a JSON 
 def toJson(implicit A: JsonEncoder[A]): String
 ```
 
-<TipAdmonition>
-  It's best to declare the decoder and encoder type classes inside the companion
-  object of a type.
-</TipAdmonition>
+:::tip
+
+It's best to declare the decoder and encoder type classes inside the companion object of a type.
+
+:::
 
 Now, we just assemble all the pieces we just created using the `inmapM` function:
 

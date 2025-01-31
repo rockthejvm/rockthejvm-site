@@ -8,8 +8,6 @@ tags: [kotlin]
 title: "The Big Kotlin Tutorial: Comprehensive Guide"
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Who This Article Is For
 
 This guide is for developers with some experience with some other language, and I'll skip general CS fundamentals.
@@ -32,20 +30,17 @@ This is your guide. In about the time it takes to watch a movie[^time] you'll ge
 
 I will make connections to many programming languages, not least because Kotlin took inspiration from many other languages. By the end of this course, expect to write 300-400 lines of code.
 
-<TipAdmonition>
-  I also made a video version of this guide as a YouTube playlist which you can
-  watch
-  [here](https://www.youtube.com/playlist?list=PLmtsMNDRU0BwGCBDIKKQNLYycRTnQzMfp).
-</TipAdmonition>
+:::tip
 
-<TipAdmonition>
-  If you go through this guide saying "hmm, Kotlin looks cool", I encourage you
-  to go _deep_. For that, I think you'll like [Kotlin
-  Essentials](/courses/kotlin-essentials). It's a jam-packed, long-form,
-  hands-on course where you'll write not hundreds but _thousands_ of lines of
-  code from scratch in dozens of examples and exercises, including an _image
-  processing project_ that you can use for your own pictures.
-</TipAdmonition>
+I also made a video version of this guide as a YouTube playlist which you can watch [here](https://www.youtube.com/playlist?list=PLmtsMNDRU0BwGCBDIKKQNLYycRTnQzMfp).
+
+:::
+
+:::tip
+
+If you go through this guide saying "hmm, Kotlin looks cool", I encourage you to go _deep_. For that, I think you'll like [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed, long-form, hands-on course where you'll write not hundreds but _thousands_ of lines of code from scratch in dozens of examples and exercises, including an _image processing project_ that you can use for your own pictures.
+
+:::
 
 [^time]: Don't be fooled by the estimated "read time". If you can go through this guide at 200 words per minute as this blog is usually set up to estimate, then you're either a genius or a Kotlin expert already. My advice: take about 2-3x the estimated time here, to understand the code examples as well.
 
@@ -81,10 +76,11 @@ fun main() {
 
 and it does the same thing. You got the idea: you can now run Kotlin applications.
 
-<TipAdmonition>
-  For every chapter of this guide, I recommend you create a fresh application
-  just to keep your code nice and organized.
-</TipAdmonition>
+:::tip
+
+For every chapter of this guide, I recommend you create a fresh application just to keep your code nice and organized.
+
+:::
 
 Let's start talking about the Kotlin foundations.
 
@@ -387,6 +383,8 @@ class Dog(val name: String) : Pet() {
 
 We can also decide to change the behavior of some methods of the parent class. This is called _overriding_. Java, for example, is very liberal with overriding: simply re-define the method with the same signature as that of the parent class, and the new method will be used on any instance of the derived class. Because inheritance (and overriding in particular) is known to cause issues in large codebases if used without any restrictions, Kotlin enforces some _intention_ on overriding: _by default, methods are not overridable_. That is, unless we add the `open` keyword in front of the method in the parent class (just like we did for the open class earlier) and the `override` keyword on the method on the child class:
 
+{/* trunk-ignore-begin(codespell) */}
+
 ```kotlin
 // (in Pet)
 open fun eat() { // this method can be overridden in child classes
@@ -398,6 +396,8 @@ override fun eat() {
     println("I'm chewing something, whatcha lookin at?")
 }
 ```
+
+{/* trunk-ignore-end(codespell) */}
 
 Once we call `aDog.eat()`, we will see the new behavior kick in.
 
@@ -413,7 +413,11 @@ This means that the compiler allows us to use the properties and methods (API) o
 myPet.eat()
 ```
 
+{/* trunk-ignore-begin(codespell) */}
+
 We will see the message `I'm chewing something, whatcha lookin at?` printed to the console, not the message in the `Pet` class. This _subtype polymortphism_ is important, because in complex software, we generally choose to work with the most general API, and free our mental burden from the details of the value in question, trusting that it will perform according to its specialized implementation.
+
+{/* trunk-ignore-end(codespell) */}
 
 ### Abstract Classes and Interfaces
 
@@ -432,8 +436,8 @@ The keyword `abstract` is necessary for methods that don't have an implementatio
 - An abstract class does not necessarily _have_ to have abstract methods, but a class that _has_ abstract methods _must_ be abstract
 - An abstract class may not be instantiated, even if it may have constructor arguments
 - A class that inherits from an abstract class must either
-  - Be abstract
-  - Or override all abstract methods
+    - Be abstract
+    - Or override all abstract methods
 
 The ultimate abstract kind is called an _interface_, which takes the concept directly from Java. Usually, an interface just defines methods, although in Kotlin we can also provide method implementations as well.
 
@@ -1002,8 +1006,8 @@ In this long-form guide, we went through a crash course in Kotlin. We explored t
 
 I hope you enjoyed this fast-track guide to Kotlin.
 
-<TipAdmonition>
-  If you're interested in Kotlin in a deeper way, I highly recommend the [Kotlin
-  Essentials](/courses/kotlin-essentials) course to get some practical
-  experience and a few thousand lines of code under your belt.
-</TipAdmonition>
+:::tip
+
+If you're interested in Kotlin in a deeper way, I highly recommend the [Kotlin Essentials](/courses/kotlin-essentials) course to get some practical experience and a few thousand lines of code under your belt.
+
+:::

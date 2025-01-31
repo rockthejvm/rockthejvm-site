@@ -6,7 +6,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@components/ui/carousel";
+} from "@assets/components/ui/carousel.tsx";
 
 export default function CarouselSpacing(props) {
   const articleSlots = [

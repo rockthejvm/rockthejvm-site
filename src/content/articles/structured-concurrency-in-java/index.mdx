@@ -12,7 +12,7 @@ tags: [java, loom, concurrency]
 
 Concurrency is a beast that every developer must face at some point in their career. It is a complex topic that requires a deep understanding of the underlying mechanisms of the programming language and the runtime environment. Java developers have dealt with concurrency for a long time, and the Java platform provides a rich set of tools to manage it. However, writing concurrent code in Java is challenging, and developers often need help writing correct and efficient concurrent programs. Fortunately, Project Loom is here to help. We already covered the introduction of virtual threads in the JVM in the article [The Ultimate Guide to Java Virtual Threads](https://blog.rockthejvm.com/ultimate-guide-to-java-virtual-threads/). In this article, we will explore the concept of structured concurrency and how Project Loom simplifies writing concurrent code in Java.
 
-## Setting up the project
+## Setting Up The Project
 
 Java 23 was released in mid-September 2024, bringing many new features and improvements to the Java platform. We're interested in the third preview of structured concurrency, which is given a dedicated JEP: [JEP 480: Structured Concurrency (Third Preview)](https://openjdk.org/jeps/480). We must enable the preview features with a directive to the compiler. We'll use Maven as the build tool for our project. So, to allow structured concurrency in our project, we need to add the following configuration to the `pom.xml` file:
 
@@ -224,7 +224,7 @@ public static void main(String[] args) throws ExecutionException, InterruptedExc
 
 The output of the execution of the above code is the following:
 
-```
+```text
 08:50:34.159 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 08:50:34.159 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 08:50:34.679 [virtual-20] INFO GitHubApp -- User 'UserId[value=1]' found
@@ -247,7 +247,7 @@ public User findUser(UserId userId) throws InterruptedException {
 
 We still want to wait before throwing the exception to simulate a real-world scenario. We want to ensure the `findRepositories` method is not started. We can run the `main` method again and see what happens. The output is the following:
 
-```
+```text
 08:39:41.945 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 08:39:41.947 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 08:39:42.969 [virtual-22] INFO GitHubApp -- Repositories found for user 'UserId[value=1]'
@@ -278,7 +278,7 @@ public GitHubUser findGitHubUser(UserId userId) throws InterruptedException, Exe
 
 If we try to run again the `main` method, we'll see the following output:
 
-```
+```text
 08:52:18.455 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 08:52:18.455 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 08:52:18.975 [virtual-20] INFO GitHubApp -- User 'UserId[value=1]' found
@@ -409,7 +409,7 @@ public GitHubUser findGitHubUser(UserId userId) throws ExecutionException, Inter
 
 If we run the `main` method again, we'll see the following output:
 
-```
+```text
 11:06:36.350 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 11:06:36.350 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 11:06:36.874 [virtual-20] INFO GitHubApp -- User 'UserId[value=1]' found
@@ -436,7 +436,7 @@ public GitHubUser findGitHubUser(UserId userId) throws ExecutionException, Inter
 
 As we said, the execution of the above code leads to the following output:
 
-```
+```text
 21:21:03.690 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=42]'
 21:21:03.690 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=42]'
 Exception in thread "main" java.lang.IllegalStateException: Owner did not join after forking subtasks
@@ -455,7 +455,7 @@ So, we finish covering the happy path of structured concurrency and how Project 
 
 Let's say that our `findUserByIdPort.findUser(userId)` method will throw an exception, as we previously simulated when discussing plain-old concurrency. What happens to our structured concurrency computation? Let's see it in action and execute it:
 
-```
+```text
 11:07:17.590 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 11:07:17.590 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 11:07:18.616 [virtual-22] INFO GitHubApp -- Repositories found for user 'UserId[value=1]'
@@ -488,7 +488,7 @@ public GitHubUser findGitHubUser(UserId userId)
 
 First, we execute the case in which no exception is thrown. The output is the following:
 
-```
+```text
 08:21:05.040 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 08:21:05.041 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 08:21:05.583 [virtual-20] INFO GitHubApp -- User 'UserId[value=1]' found
@@ -499,7 +499,7 @@ First, we execute the case in which no exception is thrown. The output is the fo
 
 The behavior is the same as the execution with the `StructuredTaskScope` type as expected. Now, let's see what happens when the `findUserByIdPort.findUser(userId)` method throws an exception:
 
-```
+```text
 08:22:42.466 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 08:22:42.466 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 08:22:42.590 [main] INFO GitHubApp -- Both forked task completed
@@ -533,7 +533,7 @@ public GitHubUser findGitHubUser(UserId userId)
 
 If we run the code, we'll notice that the behavior is expected. The output is the following:
 
-```
+```text
 08:34:53.701 [main] INFO GitHubApp -- Both forked task completed
 08:34:53.701 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 08:34:53.700 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
@@ -576,7 +576,7 @@ public GitHubUser findGitHubUser(UserId userId)
 
 If we run the code, we'll see the following output:
 
-```
+```text
 08:46:38.451 [main] INFO GitHubApp -- Both forked task completed
 08:46:38.450 [virtual-20] INFO GitHubApp -- Finding user with id 'UserId[value=1]'
 08:46:38.451 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
@@ -724,7 +724,7 @@ public static void main() throws ExecutionException, InterruptedException {
 
 We expect the `cache` to throw an exception since the repositories of the user with `UserId(1L)` are not cached and the `repository` to complete the execution successfully. As we said, the `StructuredTaskScope.ShutdownOnSuccess` scope waits for the first successful task. The output of the execution is, in fact, the following:
 
-```
+```text
 09:43:21.679 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 09:43:21.779 [virtual-20] INFO GitHubApp -- No cached repositories found for user with id 'UserId[value=1]'
 09:43:22.702 [virtual-22] INFO GitHubApp -- Repositories found for user 'UserId[value=1]'
@@ -750,7 +750,7 @@ public static void main() throws ExecutionException, InterruptedException {
 
 The output of the execution is the following:
 
-```
+```text
 21:36:32.901 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=42]'
 21:36:33.014 [main] INFO GitHubApp -- GitHub user's repositories: [Repository[name=rockthejvm.github.io, visibility=PUBLIC, uri=https://github.com/rockthejvm/rockthejvm.github.io]]
 ```
@@ -784,7 +784,7 @@ public static void main() throws ExecutionException, InterruptedException {
 
 There we go! Let's execute the code:
 
-```
+```text
 16:18:21.615 [virtual-22] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 16:18:21.714 [virtual-20] INFO GitHubApp -- No cached repositories found for user with id 'UserId[value=1]'
 Exception in thread "main" java.util.concurrent.ExecutionException: java.util.NoSuchElementException: No cached repositories found for user with id 'UserId[value=1]'
@@ -1052,7 +1052,7 @@ public static void main() throws ExecutionException, InterruptedException {
 
 As expected, the execution output is the following:
 
-```
+```text
 09:13:08.611 [virtual-20] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 Exception in thread "main" java.util.concurrent.ExecutionException: java.util.concurrent.TimeoutException: Timeout of PT0.5S reached
 	at virtual.threads.playground/in.rcard.virtual.threads.GitHubApp$ShutdownOnResult.resultOrThrow(GitHubApp.java:334)
@@ -1066,7 +1066,7 @@ Caused by: java.util.concurrent.TimeoutException: Timeout of PT0.5S reached
 
 The computation retrieving the repositories started but couldn't complete within the given interval, so it was canceled. Whereas, if we increase the timeout to 1.5 seconds, the computation retrieves the repositories successfully:
 
-```
+```text
 09:15:42.083 [virtual-20] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 09:15:43.100 [virtual-20] INFO GitHubApp -- Repositories found for user 'UserId[value=1]'
 09:15:43.122 [main] INFO GitHubApp -- GitHub user's repositories: [Repository[name=raise4s, visibility=PUBLIC, uri=https://github.com/rcardin/raise4s], Repository[name=sus4s, visibility=PUBLIC, uri=https://github.com/rcardin/sus4s]]
@@ -1302,7 +1302,7 @@ public static void main() throws ExecutionException, InterruptedException {
 
 We expect to get the user's repositories before the bitcoin is mined and see the `race` function to interrupt the `mineBitcoin` computation. We have already tested the `race` function and know it works as expected. However, the output of the execution is the following:
 
-```
+```text
 08:49:09.118 [virtual-22] INFO GitHubApp -- Mining Bitcoin...
 08:49:09.118 [virtual-20] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=42]'
 08:49:10.135 [virtual-20] INFO GitHubApp -- Repositories found for user 'UserId[value=42]'
@@ -1346,7 +1346,7 @@ public static void main() throws ExecutionException, InterruptedException {
 
 If we rerun the code, we can see from the output that the `mineBitcoinWithConsciousness` computation is interrupted after the user's repositories are retrieved and the `race` function semantic is respected:
 
-```
+```text
 09:02:10.116 [virtual-22] INFO GitHubApp -- Mining Bitcoin...
 09:02:10.133 [virtual-20] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=42]'
 09:02:11.156 [virtual-20] INFO GitHubApp -- Repositories found for user 'UserId[value=42]'
@@ -1420,7 +1420,7 @@ public static void main() throws ExecutionException, InterruptedException {
 
 The output of the execution is the following:
 
-```
+```text
 08:15:10.955 [virtual-32] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=1]'
 08:15:10.955 [virtual-30] INFO GitHubApp -- Finding repositories for user with id 'UserId[value=42]'
 08:15:10.955 [virtual-31] INFO GitHubApp -- Finding user with id 'UserId[value=1]'

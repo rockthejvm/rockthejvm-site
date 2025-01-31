@@ -8,18 +8,15 @@ tags: [concurrency, scala, zio]
 title: "ZIO Fibers: Concurrency and Lightweight Threads"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Introduction
 
 Many libraries implement the effect pattern in the Scala ecosystem: Cats Effect, Monix, and ZIO, just to list some. Each of these implements its own concurrency model. For example. Cats Effect and ZIO both rely on _fibers_. In the articles [Cats Effect 3: Introduction to Fibers](/articles/cats-effect-3-introduction-to-fibers) and [Cats Effect 3: Racing IOs Explained](/articles/cats-effect-3-racing-ios), we introduced the fiber model adopted by the Cats Effect library. Now, it's time to analyze the ZIO library and its implementation of the fiber model.
 
-<NoteAdmonition>
-  Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud
-  student of the [Scala with Cats course](/courses/cats). Riccardo is a senior
-  developer, a teacher and a passionate technical blogger, and now he's neck
-  deep into ZIO.
-</NoteAdmonition>
+:::note
+
+Another great round by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger, and now he's neck deep into ZIO.
+
+:::
 
 ## Background and Setup
 
@@ -111,8 +108,7 @@ As we expected, the execution of the `run` show us that ZIO executes all of the 
 
 ## Fibers
 
-If we want to leverage all the power of ZIO and starting to execute effects asynchronously, we must
-introduce the `Fiber` type.
+If we want to leverage all the power of ZIO and starting to execute effects asynchronously, we must introduce the `Fiber` type.
 
 A _fiber_ is a concept that is beyond the ZIO library. In fact, it's a concurrency model. Often, we refer to fibers as _green threads_. **A fiber is a schedulable computation**, much like a thread. However, it's only a data structure, which means **it's up to the ZIO runtime to schedule these fibers for execution** (on the internal JVM thread pool). Unlike a system/JVM thread which is expensive to start and stop, fibers are cheap to allocate and remove. Hence, we can create millions of fibers and switch between them without the overheads associated with threads.
 
@@ -239,14 +235,13 @@ def concurrentWakeUpRoutineWithAliceCall(): ZIO[Clock, Nothing, Unit] = for {
 } yield ()
 ```
 
-As we can see, after Alice's call, we interrupt the `boilingFiber` fiber. The result of executing
-the `concurrentWakeUpRoutineWithAliceCall` method is the following:
+As we can see, after Alice's call, we interrupt the `boilingFiber` fiber. The result of executing the `concurrentWakeUpRoutineWithAliceCall` method is the following:
 
 ```text
 [zio-default-async-1]: Going to the bathroom
 [zio-default-async-2]: Boiling some water
 [zio-default-async-3]: Alice's call
-[zio-default-async-5]: Failure(Traced(Interrupt(Id(1624109234226,1))... // Ommitted
+[zio-default-async-5]: Failure(Traced(Interrupt(Id(1624109234226,1))... // Omitted
 [zio-default-async-5]: Going to the Cafe with Alice
 ```
 
@@ -282,8 +277,7 @@ def concurrentWakeUpRoutineWithAliceCallingUsTooLate(): ZIO[Clock, Nothing, Unit
 } yield ()
 ```
 
-As we said, marking as `uninterruptible` the fiber `coffeeFiber` makes it unstoppable. The call of
-the `interrupt` method on it doesn't do anything, and the above code will have the following output:
+As we said, marking as `uninterruptible` the fiber `coffeeFiber` makes it unstoppable. The call of the `interrupt` method on it doesn't do anything, and the above code will have the following output:
 
 ```text
 [zio-default-async-1]: Going to the bathroom

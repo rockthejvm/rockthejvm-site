@@ -7,8 +7,6 @@ tags: [scala, scala-3, type-system]
 title: "Scala 3: New Types Quickly Explained"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Who This Article Is For
 
 This article is for Scala programmers of all levels, although some of the later parts and questions will be a tad more difficult.
@@ -48,11 +46,11 @@ passStrict(3)
 
 Literal types can be defined for other numerical types (e.g. doubles), for booleans or for strings.
 
-<NoteAdmonition>
-  Even though String is a reference type, [String
-  interning](https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.5)
-  happens automatically for String literals, and Scala can take advantage of it.
-</NoteAdmonition>
+:::note
+
+Even though String is a reference type, [String interning](https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.5) happens automatically for String literals, and Scala can take advantage of it.
+
+:::
 
 ```scala
 val myFavoriteLanguage: "Scala" = "Scala"
