@@ -22,9 +22,6 @@ function buildStart() {
         }
 
         await getArticleMatches();
-
-        // await addEmbeddedArticles();
-        // await getArticleMatches();
       },
     },
   };
