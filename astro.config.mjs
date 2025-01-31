@@ -256,7 +256,9 @@ export default defineConfig({
       "/articles/evaluation-modes-in-scala",
     "/articles/scala-option": "/articles/getting-started-with-scala-options",
     "/articles/scala-redis-websockets-part-2":
-      "/articles/websockers-in-scala-part-2-integrating-redis-and-postgresql",
+      "/articles/websockets-in-scala-part-2-integrating-redis-and-postgresql",
+    "/articles/websockers-in-scala-part-2-integrating-redis-and-postgresql":
+      "/articles/websockets-in-scala-part-2-integrating-redis-and-postgresql",
     "/articles/scala-syntax-tricks-for-expressiveness":
       "/articles/5-code-expressiveness-tricks-in-scala",
     "/articles/scala-types-kinds":
@@ -315,7 +317,9 @@ export default defineConfig({
     "/articles/variables":
       "/articles/things-that-dont-make-sense-scala-variables",
     "/articles/websockets-in-http4s":
-      "/articles/websockers-in-scala-part-1-http4s",
+      "/articles/websockets-in-scala-part-1-http4s",
+    "/articles/websockers-in-scala-part-1-http4s":
+      "/articles/websockets-in-scala-part-1-http4s",
     "/articles/why-are-typeclasses-useful":
       "/articles/why-are-scala-type-classes-useful",
     "/articles/why-we-use-companions":

@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ArticleDifficulty from "./ArticleDifficulty.astro";
+
+interface Props {
+  difficulties: CollectionEntry<"difficulties">["id"][];
+}
+const { difficulties } = Astro.props;
+---
+
+<section class="pb-8 sm:py-2 md:pb-16">
+  <h2 class="m-8 text-center">Article Difficulties</h2>
+  <div class="mx-auto px-6 sm:mx-8 lg:mx-16 lg:px-8">
+    <div
+      class="mx-auto mt-16 grid grid-cols-2 gap-x-4 gap-y-8 text-base sm:grid-cols-3 lg:mx-0 lg:max-w-none lg:grid-cols-5"
+    >
+      {difficulties.map((difficultyId) => <ArticleDifficulty {difficultyId} />)}
+    </div>
+  </div>
+</section>
