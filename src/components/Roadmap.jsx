@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  addEdge,
   Background,
   Panel,
   ReactFlow,
   ReactFlowProvider,
+  addEdge,
   useEdgesState,
   useNodesState,
   useReactFlow,
@@ -131,7 +131,7 @@ function LayoutFlow({ initialNodes, initialEdges }) {
   );
 
   useEffect(() => {
-    onLayout({ direction: "DOWN", useInitialNodes: true });
+    onLayout({ direction: "RIGHT", useInitialNodes: true });
   }, []);
 
   return (
@@ -142,7 +142,7 @@ function LayoutFlow({ initialNodes, initialEdges }) {
       onConnect={onConnect}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
-      fitView
+      // fitView
       style={{ backgroundColor: "#F7F9FB" }}
     >
       <Panel position="top-left" className="pr-16">

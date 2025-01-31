@@ -1,10 +1,10 @@
 ---
 category: explanation
+difficulty: beginner
 excerpt: "We explore the trade-offs between three parallel coding styles in Scala and Akka: focusing on thread usage and other effects"
 publishedDate: 2020-05-08
 tags: [akka, scala]
 title: Sync, Async, and (Non-)Blocking in Scala and Akka
-updatedDate: 2024-09-06
 ---
 
 ## Introduction
@@ -54,9 +54,13 @@ The value after the call evaluates immediately, because the actual computation o
 The blocking aspect comes from the fact that these kinds of computations need to be constantly monitored for completion. It's like you spawn an annoying parrot, saying:
 
 "Are you done?"
+
 "Are you done?"
+
 "Are you done?"
+
 "Are you done?"
+
 "How about now?"
 
 so that when you are indeed done, the parrot will say "roger that" and will fly back to you (the calling thread) to deliver the result.

@@ -1,6 +1,7 @@
 ---
 author: riccardo-cardin
 category: guide
+difficulty: intermediate
 excerpt: "Discover type classes in Kotlin: a powerful pattern to organize your code for improved readability, maintainability, and flexibility"
 publishedDate: 2024-02-06
 tags: [fp, kotlin, type-system]
@@ -9,21 +10,15 @@ title: "Kotlin 101: Type Classes Quickly Explained"
 videoId: Qhfiq_1eWM8
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 In this article, we explore the concept of _type classes_ in Kotlin, a powerful tool that allows developers to abstract logic for different data types. We'll take data validation as an example to show how type classes can be used to write generic and reusable code. Our implementation will be based on the [Arrow Kt](https://arrow-kt.io/) library, which will exploit Kotlin's context receivers. So, without further ado, let's get the party started.
 
-<TipAdmonition>
-  Type classes are tough. If you need to become proficient in Kotlin **quickly**
-  and with thousands of lines of code and a project under your belt, you'll love
-  [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on
-  **everything** you'll ever need to work with Kotlin for any platform (Android,
-  native, backend, anything), including less-known techniques and language
-  tricks that will make your dev life easier. Check it out
-  [here](/courses/kotlin-essentials).
-</TipAdmonition>
+:::tip
+
+Type classes are tough. If you need to become proficient in Kotlin **quickly** and with thousands of lines of code and a project under your belt, you'll love [Kotlin Essentials](/courses/kotlin-essentials). It's a jam-packed course on **everything** you'll ever need to work with Kotlin for any platform (Android, native, backend, anything), including less-known techniques and language tricks that will make your dev life easier. Check it out [here](/courses/kotlin-essentials).
+
+:::
 
 ## Setting the Stage
 

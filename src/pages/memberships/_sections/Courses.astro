@@ -1,10 +1,10 @@
 ---
+import { type CollectionEntry, getCollection, getEntry } from "astro:content";
 import CourseCardVertical from "@components/CourseCardVertical.astro";
 import Section from "@components/Section.astro";
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series?.data.members[0].collection === "courses",
+  (series) => series.data.members[0].collection === "courses",
 );
 const memberss = courseSeriess.map((series) => series.data.members);
 const coursess = await Promise.all(

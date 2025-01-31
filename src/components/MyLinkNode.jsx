@@ -33,7 +33,7 @@ export default memo(({ data, isConnectable }) => {
   };
 
   return (
-    <div class={`${data.isCurrent ? "roadmap-node-border card" : ""}`}>
+    <div className={`${data.isCurrent ? "roadmap-node-border card" : ""}`}>
       <div
         style={{
           padding: "10px",

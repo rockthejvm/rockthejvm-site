@@ -6,17 +6,16 @@
   "editor.tabSize": 2,
   "editor.trimAutoWhitespace": true,
   "editor.wordWrap": "off",
+  "editor.wordWrapColumn": 80,
+  "explorer.excludeGitIgnore": true,
   "files.autoSave": "off",
   "files.encoding": "utf8",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.readonlyInclude": {
-    ".gitignore": true,
-    ".trunk/**": true, // trunk.io
-    "**/{,*-}lock{,.*}": true,
-    "**/{bin,build,dist,out,output,_site,site}/**": true,
-    "**/{LICENSE,LEGAL}{,.*}": true,
-    "**/CHANGELOG{,.*}": true
+    "**/.gitignore": true,
+    "**/{,*-,*.}{lock,lockfile}{,-*,.*}": true,
+    "**/{CHANGELOG,LICENSE,LEGAL}{,.*}": true
   },
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
@@ -37,11 +36,9 @@
   "notebook.insertFinalNewline": true,
   "notebook.output.wordWrap": true,
   "search.exclude": {
-    "**/node_modules": true,
-    "**/bower_components": true,
+    "**/{,*-,*.}{lock,lockfile}{,-*,.*}": true,
     "**/*.code-search": true,
-    "**/*lock*": true,
-    "public/rss/styles.xsl": true
+    "**/*.xsl": true
   },
   "typescript.format.enable": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -59,7 +56,9 @@
     "editor.tabSize": 4,
     "editor.wordWrap": "on"
   },
-  //// GitHub Codespace
+  //// Extensions
+  // mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04
+  "terminal.integrated.defaultProfile.linux": "zsh",
   // bradlc.vscode-tailwindcss
   "files.associations": {
     "*.css": "tailwindcss"
@@ -68,17 +67,62 @@
     "strings": "on"
   },
   "tailwindCSS.validate": false,
-  // mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04
-  "terminal.integrated.defaultProfile.linux": "zsh",
+  // christian-kohler.path-intellisense
+  "javascript.suggest.paths": false,
+  "path-intellisense.autoSlashAfterDirectory": true,
+  "path-intellisense.autoTriggerNextSuggestion": true,
+  "path-intellisense.showHiddenFiles": true,
+  "typescript.suggest.paths": false,
+  // eamodio.gitlens
+  "gitlens.currentLine.enabled": false,
+  "gitlens.defaultDateFormat": "YYYY-MM-DD",
+  "gitlens.defaultTimeFormat": "H:mm",
+  // GitHub.copilot
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  // GitHub.copilot-chat
+  "github.copilot.chat.welcomeMessage": "never",
+  // GitHub.vscode-pull-request-github
+  "githubIssues.createIssueTriggers": [],
+  "githubIssues.issueBranchTitle": "issue${issueNumber}",
+  "githubIssues.workingIssueFormatScm": "${issueTitle}\n\nResolves ${issueNumberLabel}",
+  "githubPullRequests.assignCreated": "${user}",
+  "githubPullRequests.createOnPublishBranch": "never",
+  "githubPullRequests.defaultCreateOption": "createDraft",
+  "githubPullRequests.defaultMergeMethod": "squash",
+  "githubPullRequests.notifications": "pullRequests",
+  "githubPullRequests.pullBranch": "always",
+  "githubPullRequests.pushBranch": "always",
+  "githubPullRequests.terminalLinksHandler": "vscode",
+  // ms-vsliveshare.vsliveshare
+  "liveshare.allowGuestDebugControl": true,
+  "liveshare.allowGuestTaskControl": true,
+  "liveshare.languages.allowGuestCommandControl": true,
+  "liveshare.launcherClient": "visualStudioCode",
+  "liveshare.notebooks.allowGuestExecuteCells": true,
+  "liveshare.publishWorkspaceInfo": true,
+  "liveshare.showVerboseNotifications": false,
   // redhat.vscode-yaml
   "yaml.extension.recommendations": false,
   "yaml.format.enable": false,
   "yaml.validate": false,
   "redhat.telemetry.enabled": false,
   "yaml.schemas": {
+    ".astro/collections/articleCategories.schema.json": [
+      "/src/content/articleCategories/**"
+    ],
     ".astro/collections/authors.schema.json": ["/src/content/authors/**"],
-    ".astro/collections/categories.schema.json": ["/src/content/categories/**"],
     ".astro/collections/companies.schema.json": ["/src/content/companies/**"],
+    ".astro/collections/courseCategories.schema.json": [
+      "/src/content/courseCategories/**"
+    ],
+    ".astro/collections/difficulties.schema.json": [
+      "/src/content/difficulties/**"
+    ],
     ".astro/collections/memberships.schema.json": [
       "/src/content/memberships/**"
     ],
@@ -87,26 +131,9 @@
     ],
     ".astro/collections/seriess.schema.json": ["/src/content/seriess/**"],
     ".astro/collections/socials.schema.json": ["/src/content/socials/**"],
-    ".astro/collections/videos.schema.json": ["/src/content/videos/**"]
+    ".astro/collections/tags.schema.json": ["/src/content/tags/**"]
   },
   // trunk.io
   "editor.defaultFormatter": "trunk.io",
-  "files.readonlyExclude": {
-    ".trunk/configs/**": true,
-    ".trunk/trunk.yaml": true
-  },
-  "files.exclude": {
-    "**/.trunk/*actions/": true,
-    "**/.trunk/*logs/": true,
-    "**/.trunk/*notifications/": true,
-    "**/.trunk/*out/": true,
-    "**/.trunk/*plugins/": true
-  },
-  "files.watcherExclude": {
-    "**/.trunk/*actions/": true,
-    "**/.trunk/*logs/": true,
-    "**/.trunk/*notifications/": true,
-    "**/.trunk/*out/": true,
-    "**/.trunk/*plugins/": true
-  }
+  "trunk.showPreexistingIssues": true
 }

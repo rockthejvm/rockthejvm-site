@@ -14,14 +14,15 @@
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
       "@types/*": ["src/types/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@/*": ["./src/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "exactOptionalPropertyTypes": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["functions/**/*"],
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "functions/**/*"],
   "mdx": {
     "checkMdx": true
   }

@@ -1,12 +1,11 @@
 ---
 category: explanation
+difficulty: intermediate
 excerpt: Explore core Scala constructs from a fresh perspective and uncover new insights into their use and application
 publishedDate: 2021-12-04
 tags: [philosophy, scala]
 title: Evaluation Modes in Scala Explained
 ---
-
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 
 ## Introduction
 
@@ -21,10 +20,11 @@ When we want to compute a value, we can think of two different aspects to how th
 
 The time aspect divides computations into now vs later. The memory aspect divides computations into _"memoized"_ and _non-memoized_. I put "memoized" in quotes, because memoization is considered to be an optimization technique. However, at a foundational level, storing vs. not storing is a fundamental aspect of any computation.
 
-<NoteAdmonition>
-  There are many more aspects of computation that I did not refer to, e.g.
-  asynchrony, side effects, etc.
-</NoteAdmonition>
+:::note
+
+There are many more aspects of computation that I did not refer to, e.g. asynchrony, side effects, etc.
+
+:::
 
 In this classification, these two orthogonal aspects give us 4 kinds of computations:
 

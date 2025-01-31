@@ -1,0 +1,39 @@
+---
+import Prose from "@components/Prose.astro";
+import NarrowContainer from "@containers/NarrowContainer";
+import Articles from "@pages/articles/_components/Articles.astro";
+import capitalizeFirstChar from "@utils/capitalizeFirstChar";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const difficulties = await getCollection("difficulties");
+  const articles = await getCollection("articles");
+
+  return difficulties.map((difficulty) => ({
+    params: { id: difficulty.id },
+    props: {
+      articles: articles.filter(
+        (article) => article.data.difficulty.id === difficulty.id,
+      ),
+      difficulty,
+    },
+  }));
+}
+
+const { articles, difficulty } = Astro.props;
+const title = `Articles marked as '${capitalizeFirstChar(difficulty.id)}' difficulty`;
+---
+
+<BaseLayout {title} description={title}>
+  <NarrowContainer>
+    <article class="pt-16 md:pt-8">
+      <header>
+        <Prose class="max-w-none">
+          <h1>{title}</h1>
+        </Prose>
+      </header>
+      <Articles {articles} />
+    </article>
+  </NarrowContainer>
+</BaseLayout>

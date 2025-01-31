@@ -1,6 +1,7 @@
 ---
 author: giannis-polyzos
 category: guide
+difficulty: intermediate
 excerpt: Discover tips and code examples to make your Kafka clients run blazing fast
 publishedDate: 2023-01-22
 repositoryUrl: https://github.com/polyzos/kafka-streaming-ledger
@@ -9,13 +10,12 @@ title: "Kafka 101: Clients Quickly Explained"
 updatedDate: 2023-01-30
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
 Apache Kafka is a well-known event streaming platform used in many organizations worldwide.
+
 It is used as the backbone of many data infrastructures, thus it's important to understand how to use it efficiently.
+
 The focus of this article is to provide a better understanding of how Kafka works under the hood to better design and tune your client applications.
 
 Since we will discuss **how things work**, this article assumes some basic familiarity with Kafka, i.e.:
@@ -34,26 +34,27 @@ We will use a file ingestion data pipeline for clickstream data as an example to
 1. Caveats with consumer offsets and different approaches for handling them
 
 The relevant e-commerce datasets can be found [here](https://www.kaggle.com/datasets/mkechinov/ecommerce-behavior-data-from-multi-category-store).
+
 The code samples are written in Kotlin, but the implementation should be easy to port in Java or Scala.
 
-<TipAdmonition>
-  To make the most out of this article, I'd recommend cloning the GitHub repo
-  and following the code snippets there, so you can run them easily, instead of
-  reproducing things yourself from scratch, unless you're a Kafka expert
-  already.
-</TipAdmonition>
+:::tip
+
+To make the most out of this article, I'd recommend cloning the GitHub repo and following the code snippets there, so you can run them easily, instead of reproducing things yourself from scratch, unless you're a Kafka expert already.
+
+:::
 
 So, let us dive right in.
 
-<NoteAdmonition>
-  This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos).
-  Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect
-  with a focus on Event Streaming and Stream Processing Systems.
-</NoteAdmonition>
+:::note
+
+This article is brought to you by [Giannis Polyzos](/authors/giannis-polyzos). Giannis is a proud alumnus of Rock the JVM, working as a Solutions Architect with a focus on Event Streaming and Stream Processing Systems.
+
+:::
 
 ## Environment Setup
 
 First, we want to have a Kafka Cluster up and running.
+
 Make sure you have [docker compose](https://docs.docker.com/compose/) installed on your machine, as we will use the following `docker-compose.yaml` file to set up a 3-node Kafka Cluster.
 
 ```yaml
@@ -129,10 +130,11 @@ All you have to do is navigate to the root folder of the project where the `dock
 
 This command will start a 3-node Kafka Cluster.
 
-<TipAdmonition>
-  You might want to increase your docker resources (I'm running with 6GB RAM) to
-  make sure you don't run into any issues.
-</TipAdmonition>
+:::tip
+
+You might want to increase your docker resources (I'm running with 6GB RAM) to make sure you don't run into any issues.
+
+:::
 
 Wait a bit for the cluster to start, then we will need to create our topic to store our clickstream events. For that we will create a topic with 5 partitions and a replication factor of 3 (leader + 2 replicas) using the following command:
 
@@ -162,6 +164,7 @@ Topic: ecommerce.events	TopicId: oMhOjOKcQZaoPp_8Xc27lQ	PartitionCount: 5	Replic
 The producer will send some events to Kafka.
 
 The data model for the click events should look similar to the following payload.
+
 ![Payload](images/payload.webp)
 
 Creating Kafka Producers is pretty straightforward, the important part is creating and sending records and the produce method should look similar to the following:
@@ -186,8 +189,7 @@ fun produce(topic: String, key: K, value: V) {
 producerResource.produce(KafkaConfig.EVENTS_TOPIC, event.userid, event)
 ```
 
-For every event we create a **ProducerRecord** object and specify the `topic`, the `key` (here we partition on the userId),
-and finally the event payload as the `value`.
+For every event we create a **ProducerRecord** object and specify the `topic`, the `key` (here we partition on the userId), and finally the event payload as the `value`.
 
 The `send()` method is asynchronous, so we specify a callback that gets triggered when we receive a result back.
 
@@ -203,9 +205,17 @@ Kafka does a lot of things under the hood when the `send()` method is invoked, s
 1. The partitioner determines which partition the message should be routed to.
 1. Internally Kafka keeps message buffers; we have one buffer for each partition and each buffer can hold many batches of messages grouped for each partition.
 1. Finally, the I/O threads pick up these batches and sent them over to the brokers.
-   At this point, our messages are in-flight from the client to the brokers. The brokers have sent/receive network buffers for the network threads to pick up the messages and hand them over to some IO thread to actually persist them on disk.
+
+    At this point, our messages are in-flight from the client to the brokers. The brokers have sent/receive network buffers for the network threads to pick up the messages and hand them over to some IO thread to actually persist them on disk.
+
 1. On the leader broker, the messages are written on disk and sent to the followers for replication. One thing to note here is that the messages are first written on the PageCache and periodically are flushed on disk.
-   (_Note:_ PageCache to disk is an extreme case for message loss, but still you might want to be aware of that)
+
+    :::note
+
+    PageCache to disk is an extreme case for message loss, but still you might want to be aware of that
+
+    :::
+
 1. The followers (in-sync replicas) store and sent an acknowledgment back they have replicated the message.
 1. A `RecordMetadata` response is sent back to the client.
 1. If a failure occurred without receiving an ACK, we check if message retry is enabled; if so, we need to resend it.
@@ -258,7 +268,9 @@ Has the following impact on the ingestion time.
 ```
 
 From around 119 seconds, the time dropped to 36 seconds. In both cases `ack=1`.
+
 I will leave it up to you to experiment and try different configuration options to see how they better come in handy based on your use case.
+
 You might also want to test against a real cluster to test the networking in place. For example running this similar example on a real cluster takes around _184 seconds_ to ingest 1000000 messages and when adding the configurations changes drops down to _18 seconds_.
 
 If you are concerned with exactly-once semantics, set `enable.idempotency` to true, which will also result in ACKs set to all.
@@ -294,6 +306,7 @@ private fun consume(topic: String) {
 ```
 
 Let's try to better understand what happens here. The following diagram provides a more detailed explanation.
+
 ![Consumer internals diagram](images/consumer-internals-diagram.webp)
 
 Kafka uses a pull-based model for data fetching. At the "heart of the consumer" sits the poll loop. The poll loop is important for two reasons:
@@ -314,6 +327,7 @@ So decreasing the number of records the `poll()` loop should return and/or bette
 ## Running the Consumer
 
 At this point, I will start one consuming instance on my `ecommerce.events` topic. Remember that this topic consists of 5 partitions.
+
 I will execute against my Kafka cluster, using the default consumer configuration options and my goal is to see how long it takes for a consumer to read 10000 messages from the topic, assuming a 20ms processing time per message.
 
 ```text
@@ -403,6 +417,7 @@ Along with that it also provides different ways for committing offset. This is a
 ![The Parallel Consumer Pattern](images/the-parallel-consumer-pattern.webp)
 
 Going once more back to our example to answer the question — how can we break the scaling limit? We will be using the parallel consumer pattern — you can find the code <a href={`${frontmatter.repositoryUrl}/blob/main/src/main/kotlin/io/ipolyzos/consumers/ParallelScalingConsumer.kt`}>here</a>.
+
 Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a _Key Ordering_, and using a parallelism of _100 threads_
 
 ```text
@@ -418,10 +433,11 @@ Using one _parallel consumer instance_ on our _5-partition_ topic, specifying a 
 
 Makes the consuming and processing time of **10k messages** take as much as **2 seconds**.
 
-<NoteAdmonition>
-  Notice from the logs how different batches are processed on different threads
-  on the same consumer instance.
-</NoteAdmonition>
+:::note
+
+Notice from the logs how different batches are processed on different threads on the same consumer instance.
+
+:::
 
 and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
 
@@ -439,10 +455,11 @@ and if we use _5 parallel consumer instances_, it takes just a few milliseconds.
 
 So basically we have accomplished getting our processing time from ~ minutes down to seconds.
 
-<NoteAdmonition>
-  Notice in the screenshot how different batches are processed on different
-  threads on different consumer instances.
-</NoteAdmonition>
+:::note
+
+Notice in the screenshot how different batches are processed on different threads on different consumer instances.
+
+:::
 
 ## Offsets and How to Handle Them
 

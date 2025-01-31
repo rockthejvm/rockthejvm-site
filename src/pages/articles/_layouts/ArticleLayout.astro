@@ -1,34 +1,41 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
+import RelatedArticles from "@components/RelatedArticles";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
+import matchedArticles from "@data/matchedArticles.json";
 import site from "@data/site.json";
+import capitalizeFirstChar from "@utils/capitalizeFirstChar";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
-import type { CollectionEntry } from "astro:content";
-import { getEntries, getEntry } from "astro:content";
+import { getEntries, getEntry, z } from "astro:content";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Byline from "../../../components/Byline.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 import TableOfContents from "../../../components/TableOfContents.astro";
 import NarrowContainer from "../../../containers/NarrowContainer";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
+import "astro-starlight-remark-asides/styles.css";
 
 interface Props {
   article: CollectionEntry<"articles">;
+  allArticles: CollectionEntry<"articles">[];
   headings: MarkdownHeading[];
-  minutesRead?: number;
+  minutesRead: number;
 }
 
-const { article, headings, minutesRead } = Astro.props;
+const { article, allArticles, headings, minutesRead } = Astro.props;
 const frontmatter = article.data;
 const {
   canonicalUrl,
   description,
+  difficulty,
   excerpt,
   heroImage,
   publishedDate,
@@ -52,7 +59,7 @@ const structuredData = JSON.stringify({
     {
       "@type": "Person",
       name: author.data.name,
-      url: `${Astro.site}/authors/${author.id}`,
+      url: `${Astro.site!}/authors/${author.id}`,
     },
   ],
   publisher: {
@@ -65,6 +72,35 @@ const structuredData = JSON.stringify({
   headline: title,
   image: heroImage?.image.src,
 });
+
+const ArticleMatchSchema = z.object({
+  all_matches: z.array(
+    z.object({
+      matched_slug: z.string(),
+      similarity: z.number(),
+      source_slug: z.string(),
+    }),
+  ),
+});
+
+const matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
+
+if (!matchedArticlesDataResult.success) {
+  throw new Error("Failed to parse matched articles data");
+}
+
+const matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
+  matchedArticlesDataResult.data;
+
+const matches = matchedArticlesData.all_matches.filter(
+  (match) => match.source_slug === article.slug,
+);
+
+matches.sort((a, b) => b.similarity - a.similarity);
+
+const relatedArticles = matches.map((match) =>
+  allArticles.find((article) => article.slug === match.matched_slug),
+);
 ---
 
 <BaseLayout
@@ -74,10 +110,13 @@ const structuredData = JSON.stringify({
       // add a twitter username if available
       twitter: author.data.socials?.twitter,
     },
-    updatedTime: updatedDate,
+    category: category.id,
+    minutesRead,
+    photo: author.data.photo,
     publishedTime: publishedDate,
     section: "Programming",
     tags: tags.map((tag) => tag.id),
+    updatedTime: updatedDate,
     // video: video?.data.canonicalUrl
     //   ? new URL(video.data.canonicalUrl)
     //   : undefined,
@@ -125,13 +164,22 @@ const structuredData = JSON.stringify({
           {
             minutesRead && (
               <p>
-                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}
+                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}{" "}
+                &nbsp;•&nbsp; {category.data.name} &nbsp;•&nbsp;{" "}
+                {capitalizeFirstChar(difficulty.id)}
               </p>
             )
           }
           <TagList {tags} />
         </Byline>
-        <div class="hidden lg:block"><SocialShare /></div>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
         <div class="my-5">
           <ArticleSeries {article} label="This article is part of a series" />
         </div>
@@ -156,9 +204,54 @@ const structuredData = JSON.stringify({
         >
       </div>
       <footer>
-        <div class="hidden lg:block"><SocialShare /></div>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
         <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
+
+        {
+          relatedArticles.length > 0 && (
+            <RelatedArticles length={relatedArticles.length} client:load>
+              {relatedArticles.length >= 1 && (
+                <ArticlePreview
+                  slot="firstArticle"
+                  article={relatedArticles[0]!}
+                />
+              )}
+              {relatedArticles.length >= 2 && (
+                <ArticlePreview
+                  slot="secondArticle"
+                  article={relatedArticles[1]!}
+                />
+              )}
+              {relatedArticles.length >= 3 && (
+                <ArticlePreview
+                  slot="thirdArticle"
+                  article={relatedArticles[2]!}
+                />
+              )}
+              {relatedArticles.length >= 4 && (
+                <ArticlePreview
+                  slot="fourthArticle"
+                  article={relatedArticles[3]!}
+                />
+              )}
+              {relatedArticles.length >= 5 && (
+                <ArticlePreview
+                  slot="fifthArticle"
+                  article={relatedArticles[4]!}
+                />
+              )}
+            </RelatedArticles>
+          )
+        }
+
         <NewsletterSection />
       </footer>
     </article>
@@ -172,6 +265,12 @@ const structuredData = JSON.stringify({
         hideButtons={false}
       />
     </Prose>
-    <SocialShare slot="share" />
+    <SocialShare
+      title={article.data.title}
+      description={article.data.description ?? ""}
+      url={Astro.url.href}
+      tags={article.data.tags}
+      slot="share"
+    />
   </FloatingActionMenuHelper>
 </BaseLayout>

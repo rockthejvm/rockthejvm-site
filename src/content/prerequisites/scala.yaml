@@ -13,12 +13,15 @@ nodes:
   - cats-effect
   - scala-and-functional-programming-interview-practice
   - scala-essentials
+  - scala-macros-and-metaprogramming
   - typelevel-rite-of-passage
   - zio
   - zio-rite-of-passage
 edges:
   - from: scala-essentials
     to: advanced-scala
+  - from: advanced-scala
+    to: scala-macros-and-metaprogramming
   - from: advanced-scala
     to: cats
   - from: cats

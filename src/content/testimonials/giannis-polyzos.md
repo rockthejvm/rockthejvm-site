@@ -1,11 +1,11 @@
 ---
 company:
-  entity: ververica
-  role: Senior Engineer
+    entity: ververica
+    role: Senior Engineer
 link: https://linkedin.com/in/john-polyzos-04a60688
 location:
-  city: Athens
-  country: Greece
+    city: Athens
+    country: Greece
 name: Giannis Polyzos
 photo: ./giannis-polyzos.jpeg
 ordinal: 2

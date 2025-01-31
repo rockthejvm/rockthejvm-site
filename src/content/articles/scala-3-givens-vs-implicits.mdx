@@ -1,5 +1,6 @@
 ---
 category: explanation
+difficulty: beginner
 excerpt: Building on the previous article's insights into givens, let's explore how they stack up against the traditional Scala implicits
 publishedDate: 2020-11-18
 tags: [scala, scala-3]
@@ -31,9 +32,9 @@ In Scala 2, this suite of capabilities is available under the same `implicit` ke
 1. Implicit `def`s without implicit arguments are capable of doing conversions. Most of the time, these conversions are dangerous and hard to pin down. Moreover, they're the easiest implicits feature to use, which makes them double-dangerous.
 1. Implicits are really hard to learn and therefore push many beginners away from Scala.
 1. Various annoyances, such as
-   - The need to name implicits when we often don't need them
-   - Some syntax confusions if a method requires implicit parameters
-   - The discrepancy between structure and intention: for example, an `implicit def` is never used with the meaning of a "method".
+    - The need to name implicits when we often don't need them
+    - Some syntax confusions if a method requires implicit parameters
+    - The discrepancy between structure and intention: for example, an `implicit def` is never used with the meaning of a "method".
 
 ## Implicit Conversions
 

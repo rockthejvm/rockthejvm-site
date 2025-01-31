@@ -1,11 +1,11 @@
-import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
+import rss from "@astrojs/rss";
 import site from "../../data/site.json";
 
 export async function GET(context) {
   const articles = await getCollection("articles");
   return rss({
-    customData: `<language>en-us</language>`,
+    customData: "<language>en-us</language>",
     description: site.description,
     items: articles.map((article) => ({
       description: article.data.excerpt,

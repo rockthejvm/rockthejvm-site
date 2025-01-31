@@ -1,5 +1,6 @@
 ---
 category: guide
+difficulty: intermediate
 excerpt: Discover how to harness lazy values and call-by-name techniques to craft a fully immutable doubly-linked list in Scala
 publishedDate: 2020-12-04
 tags: [data-structures, scala]
@@ -161,7 +162,12 @@ trait DLList[+T] {
 }
 ```
 
-(notice the by-name argument)
+:::note
+
+Notice the by-name argument
+
+:::
+
 These methods will be straightforward in the Empty case since there's no reference to update:
 
 ```scala

@@ -1,8 +1,9 @@
 ---
+import { type CollectionEntry, getEntries, getEntry } from "astro:content";
 import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
-import { capitalizeFirstChar } from "@utils/capitalizeFirstChar.ts";
+import capitalizeFirstChar from "@utils/capitalizeFirstChar.ts";
 import {
   getCollection,
   getEntries,
@@ -25,6 +26,7 @@ import Pricing from "../_sections/Pricing.astro";
 import Question from "../_sections/Question.astro";
 import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
+import { getCollection } from "astro:content";
 
 interface Response {
   price: number;
@@ -83,10 +85,10 @@ const {
 const instructors = await getEntries<"authors">(_instructors);
 
 const response = await fetch(
-  `https://rockthejvm.com/api/purchase/${pricingPlanId}`,
+  `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed()}`,
 );
 
-const { price }: Response = await response.json();
+const { price } = (await response.json()) as Response;
 
 function difficultyToOrdinal(
   difficulty: "beginner" | "intermediate" | "advanced",
@@ -128,9 +130,11 @@ const reactFlowEdges: ReactFlowEdge[] | undefined =
     id: `${edge.from.slug}TO${edge.to.slug}`,
     source: edge.from.slug,
     target: edge.to.slug,
-    type: "smart",
+    // type: "smart",
     animated: edge.optional ? true : false,
   }));
+
+const companies = await getCollection("companies");
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -159,14 +163,14 @@ const structuredData = JSON.stringify({
     {
       "@type": "CourseInstance",
       courseMode: "Online",
-      courseWorkload: `PT${2 * (bundledCourses.length > 0 ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)}H`,
+      courseWorkload: `PT${Math.round(2 * (bundledCourses.length > 0 ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)).toFixed()}H`,
       instructor: instructors.map((instructor) => ({
         "@type": "Person",
         name: instructor.data.name,
         description:
           instructor.data.biography ??
           (instructor.data.company
-            ? `${instructor.data.company.role} at ${instructor.data.company?.entity}.`
+            ? `${instructor.data.company.role} at ${companies.find(({ id }) => id === instructor.data.company!.entity.id)!.data.title}.`
             : ""),
         image: instructor.data.photo.src,
       })),
@@ -205,7 +209,13 @@ const structuredData = JSON.stringify({
   >
   </div>
   <article>
-    <Hero {description} {heroImage} {pricingPlanId} {title}>
+    <Hero
+      {description}
+      {heroImage}
+      inRoadmap={prerequisites !== undefined}
+      {pricingPlanId}
+      {title}
+    >
       <div
         slot="roadmap"
         class="relative mx-auto w-full overflow-y-hidden overflow-x-visible"

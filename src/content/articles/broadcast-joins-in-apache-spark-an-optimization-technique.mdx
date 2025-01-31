@@ -1,12 +1,11 @@
 ---
 category: explanation
+difficulty: intermediate
 excerpt: Broadcast joins in Apache Spark are a highly effective technique for boosting performance and avoiding memory issues, offering great value for optimization
 publishedDate: 2020-10-12
 tags: [spark]
 title: "Broadcast Joins in Apache Spark: An Optimization Technique"
 ---
-
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Who This Article Is For
 
@@ -115,8 +114,8 @@ In this query plan, we read the operations in dependency order from top to botto
 
 - The final computation of the `id` and the `medal` obtained after the join of the two DataFrames, which requires
 - A sort-merge join on the columns `id` and `id` (with different identifiers under the hash tag), which requires
-  - A sort of the big DataFrame, which comes after
-  - **A shuffle of the big DataFrame**
+    - A sort of the big DataFrame, which comes after
+    - **A shuffle of the big DataFrame**
 - And a sort + shuffle + small filter on the small DataFrame
 
 The shuffle on the big DataFrame - the one at the middle of the query plan - is required, because a join requires matching keys to stay on the same Spark executor, so Spark needs to redistribute the records by hashing the join column. This is a shuffle. But as you may already know, a shuffle is a massively expensive operation. On billions of rows it can take hours, and on more records, it'll take... more.
@@ -190,12 +189,11 @@ or deactivate it altogether by setting the value to -1.
 spark.conf.set("spark.sql.autoBroadcastJoinThreshold", -1)
 ```
 
-<TipAdmonition>
-  This is also a good tip to use while testing your joins in the absence of this
-  automatic optimization. We also use this in our [Spark Optimization
-  course](/courses/spark-optimization) when we want to test other optimization
-  techniques.
-</TipAdmonition>
+:::tip
+
+This is also a good tip to use while testing your joins in the absence of this automatic optimization. We also use this in our [Spark Optimization course](/courses/spark-optimization) when we want to test other optimization techniques.
+
+:::
 
 ## Conclusion
 

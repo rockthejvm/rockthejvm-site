@@ -1,25 +1,20 @@
 ---
 title: "How to Build a ZIO Full-Stack Web Application"
 category: guide
+difficulty: advanced
 publishedDate: 2024-10-15
 author: olivier-nouguier
 tags: [scala, zio, laminar, tapir]
 excerpt: "Learn how to build a full-stack web application in Scala with ZIO and Laminar, step by step"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
-<NoteAdmonition>
-  This article showcases Olivier's template of a Scala full-stack web
-  application with ZIO and Laminar, after he completed the giant [ZIO Rite of
-  Passage](/courses/zio-rite-of-passage) course on Rock the JVM. The course
-  teaches you to build a full-blown product from scratch with the principles
-  outlined in the article. If this sounds exciting, check it out
-  [here](/courses/zio-rite-of-passage).
-</NoteAdmonition>
+:::note
+
+This article showcases Olivier's template of a Scala full-stack web application with ZIO and Laminar, after he completed the giant [ZIO Rite of Passage](/courses/zio-rite-of-passage) course on Rock the JVM. The course teaches you to build a full-blown product from scratch with the principles outlined in the article. If this sounds exciting, check it out [here](/courses/zio-rite-of-passage).
+
+:::
 
 In this article, we will show a full-stack web application with Scala and ZIO. This application will expose a REST API to register a person, and will display the registered user in a reactive UI. It will leverage the Scala ecosystem to build a full stack web app in a type safe manner, extensively using Scala `derive` and `extension` mechanism.
 
@@ -53,7 +48,7 @@ Without compromising type safety guarantees of Scala and in the meantime being a
 ## What Is Inside
 
 - **ZIO**: Functional Effect System on both back and front side.
-  - Quill for database access.
+    - Quill for database access.
 - **Tapir**: Providing and giving access to a Rest API in a type safe and incredible elegant way.
 - **Laminar**: "Simple, expressive, and safe UI library for Scala.js"
 
@@ -94,14 +89,14 @@ Leveraging the [tasks VSCode](https://code.visualstudio.com/docs/editor/tasks) s
 4 processes are running here:
 
 - Server side:
-  - **docker**: Starts a PostgreSQL database in a docker container.
-  - **serverRun**: The dev mode hot reloading API [http://localhost:8080/docs/](http://localhost:8080/docs/) with the Swagger.
+    - **docker**: Starts a PostgreSQL database in a docker container.
+    - **serverRun**: The dev mode hot reloading API [http://localhost:8080/docs/](http://localhost:8080/docs/) with the Swagger.
 - Client side:
 
-  - **fastlink**: Scala to JS compilation/transpilation
-  - **npmDev**: [http://localhost:5173/](http://localhost:5173/) now serves your client web app in development mode, hot reloading with Vite.
+    - **fastlink**: Scala to JS compilation/transpilation
+    - **npmDev**: [http://localhost:5173/](http://localhost:5173/) now serves your client web app in development mode, hot reloading with Vite.
 
-  Visit the [registration from at http://localhost:5173/](http://localhost:5173/demos/scalariform) and register a person, you should see the registered user in the UI.
+    Visit the [registration from at http://localhost:5173/](http://localhost:5173/demos/scalariform) and register a person, you should see the registered user in the UI.
 
 ## The Build
 
@@ -110,6 +105,7 @@ In this section, we'll briefly cover the most important details about the projec
 ### Scala/ScalaJS
 
 Scala build here is driven by SBT in a rather classic way, except for the `shared` project that will be cast in two different worlds `.jvm` and `.js`
+
 Generated build contains documentation on details. Please take a look and don't hesitate to ask question/provide PR on the g8.
 
 For **ScalaJS**
@@ -123,6 +119,7 @@ For **ScalaJS**
 "org.portable-scala" % "[sbt-scalajs-crossproject](https://github.com/portable-scala/sbt-crossproject)" % "1.3.2"
 
 This is the plugin that will allow to spread project resources between JS and JVM worlds.
+
 Shared project configuration 👇
 
 - Server project aka Scala JVM depends `share.jvm` variant
@@ -196,7 +193,7 @@ In VS code you can see the modules view:
     <strong>Client Module</strong>, UI:
    <ul>
     <li>Laminar is the reactive UI</li>
-    <li>Sttp client leverages the same Tapir endoint definitions</li>
+    <li>Sttp client leverages the same Tapir endpoint definitions</li>
    </ul>
   <strong>Server</strong> Module, ZIO HTTP:
   <ul>
@@ -284,10 +281,9 @@ object HttpServer extends ZIOAppDefault {
 ```
 
 - Two ZIO effects are running in this application:
-  - **(1)** `runMigrations` is a ZIO[**FlywayService**,…] that depends on a FlywayService, and that will handle the database migrations.
-  - **(2)** `server` is a ZIO[**PersonService & Server**,…] that depends on a PersonService and a Server and that will handle the HTTP server.
-- Those two effects combine in a for comprehension **(3)** to produce a new ZIO **(4)** that accumulate the dependencies:
-  ZIO[**FlywayService & PersonService & Server**,…]
+    - **(1)** `runMigrations` is a ZIO[**FlywayService**,…] that depends on a FlywayService, and that will handle the database migrations.
+    - **(2)** `server` is a ZIO[**PersonService & Server**,…] that depends on a PersonService and a Server and that will handle the HTTP server.
+- Those two effects combine in a for comprehension **(3)** to produce a new ZIO **(4)** that accumulate the dependencies: ZIO[**FlywayService & PersonService & Server**,…]
 
 To be runnable, those dependencies need to be satisfied **(5)**. This is what layers are made for. A layer is a ZIO concept that will provide a service, and that can depend on other services. Letțs see how ZIO, assembles the application, one layer after another.
 
@@ -313,20 +309,22 @@ object Repository {
 
 - This requires a **(1)** DataSource layer, that will provide a DataSource service from the configuration.
 
-  > TaskLayer is a type alias for a ZLayer that does not require a dependency and can fail with a Throwable:
-  >
-  > type **TaskLayer**[+A] = ZLayer[Any, **Throwable**, A]
+    > TaskLayer is a type alias for a ZLayer that does not require a dependency and can fail with a Throwable:
+    >
+    > type **TaskLayer**[+A] = ZLayer[Any, **Throwable**, A]
 
 - The second requirement is **(2)** Quill layer, that will provide a Quill Postgres service, with a SnakeCase naming strategy for the table mapping, this layer depends on the DataSource service.
 
-  > **URLayer** is a type alias for a ZLayer that does require a dependency and cannot fail:
-  >
-  > type **URLayer**[-R, +A] = ZLayer[R, **Nothing**, A]
+    > **URLayer** is a type alias for a ZLayer that does require a dependency and cannot fail:
+    >
+    > type **URLayer**[-R, +A] = ZLayer[R, **Nothing**, A]
 
 - The third requirement is a **(3)** data layer, that will provide a Quill Postgres service from the DataSource service.
 
 > The `>>>` operator is a ZLayer combinator that will chain the layers. It is a vertical composition of layers, that will provide the service from the first layer to the second layer.
+
 > The `++` operator is a ZLayer combinator that will merge the layers, it is a horizontal composition of layers.
+
 > [This video](https://www.youtube.com/watch?v=PaogLRrYo64) on Rock the JVM's YouTube channel explains layer composition.
 
 ZIO contains a rich variety of type aliases that after a while will make the code very readable.
@@ -607,12 +605,12 @@ Here are the important bits:
 
 - **(1)** Dependency Injection.
 - **(2)** Controller implementation, where json codec are transparently handled by Tapir:
-  - `p: Person` is the payload of the request as describe in the endpoint definition.
-  - `personService.register(p)` is the ZIO effect that will register the person.
+    - `p: Person` is the payload of the request as describe in the endpoint definition.
+    - `personService.register(p)` is the ZIO effect that will register the person.
 - **(3)** List of endpoints that will be served by the controller.
 - **(4)** Service instantiation: URIO[PersonService, PersonController]
-  - **(4a)** Get the PersonService from the environment.
-  - **(4b)** Instantiate the PersonController with the PersonService.
+    - **(4a)** Get the PersonService from the environment.
+    - **(4b)** Instantiate the PersonController with the PersonService.
 
 Everything is described as ZIO effects. `URIO[PersonService, PersonController]` is a ZIO that needs a PersonService and will produce a PersonController and cannot fail.
 
@@ -681,11 +679,11 @@ We have:
 
 - **(1)** the handling of a Laminar UI event
 - **(2)** a HTTP endpoint
-  - **(2a)** reads the current value of a Laminar Var
-  - **(2b)** turns into ZIO effect to handle the HTTP request
+    - **(2a)** reads the current value of a Laminar Var
+    - **(2b)** turns into ZIO effect to handle the HTTP request
 - **(3)** an effect that, when evaluated
-  - **(3a)** will push its value to an event bus
-  - **(3B)** which is consumed by the Laminar UI
+    - **(3a)** will push its value to an event bus
+    - **(3B)** which is consumed by the Laminar UI
 
 This is a lot of magic in a single line!
 
@@ -722,9 +720,13 @@ Simply said, with this extension in scope, now createEndpoint can be used as a f
 def createEndpoint[I, O](payload: I): RIO[BackendClient, O]
 ```
 
-> Note: **RIO** is just a type alias where error are Throwable:
->
-> `type RIO[R, A]= ZIO[R, Throwable, A]`
+:::note
+
+`RIO` is just a type alias where error are Throwable:
+
+`type RIO[R, A]= ZIO[R, Throwable, A]`
+
+:::
 
 This effect needs a BackendClient to run - look at `ZIO.service[BackendClient]`.
 
@@ -838,8 +840,7 @@ trait SecuredBaseController[SI, Principal](
 
 ```
 
-This trait will provide an extension method that will handle the authentication and the authorization of the secured endpoint. But in a generic way, that will allow
-to handle any kind of security input and any kind of principal.
+This trait will provide an extension method that will handle the authentication and the authorization of the secured endpoint. But in a generic way, that will allow to handle any kind of security input and any kind of principal.
 
 - **(1)** principalExtractor is a function that will extract the principal from the Security Input.
 - **(2)** extension method that will enrich the endpoint with security logic.
@@ -890,7 +891,9 @@ def apply() = div(
 - **(2)** If the user is not logged in, display a message.
 - **(3)** When the component is mounted, call the secured endpoint.
 - **(4)** Emit the result to the EventBus.
-  this is because the token is handled another extension method that is triggered by the secured endpoint.
+
+    this is because the token is handled another extension method that is triggered by the secured endpoint.
+
 - **(5)** Display the user profile.
 
 The attentive reader will notice that the secured endpoint is called without any token, just like the unsecured endpoint. How is it possible?
@@ -1021,6 +1024,7 @@ Some configuration, devDependencies point to TypeScript whereas runtime dependen
 ```
 
 In this example Chart.js bindings are generated from the TypeScript definition and fully accessible from ScalaJS at compile time, whereas the chart.js will be used at runtime.
+
 Generated classes are pushed in your local (ivy) repo, hence generated only once.
 
 Notice, this package.json is not the application one, because I want to limit this binding generation to strictly necessary.

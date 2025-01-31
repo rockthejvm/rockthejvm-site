@@ -1,18 +1,19 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import MyPicture from "@components/MyPicture.astro";
 import PurchaseLink from "@components/PurchaseLink";
-import type { CollectionEntry } from "astro:content";
 
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
   description: CourseFrontmatter["description"];
   heroImage: CourseFrontmatter["heroImage"];
+  inRoadmap: boolean;
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
 }
 
-const { description, heroImage, pricingPlanId, title } = Astro.props;
+const { description, heroImage, inRoadmap, pricingPlanId, title } = Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
@@ -45,12 +46,17 @@ const { description, heroImage, pricingPlanId, title } = Astro.props;
       >
         Enroll now</PurchaseLink
       >
-      <button
-        id="open-roadmap-modal"
-        class="rounded-md bg-gray-400 px-3.5 py-2.5 text-base font-semibold text-black shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      >
-        Course roadmap
-      </button>
+
+      {
+        inRoadmap && (
+          <button
+            id="open-roadmap-modal"
+            class="rounded-md bg-gray-400 px-3.5 py-2.5 text-base font-semibold text-black shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Course roadmap
+          </button>
+        )
+      }
     </div>
   </div>
 
@@ -105,7 +111,6 @@ const { description, heroImage, pricingPlanId, title } = Astro.props;
     if (!modal || !modalBackdrop || !modalPanel) {
       return;
     }
-    console.log("working");
 
     modal.classList.remove("hidden");
     modalBackdrop.classList.add("opacity-100");

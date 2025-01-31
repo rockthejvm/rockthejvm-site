@@ -1,5 +1,6 @@
 ---
 category: explanation
+difficulty: beginner
 excerpt: This article delves into Scala 3's advanced trait functionalities, building on our previous explorations of the language's new features
 publishedDate: 2020-09-29
 tags: [scala, scala-3, traits]
@@ -96,7 +97,11 @@ object Green extends Color with Paintable
 object Blue extends Color with Paintable
 ```
 
-(Notice we did not make them `case object`s for brevity. We'll come back to it.)
+:::note
+
+Notice we did not make them `case object`s for brevity. We'll come back to it.
+
+:::
 
 Assume further that the trait `Paintable` is rarely used as a standalone trait, but rather as an auxiliary trait in our library definitions. In this case, if we were to say
 
