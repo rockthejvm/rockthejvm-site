@@ -1,14 +1,30 @@
 ---
+import tagToHashTag from "@utils/tagToHashTag";
+import type { CollectionEntry } from "astro:content";
 import Facebook from "./icons/Facebook.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
+import Pocket from "./icons/Pocket.astro";
+import Reddit from "./icons/Reddit.astro";
 import Twitter from "./icons/Twitter.astro";
 import SocialShareHelper from "./SocialShareHelper";
+
+interface Props {
+  description: string;
+  title: string;
+  tags: CollectionEntry<"articles">["data"]["tags"];
+  url: string;
+}
+
+const { description, title, url, tags: _tags } = Astro.props;
+const hashTags = _tags.map(({ id }) => tagToHashTag(id));
 ---
 
 <div class="my-4">
-  <SocialShareHelper shareUrl="rockthejvm" client:idle>
-    <Facebook slot="facebook" />
-    <LinkedIn slot="linkedin" />
+  <SocialShareHelper {description} {title} {url} {hashTags} client:idle>
     <Twitter slot="twitter" />
+    <LinkedIn slot="linkedin" />
+    <Facebook slot="facebook" />
+    <Reddit slot="reddit" />
+    <Pocket slot="pocket" />
   </SocialShareHelper>
 </div>
