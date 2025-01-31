@@ -1,8 +1,9 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import ArticleTag from "./ArticleTag.astro";
 
 interface Props {
-  tags: string[];
+  tags: CollectionEntry<"tags">["id"][];
 }
 const { tags } = Astro.props;
 ---

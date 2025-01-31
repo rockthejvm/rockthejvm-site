@@ -1,6 +1,7 @@
 ---
 author: herbert-kateu
 category: guide
+difficulty: intermediate
 excerpt: Learn how to integrate Redis with Scala using redis4cats and persist records in Postgres with skunk, enhancing your chatroom application with powerful new features
 publishedDate: 2024-05-23
 repositoryUrl: https://github.com/hkateu/WebSocketChatApp2
@@ -10,7 +11,7 @@ title: "WebSockets in Scala: Part 2 - Integrating Redis and PostgreSQL"
 
 ## Introduction
 
-This article is a follow-up to the [websocket](/articles/websockers-in-scala-part-1-http4s) article that was published previously. To recap, we created an in-memory chat application using WebSockets with the help of the http4s library. The chat application had a variety of features implemented through commands directly in the chat window such as the ability to create users, create chat rooms, and switch between chat rooms.
+This article is a follow-up to the [websocket](/articles/websockets-in-scala-part-1-http4s) article that was published previously. To recap, we created an in-memory chat application using WebSockets with the help of the http4s library. The chat application had a variety of features implemented through commands directly in the chat window such as the ability to create users, create chat rooms, and switch between chat rooms.
 
 In this iteration, we'll be integrating Redis to keep track of the users and rooms and we'll also be persisting messages in Postgres so that new users can have access to previous conversations. Finally, We'll get rid of `chatState` and create a new protocol that interacts with Postgres and Redis.
 

@@ -11,6 +11,27 @@ import pagefind from "astro-pagefind";
 import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig } from "astro/config";
 import remarkDirective from "remark-directive";
+import {
+  addEmbeddedArticles,
+  getArticleMatches,
+} from "./src/utils/relatedArticles";
+
+// Custom Astro integration
+function buildStart() {
+  return {
+    name: "my-build-start",
+    hooks: {
+      "astro:build:start": async () => {
+        const branch = process.env.CF_PAGES_BRANCH || "unknown";
+        if (branch === "main") {
+          await addEmbeddedArticles();
+        }
+
+        await getArticleMatches();
+      },
+    },
+  };
+}
 
 export default defineConfig({
   site: "https://rockthejvm.com",
@@ -19,17 +40,20 @@ export default defineConfig({
     format: "file",
   },
   integrations: [
+    buildStart(),
     icon({
       include: {
         "fa6-brands": [
           "facebook",
+          "get-pocket",
           "github",
           "linkedin",
+          "reddit",
           "x-twitter",
           "youtube",
         ],
         "fa6-solid": ["caret-up", "house", "table-list", "rss"],
-        heroicons: ["computer-desktop", "magnifying-glass", "moon", "sun"],
+        heroicons: ["computer-desktop", "moon", "sun", "magnifying-glass"],
       },
     }),
     expressiveCode({
@@ -266,7 +290,9 @@ export default defineConfig({
       "/articles/evaluation-modes-in-scala",
     "/articles/scala-option": "/articles/getting-started-with-scala-options",
     "/articles/scala-redis-websockets-part-2":
-      "/articles/websockers-in-scala-part-2-integrating-redis-and-postgresql",
+      "/articles/websockets-in-scala-part-2-integrating-redis-and-postgresql",
+    "/articles/websockers-in-scala-part-2-integrating-redis-and-postgresql":
+      "/articles/websockets-in-scala-part-2-integrating-redis-and-postgresql",
     "/articles/scala-syntax-tricks-for-expressiveness":
       "/articles/5-code-expressiveness-tricks-in-scala",
     "/articles/scala-types-kinds":
@@ -325,7 +351,9 @@ export default defineConfig({
     "/articles/variables":
       "/articles/things-that-dont-make-sense-scala-variables",
     "/articles/websockets-in-http4s":
-      "/articles/websockers-in-scala-part-1-http4s",
+      "/articles/websockets-in-scala-part-1-http4s",
+    "/articles/websockers-in-scala-part-1-http4s":
+      "/articles/websockets-in-scala-part-1-http4s",
     "/articles/why-are-typeclasses-useful":
       "/articles/why-are-scala-type-classes-useful",
     "/articles/why-we-use-companions":
