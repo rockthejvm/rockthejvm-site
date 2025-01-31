@@ -26,9 +26,6 @@ function parseIntroduction(markdown: string) {
   const regex = /## Introduction\s+([\s\S]*?)(?=\n\n## |$)/;
   const match = markdown.match(regex);
 
-  if (match) {
-    console.log(match[1].trim());
-  }
   return match ? match[1].trim() : "";
 }
 
@@ -36,9 +33,6 @@ function parseConclusion(markdown: string) {
   const regex = /## Conclusion\s+([\s\S]*?)(?=\n\n## |$)/;
   const match = markdown.match(regex);
 
-  if (match) {
-    console.log(match[1].trim());
-  }
   return match ? match[1].trim() : "";
 }
 
@@ -48,9 +42,9 @@ function buildArticleJson() {
     const { data } = matter(article);
     const obj = {
       slug: key,
-      content: `${data.title}. ${data.excerpt}. ${data.tags.join(" ")}. ${parseIntroduction(article)}`,
+      content: `${data.title}. ${data.excerpt}. ${data.tags.join(" ")}.`,
     };
-    console.log(obj);
+
     articleObjs.push(obj);
   });
 
