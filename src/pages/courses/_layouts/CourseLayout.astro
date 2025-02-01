@@ -1,9 +1,20 @@
 ---
 import { type CollectionEntry, getEntries, getEntry } from "astro:content";
 import Profile from "@components/Profile.astro";
+import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
 import capitalizeFirstChar from "@utils/capitalizeFirstChar.ts";
+import {
+  getCollection,
+  getEntries,
+  getEntry,
+  type CollectionEntry,
+} from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  type ReactFlowEdge,
+  type ReactFlowNode,
+} from "../../../types/ReactFlow.ts";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
@@ -93,6 +104,35 @@ function difficultyToOrdinal(
       return 0;
   }
 }
+const prerequisitess = await getCollection("prerequisites");
+const prerequisites = prerequisitess.find((prerequisites) =>
+  prerequisites.data.nodes.find((node) => node.slug === course.slug),
+);
+
+const reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
+  ? await Promise.all(
+      prerequisites?.data.nodes.map(async (node) => ({
+        id: node.slug,
+        type: "linkNode",
+        position: { x: 0, y: 0 },
+        data: {
+          difficulty: (await getEntry("courses", node.slug)).data.difficulty,
+          isCurrent: node.slug === course.slug,
+          label: (await getEntry("courses", node.slug)).data.title,
+          href: `/courses/${node.slug}`,
+        },
+      })),
+    )
+  : undefined;
+
+const reactFlowEdges: ReactFlowEdge[] | undefined =
+  prerequisites?.data.edges.map((edge) => ({
+    id: `${edge.from.slug}TO${edge.to.slug}`,
+    source: edge.from.slug,
+    target: edge.to.slug,
+    // type: "smart",
+    animated: edge.optional ? true : false,
+  }));
 
 const companies = await getCollection("companies");
 
@@ -169,7 +209,28 @@ const structuredData = JSON.stringify({
   >
   </div>
   <article>
-    <Hero {description} {heroImage} {pricingPlanId} {title} />
+    <Hero
+      {description}
+      {heroImage}
+      inRoadmap={prerequisites !== undefined}
+      {pricingPlanId}
+      {title}
+    >
+      <div
+        slot="roadmap"
+        class="relative mx-auto w-full overflow-y-hidden overflow-x-visible"
+      >
+        <div class="z-10 mx-auto w-full overflow-hidden">
+          <div id="app" class="w-full overflow-hidden">
+            <Roadmap
+              client:load
+              initialNodes={reactFlowNodes}
+              initialEdges={reactFlowEdges}
+            />
+          </div>
+        </div>
+      </div>
+    </Hero>
     {
       videoId && (
         <CourseVideo color={categoryColor} {videoId}>
@@ -245,3 +306,43 @@ const structuredData = JSON.stringify({
     />
   </article>
 </BaseLayout>
+<style is:global>
+  #app {
+    width: 100vw;
+    height: 100vh;
+  }
+  .react-flow__handle {
+    opacity: 0;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 0.5em;
+    border: 1px solid #333;
+  }
+
+  .legend-line {
+    width: 40px;
+    height: 0;
+    border-top: 2px solid black;
+    margin-right: 0.5em;
+  }
+
+  .dashed {
+    border-top-style: dashed;
+  }
+</style>

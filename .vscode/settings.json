@@ -123,8 +123,11 @@
     ".astro/collections/difficulties.schema.json": [
       "/src/content/difficulties/**"
     ],
-    "./.astro/collections/memberships.schema.json": [
+    ".astro/collections/memberships.schema.json": [
       "/src/content/memberships/**"
+    ],
+    ".astro/collections/prerequisites.schema.json": [
+      "/src/content/prerequisites/**"
     ],
     ".astro/collections/seriess.schema.json": ["/src/content/seriess/**"],
     ".astro/collections/socials.schema.json": ["/src/content/socials/**"],

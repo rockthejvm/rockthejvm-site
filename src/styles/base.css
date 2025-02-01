@@ -28,8 +28,9 @@
     --color-text-cta: 217deg 17% 98%;
     --color-tag: 226deg 100% 94%;
 
-    --color-search: 173deg 12% 88%;
-    --color-key: 0deg 0% 88%;
+    --color-beginner: 134deg 41% 88%;
+    --color-intermediate: 46deg 100% 90.2%;
+    --color-advanced: 355deg 70.2% 90.8%;
 
     .card-shadow {
       @apply shadow-[0_10px_20px_#000000];
@@ -58,26 +59,25 @@
 
     --color-bkg: 210deg 40% 10%;
 
-    --color-content1: 217deg 17% 92%;
+    --color-content1: 217deg 17% 98%;
     --color-content2: 217deg 17% 87%;
     --color-accent1: 30deg 70% 75%;
     --color-accent2: 168deg 83.8% 48.2%;
 
     --color-primary: 221deg 90% 43%;
-    --color-secondary: 227deg 43% 24%;
+    --color-secondary: 221deg 70% 30%;
 
     --color-base: 360deg 100% 0%;
     --color-text-cta: 217deg 17% 98%;
     --color-cta: 221deg 90% 50%;
     --color-tag: 226deg 100% 94%;
 
-    --color-search: 217deg 32.6% 18%;
-    --color-key: 0deg 0% 11%;
+    --color-beginner: 134deg 41% 58%;
+    --color-intermediate: 46deg 100% 58%;
+    --color-advanced: 355deg 70.2% 58%;
 
     .card-shadow {
-      @apply shadow-[0px_4px_12px_0px_#000000];
-      @apply border;
-      @apply border-gray-800;
+      @apply shadow-[0px_4px_50px_0px_#000000];
     }
 
     .card-shadow-color {
@@ -198,6 +198,19 @@
     position: absolute;
     bottom: -0.2rem;
   }
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+.beginner {
+  background-color: hsl(var(--color-beginner));
+}
+.intermediate {
+  background-color: hsl(var(--color-intermediate));
+}
+.advanced {
+  background-color: hsl(var(--color-advanced));
 }
 
 .rainbow-text {
@@ -215,10 +228,49 @@
   -webkit-text-fill-color: transparent;
 }
 
-[data-theme="light"] .featured-clients {
-  color: white !important;
+.roadmap-node-border {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-[data-theme="dark"] .featured-clients {
-  color: black !important;
+.roadmap-node-border .inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.roadmap-node-border .inner {
+  margin: 4px;
+}
+
+.roadmap-node-border::before {
+  content: "";
+  display: block;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(58, 58, 58, 0.75) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  height: 300px;
+  width: 100px;
+  transform: translate(0);
+  position: absolute;
+  animation: rotate 5s linear forwards infinite;
+  z-index: 0;
+  top: 50%;
+  transform-origin: top center;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
