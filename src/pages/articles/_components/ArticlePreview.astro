@@ -27,10 +27,7 @@ const entity = author.data.company
   : undefined;
 ---
 
-<article class="card-shadow card-shadow-color rounded-2xl bg-secondary">
-  <p class="ml-4 mt-2 text-content-2">
-    <ArticleDifficulty difficultyId={article.data.difficulty.id} />
-  </p>
+<article class="card-shadow card-shadow-color rounded-2xl bg-secondary p-4">
   <div class="flex flex-col items-start justify-between px-4 pb-4">
     <!-- <div class="relative w-full">
     {
@@ -65,6 +62,9 @@ const entity = author.data.company
         {getReadingTime(article.body)} min read &nbsp;•&nbsp; {
           (<FormattedDate {date} />)
         } &nbsp;•&nbsp; {category.data.name}
+      </p>
+      <p class="mt-2 text-content-2">
+        <ArticleDifficulty difficultyId={article.data.difficulty.id} />
       </p>
       <div
         class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs"
