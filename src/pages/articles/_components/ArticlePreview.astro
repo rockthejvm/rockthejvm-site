@@ -13,6 +13,9 @@ interface Props {
 
 const { article } = Astro.props;
 const {
+  category: _category,
+  author: _author,
+  difficulty,
   excerpt,
   publishedDate: _publishedDate,
   tags,
@@ -20,8 +23,8 @@ const {
   updatedDate: _updatedDate,
 } = article.data;
 const date = _updatedDate ?? _publishedDate;
-const author = await getEntry("authors", article.data.author.id);
-const category = await getEntry("articleCategories", article.data.category.id);
+const author = await getEntry("authors", _author.id);
+const category = await getEntry("articleCategories", _category.id);
 const entity = author.data.company
   ? await getEntry("companies", author.data.company.entity.id)
   : undefined;
@@ -64,7 +67,7 @@ const entity = author.data.company
         } &nbsp;•&nbsp; {category.data.name}
       </p>
       <p class="mt-2 text-content-2">
-        <ArticleDifficulty difficultyId={article.data.difficulty.id} />
+        <ArticleDifficulty difficultyId={difficulty.id} />
       </p>
       <div
         class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs"
