@@ -20,16 +20,14 @@ export default function Example({
   return (
     <a
       className={className}
-      aria-describedBy={ariaDescribedBy}
-      href={
-        "https://courses.rockthejvm.com/purchase?product_id=" +
-        pricingPlanId +
-        (cookies !== undefined &&
+      aria-describedby={ariaDescribedBy}
+      href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}${
+        cookies !== undefined &&
         cookies[0] === "true" &&
         cookies[1] !== undefined
           ? `&affcode=${cookies[1]}`
-          : "")
-      }
+          : ""
+      }`}
     >
       {children}
     </a>

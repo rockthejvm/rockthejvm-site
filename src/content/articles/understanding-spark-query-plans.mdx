@@ -1,12 +1,11 @@
 ---
 category: guide
+difficulty: intermediate
 excerpt: "In this article, you'll learn one of the most important Spark skills: reading how your job will run, which is foundational for any further Spark optimization"
 publishedDate: 2020-04-08
 tags: [spark]
 title: Understanding Spark Query Plans
 ---
-
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Who This Article Is For
 
@@ -92,9 +91,11 @@ Exchange RoundRobinPartitioning(7)
 
 Same operation first, but the next step is an Exchange, which is another name for a shuffle. You're probably aware - a shuffle is an operation in which data is exchanged (hence the name) between all the executors in the cluster. The more massive your data and your cluster is, the more expensive this shuffle will be, because sending data over takes time. For performance reasons, it's best to keep shuffles to a minimum.
 
-<TipAdmonition>
-  Whenever you see Exchange in a query plan, that's a performance bottleneck.
-</TipAdmonition>
+:::tip
+
+Whenever you see Exchange in a query plan, that's a performance bottleneck.
+
+:::
 
 Let's do one more, this time make it complex:
 
@@ -132,16 +133,25 @@ Now that's a nasty one. Let's take a look.
 Notice this plan is now branched. It has two sections:
 
 section 1, bottom:
+
 A Range 1 to 1 million, in steps of 2, in 6 partitions,
+
 which is repartitioned (shuffled) into 9 partitions,
+
 then repartitioned again by a hash partitioner with the key being the column id (identifier 32) into 200 partitions,
+
 then sorted by the column id (identifier 32) ascending.
 
 section 2, less bottom:
+
 A range 1 to 1 million, in steps of 1, in 6 partitions,
+
 repartitioned (shuffled) to 7 partitioned,
+
 modified as id \* 5, with the name id (identifier 36)
+
 then repartitioned again by a hash partitioner with the key being the column id (identifier 36) into 200 partitions
+
 then sorted by that
 
 Then those two sections are used for the SortMergeJoin. The join operation requires that the DFs in question be partitioned with the same partitioning scheme and sorted. This is why Spark does all these operations.

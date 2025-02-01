@@ -1,6 +1,6 @@
 export default function Example(props) {
   return (
-    <ul role="list" className="">
+    <ul>
       {<li className="py-0">{props.one}</li>}
       {<li className="py-0">{props.two}</li>}
       {<li className="py-0">{props.three}</li>}

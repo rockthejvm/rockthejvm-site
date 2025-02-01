@@ -14,7 +14,7 @@ export default function Example(props) {
           </p>
         )}
         {props.socials && (
-          <ul role="list" className="mt-4 flex justify-start gap-x-4">
+          <ul className="mt-4 flex justify-start gap-x-4">
             {props.socials.website && (
               <li>
                 <a

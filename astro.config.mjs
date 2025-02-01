@@ -2,10 +2,36 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import sectionize from "@hbsnow/rehype-sectionize";
+import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import pagefind from "astro-pagefind";
+import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig } from "astro/config";
+import remarkDirective from "remark-directive";
+import {
+  addEmbeddedArticles,
+  getArticleMatches,
+} from "./src/utils/relatedArticles";
+
+// Custom Astro integration
+function buildStart() {
+  return {
+    name: "my-build-start",
+    hooks: {
+      "astro:build:start": async () => {
+        const branch = process.env.CF_PAGES_BRANCH || "unknown";
+        if (branch === "main") {
+          await addEmbeddedArticles();
+        }
+
+        await getArticleMatches();
+      },
+    },
+  };
+}
 
 export default defineConfig({
   site: "https://rockthejvm.com",
@@ -14,19 +40,40 @@ export default defineConfig({
     format: "file",
   },
   integrations: [
+    buildStart(),
     icon({
       include: {
         "fa6-brands": [
           "facebook",
+          "get-pocket",
           "github",
           "linkedin",
+          "reddit",
           "x-twitter",
           "youtube",
         ],
         "fa6-solid": ["caret-up", "house", "table-list", "rss"],
-        heroicons: ["computer-desktop", "magnifying-glass", "moon", "sun"],
+        heroicons: ["computer-desktop", "moon", "sun", "magnifying-glass"],
       },
     }),
+    expressiveCode({
+      plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
+      themes: ["github-dark-default", "github-light-default"],
+      customizeTheme: (theme) => {
+        theme.name = theme.name === "github-dark-default" ? "dark" : "light";
+        return theme;
+      },
+      useDarkModeMediaQuery: false,
+      defaultProps: {
+        wrap: true,
+        overridesByLang: {
+          "shell,sh,ps,zsh": {
+            preserveIndent: false,
+            showLineNumbers: false,
+          },
+        },
+      },
+    }), // Must come before mdx
     mdx(),
     tailwind({
       applyBaseStyles: false,
@@ -37,7 +84,7 @@ export default defineConfig({
     pagefind(), // Should be last
   ],
   markdown: {
-    remarkPlugins: [],
+    remarkPlugins: [remarkDirective, astroStarlightRemarkAsides],
     rehypePlugins: [sectionize],
     shikiConfig: {
       themes: {
@@ -243,7 +290,9 @@ export default defineConfig({
       "/articles/evaluation-modes-in-scala",
     "/articles/scala-option": "/articles/getting-started-with-scala-options",
     "/articles/scala-redis-websockets-part-2":
-      "/articles/websockers-in-scala-part-2-integrating-redis-and-postgresql",
+      "/articles/websockets-in-scala-part-2-integrating-redis-and-postgresql",
+    "/articles/websockers-in-scala-part-2-integrating-redis-and-postgresql":
+      "/articles/websockets-in-scala-part-2-integrating-redis-and-postgresql",
     "/articles/scala-syntax-tricks-for-expressiveness":
       "/articles/5-code-expressiveness-tricks-in-scala",
     "/articles/scala-types-kinds":
@@ -302,7 +351,9 @@ export default defineConfig({
     "/articles/variables":
       "/articles/things-that-dont-make-sense-scala-variables",
     "/articles/websockets-in-http4s":
-      "/articles/websockers-in-scala-part-1-http4s",
+      "/articles/websockets-in-scala-part-1-http4s",
+    "/articles/websockers-in-scala-part-1-http4s":
+      "/articles/websockets-in-scala-part-1-http4s",
     "/articles/why-are-typeclasses-useful":
       "/articles/why-are-scala-type-classes-useful",
     "/articles/why-we-use-companions":

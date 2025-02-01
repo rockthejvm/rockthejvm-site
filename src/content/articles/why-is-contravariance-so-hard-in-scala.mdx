@@ -1,12 +1,11 @@
 ---
 category: explanation
+difficulty: intermediate
 excerpt: "Unravel the complexities of Scala's powerful type system with our deep dive into contravariance: we simplify and demystify its challenging aspects"
 publishedDate: 2020-03-31
 tags: [scala, type-system]
 title: Why Is Contravariance So Hard in Scala?
 ---
-
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
 
 ## Who This Article Is For
 
@@ -20,10 +19,11 @@ val list: List[Int] = List(1,2,3)
 
 In this article, we'll explore the concept of contravariance in Scala. We'll start with a gentle introduction to variance, then we'll dive into contravariance, and finally, we'll see why it's so hard to understand.
 
-<TipAdmonition>
-  We discuss variance and variance positions in depth in the [Advanced
-  Scala](/courses/advanced-scala) course. Check it out!
-</TipAdmonition>
+:::tip
+
+We discuss variance and variance positions in depth in the [Advanced Scala](/courses/advanced-scala) course. Check it out!
+
+:::
 
 ## So What's Variance?
 
@@ -96,4 +96,5 @@ So when is it best to use covariance and contravariance? Clearly a contravariant
 Here's a rule of thumb: when your generic type "contains" or "produces" elements of type T, it should be covariant. When your generic type "acts on" or "consumes" elements of type T, it should be contravariant.
 
 Examples of covariant concepts: a cage (holds animals), a garage (holds cars), a factory (creates objects), a list (and any other collection).
+
 Examples of contravariant concepts: a vet (heals animals), a mechanic (fixes cars), a garbage pit (consumes objects), a function (it acts on/it's applied on arguments).

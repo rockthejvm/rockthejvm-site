@@ -1,9 +1,9 @@
 ---
+import { type CollectionEntry, getCollection, getEntry } from "astro:content";
 import BackgroundGradient from "@components/BackgroundGradient.astro";
 import CourseCardVertical from "@components/CourseCardVertical.astro";
 import MyPicture from "@components/MyPicture.astro";
 import { zip } from "@utils/zip";
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 // const { slug } = Astro.params;
 // const course = await getEntry("courses", slug!);
@@ -89,12 +89,11 @@ const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ItemList",
   itemListElement: mycoursess
-    .map(([, courses]) => courses)
-    .flat()
+    .flatMap(([, courses]) => courses)
     .map((course, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `${Astro.site}/courses/${course.slug}`,
+      url: `${Astro.site!}/courses/${course.slug}`,
     })),
 });
 ---

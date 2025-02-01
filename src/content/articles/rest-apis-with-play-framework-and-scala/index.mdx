@@ -1,6 +1,7 @@
 ---
 author: dimitris-tsolis
 category: guide
+difficulty: intermediate
 excerpt: Master the basics of Play Framework to build robust HTTP APIs with Scala in this comprehensive tutorial
 publishedDate: 2023-09-04
 tags: [akka, http, play, scala]
@@ -8,12 +9,10 @@ title: REST APIs with Play Framework and Scala
 updatedDate: 2023-09-05
 ---
 
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-
 ## Introduction
 
-One of the simplest and well documented ways to build a web API is to follow the REST paradigm. REST APIs provide a simple and uniform way to
-access data and not only through URLs, across the web.
+One of the simplest and well documented ways to build a web API is to follow the REST paradigm. REST APIs provide a simple and uniform way to access data and not only through URLs, across the web.
+
 [Play Framework](https://www.playframework.com/) "makes it easy to build web applications with Java & Scala", as it is stated on their site, and it's true. Using Akka under the hood, you get all the benefits of a Reactive system. In this article we will try to develop a basic skeleton for a REST API using Play and Scala.
 
 ## Setup
@@ -70,6 +69,7 @@ It is the layer where we define the basic persistence entities and persistence m
 On a persistence trait we define basic functions given from our underlying persistence mechanism. Here we define the mechanism for example purposes. As we can see basic operations on a persisted dataset are defined. We use types A, B, C[_] to make our Persistence layer as abstract as possible.
 
 `A` defines the types we save in our datastore. `B` defines the type of our primary key and `C[_]` defines the type of data structure that we use for persisting our entities. As you will see on the sections that follows for our specific example A corresponds to Car type, B corresponds to Long and C[_] to a ListBuffer.
+
 With this implementation we can easily swap this Layer and use other persistent types.
 
 ```scala
@@ -422,14 +422,14 @@ class HomeController(val carManager: CarManager, val controllerComponents: Contr
 }
 ```
 
-<TipAdmonition>
-  The "delete" endpoint could have been written with the same constructs (plain
-  Actions) as the other endpoints; we wanted to show you how we can build custom
-  actions that map HTTP requests to other types that are more relevant for our
-  application.
-</TipAdmonition>
+:::tip
+
+The "delete" endpoint could have been written with the same constructs (plain Actions) as the other endpoints; we wanted to show you how we can build custom actions that map HTTP requests to other types that are more relevant for our application.
+
+:::
 
 At this point, we only have the endpoints' implementation - we also need to map them to the URIs that they will respond to.
+
 This is achieved through the routes file, that is placed inside our `conf` directory:
 
 ![Project file structure showing the routes file](images/project-file-structure-routes-file.jpeg)
@@ -514,6 +514,7 @@ In this simple example we initialize all needed classes "by hand", manual Depend
 For example instead of having all components initialized on RestApiComponents we could have them grouped in different component traits and on the application loader we could mix in those traits. In those traits a DI framework could help as drop the tedious work of manually passing all variables needed.
 
 We could add a components package containing our grouped components:
+
 ![Project file structure showing the components package](images/project-file-structure-components-package.jpeg)
 
 that have this structure:
@@ -595,6 +596,7 @@ After running sbt compile you should see something like this:
 ![Terminal results of running `sbt compile` showing the Play framework logo and version number](images/sbt-compile-results.jpeg)
 
 After running sbt run you should see something like this:
+
 ![Terminal results of running `sbt compile` showing the Play framework logo and version number and running the application](images/sbt-run-results.jpeg)
 
 The app truly starts on the first request, and reloads automatically upon code changes.

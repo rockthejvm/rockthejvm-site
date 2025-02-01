@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: devcontainers
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      # trunk-ignore(yamllint/quoted-strings)
+      time: "02:00"
+      timezone: US/Eastern
+    reviewers: [andreilgeorgescu]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      # trunk-ignore(yamllint/quoted-strings)
+      time: "02:00"
+      timezone: US/Eastern
+    reviewers: [andreilgeorgescu]
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      # trunk-ignore(yamllint/quoted-strings)
+      time: "02:00"
+      timezone: US/Eastern
+    reviewers: [andreilgeorgescu]

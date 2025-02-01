@@ -1,5 +1,6 @@
 ---
 category: guide
+difficulty: beginner
 excerpt: "Pattern matching is one of the most powerful Scala features: learn to use it to the max and write your best Scala code"
 publishedDate: 2020-03-29
 tags: [scala, tricks]
@@ -34,7 +35,7 @@ val describeBob = bob match {
 }
 ```
 
-In other words, pattern matching can deconstruct case class instances into their consistuent parts, which we can then reuse in the resulting expression on the right-hand side of =>.
+In other words, pattern matching can deconstruct case class instances into their constituent parts, which we can then reuse in the resulting expression on the right-hand side of =>.
 
 Let me give you some more powerful patterns that Scala supports out of the box, but you might not have known existed.
 
@@ -173,6 +174,8 @@ val bobsInception = bob match {
 
 If you're like me, you probably tried at least once to pattern match something that satisfies a condition, and because you only knew the "anything" and "constant" patterns, you gave up pattern matching and used chained if-elses instead.
 
+{/* trunk-ignore-begin(codespell) */}
+
 ```scala
 val ordinal = gimmeANumber() match {
 	case 1 => "first"
@@ -184,6 +187,8 @@ val ordinal = gimmeANumber() match {
 	case n => n + "th"
 }
 ```
+
+{/* trunk-ignore-end(codespell) */}
 
 As you can see above, the if guards are there directly in the pattern. Also notice that the condition does not have parentheses.
 

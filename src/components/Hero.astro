@@ -8,12 +8,12 @@ interface Props {
   subtitle1?: string;
   subtitle2?: string;
   annotation?: string;
-  imageName?: string;
+  // imageName?: string;
 }
 
 const {
   annotation,
-  imageName,
+  // imageName,
   title = site.name.toUpperCase(),
   subtitle1 = "The zero-to-master online courses and hands-on training for Scala, Kotlin, Apache Spark, Apache Flink, ZIO, Akka/Apache Pekko and more.",
   subtitle2 = "No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king.",
@@ -26,7 +26,7 @@ const {
       <div
         class="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20"
       >
-        {annotation ? annotation : <HeroAnnotation />}
+        {annotation ?? <HeroAnnotation />}
       </div>
     </div>
     <div class="flex">

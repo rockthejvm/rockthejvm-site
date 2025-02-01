@@ -2,13 +2,13 @@
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import AuthorWideHelper from "./AuthorWideHelper";
+import MyPicture from "./MyPicture.astro";
 import Facebook from "./icons/Facebook.astro";
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
 import Website from "./icons/Website.astro";
 import YouTube from "./icons/YouTube.astro";
-import MyPicture from "./MyPicture.astro";
 
 interface Props {
   author: CollectionEntry<"authors">;
@@ -19,12 +19,12 @@ const { author, loading = "lazy" } = Astro.props;
 const { biography, company, name, photo, socials } = author.data;
 const role = company?.role;
 const companyName = company
-  ? await getEntry(company?.entity.collection, company?.entity.id).then(
+  ? await getEntry(company.entity.collection, company.entity.id).then(
       (company) => company.data.title,
     )
   : undefined;
 const companyWebsite = company
-  ? await getEntry(company?.entity.collection, company?.entity.id).then(
+  ? await getEntry(company.entity.collection, company.entity.id).then(
       (company) => company.data.website,
     )
   : undefined;
@@ -34,10 +34,6 @@ const companyWebsite = company
   <AuthorWideHelper
     authorId={author.id}
     {biography}
-    githubUrl=`https://www.github.com/${socials?.github}`
-    linkedinUrl=`https://www.linkedin.com/in/${socials?.linkedin}`
-    twitterUrl=`https://www.twitter.com/${socials?.twitter}`
-    youtubeUrl=`https://www.youtube.com/${socials?.youtube}`
     {name}
     {role}
     {companyName}

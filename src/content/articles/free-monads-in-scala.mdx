@@ -1,5 +1,6 @@
 ---
 category: explanation
+difficulty: advanced
 excerpt: "A tutorial on Free Monads in Scala: Explore how they work and discover their benefits"
 publishedDate: 2022-05-26
 tags: [fp, scala]
@@ -7,8 +8,6 @@ title: Free Monads in Scala Explained
 
 videoId: lzlCjgRWPDU
 ---
-
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
 
 ## Who This Is For
 
@@ -18,11 +17,11 @@ This piece assumes you're already very comfortable with Scala. If you know a bit
 
 This article describes the Free monad in Scala &mdash; how it works, what it's good for and why we need it in the first place.
 
-<NoteAdmonition>
-  This post was written for Scala 3, but the concepts work almost identically
-  for Scala 2 if you replace [givens with
-  implicits](/articles/scala-3-givens-vs-implicits).
-</NoteAdmonition>
+:::note
+
+This post was written for Scala 3, but the concepts work almost identically for Scala 2 if you replace [givens with implicits](/articles/scala-3-givens-vs-implicits).
+
+:::
 
 ## Background
 
@@ -375,8 +374,8 @@ So the final piece that we need to implement is `foldMap`. The `foldMap` method 
 - If this instance is a `Pure`, then return a "pure" `G[A]`. Because `G` is a monad, we can do that easily.
 - If this instance is a `Suspend`, then take the `M[A]` wrapped inside and turn that into a `G[A]` because we have the natural transformation handy.
 - If this instance is a `FlatMap`, then this instance has two fields: another Free instance and a transformation function.
-  - Run a recursive `foldMap` on the wrapped Free instance, returning a `G[A]`.
-  - Then `flatMap` that because `G` is a monad, so we can use the Monad instance to do it.
+    - Run a recursive `foldMap` on the wrapped Free instance, returning a `G[A]`.
+    - Then `flatMap` that because `G` is a monad, so we can use the Monad instance to do it.
 
 Notice how the presence of a given/implicit `Monad[G]` in scope is crucial here. Our code for `foldMap` is as follows:
 

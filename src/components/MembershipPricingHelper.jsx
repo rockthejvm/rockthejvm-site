@@ -84,7 +84,7 @@ export default function Example(props) {
       args.errorFunc(
         `Failed to fetch course price: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
-      console.error("Failed to fetch course price:", error);
+      // console.error("Failed to fetch course price:", error);
     } finally {
       args.loadingFunc(false);
       // setLoading(false);
@@ -104,20 +104,14 @@ export default function Example(props) {
       errorFunc: setYearlyError,
       loadingFunc: setYearlyLoading,
     });
-  }, [
-    props.monthlyPriceId,
-    props.yearlyPriceId,
-    setMonthlyError,
-    setMonthlyLoading,
-    setYearlyError,
-    setYearlyLoading,
-    getCoursePrice,
-  ]);
+  }, [props.monthlyPriceId, props.yearlyPriceId, getCoursePrice]);
 
   return (
     <div className="relative isolate px-6 py-1 sm:py-2 lg:px-8">
       <div
-        className={`isolate mx-auto mt-8 grid max-w-md grid-cols-1 gap-16 lg:mx-0 lg:max-w-none lg:grid-cols-2`}
+        className={
+          "isolate mx-auto mt-8 grid max-w-md grid-cols-1 gap-16 lg:mx-0 lg:max-w-none lg:grid-cols-2"
+        }
       >
         <div className="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10">
           <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
@@ -174,10 +168,7 @@ export default function Example(props) {
                 )}
                 <span className="text-base text-content">/month</span>
               </p>
-              <ul
-                role="list"
-                className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
-              >
+              <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
                 <li className="flex gap-x-3">
                   <svg
                     className="h-6 w-5 flex-none text-accent-1"
@@ -345,10 +336,7 @@ export default function Example(props) {
                 )}
                 <span className="text-base text-content">/year</span>
               </p>
-              <ul
-                role="list"
-                className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10"
-              >
+              <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
                 <li className="flex gap-x-3">
                   <svg
                     className="h-6 w-5 flex-none text-accent-1"

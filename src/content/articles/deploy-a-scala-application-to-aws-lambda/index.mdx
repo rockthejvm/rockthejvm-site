@@ -1,5 +1,6 @@
 ---
 category: guide
+difficulty: beginner
 excerpt: "Deploying Scala Code to AWS Lambda Is a Breeze: Discover Our Step-by-Step Tutorial to Guide You Through the Process"
 publishedDate: 2020-09-10
 tags: [aws, scala]
@@ -38,7 +39,7 @@ Then make sure you add the right module and that the dependencies are included i
 
 After you've created the artifact definition, you'll need to build it. Go to _Build -> Build artifacts_, select your new artifact, then Build. The compiler will take care to create your new JAR file.
 
-The JAR file will be under the _out/_ folder in your IntelliJ project. Remmeber that path, because you'll need to upload it to AWS. As a sanity check, look at the JAR's size: it should be a few MB.
+The JAR file will be under the _out/_ folder in your IntelliJ project. Remember that path, because you'll need to upload it to AWS. As a sanity check, look at the JAR's size: it should be a few MB.
 
 ## Setup the Lambda Function
 
@@ -49,6 +50,7 @@ Now for the fun stuff. Go to your [AWS console](https://aws.amazon.com/console/)
 Then, go ahead and create a new Function and select Java 8 or 11 as their runtime. Both will work fine for this demo.
 
 ![Step 4: Selecting Lambda Function creation option](images/step-4-selecting-lambda-function-creation.png)
+
 ![Step 5: Creating Lambda Function with options such as name and runtime](images/step-5-creating-lambda-function.png)
 
 After that, you'll arrive at your Function's dashboard and configuration. Go ahead and upload the JAR you've built a minute ago:

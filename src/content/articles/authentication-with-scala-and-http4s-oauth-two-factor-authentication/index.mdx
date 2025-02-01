@@ -1,6 +1,7 @@
 ---
 author: herbert-kateu
 category: guide
+difficulty: intermediate
 excerpt: Discover how to implement a two-factor authentication system with one-time passwords (HOTP and TOTP) using Scala and http4s
 publishedDate: 2023-07-27
 repositoryUrl: https://github.com/hkateu/MyHttp4sCode/tree/main/otpauth/src/main/scala/com/xonal
@@ -8,23 +9,19 @@ tags: [http4s, scala]
 title: "Authentication with Scala and http4s: 2FA (Two-Factor Authentication)"
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import TipAdmonition from "@components/admonitions/TipAdmonition.astro";
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
-
 ## Introduction
 
-<NoteAdmonition>
-  Hey, it's Daniel here. You're reading a big article about a real-life use of
-  the http4s library. Herbert outdid himself in this article!
-</NoteAdmonition>
+:::note
 
-<TipAdmonition>
-  If you want to master the Typelevel Scala libraries (including http4s) with
-  real-life practice, check out the [Typelevel Rite of
-  Passage](/courses/typelevel-rite-of-passage) course, a full-stack
-  project-based course. It's my biggest and most jam-packed course yet.
-</TipAdmonition>
+Hey, it's Daniel here. You're reading a big article about a real-life use of the http4s library. Herbert outdid himself in this article!
+
+:::
+
+:::tip
+
+If you want to master the Typelevel Scala libraries (including http4s) with real-life practice, check out the [Typelevel Rite of Passage](/courses/typelevel-rite-of-passage) course, a full-stack project-based course. It's my biggest and most jam-packed course yet.
+
+:::
 
 ## Prerequisites
 
@@ -88,13 +85,17 @@ There are a variety of industry-standard algorithms that are used to generate OT
 ### HMAC-Based One Time Password (HOTP)
 
 The `H` in HOTP stands for HMAC (Hash-based Message Authentication Code). This is a cryptographic technique that requires a hash function such as SHA256 and a set of parameters (secret key, moving factor). Under HOTP, the moving factor is based on a counter.
+
 Each time a user requests for the HOTP, the counter is incremented. When the server receives the HOTP, it also increments its counter after validating the token, thereby keeping in sync with the OTP generator.
+
 It is possible to generate many HOTP tokens without validating with the server, this throws the two entities out of sync, because of this, different HOTP generators provide different methods for resynchronization.
+
 The HOTP standard is defined under [RFC 4226](https://www.ietf.org/rfc/rfc4226.txt) which gives a detailed explanation of how HOTP operates.
 
 #### HOTP Scala Implementation
 
 HOTP generation is quite tedious, therefore for simplicity, we will use a java library, [otp-java](https://github.com/BastiaanJansen/otp-java) by Bastiaan Jansen.
+
 First, we'll need to acquire a secret key. The library provides a mechanism to generate this:
 
 ```scala
@@ -158,6 +159,7 @@ val codeValue = totp.now()
 ```
 
 The `now()` method on the `TOTPGenerator` class is used to generate the token.
+
 In order to verify totp tokens, we also use the `verify()` method:
 
 ```scala
@@ -200,12 +202,14 @@ case class UserDB(username: String, email: String) {
 ```
 
 The `UserDB` case class will hold a `username` and `email`. The case class also contains a `counter` variable, `getCounter()`, and `incrementCounter()` methods that we will use in the case of `Hotp`.
+
 It also contains the user's secret value, stored in `encryptedSecret`, `isSecretUpdated`, a boolean variable showing if the secret value is updated or not, a `getSecret()`, and `updateSecret()` function.
 
-<WarningAdmonition>
-  Encrypt secret values instead of storing them in plain text to ensure
-  security.
-</WarningAdmonition>
+:::danger
+
+Encrypt secret values instead of storing them in plain text to ensure security.
+
+:::
 
 Let's create a Generator.scala file and add the following code:
 
@@ -244,6 +248,7 @@ object BarCodeService {
 ```
 
 The `getGoogleAuthenticatorBarCode()` method takes a `secretKey`, an `account` and `issuer` which is the email address and name of the business or person issuing the barcode respectively, and a `generator` which is of type `Hotp` or `Totp` (used to choose the type of `otp`), and a `counter` value in case of `Hotp`.
+
 This function creates a `URI` in the format `otpauth://TYPE/LABEL?PARAMETERS` that we'll use to create the QR Bar Code image in the next section. We also specify the algorithm as `SHA256` for both otp implementations.
 
 ```scala
@@ -276,7 +281,9 @@ object BarCodeService{
 ```
 
 The `createQRCode()` function creates the BarCode image. It takes as parameters, `barCodeData` which is our `URI`, a `filePath`, and `height` and `width` of our image, all of which we initialize to `barCode.png`, `400` and `400` respectively giving use an `IO[Unit]`.
+
 The `MultiFormatWriter` class has an `encode()` method that takes our arguments and creates a 2D matrix of bits.
+
 The `writeToStream()` method on the `MatrixToImageWriter` object takes the `matrix` (of type `BitMatrix`), `"png"` as the image format and a `FileOutputStream`, writes the image to a png file and saves it to the file path.
 
 Here's the full code:
@@ -373,12 +380,11 @@ class OtpService(generator: Generator, user: UserDB) {
 
 The `hotpGen()` and `totpGen()` are instances of `HOTPGenerator` and `TOTPGenerator` respectively.
 
-<NoteAdmonition>
-  Google Authenticator displays a token length of 6 therefore we supply the same
-  value to our function implementations. We also use the same algorithm type,
-  `SHA256` that we defined in our `URI` string. They are both created as
-  `private` so that they are only used within this class.
-</NoteAdmonition>
+:::note
+
+Google Authenticator displays a token length of 6 therefore we supply the same value to our function implementations. We also use the same algorithm type, `SHA256` that we defined in our `URI` string. They are both created as `private` so that they are only used within this class.
+
+:::
 
 ```scala
 import cats.effect.IO
@@ -532,62 +538,66 @@ It also contains a `send2FA()` function used to send an email to a user with our
 Follow these steps to get your API Key
 
 1. Head over to sendgrid.com and click on the pricing tab.
-   SendGrid offers 100 emails per day for free, which is more than enough for this tutorial.
-   Click the Start for free button to register
 
-   ![Step 1: SendGrid Pricing](images/step-1-sendgrid-pricing.png)
+    SendGrid offers 100 emails per day for free, which is more than enough for this tutorial.
+
+    Click the Start for free button to register
+
+    ![Step 1: SendGrid Pricing](images/step-1-sendgrid-pricing.png)
 
 1. Fill in your email address and password and create the account.
 
-   ![Step 2: Register](images/step-2-register.png)
+    ![Step 2: Register](images/step-2-register.png)
 
 1. Fill in the required information and click get started.
 
-   ![Step 3: Get Started](images/step-3-get-started.png)
+    ![Step 3: Get Started](images/step-3-get-started.png)
 
 1. Check your inbox and click the link to set up 2FA.
 
 1. Select the Text Messages option and click Next.
 
-   ![Step 5: SetUp 2FA](images/step-5-setup-2fa.png)
+    ![Step 5: SetUp 2FA](images/step-5-setup-2fa.png)
 
 1. Select your country code and input your mobile number then click next.
 
-   ![Step 6: Contacts](images/step-6-contacts.png)
+    ![Step 6: Contacts](images/step-6-contacts.png)
 
 1. Check your sms and fill in the authentication code and save.
 
-   ![Step 7: SMS](images/step-7-sms.png)
+    ![Step 7: SMS](images/step-7-sms.png)
 
 1. Log back into SendGrid, You will be prompted for another authentication code.
-   Sometimes it's not sent, your can resend it with the link provided. Then click continue.
-   After which you will be sent to a welcome screen.
 
-   ![Step 8: Code](images/step-8-code.png)
+    Sometimes it's not sent, your can resend it with the link provided. Then click continue.
+
+    After which you will be sent to a welcome screen.
+
+    ![Step 8: Code](images/step-8-code.png)
 
 1. Click the create identity button.
 
-   ![Step 9: Identity](images/step-9-identity.png)
+    ![Step 9: Identity](images/step-9-identity.png)
 
 1. Fill in the details and create a sender
 
-   ![Step 10: Sender](images/step-10-sender.png)
+    ![Step 10: Sender](images/step-10-sender.png)
 
 1. Check the sender email you supplied to verify the single sender.
 
-   ![Step 11: Email](images/step-11-email.png)
+    ![Step 11: Email](images/step-11-email.png)
 
 1. Under Email API and Integration Guide, select Web API, then choose JAVA
 
-   ![Step 12: Email API](images/step-12-email-api.png)
+    ![Step 12: Email API](images/step-12-email-api.png)
 
 1. Add an API key name then click the Create Key button.
 
-   ![Step 13: Key](images/step-13-key.png)
+    ![Step 13: Key](images/step-13-key.png)
 
 1. Finally follow the steps in part 3 to add your key as an environment variable in the root of our project.
 
-   ![Step 14: Environment Variable](images/step-14-environment-variable.png)
+    ![Step 14: Environment Variable](images/step-14-environment-variable.png)
 
 Now let's define our `send2FA()` function:
 
@@ -800,7 +810,8 @@ import scala.util.*
     override def run(args: List[String]): IO[ExitCode] =  ???
 ```
 
-Let's break this down section by section
+Let's break this down section by section:
+
 We create our routes using the `HttpRoutes.of[IO]` method. When a user tries to log into the application using the `/login` route, we use the `tokenService` to try to create the bar code image by calling the `tokenService.otpService.makeBarCodeImg()` function which takes an `account` (the business email) and `issuer` (the business name) as arguments. The `attempt()` method creates `IO[Either[String, Unit]]` that we `flatMap` on and pattern match.
 
 If the bar code image was successfully created, we ignore the `unit` value in `Right(_)` and proceed to acquire the token value using the following code:
@@ -863,7 +874,7 @@ val routes: HttpRoutes[IO] =
           }
           .handleErrorWith { ex =>
             logger.error(s"Verification Error: ${ex.getMessage}") *>
-            Ok("An error occured during verification")
+            Ok("An error occurred during verification")
           }
     }
 ```
@@ -965,7 +976,7 @@ object OtpAuth extends IOApp {
           }
           .handleErrorWith { ex =>
             logger.error(s"Verification Error: ${ex.getMessage}") *>
-              Ok("An error occured during verification")
+              Ok("An error occurred during verification")
           }
     }
 
@@ -1042,6 +1053,7 @@ Here's what we printed to the console.
 ```
 
 We can see that SendGrid successfully sent our email.
+
 You can now open your mail and scan the BarCode image with Google Authenticator then pass the 6-digit code to the verification URL. The code outputted by Google Authenticator should be the same as what's displayed in your console.
 
 ```console
@@ -1072,12 +1084,13 @@ Repeat the same process for `Totp` by making the following change to OtpAuth.sca
 val tokenService = new OtpInteractiveService("Totp", user)
 ```
 
-<WarningAdmonition>
+:::danger
+
 For `Totp` to work, **make sure your phone and computer date and time down to the seconds are the same and current**. You can use the network time for both devices, this should give you the same results.
 
 One may also limit the time the user takes to submit the code as an extra security measure for the case of `Hotp`.
 
-</WarningAdmonition>
+:::
 
 ## Conclusion
 

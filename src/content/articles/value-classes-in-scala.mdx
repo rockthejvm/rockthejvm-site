@@ -1,5 +1,6 @@
 ---
 author: riccardo-cardin
+difficulty: beginner
 category: explanation
 excerpt: "Discover a powerful technique for eliminating hard-to-trace bugs with ad-hoc type definitions: learn how Scala 2's newtypes and Scala 3's opaque types can enhance your code's safety and maintainability"
 publishedDate: 2021-02-19
@@ -7,21 +8,15 @@ tags: [scala, type-system]
 title: Value Classes in Scala Explained
 ---
 
-import CautionAdmonition from "@components/admonitions/CautionAdmonition.astro";
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
-
 ## Introduction
 
 One of the main rules of functional developers is that we should always trust a function's signature. Hence, when we use functional programming, we prefer to define _ad-hoc_ types to represent simple information such as an identifier, a description, or a currency. Ladies and gentlemen, please welcome the value classes.
 
-<NoteAdmonition>
-  This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin),
-  a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a
-  senior developer, a teacher and a passionate technical blogger. For the last
-  15 years, he's learned as much as possible about OOP, and now he is focused on
-  his next challenge: mastering functional programming.
-</NoteAdmonition>
+:::note
+
+This article is brought to you by [Riccardo Cardin](/authors/riccardo-cardin), a proud student of the [Scala with Cats course](/courses/cats). Riccardo is a senior developer, a teacher and a passionate technical blogger. For the last 15 years, he's learned as much as possible about OOP, and now he is focused on his next challenge: mastering functional programming.
+
+:::
 
 ## The Problem
 
@@ -211,8 +206,7 @@ val iPhone12Pro: Product = Product(iPhoneBarCode, iPhoneDescription)
 
 As we can see, the code looks like the original `Product` definition. However, we altogether avoid the runtime instantiation of the wrapper classes. Such an improvement!
 
-What about smart constructors? If we choose to use a `case class`, the library will generate the `apply` method in the companion object. If we want to avoid access to the `apply` method, we can use a `class` instead and create our smart constructor in a dedicated companion
-object:
+What about smart constructors? If we choose to use a `case class`, the library will generate the `apply` method in the companion object. If we want to avoid access to the `apply` method, we can use a `class` instead and create our smart constructor in a dedicated companion object:
 
 ```scala
 @newtype class BarCodeWithCompanion(code: String)
@@ -265,12 +259,11 @@ val anotherIPhone12BarCode: BarCode = "1-234567-890123".coerce
 
 However, [it's proven](https://github.com/estatico/scala-newtype/issues/64) that the scope resolution of the `Coercible` type class (a.k.a., the coercible trick) is an operation with a very high compile-time cost and should be avoided. Moreover, as the [library documentation](https://github.com/estatico/scala-newtype#coercible) says
 
-<WarningAdmonition>
-  You generally shouldn't be creating instances of Coercible yourself. This
-  library is designed to create the instances needed for you which are safe. If
-  you manually create instances, you may be permitting unsafe operations which
-  will lead to runtime casting errors.
-</WarningAdmonition>
+:::danger
+
+You generally shouldn't be creating instances of Coercible yourself. This library is designed to create the instances needed for you which are safe. If you manually create instances, you may be permitting unsafe operations which will lead to runtime casting errors.
+
+:::
 
 ### Automatically Deriving Type Classes
 
@@ -350,8 +343,7 @@ Hence, in the above example, the compiler diligently warns us that the two types
 [error]    |                      Not found: type BarCode
 ```
 
-Finally, we can say that the opaque type aliases seem to be the idiomatic replacement to the NewType
-library in Dotty / Scala 3. Awesome!
+Finally, we can say that the opaque type aliases seem to be the idiomatic replacement to the NewType library in Dotty / Scala 3. Awesome!
 
 ## Conclusion
 

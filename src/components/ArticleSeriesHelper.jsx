@@ -9,8 +9,14 @@ export default function Example({ article, articleSeries, label, open }) {
     setDetailsOpen(!detailsOpen);
   };
 
+  const handleKeyUp = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      handleClick();
+    }
+  };
+
   return (
-    <details open={open} onClick={handleClick}>
+    <details open={open} onClick={handleClick} onKeyUp={handleKeyUp}>
       <summary className="cursor-pointer list-none px-4 py-5 text-content-1 sm:px-6">
         <div className="flex flex-row items-center justify-start">
           <span className="text-3xl">{detailsOpen ? "⮛" : "➣"}</span>
@@ -28,6 +34,7 @@ export default function Example({ article, articleSeries, label, open }) {
             >
               <span className="px-2 italic">{seriesArticle.data.title}</span>
               <span className="text-accent-1">
+                {/* trunk-ignore(biome/lint/a11y/noSvgWithoutTitle) */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -35,6 +42,8 @@ export default function Example({ article, articleSeries, label, open }) {
                   strokeWidth="1.5"
                   stroke="currentColor"
                   className="mr-2 inline-block size-6 align-middle"
+                  title="Arrow pointing left"
+                  aria-label="Arrow pointing left"
                 >
                   <path
                     strokeLinecap="round"

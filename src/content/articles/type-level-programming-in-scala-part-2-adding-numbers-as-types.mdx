@@ -1,5 +1,6 @@
 ---
 category: guide
+difficulty: advanced
 excerpt: "We continue exploring type-level power in Scala: adding numbers as types at compile time"
 publishedDate: 2020-08-17
 tags: [fp, scala, type-system]
@@ -138,7 +139,7 @@ val zeroSum: +[_0, _0, _0] = +[_0, _0, _0]
 val anotherSum: +[_0, _2, _2] = +[_0, _2, _2]
 ```
 
-but are yet to validate sums like `+[_2, _3, _5]`. That's the subject of the following inductive axiom. The reasoning works like this: if A + B = S, then it's also true that Succ[A] + Succ[B] = Succ[Succ[S]]. In the compiler's language, if the compiler can create an implicit +[A, B, S], then it must als be able to create an implicit +[Succ[A], Succ[B], Succ[Succ[S]]]:
+but are yet to validate sums like `+[_2, _3, _5]`. That's the subject of the following inductive axiom. The reasoning works like this: if A + B = S, then it's also true that Succ[A] + Succ[B] = Succ[Succ[S]]. In the compiler's language, if the compiler can create an implicit +[A, B, S], then it must also be able to create an implicit +[Succ[A], Succ[B], Succ[Succ[S]]]:
 
 ```scala
 implicit def inductive[A <: Nat, B <: Nat, S <: Nat](implicit plus: +[A, B, S]): +[Succ[A], Succ[B], Succ[Succ[S]]] =

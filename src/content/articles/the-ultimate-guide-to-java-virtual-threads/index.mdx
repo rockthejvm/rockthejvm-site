@@ -1,6 +1,7 @@
 ---
 author: riccardo-cardin
 category: guide
+difficulty: intermediate
 excerpt: "Project Loom and virtual threads: Explore how they promise to bring modern concurrency paradigms from Kotlin and Scala to Java, even while still in preview"
 publishedDate: 2023-02-23
 tags: [java]
@@ -8,19 +9,17 @@ title: The Ultimate Guide to Java Virtual Threads
 updatedDate: 2023-03-08
 ---
 
-import NoteAdmonition from "@components/admonitions/NoteAdmonition.astro";
-
 ## Introduction
 
 Version 19 of Java came at the end of 2022, bringing us a lot of exciting stuff. One of the coolest is the preview of some hot topics concerning Project Loom: _virtual threads_ ([JEP 425](https://openjdk.org/jeps/425)) and _structured concurrency_ ([JEP 428](https://openjdk.org/jeps/428)). Whereas still in a preview phase (to tell the truth, structured concurrency is still in the incubator module), the two JEPs promise to bring modern concurrency paradigms that we already found in Kotlin (coroutines) and Scala (Cats Effect and ZIO fibers) also in the mainstream language of the JVM: The Java programming language.
 
 Without further ado, let's first introduce virtual threads. As we said, both projects are still evolving, so the final version of the features might differ from what we will see here. Future articles to come will focus on structured concurrency and other cool features of Project Loom.
 
-<NoteAdmonition>
-  Another tour de force by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo
-  is a proud alumnus of Rock the JVM, now a senior engineer working on critical
-  systems written in Java, Scala and Kotlin.
-</NoteAdmonition>
+:::note
+
+Another tour de force by [Riccardo Cardin](/authors/riccardo-cardin). Riccardo is a proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin.
+
+:::
 
 ## Setup
 

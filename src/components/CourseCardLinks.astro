@@ -11,7 +11,7 @@ const { slug, pricingPlanId, couponCode } = Astro.props;
 <div class="absolute bottom-0 flex w-full">
   <a
     class="flex-1 bg-holiday-accent-1 p-2 text-center"
-    href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}&couponCode=${couponCode}`}
+    href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId.toString()}${couponCode ? `&coupon=${couponCode}` : ""}`}
   >
     1-click buy
   </a>

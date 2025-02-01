@@ -1,6 +1,7 @@
 ---
 author: herbert-kateu
 category: guide
+difficulty: intermediate
 excerpt: Learn how to integrate Redis with Scala using redis4cats and persist records in Postgres with skunk, enhancing your chatroom application with powerful new features
 publishedDate: 2024-05-23
 repositoryUrl: https://github.com/hkateu/WebSocketChatApp2
@@ -10,7 +11,7 @@ title: "WebSockets in Scala: Part 2 - Integrating Redis and PostgreSQL"
 
 ## Introduction
 
-This article is a follow-up to the [websocket](/articles/websockers-in-scala-part-1-http4s) article that was published previously. To recap, we created an in-memory chat application using WebSockets with the help of the http4s library. The chat application had a variety of features implemented through commands directly in the chat window such as the ability to create users, create chat rooms, and switch between chat rooms.
+This article is a follow-up to the [websocket](/articles/websockets-in-scala-part-1-http4s) article that was published previously. To recap, we created an in-memory chat application using WebSockets with the help of the http4s library. The chat application had a variety of features implemented through commands directly in the chat window such as the ability to create users, create chat rooms, and switch between chat rooms.
 
 In this iteration, we'll be integrating Redis to keep track of the users and rooms and we'll also be persisting messages in Postgres so that new users can have access to previous conversations. Finally, We'll get rid of `chatState` and create a new protocol that interacts with Postgres and Redis.
 
@@ -632,7 +633,7 @@ new PostgresProtocol[F] {
 }.pure[F]
 ```
 
-Here we use the `stream` method on `cmd`, passing it the roomId and `chunckSize` of `32`, this returns an `F[Stream[F, FetchMessage]]`. The `stream` method repeatedly emits chunks of data from Postgres based on our query.
+Here we use the `stream` method on `cmd`, passing it the roomId and `chunkSize` of `32`, this returns an `F[Stream[F, FetchMessage]]`. The `stream` method repeatedly emits chunks of data from Postgres based on our query.
 
 Finally, let's implement the last function of `PostgresProtocol`. The `deleteRoomMessages()`, is a function that deletes messages by `RoomId`, this requires a `Command[RoomId]`.
 
@@ -663,13 +664,17 @@ new PostgresProtocol[F] {
 ## Redis and Chat Protocols
 
 Before we dive into the Redis implementation, we'll need an overview of how the schema will be.
+
 A Redis hash is a record type structured as a collection of field-value pairs, we'll need the following hashes for our application:
 
 The `users` hash will be a collection of UUID string fields mapped to user name values.
+
 The `rooms` hash will be a collection of UUID string fields mapped to room name values.
+
 The `userroomid` hash will be a collection of user UUID string fields mapped to and room UUID string values.
 
 A Redis set is a collection of unique string values, we'll need a Redis set for each `room` created in our application:
+
 The sets will be named in the format, `room:<room id>`, and will be a collection of user UUID strings.
 
 We'll be creating both the Redis Algebra and Chat Algebra in this section so that we can follow why each Redis function is needed.
@@ -704,7 +709,7 @@ trait RedisProtocol[F[_]] {
 }
 ```
 
-Just like with Postgres, we'll be implementing each of these functions, and by the end of this section, we will have learned alot about Redis and the redis4cats package.
+Just like with Postgres, we'll be implementing each of these functions, and by the end of this section, we will have learned a lot about Redis and the redis4cats package.
 
 We'll also need to create the companion object for `RedisProtocol` along with a `make()` function.
 
@@ -956,6 +961,7 @@ The `enterroom()` function takes a `user` of type `User` and a `room` of type `S
 We start by calling `redisP.getRoomFromName(room)`, if the room exists, we compare that RoomId with the user's `RoomId` which we get from `redisP.getUsersRoomId(user)`. If they are the same we inform the user, otherwise we transfer the user by calling `transferUserToRoom(redisP, postgresP, user, r)`.
 
 If the user doesn't have a `RoomId`, we add the user to the requested room by calling `addToRoom(redisP, postgresP, user, r)`.
+
 Now, if the room name doesn't exist, we create that room by calling `createRoom(redisP, postgresP, room)`, then transfer the user to the new room.
 
 ### Moving to Another Room
@@ -1127,7 +1133,9 @@ new RedisProtocol[F] {
 ```
 
 Here we use the `hmGet()` function that returns multiple values associated with `UserId`s from the `users` hash. It takes the hash name, and one or more field values and returns an `F[Map[String, String]]`.
+
 If `rest` is empty we pass only `userid`, otherwise we pass both `rest`, and `userid` to `hmGet()`. We then `flatMap()` on `idMap`, convert it to a list and map each value to a `User`.
+
 This produces a `List[F[Option[User]]]`, so we call `sequence` twice to convert it into an `F[Option[List[User]]]`.
 
 Finally, let's implement the `broadcastMessage()` function.
@@ -1438,7 +1446,7 @@ new RedisProtocol[F] {
                     .mkString(s"$r Room Members:\n\t", "\n\t", "")
                 }
             case None =>
-              s"An error occured while fetching rooms".pure[F]
+              s"An error occurred while fetching rooms".pure[F]
           }
         }
       }
@@ -1719,7 +1727,7 @@ import rockthejvm.websockets.domain.user.User
     }
 ```
 
-Under the `/ws` once again we replace `protocol` with `chatP` in the `recieve()` handle. Everything else remains unchanged.
+Under the `/ws` once again we replace `protocol` with `chatP` in the `receive()` handle. Everything else remains unchanged.
 
 ```scala
 ...
@@ -1975,4 +1983,4 @@ Now to run our application, we first need to start our Redis and Postgres Docker
 
 In conclusion, this article has gone in-depth on how to implement Redis and Postgres in a Scala application using the redis4cats and skunk libraries. Now we can persist our messages, and rip all the benefits of storing our information in Redis such as high availability and persistence.
 
-In this version we simply dump all the previous messages to the new user but this should be done progressively whenever the user scrolls up, however, this was beyound the scope of this tutorial.
+In this version we simply dump all the previous messages to the new user but this should be done progressively whenever the user scrolls up, however, this was beyond the scope of this tutorial.

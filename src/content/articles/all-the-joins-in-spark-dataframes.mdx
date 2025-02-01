@@ -1,13 +1,12 @@
 ---
 category: explanation
+difficulty: intermediate
 excerpt: "Spark supports more types of table joins than you might expect: discover the different join options in this article"
 publishedDate: 2020-10-12
 tags: [spark]
 title: ALL the Joins in Spark DataFrames
 updatedDate: 2020-10-14
 ---
-
-import WarningAdmonition from "@components/admonitions/WarningAdmonition.astro";
 
 ## Who This Article Is For
 
@@ -144,7 +143,13 @@ If we wanted to do the reverse - show all the teams which have no members, we wo
 kidsDF.join(teamsDF, joinCondition, "left_outer")
 ```
 
-(notice the argument to the method there) and the output would be:
+:::note
+
+Notice the argument to the method there
+
+:::
+
+and the output would be:
 
 ```text
 +----+-------+----+------+--------------------+
@@ -271,12 +276,11 @@ This would produce the quite-big-for-small-data table:
 +---+-------+----+------+--------------------+
 ```
 
-<WarningAdmonition>
-  As you can see, the size of your resulting data simply explodes. Being a
-  cartesian product, the size of the resulting DF is the product of the
-  individual sizes of the joined DFs. So be careful in production - I'd
-  generally avoid cross joins unless absolutely necessary.
-</WarningAdmonition>
+:::danger
+
+As you can see, the size of your resulting data simply explodes. Being a cartesian product, the size of the resulting DF is the product of the individual sizes of the joined DFs. So be careful in production - I'd generally avoid cross joins unless absolutely necessary.
+
+:::
 
 ## Conclusion
 
