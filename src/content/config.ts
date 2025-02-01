@@ -8,6 +8,7 @@ import difficulties from "@collections/difficulties";
 import legals from "@collections/legals";
 import memberships from "@collections/memberships";
 import newsletters from "@collections/newsletters";
+import prerequisites from "@collections/prerequisites";
 import seriess from "@collections/seriess";
 import socials from "@collections/socials";
 import tags from "@collections/tags";
@@ -24,6 +25,7 @@ export const collections = {
   legals,
   memberships,
   newsletters,
+  prerequisites,
   seriess,
   socials,
   tags,
