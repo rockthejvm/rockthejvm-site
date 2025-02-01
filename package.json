@@ -17,7 +17,7 @@
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/starlight": "^0.31.1",
-    "@astrojs/tailwind": "^5.1.5",
+    "@astrojs/tailwind": "^6.0.0",
     "@expressive-code/plugin-collapsible-sections": "^0.40.1",
     "@expressive-code/plugin-line-numbers": "^0.40.1",
     "@headlessui/react": "^2.2.0",
