@@ -122,7 +122,7 @@ If we have methods with more than one argument, the Scala language allows us to 
 
 ## Transparent Inlines in Scala
 
-Inlining code is often great, because it's very clear which code will be executed and which will not. Inlining code can also help the compiler infer _more precise_ types, because if a method is declared to return a general type, inlining might go on a path that returns a more concrete type. Regular methods may not make this inferrence, even though we as programmers can clearly tell:
+Inlining code is often great, because it's very clear which code will be executed and which will not. Inlining code can also help the compiler infer _more precise_ types, because if a method is declared to return a general type, inlining might go on a path that returns a more concrete type. Regular methods may not make this inference, even though we as programmers can clearly tell:
 
 ```scala
 def wrap(x: Int): Option[Int] = Some(x)
@@ -200,7 +200,7 @@ def testNoInline() = {
 
 On a Macbook M3, this code gives the output:
 
-```
+```text
 Basic version: 1.197 s
 ```
 
@@ -296,7 +296,7 @@ will be turned into the following:
 
 In other words, it was turned into a nested `while` loops in the native (ugly) procedural implementation. Obviously, this happens behind the scenes, so the programmer sees none of it. But what we do see is the performance:
 
-```
+```text
 Inline version: 0.115 s
 ```
 
