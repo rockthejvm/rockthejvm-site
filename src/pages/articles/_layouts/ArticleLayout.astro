@@ -132,6 +132,7 @@ const relatedArticles = matches.map((match) =>
   searchIndexable={true}
 >
   <NarrowContainer>
+    <div data-pagefind-filter={`Difficulties: ${difficulty.id}`}></div>
     <div data-pagefind-filter="Categories:Articles (All)"></div>
     <div
       data-pagefind-filter={`Categories:Articles (${(() => {

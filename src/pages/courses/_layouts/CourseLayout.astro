@@ -60,6 +60,7 @@ const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
       : [],
   ],
 );
+const isBundle = bundledCourses.length > 0;
 const tags = await getEntries(_frontmatter.tags ?? []);
 const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
 const {
@@ -164,7 +165,7 @@ const structuredData = JSON.stringify({
     {
       "@type": "CourseInstance",
       courseMode: "Online",
-      courseWorkload: `PT${Math.round(2 * (bundledCourses.length > 0 ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)).toFixed()}H`,
+      courseWorkload: `PT${Math.round(2 * (isBundle ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)).toFixed()}H`,
       instructor: instructors.map((instructor) => ({
         "@type": "Person",
         name: instructor.data.name,
@@ -204,9 +205,10 @@ const structuredData = JSON.stringify({
   {structuredData}
   searchIndexable={true}
 >
+  {!isBundle && <div data-pagefind-filter={`Difficulties: ${difficulty}`} />}
   <div data-pagefind-filter="Categories:Courses (All)"></div>
   <div
-    data-pagefind-filter={`Categories:${bundledCourses.length > 0 ? "Courses (Bundles)" : "Courses (Singles)"}`}
+    data-pagefind-filter={`Categories:${isBundle ? "Courses (Bundles)" : "Courses (Singles)"}`}
   >
   </div>
   {
@@ -291,7 +293,7 @@ const structuredData = JSON.stringify({
       )
     }
     {
-      bundledCourses.length > 1 ? (
+      isBundle ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
       ) : (
         <Curriculum
