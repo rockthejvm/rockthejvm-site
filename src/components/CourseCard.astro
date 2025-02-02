@@ -23,6 +23,16 @@ const {
   pricingPlanId,
   prices,
 } = Astro.props;
+
+const sixMonthsAgo = new Date();
+sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+const isUpdated = course.data.updatedDate
+  ? new Date(course.data.updatedDate) >= sixMonthsAgo
+  : false;
+const isNew = course.data.publishedDate
+  ? new Date(course.data.publishedDate) >= sixMonthsAgo
+  : false;
 ---
 
 <div
@@ -58,8 +68,10 @@ const {
       >
         {course.data.isFree && <BadgeLarge {holiday}> Free! </BadgeLarge>}
         {
-          course.data.isNew && !course.data.isFree && (
-            <BadgeLarge {holiday}> New! </BadgeLarge>
+          isUpdated ? (
+            <BadgeLarge {holiday}> Updated! </BadgeLarge>
+          ) : (
+            isNew && <BadgeLarge {holiday}> New! </BadgeLarge>
           )
         }
         <a
