@@ -69,7 +69,7 @@ lint:
 actions:
   enabled:
     - astro-sync
-    - git-lfs
+    # - git-lfs
     - pnpm-install
     - trunk-check-pre-push-always
     - trunk-fmt-pre-commit
