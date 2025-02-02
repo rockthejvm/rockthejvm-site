@@ -59,6 +59,7 @@ lint:
       security: false
       paths:
         - "**/.gitignore"
+        - "**/.gitattributes"
         - "**/{,*-,*.}{lock,lockfile}{,-*,.*}"
         - "**/{CHANGELOG,LICENSE,LEGAL}{,.*}"
   disabled:
