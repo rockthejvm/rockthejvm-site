@@ -8,6 +8,9 @@
   "editor.wordWrap": "off",
   "editor.wordWrapColumn": 80,
   "explorer.excludeGitIgnore": true,
+  "explorer.fileNesting.patterns": {
+    ".gitignore": ".gitattributes"
+  },
   "files.autoSave": "off",
   "files.encoding": "utf8",
   "files.eol": "\n",
