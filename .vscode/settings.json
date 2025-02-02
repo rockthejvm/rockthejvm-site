@@ -14,6 +14,7 @@
   "files.insertFinalNewline": true,
   "files.readonlyInclude": {
     "**/.gitignore": true,
+    "**/.gitattributes": true,
     "**/{,*-,*.}{lock,lockfile}{,-*,.*}": true,
     "**/{CHANGELOG,LICENSE,LEGAL}{,.*}": true
   },
@@ -135,5 +136,5 @@
   },
   // trunk.io
   "editor.defaultFormatter": "trunk.io",
-  "trunk.showPreexistingIssues": true
+  "trunk.showPreexistingIssues": false
 }
