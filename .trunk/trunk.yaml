@@ -68,12 +68,17 @@ lint:
     - vale
 actions:
   enabled:
+    - astro-check
     - astro-sync
     # - git-lfs
     - pnpm-install
     - trunk-check-pre-push-always
     - trunk-fmt-pre-commit
   definitions:
+    - id: astro-check
+      triggers:
+        - git_hooks: [pre-push]
+      run: npx astro check --minimumFailingSeverity error
     - id: astro-sync
       triggers:
         - git_hooks: [post-checkout]
