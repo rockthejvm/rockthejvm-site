@@ -4,12 +4,6 @@ import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
 import capitalizeFirstChar from "@utils/capitalizeFirstChar.ts";
-import {
-  getCollection,
-  getEntries,
-  getEntry,
-  type CollectionEntry,
-} from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
   type ReactFlowEdge,
@@ -205,7 +199,7 @@ const structuredData = JSON.stringify({
   {structuredData}
   searchIndexable={true}
 >
-  {!isBundle && <div data-pagefind-filter={`Difficulties: ${difficulty}`} />}
+  {!isBundle && <div data-pagefind-filter={`Difficulties: ${difficulty!}`} />}
   <div data-pagefind-filter="Categories:Courses (All)"></div>
   <div
     data-pagefind-filter={`Categories:${isBundle ? "Courses (Bundles)" : "Courses (Singles)"}`}
