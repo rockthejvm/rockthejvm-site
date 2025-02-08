@@ -54,11 +54,6 @@ export default defineCollection({
               path: ["excerpt"],
             },
           ),
-        extra: z
-          .object({
-            title: z.string().max(70, "Title must be at most 70 characters"),
-          })
-          .optional(),
         faqs: z
           .array(
             z
@@ -97,14 +92,19 @@ export default defineCollection({
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
         isFree: z.boolean().default(false),
-        isNew: z.boolean().default(false),
         pricingPlanId: z.number().int().positive(),
+        publishedDate: z.date().optional(),
         question: z
           .object({
             image: image(),
             text: z.string(),
           })
           .strict()
+          .optional(),
+        tags: z
+          .array(reference("tags"))
+          .min(1, "Course must have at least one tag")
+          .max(10, "Course must have at most ten tags")
           .optional(),
         technologies: z
           .array(
@@ -133,6 +133,7 @@ export default defineCollection({
           // .min(30, "Title must be at least 30 characters")
           .max(70, "Title must be at most 70 characters"),
         repositoryUrl: z.string().optional(),
+        updatedDate: z.date().optional(),
         videoId: z.string().optional(),
         hasGoal: z.boolean().default(true),
         hasSkills: z.boolean().default(true),
@@ -157,6 +158,35 @@ export default defineCollection({
           message:
             "Either difficulty or bundledCourses must be provided, but not both",
           path: ["difficulty", "bundledCourses"],
+        },
+      )
+      .refine(
+        (data) =>
+          (data.publishedDate && !data.bundledCourses) ||
+          (!data.publishedDate && !data.updatedDate && data.bundledCourses),
+        {
+          message:
+            "Either publishedDate/updatedDate or bundledCourses must be provided, but not both",
+          path: ["publishedDate", "updatedDate", "bundledCourses"],
+        },
+      )
+      .refine(
+        (data) =>
+          (data.tags && !data.bundledCourses) ||
+          (!data.tags && data.bundledCourses),
+        {
+          message:
+            "Either tags or bundledCourses must be provided, but not both",
+          path: ["tags", "bundledCourses"],
+        },
+      )
+      .refine(
+        (data) =>
+          !data.publishedDate ||
+          !data.updatedDate ||
+          data.updatedDate >= data.publishedDate,
+        {
+          message: "Updated date must be on or after the published date",
         },
       ),
 });
