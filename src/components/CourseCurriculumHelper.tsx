@@ -169,7 +169,6 @@ export default function Example(props: Props) {
     }
   };
 
-  /* trunk-ignore(biome/lint/correctness/useExhaustiveDependencies) */
   useEffect(() => {
     // const fetchPrice = async () => {
     //   await getTeachableCurriculum(props.pricingPlanId);

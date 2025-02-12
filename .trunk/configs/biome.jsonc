@@ -1,47 +1,47 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "vcs": {
-    "enabled": false
+    "enabled": false,
   },
   "files": {},
   "formatter": {
     "useEditorconfig": true,
-    "lineWidth": 80
+    "lineWidth": 80,
   },
   "organizeImports": {
-    "enabled": true
+    "enabled": true,
   },
   "linter": {
     "rules": {
       "style": {
         "noNonNullAssertion": "off",
-        "useSelfClosingElements": "off" // Causes issues with SVGs
+        "useSelfClosingElements": "off", // Causes issues with SVGs
       },
       "complexity": {
         "noExcessiveCognitiveComplexity": "error",
         "noUselessStringConcat": "error",
         "noUselessUndefinedInitialization": "error",
         "noVoid": "error",
-        "useDateNow": "error"
+        "useDateNow": "error",
       },
       "correctness": {
         "noUnusedFunctionParameters": "error",
         "noUnusedImports": "error",
         "noUnusedPrivateClassMembers": "error",
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
       },
       "nursery": {
-        "useSortedClasses": "off" // Not currently working
+        "useSortedClasses": "off", // Not currently working
       },
       "suspicious": {
-        "noConsole": "error"
-      }
-    }
+        "noConsole": "error",
+      },
+    },
   },
   "javascript": {
     "formatter": {
       // "arrowParentheses": "asNeeded", // Inconsistent with current Astro formatting
       // "semicolons": "asNeeded" // Inconsistent with current Astro formatting
-    }
-  }
+    },
+  },
 }

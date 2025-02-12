@@ -1,9 +1,14 @@
 ---
-import { type CollectionEntry, getEntries, getEntry } from "astro:content";
 import Profile from "@components/Profile.astro";
 import Roadmap from "@components/Roadmap";
 import site from "@data/site.json";
 import capitalizeFirstChar from "@utils/capitalizeFirstChar.ts";
+import {
+  type CollectionEntry,
+  getCollection,
+  getEntries,
+  getEntry,
+} from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
   type ReactFlowEdge,
@@ -20,7 +25,6 @@ import Pricing from "../_sections/Pricing.astro";
 import Question from "../_sections/Question.astro";
 import Skills from "../_sections/Skills.astro";
 import TechStack from "../_sections/TechStack.astro";
-import { getCollection } from "astro:content";
 
 interface Response {
   price: number;
