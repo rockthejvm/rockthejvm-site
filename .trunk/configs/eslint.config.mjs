@@ -113,6 +113,7 @@ export default typescript.config(
       "require-unicode-regexp": ["error", { requireFlag: "v" }],
       "symbol-description": "error",
       "unicorn/no-nested-ternary": "off",
+      "unicorn/prevent-abbreviations": "off",
       camelcase: "off",
       complexity: ["error", { max: 5, variant: "modified" }],
       eqeqeq: "error",
@@ -253,7 +254,12 @@ export default typescript.config(
           allowLineSeparatedGroups: true,
         },
       ],
-      "unicorn/prevent-abbreviations": "off",
+      "unicorn/numeric-separators-style": [
+        "error",
+        {
+          onlyIfContainsSeparator: true,
+        },
+      ],
     },
   },
   {
