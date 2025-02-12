@@ -145,7 +145,7 @@ function LayoutFlow({ initialNodes, initialEdges }) {
       // fitView
       style={{ backgroundColor: "#F7F9FB" }}
     >
-      <Panel position="top-left" className="pr-16">
+      <Panel position="top-right" className="pr-16">
         <ZoomSlider />
         <Legend open={false} />
       </Panel>
