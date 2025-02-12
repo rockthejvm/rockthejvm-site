@@ -19,15 +19,6 @@ jobs:
         with:
           version: latest
           run_install: false
-      - name: Verify PNPM Cache Directory # https://github.com/actions/setup-node/issues/1137#issuecomment-2508963254
-        run: |
-          PNPM_STORE_PATH="$( pnpm store path --silent )"
-          if [ ! -d "$PNPM_STORE_PATH" ]; then
-            echo "PNPM store directory does not exist, creating it."
-            mkdir -p "$PNPM_STORE_PATH"
-          else
-            echo "PNPM store directory exists."
-          fi
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -52,5 +43,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install astro @astrojs/check typescript
       - name: Astro Check
         run: npx astro check --minimumFailingSeverity error
