@@ -19,8 +19,8 @@ interface Props {
   page: Page;
 }
 
-const { page } = Astro.props;
-const title = "Article Index";
+const { page } = Astro.props,
+  title = "Article Index";
 ---
 
 <BaseLayout {title} description={title}>

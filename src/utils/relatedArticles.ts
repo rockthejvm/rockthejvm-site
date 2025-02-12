@@ -1,52 +1,52 @@
-import fs from "fs";
 import matter from "gray-matter";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
-const articleFiles = new Map();
-
-const articleObjs: { slug: string; content: string }[] = [];
+const articleFiles = new Map(),
+  articleObjs: { slug: string; content: string }[] = [];
 
 function readDirectory(directory: string, articleDir: string | null) {
-  fs.readdirSync(directory).forEach((file) => {
+  for (const file of fs.readdirSync(directory)) {
     const Absolute = path.join(directory, file);
     let fileName = file.toString();
 
-    if (fileName.indexOf(".") >= 0) {
-      fileName = fileName.substring(0, fileName.indexOf("."));
+    if (fileName.includes(".")) {
+      fileName = fileName.slice(0, Math.max(0, fileName.indexOf(".")));
     }
 
-    if (fs.statSync(Absolute).isDirectory())
-      return readDirectory(Absolute, fileName);
-    else if (file.endsWith(".mdx") || file.endsWith(".md"))
+    if (fs.statSync(Absolute).isDirectory()) {
+      readDirectory(Absolute, fileName);
+      continue;
+    } else if (file.endsWith(".mdx") || file.endsWith(".md"))
       articleFiles.set(fileName == "index" ? articleDir : fileName, Absolute);
-  });
+  }
 }
 
 function parseIntroduction(markdown: string) {
-  const regex = /## Introduction\s+([\s\S]*?)(?=\n\n## |$)/;
-  const match = markdown.match(regex);
+  const regex = /## Introduction\s+([\s\S]*?)(?=\n\n## |$)/,
+    match = regex.exec(markdown);
 
   return match ? match[1].trim() : "";
 }
 
 function parseConclusion(markdown: string) {
-  const regex = /## Conclusion\s+([\s\S]*?)(?=\n\n## |$)/;
-  const match = markdown.match(regex);
+  const regex = /## Conclusion\s+([\s\S]*?)(?=\n\n## |$)/,
+    match = regex.exec(markdown);
 
   return match ? match[1].trim() : "";
 }
 
 function buildArticleJson() {
-  articleFiles.forEach((value, key) => {
-    const article = fs.readFileSync(path.join(value), "utf8");
-    const { data } = matter(article);
-    const obj = {
-      slug: key,
-      content: `${data.title}. ${data.excerpt}. ${data.tags.join(" ")}.`,
-    };
+  for (const [key, value] of articleFiles.entries()) {
+    const article = fs.readFileSync(path.join(value), "utf8"),
+      { data } = matter(article),
+      obj = {
+        slug: key,
+        content: `${data.title}. ${data.excerpt}. ${data.tags.join(" ")}.`,
+      };
 
     articleObjs.push(obj);
-  });
+  }
 
   console.log(`Read ${articleObjs.length} articles.`);
 }
@@ -78,14 +78,13 @@ export async function addEmbeddedArticles() {
 export async function getArticleMatches() {
   try {
     const res = await fetch(
-      "https://related-articles.andrei-023.workers.dev/match_articles",
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-
-    const body = await res.json();
+        "https://related-articles.andrei-023.workers.dev/match_articles",
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+      ),
+      body = await res.json();
 
     fs.writeFile(
       "src/data/matchedArticles.json",

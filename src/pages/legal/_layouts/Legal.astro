@@ -8,10 +8,9 @@ interface Props {
   legal: CollectionEntry<"legals">;
 }
 
-const { legal } = Astro.props;
-const frontmatter = legal.data;
-
-const { description, title } = frontmatter;
+const { legal } = Astro.props,
+  frontmatter = legal.data,
+  { description, title } = frontmatter;
 ---
 
 <BaseLayout {description} {title}>

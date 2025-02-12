@@ -7,20 +7,17 @@ import { getCollection, getEntry } from "astro:content";
 import PersonalImage from "src/assets/images/logos/personal.png";
 import TeamImage from "src/assets/images/logos/team.png";
 
-const membership = await getEntry("memberships", "personal");
-
-const monthlyPriceId = membership.data.packages[0].pricingPlanId;
-const monthlyTitle = "Monthly Membership";
-
-const yearlyPriceId = membership.data.packages[1].pricingPlanId;
-const yearlyTitle = "Yearly Membership";
-
-const membershipHours = (await getCollection("courses"))
-  .map((e) => e.data.benefits?.hours ?? 0)
-  .reduce((b, a) => b + a);
-const membershipLinesOfCode = (await getCollection("courses"))
-  .map((e) => e.data.benefits?.linesOfCode ?? 0)
-  .reduce((b, a) => b + a);
+const membership = await getEntry("memberships", "personal"),
+  monthlyPriceId = membership.data.packages[0].pricingPlanId,
+  monthlyTitle = "Monthly Membership",
+  yearlyPriceId = membership.data.packages[1].pricingPlanId,
+  yearlyTitle = "Yearly Membership",
+  membershipHours = (await getCollection("courses"))
+    .map((e) => e.data.benefits?.hours ?? 0)
+    .reduce((b, a) => b + a),
+  membershipLinesOfCode = (await getCollection("courses"))
+    .map((e) => e.data.benefits?.linesOfCode ?? 0)
+    .reduce((b, a) => b + a);
 // const categories = (await getCollection("courseCategories")).sort((a, b) =>
 //   a.data.ordinal <= b.data.ordinal ? -1 : 1,
 // );

@@ -10,10 +10,7 @@ import {
   getEntry,
 } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import {
-  type ReactFlowEdge,
-  type ReactFlowNode,
-} from "../../../types/ReactFlow.ts";
+import type { ReactFlowEdge, ReactFlowNode } from "../../../types/ReactFlow.ts";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
@@ -31,12 +28,11 @@ interface Response {
 }
 
 const course = await getEntry(
-  "courses",
-  Astro.params.slug as CollectionEntry<"courses">["slug"],
-);
-const _frontmatter = course.data;
-const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
-  [
+    "courses",
+    Astro.params.slug as CollectionEntry<"courses">["slug"],
+  ),
+  _frontmatter = course.data,
+  [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
     _frontmatter.bundledCourses
       ? getEntries(_frontmatter.bundledCourses)
       : Promise.resolve([]),
@@ -56,144 +52,141 @@ const [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all(
           })),
         )
       : [],
-  ],
-);
-const isBundle = bundledCourses.length > 0;
-const tags = await getEntries(_frontmatter.tags ?? []);
-const { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter;
-const {
-  includedInMembership,
-  benefits,
-  description,
-  difficulty,
-  faqs,
-  features,
-  heroImage,
-  instructors: _instructors,
-  isFree,
-  pricingPlanId,
-  question,
-  technologies,
-  thanks,
-  title,
-  videoId,
-  hasGoal,
-  hasSkills,
-  instructorEnabled,
-} = _frontmatter;
-
-const instructors = await getEntries<"authors">(_instructors);
-
-const response = await fetch(
-  `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed()}`,
-);
-
-const { price } = (await response.json()) as Response;
+  ]),
+  isBundle = bundledCourses.length > 0,
+  tags = await getEntries(_frontmatter.tags ?? []),
+  { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter,
+  {
+    includedInMembership,
+    benefits,
+    description,
+    difficulty,
+    faqs,
+    features,
+    heroImage,
+    instructors: _instructors,
+    isFree,
+    pricingPlanId,
+    question,
+    technologies,
+    thanks,
+    title,
+    videoId,
+    hasGoal,
+    hasSkills,
+    instructorEnabled,
+  } = _frontmatter,
+  instructors = await getEntries<"authors">(_instructors),
+  response = await fetch(
+    `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed(0)}`,
+  ),
+  { price } = (await response.json()) as Response;
 
 function difficultyToOrdinal(
   difficulty: "beginner" | "intermediate" | "advanced",
 ): number {
   switch (difficulty) {
-    case "beginner":
+    case "beginner": {
       return 1;
-    case "intermediate":
+    }
+    case "intermediate": {
       return 2;
-    case "advanced":
+    }
+    case "advanced": {
       return 3;
-    default:
+    }
+    default: {
       return 0;
+    }
   }
 }
-const prerequisitess = await getCollection("prerequisites");
-const prerequisites = prerequisitess.find((prerequisites) =>
-  prerequisites.data.nodes.find((node) => node.slug === course.slug),
-);
-
-const reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
-  ? await Promise.all(
-      prerequisites?.data.nodes.map(async (node) => ({
-        id: node.slug,
-        type: "linkNode",
-        position: { x: 0, y: 0 },
-        data: {
-          difficulty: (await getEntry("courses", node.slug)).data.difficulty,
-          isCurrent: node.slug === course.slug,
-          label: (await getEntry("courses", node.slug)).data.title,
-          href: `/courses/${node.slug}`,
-        },
-      })),
-    )
-  : undefined;
-
-const reactFlowEdges: ReactFlowEdge[] | undefined =
-  prerequisites?.data.edges.map((edge) => ({
-    id: `${edge.from.slug}TO${edge.to.slug}`,
-    source: edge.from.slug,
-    target: edge.to.slug,
-    // type: "smart",
-    animated: edge.optional ? true : false,
-  }));
-
-const companies = await getCollection("companies");
-
-const structuredData = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Course",
-  name: title,
-  description: description,
-  provider: {
-    "@type": "Organization",
-    name: site.name,
-    url: Astro.site,
-  },
-  offers: [
-    isFree
-      ? {
-          "@type": "Offer",
-          category: "Free",
-        }
-      : {
-          "@type": "Offer",
-          category: "Paid",
-          priceCurrency: "USD",
-          price: price / 100,
-        },
-  ],
-  hasCourseInstance: [
-    {
-      "@type": "CourseInstance",
-      courseMode: "Online",
-      courseWorkload: `PT${Math.round(2 * (isBundle ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)).toFixed()}H`,
-      instructor: instructors.map((instructor) => ({
-        "@type": "Person",
-        name: instructor.data.name,
-        description:
-          instructor.data.biography ??
-          (instructor.data.company
-            ? `${instructor.data.company.role} at ${companies.find(({ id }) => id === instructor.data.company!.entity.id)!.data.title}.`
-            : ""),
-        image: instructor.data.photo.src,
-      })),
-    },
-  ],
-  availableLanguage: ["en"],
-  educationalLevel: capitalizeFirstChar(
-    difficulty ??
-      bundledCourses
-        .map((course) => course.data.difficulty ?? "beginner")
-        .reduce(
-          (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
-          "beginner",
-        ),
+const prerequisitess = await getCollection("prerequisites"),
+  prerequisites = prerequisitess.find((prerequisites) =>
+    prerequisites.data.nodes.find((node) => node.slug === course.slug),
   ),
-  image: [heroImage.src],
-  inLanguage: "en",
-  publisher: {
-    "@type": "Organization",
-    name: site.name,
-    url: Astro.site,
-  },
-});
+  reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
+    ? await Promise.all(
+        prerequisites.data.nodes.map(async (node) => ({
+          id: node.slug,
+          type: "linkNode",
+          position: { x: 0, y: 0 },
+          data: {
+            difficulty: (await getEntry("courses", node.slug)).data.difficulty,
+            isCurrent: node.slug === course.slug,
+            label: (await getEntry("courses", node.slug)).data.title,
+            href: `/courses/${node.slug}`,
+          },
+        })),
+      )
+    : undefined,
+  reactFlowEdges: ReactFlowEdge[] | undefined = prerequisites?.data.edges.map(
+    (edge) => ({
+      id: `${edge.from.slug}TO${edge.to.slug}`,
+      source: edge.from.slug,
+      target: edge.to.slug,
+      // type: "smart",
+      animated: Boolean(edge.optional),
+    }),
+  ),
+  companies = await getCollection("companies"),
+  structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: title,
+    description,
+    provider: {
+      "@type": "Organization",
+      name: site.name,
+      url: Astro.site,
+    },
+    offers: [
+      isFree
+        ? {
+            "@type": "Offer",
+            category: "Free",
+          }
+        : {
+            "@type": "Offer",
+            category: "Paid",
+            priceCurrency: "USD",
+            price: price / 100,
+          },
+    ],
+    hasCourseInstance: [
+      {
+        "@type": "CourseInstance",
+        courseMode: "Online",
+        courseWorkload: `PT${Math.round(2 * (isBundle ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)).toFixed(0)}H`,
+        instructor: instructors.map((instructor) => ({
+          "@type": "Person",
+          name: instructor.data.name,
+          description:
+            instructor.data.biography ??
+            (instructor.data.company
+              ? `${instructor.data.company.role} at ${companies.find(({ id }) => id === instructor.data.company!.entity.id)!.data.title}.`
+              : ""),
+          image: instructor.data.photo.src,
+        })),
+      },
+    ],
+    availableLanguage: ["en"],
+    educationalLevel: capitalizeFirstChar(
+      difficulty ??
+        bundledCourses
+          .map((course) => course.data.difficulty ?? "beginner")
+          .reduce(
+            (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
+            "beginner",
+          ),
+    ),
+    image: [heroImage.src],
+    inLanguage: "en",
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      url: Astro.site,
+    },
+  });
 ---
 
 <BaseLayout

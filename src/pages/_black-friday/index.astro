@@ -5,26 +5,25 @@ import { getCollection } from "astro:content";
 import { _courses } from "./_data/courses.ts";
 import BundleImage from "./_images/black-friday-bundle.png";
 
-const __courses = await getCollection("courses");
-
-const categories: HolidayCategory[] = _courses.map(({ category, courses }) => ({
-  category,
-  courses: courses.map(({ id, prices }) => ({
-    course: __courses.find((_course) => _course.slug === id)!,
-    prices,
+const __courses = await getCollection("courses"),
+  categories: HolidayCategory[] = _courses.map(({ category, courses }) => ({
+    category,
+    courses: courses.map(({ id, prices }) => ({
+      course: __courses.find((_course) => _course.slug === id)!,
+      prices,
+    })),
   })),
-}));
-const bundlePrices = categories
-  .filter(({ category }) => category !== "Bundles")
-  .flatMap(({ courses }) => courses)
-  .map(({ prices }) => prices)
-  .reduce(
-    (acc, element) => ({
-      old: acc.old + element.old,
-      new: acc.new,
-    }),
-    { old: 0, new: 395 },
-  );
+  bundlePrices = categories
+    .filter(({ category }) => category !== "Bundles")
+    .flatMap(({ courses }) => courses)
+    .map(({ prices }) => prices)
+    .reduce(
+      (acc, element) => ({
+        old: acc.old + element.old,
+        new: acc.new,
+      }),
+      { old: 0, new: 395 },
+    );
 ---
 
 <HolidayLayout

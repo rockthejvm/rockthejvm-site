@@ -17,22 +17,21 @@ interface Props {
 }
 
 const {
-  course,
-  holiday = false,
-  couponCode,
-  pricingPlanId,
-  prices,
-} = Astro.props;
-
-const sixMonthsAgo = new Date();
+    course,
+    holiday = false,
+    couponCode,
+    pricingPlanId,
+    prices,
+  } = Astro.props,
+  sixMonthsAgo = new Date();
 sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
 const isUpdated = course.data.updatedDate
-  ? new Date(course.data.updatedDate) >= sixMonthsAgo
-  : false;
-const isNew = course.data.publishedDate
-  ? new Date(course.data.publishedDate) >= sixMonthsAgo
-  : false;
+    ? new Date(course.data.updatedDate) >= sixMonthsAgo
+    : false,
+  isNew = course.data.publishedDate
+    ? new Date(course.data.publishedDate) >= sixMonthsAgo
+    : false;
 ---
 
 <div

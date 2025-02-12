@@ -67,35 +67,36 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 // ];
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0].collection === "courses",
-);
-const memberss = courseSeriess.map((series) => series.data.members);
-const coursess = await Promise.all(
-  (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+    (series) => series.data.members[0].collection === "courses",
   ),
-);
-const categories = await Promise.all(
-  coursess.map((courses) =>
-    getEntry("courseCategories", courses[0]?.data.category.id),
+  memberss = courseSeriess.map((series) => series.data.members),
+  coursess = await Promise.all(
+    (memberss as CollectionEntry<"courses">[][]).map(async (members) =>
+      Promise.all(
+        members.map(async (member) => getEntry("courses", member.slug)),
+      ),
+    ),
   ),
-);
-const mycoursess = zip(categories, coursess).sort(
-  (category1, category2) =>
-    category1[0].data.ordinal - category2[0].data.ordinal,
-);
-
-const structuredData = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  itemListElement: mycoursess
-    .flatMap(([, courses]) => courses)
-    .map((course, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      url: `${Astro.site!}/courses/${course.slug}`,
-    })),
-});
+  categories = await Promise.all(
+    coursess.map(async (courses) =>
+      getEntry("courseCategories", courses[0]?.data.category.id),
+    ),
+  ),
+  mycoursess = zip(categories, coursess).sort(
+    (category1, category2) =>
+      category1[0].data.ordinal - category2[0].data.ordinal,
+  ),
+  structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: mycoursess
+      .flatMap(([, courses]) => courses)
+      .map((course, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${Astro.site!}/courses/${course.slug}`,
+      })),
+  });
 ---
 
 <BaseLayout

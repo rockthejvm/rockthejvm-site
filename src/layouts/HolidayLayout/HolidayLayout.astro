@@ -24,26 +24,25 @@ interface Props {
 }
 
 const {
-  annotation,
-  bundleImage,
-  bundlePricingPlanId,
-  categories,
-  couponCode,
-  description,
-  forcedTheme,
-  logoSuffix,
-  offer,
-  bundlePrices,
-  courseSlug,
-  subtitle1,
-  subtitle2,
-  title,
-} = Astro.props;
-
-const image = {
-  src: bundleImage.src,
-  alt: title,
-};
+    annotation,
+    bundleImage,
+    bundlePricingPlanId,
+    categories,
+    couponCode,
+    description,
+    forcedTheme,
+    logoSuffix,
+    offer,
+    bundlePrices,
+    courseSlug,
+    subtitle1,
+    subtitle2,
+    title,
+  } = Astro.props,
+  image = {
+    src: bundleImage.src,
+    alt: title,
+  };
 ---
 
 <BaseLayout {description} {forcedTheme} {title} {image}>

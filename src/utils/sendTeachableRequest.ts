@@ -5,7 +5,7 @@ export const sendTeachableRequest = async (
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      apiKey: apiKey,
+      apiKey,
       Accept: "application/json",
     },
   });

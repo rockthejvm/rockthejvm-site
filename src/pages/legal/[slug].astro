@@ -15,8 +15,8 @@ interface Props {
   legal: CollectionEntry<"legals">;
 }
 
-const { legal } = Astro.props;
-const { Content } = await legal.render();
+const { legal } = Astro.props,
+  { Content } = await legal.render();
 ---
 
 <Legal {legal}>
