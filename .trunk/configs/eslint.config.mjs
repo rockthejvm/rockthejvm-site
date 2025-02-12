@@ -253,14 +253,7 @@ export default typescript.config(
           allowLineSeparatedGroups: true,
         },
       ],
-      "unicorn/prevent-abbreviations": [
-        "error",
-        {
-          allowList: {
-            Props: true,
-          },
-        },
-      ],
+      "unicorn/prevent-abbreviations": "off",
     },
   },
   {
