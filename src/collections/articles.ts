@@ -33,12 +33,10 @@ export default defineCollection({
         tags: z
           .array(reference("tags"))
           .min(1, "Article must have at least one tag")
-          .max(10, "Article must have at most three tags")
+          .max(10, "Article must have at most ten tags")
           .refine(
             (tags) => tags.length === new Set(tags.map((tag) => tag.id)).size,
-            {
-              message: "All tags must be unique",
-            },
+            { message: "All tags must be unique" },
           ),
         title: z.string().max(70, "Title must be at most 70 characters"),
         updatedDate: z.date().optional(),
