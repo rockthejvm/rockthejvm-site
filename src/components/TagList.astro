@@ -32,7 +32,7 @@ const { tags } = Astro.props;
               d="M6 6h.008v.008H6V6Z"
             />
           </svg>
-          {tag.id.length > 8 ? `${tag.id.substring(0, 9)}...` : tag.id}
+          {tag.id.length > 8 ? `${tag.id.slice(0, 9)}...` : tag.id}
         </span>
       </a>
     ))

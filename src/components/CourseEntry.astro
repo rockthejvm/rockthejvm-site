@@ -12,8 +12,8 @@ interface Props {
   holiday?: boolean;
 }
 
-const { course, holiday = false, prices, couponCode } = Astro.props;
-const pricingPlanId = course.data.pricingPlanId;
+const { course, holiday = false, prices, couponCode } = Astro.props,
+  { pricingPlanId } = course.data;
 ---
 
 <dd class="mt-2" id="faq-0">

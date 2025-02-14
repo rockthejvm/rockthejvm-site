@@ -75,7 +75,7 @@ const {
       <slot />
       <CookieBanner client:load />
     </main>
-    <Footer holiday={!!forcedTheme} />
+    <Footer holiday={Boolean(forcedTheme)} />
   </body>
 </html>
 <AffiliateScript />

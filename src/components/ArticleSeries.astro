@@ -1,7 +1,7 @@
 ---
+import ArticleSeriesHelper from "@components/ArticleSeriesHelper";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
-import ArticleSeriesHelper from "@components/ArticleSeriesHelper";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -9,19 +9,21 @@ interface Props {
   open?: boolean;
 }
 
-const { article, label, open = false } = Astro.props;
-const articleSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0].collection === "articles",
-);
-const memberss = articleSeriess.map((series) => series.data.members);
-const articless = await Promise.all(
-  (memberss as CollectionEntry<"articles">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("articles", member.slug))),
+const { article, label, open = false } = Astro.props,
+  articleSeriess = (await getCollection("seriess")).filter(
+    (series) => series.data.members[0].collection === "articles",
   ),
-);
-const articleSeries = articless.find((articles) =>
-  articles.map((article) => article.slug).includes(article.slug),
-);
+  memberss = articleSeriess.map((series) => series.data.members),
+  articless = await Promise.all(
+    (memberss as CollectionEntry<"articles">[][]).map(async (members) =>
+      Promise.all(
+        members.map(async (member) => getEntry("articles", member.slug)),
+      ),
+    ),
+  ),
+  articleSeries = articless.find((articles) =>
+    articles.map((article) => article.slug).includes(article.slug),
+  );
 ---
 
 {

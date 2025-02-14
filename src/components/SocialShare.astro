@@ -15,8 +15,8 @@ interface Props {
   url: string;
 }
 
-const { description, title, url, tags: _tags } = Astro.props;
-const hashTags = _tags.map(({ id }) => tagToHashTag(id));
+const { description, title, url, tags: _tags } = Astro.props,
+  hashTags = _tags.map(({ id }) => tagToHashTag(id));
 ---
 
 <div class="my-4">

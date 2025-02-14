@@ -34,7 +34,6 @@ export default function Example({ article, articleSeries, label, open }) {
             >
               <span className="px-2 italic">{seriesArticle.data.title}</span>
               <span className="text-accent-1">
-                {/* trunk-ignore(biome/lint/a11y/noSvgWithoutTitle) */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

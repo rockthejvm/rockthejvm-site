@@ -1,6 +1,6 @@
 ---
-import { Picture } from "astro:assets";
 import type { ImageMetadata, ImageQuality } from "astro";
+import { Picture } from "astro:assets";
 
 interface Props {
   class?: string;
@@ -14,25 +14,24 @@ interface Props {
 }
 
 const {
-  alt,
-  class: additionalClasses,
-  loading = "lazy",
-  src,
-  width,
-  height,
-  quality,
-  searchImage,
-} = Astro.props;
-
-const defaultFormats = ["webp", src.format];
+    alt,
+    class: additionalClasses,
+    loading = "lazy",
+    src,
+    width,
+    height,
+    quality,
+    searchImage,
+  } = Astro.props,
+  defaultFormats = ["webp", src.format];
 ---
 
 <Picture
   {alt}
   class:list={["", additionalClasses]}
-  formats={src.format !== "gif"
-    ? ["avif", ...defaultFormats]
-    : [...defaultFormats]}
+  formats={src.format === "gif"
+    ? [...defaultFormats]
+    : ["avif", ...defaultFormats]}
   {loading}
   {src}
   {width}
