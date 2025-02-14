@@ -3,10 +3,10 @@ import { getCollection } from "astro:content";
 import Photo from "../assets/images/latest/articles.png";
 import MyPicture from "./MyPicture.astro";
 
-const articles = await getCollection("articles");
-const latestArticles = articles
-  .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
-  .slice(0, 6);
+const articles = await getCollection("articles"),
+  latestArticles = articles
+    .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
+    .slice(0, 6);
 ---
 
 <div class="rounded-3xl">
@@ -34,7 +34,7 @@ const latestArticles = articles
         </a>
         <div class="py-4 sm:py-4">
           {
-            latestArticles.map(async (article) => {
+            latestArticles.map(async (article) => (
               // const author = await getEntry(
               //   article.data.author.collection,
               //   article.data.author.id,
@@ -45,24 +45,22 @@ const latestArticles = articles
               //       author.data.company.entity.id,
               //     )
               //   : undefined;
-              return (
-                <Fragment>
-                  <article class="max-w-full hover:bg-primary hover:text-content-2">
-                    <div class="group relative mx-auto">
-                      <a
-                        href={`articles/${article.slug}`}
-                        class="text-content no-underline hover:text-content-2 hover:no-underline"
-                      >
-                        <h4 class="article-home-link mx-auto my-1 px-4 py-2.5 text-center text-lg font-normal leading-6 no-underline hover:text-content-2">
-                          <span class="absolute inset-0" />
-                          {article.data.title}
-                        </h4>
-                      </a>
-                    </div>
-                  </article>
-                </Fragment>
-              );
-            })
+              <Fragment>
+                <article class="max-w-full hover:bg-primary hover:text-content-2">
+                  <div class="group relative mx-auto">
+                    <a
+                      href={`articles/${article.slug}`}
+                      class="text-content no-underline hover:text-content-2 hover:no-underline"
+                    >
+                      <h4 class="article-home-link mx-auto my-1 px-4 py-2.5 text-center text-lg font-normal leading-6 no-underline hover:text-content-2">
+                        <span class="absolute inset-0" />
+                        {article.data.title}
+                      </h4>
+                    </a>
+                  </div>
+                </article>
+              </Fragment>
+            ))
           }
         </div>
       </div>

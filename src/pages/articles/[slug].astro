@@ -1,6 +1,6 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
 import getReadingTime from "@utils/getReadingTime";
+import { type CollectionEntry, getCollection } from "astro:content";
 import ArticleLayout from "./_layouts/ArticleLayout.astro";
 
 export async function getStaticPaths() {
@@ -17,8 +17,8 @@ interface Props {
   allArticles: CollectionEntry<"articles">[];
 }
 
-const { article, allArticles } = Astro.props;
-const { Content, headings } = await article.render();
+const { article, allArticles } = Astro.props,
+  { Content, headings } = await article.render();
 ---
 
 <ArticleLayout

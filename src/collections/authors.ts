@@ -47,16 +47,15 @@ export default defineCollection({
 });
 
 const username = (field: string) =>
-  z
-    .string()
-    .regex(
-      /^(?!https?:\/\/)/,
-      `${field} should not be a URL, but rather a username`,
-    )
-    .optional();
-
-const handle = (field: string) =>
-  z
-    .string()
-    .regex(/^@/, `${field} should start with the '@' symbol`)
-    .optional();
+    z
+      .string()
+      .regex(
+        /^(?!https?:\/\/)/,
+        `${field} should not be a URL, but rather a username`,
+      )
+      .optional(),
+  handle = (field: string) =>
+    z
+      .string()
+      .regex(/^@/, `${field} should start with the '@' symbol`)
+      .optional();

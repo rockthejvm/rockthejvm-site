@@ -162,7 +162,7 @@ export default function Example(props) {
                 >
                   Support
                 </h3>
-                <ul className="space-y-4 mt-6">
+                <ul className="mt-6 space-y-4">
                   {navigation.support.map((item) => (
                     <li key={item.name}>
                       <a

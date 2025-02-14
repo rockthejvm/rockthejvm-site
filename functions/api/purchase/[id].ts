@@ -82,9 +82,9 @@ const getPricingPlan = async (
 //   );
 
 export async function onRequestGet(context: EventContext): PagesFunction<Env> {
-  const { env, params } = context;
-  const apiKey = env.TEACHABLE_API_KEY;
-  const pricingPlanId = Number(params.id);
+  const { env, params } = context,
+    apiKey = env.TEACHABLE_API_KEY,
+    pricingPlanId = Number(params.id);
 
   if (!pricingPlanId) {
     return new Response("No pricingPlanId found", { status: 404 });
@@ -105,8 +105,8 @@ export async function onRequestGet(context: EventContext): PagesFunction<Env> {
   }
 
   const { pricing_plan: pricingPlan }: { pricing_plan: PricingPlan } =
-    await pricingPlanResponse.json();
-  const { price } = pricingPlan;
+      await pricingPlanResponse.json(),
+    { price } = pricingPlan;
   // const courseResponse = await getCourse(courseId, apiKey);
   // const { course }: { course: Course } = await courseResponse.json();
   // const { name, heading, lecture_sections: lectureSections } = course;

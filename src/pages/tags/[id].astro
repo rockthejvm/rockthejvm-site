@@ -1,14 +1,13 @@
 ---
-import { getCollection } from "astro:content";
 import Prose from "@components/Prose.astro";
 import NarrowContainer from "@containers/NarrowContainer";
 import Articles from "@pages/articles/_components/Articles.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
-  const tags = await getCollection("tags");
-  const articles = await getCollection("articles");
+  const tags = await getCollection("tags"),
+    articles = await getCollection("articles");
 
   return tags.map((tag) => ({
     params: { id: tag.id },
@@ -26,8 +25,8 @@ interface Props {
   tag: CollectionEntry<"tags">;
 }
 
-const { articles, tag } = Astro.props;
-const title = `Articles tagged with '${tag.id}'`;
+const { articles, tag } = Astro.props,
+  title = `Articles tagged with '${tag.id}'`;
 ---
 
 <BaseLayout {title} description={title}>

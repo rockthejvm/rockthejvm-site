@@ -6,15 +6,17 @@ import CoursesHelper from "./CoursesHelper";
 import MyPicture from "./MyPicture.astro";
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0].collection === "courses",
-);
-const memberss = courseSeriess.map((series) => series.data.members);
-const coursess = await Promise.all(
-  (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+    (series) => series.data.members[0].collection === "courses",
   ),
-);
-const categories = await getCollection("courseCategories");
+  memberss = courseSeriess.map((series) => series.data.members),
+  coursess = await Promise.all(
+    (memberss as CollectionEntry<"courses">[][]).map(async (members) =>
+      Promise.all(
+        members.map(async (member) => getEntry("courses", member.slug)),
+      ),
+    ),
+  ),
+  categories = await getCollection("courseCategories");
 ---
 
 <section class="mb-8 md:mb-16">

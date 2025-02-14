@@ -1,17 +1,16 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import Prose from "@components/Prose.astro";
 import NarrowContainer from "@containers/NarrowContainer";
+import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 interface Props {
   legal: CollectionEntry<"legals">;
 }
 
-const { legal } = Astro.props;
-const frontmatter = legal.data;
-
-const { description, title } = frontmatter;
+const { legal } = Astro.props,
+  frontmatter = legal.data,
+  { description, title } = frontmatter;
 ---
 
 <BaseLayout {description} {title}>

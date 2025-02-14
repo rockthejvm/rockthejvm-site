@@ -13,9 +13,9 @@ interface Props {
 }
 
 const { bundleImage, offer, prices, title, courseSlug, pricingPlanId } =
-  Astro.props;
-const checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`;
-const learnMoreURL = `/courses/${courseSlug}`;
+    Astro.props,
+  checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`,
+  learnMoreURL = `/courses/${courseSlug}`;
 ---
 
 <section class="mb-8 min-h-[60vh] md:mb-16">

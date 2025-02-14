@@ -14,17 +14,17 @@ interface Props {
   title: URIComponent;
 }
 
-const _props = Astro.props;
-const _domain = "https://og.rockthejvm.com";
-const _path = "/";
-const _queryString = Object.keys(_props)
-  .map(
-    (key) =>
-      `${encodeURIComponent(key)}=${encodeURIComponent(_props[key as keyof Props])}`,
-  )
-  .join("&");
-const imageURL = `${_domain}${_path}?${_queryString}&fontFamily=Roboto&fontVariant=regular&layout=article&layoutIndex=1`;
-const imageAlt = `Header image for ${_props.authorName.toString()}'s article titled '${_props.title.toString()}'.`;
+const _props = Astro.props,
+  _domain = "https://og.rockthejvm.com",
+  _path = "/",
+  _queryString = Object.keys(_props)
+    .map(
+      (key) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(_props[key as keyof Props])}`,
+    )
+    .join("&"),
+  imageURL = `${_domain}${_path}?${_queryString}&fontFamily=Roboto&fontVariant=regular&layout=article&layoutIndex=1`,
+  imageAlt = `Header image for ${_props.authorName.toString()}'s article titled '${_props.title.toString()}'.`;
 ---
 
 <meta property="og:image" content=`${imageURL}&configuration=og` />

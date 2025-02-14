@@ -8,12 +8,16 @@
   "editor.wordWrap": "off",
   "editor.wordWrapColumn": 80,
   "explorer.excludeGitIgnore": true,
+  "explorer.fileNesting.patterns": {
+    ".gitignore": ".gitattributes"
+  },
   "files.autoSave": "off",
   "files.encoding": "utf8",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.readonlyInclude": {
     "**/.gitignore": true,
+    "**/.gitattributes": true,
     "**/{,*-,*.}{lock,lockfile}{,-*,.*}": true,
     "**/{CHANGELOG,LICENSE,LEGAL}{,.*}": true
   },
@@ -23,7 +27,7 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": false,
   "git.mergeEditor": true,
-  "git.postCommitCommand": "sync",
+  "git.postCommitCommand": "none",
   "git.suggestSmartCommit": false,
   "html.format.enable": false,
   "javascript.format.enable": false,
@@ -41,6 +45,14 @@
     "**/*.xsl": true
   },
   "typescript.format.enable": false,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.suppressWhenTypeMatchesName": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.validate.enable": false,
   //// Language-Specific
@@ -66,7 +78,7 @@
   "editor.quickSuggestions": {
     "strings": "on"
   },
-  "tailwindCSS.validate": false,
+  "tailwindCSS.validate": true, // Temporarily enabled until eslint-plugin-tailwindcss works with Tailwind CSS v4 https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/384
   // christian-kohler.path-intellisense
   "javascript.suggest.paths": false,
   "path-intellisense.autoSlashAfterDirectory": true,
@@ -77,6 +89,9 @@
   "gitlens.currentLine.enabled": false,
   "gitlens.defaultDateFormat": "YYYY-MM-DD",
   "gitlens.defaultTimeFormat": "H:mm",
+  // EditorConfig.EditorConfig
+  "editorconfig.generateAuto": false,
+  "editorconfig.showMenuEntry": false,
   // GitHub.copilot
   "github.copilot.enable": {
     "*": true,
@@ -135,5 +150,5 @@
   },
   // trunk.io
   "editor.defaultFormatter": "trunk.io",
-  "trunk.showPreexistingIssues": true
+  "trunk.showPreexistingIssues": false
 }

@@ -11,23 +11,23 @@ interface Props {
   article: CollectionEntry<"articles">;
 }
 
-const { article } = Astro.props;
-const {
-  category: _category,
-  author: _author,
-  difficulty,
-  excerpt,
-  publishedDate: _publishedDate,
-  tags,
-  title,
-  updatedDate: _updatedDate,
-} = article.data;
-const date = _updatedDate ?? _publishedDate;
-const author = await getEntry("authors", _author.id);
-const category = await getEntry("articleCategories", _category.id);
-const entity = author.data.company
-  ? await getEntry("companies", author.data.company.entity.id)
-  : undefined;
+const { article } = Astro.props,
+  {
+    category: _category,
+    author: _author,
+    difficulty,
+    excerpt,
+    publishedDate: _publishedDate,
+    tags,
+    title,
+    updatedDate: _updatedDate,
+  } = article.data,
+  date = _updatedDate ?? _publishedDate,
+  author = await getEntry("authors", _author.id),
+  category = await getEntry("articleCategories", _category.id),
+  entity = author.data.company
+    ? await getEntry("companies", author.data.company.entity.id)
+    : undefined;
 ---
 
 <article class="card-shadow card-shadow-color rounded-2xl bg-secondary p-4">

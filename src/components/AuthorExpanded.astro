@@ -13,19 +13,19 @@ interface Props {
   author: CollectionEntry<"authors">;
 }
 
-const { author } = Astro.props;
-const { biography, company, name, photo, socials } = author.data;
-const role = company?.role;
-const companyName = company
-  ? await getEntry(company.entity.collection, company.entity.id).then(
-      (company) => company.data.title,
-    )
-  : undefined;
-const companyWebsite = company
-  ? await getEntry(company.entity.collection, company.entity.id).then(
-      (company) => company.data.website,
-    )
-  : undefined;
+const { author } = Astro.props,
+  { biography, company, name, photo, socials } = author.data,
+  role = company?.role,
+  companyName = company
+    ? await getEntry(company.entity.collection, company.entity.id).then(
+        (company) => company.data.title,
+      )
+    : undefined,
+  companyWebsite = company
+    ? await getEntry(company.entity.collection, company.entity.id).then(
+        (company) => company.data.website,
+      )
+    : undefined;
 ---
 
 <article
