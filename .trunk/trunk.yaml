@@ -75,7 +75,6 @@ lint:
 actions:
   enabled:
     # - astro-check
-    - git-lfs
     - pnpm-install
     - trunk-check-pre-push-always
     - trunk-fmt-pre-commit
@@ -93,6 +92,7 @@ actions:
             - pre-push
       run: npx astro check --minimumFailingSeverity error
   disabled:
+    - git-lfs
     - trunk-announce
     - trunk-check-pre-push
     - trunk-upgrade-available
