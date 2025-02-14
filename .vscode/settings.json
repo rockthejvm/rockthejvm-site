@@ -135,5 +135,7 @@
   },
   // trunk.io
   "editor.defaultFormatter": "trunk.io",
-  "trunk.showPreexistingIssues": true
+  "trunk.showPreexistingIssues": true,
+  // eliostruyf.vscode-front-matter
+  "frontMatter.dashboard.openOnStart": true
 }

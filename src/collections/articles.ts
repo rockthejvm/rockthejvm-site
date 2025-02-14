@@ -10,7 +10,7 @@ export default defineCollection({
         category: reference("articleCategories"),
         description: z
           .string()
-          .max(200, "Description must be at most 200 characters")
+          .max(160, "Description must be at most 160 characters")
           .optional(),
         difficulty: reference("difficulties"),
         excerpt: z.string().refine((excerpt) => !excerpt.endsWith("."), {
@@ -28,6 +28,7 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        keywords: z.array(z.string()).optional(),
         publishedDate: z.date(),
         repositoryUrl: z.string().url().optional(),
         tags: z
@@ -38,7 +39,7 @@ export default defineCollection({
             (tags) => tags.length === new Set(tags.map((tag) => tag.id)).size,
             { message: "All tags must be unique" },
           ),
-        title: z.string().max(70, "Title must be at most 70 characters"),
+        title: z.string().max(70, "Title must be at most 60 characters"),
         updatedDate: z.date().optional(),
         videoId: z.string().optional(),
       })

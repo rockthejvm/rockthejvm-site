@@ -17,6 +17,7 @@
         "christian-kohler.path-intellisense",
         "eamodio.gitlens",
         "EditorConfig.EditorConfig",
+        "eliostruyf.vscode-front-matter",
         "GitHub.copilot",
         "github.vscode-github-actions",
         "GitHub.vscode-pull-request-github",

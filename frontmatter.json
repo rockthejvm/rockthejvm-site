@@ -1,0 +1,314 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.taxonomy.dateFormat": "YYYY-MM-DD",
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "default",
+      "pageBundle": true,
+      "filePrefix": null,
+      "fileType": "mdx",
+      "clearEmpty": true,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true,
+          "required": true
+        },
+        {
+          "title": "Author",
+          "name": "author",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "andrei-liviu-georgescu",
+              "title": "Andrei Liviu Georgescu"
+            },
+            {
+              "id": "anirban-goswami",
+              "title": "Anirban Goswami"
+            },
+            {
+              "id": "antonio-gelameris",
+              "title": "Antonio Gelameris"
+            },
+            {
+              "id": "anzori-nika-ghurtchumelia",
+              "title": "Anzori (Nika) Ghurtchumelia"
+            },
+            {
+              "id": "daniel-beskin",
+              "title": "Daniel Beskin"
+            },
+            {
+              "id": "daniel-ciocirlan",
+              "title": "Daniel Ciocîrlan"
+            },
+            {
+              "id": "derick-bomen",
+              "title": "Derick Bomen"
+            },
+            {
+              "id": "dimitris-tsolis",
+              "title": "Dimitris Tsolis"
+            },
+            {
+              "id": "dmytro-mykhailov",
+              "title": "Dmytro Mykhailov"
+            },
+            {
+              "id": "giannis-polyzos",
+              "title": "Giannis Polyzos"
+            },
+            {
+              "id": "herbert-kateu",
+              "title": "Herbert Kateu"
+            },
+            {
+              "id": "lucas-nouguier",
+              "title": "Lucas Nouguier"
+            },
+            {
+              "id": "mark-rudolph",
+              "title": "Mark Rudolph"
+            },
+            {
+              "id": "niklas-uhrberg",
+              "title": "Niklas Uhrberg"
+            },
+            {
+              "id": "olivier-nouguier",
+              "title": "Olivier Nouguier"
+            },
+            {
+              "id": "riccardo-cardin",
+              "title": "Riccardo Cardin"
+            },
+            {
+              "id": "william-vincent-kennedy",
+              "title": "William Vincent Kennedy"
+            },
+            {
+              "id": "yadu-krishnan",
+              "title": "Yadu Krishnan"
+            }
+          ],
+          "default": "daniel-ciocirlan",
+          "required": true
+        },
+        {
+          "title": "Hero Image",
+          "name": "heroImage",
+          "type": "fields",
+          "fields": [
+            {
+              "title": "Image",
+              "name": "image",
+              "type": "image"
+            },
+            {
+              "title": "Alt",
+              "name": "title",
+              "single": true,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "title": "Description (For Google)",
+          "name": "description",
+          "type": "string",
+          "single": false,
+          "required": false
+        },
+        {
+          "title": "Excerpt (For Website)",
+          "name": "excerpt",
+          "type": "string",
+          "single": false,
+          "wysiwyg": "html",
+          "required": true
+        },
+        {
+          "title": "Difficulty",
+          "name": "difficulty",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "beginner",
+              "title": "Beginner"
+            },
+            {
+              "id": "intermediate",
+              "title": "Intermediate"
+            },
+            {
+              "id": "advanced",
+              "title": "Advanced"
+            }
+          ],
+          "default": "beginner",
+          "required": true
+        },
+        {
+          "title": "Category",
+          "name": "category",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "explanation",
+              "title": "Explanation"
+            },
+            {
+              "id": "guide",
+              "title": "Guide"
+            },
+            {
+              "id": "opinion",
+              "title": "Opinion"
+            },
+            {
+              "id": "retrospective",
+              "title": "Retrospective"
+            }
+          ],
+          "default": "guide",
+          "required": true
+        },
+        {
+          "title": "Published Date",
+          "name": "publishedDate",
+          "type": "datetime",
+          "default": "{{now}}",
+          "isPublishDate": true,
+          "required": true
+        },
+        {
+          "title": "Updated Date",
+          "name": "updatedDate",
+          "type": "datetime",
+          "isModifiedDate": true,
+          "required": false
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags",
+          "taxonomyLimit": 10,
+          "required": true
+        },
+        {
+          "title": "Section title",
+          "name": "sectionTitleWithDescription",
+          "description": "This is just a dummy description to test out the field description",
+          "type": "heading"
+        },
+        {
+          "name": "divider",
+          "type": "divider"
+        },
+        {
+          "title": "Repository URL",
+          "name": "repositoryUrl",
+          "type": "string",
+          "single": true,
+          "required": false
+        },
+        {
+          "title": "Video ID",
+          "name": "videoId",
+          "type": "string",
+          "single": true,
+          "required": false
+        },
+        {
+          "title": "Canonical URL",
+          "name": "canonicalUrl",
+          "type": "string",
+          "single": true,
+          "required": false
+        }
+      ]
+    }
+  ],
+  "frontMatter.framework.id": "astro",
+  "frontMatter.preview.host": "http://localhost:4321",
+  "frontMatter.content.fmHighlight": false,
+  "frontMatter.content.hideFm": true,
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "articles",
+      "path": "[[workspace]]/src/content/articles",
+      "previewPath": "/articles",
+      "trailingSlash": false
+    }
+  ],
+  "frontMatter.panel.freeform": false,
+  "frontMatter.global.activeMode": "minimal",
+  "frontMatter.dashboard.content.card.fields.state": false,
+  "frontMatter.taxonomy.seoTitleLength": 70,
+  "frontMatter.framework.startCommand": "pnpm run dev",
+  "frontMatter.global.modes": [
+    {
+      "id": "minimal",
+      "features": [
+        "dashboard.snippets.manage",
+        "dashboard.snippets.view",
+        "panel.actions",
+        "panel.contentType",
+        "panel.metadata",
+        "panel.seo"
+      ]
+    }
+  ],
+  "frontMatter.content.publicFolder": {
+    "relative": true
+  },
+  "frontMatter.git.enabled": false,
+  "frontMatter.panel.actions.disabled": ["optimizeSlug"],
+  "frontMatter.snippets.wrapper.enabled": false,
+  "frontMatter.content.snippets": {
+    "Admonition": {
+      "description": "",
+      "body": ["", ":::[[type]]", "", "[[message]]", "", ":::", ""],
+      "fields": [
+        {
+          "name": "type",
+          "title": "type",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "note",
+              "title": "Note"
+            },
+            {
+              "id": "tip",
+              "title": "Tip"
+            },
+            {
+              "id": "caution",
+              "title": "Caution"
+            },
+            {
+              "id": "danger",
+              "title": "Danger"
+            },
+            {
+              "id": "success",
+              "title": "Success"
+            }
+          ],
+          "default": "note"
+        },
+        {
+          "name": "message",
+          "title": "message",
+          "type": "string",
+          "single": true,
+          "default": ""
+        }
+      ]
+    }
+  }
+}
