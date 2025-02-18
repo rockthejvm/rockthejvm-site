@@ -14,7 +14,9 @@ const courseSeriess = (await getCollection("seriess")).filter(
       ),
     ),
   ),
-  courseList = coursess.flat().filter(course => course.data.includedInMembership);
+  courseList = coursess
+    .flat()
+    .filter((course) => course.data.includedInMembership);
 ---
 
 <Section color="bg-secondary" title="Courses Included">
