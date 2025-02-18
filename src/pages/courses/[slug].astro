@@ -14,8 +14,8 @@ interface Props {
   course: CollectionEntry<"courses">;
 }
 
-const { course } = Astro.props;
-const { Content } = await course.render();
+const { course } = Astro.props,
+  { Content } = await course.render();
 ---
 
 <Content />

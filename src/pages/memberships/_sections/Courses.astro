@@ -1,21 +1,20 @@
 ---
-import { type CollectionEntry, getCollection, getEntry } from "astro:content";
 import CourseCardVertical from "@components/CourseCardVertical.astro";
 import Section from "@components/Section.astro";
+import { type CollectionEntry, getCollection, getEntry } from "astro:content";
 
 const courseSeriess = (await getCollection("seriess")).filter(
-  (series) => series.data.members[0].collection === "courses",
-);
-const memberss = courseSeriess.map((series) => series.data.members);
-const coursess = await Promise.all(
-  (memberss as CollectionEntry<"courses">[][]).map((members) =>
-    Promise.all(members.map((member) => getEntry("courses", member.slug))),
+    (series) => series.data.members[0].collection === "courses",
   ),
-);
-
-const courseList = coursess
-  .reduce((accumulator, value) => accumulator.concat(value), [])
-  .filter((course) => course.data.includedInMembership);
+  memberss = courseSeriess.map((series) => series.data.members),
+  coursess = await Promise.all(
+    (memberss as CollectionEntry<"courses">[][]).map(async (members) =>
+      Promise.all(
+        members.map(async (member) => getEntry("courses", member.slug)),
+      ),
+    ),
+  ),
+  courseList = coursess.flat().filter(course => course.data.includedInMembership);
 ---
 
 <Section color="bg-secondary" title="Courses Included">

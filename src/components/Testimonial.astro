@@ -1,6 +1,6 @@
 ---
-import { type CollectionEntry, getEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
+import { type CollectionEntry, getEntry } from "astro:content";
 import MyPicture from "./MyPicture.astro";
 import TestimonialHelper from "./TestimonialHelper";
 
@@ -8,13 +8,13 @@ interface Props {
   testimonial: CollectionEntry<"testimonials">;
 }
 
-const { testimonial } = Astro.props;
-const frontmatter = testimonial.data;
-const { Content } = await testimonial.render();
-const { link, location, name, photo } = frontmatter;
-const company = await getEntry(frontmatter.company.entity);
-const companyTitle = company.data.title;
-const companyRole = frontmatter.company.role;
+const { testimonial } = Astro.props,
+  frontmatter = testimonial.data,
+  { Content } = await testimonial.render(),
+  { link, location, name, photo } = frontmatter,
+  company = await getEntry(frontmatter.company.entity),
+  companyTitle = company.data.title,
+  companyRole = frontmatter.company.role;
 ---
 
 <TestimonialHelper {companyTitle} {link} {location} {name} {companyRole}>

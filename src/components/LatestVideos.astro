@@ -59,25 +59,23 @@ import MyPicture from "./MyPicture.astro";
         </a>
         <div class="py-4 sm:py-4">
           {
-            latestVideos.map(async (video) => {
-              return (
-                <Fragment>
-                  <article class="max-w-full hover:bg-primary hover:text-content-2">
-                    <div class="group relative mx-auto">
-                      <h4 class="article-home-link mx-auto my-1 px-4 py-2.5 text-center text-lg font-normal leading-6 text-content no-underline group-hover:text-content-2">
-                        <a
-                          href={video.url}
-                          class="text-content no-underline hover:no-underline group-hover:text-content-2"
-                        >
-                          <span class="absolute inset-0" />
-                          {video.title}
-                        </a>
-                      </h4>
-                    </div>
-                  </article>
-                </Fragment>
-              );
-            })
+            latestVideos.map(async (video) => (
+              <Fragment>
+                <article class="max-w-full hover:bg-primary hover:text-content-2">
+                  <div class="group relative mx-auto">
+                    <h4 class="article-home-link mx-auto my-1 px-4 py-2.5 text-center text-lg font-normal leading-6 text-content no-underline group-hover:text-content-2">
+                      <a
+                        href={video.url}
+                        class="text-content no-underline hover:no-underline group-hover:text-content-2"
+                      >
+                        <span class="absolute inset-0" />
+                        {video.title}
+                      </a>
+                    </h4>
+                  </div>
+                </article>
+              </Fragment>
+            ))
           }
         </div>
       </div>

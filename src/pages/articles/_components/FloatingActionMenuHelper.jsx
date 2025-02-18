@@ -45,13 +45,13 @@ export default function Example(props) {
           className="col-span-1 ml-4 h-10 rounded-md border border-content px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           Table of Contents
-          <button
-            type="button"
-            onClick={handleShareToggle}
-            className="col-span-1 mr-4 h-10 rounded-md border border-content px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          >
-            Share
-          </button>
+        </button>
+        <button
+          type="button"
+          onClick={handleShareToggle}
+          className="col-span-1 mr-4 h-10 rounded-md border border-content px-3.5 py-2.5 text-center text-sm font-semibold text-content shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          Share
         </button>
       </div>
     </div>

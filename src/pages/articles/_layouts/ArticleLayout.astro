@@ -1,5 +1,4 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import ArticleSeries from "@components/ArticleSeries.astro";
 import MyYouTube from "@components/MyYouTube.astro";
 import Prose from "@components/Prose.astro";
@@ -11,6 +10,8 @@ import site from "@data/site.json";
 import capitalizeFirstChar from "@utils/capitalizeFirstChar";
 import formatDate from "@utils/formatDate";
 import type { MarkdownHeading } from "astro";
+import "astro-starlight-remark-asides/styles.css";
+import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
 import AuthorWide from "../../../components/AuthorWide.astro";
 import Byline from "../../../components/Byline.astro";
@@ -21,7 +22,6 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
-import "astro-starlight-remark-asides/styles.css";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -30,71 +30,67 @@ interface Props {
   minutesRead: number;
 }
 
-const { article, allArticles, headings, minutesRead } = Astro.props;
-const frontmatter = article.data;
-const {
-  canonicalUrl,
-  description,
-  difficulty,
-  excerpt,
-  heroImage,
-  publishedDate,
-  repositoryUrl,
-  title,
-  updatedDate,
-  videoId,
-} = frontmatter;
-const date = updatedDate ?? publishedDate;
-const category = await getEntry("articleCategories", article.data.category.id);
-const author = await getEntry(
-  frontmatter.author.collection,
-  frontmatter.author.id,
-);
-const tags = await getEntries(frontmatter.tags);
-
-const structuredData = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  author: [
-    {
-      "@type": "Person",
-      name: author.data.name,
-      url: `${Astro.site!}/authors/${author.id}`,
-    },
-  ],
-  publisher: {
-    "@type": "Organization",
-    name: site.name,
-    url: Astro.site,
-  },
-  dateModified: updatedDate,
-  datePublished: publishedDate,
-  headline: title,
-  image: heroImage?.image.src,
-});
-
-const ArticleMatchSchema = z.object({
-  all_matches: z.array(
-    z.object({
-      matched_slug: z.string(),
-      similarity: z.number(),
-      source_slug: z.string(),
-    }),
+const { article, allArticles, headings, minutesRead } = Astro.props,
+  _frontmatter = article.data,
+  {
+    canonicalUrl,
+    description,
+    difficulty,
+    excerpt,
+    heroImage,
+    publishedDate,
+    repositoryUrl,
+    title,
+    updatedDate,
+    videoId,
+  } = _frontmatter,
+  date = updatedDate ?? publishedDate,
+  category = await getEntry("articleCategories", article.data.category.id),
+  author = await getEntry(
+    _frontmatter.author.collection,
+    _frontmatter.author.id,
   ),
-});
-
-const matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
+  tags = await getEntries(_frontmatter.tags),
+  structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    author: [
+      {
+        "@type": "Person",
+        name: author.data.name,
+        url: `${Astro.site!}/authors/${author.id}`,
+      },
+    ],
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      url: Astro.site,
+    },
+    dateModified: updatedDate,
+    datePublished: publishedDate,
+    headline: title,
+    image: heroImage?.image.src,
+  }),
+  ArticleMatchSchema = z.object({
+    all_matches: z.array(
+      z.object({
+        matched_slug: z.string(),
+        similarity: z.number(),
+        source_slug: z.string(),
+      }),
+    ),
+  }),
+  matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
 
 if (!matchedArticlesDataResult.success) {
   throw new Error("Failed to parse matched articles data");
 }
 
 const matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
-  matchedArticlesDataResult.data;
-
-const matches = matchedArticlesData.all_matches.filter(
-  (match) => match.source_slug === article.slug,
-);
+    matchedArticlesDataResult.data,
+  matches = matchedArticlesData.all_matches.filter(
+    (match) => match.source_slug === article.slug,
+  );
 
 matches.sort((a, b) => b.similarity - a.similarity);
 
@@ -132,20 +128,26 @@ const relatedArticles = matches.map((match) =>
   searchIndexable={true}
 >
   <NarrowContainer>
+    <div data-pagefind-filter={`Difficulties: ${difficulty.id}`}></div>
     <div data-pagefind-filter="Categories:Articles (All)"></div>
     <div
       data-pagefind-filter={`Categories:Articles (${(() => {
         switch (category.data.name) {
-          case "Explanation":
+          case "Explanation": {
             return "Explanations";
-          case "Guide":
+          }
+          case "Guide": {
             return "Guides";
-          case "Opinion":
+          }
+          case "Opinion": {
             return "Opinions";
-          case "Retrospective":
+          }
+          case "Retrospective": {
             return "Retrospectives";
-          default:
+          }
+          default: {
             return "";
+          }
         }
       })()})`}
     >

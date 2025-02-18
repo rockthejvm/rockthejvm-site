@@ -24,9 +24,6 @@ export default defineCollection({
                 message: "Hero image must be at least 1200x630",
               },
             ),
-            // .refine((image) => image.width / image.height === 1.91, {
-            //   message: "Hero image aspect ratio must be 1.91:1",
-            // }),
             alt: z.string(),
           })
           .strict()
@@ -36,17 +33,14 @@ export default defineCollection({
         tags: z
           .array(reference("tags"))
           .min(1, "Article must have at least one tag")
-          .max(10, "Article must have at most three tags")
+          .max(10, "Article must have at most ten tags")
           .refine(
             (tags) => tags.length === new Set(tags.map((tag) => tag.id)).size,
             {
               message: "All tags must be unique",
             },
           ),
-        title: z
-          .string()
-          .min(30, "Title must be at least 30 characters")
-          .max(70, "Title must be at most 70 characters"),
+        title: z.string().max(70, "Title must be at most 70 characters"),
         updatedDate: z.date().optional(),
         videoId: z.string().optional(),
       })

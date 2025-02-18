@@ -30,7 +30,7 @@
       ]
     }
   },
-  "updateContentCommand": "pnpm install --frozen-lockfile && npx trunk install",
+  "updateContentCommand": "pnpm install --frozen-lockfile && npx astro sync && npx trunk install",
   "postAttachCommand": "pnpm run dev",
   "forwardPorts": [4321],
   "portsAttributes": {

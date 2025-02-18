@@ -1,0 +1,316 @@
+---
+title: "Scala 3 Inlines Explained"
+excerpt: "Learn Scala 3 inlines - a powerful tool for code expansion at compile time, which can improve type safety and (if you know what you're doing) performance"
+publishedDate: 2025-02-01
+difficulty: beginner
+category: explanation
+tags: [scala, scala-3, metaprogramming]
+repositoryUrl: https://github.com/rockthejvm/scala-3-inlines-demo
+videoId: z6dbDqclE34
+---
+
+## Introduction
+
+Scala 3 offers some magical features of metaprogramming, i.e. the ability to expand, synthesize or manipulate well-typed code at compile time. Other programming languages also offer various forms of metaprogramming: Lisp is the gold standard of metaprogramming due to the _homoiconic_ (= identical) representation of code and data, others offer a variety of text processors, quasi-quotes, compiler plugins or other forms of post-compile code transformers. However, no other language can offer full-blown code processing _during_ compilation, with all the proper types in place, using the same representation and data structures as the original language, like Scala does.
+
+This article is about inlines, the most basic form of metaprogramming. In a future article, we'll also discuss macros, which are the most powerful (and currently unmatched) metaprogramming capability of Scala.
+
+:::tip
+
+This article is gives you a sneak peek into the [Scala Macros and Metaprogramming course](/courses/scala-macros-and-metaprogramming). This course will help you become a true master of Scala - with metaprogramming, you'll be able to build tools and libraries that other developers in other languages can only dream about.
+
+I highly encourage you to read the article and try out the code here. If this piques your interest, check out the Scala metaprogramming course [here](/courses/scala-macros-and-metaprogramming).
+
+:::
+
+## Scala Inlines
+
+The concept of an inline is straightforward: we can add the the keyword `inline` before a method definition, and all invocations of this method will not be compiled to a function call in the JVM, but rather the entire implementation of the method will be _copied_ (inlined) at the call site.
+
+If you want to follow the code (highly recommended), it's worth adding this to your `build.sbt` and running an `sbt ~compile` command in the root of your project to keep track of the latest code that will end up being compiled:
+
+```scala
+ThisBuild / scalacOptions ++= Seq(
+  "-Xprint:postInlining",
+  "-Xmax-inlines:100000"
+)
+```
+
+Let's start with a simple function, of the sort
+
+```scala
+
+def increment(x: Int): Int = x + 1
+
+```
+
+By adding the `inline` keyword before it, all invocations will be replaced with the method body. Let's compare. Assume we have a similar inline method and a bunch of method calls:
+
+```scala
+def increment(x: Int): Int = x + 1
+inline def inc(x: Int): Int = x + 1
+
+val aNumber = 3
+val four = increment(aNumber)
+val four_v2 = inc(aNumber)
+```
+
+The SBT output is
+
+```scala
+...
+[info]     def increment(x: Int): Int = x.+(1)
+[info]     inline def inc(x: Int): Int = x.+(1):Int
+[info]     val aNumber: Int = 3
+[info]     val four: Int =
+[info]       com.rockthejvm.inlines.SimpleInlines.increment(
+[info]         com.rockthejvm.inlines.SimpleInlines.aNumber)
+[info]     val four_v2: Int = com.rockthejvm.inlines.SimpleInlines.aNumber.+(1):Int
+...
+```
+
+In other words, the normal method is a method call (how else can you say it?), but the inline method was replaced with the method body, where the arguments are (obviously) replaced with their values.
+
+Now, because method arguments must always be computed before the final expression of the method, if we pass a more complex expression as an argument to `inc`, we'll have the compiler generate code that will first compute the argument, then that intermediate result will be used in the method body expansion. Let's share an example:
+
+```scala
+val eight = inc(2 * aNumber + 1)
+```
+
+Saving the file and checking SBT output one more time, we get
+
+```scala
+...
+[info]     val eight: Int =
+[info]       {
+[info]         val x$proxy1: Int =
+[info]           2.*(com.rockthejvm.inlines.SimpleInlines.aNumber).+(1)
+[info]         x$proxy1.+(1):Int
+[info]       }
+...
+```
+
+So first, we have an intermediate result with a synthetic name which is the result of the expression we pass as argument to the method, then the inline expands the method call with the method body, where the argument now refers to this intermediate result. We can intuitively expect this mechanism to occur for methods with multiple parameters.
+
+## Inline Arguments
+
+It's also possible to make the compiler _not_ compute the intermediate results for the expressions of the arguments, and rather inline (expand) the arguments of the methods exactly as they are, in the method body, in the method invocation. These are `inline` arguments.
+
+```scala
+// inline arguments - expanded within the method body
+inline def incia(inline x: Int) = x + 1
+```
+
+In this case, if we call
+
+```scala
+val eight_v2 = incia(2 * aNumber + 1)
+```
+
+we can see that the expression is not evaluated to an intermediate result anymore, but it's copied in the method body, which is itself copied at the call site:
+
+```scala
+...
+[info]     val eight_v2: Int =
+[info]       2.*(com.rockthejvm.inlines.SimpleInlines.aNumber).+(1).+(1):Int
+...
+```
+
+With an inline argument, _every reference of the argument in the method body will be replaced by the expression used at call site_. If you think about it, it's very conceptually similar to the idea of a _by-name_ call, in which a method argument will only be computed when used, every time it's referred to inside the method. The difference to an inline argument is that the replacement of the argument with its expression happens deterministically at compile time.
+
+If we have methods with more than one argument, the Scala language allows us to choose freely which one to mark inline or not. However, only inline methods may have inline arguments.
+
+## Transparent Inlines in Scala
+
+Inlining code is often great, because it's very clear which code will be executed and which will not. Inlining code can also help the compiler infer _more precise_ types, because if a method is declared to return a general type, inlining might go on a path that returns a more concrete type. Regular methods may not make this inference, even though we as programmers can clearly tell:
+
+```scala
+def wrap(x: Int): Option[Int] = Some(x)
+```
+
+This method clearly returns a type that is more concrete than `Option[Int]`, but we cannot make that assumption in the code, because the compiler will forbid it:
+
+```scala
+val myWrapper: Some[Int] = wrap(2) // error: type mismatch
+```
+
+However, if we make the method inline, we can turn on a flag that will make the compiler do better inference of the type of the expression which replaces the method call, at the call site. This flag is called `transparent` and may be placed in front of the `inline def`, as follows:
+
+```scala
+transparent inline def wrap(x: Int): Option[Int] = Some(x)
+```
+
+In this case, both of the following statements are correct and accepted by the compiler:
+
+```scala
+val myWrapper: Option[Int] = wrap(2) // ok, normal "polymorphism"
+val myWrapper: Some[Int] = wrap(2) // also ok
+```
+
+The second is particularly useful, because if we have access to more concrete types, we can make further assumptions about the value in later code. In practical terms, that means we may have access to fields and methods that the general type may not have.
+
+Methods marked `transparent inline` are particularly useful in combination with macros, because the code generated with macros may have special properties depending on the values we pass as parameters. We have concrete examples in the macros & metaprogramming [course](/courses/scala-macros-and-metaprogramming).
+
+So why not just add `transparent` on every inline? It's obviously better than not having it, right?
+
+In libraries or pieces of code that return highly complicated types which use higher-kinds, variance, f-bounds, recursive types or type lambdas, we need to be careful with `transparent inline`s, because this flag makes the compiler try its type inference as deep as possible in the inlined code, which might grow your compilation times. Even a few nested or chained inlines can make the compilation increasingly slow.
+
+## Performance
+
+One obvious feature of inlines is the potential to improve performance, because we aren't relying on method calls which may cause extra indirection, but rather copy the entire code right at the call site. This is particularly useful when calling a particular method a lot. In this case, the overhead of a method call may prove significant, especially if the method arguments are functions as well.
+
+Here is an example of code that may occur in real life: a double loop that calls a function on every element, one of the first lessons we learn as programmers. Let's say you want to write a fancy API for a loop that runs like a C-style `for` loop, with a function call on every element:
+
+```scala
+def loop[A](start: A, condition: A => Boolean, advance: A => A)(action: A => Any) = {
+    var a = start
+    while (condition(a)) {
+        action(a)
+        a = advance(a)
+    }
+}
+```
+
+You feel great about it, because you hide the ugly parts (var, while loop) in a nice functional API.
+
+Imagine we call the lambda in a `loop` function about a billion times:
+
+```scala
+def testNoInline() = {
+  def loop[A](start: A, condition: A => Boolean, advance: A => A)(action: A => Any) = {
+    var a = start
+    while (condition(a)) {
+      action(a)
+      a = advance(a)
+    }
+  }
+  val start = System.currentTimeMillis()
+  val r = Random().nextInt(10000)
+  val u = Random().nextInt(10000)
+  val arr = Array.ofDim[Int](10000)
+  loop(0, _ < 10000, _ + 1) { i =>
+    loop(0, _ < 100000, _ + 1) { j =>
+      arr(i) = arr(i) + u
+    }
+    arr(i) = arr(i) + r
+  }
+  println(s"Basic version: ${(System.currentTimeMillis() - start) / 1000.0} s")
+}
+```
+
+On a Macbook M3, this code gives the output:
+
+```text
+Basic version: 1.197 s
+```
+
+This code is fairly straightforward: about 10000 times, we call a lambda, and that lambda calls another one 100000 times. In total, the array is modified a billion times, through function calls.
+
+What happens if we make the `loop` function inline?
+
+```scala
+inline def loop[A](inline start: A, inline condition: A => Boolean, inline advance: A => A)(inline action: A => Any) = {
+  var a = start
+  while (condition(a)) {
+    action(a)
+    a = advance(a)
+  }
+}
+```
+
+Same code, just with `inline` definition and `inline` parameters. This means that any invocation of `loop` will copy all the arguments verbatim, as well as the method implementation. In other words, our double-for-loop we tested is going to turn into some pretty ugly code, but we will have no more function calls on the lambda at all.
+
+Concretely, the nested loop in this code
+
+```scala
+def testInline() = {
+  inline def loop[A](inline start: A, inline condition: A => Boolean, inline advance: A => A)(inline action: A => Any) = {
+    var a = start
+    while (condition(a)) {
+      action(a)
+      a = advance(a)
+    }
+  }
+  val start = System.currentTimeMillis()
+  val r = Random().nextInt(10000)
+  val u = Random().nextInt(10000)
+  val arr = Array.ofDim[Int](10000)
+  loop(0, _ < 10000, _ + 1) { i =>
+    loop(0, _ < 100000, _ + 1) { j =>
+      arr(i) = arr(i) + u
+    }
+    arr(i) = arr(i) + r
+  }
+  println(s"Inline version: ${(System.currentTimeMillis() - start) / 1000.0} s")
+}
+```
+
+will be turned into the following:
+
+```scala
+[info]         {
+[info]           var a: Int = 0
+[info]           (while
+[info]             {
+[info]               val _$1: Int = a
+[info]               _$1.<(10000)
+[info]             }
+[info]            do
+[info]             {
+[info]               {
+[info]                 val i: Int = a
+[info]                 {
+[info]                   {
+[info]                     var a: Int = 0
+[info]                     (while
+[info]                       {
+[info]                         val _$3: Int = a
+[info]                         _$3.<(100000)
+[info]                       }
+[info]                      do
+[info]                       {
+[info]                         {
+[info]                           val j: Int = a
+[info]                           arr.update(i, arr.apply(i).+(u))
+[info]                         }
+[info]                         a =
+[info]                           {
+[info]                             val _$4: Int = a
+[info]                             _$4.+(1)
+[info]                           }
+[info]                       }
+[info]                     )
+[info]                   }:Unit
+[info]                   arr.update(i, arr.apply(i).+(r))
+[info]                 }
+[info]               }
+[info]               a =
+[info]                 {
+[info]                   val _$2: Int = a
+[info]                   _$2.+(1)
+[info]                 }
+[info]             }
+[info]           )
+[info]         }:Unit
+```
+
+In other words, it was turned into a nested `while` loops in the native (ugly) procedural implementation. Obviously, this happens behind the scenes, so the programmer sees none of it. But what we do see is the performance:
+
+```text
+Inline version: 0.115 s
+```
+
+That is, about 10x faster!
+
+## Conclusion
+
+We have just witnessed some benefits of inlining in Scala:
+
+- the ability to replace the invocations of a method with its body
+- the ability to inline (replace) all _arguments_ of a method with the expressions they were used with
+- the better type inference with the `transparent` modifier, at the cost of extra compiler overhead
+- potentially better performance due to the avoidance of method calls, especially for methods that are called very often
+
+For the full code, check out the GitHub repository, with the link at the top.
+
+There is more where that came from: inlines also have the capability to evaluate if-statements at compile time (inline conditionals), or pattern matching (inline matches), and the `compiletime` package offers some nice compile-time benefits like error reporting, circumventing (some) type erasure, and a few others - if you're interested, check out the Scala metaprogramming course [here](/courses/scala-macros-and-metaprogramming).

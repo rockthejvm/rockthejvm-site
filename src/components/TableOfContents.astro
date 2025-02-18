@@ -10,9 +10,8 @@ interface Props {
   videoId?: string;
 }
 
-const { headings, hideButtons, repositoryUrl, videoId } = Astro.props;
-
-const filteredHeadings = headings.filter((heading) => heading.depth === 2);
+const { headings, hideButtons, repositoryUrl, videoId } = Astro.props,
+  filteredHeadings = headings.filter((heading) => heading.depth === 2);
 ---
 
 {

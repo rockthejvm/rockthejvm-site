@@ -6,8 +6,8 @@ import ArticleLink from "./ArticleLink.astro";
 interface Props {
   articles?: CollectionEntry<"articles">[];
 }
-const allArticles = await getCollection("articles");
-const { articles = allArticles } = Astro.props;
+const allArticles = await getCollection("articles"),
+  { articles = allArticles } = Astro.props;
 ---
 
 <ul>

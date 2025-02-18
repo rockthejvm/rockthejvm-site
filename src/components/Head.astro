@@ -34,21 +34,20 @@ interface Props {
   type: string;
 }
 const {
-  article,
-  canonicalUrl,
-  forcedTheme,
-  description,
-  error,
-  image: _image,
-  structuredData,
-  title,
-  type,
-} = Astro.props;
-
-const image = {
-  alt: _image.alt,
-  src: `https://${site.domain}${_image.src}`,
-};
+    article,
+    canonicalUrl,
+    forcedTheme,
+    description,
+    error,
+    image: _image,
+    structuredData,
+    title,
+    type,
+  } = Astro.props,
+  image = {
+    alt: _image.alt,
+    src: `https://${site.domain}${_image.src}`,
+  };
 
 // const socialLinks = Object.entries(site.socials).map((social) => social[1].url);
 ---
