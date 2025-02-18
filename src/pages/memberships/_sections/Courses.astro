@@ -13,10 +13,9 @@ const coursess = await Promise.all(
   ),
 );
 
-const courseList = coursess.reduce(
-  (accumulator, value) => accumulator.concat(value),
-  [],
-);
+const courseList = coursess
+  .reduce((accumulator, value) => accumulator.concat(value), [])
+  .filter((course) => course.data.includedInMembership);
 ---
 
 <Section color="bg-secondary" title="Courses Included">
