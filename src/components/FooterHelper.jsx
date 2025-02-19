@@ -30,17 +30,17 @@ const navigation = {
   support: [
     { name: "Contact", href: "/contact" },
     { name: "Memberships", href: "/memberships" },
-    { name: "Refunds", href: "/refunds" },
   ],
   company: [
     { name: "About", href: "/about" },
     // { name: "News", href: "/news" },
   ],
-  legal: [
-    { name: "Cookies", href: "/legal/cookies" },
-    { name: "Privacy", href: "/legal/privacy" },
-    { name: "Terms", href: "/legal/terms" },
-    { name: "Trademarks", href: "/legal/trademarks" },
+  policies: [
+    { name: "Cookie", href: "/policies/cookie" },
+    { name: "Privacy", href: "/policies/privacy" },
+    { name: "Refund", href: "/policies/refund" },
+    { name: "Terms", href: "/policies/terms" },
+    { name: "Trademark", href: "/policies/trademark" },
   ],
   // social: [
   //   {
@@ -208,10 +208,10 @@ export default function Example(props) {
                 <h3
                   className={`text-sm font-semibold leading-6 ${props.holiday ? "text-holiday-content-1" : "text-content"}`}
                 >
-                  Legal
+                  Policies
                 </h3>
                 <ul className="mt-6 space-y-4">
-                  {navigation.legal.map((item) => (
+                  {navigation.policies.map((item) => (
                     <li key={item.name}>
                       <a
                         href={item.href}

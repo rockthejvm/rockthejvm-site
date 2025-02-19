@@ -1,5 +1,5 @@
 ---
-description: Our Privacy Policy, which outlines how we collect, use, and protect your personal information. Learn about your rights regarding your data and our commitment to maintaining your privacy. Your trust is important to us—read more to understand our practices and how we ensure your information is secure.
+description: Review our Privacy Policy to understand how we collect, use, and protect your personal information.
 title: Privacy Policy
 ---
 
@@ -22,7 +22,7 @@ The School may collect and use Students’ personal identification information f
 
 ## Cookies
 
-We use cookies and similar technologies to enhance your experience on our site. For detailed information, please refer to our [Cookie Policy](/legal/cookies).
+We use cookies and similar technologies to enhance your experience on our site. For detailed information, please refer to our [Cookie Policy](/policies/cookie).
 
 ## Sharing your personal information
 

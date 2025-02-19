@@ -1,6 +1,6 @@
 ---
-description: Discover our Trademarks policy, which outlines the registered and unregistered trademarks owned by our company. Learn about the proper use of our trademarks, the protection of our brand identity, and the guidelines for referencing our trademarks in your communications. Respecting our intellectual property is important—read more to stay informed.
-title: Trademarks
+description: Learn about our Trademark Policy, including how our trademarks are protected and guidelines for their use. Your respect for our trademarks helps maintain the integrity of our brand.
+title: Trademark Policy
 ---
 
 ## Become a Rockstar Programmer

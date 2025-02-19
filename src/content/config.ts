@@ -5,9 +5,9 @@ import companies from "@collections/companies";
 import courseCategories from "@collections/courseCategories";
 import courses from "@collections/courses";
 import difficulties from "@collections/difficulties";
-import legals from "@collections/legals";
 import memberships from "@collections/memberships";
 import newsletters from "@collections/newsletters";
+import policies from "@collections/policies";
 import prerequisites from "@collections/prerequisites";
 import seriess from "@collections/seriess";
 import socials from "@collections/socials";
@@ -22,7 +22,7 @@ export const collections = {
   courseCategories,
   courses,
   difficulties,
-  legals,
+  policies,
   memberships,
   newsletters,
   prerequisites,

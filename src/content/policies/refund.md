@@ -1,11 +1,7 @@
 ---
-description: Review our Refund Policy to understand the terms and conditions regarding returns and refunds for our products and services. This page outlines the eligibility criteria, process for requesting a refund, and any applicable timeframes. Your satisfaction is our priority—read more to ensure a smooth refund experience.
+description: Review our Refund Policy for information on returns, refunds, and exchanges. We strive to ensure customer satisfaction and provide a fair process for handling returns.
 title: Refund Policy
 ---
-
-import Informational from "../components/InformationalLayout.astro";
-
-<Informational description={frontmatter.description} title={frontmatter.title}>
 
 This policy governs the manner in which the School may refund purchases of courses, memberships or other products.
 
@@ -43,5 +39,3 @@ Memberships aren't refundable, though.
 ## Statistics
 
 As of October 2024, the refund rate is less than 0.2% and every transaction is returned in less than 72 hours.
-
-</Informational>

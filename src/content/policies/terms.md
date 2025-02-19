@@ -1,5 +1,5 @@
 ---
-description: Explore our Terms of Use to understand the guidelines for accessing and utilizing our website and services. This document details your rights, responsibilities, and the legal framework that governs your interactions with us. Stay informed about our policies to ensure a positive experience while using our platform.
+description: Read our Terms of Use to understand the rules and guidelines for using our website and services. Your access to and use of our site constitutes acceptance of these terms.
 title: Terms of Use
 ---
 

@@ -96,19 +96,24 @@ export default defineConfig({
   redirects: {
     // Internal
     "/articles": "/articles/1",
-    // Legal
     "/p/about-us": "/about",
     "/p/home": "/",
-    "/p/logo-trademarks": "/legal/trademarks",
-    "/p/membership": "/memberships",
-    "/p/privacy": "/legal/privacy",
     "/p/team-pack": "/memberships",
-    "/p/terms": "/legal/terms",
     "/black-friday-2024": "/black-friday",
     "/black-friday": {
       status: 302,
       destination: "/",
     },
+    "/p/membership": "/memberships",
+    // Policies
+    "/p/logo-trademarks": "/policies/trademark",
+    "/legal/trademarks": "/policies/trademark",
+    "/p/privacy": "/policies/privacy",
+    "/legal/privacy": "/policies/privacy",
+    "/p/terms": "/policies/terms",
+    "/legal/terms": "/policies/terms",
+    "/refunds": "/policies/refund",
+    "/legal/cookies": "/policies/cookie",
     // Courses
     "/p/advanced-kotlin": "/courses/advanced-kotlin",
     "/p/advanced-scala": "/courses/advanced-scala",

@@ -1,5 +1,5 @@
 ---
-description: This page outlines our cookie policy, explaining what cookies are, how we use them, and how you can manage your cookie preferences.
+description: Discover how we use cookies to enhance your browsing experience. Our Cookie Policy explains what cookies are, how we use them, and how you can manage your cookie preferences.
 title: Cookie Policy
 ---
 

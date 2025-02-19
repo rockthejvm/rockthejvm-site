@@ -5,11 +5,11 @@ import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 interface Props {
-  legal: CollectionEntry<"legals">;
+  policy: CollectionEntry<"policies">;
 }
 
-const { legal } = Astro.props,
-  frontmatter = legal.data,
+const { policy } = Astro.props,
+  frontmatter = policy.data,
   { description, title } = frontmatter;
 ---
 
