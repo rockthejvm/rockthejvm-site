@@ -1,5 +1,5 @@
+import site from "@/data/site.json";
 import Cookies from "js-cookie";
-import site from "../data/site.json";
 
 /*
   This example requires some changes to your config:

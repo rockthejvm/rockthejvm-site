@@ -1,8 +1,8 @@
 ---
-import Prose from "@components/Prose.astro";
-import NarrowContainer from "@containers/NarrowContainer";
+import Prose from "@/components/Prose.astro";
+import NarrowContainer from "@/containers/NarrowContainer";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { CollectionEntry } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 interface Props {
   policy: CollectionEntry<"policies">;

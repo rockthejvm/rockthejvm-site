@@ -3,7 +3,7 @@ description: The best training material on Java, Scala, Akka and the JVM, on the
 title: The Rock the JVM Story
 ---
 
-import site from "@data/site.json";
+import site from "@/data/site.json";
 
 export const structuredData = JSON.stringify({
     "@context": "https://schema.org",
@@ -15,7 +15,7 @@ export const structuredData = JSON.stringify({
     url: "https://rockthejvm.com",
 });
 
-import InformationalLayout from "@layouts/InformationalLayout.astro";
+import InformationalLayout from "@/layouts/InformationalLayout.astro";
 
 <InformationalLayout description={frontmatter.description} structuredData={structuredData} title={frontmatter.title}>
 
@@ -37,6 +37,6 @@ I spend most of my time between Scala, Akka and Spark, and I'm really fortunate 
 
 [I'm always there to help](/contact) if you need anything.
 
-![image](@content/authors/daniel-ciocirlan.jpeg)
+![image](@/content/authors/daniel-ciocirlan.jpeg)
 
 </InformationalLayout>

@@ -1,6 +1,6 @@
 ---
-import ArticleTags from "@components/ArticleTags.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
+import ArticleTags from "@/components/ArticleTags.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const tags = await getCollection("tags").then((tags) =>

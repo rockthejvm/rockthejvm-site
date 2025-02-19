@@ -5,9 +5,9 @@ import * as React from "react";
 
 import { Panel, useReactFlow, useStore, useViewport } from "@xyflow/react";
 
-import { Button } from "@assets/components/ui/button";
-import { Slider } from "@assets/components/ui/slider";
-import { cn } from "@assets/lib/utils";
+import { Button } from "@/assets/components/ui/button";
+import { Slider } from "@/assets/components/ui/slider";
+import { cn } from "@/assets/lib/utils";
 
 const ZoomSlider = React.forwardRef<
   HTMLDivElement,

@@ -1,6 +1,6 @@
 ---
-import ArticleDifficulties from "@components/ArticleDifficulties.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
+import ArticleDifficulties from "@/components/ArticleDifficulties.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const difficulties = await getCollection("difficulties").then((difficulties) =>

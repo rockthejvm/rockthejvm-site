@@ -1,9 +1,9 @@
 ---
-import Prose from "@components/Prose.astro";
-import NarrowContainer from "@containers/NarrowContainer";
-import Articles from "@pages/articles/_components/Articles.astro";
+import Prose from "@/components/Prose.astro";
+import NarrowContainer from "@/containers/NarrowContainer";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Articles from "@/pages/articles/_components/Articles.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const tags = await getCollection("tags"),

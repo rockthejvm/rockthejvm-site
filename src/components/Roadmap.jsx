@@ -1,5 +1,6 @@
 "use client";
 
+import { ZoomSlider } from "@/assets/components/zoom-slider";
 import {
   Background,
   Panel,
@@ -12,7 +13,6 @@ import {
 } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { useCallback, useEffect, useState } from "react";
-import { ZoomSlider } from "../assets/components/zoom-slider";
 
 import "@xyflow/react/dist/style.css";
 import MyLinkNode from "./MyLinkNode";

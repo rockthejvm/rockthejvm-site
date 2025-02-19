@@ -1,9 +1,9 @@
 ---
-import Articles from "@pages/articles/_components/Articles.astro";
+import AuthorWide from "@/components/AuthorWide.astro";
+import FullContainer from "@/containers/FullContainer";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Articles from "@/pages/articles/_components/Articles.astro";
 import { type CollectionEntry, getCollection } from "astro:content";
-import AuthorWide from "../../components/AuthorWide.astro";
-import FullContainer from "../../containers/FullContainer";
-import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles"),

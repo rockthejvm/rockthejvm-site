@@ -1,16 +1,16 @@
 ---
-import Profile from "@components/Profile.astro";
-import Roadmap from "@components/Roadmap";
-import site from "@data/site.json";
-import capitalizeFirstChar from "@utils/capitalizeFirstChar.ts";
+import Profile from "@/components/Profile.astro";
+import Roadmap from "@/components/Roadmap";
+import site from "@/data/site.json";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { ReactFlowEdge, ReactFlowNode } from "@/types/ReactFlow";
+import capitalizeFirstChar from "@/utils/capitalizeFirstChar.ts";
 import {
   type CollectionEntry,
   getCollection,
   getEntries,
   getEntry,
 } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import type { ReactFlowEdge, ReactFlowNode } from "../../../types/ReactFlow.ts";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
