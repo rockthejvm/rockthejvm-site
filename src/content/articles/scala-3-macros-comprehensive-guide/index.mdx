@@ -18,7 +18,7 @@ Metaprogramming certainly isn't new: Lisp derivatives allow the manipulation of 
 
 However, Scala is unique in that we can use the _same language_, the same data structures, the same standard library, to turn correct code into other correct code. If you want the best of both worlds (safety of the type system with the homoiconic representation of code as data), then Scala is the closest to perfection.
 
-This article is about Scala 3 macros, the most general form of metaprogramming in Scala. It follows the [previous one on inlines](/scala-3-inlines), so it would be great if you check that out first. It's optional, though: all you need to know about inlines for the purpose of this article is that
+This article is about Scala 3 macros, the most general form of metaprogramming in Scala. It follows the [previous one on inlines](/articles/scala-3-inlines), so it would be great if you check that out first. It's optional, though: all you need to know about inlines for the purpose of this article is that
 
 - inline methods replace all their invocations with their body at call site
 - inline arguments replace all their uses in the method body with the expression passed at call site
@@ -254,7 +254,7 @@ In other words, **the macro is computed at compile time**. It must be so, becaus
 
 Congratulations: you've written your first macro, and used it for the first time!
 
-Inside a macro implementation, we can run arbitrary computation. Let's consider one: if the number is bigger than 3, then repeat the string n times, otherwise take n / 2 characters from that string. A toy example, but it makes a point and raises a question: how can we get the value of an Expr?
+Inside a macro implementation, we can run arbitrary computations. Let's consider one: if the number is bigger than 3, then repeat the string n times, otherwise take n / 2 characters from that string. A toy example, but it makes a point and raises a question: how can we get the value of an Expr?
 
 ASTs of the type `Expr[A]` may or may not have a value, in the sense that the compiler may or may not know (at compile time, of course) what value of the expression was originally. For example, literal strings, numbers or simple math operations like 2 + 3 are knowable by the compiler. An expressions like `getMeaningOfLife()` is not, even though we know it's 42 and the method returns it as such.
 
@@ -294,12 +294,242 @@ Compiling this again gives us the following output in SBT:
 
 The last line is what we want to see: the compiler ran the logic of the macro at compile time and we get what we expect.
 
-We can run arbitrary code in a macro. An obvious implication: the more complex the computations in your macros, the longer your compile times.
+Worth repeating: we can run arbitrary code in a macro. This is insanely powerful. An obvious implication: the more complex the computations in your macros, the longer your compile time.
 
 ## Pattern Matching Expressions
 
+In real life, the expressions we want to process and the ASTs we want to manipulate are often quite big. The Scala 3 macros API allows us, for example, to pattern match expressions and extract pieces that we can manipulate.
+
+Let's consider a simple example. Let's describe an Option at compile time, depending on how that Option was built:
+
+```scala
+inline def pmOptions(inline opt: Option[Int]) =
+    ${ pmOptionsImpl('opt) }
+
+def pmOptionsImpl(opt: Expr[Option[Int]])(using Quotes): Expr[String] = ???
+```
+
+The calculator example was pretty easy because we can pattern match the case classes of the possible values of the expression being evaluated. Scala being Scala, we can pattern match much more complex things and extract sub-expressions with _quote_ patterns.
+
+Before we look at the implementation, please note that the `opt` parameter is marked `inline`. The reason is that we want access to the full expression in the macro implementation. With that out of the way, let's look at the impl.
+
+Here's an example for our `pmOptionsImpl`:
+
+```scala
+def pmOptionsImpl(opt: Expr[Option[Int]])(using Quotes): Expr[String] = {
+  val result = opt match {
+    case '{ Some(42) }                   => "got the meaning of life"
+    case '{ Some($x) }                   => s"got a variable: ${x.show}"
+    case '{ ($o: Option[a]).map[b]($f) } => "mapping an option"
+    case _                               => "got something else"
+  }
+  Expr(result)
+}
+```
+
+Whoa.
+
+Let's look at the syntax first. We can pattern match an `Expr[A]` with a case that is of the structure `'{  }`, and inside the `{}` you can write (almost) the original code that made that expression. Our first case is `'{ Some(42) }`, so if we use `pmOptions(Some(42))`, that case will match.
+
+The second case contains an expression _variable_. The rules for pattern matching here are almost identical to the rules for pattern matching regular values, except we use `$variable` to capture the expression. We can also call `expression.show` to display the code this expression corresponds to. This is useful for our SBT-based verbose session.
+
+The third case is pretty wild. We match expressions of the kind `Option(x).map(f)` if they occurred exactly like that in the code. We isolate the first expression `Option[a]`, where `a` is a type _variable_ that the compiler can figure out. Then we can "call" `.map` on it, which is not a method call per se, but rather a _pattern_. We add another type variable `b` and extract the function expression `$f`, if we need them. There are many things that we can do inside quoted cases: add type variables and restrictions, extract sub-expressions, match generic types, enforce the equality of types in complex chains (for example, match a chained `.map` only if the resulting type is the same every time). We have a few dedicated lessons on what you can do with quoted matches in the [Scala macros course](/courses/scala-macros-and-metaprogramming).
+
+Let's use it now - in the usage file, add the following
+
+```scala
+val optionDescription   = pmOptions(Some(2))
+val optionDescription_2 = pmOptions(Option(2))
+val optionDescription_3 = pmOptions(Option(10).map(_ + 1))
+```
+
+We get the following output (as before, the last lines are the important ones):
+
+```scala
+[info] package com.rockthejvm.macros {
+[info]   import com.rockthejvm.macros.MacrosDemo.*
+[info]   final lazy module val MacrosDemoUsage: com.rockthejvm.macros.MacrosDemoUsage
+[info]      = new com.rockthejvm.macros.MacrosDemoUsage()
+[info]   @SourceFile("src/main/scala/com/rockthejvm/macros/MacrosDemoUsage.scala")
+[info]     final module class MacrosDemoUsage() extends Object() {
+[info]     this: com.rockthejvm.macros.MacrosDemoUsage.type =>
+[info]     private def writeReplace(): AnyRef =
+[info]       new scala.runtime.ModuleSerializationProxy(
+[info]         classOf[com.rockthejvm.macros.MacrosDemoUsage.type])
+[info]     val firstMacroUsage: String =
+[info]       "The macro impl is: ScalaScalaScalaScalaScala":String
+[info]     val optionDescription: String = "got a variable: 2":String
+[info]     val optionDescription_2: String = "got something else":String
+[info]     val optionDescription_3: String = "mapping an option":String
+[info]   }
+[info] }
+```
+
+So we see how the macro was evaluated at compile time in all cases, including the map structure. Quoted matches are incredibly powerful.
+
+But notice something: the `Option(2)` was not matched by any case! This is important: even though `Some(2)` and `Option(2)` produce equal objects at runtime, they are not the same expression! The code is what we care about, these bits of code are different, and the compiler (and the pattern match) knows it.
+
 ## Compile-Time, Type-Safe Reflection
+
+There is a lot to talk about macros, but one other example worth mentioning is the ability to synthesize arbitrary ASTs. This is the subject of "reflection".
+
+When we say "reflection", we generally think of the Java API that allows us to inspect fields and methods at runtime, crash the program if they don't exist, add annotations that create all sorts of magic dependency injection for us in the style of Spring, and so on. In our case, "reflection" means that we can inspect and manipulate ASTs dynamically but at compile time and with all type safety intact.
+
+Let's consider a classical use-case of reflection: calling a method by a string name.
+
+We're now familiar with the macro pattern, so we can start the macro entry point:
+
+```scala
+inline def callMethodDynamically[A](instance: A, methodName: String, arg: Int): String =
+    ${ callMethodDynamicallyImpl('instance, 'methodName, 'arg) }
+```
+
+By calling this method, we would like the compiler to find the method given by `methodName` and invoke it on the argument `arg`. Of course, at compile time. So if we create some class (let's add it in the usage file)
+
+```scala
+case class SimpleWrapper(x: Int) {
+    def magicMethod(y: Int) =
+        s"This simple wrapper called a magic returning ${x + y}"
+}
+```
+
+Then by creating a value
+
+```scala
+val magicCall = callMethodDynamically(SimpleWrapper(2), "magicMethod", 10)
+```
+
+we would like the compiler to turn that into
+
+```scala
+val magicCall = SimpleWrapper(2).magicMethod(10)
+```
+
+and of course, we want the compiler not to compile the code if the method in question does not exist on that class.
+
+In order to build arbitrary ASTs, we will look at something new. If `Expr[A]` is a typed expression in the code that returns a value of type `A` when injected (and run) back in the code, we cannot build arbitrary `Expr[A]` manually, but only by quoting them from code. An arbitrary AST may be an expression returning a value, but not necessarily, because expressions producing values are not the whole language. Type definitions, fields, arguments, references to variables, these are examples of ASTs that must be represented, but that may not produce values per se. The general type of an AST is called `Term`.
+
+Producing arbitrary ASTs means producing Terms and manipulating Terms. The final result will be an `Expr[Something]`, which we produce after the careful handling of Terms.
+
+For our "dynamic" method call, we need to produce a Term signifying a method invocation, and once the Term is fully built, we need to convert it back to an `Expr[String]` in our case.
+
+Let's build the impl step by step:
+
+```scala
+def callMethodDynamicallyImpl[A](instance: Expr[A], methodName: Expr[String], arg: Expr[Int])(using
+    q: Quotes
+): Expr[String] = {
+    import q.reflect.*
+
+    // TODO
+}
+```
+
+We have some changes already. We have our given `Quotes` named now, because we need to import `q.reflect.*`, that API which allows us to build and inspect arbitrary ASTs. The `reflect` package gives us access to extension methods that help convert between Expr and Term.
+
+We need to do the following:
+
+- obtain a Term out of the `instance` which is currently an Expr
+- create a Term that signifies a method reference
+- create a Term that invokes the method on that instance
+- turn that Term back into an Expr
+
+Step by step - turn the `instance` into a Term:
+
+```scala
+val term = instance.asTerm // turn the Expr into a Term
+```
+
+then, find the method on that term:
+
+```scala
+val method = Select.unique(term, methodName.valueOrAbort)
+```
+
+then call the method:
+
+```scala
+val invocation = Apply(method, List(arg.asTerm))
+```
+
+and finally, return the term as a desired Expr type:
+
+```scala
+invocation.asExprOf[String]
+```
+
+The full code looks like this:
+
+```scala
+inline def callMethodDynamically[A](instance: A, methodName: String, arg: Int): String =
+  ${ callMethodDynamicallyImpl('instance, 'methodName, 'arg) }
+def callMethodDynamicallyImpl[A](instance: Expr[A], methodName: Expr[String], arg: Expr[Int])(using
+    q: Quotes
+): Expr[String] = {
+  import q.reflect.*
+  // turn the Expr into a Term
+  val term       = instance.asTerm
+  // find the method
+  val method     = Select.unique(term, methodName.valueOrAbort)
+  // create a method invocation
+  val invocation = Apply(method, List(arg.asTerm)) // == instance.method(arg)
+  // return the final Expr
+  invocation.asExprOf[String]
+}
+```
+
+And sure enough, in the usage file if we write
+
+```scala
+val result = callMethodDynamically(SimpleWrapper(10), "magicMethod", 42)
+```
+
+we see the following compiler output:
+
+```scala
+[info]     val result: String =
+[info]       {
+[info]         val instance$proxy1: com.rockthejvm.macros.MacrosDemoUsage.SimpleWrapper
+[info]            = com.rockthejvm.macros.MacrosDemoUsage.SimpleWrapper.apply(10)
+[info]         instance$proxy1.magicMethod(42):String
+[info]       }
+```
+
+which is equivalent to `SimpleWrapper(10).magicMethod(42)`.
+
+Obviously, if we pass a method name that does not exist on the class, the compiler shows an error:
+
+```
+[error] -- [E008] Not Found Error: /Users/daniel/dev/rockthejvm/blog-projects/scala-macros-demo/src/main/scala/com/rockthejvm/macros/MacrosDemoUsage.scala:18:44
+[error] 18 |  val result        = callMethodDynamically(SimpleWrapper(10), "stupidMethod", 42)
+[error]    |                                            ^^^^^^^^^^^^^^^^^
+[error]    |value stupidMethod is not a member of com.rockthejvm.macros.MacrosDemoUsage.SimpleWrapper
+[error] one error found
+[error] (Compile / compileIncremental) Compilation failed
+```
+
+All happening at compile time!
+
+This process of finding a method appropriate for a method invocation is not that different from what we normally do in the code: an invocation of the sort `SimpleWrapper(10).stupidMethod(42)` triggers the exact same error, because the compiler does the exact same search.
 
 ## The Power of Macros
 
+As you can see, macros are incredibly powerful. Here are some examples of things that you can do with macros:
+
+- synthesize types
+- pattern match on types
+- derive type class instances
+- summon or create givens, either one at a time or in bulk
+- create new values, methods, or arbitrary code
+- report compile errors in specific places
+- optimize code
+- make otherwise normal code intentionallly fail to compile, for example if you want to enforce best practices
+- run arbitrary code that helps you compile better, e.g. read files, parse schemas or even connect to databases
+
+and much, much more.
+
 ## Conclusion
+
+In this article we explored the basic structure of macros and hopefully oulined some reasons why they're useful. We talked about ASTs, the macro pattern, new syntax, building expressions, obtaining values, pattern matching on quotes and various code structures, and even built our own AST with the help of the compile-time "reflection" package.
+
+I hope this article whet your appetite and your curiosity to learn more about Scala macros, because aside from the Scala compiler team and a few other library authors who learned on their own, skills with macros are very rare, and it would be great to have more people in the Scala community learn about them and create amazing tools and libraries with them.
