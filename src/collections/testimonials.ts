@@ -11,7 +11,7 @@ export default defineCollection({
           role: z.string(),
         })
         .strict(),
-      link: z.string().url(),
+      profile: z.string().url(),
       location: z
         .object({
           city: z.string(),

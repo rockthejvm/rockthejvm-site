@@ -2,7 +2,7 @@
 company:
     entity: apple
     role: Data Engineer
-link: https://linkedin.com/in/anirban-goswami-5a724559
+profile: https://linkedin.com/in/anirban-goswami-5a724559
 location:
     city: Cupertino
     country: California
