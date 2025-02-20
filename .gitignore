@@ -12,7 +12,7 @@
 *.orig
 
 ### Generated Article Recommendations ###
-# src/data/matchedArticles.json
+src/data/matchedArticles.json
 
 # Created by git when using merge tools for conflicts
 *.BACKUP.*
