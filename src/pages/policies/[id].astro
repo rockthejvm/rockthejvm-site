@@ -1,5 +1,6 @@
 ---
-import { type CollectionEntry, getCollection, render } from "astro:content";
+import type { InferGetStaticParamsType, InferGetStaticPropsType } from "astro";
+import { getCollection, render } from "astro:content";
 import PolicyLayout from "./_layouts/PolicyLayout.astro";
 
 export async function getStaticPaths() {
@@ -11,9 +12,8 @@ export async function getStaticPaths() {
   }));
 }
 
-interface Props {
-  policy: CollectionEntry<"policies">;
-}
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { policy } = Astro.props,
   { Content } = await render();
