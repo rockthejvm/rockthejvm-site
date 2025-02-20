@@ -77,6 +77,7 @@ lint:
     - vale
 actions:
   enabled:
+    - git-lfs
     - astro-check
     - astro-sync
     - pnpm-install
@@ -99,7 +100,6 @@ actions:
     - id: trunk-check-pre-push-always
       run: trunk check --fix -t git-push --commit-ref-from-pre-push '${hook_stdin_path}'
   disabled:
-    - git-lfs
     - trunk-announce
     - trunk-check-pre-push
     - trunk-upgrade-available

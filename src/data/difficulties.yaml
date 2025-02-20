@@ -1,0 +1,6 @@
+- id: beginner
+  name: Beginner
+- id: intermediate
+  name: Intermediate
+- id: advanced
+  name: Advanced

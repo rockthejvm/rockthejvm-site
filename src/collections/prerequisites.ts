@@ -1,19 +1,19 @@
 import { defineCollection, reference, z } from "astro:content";
 
-const nodeSchema = reference("courses"),
-  edgeSchema = z.object({
-    from: reference("courses"),
-    to: reference("courses"),
-    optional: z.boolean().default(false),
-  });
-
 export default defineCollection({
-  type: "data",
+  loader: file("src/data/prerequisites.yaml"),
   schema: z
     .object({
+      id: z.string(),
       title: z.string(),
-      nodes: z.array(nodeSchema),
-      edges: z.array(edgeSchema),
+      nodes: z.array(reference("courses")),
+      edges: z.array(
+        z.object({
+          from: reference("courses"),
+          to: reference("courses"),
+          optional: z.boolean().default(false),
+        }),
+      ),
     })
     .strict(),
 });

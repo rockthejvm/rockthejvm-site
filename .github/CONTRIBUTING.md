@@ -188,7 +188,7 @@ This is my note. Make note of it, or I will make note of you.
 
 #### Caution
 
-Issues or errors that don’t require immediate action but are important to be aware of
+Issues or errors that don't require immediate action but are important to be aware of
 
 #### Note
 

@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { type CollectionEntry, getEntry } from "astro:content";
+import { type CollectionEntry, getEntry, render } from "astro:content";
 import MyPicture from "./MyPicture.astro";
 import TestimonialHelper from "./TestimonialHelper";
 
@@ -10,7 +10,7 @@ interface Props {
 
 const { testimonial } = Astro.props,
   frontmatter = testimonial.data,
-  { Content } = await testimonial.render(),
+  { Content } = await render(testimonial),
   { link, location, name, photo } = frontmatter,
   company = await getEntry(frontmatter.company.entity),
   companyTitle = company.data.title,
@@ -27,7 +27,7 @@ const { testimonial } = Astro.props,
     slot="photo"
   />
   <Icon
-    name=`companies/${company.data.slug}`
+    name=`companies/${company.data.id}`
     title={companyTitle}
     width={158}
     height={48}

@@ -19,13 +19,13 @@ const clients = (
       "ververica",
     ].includes(id),
   )
-).sort((a, b) => a.data.title.localeCompare(b.data.title));
+).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
 
 <LogoCloudHelper>
   {
     clients.map((company) => (
-      <ClientLogo name={company.data.slug} title={company.data.title} />
+      <ClientLogo name={company.data.id} title={company.data.title} />
     ))
   }
 </LogoCloudHelper>
