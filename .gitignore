@@ -11,6 +11,9 @@
 # $ git config --global mergetool.keepBackup false
 *.orig
 
+### Generated Article Recommendations ###
+# src/data/matchedArticles.json
+
 # Created by git when using merge tools for conflicts
 *.BACKUP.*
 *.BASE.*
@@ -43,7 +46,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
