@@ -8,9 +8,11 @@ interface Props {
   policy: CollectionEntry<"policies">;
 }
 
-const { policy } = Astro.props,
-  frontmatter = policy.data,
-  { description, title } = frontmatter;
+const {
+  policy: {
+    data: { description, title },
+  },
+} = Astro.props;
 ---
 
 <BaseLayout {description} {title}>

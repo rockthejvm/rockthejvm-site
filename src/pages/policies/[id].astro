@@ -1,12 +1,12 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 import PolicyLayout from "./_layouts/PolicyLayout.astro";
 
 export async function getStaticPaths() {
   const policies = await getCollection("policies");
 
   return policies.map((policy) => ({
-    params: { slug: policy.slug },
+    params: { id: policy.id },
     props: { policy },
   }));
 }
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { policy } = Astro.props,
-  { Content } = await policy.render();
+  { Content } = await render();
 ---
 
 <PolicyLayout {policy}>
