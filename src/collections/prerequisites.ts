@@ -1,3 +1,4 @@
+import { file } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({

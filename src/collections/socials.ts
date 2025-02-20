@@ -6,7 +6,8 @@ export default defineCollection({
   schema: z
     .object({
       id: z.string(),
-      domain: z.string().url(),
+      domain: z.string().includes("."),
+      icon: z.string().includes(":"),
       name: z.string(),
     })
     .strict(),

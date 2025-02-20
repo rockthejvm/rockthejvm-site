@@ -1,7 +1,8 @@
+import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.mdx", base: "src/data/courses" }),
   schema: ({ image }) =>
     z
       .object({
