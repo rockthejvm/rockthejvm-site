@@ -1,0 +1,305 @@
+---
+title: Guide to Scala 3 Macros
+excerpt: "A long-form guide on Scala 3 macros - learn how to use them, how Scala macros work, and why they exist"
+author: daniel-ciocirlan
+publishedDate: 2025-02-21
+category: guide
+difficulty: intermediate
+tags: [scala, metaprogramming]
+repositoryUrl: https://github.com/rockthejvm/scala-3-macros-demo
+videoId: 8TMvIIoaAPs
+---
+
+## Introduction
+
+Scala 3 is pretty great already. Even so, one of the vastly underrated features of Scala is the ability to do type-safe, compile-time _metaprogramming_, which allows us to generate, expand, synthesize, or otherwise manipulate code at compile time, while preserving the full expressiveness of the language and the strictness of the type system.
+
+Metaprogramming certainly isn't new: Lisp derivatives allow the manipulation of code while it's being interpreted due to the structure of the code -- which is the same as that for data, so it makes things much easier -- while other languages offer various forms of text expanders, text processors, compiler pluginsm, quasi-quotes or other hacks to inject code into already running (or compiling) code.
+
+However, Scala is unique in that we can use the _same language_, the same data structures, the same standard library, to turn correct code into other correct code. If you want the best of both worlds (safety of the type system with the homoiconic representation of code as data), then Scala is the closest to perfection.
+
+This article is about Scala 3 macros, the most general form of metaprogramming in Scala. It follows the [previous one on inlines](/scala-3-inlines), so it would be great if you check that out first. It's optional, though: all you need to know about inlines for the purpose of this article is that
+
+- inline methods replace all their invocations with their body at call site
+- inline arguments replace all their uses in the method body with the expression passed at call site
+
+:::tip
+
+This article is a sneak peek into the [Scala Macros and Metaprogramming course](/courses/scala-macros-and-metaprogramming). This course will help you become a true master of Scala, and allow you to build libraries and tools to make your life (and that of your team) that much better.
+
+This article is standalone, and I highly encourage you to follow along with the code. If this sort of technique looks interesting, check out the Scala metaprogramming course [here](/courses/scala-macros-and-metaprogramming).
+
+:::
+
+## Setup
+
+If you want to follow the code (highly recommended!), all you need is a plain Scala project with the following compiler flags added in `build.sbt`:
+
+```scala
+ThisBuild / scalacOptions ++= Seq(
+  "-Xprint:postInlining",
+  "-Xmax-inlines:100000"
+)
+```
+
+Because we're going to deal with inlines a lot, we'll need to keep track of what final code the compiler arrives at. I've also added an irresponsibly large max-inlines limit, just in case we get into recursive expansions and other undesired things.
+
+## Abstract Syntax Trees (ASTs)
+
+Let's forget Scala for a moment, and let's imagine a much simpler "programming language": a scientific calculator.
+
+In a scientific calculator, you can type arbitrarily complex (but well formed) mathematical expressions, you hit "=" (or "run") and the calculator would produce a result. In order for the calculator to return a final value, though, it needs to turn a mathematical expression into some data structure that can be predictably evaluated according to the rules of maths. Let's imagine the sort of data structures that we can use to describe the possible operations the calculator can perform:
+
+```scala
+trait Expr
+case class Num(value: Double) extends Expr
+case class Sum(lhs: Expr, rhs: Expr) extends Expr
+case class Sub(lhs: Expr, rhs: Expr) extends Expr
+case class Mul(lhs: Expr, rhs: Expr) extends Expr
+case class Div(lhs: Expr, rhs: Expr) extends Expr
+case class Sin(expr: Expr) extends Expr
+case class Cos(expr: Expr) extends Expr
+// ... and everything else
+```
+
+If we define something like this, then an expression of the sort `2 + 3 / 4 + 2 * 8 * sin(30)` can be turned into an instance of Expr, as follows;
+
+```scala
+val computation =
+    Sum(
+        Num(2),
+        Sum(
+            Div(Num(3), Num(4)),
+            Mul(
+                Num(2),
+                Mul(
+                    Num(8),
+                    Sin(Num(30))
+                )
+            )
+        )
+    )
+```
+
+This data structure makes things predictable. We can even write an algorithm to evaluate this data structure:
+
+```scala
+def evaluate(expr: Expr): Double = expr match {
+    case Num(v) => v
+    case Sum(lhs, rhs) => evaluate(lhs) + evaluate(rhs)
+    case Sub(lhs, rhs) => evaluate(lhs) - evaluate(rhs)
+    case Mul(lhs, rhs) => evaluate(lhs) * evaluate(rhs)
+    case Div(lhs, rhs) => evaluate(lhs) / evaluate(rhs)
+    case Sin(expr) => Math.sin(evaluate(expr)) // or whatever the low-level implementation is
+    // ... and everything else
+}
+```
+
+Of course, the act of parsing the "natural" mathematical expression into this Expr thing is the most important point. I would even go as far as to say that the Expr data structure is the "more natural" form of the mathematical expression than the stuff we write on paper, but I digress.
+
+The Expr data type is called an _abstract syntax tree_, or AST for short. Evaluating a math expression is therefore a two-part process:
+
+- turn the math expression (syntactically correct) into an AST
+- evaluate the AST
+
+The compilation process of a real programming language is not too dissimilar:
+
+- take the piece of text we write (and by "we" I also include the LLM assistants)
+- turn that text into an AST
+- turn that AST into a binary
+
+This high-level compilation process has been essentially unchanged since the first compiler. The details make all the difference, obviously. The Scala compiler has several dozen phases for specific parts of this process, but the principle stays the same. Of course, there is a much higher variety of AST nodes that we have available, because a programming language is that much more complex and we need to account for everything:
+
+- "import" statements
+- class/interface/enum/object definitions
+- fields, methods, abstract types, type restrictions
+- generics
+- arguments
+- value definitions
+- method calls
+- the "regular" math-style expressions
+- and everything else
+
+What is metaprogramming, then?
+
+For Scala specifically, metaprogramming means the manipulation of ASTs and reinjecting ASTs back into well-typed code, so you can use their results. This sounds straightforward, but it's all but impossible. The reason is that once you get your AST, you aren't in "code land" amymore and you lose access to the host language. How can you access an AST _from source code_, when the source code is the one that produces the AST?
+
+In Scala, this is possible. We can do two things:
+
+- turn an expression into an AST, which is called _quoting_
+- turn an AST back into an expression, which is called _splicing_
+
+Let's see how that looks like.
+
+## The First Scala 3 Macros
+
+A macro always has both parts:
+
+- build an AST, usually by quoting expressions in the code
+- splicing that AST
+
+We cannot quote expressions or otherwise use ASTs as we would use other data structures, in our regular code. Even though we can use the Scala language to its fullest and create classes, methods, values, and everything else, the objective is always to splice a final AST and go back to regular types.
+
+Let's explore a "hello world" of macros:
+
+```scala
+import scala.quoted.*
+
+inline def firstMacro(number: Int, string: String): String =
+    ${ firstMacroImpl('number, 'string) }
+
+def firstMacroImpl(numExpr: Expr[Int], strExpr: Expr[String])(using Quotes): Expr[String] =
+    Expr("This is my first macro")
+```
+
+There's already a lot to unpack. Let's take everything in turn.
+
+Firstly, all macros are necessarily `inline` methods. Our objective is to manipulate ASTs at compile time and inject them (or rather, what they represent) back into the code, at compile time. Therefore, the `inline` keyword is compulsory to allow the compiler to run the macro implementation.
+
+Secondly, the implementation of the macro is always the combination of both steps described above. We need to build the AST, then splice it. So if the act of building the AST was `buildAST` and the act of splicing was a fictitious method `splice`, then the value returned by the method would be something like
+
+```scala
+splice(buildAST(myParam1, myParam2, ...))
+```
+
+In our case, the fictitious `splice` method is actually separate syntax: we write `${ myAST }` instead of `splice(myAST)`, which means that our macro implementation is written as
+
+```scala
+${ buildAST(myParam1, myParam2, ...) }
+```
+
+Usually, if we write a macro called `myMacro`, the function that builds the AST is called `myMacroImpl`. This is a naming convention that you'll see everywhere in macro-based libraries in Scala. So our function is now
+
+```scala
+${ firstMacroImpl(myParam1, myParam2, ...) }
+```
+
+What about the arguments? We said that the whole point of a macro implementation is to manipulate ASTs. We can build ASTs out of thin air, but we often need to transform ASTs into other ASTs, which is why the macro implemenation function usually takes ASTs as arguments. As mentioned earlier, we can build ASTs out of regular code by _quoting_. To quote an expression, we put a single quote before the expression. So if we want to quote our `number` parameter of the `firstMacro` function, we turn it into an AST by writing `'number`. So if we want to take both our arguments as ASTs and pass them on to the macro implementation function, we'll arrive at our final expression
+
+```scala
+${ firstMacroImpl('number, 'string) }
+```
+
+That's the first part. Let's go to the next part, and specifically to its signature. By quoting an expression of type A, we obtain a _typed AST_ described by the type `Expr[A]`, in a similar style to the toy programming language of the scientific calculator, only that we keep the types (this is Scala, after all!). The goal of the method is to obtain another AST which the main macro will need in order to splice, so we'll need to return an `Expr[SomethingElse]`. Because we said that the main macro returns a String, we need the macro impl to return and `Expr[String]`. Therefore, our macro impl has the signature
+
+```scala
+def firstMacroImpl(numExpr: Expr[Int], strExpr: Expr[String]): Expr[String]
+```
+
+In order to use the `Expr` type and the macros API, we need the import `scala.quoted.*`. It's the only import you need to have (or remember).
+
+Okay, what about that `Quotes` thing? The `Quotes` is the one giving us the API to build ASTs, transform them, synthesize types, values, or everything else. Besides that, the `Quotes` instance has a special package of "reflection" which allows us to inspect the properties of the expressions or types in question, as well as create arbitrarily complex ASTs manually, as we will see a bit later. Therefore, the complete signature will be
+
+```scala
+def firstMacroImpl(numExpr: Expr[Int], strExpr: Expr[String])(using Quotes): Expr[String]
+```
+
+and the implementation is a simple expression: `Expr("This is my first macro")`, which means that when spliced, the _compiler_ will produce the value "This is my first macro".
+
+Okay, how do we use the macro?
+
+Due to how macros are compiled, **we can't use the macros in the same file where they were defined**. That's never a big deal, since we usually use macros written in libraries, so we naturally separate their use from their definition.
+
+So if the macro was written in a file
+
+```scala
+package com.rockthejvm.macros
+
+import scala.quoted.*
+
+class MacrosDemo {
+    inline def firstMacro(number: Int, string: String): String =
+        ${ firstMacroImpl('number, 'string) }
+
+    def firstMacroImpl(numExpr: Expr[Int], strExpr: Expr[String])(using Quotes): Expr[String] =
+        Expr("This is my first macro")
+}
+```
+
+Then in another file, we can use the macro
+
+```scala
+package com.rockthejvm.macros
+
+import MacrosDemo.*
+
+object MacrosDemoUsage {
+    val firstMacroCall = firstMacro(42, "Scala")
+}
+```
+
+Running an SBT console and hitting `~compile`, we can keep track of what the compiler expanded, especially in the usage file. In our case, we see something like this:
+
+```scala
+[info] package com.rockthejvm.macros {
+[info]   import com.rockthejvm.macros.MacrosDemo.*
+[info]   final lazy module val MacrosDemoUsage: com.rockthejvm.macros.MacrosDemoUsage
+[info]      = new com.rockthejvm.macros.MacrosDemoUsage()
+[info]   @SourceFile("src/main/scala/com/rockthejvm/macros/MacrosDemoUsage.scala")
+[info]     final module class MacrosDemoUsage() extends Object() {
+[info]     this: com.rockthejvm.macros.MacrosDemoUsage.type =>
+[info]     private def writeReplace(): AnyRef =
+[info]       new scala.runtime.ModuleSerializationProxy(
+[info]         classOf[com.rockthejvm.macros.MacrosDemoUsage.type])
+[info]     val firstMacroUsage: String = "This is my first macro":String
+[info]   }
+```
+
+Look at that last line. The compiler computed that
+
+- the value of `firstMacroUsage` is "This is my first macro", as returned by the macro function
+- the type of that value is `String`
+
+In other words, **the macro is computed at compile time**. It must be so, because that's the whole point: to build ASTs and inject them into our regular code.
+
+Congratulations: you've written your first macro, and used it for the first time!
+
+Inside a macro implementation, we can run arbitrary computation. Let's consider one: if the number is bigger than 3, then repeat the string n times, otherwise take n / 2 characters from that string. A toy example, but it makes a point and raises a question: how can we get the value of an Expr?
+
+ASTs of the type `Expr[A]` may or may not have a value, in the sense that the compiler may or may not know (at compile time, of course) what value of the expression was originally. For example, literal strings, numbers or simple math operations like 2 + 3 are knowable by the compiler. An expressions like `getMeaningOfLife()` is not, even though we know it's 42 and the method returns it as such.
+
+The macro API allows us to try to get the value of an `Expr`, or trigger a compiler error if that value is not known. The code with our toy logic therefore becomes
+
+```scala
+def firstMacroImpl(numAST: Expr[Int], stringAST: Expr[String])(using Quotes): Expr[String] = {
+  val numValue    = numAST.valueOrAbort // will trigger a compile error if this is not computable at compile time
+  val stringValue = stringAST.valueOrAbort
+  val newString =
+    if (numValue > 3) stringValue.repeat(numValue)
+    else stringValue.take(numValue / 2)
+
+  Expr("The macro impl is: " + newString)
+}
+```
+
+Compiling this again gives us the following output in SBT:
+
+```scala
+[info] [[syntax trees at end of              postInlining]] // /Users/daniel/dev/rockthejvm/blog-projects/scala-macros-demo/src/main/scala/com/rockthejvm/macros/MacrosDemoUsage.scala
+[info] package com.rockthejvm.macros {
+[info]   import com.rockthejvm.macros.MacrosDemo.*
+[info]   final lazy module val MacrosDemoUsage: com.rockthejvm.macros.MacrosDemoUsage
+[info]      = new com.rockthejvm.macros.MacrosDemoUsage()
+[info]   @SourceFile("src/main/scala/com/rockthejvm/macros/MacrosDemoUsage.scala")
+[info]     final module class MacrosDemoUsage() extends Object() {
+[info]     this: com.rockthejvm.macros.MacrosDemoUsage.type =>
+[info]     private def writeReplace(): AnyRef =
+[info]       new scala.runtime.ModuleSerializationProxy(
+[info]         classOf[com.rockthejvm.macros.MacrosDemoUsage.type])
+[info]     val firstMacroUsage: String =
+[info]       "The macro impl is: ScalaScalaScalaScalaScala":String
+[info]   }
+[info] }
+```
+
+The last line is what we want to see: the compiler ran the logic of the macro at compile time and we get what we expect.
+
+We can run arbitrary code in a macro. An obvious implication: the more complex the computations in your macros, the longer your compile times.
+
+## Pattern Matching Expressions
+
+## Compile-Time, Type-Safe Reflection
+
+## The Power of Macros
+
+## Conclusion
