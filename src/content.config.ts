@@ -6,11 +6,10 @@ import courseCategories from "@/collections/courseCategories";
 import courses from "@/collections/courses";
 import difficulties from "@/collections/difficulties";
 import memberships from "@/collections/memberships";
-import policies from "@/collections/policies";
 import prerequisites from "@/collections/prerequisites";
-import socials from "@/collections/socials";
-import tags from "@/collections/tags";
-import testimonials from "@/collections/testimonials";
+import testimonials from "@/pages/_testimonials/_collections/testimonials";
+import policies from "@/pages/policies/_collections/policies";
+import tags from "@/pages/tags/_collections/tags";
 
 export const collections = {
   articleCategories,
@@ -23,7 +22,6 @@ export const collections = {
   memberships,
   policies,
   prerequisites,
-  socials,
   tags,
   testimonials,
 };

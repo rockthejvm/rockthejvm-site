@@ -2,7 +2,7 @@ import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "src/data/testimonials" }),
+  loader: glob({ pattern: "**/*.md", base: "src/pages/_testimonials/_data" }),
   schema: z
     .object({
       company: z

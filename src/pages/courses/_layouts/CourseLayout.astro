@@ -100,9 +100,9 @@ function difficultyToOrdinal(
     }
   }
 }
-const prerequisitess = await getCollection("prerequisites"),
-  prerequisites = prerequisitess.find((prerequisites) =>
-    prerequisites.data.nodes.find((node) => node.slug === course.slug),
+const _prerequisitess = await getCollection("prerequisites"),
+  prerequisites = _prerequisitess.find(({ data: { nodes } }) =>
+    nodes.find((node) => node.id === course.slug),
   ),
   reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
     ? await Promise.all(

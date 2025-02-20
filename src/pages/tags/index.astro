@@ -1,7 +1,7 @@
 ---
-import ArticleTags from "@/components/ArticleTags.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import ArticleTags from "./_components/ArticleTags.astro";
 
 const _tags = await getCollection("tags"),
   ids = _tags.map(({ id }) => id);
