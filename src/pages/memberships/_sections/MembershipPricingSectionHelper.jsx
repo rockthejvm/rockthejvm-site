@@ -1,5 +1,3 @@
-"use client";
-
 import PurchaseLink from "@/components/PurchaseLink";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useCallback, useEffect, useState } from "react";

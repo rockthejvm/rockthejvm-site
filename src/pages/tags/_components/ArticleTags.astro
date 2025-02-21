@@ -1,13 +1,14 @@
 ---
-import sortByNaturalOrder from "@/utils/sortByNaturalOrder";
+import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
 import type { CollectionEntry } from "astro:content";
 import ArticleTag from "./ArticleTag.astro";
 
 interface Props {
-  ids: CollectionEntry<"tags">["id"][];
+  tags: CollectionEntry<"tags">[];
 }
-const { ids: _ids } = Astro.props,
-  sortedIds = sortByNaturalOrder(_ids);
+
+const { tags: _tags } = Astro.props,
+  tags = [..._tags].sort(compareByNaturalOrder);
 ---
 
 <section class="pb-8 sm:py-2 md:pb-16">
@@ -16,7 +17,7 @@ const { ids: _ids } = Astro.props,
     <div
       class="mx-auto mt-16 grid grid-cols-2 gap-x-4 gap-y-8 text-base sm:grid-cols-3 lg:mx-0 lg:max-w-none lg:grid-cols-5"
     >
-      {sortedIds.map((id) => <ArticleTag {id} />)}
+      {tags.map((tag) => <ArticleTag {tag} />)}
     </div>
   </div>
 </section>

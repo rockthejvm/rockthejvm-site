@@ -1,8 +1,8 @@
 ---
-import MembershipPricingHelper from "@/components/MembershipPricingHelper";
 import MyPicture from "@/components/MyPicture.astro";
 import Section from "@/components/Section.astro";
 import { getCollection, getEntry } from "astro:content";
+import MembershipPricingSectionHelper from "./MembershipPricingSectionHelper";
 
 import PersonalImage from "src/assets/images/logos/personal.png";
 import TeamImage from "src/assets/images/logos/team.png";
@@ -24,7 +24,7 @@ const membership = await getEntry("memberships", "personal"),
 ---
 
 <Section color="bg-secondary" title="Get started now!">
-  <MembershipPricingHelper
+  <MembershipPricingSectionHelper
     {monthlyTitle}
     {monthlyPriceId}
     {yearlyPriceId}
@@ -49,5 +49,5 @@ const membership = await getEntry("memberships", "personal"),
         class="mx-auto mb-2 w-[225px]"
       />
     </Fragment>
-  </MembershipPricingHelper>
+  </MembershipPricingSectionHelper>
 </Section>

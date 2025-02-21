@@ -1,17 +1,21 @@
 ---
 import { Icon } from "astro-icon/components";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  name: string;
-  title: string;
+  client: CollectionEntry<"companies">;
 }
 
-const { name, title } = Astro.props;
+const {
+  client: {
+    data: { id, name },
+  },
+} = Astro.props;
 ---
 
 <Icon
-  name=`companies/${name}`
-  {title}
+  name=`companies/${id}`
+  {name}
   width={158}
   height={48}
   class="col-span-2 max-h-12 w-full fill-content object-contain lg:col-span-1"

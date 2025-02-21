@@ -13,7 +13,9 @@ export async function getStaticPaths() {
   return tags.map((tag) => ({
     params: { id: tag.id },
     props: {
-      articles: articles.filter(({ data: { tags } }) => tags.includes(tag.id)),
+      articles: articles.filter((article) =>
+        article.data.tags.includes(tag.id),
+      ),
       tag,
     },
   }));

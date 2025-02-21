@@ -4,6 +4,7 @@ import NarrowContainer from "@/containers/NarrowContainer";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Articles from "@/pages/articles/_components/Articles.astro";
 import capitalizeFirstChar from "@/utils/capitalizeFirstChar";
+import type { InferGetStaticParamsType, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -20,6 +21,9 @@ export async function getStaticPaths() {
     },
   }));
 }
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { articles, difficulty } = Astro.props,
   title = `Articles marked as '${capitalizeFirstChar(difficulty.id)}' difficulty`;

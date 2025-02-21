@@ -1,27 +1,29 @@
-import type { JSX } from "astro/jsx-runtime";
-import { CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import type React from "react";
 
 interface Props {
-  company: Omit<
-    CollectionEntry<"testimonials">["data"]["company"],
-    "entity"
-  > & { entity: CollectionEntry<"companies">["data"] };
-  children: JSX.Element;
-  companyLogo: JSX.Element;
-  location: CollectionEntry<"testimonials">["data"]["location"];
-  name: CollectionEntry<"testimonials">["data"]["name"];
-  photo: JSX.Element;
-  profile: CollectionEntry<"testimonials">["data"]["profile"];
+  children: React.ReactNode;
+  companyLogo: React.ReactNode;
+  photo: React.ReactNode;
+  testimonial: Omit<CollectionEntry<"testimonials">, "data"> & {
+    data: Omit<CollectionEntry<"testimonials">["data"], "company"> & {
+      company: Omit<
+        CollectionEntry<"testimonials">["data"]["company"],
+        "entity"
+      > & {
+        entity: CollectionEntry<"companies">["data"];
+      };
+    };
+  };
 }
 
 export default ({
   children,
-  company,
   companyLogo,
-  location,
-  name,
   photo,
-  profile,
+  testimonial: {
+    data: { company, location, name, profile },
+  },
 }: Props) => (
   <article className="relative isolate overflow-hidden py-8 text-content sm:py-12">
     <div className="mx-auto text-content">

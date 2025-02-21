@@ -8,16 +8,22 @@ interface Props {
   testimonial: CollectionEntry<"testimonials">;
 }
 
-const { testimonial } = Astro.props,
-  { Content } = await render(testimonial),
-  { profile, location, name, photo, company: _company } = testimonial.data,
-  company = {
-    ..._company,
-    entity: (await getEntry(_company.entity)).data,
-  };
+const { testimonial: _testimonial } = Astro.props,
+  { Content } = await render(_testimonial),
+  _testimonial = {
+    ..._testimonial,
+    data: {
+      ..._testimonial.data,
+      company: {
+        ..._testimonial.data.company,
+        entity: (await getEntry(_testimonial.data.company.entity)).data,
+      },
+    },
+  },
+  { company, photo, profile } = testimonial.data;
 ---
 
-<TestimonialHelper {company} {location} {name} {profile}>
+<TestimonialHelper {testimonial}>
   <Content />
   <MyPicture
     src={photo}
