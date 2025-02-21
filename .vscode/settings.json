@@ -150,6 +150,5 @@
   },
   // trunk.io
   "editor.defaultFormatter": "trunk.io",
-  "trunk.showPreexistingIssues": false,
-  "trunk.trace.server": "verbose"
+  "trunk.showPreexistingIssues": false
 }
