@@ -4,13 +4,13 @@ import { getCollection } from "astro:content";
 const domain = "https://related-articles.andrei-023.workers.dev";
 
 async function addEmbeddedArticles() {
-  const articles = await getCollection("articles");
-  const payload = await Promise.all(
-    articles.map(async (article) => ({
-      slug: article.slug,
-      content: (await article.render()).Content,
-    })),
-  );
+  const articles = await getCollection("articles"),
+    payload = await Promise.all(
+      articles.map(async (article) => ({
+        slug: article.slug,
+        content: (await article.render()).Content,
+      })),
+    );
   return fetch(`${domain}/add_articles`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
