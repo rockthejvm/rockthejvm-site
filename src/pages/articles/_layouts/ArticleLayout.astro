@@ -80,7 +80,7 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
     ),
   }),
   matchedArticles = await fetch(
-    `${Astro.url.origin}/matchedArticles.json`,
+    `${Astro.url.origin}/api/v1/matchedArticles.json`,
   ).then((res) => res.json()),
   matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
 
