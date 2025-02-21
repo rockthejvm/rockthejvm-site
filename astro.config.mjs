@@ -9,7 +9,7 @@ import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import pagefind from "astro-pagefind";
 import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import remarkDirective from "remark-directive";
 
 export default defineConfig({
@@ -17,6 +17,16 @@ export default defineConfig({
   trailingSlash: "never",
   build: {
     format: "file",
+  },
+  experimental: {
+    env: {
+      schema: {
+        CF_PAGES_BRANCH: envField.string({
+          context: "server",
+          access: "public",
+        }),
+      },
+    },
   },
   integrations: [
     icon({

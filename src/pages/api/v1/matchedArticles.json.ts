@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { CF_PAGES_BRANCH } from "astro:env/server";
 
 const domain = "https://related-articles.andrei-023.workers.dev";
 
@@ -19,7 +20,7 @@ async function addEmbeddedArticles() {
 }
 
 export const GET: APIRoute = async ({ params, request }) => {
-  const branch = process.env.CF_PAGES_BRANCH || "unknown";
+  const branch = CF_PAGES_BRANCH || "unknown";
   if (branch === "main") {
     try {
       await addEmbeddedArticles();
