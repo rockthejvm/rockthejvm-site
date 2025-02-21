@@ -11,22 +11,6 @@ import pagefind from "astro-pagefind";
 import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig } from "astro/config";
 import remarkDirective from "remark-directive";
-import { addEmbeddedArticles } from "./src/utils/relatedArticles";
-
-// Custom Astro integration
-function buildStart() {
-  return {
-    name: "my-build-start",
-    hooks: {
-      "astro:build:start": async () => {
-        const branch = process.env.CF_PAGES_BRANCH || "unknown";
-        if (branch === "main") {
-          await addEmbeddedArticles();
-        }
-      },
-    },
-  };
-}
 
 export default defineConfig({
   site: "https://rockthejvm.com",
@@ -35,7 +19,6 @@ export default defineConfig({
     format: "file",
   },
   integrations: [
-    buildStart(),
     icon({
       include: {
         "fa6-brands": [
