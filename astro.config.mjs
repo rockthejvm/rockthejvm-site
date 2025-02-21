@@ -24,6 +24,7 @@ export default defineConfig({
         CF_PAGES_BRANCH: envField.string({
           context: "server",
           access: "public",
+          optional: true,
         }),
       },
     },
