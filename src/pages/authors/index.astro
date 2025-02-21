@@ -1,7 +1,7 @@
 ---
+import ArticleAuthors from "@/components/ArticleAuthors.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import ArticleAuthors from "../../components/ArticleAuthors.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const authors = await getCollection("authors"),
   title = "Authors";

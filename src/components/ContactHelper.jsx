@@ -1,5 +1,3 @@
-"use client";
-
 import { Field, Switch } from "@headlessui/react";
 import { useState } from "react";
 
@@ -142,7 +140,7 @@ export default function Example() {
             </div>
             <div className="text-sm leading-6 text-content">
               By selecting this, you agree to our{" "}
-              <a href="/legal/privacy">privacy policy</a>.
+              <a href="/policies/privacy">privacy policy</a>.
             </div>
           </Field>
         </div>

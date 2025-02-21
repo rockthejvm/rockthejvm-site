@@ -75,7 +75,7 @@ export default {
         key: "hsl(var(--color-key) / <alpha-value>)",
       },
       fontFamily: {
-        sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
+        sans: ["Montserrat Variable", ...defaultTheme.fontFamily.sans],
       },
       borderRadius: {
         lg: "var(--radius)",

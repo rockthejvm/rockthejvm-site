@@ -1,9 +1,0 @@
-color: "#6b47d2"
-faqs:
-  - question: Does this course cover Android development?
-    answer: No, this course focuses on Kotlin as a programming language, regardless of the platform you use.
-  - question: Do you have any affiliation with JetBrains or the Kotlin Foundation?
-    answer: No, this course is not affiliated with JetBrains (the creators of Kotlin), Google, or the Kotlin Foundation. However, I hope they'll have positive things to say about it once they see it!
-name: Kotlin
-ordinal: 3
-logo: src/assets/images/logos/kotlin.svg

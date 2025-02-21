@@ -1,9 +1,9 @@
 "use client";
 
+import site from "@/data/site.json";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import site from "../data/site.json";
 
 const navigation = [
   { name: "Articles", href: "/articles/1" },

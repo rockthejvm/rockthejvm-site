@@ -1,0 +1,28 @@
+- id: adobe
+  name: Adobe
+- id: apple
+  name: Apple
+- id: carvana
+  name: Carvana
+- id: datto
+  name: Datto
+- id: google
+  name: Google
+- id: hapag-lloyd
+  name: Hapag-Lloyd
+- id: hm-revenue-and-customs
+  name: HM Revenue & Customs
+- id: intuit
+  name: Intuit
+- id: iov42
+  name: iov42
+- id: microsoft
+  name: Microsoft
+- id: orange
+  name: Orange
+- id: rock-the-jvm
+  name: Rock the JVM
+- id: swiss-re
+  name: Swiss Re
+- id: ververica
+  name: Ververica

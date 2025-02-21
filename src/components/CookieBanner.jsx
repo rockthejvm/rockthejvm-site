@@ -1,5 +1,3 @@
-"use client";
-
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
@@ -41,7 +39,7 @@ export default function Example() {
         This site uses cookies. Check our cookie policy (TLDR: no personal
         information is stored). For more information see our{" "}
         <a
-          href="/legal/cookies"
+          href="/policies/cookie"
           target="_blank"
           className="font-semibold text-accent-1"
           rel="noreferrer"

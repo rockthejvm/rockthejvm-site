@@ -1,7 +1,8 @@
+import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
-  type: "data",
+  loader: glob({ pattern: "**/*.yaml", base: "src/data/authors" }),
   schema: ({ image }) =>
     z
       .object({

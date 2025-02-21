@@ -1,10 +1,11 @@
 ---
+import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
 import { getCollection } from "astro:content";
 import ClientLogo from "./ClientLogo.astro";
 import LogoCloudHelper from "./LogoCloudHelper";
 
-const clients = (
-  await getCollection("companies", ({ id }) =>
+const clients = [
+  ...(await getCollection("companies", ({ data: { id } }) =>
     [
       "adobe",
       "apple",
@@ -18,14 +19,10 @@ const clients = (
       "swiss-re",
       "ververica",
     ].includes(id),
-  )
-).sort((a, b) => a.data.title.localeCompare(b.data.title));
+  )),
+].sort(compareByNaturalOrder);
 ---
 
 <LogoCloudHelper>
-  {
-    clients.map((company) => (
-      <ClientLogo name={company.data.slug} title={company.data.title} />
-    ))
-  }
+  {clients.map((client) => <ClientLogo {client} />)}
 </LogoCloudHelper>

@@ -1,11 +1,9 @@
 ---
-import ArticleTags from "@components/ArticleTags.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import ArticleTags from "./_components/ArticleTags.astro";
 
-const tags = await getCollection("tags").then((tags) =>
-  tags.map(({ id }) => id),
-);
+const tags = await getCollection("tags");
 ---
 
 <BaseLayout title="Tag index" description="The tags index">
