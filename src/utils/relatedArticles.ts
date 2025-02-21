@@ -74,30 +74,3 @@ export async function addEmbeddedArticles() {
     console.error("Error sending files:", error);
   }
 }
-
-export async function getArticleMatches() {
-  try {
-    const res = await fetch(
-        "https://related-articles.andrei-023.workers.dev/match_articles",
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        },
-      ),
-      body = await res.json();
-
-    fs.writeFile(
-      "src/data/matchedArticles.json",
-      JSON.stringify(body),
-      (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log("JSON data saved to data.json");
-      },
-    );
-  } catch (error) {
-    console.error("Error sending files:", error);
-  }
-}

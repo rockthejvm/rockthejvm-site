@@ -5,7 +5,6 @@ import Prose from "@components/Prose.astro";
 import RelatedArticles from "@components/RelatedArticles";
 import SocialShare from "@components/SocialShare.astro";
 import TagList from "@components/TagList.astro";
-import matchedArticles from "@data/matchedArticles.json";
 import site from "@data/site.json";
 import capitalizeFirstChar from "@utils/capitalizeFirstChar";
 import formatDate from "@utils/formatDate";
@@ -80,6 +79,9 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
       }),
     ),
   }),
+  matchedArticles = await fetch(
+    `${Astro.url.origin}/matchedArticles.json`,
+  ).then((res) => res.json()),
   matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
 
 if (!matchedArticlesDataResult.success) {

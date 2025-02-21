@@ -11,10 +11,7 @@ import pagefind from "astro-pagefind";
 import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig } from "astro/config";
 import remarkDirective from "remark-directive";
-import {
-  addEmbeddedArticles,
-  getArticleMatches,
-} from "./src/utils/relatedArticles";
+import { addEmbeddedArticles } from "./src/utils/relatedArticles";
 
 // Custom Astro integration
 function buildStart() {
@@ -26,8 +23,6 @@ function buildStart() {
         if (branch === "main") {
           await addEmbeddedArticles();
         }
-
-        await getArticleMatches();
       },
     },
   };
