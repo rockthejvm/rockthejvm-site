@@ -133,7 +133,7 @@ export default function Example(props) {
         Footer
       </h2>
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-20 sm:pt-24 lg:px-8 lg:pt-32">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div className="xl:grid xl:grid-cols-2 xl:gap-8">
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
@@ -229,45 +229,12 @@ export default function Example(props) {
               </div>
             </div>
           </div>
-          <div className="mt-10 xl:mt-0">
-            {/* <h3 className="text-sm font-semibold leading-6 text-content">
-              Subscribe to our newsletter
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-content">PLACEHOLDER</p>
-            <form
-              className="mt-6 sm:flex sm:max-w-md validate"
-              action="https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&amp;id=2c292e211e&amp;f_id=003d27ebf0"
-              method="post"
-              id="mc-embedded-subscribe-form"
-              name="mc-embedded-subscribe-form"
-              target="_blank"
-            >
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-address"
-                name="EMAIL"
-                type="email"
-                required
-                placeholder="Enter your email"
-                autoComplete="email"
-                className="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-content shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-content focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
-              />
-              <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
-                <button
-                  type="submit"
-                  className="flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-content shadow-sm hover:text-white hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Subscribe
-                </button>
-              </div>
-            </form> */}
-            {props.newsletter}
-            <button type="button" onClick={clearCookies}>
-              Clear Cookies
-            </button>
-          </div>
+        </div>
+        <div className="mx-auto mt-10 xl:mt-0">
+          {props.newsletter}
+          <button type="button" onClick={clearCookies}>
+            Clear Cookies
+          </button>
         </div>
         <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
           <ul className="flex space-x-6 md:order-2">
