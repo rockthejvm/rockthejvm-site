@@ -174,7 +174,7 @@ Usually, if we write a macro called `myMacro`, the function that builds the AST 
 ${ firstMacroImpl(myParam1, myParam2, ...) }
 ```
 
-What about the arguments? We said that the whole point of a macro implementation is to manipulate ASTs. We can build ASTs out of thin air, but we often need to transform ASTs into other ASTs, which is why the macro implemenation function usually takes ASTs as arguments. As mentioned earlier, we can build ASTs out of regular code by _quoting_. To quote an expression, we put a single quote before the expression. So if we want to quote our `number` parameter of the `firstMacro` function, we turn it into an AST by writing `'number`. So if we want to take both our arguments as ASTs and pass them on to the macro implementation function, we'll arrive at our final expression
+What about the arguments? We said that the whole point of a macro implementation is to manipulate ASTs. We can build ASTs out of thin air, but we often need to transform ASTs into other ASTs, which is why the macro implementation function usually takes ASTs as arguments. As mentioned earlier, we can build ASTs out of regular code by _quoting_. To quote an expression, we put a single quote before the expression. So if we want to quote our `number` parameter of the `firstMacro` function, we turn it into an AST by writing `'number`. So if we want to take both our arguments as ASTs and pass them on to the macro implementation function, we'll arrive at our final expression
 
 ```scala
 ${ firstMacroImpl('number, 'string) }
@@ -499,7 +499,7 @@ which is equivalent to `SimpleWrapper(10).magicMethod(42)`.
 
 Obviously, if we pass a method name that does not exist on the class, the compiler shows an error:
 
-```
+```text
 [error] -- [E008] Not Found Error: /Users/daniel/dev/rockthejvm/blog-projects/scala-macros-demo/src/main/scala/com/rockthejvm/macros/MacrosDemoUsage.scala:18:44
 [error] 18 |  val result        = callMethodDynamically(SimpleWrapper(10), "stupidMethod", 42)
 [error]    |                                            ^^^^^^^^^^^^^^^^^
@@ -530,6 +530,6 @@ and much, much more.
 
 ## Conclusion
 
-In this article we explored the basic structure of macros and hopefully oulined some reasons why they're useful. We talked about ASTs, the macro pattern, new syntax, building expressions, obtaining values, pattern matching on quotes and various code structures, and even built our own AST with the help of the compile-time "reflection" package.
+In this article we explored the basic structure of macros and hopefully outlined some reasons why they're useful. We talked about ASTs, the macro pattern, new syntax, building expressions, obtaining values, pattern matching on quotes and various code structures, and even built our own AST with the help of the compile-time "reflection" package.
 
-I hope this article whet your appetite and your curiosity to learn more about Scala macros, because aside from the Scala compiler team and a few other library authors who learned on their own, skills with macros are very rare, and it would be great to have more people in the Scala community learn about them and create amazing tools and libraries with them.
+I hope this article got you curious to learn more about Scala macros, because aside from the Scala compiler team and a few other library authors who learned on their own, skills with macros are very rare, and it would be great to have more people in the Scala community learn about them and create amazing tools and libraries with them.
