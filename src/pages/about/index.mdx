@@ -4,6 +4,7 @@ title: The Rock the JVM Story
 ---
 
 import site from "@/data/site.json";
+import InformationalLayout from "./_layouts/InformationalLayout.astro";
 
 export const structuredData = JSON.stringify({
     "@context": "https://schema.org",
@@ -14,8 +15,6 @@ export const structuredData = JSON.stringify({
     name: site.name,
     url: "https://rockthejvm.com",
 });
-
-import InformationalLayout from "@/layouts/InformationalLayout.astro";
 
 <InformationalLayout description={frontmatter.description} structuredData={structuredData} title={frontmatter.title}>
 
@@ -37,6 +36,6 @@ I spend most of my time between Scala, Akka and Spark, and I'm really fortunate 
 
 [I'm always there to help](/contact) if you need anything.
 
-![image](@/content/authors/daniel-ciocirlan.jpeg)
+![image](@/images/daniel-ciocirlan.jpeg)
 
 </InformationalLayout>
