@@ -1,0 +1,38 @@
+---
+type URIComponent = string | number | boolean;
+
+interface Props {
+  authorImage: URIComponent;
+  authorName: URIComponent;
+  logo: URIComponent;
+  metadata1: URIComponent;
+  metadata2: URIComponent;
+  metadata3: URIComponent;
+  tag1: URIComponent;
+  tag2: URIComponent;
+  tag3: URIComponent;
+  title: URIComponent;
+}
+
+const _props = Astro.props,
+  _domain = "https://og.rockthejvm.com",
+  _path = "/",
+  _queryString = Object.keys(_props)
+    .map(
+      (key) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(_props[key as keyof Props])}`,
+    )
+    .join("&"),
+  imageURL = `${_domain}${_path}?${_queryString}&fontFamily=Roboto&fontVariant=regular&layout=article&layoutIndex=1`,
+  imageAlt = `Header image for ${_props.authorName.toString()}'s article titled '${_props.title.toString()}'.`;
+---
+
+<meta property="og:image" content=`${imageURL}&configuration=og` />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content=`${imageURL}&configuration=twitter` />
+<meta property="twitter:image:alt" content={imageAlt} />

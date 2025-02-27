@@ -1,11 +1,11 @@
 ---
-import ThemeScript from "@/components/scripts/ThemeScript.astro";
 import site from "@/data/site.json";
 import capitalizeFirstChar from "@/utils/capitalizeFirstChar";
 import formatDate from "@/utils/formatDate";
 import type { CollectionEntry } from "astro:content";
-import ArticleMetaImage from "./components/ArticleMetaImage.astro";
-import FontPreload from "./components/FontPreload.astro";
+import ArticleMetaImage from "./_components/ArticleMetaImage.astro";
+import FontPreload from "./_components/FontPreload.astro";
+import ThemeScript from "./_scripts/ThemeScript.astro";
 
 interface Props {
   article?: {

@@ -1,5 +1,3 @@
-"use client";
-
 import site from "@/data/site.json";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -8,7 +6,7 @@ import { useState } from "react";
 const navigation = [
   { name: "Articles", href: "/articles/1" },
   { name: "Courses", href: "/courses" },
-  { name: "Videos", href: "https://www.youtube.com/rockthejvm" },
+  { name: "Videos", href: site.socials.youtube.url },
   { name: "About", href: "/about" },
 ];
 

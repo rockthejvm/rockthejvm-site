@@ -1,5 +1,3 @@
-"use client";
-
 import { ZoomSlider } from "@/assets/components/zoom-slider";
 import {
   Background,

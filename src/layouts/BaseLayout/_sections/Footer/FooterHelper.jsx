@@ -1,20 +1,6 @@
 import site from "@/data/site.json";
 import Cookies from "js-cookie";
 
-/*
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 const clearCookies = () => {
   Cookies.remove("cookies-accepted");
   Cookies.remove("teachable-affiliate");
@@ -25,7 +11,7 @@ const navigation = {
   content: [
     { name: "Articles", href: "/articles/1" },
     { name: "Courses", href: "/courses" },
-    { name: "Videos", href: "https://www.youtube.com/@rockthejvm" },
+    { name: "Videos", href: site.socials.youtube.url },
   ],
   support: [
     { name: "Contact", href: "/contact" },
@@ -230,39 +216,6 @@ export default function Example(props) {
             </div>
           </div>
           <div className="mt-10 xl:mt-0">
-            {/* <h3 className="text-sm font-semibold leading-6 text-content">
-              Subscribe to our newsletter
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-content">PLACEHOLDER</p>
-            <form
-              className="mt-6 sm:flex sm:max-w-md validate"
-              action="https://rockthejvm.us5.list-manage.com/subscribe/post?u=f7e7dcf30c1dd4f49893c696b&amp;id=2c292e211e&amp;f_id=003d27ebf0"
-              method="post"
-              id="mc-embedded-subscribe-form"
-              name="mc-embedded-subscribe-form"
-              target="_blank"
-            >
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-address"
-                name="EMAIL"
-                type="email"
-                required
-                placeholder="Enter your email"
-                autoComplete="email"
-                className="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-content shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-content focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
-              />
-              <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
-                <button
-                  type="submit"
-                  className="flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-content shadow-sm hover:text-white hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Subscribe
-                </button>
-              </div>
-            </form> */}
             {props.newsletter}
             <button type="button" onClick={clearCookies}>
               Clear Cookies
@@ -349,7 +302,3 @@ export default function Example(props) {
     </footer>
   );
 }
-
-/*
-https://rockthejvm.us5.list-manage.com/subscribe/post-json?u=f7e7dcf30c1dd4f49893c696b&id=2c292e211e&f_id=003d27ebf0&c=jQuery19007926417827043355_1724459404661&EMAIL=williamvkennedyy%40gmail.com&b_f7e7dcf30c1dd4f49893c696b_2c292e211e=&subscribe=Subscribe&_=1724459404662
-*/
