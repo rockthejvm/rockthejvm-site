@@ -22,6 +22,7 @@
         "GitHub.copilot",
         "github.vscode-github-actions",
         "GitHub.vscode-pull-request-github",
+        "moalamri.inline-fold",
         "ms-vsliveshare.vsliveshare",
         "redhat.vscode-yaml",
         "remcohaszing.schemastore",
