@@ -1,6 +1,6 @@
 version: 0.1
 cli:
-  version: 1.22.10
+  version: 1.22.11-beta.6
 plugins:
   sources:
     - id: trunk
@@ -78,28 +78,28 @@ lint:
 actions:
   enabled:
     - astro-check
-    - astro-sync
     - pnpm-install
     - trunk-check-pre-push-always
     - trunk-fmt-pre-commit
+    - git-lfs
   definitions:
     - id: astro-check
       triggers:
         - git_hooks: [pre-push]
       run: npx astro check --minimumFailingSeverity error
-    - id: astro-sync
-      triggers:
-        - git_hooks: [post-checkout]
-      run: npx astro sync
+      # run: npx astro sync
+    - id: git-lfs
+      environment:
+        - name: GITHUB_SERVER_URL
+          value: ${env.GITHUB_SERVER_URL}
+          optional: true
     - id: pnpm-install
       triggers:
         - files: [package.json]
-        - git_hooks: [post-checkout]
       run: pnpm install
     - id: trunk-check-pre-push-always
       run: trunk check --fix -t git-push --commit-ref-from-pre-push '${hook_stdin_path}'
   disabled:
-    - git-lfs
     - trunk-announce
     - trunk-check-pre-push
     - trunk-upgrade-available
