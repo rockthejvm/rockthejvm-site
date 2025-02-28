@@ -1,3 +1,5 @@
+import policies from "@/pages/policies/_collections/policies";
+
 export const collections = {
   // articleCategories,
   // articles,
@@ -7,7 +9,7 @@ export const collections = {
   // courses,
   // difficulties,
   // memberships,
-  // policies,
+  policies,
   // prerequisites,
   // tags,
   // testimonials,
