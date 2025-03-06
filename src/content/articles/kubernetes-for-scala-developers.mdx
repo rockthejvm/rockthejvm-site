@@ -1,0 +1,1024 @@
+---
+author: gedeon-tabela
+category: guide
+difficulty: intermediate
+excerpt: Learn how to deploy your scalable application on kubernetes
+publishedDate: 2025-03-06
+tags: [Kubernetes, Scala, zero-downtime, auto-scaling, deployment, container, docker, orchestration]
+title: "Kubernetes Unleashed: A Scala Developer's Journey into Container Orchestration (Part 1)"
+updatedDate: 2025-03-06
+---
+
+## 1. Introduction: Why Kubernetes Matters for Scala Developers
+
+Imagine you've built an awesome Scala application, performant, and ready to take on the world.
+But then comes the real challenge: how do you deploy, scale, and manage this application efficiently?
+Enter Kubernetes, the superhero of modern software deployment.
+
+If you're a Scala developer tired of wrestling with infrastructure, manual scaling, and deployment headaches,
+this first part guide is your roadmap to a more streamlined, powerful application ecosystem by introducing you the
+core concepts of a kubernetes cluster. The second part will guide you through continuous integration and deployment,
+monitoring, deployment, and help you build a production-ready kubernetes cluster.
+
+
+## 2. Kubernetes: Your Application's New Best Friend
+
+Kubernetes isn't just another tool, it's a complete game-changer for how we think about deploying applications.
+Think of it like a hyper-intelligent orchestra conductor, seamlessly managing every aspect of your application's lifecycle.
+
+### Why Should Scala Developers Care?
+
+- **Effortless Scaling**: Grow or shrink your application automatically in response to workload
+- **Self-Healing Magic**: Automatic response to failing containers during their lifecycle
+- **Consistent Deployments**: Run the same application anywhere—local machine, cloud, hybrid environment
+- **Resource Optimization**: Squeeze maximum performance from your infrastructure
+
+## 3. The Kubernetes Landscape: A High-Level View
+Kubernetes emerged from Google's engineering team, drawing on their extensive experience managing large-scale containerized
+systems. Google later transferred the project to the Cloud Native Computing Foundation, establishing it as a community-driven
+open-source initiative that has experienced remarkably rapid development and adoption across the industry.
+Kubernetes offers:
+* Seamless deployment with zero-downtime updates and dynamic scaling
+* Complete platform portability across cloud providers and on-premises environments
+* Extensible architecture that adapts to specific organizational needs
+* Intelligent workload placement and state management
+* Built-in self-healing with emerging self-adaptation capabilities
+* Comprehensive operational features including storage management, secrets handling, health checks, load balancing, resource
+  monitoring, service discovery, and logging
+
+Picture Kubernetes as a well-organized city with two main districts:
+
+### Control Plane (The City Government called Master nodes)
+- Makes strategic decisions
+- Monitors the entire "city" (cluster)
+- Ensures everything runs smoothly
+
+### Worker Nodes (The Workforce called worker nodes)
+- Actually run your applications
+- Execute the orders from the control plane
+- Provide the computational muscle
+
+### Development environment
+For the development environment we'll use minikube as our local kubernetes. It is a solution that make easy learning and
+development easier for kubernetes. For it to work, you mainly need docker installed. After this all you need is to follow
+the instructions on the page (https://minikube.sigs.k8s.io/docs/start)[Install k8s for local development].
+Kubernetes specifications artifact are written in yaml format and all the kubernetes components details are found on the
+link (Kubernetes components)[https://kubernetes.io/docs/concepts/]. For the following deployment scripts we'll use these
+two commands to deploy and drop kubernetes components on our cluster, where `workload-api.yaml` is a kubernetes yaml
+configuration file, and kubectl is the client we use to send our request to the API-Server:
+Deployment: `kubectl apply -f workload-api.yaml`
+Dropping the deployment: `kubectl delete -f workload-api.yaml`
+To have a view of the kubernetes internals we can run in a separate terminal the commands `minikube addons enable dashboard` and
+` kubectl addons enable metrics-server` that will install the needed tools to visualize the activity on the cluster.
+We can then run the command `minikube dashboard` which will open a web page in our default browser to see all the objects
+running on the cluster.
+
+## 4. Kubernetes Components: Meet the Ecosystem
+
+### Pods: Your Application's Smallest Unit
+Think of a Pod like a dedicated apartment for your containers. It's a compact living space where one or more containers
+live together, sharing resources. Imagine a Pod as a smart, self-contained shipping container for your application.
+It's not just a simple container, but a sophisticated ecosystem with multiple layers of intelligence behind its creation
+and deployment.
+
+#### Pod Lifecycle and Scheduling: Behind the Scenes
+
+When you create a Pod, Kubernetes initiates a complex choreography of scheduling and placement:
+
+1. **Scheduling Decision**
+    - The Kubernetes Scheduler receives the Pod creation request
+    - It performs a matchmaking process, finding the most suitable worker node based on:
+        * Available computational resources
+        * Node capacity
+        * Affinity and anti-affinity rules which inform on how to distribute an application instances on the cluster nodes.
+        * Current cluster state
+
+2. **Node Selection Criteria**
+    - Resource requirements vs. node capabilities
+    - Existing workload distribution
+    - Hardware constraints
+    - Custom scheduling policies
+
+3. **Pod Placement Workflow**
+    - Scheduler identifies the optimal node
+    - Control plane communicates with the selected node's Kubelet
+    - Kubelet pulls necessary container images
+    - Container runtime (like Docker) creates and starts containers
+    - Pod enters "Running" state after successful initialization
+
+4. **Container Startup Sequence**
+    - Init containers run first (if defined)
+    - Main application containers start
+    - Readiness and liveness probes validate container health
+    - Pod becomes available for service discovery and networking
+      Completion Notification
+
+5. **Notification**
+    Kubelet reports Pod creation status to API server
+    Confirms successful container deployment
+    Updates cluster state
+    Triggers any subsequent reconciliation processes
+
+##### Visualization of the Process
+Here's a sequential diagram to illustrate the workflow:
+![Pod lifecycle](images/kubernetes-pod-lifecycle-sequential-diagram.png)
+
+##### Example
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: workload-api
+ labels:
+    type: api
+    language: scala
+    framework: play-framework
+    service: workload
+spec:
+ containers:
+   - name: workload-api
+     image: aidocking/pfpw:20.20.29
+     ports:
+       - containerPort: 9000
+
+# Deploy: `kubectl apply -f workload-api.yaml`
+# View: `kubectl get pods`
+# Drop: `kubectl delete -f workload-api.yaml`
+```
+
+* API Version and Kind: The first two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
+  to understand the intended action and correctly process the Pod creation request.
+* Metadata Section: This part provides descriptive information about the Pod, including its name and labels. While
+  labels don't affect the Pod's behavior currently, they become important when working with Kubernetes controllers.
+* Specification Section: The spec defines the container(s) within the Pod. In this example, we're using a single
+  container, but Kubernetes allows multiple containers to be defined in a single Pod configuration.
+* Container Definition: The container details include its name, the Docker image to use, and the specific command to
+  run when the container starts up. In this case, it's a Play framework app container with the port 9000 exposed.
+It should be noted that pod are not intended to be created individually in real-life scenarios. They will be created through
+deployments.
+
+#### ReplicaSet Lifecycle: A Step-by-Step Symphony
+   The primary function of a ReplicaSet is to ensure that a specified number of pods replicas is almost always running.
+
+1) User or system triggers ReplicaSet creation
+   Kubernetes client (kubectl) sends a ReplicaSet creation request to API server
+   Submission includes detailed specification
+
+2) Kubernetes controller continuously monitors API server
+   Detects new ReplicaSet object in the cluster
+   Initiates reconciliation process
+   Compares desired state (specified replicas) with current cluster state
+
+3) Pod Creation Mechanism
+    Controller generates Pod definitions
+    Creates exact number of Pod specifications (2 in this example)
+    Applies template from ReplicaSet specification
+    Ensures each Pod is identically configured
+
+4) Scheduler Intervention
+    Scheduler actively watches API server for unassigned Pods
+    Identifies newly created, unscheduled Pods
+    Evaluates cluster nodes for optimal placement
+    Considers:
+    - Node resource availability
+    - Current node load
+    - Pod resource requirements
+    - Scheduling constraints
+
+5) Node Assignment
+   Scheduler determines most suitable node for each Pod
+   Sends node assignment information to API server
+   Considers:
+   - CPU and memory availability
+   - Existing workload
+   - Node-specific constraints
+   - Anti-affinity rules
+
+6) Kubelet Notification
+    Kubelet (node agent) monitors API server
+    Detects Pods assigned to its node
+    Prepares for container deployment
+    Validates node meets Pod requirements
+
+7) Container Creation
+    * Kubelet interfaces with container runtime (e.g., Docker)
+    * Requests creation of containers defined in Pod specification
+    * Pulls required container images
+    * Manages:
+      - Image download
+      - Container configuration
+      - Resource allocation
+    * Creates all containers specified in Pod template
+8) The kubelet(worker no process) notifies the API server that pods are created
+    successfully
+
+#### Visualization of the Process
+![ReplicaSet lifecycle](images/kubernetes-replicaset-lifecycle-sequence-diagram.png)
+
+
+#### Example
+```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: workload-api-rep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      type: api
+      language: Scala
+      framework: play-framework
+  template: # Pod definition
+    metadata:
+      labels:
+        type: api
+        language: Scala
+        framework: play-framework
+    spec:
+      containers:
+        - name: workload-api
+          image: aidocking/pfpw:20.20.29
+          resources:
+            limits:
+              memory: "3Gi"
+              cpu: "2"
+# Deploy: `kubectl apply -f workload-api.yaml`
+# View: `kubectl get replicasets
+# Drop: `kubectl delete -f workload-api.yaml`
+```
+
+* **API and Resource Definition:** Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with
+  a name identifier.
+
+* **Replica Configuration:** Set the desired number of concurrent Pods, defaulting to one if not explicitly specified.
+  This ensures consistent application deployment across the cluster.
+
+* **Pod Selection Mechanism:** Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet
+  dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
+
+* **Label Matching Strategy:** Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
+  targets the correct set of containers across the Kubernetes environment. In this case pod having the labels
+  type: api, language: Scala and framework: play-framework will be managed by the ReplicaSet
+
+* **Template Specification:** Provide a Pod template that serves as a blueprint for creating new Pods when necessary,
+  with mandatory container definitions that guide the ReplicaSet's deployment logic.
+
+* **Container Definition:** Specify the containers to be deployed within the Pods, detailing their configuration and
+  ensuring consistent application setup across replicas. we specify a name, image and limits of the resources consumed
+  by the containers in pods
+
+### Services: The Communication Architects
+
+Services are like sophisticated phone switchboards, routing traffic to the right containers and providing a
+stable network endpoint. In the complex world of Kubernetes, Services are the master network conductors,
+transforming the ephemeral and dynamic nature of Pods into stable, predictable communication endpoints.
+They provide stable addresses for communication while pod network addresses are lost when a pod is killed and
+new one are assigned when pods are created and started. Imagine Pods as temporary workers constantly moving between offices.
+Services are like permanent phone numbers that always route to the right person, regardless of their current
+location. Without Services, networking in Kubernetes would be chaotic and unreliable.
+
+#### Service Types: Navigating Communication Strategies
+
+1. **ClusterIP Service: Internal Communication Backbone**
+   - Default service type
+   - Provides a stable IP address within the cluster
+   - Accessible only internally
+   - Perfect for microservice-to-microservice communication
+
+      ```yaml
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: workload-service
+      spec:
+        type: ClusterIP
+        selector:
+          type: api
+          language: scala
+          framework: play-framework
+          service: workload
+        ports:
+         - port: 9000
+           targetPort: 9000
+
+      # Deploy: `kubectl apply -f workload-api.yaml`
+      # View: `kubectl get services`
+      # Drop: `kubectl delete -f workload-api.yaml`
+      ```
+   **Use Cases:**
+    - Internal microservice communication
+    - Backend service discovery
+    - Secure internal networking
+
+2. **NodePort Service: External Access Gateway**
+   - Exposes service on a static port across all nodes
+   - Makes service accessible from outside the cluster
+   - Assigns a cluster-wide port (default range 30000-32767)
+
+   ```yaml
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: workload-service
+   spec:
+     type: NodePort
+     selector:
+       type: api
+       language: scala
+       framework: play-framework
+     ports:
+       - port: 9000
+         targetPort: 9000
+         nodePort: 30123
+   # Deploy: kubectl apply -f workload-api.yaml
+   # View: kubectl get services
+   # Drop: kubectl delete -f workload-api.yaml
+   ```
+
+   **Use Cases:**
+     - Development and testing environments
+     - Simple external access
+     - When complex load balancing is not required
+
+3. **LoadBalancer Service: Cloud-Native External Access**
+   - Provisions an external load balancer
+   - Automatically creates NodePort and ClusterIP
+   - Ideal for cloud environments
+
+     ```yaml
+     apiVersion: v1
+     kind: Service
+     metadata:
+       name: workload-service
+     spec:
+       type: LoadBalancer
+       selector:
+          type: api
+          language: scala
+          framework: play-framework
+          service: workload
+       ports:
+         - port: 9000
+           targetPort: 9000
+      # Deploy: `kubectl apply -f workload-api.yaml`
+      # View: `kubectl get services`
+      # Drop: `kubectl delete -f workload-api.yaml`
+     ```
+
+    **Use Cases:**
+    - Production web applications
+    - Public-facing services
+    - Cloud-native deployments
+
+4. **ExternalName Service: Hybrid Connectivity**
+   - Maps service to an external DNS name
+   - Enables seamless integration with external systems
+
+     ```yaml
+     apiVersion: v1
+     kind: Service
+     metadata:
+       name: workload-external-database
+     spec:
+       type: ExternalName
+       selector:
+         type: api
+         language: scala
+         framework: play-framework
+         service: workload
+       externalName: workload-database.example.com
+
+      # Deploy: `kubectl apply -f workload-api.yaml`
+      # View: `kubectl get services`
+      # Drop: `kubectl delete -f workload-api.yaml`
+     ```
+
+   **Use Cases:**
+    - Connecting to external databases
+    - Integrating with legacy systems
+    - Providing abstraction for external resources
+
+#### Advantages of Services Over Direct Pod Communication
+
+1. **Stable Network Identification**
+   - Unlike Pods, Services provide a consistent IP and DNS name
+   - Survives Pod restarts and rescheduling
+   - Decouples service discovery from pod lifecycle
+
+2. **Load Balancing**
+   - Automatically distributes traffic across multiple pods
+   - Implements round-robin load balancing by default
+   - Supports more advanced load balancing strategies
+
+3. **Service Discovery**
+   - Kubernetes DNS automatically registers services
+   - Allows services to find each other using DNS names
+   - Supports both internal and external service discovery
+
+4. **Abstraction and Decoupling**
+   - Separates application logic from network configuration
+   - Enables independent scaling of services
+   - Provides a consistent interface for communication
+
+5. **Security**
+   - Implements network policies
+   - Controls traffic flow between services
+   - Supports fine-grained access control
+
+#### Practical Considerations for Scala Developers
+
+  - Use ClusterIP for inter-service communication
+  - Leverage LoadBalancer for public-facing services
+  - Implement health checks with readiness and liveness probes
+  - Consider using Ingress for more advanced routing
+
+
+#### Visualization: Service Communication Flow
+![Service lifecycle](images/kubernetes-service-lifecycle-sequential-diagram.png)
+
+#### Example
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: workload-api
+ labels:
+   type: api
+   language: scala
+   framework: play-framework
+   service: workload
+spec:
+ containers:
+   - name: workload-api
+     image: aidocking/pfpw:20.20.29
+     ports:
+       - containerPort: 9000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: workload-service
+spec:
+ type: NodePort
+ selector:
+   type: api
+   language: scala
+   framework: play-framework
+ ports:
+   - port: 9000
+     targetPort: 9000
+     nodePort: 30123
+# Deploy: kubectl apply -f workload-api.yaml
+# View: kubectl get services
+#       kubectl get pods
+#       kubectl get all
+# Get the cluster ip: minikube ip
+# access the service: clusterIp:nodePort (clusterIp:30123)
+# Drop: kubectl delete -f workload-api.yaml
+```
+
+* **API and Resource Definition:** Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
+
+* **Replica Configuration:** Set the desired number of concurrent Pods, defaulting to one if not explicitly specified. This ensures consistent application deployment across the cluster.
+
+* **Pod Selection Mechanism:** Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
+
+* **Label Matching Strategy:** Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet targets the correct set of containers across the Kubernetes environment.
+
+* **Template Specification:** Provide a Pod template that serves as a blueprint for creating new Pods when necessary, with Kubernetes requires an external mechanism to manage incoming web traffic properly. This Ingress system needs to route requests from standard web ports to the appropriate internal services based on URL paths and domains, while also handling SSL encryption. Unlike other controllers built into Kubernetes core, Ingress controllers must be installed separately - Kubernetes only provides the API framework through its Ingress resource definition. Fortunately, the community has developed numerous Ingress controller implementations to fulfill these requirements, though selection depends on specific project needs and infrastructure constraints.mandatory container definitions that guide the ReplicaSet's deployment logic.
+
+* **Container Definition:** Specify the containers to be deployed within the Pods, detailing their configuration and ensuring consistent application setup across replicas.
+
+
+### Ingress
+
+Kubernetes requires an external mechanism to manage incoming web traffic properly. This Ingress system needs to route requests
+from standard web ports to the appropriate internal services based on URL paths and domains, while also handling SSL encryption.
+Unlike other controllers built into Kubernetes core, Ingress controllers must be installed separately - Kubernetes only provides
+the API framework through its Ingress resource definition. Fortunately, the community has developed numerous Ingress controller
+implementations to fulfill these requirements, though selection depends on specific project needs and infrastructure constraints.
+The first thing to do is to enable ingress controller in our cluster: `kubectl addons enable ingress`
+
+#### Example
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: workload-api
+  labels:
+    type: api
+    language: scala
+    framework: play-framework
+    service: workload
+spec:
+  containers:
+    - name: workload-api
+      image: aidocking/pfpw:20.20.29
+      ports:
+        - containerPort: 9000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: workload-service
+spec:
+  type: ClusterIP
+  selector:
+    type: api
+    language: scala
+    framework: play-framework
+  ports:
+    - port: 9000
+      targetPort: 9000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-workload-ingress
+  annotations:
+    'spec.ingressClassName': "nginx"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - host: k8splayworkload.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: workload-service
+                port:
+                  number: 9000
+```
+
+The metadata section introduces annotations as a flexible mechanism for providing controller-specific information beyond
+the core Ingress specification. This design intentionally keeps the Kubernetes Ingress API minimal while enabling
+controller-specific customization through annotations. `k8splayworkload.com` is the fully qualified domain name of a
+network host, as defined by RFC 3986  We disable HTTPS redirection with the annotation
+`nginx.ingress.kubernetes.io/ssl-redirect: false` since we lack SSL certificates for our exercises. In the specification
+section, we define traffic routing rules. Our configuration routes all HTTP requests with paths beginning with `/` to the
+`workload-service` service on port 8080, creating a clean pathway for external traffic to reach our specific application.
+backend defines the referenced service endpoint to which the traffic will be forwarded to in this case `workload-service`.
+To access the service trough the nginx ingress controller open your `/etc/hosts` in a linux machine(or corresponding file on
+other os) and append this line: `node-address k8splayworkload.com` where node-id is the address of your cluster node that
+can be retrieve using `minikube ip`. After this the targeted service becomes accessible from your browser at the hostname
+`k8splayworkload.com`.
+
+### ConfigMaps and Secrets: Configuration Maestros
+
+Separate your configuration from code! ConfigMaps handle non-sensitive configurations, while Secrets manage sensitive
+data like passwords and tokens here we have converted the actual value into base64 using:
+`echo -n value-of-secret | base64 --decode`. Replace in this command the `value-of-secret` with the value of
+your secret. `config-one`(respectively `secret-one`) are the keys and `config-value` (respectively `secret-one`...) are
+values.
+
+```yaml
+# ConfigMap for application settings
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: workload-config
+data:
+ config-one: "config-value"
+```
+
+```yaml
+# Secrets for sensitive information
+apiVersion: v1
+kind: Secret
+metadata:
+ name: workload-secret
+type: Opaque
+data:
+ secret-one: bW9uZ291c2Vy
+ secret-two: bW9uZ29wYXNzd29yZA==
+```
+
+### Deployments: Your Rollout Strategy Manager
+
+Deployments are the smart project managers of Kubernetes. They handle updates, rollbacks, and ensure smooth transitions
+between application versions. Kubernetes Deployments offer sophisticated orchestration capabilities that eliminate
+downtime during application updates. This mechanism handles the complex coordination required when transitioning between
+software versions by carefully managing Pod lifecycles and traffic routing. When initiated, a Deployment creates a new
+ReplicaSet that gradually scales up with updated application instances while simultaneously scaling down the previous
+version's ReplicaSet. This controlled transition ensures continuous service availability as traffic seamlessly shifts
+to new Pods only after they're fully operational. The process includes built-in health checks, rollback capabilities,
+and configurable deployment strategies (like rolling updates with customizable surge parameters), effectively preventing
+the service disruptions commonly experienced with traditional update methods. This comprehensive approach ensures
+applications remain available throughout the entire update lifecycle, maintaining system reliability even during active
+changes.
+
+#### Deployment Lifecycle: A Step-by-Step Symphony
+
+1) * **Initiation** : The user submits a Deployment YAML to the API Server, which validates and stores it.
+2) * **Controller Actions** :
+    * The Deployment Controller in the Controller Manager creates a ReplicaSet
+    * The ReplicaSet Controller then creates Pod objects to match the desired count
+3) * **Scheduling Process** : The Scheduler assigns Pods to specific Nodes based on resource requirements and constraints
+4) * **Pod Creation** :
+    * The Kubelet on the assigned Node pulls container images
+    * Container Runtime creates and starts the actual containers
+    * Status updates flow back through the system
+5) * **Monitoring Cycle** :
+    * The Kubelet monitors container health and restarts containers if needed
+    * The Controllers ensure the desired state is maintained
+
+#### Visualization of the deployment process
+This diagram illustrates how Kubernetes orchestrates deployments through multiple coordinated components, each with
+specific responsibilities in the workflow.
+![Deployment lifecycle](images/kubernetes-deployment-sequence-diagram.png)
+
+:::
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-api
+  labels:
+    demo: k8s-auto-scaling
+spec:
+  selector:
+    matchLabels:
+      type: api
+      language: scala
+      framework: play-framework
+      service: workload
+  minReadySeconds: 1
+  progressDeadlineSeconds: 1200
+  revisionHistoryLimit: 5
+  strategy: # Deployment strategy
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template: # Pod definition
+    metadata:
+      labels:
+        type: api
+        language: scala
+        framework: play-framework
+        service: workload
+    spec:
+      containers:
+        - name: workload-api
+          image: aidocking/pfpw:20.20.29
+          ports:
+            - containerPort: 9000
+          livenessProbe:
+            httpGet:
+              path: /listOfLocations
+              port: 9000
+            failureThreshold: 3
+            timeoutSeconds: 2
+            periodSeconds: 10
+            initialDelaySeconds: 5
+
+          startupProbe:
+            httpGet:
+              path: /listOfLocations
+              port: 9000
+            failureThreshold: 30
+            periodSeconds: 15
+            timeoutSeconds: 2
+
+          readinessProbe:
+            httpGet:
+              path: /listOfLocations
+              port: 9000
+            failureThreshold: 10
+            periodSeconds: 15
+            timeoutSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: workload-service
+spec:
+  type: ClusterIP
+  selector:
+    type: api
+    language: scala
+    framework: play-framework
+  ports:
+    - port: 9000
+      targetPort: 9000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-workload-ingress
+  annotations:
+    'spec.ingressClassName': "nginx"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - host: k8splayworkload.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: workload-service
+                port:
+                  number: 9000
+
+```
+:::
+
+* **minReadySeconds**: let us specify the minimum number of seconds to wait before kubernetes starts considering the pods
+  ready.
+* **progressDeadlineSeconds**: The maximum time in seconds for a deployment to make progress before it is considered to be failed
+* **revisionHistoryLimit**: Defines the number of previous replicas to track so that we'll be able to roll back to any
+  of those previous ReplicaSets.
+* **strategy**: define a way to replace running pod with new one having another version. There are two types: RollingUpdate
+  or Recreate. Recreate terminate all the pods before an update(new image to deploy). Rolling update progressively replace
+  new old pod with new ones. maxSurge specifies the maximum number of pods that can be scheduled above the desired number
+  of pods. maxUnavailable specifies the maximum number of pods that can be unavailable during the update.
+* **readinessProbe**: Periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails
+* **startupProbe**: StartupProbe indicates that the Pod has successfully initialized. If specified, no other probes are executed until
+  this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed.
+* **livenessProbe**: Periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated
+
+### A complete example from all the previous snippets
+
+:::
+```yaml
+# ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workload-config
+data:
+  config-one: "config-value"
+
+---
+# Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: workload-secret
+type: Opaque
+data: # values have been encoded in base64 using `echo -n  data | base64`
+  secret-one: bW9uZ291c2Vy
+  secret-two: bW9uZ29wYXNzd29yZA==
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-api
+  labels:
+    demo: k8s-auto-scaling
+spec:
+  selector:
+    matchLabels:
+      type: api
+      language: scala
+      framework: play-framework
+      service: workload
+  minReadySeconds: 1
+  progressDeadlineSeconds: 1200
+  revisionHistoryLimit: 5
+  strategy: # Deployment strategy
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template: # Pod definition
+    metadata:
+      labels:
+        type: api
+        language: scala
+        framework: play-framework
+        service: workload
+    spec:
+      containers:
+        - name: workload-api
+          image: aidocking/pfpw:20.20.29
+          ports:
+            - containerPort: 9000
+          env:
+            - name: CONFIG_ONE
+              valueFrom:
+                configMapKeyRef:
+                  name: workload-config
+                  key: config-one
+            - name: SECRET_ONE
+              valueFrom:
+                secretKeyRef:
+                  name: workload-secret
+                  key: secret-one
+
+          livenessProbe:
+            httpGet:
+              path: /listOfLocations
+              port: 9000
+            failureThreshold: 3
+            timeoutSeconds: 2
+            periodSeconds: 10
+            initialDelaySeconds: 5
+
+          startupProbe:
+            httpGet:
+              path: /listOfLocations
+              port: 9000
+            failureThreshold: 30
+            periodSeconds: 15
+            timeoutSeconds: 2
+
+          readinessProbe:
+            httpGet:
+              path: /listOfLocations
+              port: 9000
+            failureThreshold: 10
+            periodSeconds: 15
+            timeoutSeconds: 10
+
+          resources:
+            limits:
+              memory: "3Gi"
+              cpu: "2"
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: workload-service
+  labels:
+    service: workload
+spec:
+  type: ClusterIP
+  selector:
+    type: api
+    language: scala
+    framework: play-framework
+    service: workload
+  ports:
+    - port: 9002
+      protocol: TCP
+      targetPort: 9000
+
+---
+# Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-workload-ingress
+  annotations:
+    'spec.ingressClassName': "nginx"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - host: k8splayworkload.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: workload-service
+                port:
+                  number: 9002
+
+---
+# workload auto-scaling strategy
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: workload-horizontal-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: workload-api
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 75
+```
+:::
+
+#### Auto-scaling
+We have added a horizontal auto-scaling policy for this deployment.
+* **minReplicas** is the lower limit for the number of replicas to which the auto-scaler can scale down. It defaults to 1 pod.
+* **maxReplicas** is the upper limit for the number of replicas to which the auto-scaler can scale up. It cannot be less that minReplicas.
+* **metrics** contains the specifications for which to use to calculate the desired replica count (the maximum replica count across all metrics will be used
+* **metrics.type** is the type of metric source
+* **metrics.type.resource**  refers to a resource metric (such as those specified in requests and limits) known to
+  Kubernetes describing each pod in the current scale target (e.g. CPU or memory)
+* **metrics.resource.name** is the name of the resource in question.
+* **metrics.resource.target** specifies the target value for the given metric.
+* **metrics.resource.target.type** represents whether the metric type is Utilization, Value, or AverageValue.
+* **metrics.resource.target.averageUtilization** is the target value of the average of the resource metric across all
+  relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type.
+
+with this bash script you can overload your scala play framework application running in the pod, and see how the
+kubernetes auto-scale the application in response to the incoming load. Adjust the frequencies per minutes and the duration
+of the overload in minutes.
+
+```bash
+#!/bin/bash
+
+# Configuration variables
+ENDPOINT="http://k8splayworkload.com/listOfCars"  # Target HTTP endpoint
+CALLS_PER_MINUTE=12000                # Number of calls per minute
+TOTAL_MINUTES=2                    # Total duration in minutes
+
+# Display configuration
+echo "Starting HTTP load generator with the following configuration:"
+echo "Endpoint: $ENDPOINT"
+echo "Frequency: $CALLS_PER_MINUTE calls per minute"
+echo "Duration: $TOTAL_MINUTES minutes"
+echo "Total calls to be made: $((CALLS_PER_MINUTE * TOTAL_MINUTES))"
+echo "----------------------------------------"
+
+# Calculate timing
+SLEEP_TIME=$(bc <<< "scale=6; 60 / $CALLS_PER_MINUTE")
+TOTAL_SECONDS=$((TOTAL_MINUTES * 60))
+START_TIME=$(date +%s)
+END_TIME=$((START_TIME + TOTAL_SECONDS))
+
+# Initialize counter
+COUNTER=0
+
+
+# Run the load test
+while [ $(date +%s) -lt $END_TIME ]; do
+  # Make HTTP request without waiting for response
+  curl -s -o /dev/null -w "" "$ENDPOINT" &
+
+  # Increment counter
+  COUNTER=$((COUNTER + 1))
+
+  # Display progress every 10 requests
+  if [ $((COUNTER % 10)) -eq 0 ]; then
+    ELAPSED_TIME=$(($(date +%s) - START_TIME))
+    ELAPSED_MINUTES=$(bc <<< "scale=2; $ELAPSED_TIME / 60")
+    PERCENT_COMPLETE=$(bc <<< "scale=2; ($ELAPSED_TIME / $TOTAL_SECONDS) * 100")
+    echo "Progress: $COUNTER requests sent ($ELAPSED_MINUTES minutes elapsed, $PERCENT_COMPLETE% complete)"
+  fi
+
+  # Sleep for calculated time
+  sleep $SLEEP_TIME
+done
+
+# Final report
+TOTAL_TIME=$(($(date +%s) - START_TIME))
+ACTUAL_RATE=$(bc <<< "scale=2; $COUNTER / ($TOTAL_TIME / 60)")
+
+echo "----------------------------------------"
+echo "Load test completed:"
+echo "Total requests sent: $COUNTER"
+echo "Actual duration: $(bc <<< "scale=2; $TOTAL_TIME / 60") minutes"
+echo "Average rate: $ACTUAL_RATE requests per minute"
+```
+Having an eye on the kubernetes dashboard page you can see how the cluster reacts in response to the
+load. You'll notice how it scales by adding the number of pods and later when the overload is passed it
+scales down.
+
+#### Zero down-time deployment
+We have defined a zero-downtime deployment in the attribute `stragey`. to see how this works we can change the actual version
+of the app that is running, and we'll see that kubernetes does not stop all the running container before starting new ones. Instead,
+it progressively changes old instances(`pfpw:20.20.29`) with new instances having the new version/release(`pfpw:20.20.30`). Doing this there will be no time when
+the service will not be available. To apply a new version run this command:
+`kubectl set image -f workload-api.yml workload-api=aidocking/pfpw:20.20.30`
+
+### Pro Tips for Scala Developers
+
+1. **Containerization**: Use multi-stage Docker builds
+2. **Health Checks**: Implement robust readiness and liveness probes
+3. **Configuration**: Externalize configuration with ConfigMaps
+4. **Security**: Never hard-code sensitive information
+5. **Monitoring**: Set up comprehensive logging and metrics
+
+## Conclusion: Your Kubernetes Journey Begins
+
+Kubernetes isn't just a tool—it's a mindset. For Scala developers, it represents a powerful way to transform how we
+think about deploying and managing applications.
+
+Start small, experiment, and gradually build your Kubernetes expertise. The learning curve is steep, but the view
+from the top is spectacular!
+
+**Ready to revolutionize your Scala application deployment?** Kubernetes is waiting!
+
