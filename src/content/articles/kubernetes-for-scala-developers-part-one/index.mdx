@@ -750,17 +750,8 @@ spec:
 
 ### A complete example from all the previous snippets
 
-:::
 ```yaml
 # ConfigMap
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: workload-config
-data:
-  config-one: "config-value"
-
----
 # Secret
 apiVersion: v1
 kind: Secret
@@ -770,8 +761,18 @@ type: Opaque
 data: # values have been encoded in base64 using `echo -n  data | base64`
   secret-one: bW9uZ291c2Vy
   secret-two: bW9uZ29wYXNzd29yZA==
+
+# ConfigMap
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workload-config
+data:
+  config-one: "config-value"
+
 # Deployment
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -825,7 +826,7 @@ spec:
             failureThreshold: 3
             timeoutSeconds: 2
             periodSeconds: 10
-            initialDelaySeconds: 5
+            initialDelaySeconds: 15
 
           startupProbe:
             httpGet:
@@ -834,6 +835,7 @@ spec:
             failureThreshold: 30
             periodSeconds: 15
             timeoutSeconds: 2
+            initialDelaySeconds: 45
 
           readinessProbe:
             httpGet:
@@ -845,11 +847,11 @@ spec:
 
           resources:
             limits:
-              memory: "3Gi"
+              memory: "2.5Gi"
               cpu: "2"
 
+# api service
 ---
-# Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -869,7 +871,6 @@ spec:
       targetPort: 9000
 
 ---
-# Ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -902,7 +903,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: workload-api
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 4
   metrics:
     - type: Resource
@@ -917,8 +918,27 @@ spec:
         target:
           type: Utilization
           averageUtilization: 75
+  behavior:
+    scaleUp:
+      policies:
+        - periodSeconds: 60
+          type: Percent
+          value: 10
+      selectPolicy: Max
+      stabilizationWindowSeconds: 120
+    scaleDown:
+      policies:
+        - periodSeconds: 60
+          type: Percent
+          value: 1
+        - type: Pods
+          value: 1
+          periodSeconds: 60
+      selectPolicy: Max
+      stabilizationWindowSeconds: 120
+
+# Add environment variables
 ```
-:::
 
 #### Auto-scaling
 We have added a horizontal auto-scaling policy for this deployment.
@@ -942,16 +962,19 @@ of the overload in minutes.
 #!/bin/bash
 
 # Configuration variables
-ENDPOINT="http://k8splayworkload.com/listOfCars"  # Target HTTP endpoint
-CALLS_PER_MINUTE=12000                # Number of calls per minute
-TOTAL_MINUTES=2                    # Total duration in minutes
+ENDPOINT="http://k8splayworkload.com/generateNewCars?n=1&t=2"  # Target HTTP endpoint
+# Calling this end point will create a high asynchronous computation workload in the backend.
+CALLS_PER_MINUTE=15                # Number of calls per minute
+TOTAL_MINUTES=4                    # Total duration in minutes
 
 # Display configuration
 echo "Starting HTTP load generator with the following configuration:"
 echo "Endpoint: $ENDPOINT"
+echo "Method: POST"
 echo "Frequency: $CALLS_PER_MINUTE calls per minute"
 echo "Duration: $TOTAL_MINUTES minutes"
 echo "Total calls to be made: $((CALLS_PER_MINUTE * TOTAL_MINUTES))"
+echo "Mode: Synchronous (waiting for each response)"
 echo "----------------------------------------"
 
 # Calculate timing
@@ -960,14 +983,30 @@ TOTAL_SECONDS=$((TOTAL_MINUTES * 60))
 START_TIME=$(date +%s)
 END_TIME=$((START_TIME + TOTAL_SECONDS))
 
-# Initialize counter
+# Initialize counters
 COUNTER=0
-
+SUCCESS_COUNT=0
+FAILED_COUNT=0
+TOTAL_RESPONSE_TIME=0
 
 # Run the load test
 while [ $(date +%s) -lt $END_TIME ]; do
-  # Make HTTP request without waiting for response
-  curl -s -o /dev/null -w "" "$ENDPOINT" &
+  # Make HTTP POST request and wait for response
+  REQUEST_START=$(date +%s.%N)
+
+  HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$ENDPOINT")
+
+  REQUEST_END=$(date +%s.%N)
+  REQUEST_TIME=$(bc <<< "$REQUEST_END - $REQUEST_START")
+  TOTAL_RESPONSE_TIME=$(bc <<< "$TOTAL_RESPONSE_TIME + $REQUEST_TIME")
+
+  # Check status code
+  if [[ "$HTTP_STATUS" -ge 200 && "$HTTP_STATUS" -lt 300 ]]; then
+    SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+  else
+    FAILED_COUNT=$((FAILED_COUNT + 1))
+    echo "Request failed with status: $HTTP_STATUS"
+  fi
 
   # Increment counter
   COUNTER=$((COUNTER + 1))
@@ -977,20 +1016,33 @@ while [ $(date +%s) -lt $END_TIME ]; do
     ELAPSED_TIME=$(($(date +%s) - START_TIME))
     ELAPSED_MINUTES=$(bc <<< "scale=2; $ELAPSED_TIME / 60")
     PERCENT_COMPLETE=$(bc <<< "scale=2; ($ELAPSED_TIME / $TOTAL_SECONDS) * 100")
+    AVG_RESPONSE_TIME=$(bc <<< "scale=4; $TOTAL_RESPONSE_TIME / $COUNTER")
+
     echo "Progress: $COUNTER requests sent ($ELAPSED_MINUTES minutes elapsed, $PERCENT_COMPLETE% complete)"
+    echo "  Success: $SUCCESS_COUNT, Failed: $FAILED_COUNT, Avg response time: ${AVG_RESPONSE_TIME}s"
   fi
 
-  # Sleep for calculated time
-  sleep $SLEEP_TIME
+  # Calculate time to sleep (accounting for request time)
+  ACTUAL_SLEEP_TIME=$(bc <<< "$SLEEP_TIME - $REQUEST_TIME")
+
+  # Only sleep if the value is positive
+  if (( $(bc <<< "$ACTUAL_SLEEP_TIME > 0") )); then
+    sleep $ACTUAL_SLEEP_TIME
+  fi
 done
 
 # Final report
 TOTAL_TIME=$(($(date +%s) - START_TIME))
 ACTUAL_RATE=$(bc <<< "scale=2; $COUNTER / ($TOTAL_TIME / 60)")
+AVG_RESPONSE_TIME=$(bc <<< "scale=4; $TOTAL_RESPONSE_TIME / $COUNTER")
 
 echo "----------------------------------------"
 echo "Load test completed:"
 echo "Total requests sent: $COUNTER"
+echo "Successful responses: $SUCCESS_COUNT"
+echo "Failed responses: $FAILED_COUNT"
+echo "Success rate: $(bc <<< "scale=2; ($SUCCESS_COUNT / $COUNTER) * 100")%"
+echo "Average response time: ${AVG_RESPONSE_TIME}s"
 echo "Actual duration: $(bc <<< "scale=2; $TOTAL_TIME / 60") minutes"
 echo "Average rate: $ACTUAL_RATE requests per minute"
 ```
