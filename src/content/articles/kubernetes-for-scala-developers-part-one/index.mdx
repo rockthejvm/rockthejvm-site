@@ -137,7 +137,7 @@ metadata:
 spec:
  containers:
    - name: workload-api
-     image: aidocking/pfpw:20.20.29
+     image: aidocking/pfpw:20.20.31
      ports:
        - containerPort: 9000
 
@@ -238,7 +238,7 @@ spec:
     spec:
       containers:
         - name: workload-api
-          image: aidocking/pfpw:20.20.29
+          image: aidocking/pfpw:20.20.31
           resources:
             limits:
               memory: "3Gi"
@@ -451,7 +451,7 @@ metadata:
 spec:
  containers:
    - name: workload-api
-     image: aidocking/pfpw:20.20.29
+     image: aidocking/pfpw:20.20.31
      ports:
        - containerPort: 9000
 
@@ -515,7 +515,7 @@ metadata:
 spec:
   containers:
     - name: workload-api
-      image: aidocking/pfpw:20.20.29
+      image: aidocking/pfpw:20.20.31
       ports:
         - containerPort: 9000
 
@@ -667,7 +667,7 @@ spec:
     spec:
       containers:
         - name: workload-api
-          image: aidocking/pfpw:20.20.29
+          image: aidocking/pfpw:20.20.31
           ports:
             - containerPort: 9000
           livenessProbe:
@@ -804,7 +804,7 @@ spec:
     spec:
       containers:
         - name: workload-api
-          image: aidocking/pfpw:20.20.29
+          image: aidocking/pfpw:20.20.31
           ports:
             - containerPort: 9000
           env:
@@ -821,7 +821,7 @@ spec:
 
           livenessProbe:
             httpGet:
-              path: /listOfLocations
+              path: /live
               port: 9000
             failureThreshold: 3
             timeoutSeconds: 2
@@ -830,7 +830,7 @@ spec:
 
           startupProbe:
             httpGet:
-              path: /listOfLocations
+              path: /startup
               port: 9000
             failureThreshold: 30
             periodSeconds: 15
@@ -839,7 +839,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /listOfLocations
+              path: /ready
               port: 9000
             failureThreshold: 10
             periodSeconds: 15
@@ -962,19 +962,17 @@ of the overload in minutes.
 #!/bin/bash
 
 # Configuration variables
-ENDPOINT="http://k8splayworkload.com/generateNewCars?n=1&t=2"  # Target HTTP endpoint
-# Calling this end point will create a high asynchronous computation workload in the backend.
-CALLS_PER_MINUTE=15                # Number of calls per minute
-TOTAL_MINUTES=4                    # Total duration in minutes
+ENDPOINT="http://k8splayworkload.com/createMemoryLoad?d=180&m=512&s=28&l=true"  # Target HTTP endpoint
+#ENDPOINT="http://k8splayworkload.com/fibonacci?n=50"  # Target HTTP endpoint
+CALLS_PER_MINUTE=70                # Number of calls per minute
+TOTAL_MINUTES=3                    # Total duration in minutes
 
 # Display configuration
 echo "Starting HTTP load generator with the following configuration:"
 echo "Endpoint: $ENDPOINT"
-echo "Method: POST"
 echo "Frequency: $CALLS_PER_MINUTE calls per minute"
 echo "Duration: $TOTAL_MINUTES minutes"
 echo "Total calls to be made: $((CALLS_PER_MINUTE * TOTAL_MINUTES))"
-echo "Mode: Synchronous (waiting for each response)"
 echo "----------------------------------------"
 
 # Calculate timing
@@ -983,30 +981,13 @@ TOTAL_SECONDS=$((TOTAL_MINUTES * 60))
 START_TIME=$(date +%s)
 END_TIME=$((START_TIME + TOTAL_SECONDS))
 
-# Initialize counters
+# Initialize counter
 COUNTER=0
-SUCCESS_COUNT=0
-FAILED_COUNT=0
-TOTAL_RESPONSE_TIME=0
 
 # Run the load test
 while [ $(date +%s) -lt $END_TIME ]; do
-  # Make HTTP POST request and wait for response
-  REQUEST_START=$(date +%s.%N)
-
-  HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$ENDPOINT")
-
-  REQUEST_END=$(date +%s.%N)
-  REQUEST_TIME=$(bc <<< "$REQUEST_END - $REQUEST_START")
-  TOTAL_RESPONSE_TIME=$(bc <<< "$TOTAL_RESPONSE_TIME + $REQUEST_TIME")
-
-  # Check status code
-  if [[ "$HTTP_STATUS" -ge 200 && "$HTTP_STATUS" -lt 300 ]]; then
-    SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
-  else
-    FAILED_COUNT=$((FAILED_COUNT + 1))
-    echo "Request failed with status: $HTTP_STATUS"
-  fi
+  # Make HTTP request without waiting for response
+  curl -s -o /dev/null -w "" "$ENDPOINT" &
 
   # Increment counter
   COUNTER=$((COUNTER + 1))
@@ -1016,33 +997,20 @@ while [ $(date +%s) -lt $END_TIME ]; do
     ELAPSED_TIME=$(($(date +%s) - START_TIME))
     ELAPSED_MINUTES=$(bc <<< "scale=2; $ELAPSED_TIME / 60")
     PERCENT_COMPLETE=$(bc <<< "scale=2; ($ELAPSED_TIME / $TOTAL_SECONDS) * 100")
-    AVG_RESPONSE_TIME=$(bc <<< "scale=4; $TOTAL_RESPONSE_TIME / $COUNTER")
-
     echo "Progress: $COUNTER requests sent ($ELAPSED_MINUTES minutes elapsed, $PERCENT_COMPLETE% complete)"
-    echo "  Success: $SUCCESS_COUNT, Failed: $FAILED_COUNT, Avg response time: ${AVG_RESPONSE_TIME}s"
   fi
 
-  # Calculate time to sleep (accounting for request time)
-  ACTUAL_SLEEP_TIME=$(bc <<< "$SLEEP_TIME - $REQUEST_TIME")
-
-  # Only sleep if the value is positive
-  if (( $(bc <<< "$ACTUAL_SLEEP_TIME > 0") )); then
-    sleep $ACTUAL_SLEEP_TIME
-  fi
+  # Sleep for calculated time
+  sleep $SLEEP_TIME
 done
 
 # Final report
 TOTAL_TIME=$(($(date +%s) - START_TIME))
 ACTUAL_RATE=$(bc <<< "scale=2; $COUNTER / ($TOTAL_TIME / 60)")
-AVG_RESPONSE_TIME=$(bc <<< "scale=4; $TOTAL_RESPONSE_TIME / $COUNTER")
 
 echo "----------------------------------------"
 echo "Load test completed:"
 echo "Total requests sent: $COUNTER"
-echo "Successful responses: $SUCCESS_COUNT"
-echo "Failed responses: $FAILED_COUNT"
-echo "Success rate: $(bc <<< "scale=2; ($SUCCESS_COUNT / $COUNTER) * 100")%"
-echo "Average response time: ${AVG_RESPONSE_TIME}s"
 echo "Actual duration: $(bc <<< "scale=2; $TOTAL_TIME / 60") minutes"
 echo "Average rate: $ACTUAL_RATE requests per minute"
 ```
@@ -1053,9 +1021,9 @@ scales down.
 #### Zero down-time deployment
 We have defined a zero-downtime deployment in the attribute `stragey`. to see how this works we can change the actual version
 of the app that is running, and we'll see that kubernetes does not stop all the running container before starting new ones. Instead,
-it progressively changes old instances(`pfpw:20.20.29`) with new instances having the new version/release(`pfpw:20.20.30`). Doing this there will be no time when
+it progressively changes old instances(`pfpw:20.20.31`) with new instances having the new version/release(`pfpw:20.20.32`). Doing this there will be no time when
 the service will not be available. To apply a new version run this command:
-`kubectl set image -f workload-api.yml workload-api=aidocking/pfpw:20.20.30`
+`kubectl set image -f workload-api.yml workload-api=aidocking/pfpw:20.20.32`
 
 ### Pro Tips for Scala Developers
 
