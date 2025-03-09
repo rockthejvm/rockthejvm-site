@@ -6,7 +6,7 @@ This repository contains the front pages of the Rock the JVM website, including 
 
 ## Setup
 
-This repository is built on [Astro](https://astro.build/) with JavaScript/TypeScript. It requires an NPM installation on your machine. Here's how to run it locally:
+This repository is built on [Astro](https://astro.build/) with JavaScript/TypeScript. It requires an NPM installation on your machine, as well as Git LFS. Here's how to run it locally:
 
 - clone the repository
 - `npm install` just once, which will download the appropriate JS/TS packages
@@ -71,13 +71,15 @@ For every article, please set:
 - publishedDate
 - updatedDate: initially the same as the publishedDate at the time of publishing
 
-**Important**: If your article contains media (usually pictures), create a _directory_ with the slug instead of a plain MDX file, and place the MDX file inside that directory and name it `index.mdx`. Store the images under a subfolder `images/` under the directory you've just created.
+**Important**: If your article contains media (usually pictures), create a _directory_ with the slug instead of a plain MDX file, and place the MDX file inside that directory and name it `index.mdx`. Store the images under a subfolder `images/` under the directory you've just created. **You must have Git LFS installed** for images to be pushed correctly.
 
 For example, the Akka vs Kafka vs Spark article contains
 
 - a directory in the path `src/content/articles/comparing-akka-streams-kafka-streams-spark-streaming`
 - the article itself under `src/content/articles/comparing-akka-streams-kafka-streams-spark-streaming/index.mdx`
 - images under `src/content/articles/comparing-akka-streams-kafka-streams-spark-streaming/images`
+
+All tags are checked at build time, and are stored in `src/content/tags` as separate JSON files, as an empty object `{}`. For example, if you tag an article with `my-tag`, make sure that `src/content/tags/my-tag.json` exists and it contains an empty object `{}`. If it doesn't exist, add it.
 
 ### Content
 
