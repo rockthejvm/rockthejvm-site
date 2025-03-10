@@ -125,6 +125,12 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 
 # Article Style Guide
 
+## LLMs
+
+Do not use LLMs to write articles. Readers of this site are very technical and usually well-familiarized with LLMs, so they can easily tell when a piece of content was LLM-generated, which is a big reputation liability for us.
+
+You can use LLMs to help you generate and structure ideas, code, etc, but all the content we write on Rock the JVM is "manual", in the sense that it is the clearst version of our own ideas as they are phrased in our head, the way that we would express them to a person in a conversation, or to an audience in a presentation. This is why, even as the article style is pretty consistent across the site, you'll see variations of style, or minor grammar imperfections, because our writers are from around the world.
+
 ## Embedded
 
 - Embedded content (Tweets, URL, YouTube) should be handled by [Astro Embed](https://astro-embed.netlify.app)
