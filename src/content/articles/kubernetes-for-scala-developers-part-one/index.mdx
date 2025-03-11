@@ -919,7 +919,8 @@ of the overload in minutes.
 #m: total memory to hold(MB)
 #s: memory chunks to allocate progressively(MB)
 #l: flag to enable logging (default: true)
-
+# Adjust the parameters according to your memory/cpu capacity to get the desired effect
+# The test was done on an Intel 2.4GHZ CPU
 ENDPOINT="http://k8splayworkload.com/createMemoryLoad?d=180&m=512&s=28&l=true"  # Target MEMORY WORKLOAD HTTP endpoint
 # CPU workload config: n is the order of fibonacci to compute
 #ENDPOINT="http://k8splayworkload.com/fibonacci?n=4569879"  # Target CPU WORKLOAD HTTP endpoint
