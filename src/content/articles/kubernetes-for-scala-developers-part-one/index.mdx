@@ -4,7 +4,7 @@ category: guide
 difficulty: intermediate
 excerpt: Learn how to scale and deploy your Scala application to Kubernetes
 publishedDate: 2025-03-10
-tags: [kubernetes, scala, zero-downtime, devops, orchestration]
+tags: [kubernetes, scala, devops, scalability]
 title: "Scala applications containers Orchestration with Kubernetes(Part 1)"
 updatedDate: 2025-03-11
 ---
@@ -12,13 +12,13 @@ updatedDate: 2025-03-11
 ## 1. Introduction: Why Kubernetes Matters for Scala Developers
 Imagine that you've built an interesting Scala application, and you are ready to deploy it for your users to consume
 your services. As a good developer you foresee numerous real challenges to address for your application to efficiently
-serve the public: how will the application scale up and down in response to the traffic, avoid service downtime...?
+serve the public: how will the application scale up and down in response to the traffic, avoid service downtime?
 The most efficient solution for your worries is Kubernetes.
 
 If you as a Scala developer you are struggling with your infrastructure, auto-scaling, deployment headaches, this first
 part guide will guide you through building a powerful application ecosystem by introducing you to the core concepts of
 a Kubernetes cluster. The second part will guide you through continuous integration and deployment,
-monitoring,... and help you build a production-ready kubernetes cluster.
+monitoring, and help you build a production-ready Kubernetes cluster.
 
 ## 2. Kubernetes: Your Application's New Best Friend
 Kubernetes is not just another helper tool for deploying applications. It's a complete infrastructural ecosystem positioning
@@ -35,7 +35,7 @@ Kubernetes promises:
 ## 3. The Kubernetes Landscape: A High-Level View
 Kubernetes came to life from a Google engineering team drawing on their long experience in managing large-scale containerized
 systems. The project was later transferred to the Cloud Native Computing Foundation, establishing it as a community-driven
-open-source initiative. Since then the project experience a rapid development and adoption across the industry.
+open-source initiative.
 Kubernetes offers as core functionalities:
 * Seamless deployment with zero-downtime updates and dynamic scaling
 * Complete platform portability across cloud providers and on-premises environments
@@ -45,7 +45,7 @@ Kubernetes offers as core functionalities:
 * Comprehensive operational features including storage management, secrets handling, health checks, load balancing, resource
   monitoring, service discovery, and logging.
 
-The kubernetes architecture is made up of two main parts:
+The Kubernetes architecture is made up of two main parts:
 
 ### Control Plane (Master nodes)
 The control plane administers and make cluster wide decisions such as scheduling, detection and response to cluster events like
@@ -54,7 +54,7 @@ for monitoring the cluster and making sure the desired state of the cluster is m
 are:
 * **Kube-apiserver**: responsible for exposing the Kubernetes API, it is the front end of the Kubernetes control plane through
     which we can talk to Kubernetes.
-* **etcd** Highly-available consistent key value store for all kubernetes cluster data.
+* **etcd** Highly-available consistent key value store for all Kubernetes cluster data.
 * **Kube-scheduler**: process constantly watching for newly created Pods that are not assigned to a node, select
     a node for them to run base on resource availability distribution cluster-wide.
 * **Kube-controller-manager**: responsible for executing **Controllers** processes. In Kubernetes Controllers are control loops
@@ -75,20 +75,20 @@ desired state, and are in a good state.
 * **Kube-proxy**: a network proxy running on each node in the cluster, responsible for maintaining network rules on nodes. These
 network rules allow the communication  to the pods from network sessions inside and outside the cluster.
 * **Container runtime**: a software package that knows how to leverage specific features on a supported operating system
-to run the containers. Its responsibility is to manage the execution of containers withing the kubernetes environment.
+to run the containers. Its responsibility is to manage the execution of containers withing the Kubernetes environment.
 
 
 ### Development environment
 For the development environment we'll use minikube as our local kubernetes. It is a solution that make easy learning and
 development easier for kubernetes. For it to work, you mainly need docker installed. After this all you need is to follow
 the instructions on the page (https://minikube.sigs.k8s.io/docs/start)[Install k8s for local development].
-Kubernetes specifications artifact are written in yaml format and all the kubernetes components details are found on the
+Kubernetes specifications artifact are written in yaml format and all the Kubernetes components details are found on the
 link (Kubernetes components)[https://kubernetes.io/docs/concepts/]. For the following deployment scripts we'll use these
-two commands to deploy and drop kubernetes components on our cluster, where `workload-api.yaml` is a kubernetes yaml
+two commands to deploy and drop Kubernetes components on our cluster, where `workload-api.yaml` is a Kubernetes yaml
 configuration file, and kubectl is the client we use to send our request to the API-Server:
 Deployment: `kubectl apply -f workload-api.yaml`
 Dropping the deployment: `kubectl delete -f workload-api.yaml`
-To have a view of the kubernetes internals we can run in a separate terminal the commands `minikube addons enable dashboard` and
+To have a view of the Kubernetes internals we can run in a separate terminal the commands `minikube addons enable dashboard` and
 ` kubectl addons enable metrics-server` that will install the needed tools to visualize the activity on the cluster.
 We can then run the command `minikube dashboard` which will open a web page in our default browser to see all the objects
 running on the cluster.
@@ -151,7 +151,7 @@ Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete pod workload-api`
 ![Result of dropping the pod](images/pod-deletion-result.png)
 
 Explanations:
-* **API Version and Kind**: The first two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
+* **API Version and Kind**: The **first** two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
   to understand the intended action and correctly process the Pod creation request.
 * **Metadata Section*: This part provides descriptive information about the Pod, including its name and labels. While
   labels don't affect the Pod's behavior currently, they become important when working with Kubernetes controllers.
@@ -164,11 +164,15 @@ deployments.
 
 ### ReplicaSet
 The primary function of a ReplicaSet is to ensure that a specified number of pods replicas is almost always running.
+A ReplicaSet is used by Kubernetes to maintain the availability of a specified number of identical Pods. In practice,
+they are not managed individually by the user specification, but they are transitively created by Kubernetes when required
+to control the number of Pod replicas. The number of replicas here is proportional to the workload that Pods are supposed
+to manage. The more the workload, the more the replicas of the Pods.
 
 #### ReplicaSet Lifecycle: A Step-by-Step Symphony
 When the user or system triggers ReplicaSet creation Kubernetes client (kubectl) sends a ReplicaSet creation request
 to the API server and the payload includes detailed specifications.
-When the kubernetes controller detects new ReplicaSet object in the cluster, it initiates a reconciliation process
+When the Kubernetes controller detects new ReplicaSet object in the cluster, it initiates a reconciliation process
 by Comparing the desired state (specified replicas) with current cluster state. This will be followed by the pod creation
 mechanism as described above.
 
@@ -389,11 +393,6 @@ spec:
    - port: 9000
      targetPort: 9000
      nodePort: 30123
-# Deploy: kubectl apply -f workload-api.yaml service-and-pod-cration-result.png
-# View: kubectl get -f workload-api.yaml
-# Get the cluster ip: minikube ip
-# access the service: clusterIp:nodePort (clusterIp:30123)
-# Drop: kubectl delete -f workload-api.yaml
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
 ![Service serving pod creation result](images/service-node-creation-result.png)
@@ -505,7 +504,7 @@ can be retrieve using `minikube ip`. After this the targeted service becomes acc
 Separate your configuration from code! ConfigMaps handle non-sensitive configurations, while Secrets manage sensitive
 data like passwords and tokens here we have converted the actual value into base64 using:
 `echo -n value-of-secret | base64 --decode`. Replace in this command the `value-of-secret` with the value of
-your secret. `config-one`(respectively `secret-one`) are the keys and `config-value` (respectively `secret-one`...) are
+your secret. `config-one`(respectively `secret-one`) are the keys and `config-value` (respectively `secret-one`,) are
 values.
 
 ```yaml
@@ -682,7 +681,7 @@ Drop: `kubectl delete -f workload-api.yaml`
 ![Dropping result](images/deployment-deletion-result.png)
 
 Explanations:
-* **minReadySeconds**: let us specify the minimum number of seconds to wait before kubernetes starts considering the pods
+* **minReadySeconds**: let us specify the minimum number of seconds to wait before Kubernetes starts considering the pods
   ready.
 * **progressDeadlineSeconds**: The maximum time in seconds for a deployment to make progress before it is considered to be failed
 * **revisionHistoryLimit**: Defines the number of previous replicas to track so that we'll be able to roll back to any
@@ -907,7 +906,7 @@ We have added a horizontal auto-scaling policy for this deployment.
   relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type.
 
 Using this bash script you can overload your scala play framework application running in the pod, and see how the
-kubernetes auto-scale the application in response to the incoming load. Adjust the frequencies per minutes and the duration
+Kubernetes auto-scale the application in response to the incoming load. Adjust the frequencies per minutes and the duration
 of the overload in minutes.
 
 ```bash
@@ -974,13 +973,13 @@ echo "Total requests sent: $COUNTER"
 echo "Actual duration: $(bc <<< "scale=2; $TOTAL_TIME / 60") minutes"
 echo "Average rate: $ACTUAL_RATE requests per minute"
 ```
-Having an eye on the kubernetes dashboard page you can see how the cluster reacts in response to the
+Having an eye on the Kubernetes dashboard page you can see how the cluster reacts in response to the
 load. You'll notice how it scales by adding the number of pods and later when the overload is passed it
 scales down.
 
-#### Zero down-time deployment
+## 5. Zero down-time deployment
 We have defined a zero-downtime deployment in the attribute `strategy`. to see how this works we can change the actual version
-of the app that is running, and we'll see that kubernetes does not stop all the running container before starting new ones. Instead,
+of the app that is running, and we'll see that Kubernetes does not stop all the running container before starting new ones. Instead,
 it progressively changes old instances(`pfpw:20.20.31`) with new instances having the new version/release(`pfpw:20.20.32`). Doing this there will be no time when
 the service will not be available. To apply a new version run this command:
 `kubectl set image -f workload-api.yml workload-api=aidocking/pfpw:20.20.32`
@@ -989,5 +988,9 @@ the service will not be available. To apply a new version run this command:
 
 Kubernetes isn't just a tool, it's a mindset. For Scala developers, it represents a powerful way to transform how we
 think about deploying and managing applications. Start small, experiment, and gradually build your Kubernetes expertise.
-The learning curve is steep, but the view from the top is spectacular!
+In this article we have discovered the basics components of a Kubernetes cluster. how to create, observe, update and delete them.
+The next part(part 2) will build on top of this. We'll explore Automatic creation and management of Kubernetes cluster using JenKins X and
+perform continuous automation and deployment.
+
+The learning curve is steep, but the view from the top is spectacular! Keep up
 
