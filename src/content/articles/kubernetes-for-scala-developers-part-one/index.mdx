@@ -144,11 +144,27 @@ spec:
        - containerPort: 9000
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
-![Pods creation result](images/pod-created.png)
+
+Response:
+```text
+kubectl apply -f workload-api.yaml
+pod/workload-api created
+```
 View: `kubectl get pods` or `kubectl get -f workload-api.yaml`
-![Visualizing the pod created](images/pod-applied.png)
+
+Response:
+```text
+kubectl get pods
+NAME           READY   STATUS    RESTARTS   AGE
+workload-api   1/1     Running   0          3m53s
+```
 Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete pod workload-api`
-![Result of dropping the pod](images/pod-deletion-result.png)
+
+Response:
+```text
+kubectl delete -f workload-api.yaml
+pod "workload-api" deleted
+```
 
 Explanations:
 * **API Version and Kind**: The **first** two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
@@ -209,11 +225,28 @@ spec:
               cpu: "2"
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
-![Pods replicaset creation result](images/replicaset-creation-result.png)
+
+Response:
+```
+kubectl apply -f workload-api.yaml
+replicaset.apps/workload-api-rep created
+```
+
 View: `kubectl get replicasets` or `kubectl get -f workload-api.yaml`
-![Visualizing the replicaset created](images/replicaset-created.png)
+
+Response:
+```text
+kubectl get replicasets
+NAME               DESIRED   CURRENT   READY   AGE
+workload-api-rep   2         2         0       2m33s
+```
 Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete replicaset workload-api-rep`
-![Dropping result](images/replicaset-deletion-result.png)
+
+Response:
+```text
+kubectl delete -f workload-api.yaml
+replicaset.apps "workload-api-rep" deleted
+```
 
 Explanations:
 * **API and Resource Definition**: Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with
@@ -269,11 +302,28 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
          targetPort: 9000
     ```
     Deploy: `kubectl apply -f workload-api.yaml`
-    ![cluster ip creation result](images/service-created-result.png)
+
+    Response:
+    ```text
+    kubectl apply -f workload-api.yaml
+    service/workload-service created
+    ```
     View: `kubectl get services` or `kubectl get -f workload-api.yaml`
-    ![Visualizing the replicaset created](images/service-cluster-ip.png)
+
+    Response:
+    ```text
+    kubectl get services
+    NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+    kubernetes         ClusterIP   100.64.0.1     <none>        443/TCP    15h
+    workload-service   ClusterIP   100.66.5.235   <none>        9000/TCP   45s
+    ```
     Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
-    ![Dropping result](images/service-deletion.png)
+
+    Response:
+    ```text
+    kubectl delete -f workload-api.yaml
+    service "workload-service" deleted
+    ```
 
 2. **NodePort Service**: This service type offer and external Access Gateway by exposing a service on a static port(30000-32767)
     across all nodes. With this type of service you can make your application accessible outside the cluster. this type is best suited
@@ -296,11 +346,29 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
          nodePort: 30123
    ```
     Deploy: `kubectl apply -f workload-api.yaml`
-    ![service ClusterIP creation result](images/service-created-result.png)
+
+    Response:
+    ```text
+    kubectl apply -f workload-api.yaml
+    service/workload-service created
+    ```
     View: `kubectl get services` or `kubectl get -f workload-api.yaml`
-    ![Visualizing the replicaset created](images/service-node-port-view.png)
+
+    Response:
+    ```text
+    kubectl get services
+    NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    kubernetes         ClusterIP   100.64.0.1     <none>        443/TCP          15h
+    workload-service   NodePort    100.67.236.7   <none>        9000:30123/TCP   44s
+    ```
+
     Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
-    ![Dropping result](images/service-deletion.png)
+
+    Response:
+    ```text
+    kubectl delete -f workload-api.yaml
+    service "workload-service" deleted
+    ```
 
 3. **LoadBalancer Service**: This type exposes the service externally using  an external load balancer
    generally provided by your cloud provider. It is best suited for production ready web applications, public-facing services,
@@ -323,11 +391,26 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
          targetPort: 9000
    ```
     Deploy: `kubectl apply -f workload-api.yaml`
-    ![LoadBalancer service creation result](images/service-created-result.png)
+    ```text
+    kubectl apply -f workload-api.yaml
+    service/workload-service created
+    ```
     View: `kubectl get services` or `kubectl get -f workload-api.yaml`
-    ![Visualizing the LoadBalancer service created](images/service-load-balancer-created.png)
+
+    Response:
+    ```text
+    kubectl get services
+    NAME               TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    kubernetes         ClusterIP      10.96.0.1      <none>        443/TCP          22d
+    workload-service   LoadBalancer   10.108.48.81   <pending>     9000:31248/TCP   5s
+    ```
     Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
-    ![Dropping result](images/service-deletion.png)
+
+    Response:
+    ```text
+    kubectl delete -f workload-api.yaml
+    service "workload-service" deleted
+    ```
 
 4. **ExternalName Service**: this type of service maps the service to an external DNS name, like a database hosted outside
     the cluster. It then helps as an abstraction layer for external resources. The key advantages of using services over direct pod
@@ -350,11 +433,28 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
      externalName: workload-database.example.com
    ```
     Deploy: `kubectl apply -f workload-api.yaml`
-    ![ExternalName service creation result](images/service-extenal-name-created.png)
+
+    Response:
+    ```text
+    kubectl apply -f workload-api.yaml
+    service/workload-external-database created
+    ```
     View: `kubectl get services` or `kubectl get -f workload-api.yaml`
-    ![Visualizing the LoadBalancer service created](images/service-ext-name-created-view.png)
-    Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
-    ![Dropping result](images/ext-name-serv-deletion-result.png)
+
+    Response:
+    ```text
+    kubectl get -f workload-api.yaml
+    NAME                         TYPE           CLUSTER-IP   EXTERNAL-IP                     PORT(S)   AGE
+    workload-external-database   ExternalName   <none>       workload-database.example.com   <none>    77s
+    ```
+
+    Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-external-database`
+
+    Response:
+    ```text
+    kubectl delete service workload-external-database
+    service "workload-external-database" deleted
+    ```
 
 #### Visualization: Service Communication Flow
 ![Service lifecycle](images/kubernetes-service-lifecycle-sequential-diagram.png)
@@ -395,11 +495,33 @@ spec:
      nodePort: 30123
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
-![Service serving pod creation result](images/service-node-creation-result.png)
+
+Response:
+```text
+pod/workload-api created
+service/workload-service created
+```
+
 View: `kubectl get -f workload-api.yaml`
-![Visualizing service and pod created](images/view-service-and-pod.png)
+
+Response:
+```text
+kubectl get -f workload-api.yaml
+NAME               READY   STATUS    RESTARTS   AGE
+pod/workload-api   1/1     Running   0          29s
+
+NAME                       TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/workload-service   NodePort   10.107.158.121   <none>        9000:30123/TCP   29s
+```
+
 Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
-![Dropping result](images/service-and-pod-deletion.png)
+
+Response:
+```text
+kubectl delete -f workload-api.yaml
+pod "workload-api" deleted
+service "workload-service" deleted
+```
 
 Explanations:
 * **API and Resource Definition:** Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
@@ -479,11 +601,37 @@ spec:
                   number: 9000
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
-![Ingress and service creation result](images/ingress-service-and-pod-creation.png)
+
+Response:
+```text
+kubectl apply -f workload-api.yaml
+pod/workload-api created
+service/workload-service created
+ingress.networking.k8s.io/api-workload-ingress created
+```
+
 View: `kubectl get -f workload-api.yaml`
-![Visualizing ingress service and pod created](images/ingress-service-and-pod-view.png)
-Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete ingress api-workload-ingress`
-![Dropping result](images/ingress-service-and-pod-deletion.png)
+
+Response:
+```text
+kubectl get -f workload-api.yaml
+NAME               READY   STATUS    RESTARTS   AGE
+pod/workload-api   1/1     Running   0          30s
+
+NAME                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/workload-service   ClusterIP   10.111.108.11   <none>        9000/TCP   30s
+
+NAME                                             CLASS   HOSTS                 ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/api-workload-ingress   nginx   k8splayworkload.com             80      30s
+```
+
+Drop: `kubectl delete -f workload-api.yaml`
+```text
+kubectl delete -f workload-api.yaml
+pod "workload-api" deleted
+service "workload-service" deleted
+ingress.networking.k8s.io "api-workload-ingress" deleted
+```
 
 Explanations:
 The metadata section introduces annotations as a flexible mechanism for providing controller-specific information beyond
@@ -517,11 +665,31 @@ data:
  config-one: "config-value"
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
-![ConfigMaps result](images/config-map-created-result.png)
+
+Response:
+```text
+kubectl apply -f workload-api.yaml
+configmap/workload-config created
+```
+
 View: `kubectl get -f workload-api.yaml` or `kubectl get configmaps`
-![Visualizing config map created](images/view-config-map-created.png)
+
+Response:
+
+```text
+kubectl get -f workload-api.yaml
+NAME              DATA   AGE
+workload-config   1      27s
+```
+
 Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete configmap workload-config`
-![Dropping result](images/delete-configmap-result.png)
+
+Response:
+
+```text
+kubectl delete -f workload-api.yaml
+configmap "workload-config" deleted
+```
 
 ```yaml
 # Secrets for sensitive information
@@ -535,11 +703,29 @@ data:
  secret-two: bW9uZ29wYXNzd29yZA==
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
-![Secrets result](images/secret-creation-result.png)
+
+Response:
+```text
+kubectl apply -f workload-api.yaml
+secret/workload-secret created
+```
+
 View: `kubectl get -f workload-api.yaml` or `kubectl get configmaps`
-![Visualizing secret created](images/secret-view.png)
+
+Response:
+```text
+kubectl get configmaps
+NAME               DATA   AGE
+kube-root-ca.crt   1      22d
+```
+
 Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete secret workload-secret`
-![Dropping result](images/secret-deleted-result.png)
+
+Response:
+```text
+kubectl delete secret workload-secret
+secret "workload-secret" deleted
+```
 
 ### Deployments: Your Rollout Strategy Manager
 
@@ -674,11 +860,38 @@ spec:
                   number: 9000
 ```
 Deploy: `kubectl apply -f workload-api.yaml`
-![Secrets result](images/deployment-creation-result.png)
+
+Response:
+```text
+deployment.apps/workload-api created
+service/workload-service created
+ingress.networking.k8s.io/api-workload-ingress created
+```
+
 View: `kubectl get -f workload-api.yaml`
-![Visualizing secret created](images/view-full-deployment.png)
+
+Response:
+```text
+kubectl get -f workload-api.yaml
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/workload-api   0/1     1            0           26s
+
+NAME                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/workload-service   ClusterIP   10.105.22.145   <none>        9000/TCP   26s
+
+NAME                                             CLASS   HOSTS                 ADDRESS        PORTS   AGE
+ingress.networking.k8s.io/api-workload-ingress   nginx   k8splayworkload.com   192.168.49.2   80      26s
+```
+
 Drop: `kubectl delete -f workload-api.yaml`
-![Dropping result](images/deployment-deletion-result.png)
+
+Response:
+```text
+kubectl delete -f workload-api.yaml
+deployment.apps "workload-api" deleted
+service "workload-service" deleted
+ingress.networking.k8s.io "api-workload-ingress" deleted
+```
 
 Explanations:
 * **minReadySeconds**: let us specify the minimum number of seconds to wait before Kubernetes starts considering the pods
@@ -885,11 +1098,52 @@ spec:
 ```
 
 Deploy: `kubectl apply -f workload-api.yaml`
-![Full example](images/full-example-creation-result.png)
+
+Response:
+```text
+secret/workload-secret created
+configmap/workload-config created
+deployment.apps/workload-api created
+service/workload-service created
+ingress.networking.k8s.io/api-workload-ingress created
+horizontalpodautoscaler.autoscaling/workload-horizontal-autoscaling created
+```
+
 View: `kubectl get -f workload-api.yaml`
-![Visualizing full example](images/full-example-view.png)
+
+Response:
+```text
+kubectl get -f workload-api.yaml
+NAME                     TYPE     DATA   AGE
+secret/workload-secret   Opaque   2      45s
+
+NAME                        DATA   AGE
+configmap/workload-config   1      45s
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/workload-api   0/1     1            0           44s
+
+NAME                       TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)    AGE
+service/workload-service   ClusterIP   10.101.65.9   <none>        9002/TCP   44s
+
+NAME                                             CLASS   HOSTS                 ADDRESS        PORTS   AGE
+ingress.networking.k8s.io/api-workload-ingress   nginx   k8splayworkload.com   192.168.49.2   80      44s
+
+NAME                                                                  REFERENCE                 TARGETS                                     MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/workload-horizontal-autoscaling   Deployment/workload-api   cpu: <unknown>/75%, memory: <unknown>/75%   1         4         1          44s
+```
+
 Drop: `kubectl delete -f workload-api.yaml`
-![Dropping result](images/full-example-deletion-results.png)
+
+Response:
+```text
+secret "workload-secret" deleted
+configmap "workload-config" deleted
+deployment.apps "workload-api" deleted
+service "workload-service" deleted
+ingress.networking.k8s.io "api-workload-ingress" deleted
+horizontalpodautoscaler.autoscaling "workload-horizontal-autoscaling" deleted
+```
 
 #### Auto-scaling
 We have added a horizontal auto-scaling policy for this deployment.
@@ -977,11 +1231,118 @@ Having an eye on the Kubernetes dashboard page you can see how the cluster react
 load. You'll notice how it scales by adding the number of pods and later when the overload is passed it
 scales down.
 
+### Namespaces
+In the context of kubernetes, Namespaces provide a way for isolating groups of resources within a single environment. With Namespaces,
+we can give to some user access to the environment defined by a Namespace which acts like a cluster in the cluster.
+We can
+* control the amount and the number of resources(memory, compute, ...) used in a namespace
+* dedicate a Namespace for development, staging, production, testing environment or more
+* Control what some have access to in the cluster
+In kubernetes some objects(e.g. Deployments, Services, etc.) are namespaced objects and other ones like Storage classes, Nodes are not
+namespace-based scoped. Kubernetes by default create some namespaces:
+* **default**: The namespace in which resources are created by default and all the previous resources were created in this
+    name space
+* **kube-node-lease**: It holds objects that allow each node to send heartbeats through the kubelet so that the control plane
+    can detect node failure.
+* **kube-public**: For cluster usage it contains resources that should be visible and readable publicly throughout the whole cluster.
+* **kube-system**: This namespace contains object created by the kubernetes system
+To get the list of namespaces, run: `kubectl get namespaces` or `kubectl get ns`
+
+Response:
+```yml
+NAME                   STATUS   AGE
+default                Active   22d
+ingress-nginx          Active   10d
+kube-node-lease        Active   22d
+kube-public            Active   22d
+kube-system            Active   22d
+kubernetes-dashboard   Active   21d
+```
+
+To get all the resources in a specify namespace `kube-system`, run: `kubectl --namespace kube-system get all`
+
+Response:
+```text
+NAME                                   READY   STATUS    RESTARTS       AGE
+pod/coredns-668d6bf9bc-654qq           1/1     Running   13 (55m ago)   22d
+pod/etcd-minikube                      1/1     Running   12 (55m ago)   22d
+pod/kube-apiserver-minikube            1/1     Running   12 (55m ago)   22d
+pod/kube-controller-manager-minikube   1/1     Running   12 (55m ago)   22d
+pod/kube-ingress-dns-minikube          1/1     Running   6 (55m ago)    10d
+pod/kube-proxy-rzhwf                   1/1     Running   12 (55m ago)   22d
+pod/kube-scheduler-minikube            1/1     Running   12 (55m ago)   22d
+pod/metrics-server-7fbb699795-d9kvb    1/1     Running   17 (54m ago)   22d
+pod/storage-provisioner                1/1     Running   23 (54m ago)   22d
+
+NAME                     TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE
+service/kube-dns         ClusterIP   10.96.0.10       <none>        53/UDP,53/TCP,9153/TCP   22d
+service/metrics-server   ClusterIP   10.101.147.164   <none>        443/TCP                  22d
+
+NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/kube-proxy   1         1         1       1            1           kubernetes.io/os=linux   22d
+
+NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/coredns          1/1     1            1           22d
+deployment.apps/metrics-server   1/1     1            1           22d
+
+NAME                                        DESIRED   CURRENT   READY   AGE
+replicaset.apps/coredns-668d6bf9bc          1         1         1       22d
+replicaset.apps/metrics-server-7fbb699795   1         1         1       22d
+```
+
+To create a new namespace(e.g. development) run `kubectl create ns development`
+
+Response:
+```text
+namespace/development created
+```
+
+To deploy in a specific namespace(e.g. development) let's first create what is call a context(association between
+a cluster, namespace and a user/credentials) in kubernetes: run:
+`kubectl config set-context development --namespace development --cluster dev-cluster --user admin@dev-cluster`.
+We can also visualize the actual context using `kubectl config view`.
+
+To deploy resources in a specific namespace: run `kubectl -n development apply -f workload-api.yaml` where `n` is an
+argument taking as value the name of the Namespace.
+
+Response:
+```text
+secret/workload-secret created
+configmap/workload-config created
+deployment.apps/workload-api created
+service/workload-service created
+ingress.networking.k8s.io/api-workload-ingress created
+horizontalpodautoscaler.autoscaling/workload-horizontal-autoscaling created
+```
+To view the resources created in a specific namespace run: `kubeclt -n development -f workload-api.yaml`
+
+Response:
+```text
+kubectl -n testing get -f workload-api.yaml
+NAME                     TYPE     DATA   AGE
+secret/workload-secret   Opaque   2      12m
+
+NAME                        DATA   AGE
+configmap/workload-config   1      12m
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/workload-api   1/1     1            1           12m
+
+NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/workload-service   ClusterIP   10.107.244.110   <none>        9002/TCP   12m
+
+NAME                                             CLASS   HOSTS                 ADDRESS        PORTS   AGE
+ingress.networking.k8s.io/api-workload-ingress   nginx   k8splayworkload.com   192.168.49.2   80      12m
+
+NAME                                                                  REFERENCE                 TARGETS                         MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/workload-horizontal-autoscaling   Deployment/workload-api   cpu: 67%/75%, memory: 46%/75%   1         4         1          12m
+```
+
 ## 5. Zero down-time deployment
 We have defined a zero-downtime deployment in the attribute `strategy`. to see how this works we can change the actual version
 of the app that is running, and we'll see that Kubernetes does not stop all the running container before starting new ones. Instead,
 it progressively changes old instances(`pfpw:20.20.31`) with new instances having the new version/release(`pfpw:20.20.32`). Doing this there will be no time when
-the service will not be available. To apply a new version run this command:
+the service will not be available. To apply a new version first launch the previous deployment and then run this command:
 `kubectl set image -f workload-api.yml workload-api=aidocking/pfpw:20.20.32`
 
 ## Conclusion: Your Kubernetes Journey Begins
@@ -993,4 +1354,3 @@ The next part(part 2) will build on top of this. We'll explore Automatic creatio
 perform continuous automation and deployment.
 
 The learning curve is steep, but the view from the top is spectacular! Keep up
-
