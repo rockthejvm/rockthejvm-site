@@ -1343,7 +1343,8 @@ We have defined a zero-downtime deployment in the attribute `strategy`. to see h
 of the app that is running, and we'll see that Kubernetes does not stop all the running container before starting new ones. Instead,
 it progressively changes old instances(`pfpw:20.20.31`) with new instances having the new version/release(`pfpw:20.20.32`). Doing this there will be no time when
 the service will not be available. To apply a new version first launch the previous deployment and then run this command:
-`kubectl set image -f workload-api.yml workload-api=aidocking/pfpw:20.20.32`
+`kubectl set image -f workload-api.yml workload-api=aidocking/pfpw:20.20.32`. In a production environment, new releases are expected to be automatically
+deployed when conditions are met and this dynamic is driven by a tool like Jenkins x.
 
 ## Conclusion: Your Kubernetes Journey Begins
 
