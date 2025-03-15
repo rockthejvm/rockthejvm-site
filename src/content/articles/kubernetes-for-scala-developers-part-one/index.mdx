@@ -151,9 +151,9 @@ Explanations:
 to understand the intended action and correctly process the Pod creation request.
 * **Metadata Section**: This part provides descriptive information about the Pod, including its name and labels. While
 labels don't affect the Pod's behavior currently, they become important when working with Kubernetes controllers.
-* **Specification Section**: The spec defines the container(s) within the Pod. In this example, we're using a single
+* **Specification Section(`spec`)**: The spec defines the Pod behavior
 container, but Kubernetes allows multiple containers to be defined in a single Pod configuration.
-* **Container Definition**: The container details include its name, the Docker image to use, and the specific command to
+* **Container Definition(`spec.containers`)**: The container details include its name, the Docker image to use, and the specific command to
 run when the container starts up. In this case, it's a Play framework app container with the port 9000 exposed.
 It should be noted that pod are not intended to be created individually in real-life scenarios. They will be created through
 deployments.
@@ -753,7 +753,7 @@ applications remain available throughout the entire update lifecycle, maintainin
 changes.
 
 
-#### Deployment Lifecycle: A Step-by-Step Symphony
+#### Deployment Lifecycle
 
 1) * **Initiation** : The user submits a Deployment YAML to the API Server, which validates and stores it.
 2) * **Controller Actions** :
@@ -924,8 +924,8 @@ This kubernetes configuration shows a complete wiring of different components to
 Kubernetes. We have added an auto-scaling configuration in it so that the application can scale.
 
 #### Auto-scaling specifications explanations
-* **minReplicas** is the lower limit for the number of replicas to which the auto-scaler can scale down. It defaults to 1 pod.
-* **maxReplicas** is the upper limit for the number of replicas to which the auto-scaler can scale up. It cannot be less that minReplicas.
+* **minReplicas** is the lower limit for the number of replicas to which the autoscaler can scale down. It defaults to 1 pod.
+* **maxReplicas** is the upper limit for the number of replicas to which the autoscaler can scale up. It cannot be less that minReplicas.
 * **metrics** contains the specifications for which to use to calculate the desired replica count (the maximum replica count across all metrics will be used
 * **metrics.type** is the type of metric source
 * **metrics.type.resource**  refers to a resource metric (such as those specified in requests and limits) known to
@@ -934,7 +934,16 @@ Kubernetes describing each pod in the current scale target (e.g. CPU or memory)
 * **metrics.resource.target** specifies the target value for the given metric.
 * **metrics.resource.target.type** represents whether the metric type is Utilization, Value, or AverageValue.
 * **metrics.resource.target.averageUtilization** is the target value of the average of the resource metric across all
-relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type.
+relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for
+Resource metric source type.
+In addition to this we have created a HorizontalPodAutoscaler. It contains the configuration for a horizontal Pod autoscaler,
+which automatically manages the replica count of the pod based on the metrics specified.
+The `spec.scaleTargetRef` specifies the kind of resource to be scaled as Deployment, and the name being workload-api, the
+name of the Deployment to scale. It specifies `minReplicas` as 1, and `maxReplicas` as 4.
+`spec.metrics` metrics contains the specifications for which to use to calculate the desired
+replica count (the maximum replica count across all metrics will be used).
+The desired replica count of Pod to make available is calculated multiplying the ratio between
+the target value and the actual value by the current number of Pods.
 
 ```yaml
 # Secret
@@ -1096,13 +1105,13 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 75
+          averageUtilization: 85
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: 75
+          averageUtilization: 85
   behavior:
     scaleUp:
       policies:
