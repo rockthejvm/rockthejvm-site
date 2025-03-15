@@ -9,7 +9,7 @@ title: "Scala applications containers Orchestration with Kubernetes(Part 1)"
 updatedDate: 2025-03-11
 ---
 
-## 1. Introduction: Why Kubernetes Matters for Scala Developers
+## Introduction: Why Kubernetes Matters for Scala Developers
 Imagine that you've built an interesting Scala application, and you are ready to deploy it for your users to consume
 your services. As a good developer you foresee numerous real challenges to address for your application to efficiently
 serve the public: how will the application scale up and down in response to the traffic, avoid service downtime?
@@ -17,22 +17,39 @@ The most efficient solution for your worries is Kubernetes.
 
 If you as a Scala developer you are struggling with your infrastructure, auto-scaling, deployment headaches, this first
 part guide will guide you through building a powerful application ecosystem by introducing you to the core concepts of
-a Kubernetes cluster. The second part will guide you through continuous integration and deployment,
-monitoring, and help you build a production-ready Kubernetes cluster.
+a Kubernetes cluster. By the end of this first part you'll be able to understand the architecture of a Kubernetes cluster,
+The main components of Kubernetes, how to scale up or down your application, how to apply zero-downtime deployments and more.
+The second part will guide you through continuous integration and deployment, monitoring, and help you build a production-ready Kubernetes cluster.
 
-## 2. Kubernetes: Your Application's New Best Friend
+## Kubernetes: Your Application's New Best Friend
 Kubernetes is not just another helper tool for deploying applications. It's a complete infrastructural ecosystem positioning
 itself as the most modern solution for deploying resilient and elastics applications. It is a hyper-intelligent and extensible
 deployment orchestrator that manages all aspects of your application's lifecycle.
 
 ### Why Should Scala Developers Care?
-Kubernetes promises:
+The reasons for caring about Kubernetes it promises:
 - **Effortless Scaling**: Grow or shrink your application automatically in response to workload
 - **Self-Healing Magic**: Automatic response to failing containers during their lifecycle
 - **Consistent Deployments**: Run the same application anywhere—local machine, cloud, hybrid environment
 - **Resource Optimization**: Squeeze maximum performance from your infrastructure
 
-## 3. The Kubernetes Landscape: A High-Level View
+## Development environment
+For the development environment we'll use Minikube as our local kubernetes. It is a solution that make easy learning and
+development easier for kubernetes. For it to work, you mainly need Docker installed. After this all you need is to follow
+the instructions on the page [Install k8s for local development](https://minikube.sigs.k8s.io/docs/start).
+Kubernetes specifications artifact are written in yaml format and all the Kubernetes components details are found on the
+link [Kubernetes components](https://kubernetes.io/docs/concepts/). For the following deployment scripts we'll use these
+two commands to deploy and drop Kubernetes components on our cluster, where `workload-api.yaml` is a Kubernetes yaml
+configuration file(place in a folder of your computer and open a terminal at the root of that folder). The name of the file
+doesn't matter only its content matter. `kubectl` is the client we use to send our request to the API-Server.
+To make a deployment run `kubectl apply -f workload-api.yaml`.
+To drop a deployment run `kubectl delete -f workload-api.yaml`.
+To have a view of the Kubernetes internals we can run in a separate terminal the commands `minikube addons enable dashboard` and
+` kubectl addons enable metrics-server` that will install the needed tools to visualize the activity on the cluster.
+We can then run the command `minikube dashboard` which will open a web page in our default browser to see all the objects
+running on the cluster.
+
+## The Kubernetes Landscape: A High-Level View
 Kubernetes came to life from a Google engineering team drawing on their long experience in managing large-scale containerized
 systems. The project was later transferred to the Cloud Native Computing Foundation, establishing it as a community-driven
 open-source initiative.
@@ -43,14 +60,14 @@ Kubernetes offers as core functionalities:
 * Intelligent workload placement and state management
 * Built-in self-healing with emerging self-adaptation capabilities
 * Comprehensive operational features including storage management, secrets handling, health checks, load balancing, resource
-  monitoring, service discovery, and logging.
+  monitoring, service discovery, and logging
 
 The Kubernetes architecture is made up of two main parts:
 
 ### Control Plane (Master nodes)
-The control plane administers and make cluster wide decisions such as scheduling, detection and response to cluster events like
+The control plane administers and makes cluster wide decisions such as scheduling, detection and response to cluster events like
 starting a new pod when there is a difference between the requirements and the actual state of the cluster. It is also responsible
-for monitoring the cluster and making sure the desired state of the cluster is maintained. The main components of hte control plane
+for monitoring the cluster and making sure the desired state of the cluster is maintained. The main components of the control plane
 are:
 * **Kube-apiserver**: responsible for exposing the Kubernetes API, it is the front end of the Kubernetes control plane through
     which we can talk to Kubernetes.
@@ -59,12 +76,12 @@ are:
     a node for them to run base on resource availability distribution cluster-wide.
 * **Kube-controller-manager**: responsible for executing **Controllers** processes. In Kubernetes Controllers are control loops
     that watch the state of your cluster through the API-Server, then make or request changes where needed in other to move
-    the actual state of your cluster toward the desired state. A Given controller is responsible for tracking one type of
+    the actual state of your cluster toward the desired state. A given controller is responsible for tracking one type of
     Kubernetes resource type.
         An example of Controller is the built-in **Job Controller**. A Job is a Kubernetes resource that runs one or multiple
     Pods to execute a task and then stops. When a new task will be scheduled the Job Controller will make sure that some nodes
     on the cluster are running the desired number of Pods to get the work done. It does this by telling the API server to instruct
-    the creation of the Pod(container encapsulation that is the smallest unit on kubernetes) that will
+    the creation of the Pods(containers encapsulation that is the smallest unit on kubernetes) that will execute the task.
 
 ### Worker Nodes
 The main goal of the worker nodes is to host the Pods that are the components of the application workload. All your application
@@ -77,29 +94,14 @@ network rules allow the communication  to the pods from network sessions inside 
 * **Container runtime**: a software package that knows how to leverage specific features on a supported operating system
 to run the containers. Its responsibility is to manage the execution of containers withing the Kubernetes environment.
 
-
-### Development environment
-For the development environment we'll use minikube as our local kubernetes. It is a solution that make easy learning and
-development easier for kubernetes. For it to work, you mainly need docker installed. After this all you need is to follow
-the instructions on the page (https://minikube.sigs.k8s.io/docs/start)[Install k8s for local development].
-Kubernetes specifications artifact are written in yaml format and all the Kubernetes components details are found on the
-link (Kubernetes components)[https://kubernetes.io/docs/concepts/]. For the following deployment scripts we'll use these
-two commands to deploy and drop Kubernetes components on our cluster, where `workload-api.yaml` is a Kubernetes yaml
-configuration file, and kubectl is the client we use to send our request to the API-Server:
-Deployment: `kubectl apply -f workload-api.yaml`
-Dropping the deployment: `kubectl delete -f workload-api.yaml`
-To have a view of the Kubernetes internals we can run in a separate terminal the commands `minikube addons enable dashboard` and
-` kubectl addons enable metrics-server` that will install the needed tools to visualize the activity on the cluster.
-We can then run the command `minikube dashboard` which will open a web page in our default browser to see all the objects
-running on the cluster.
-
-## 4. Kubernetes Components: Meet the Ecosystem
+## Kubernetes Components
 
 ### Pods: Your Application's Smallest Unit
 Think of a Pod like a dedicated apartment for your containers. It's a compact living space where one or more containers
 live together, sharing resources. Imagine a Pod as a smart, self-contained shipping container for your application.
 It's not just a simple container, but a sophisticated ecosystem with multiple layers of intelligence behind its creation
-and deployment.
+and deployment. It abstracts the containers and provides a unique interface through with different containers(Docker, Virtual machines,...)
+solutions can be used.
 
 #### Pod Lifecycle and Scheduling: Behind the Scenes
 In kubernetes, Pods are the smallest unit of workload execution that you can create and manage. It is a group of one or
@@ -118,8 +120,8 @@ When you create a Pod, Kubernetes initiates multiple actions:
     pod main container will start. If liveness and readiness probes are provided, pod will become available only after they
     are successful and will then be made available for service discovery and networking.
 
-* **Notification**: After the pod are created, Kubelet will reports Pod creation status to the API Server, and confirm
-    successful container deployment. After this the cluster state in the ectd key-value store database will be updated.
+* **Notification**: After the pods are created, Kubelet will reports Pod creation status to the API Server, and confirms
+    successful container deployment. After this the cluster state in the `ectd` key-value store database will be updated.
 
 ##### Visualization of the Process
 Here's a sequential diagram to illustrate the workflow:
@@ -143,6 +145,19 @@ spec:
      ports:
        - containerPort: 9000
 ```
+
+Explanations:
+* **API Version and Kind**: The first two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
+to understand the intended action and correctly process the Pod creation request.
+* **Metadata Section**: This part provides descriptive information about the Pod, including its name and labels. While
+labels don't affect the Pod's behavior currently, they become important when working with Kubernetes controllers.
+* **Specification Section**: The spec defines the container(s) within the Pod. In this example, we're using a single
+container, but Kubernetes allows multiple containers to be defined in a single Pod configuration.
+* **Container Definition**: The container details include its name, the Docker image to use, and the specific command to
+run when the container starts up. In this case, it's a Play framework app container with the port 9000 exposed.
+It should be noted that pod are not intended to be created individually in real-life scenarios. They will be created through
+deployments.
+
 Deploy: `kubectl apply -f workload-api.yaml`
 
 Response:
@@ -166,18 +181,6 @@ kubectl delete -f workload-api.yaml
 pod "workload-api" deleted
 ```
 
-Explanations:
-* **API Version and Kind**: The **first** two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
-  to understand the intended action and correctly process the Pod creation request.
-* **Metadata Section*: This part provides descriptive information about the Pod, including its name and labels. While
-  labels don't affect the Pod's behavior currently, they become important when working with Kubernetes controllers.
-* **Specification Section**: The spec defines the container(s) within the Pod. In this example, we're using a single
-  container, but Kubernetes allows multiple containers to be defined in a single Pod configuration.
-* **Container Definition**: The container details include its name, the Docker image to use, and the specific command to
-  run when the container starts up. In this case, it's a Play framework app container with the port 9000 exposed.
-It should be noted that pod are not intended to be created individually in real-life scenarios. They will be created through
-deployments.
-
 ### ReplicaSet
 The primary function of a ReplicaSet is to ensure that a specified number of pods replicas is almost always running.
 A ReplicaSet is used by Kubernetes to maintain the availability of a specified number of identical Pods. In practice,
@@ -186,7 +189,7 @@ to control the number of Pod replicas. The number of replicas here is proportion
 to manage. The more the workload, the more the replicas of the Pods.
 
 #### ReplicaSet Lifecycle: A Step-by-Step Symphony
-When the user or system triggers ReplicaSet creation Kubernetes client (kubectl) sends a ReplicaSet creation request
+When the user or system triggers a ReplicaSet creation, Kubernetes client (kubectl) sends a ReplicaSet creation request
 to the API server and the payload includes detailed specifications.
 When the Kubernetes controller detects new ReplicaSet object in the cluster, it initiates a reconciliation process
 by Comparing the desired state (specified replicas) with current cluster state. This will be followed by the pod creation
@@ -224,6 +227,28 @@ spec:
               memory: "3Gi"
               cpu: "2"
 ```
+
+Explanations:
+* **API and Resource Definition**: specifies the Kubernetes API version for a ReplicaSet, defining its basic metadata with
+a name identifier.
+
+* **Replica Configuration**: sets the desired number of concurrent Pods, defaulting to one if not explicitly specified.
+This ensures consistent application deployment across the cluster.
+
+* **Pod Selection Mechanism**: Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet
+dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
+
+* **Label Matching Strategy**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
+targets the correct set of containers across the Kubernetes environment. In this case pod having the labels
+type: api, language: Scala and framework: play-framework will be managed by the ReplicaSet
+
+* **Template Specification**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary,
+with mandatory container definitions that guide the ReplicaSet's deployment logic.
+
+* **Container Definition**: In the template specifications, containers entry specifies the containers to be deployed within the Pods, detailing their configuration and
+ensuring consistent application setup across replicas. we specify a name for the pod, image and limits(maximum resource to be used by the pod) of the resources(cpu or memory) consumed
+by the containers in pods so that resource usage can be controlled.
+
 Deploy: `kubectl apply -f workload-api.yaml`
 
 Response:
@@ -248,38 +273,19 @@ kubectl delete -f workload-api.yaml
 replicaset.apps "workload-api-rep" deleted
 ```
 
-Explanations:
-* **API and Resource Definition**: Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with
-  a name identifier.
+### Services
 
-* **Replica Configuration**: Set the desired number of concurrent Pods, defaulting to one if not explicitly specified.
-  This ensures consistent application deployment across the cluster.
-
-* **Pod Selection Mechanism**: Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet
-  dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
-
-* **Label Matching Strategy**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
-  targets the correct set of containers across the Kubernetes environment. In this case pod having the labels
-  type: api, language: Scala and framework: play-framework will be managed by the ReplicaSet
-
-* **Template Specification**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary,
-  with mandatory container definitions that guide the ReplicaSet's deployment logic.
-
-* **Container Definition**: Specify the containers to be deployed within the Pods, detailing their configuration and
-  ensuring consistent application setup across replicas. we specify a name, image and limits of the resources consumed
-  by the containers in pods
-
-### Services: The Communication Architects
-
-Services are like sophisticated phone switchboards, routing traffic to the right containers and providing a
-stable network endpoint. In the complex world of Kubernetes, Services are the master network conductors,
+Services route the traffic to the right containers and providing a stable network endpoint.
+In Kubernetes, Services are the master network conductors,
 transforming the ephemeral and dynamic nature of Pods into stable, predictable communication endpoints.
 They provide stable addresses for communication while pod network addresses are lost when a pod is killed and
 new one are assigned when pods are created and started. Imagine Pods as temporary workers constantly moving between offices.
 Services are like permanent phone numbers that always route to the right person, regardless of their current
-location. Without Services, networking in Kubernetes would be chaotic and unreliable.
+location. Without Services, networking in Kubernetes would be chaotic and unreliable. They receive the request targeting
+Pods(having unstable network address) they route traffic to(on their state address) and route those Pods. With this when
+a pod has failed and a new one is started, it can still be reached through the service.
 
-#### Service Types: Navigating Communication Strategies
+#### Service Types
 
 1. **ClusterIP Service**: This is the backbone of cluster Internal Communication, and it is the default service type.
     It provides the stable IP address inside the cluster and is accessible internally. It is best suited for inter service
@@ -301,6 +307,7 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
        - port: 9000
          targetPort: 9000
     ```
+
     Deploy: `kubectl apply -f workload-api.yaml`
 
     Response:
@@ -345,6 +352,7 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
          targetPort: 9000
          nodePort: 30123
    ```
+
     Deploy: `kubectl apply -f workload-api.yaml`
 
     Response:
@@ -390,6 +398,7 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
        - port: 9000
          targetPort: 9000
    ```
+
     Deploy: `kubectl apply -f workload-api.yaml`
     ```text
     kubectl apply -f workload-api.yaml
@@ -432,6 +441,7 @@ location. Without Services, networking in Kubernetes would be chaotic and unreli
        service: workload
      externalName: workload-database.example.com
    ```
+
     Deploy: `kubectl apply -f workload-api.yaml`
 
     Response:
@@ -494,6 +504,21 @@ spec:
      targetPort: 9000
      nodePort: 30123
 ```
+
+Explanations:
+* **API and Resource Definition**: Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
+
+* **Replica Configuration**: Set the desired number of concurrent Pods, defaulting to one if not explicitly specified. This ensures consistent application deployment across the cluster.
+
+* **Pod Selection Mechanism**: Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
+
+* **Label Matching Strategy**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet targets the correct set of containers across the Kubernetes environment.
+
+* **Template Specification**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary, with Kubernetes requires an external mechanism to manage incoming web traffic properly. This Ingress system needs to route requests from standard web ports to the appropriate internal services based on URL paths and domains, while also handling SSL encryption. Unlike other controllers built into Kubernetes core, Ingress controllers must be installed separately - Kubernetes only provides the API framework through its Ingress resource definition. Fortunately, the community has developed numerous Ingress controller implementations to fulfill these requirements, though selection depends on specific project needs and infrastructure constraints.mandatory container definitions that guide the ReplicaSet's deployment logic.
+
+* **Container Definition**: Specify the containers to be deployed within the Pods, detailing their configuration and ensuring consistent application setup across replicas.
+
+
 Deploy: `kubectl apply -f workload-api.yaml`
 
 Response:
@@ -522,20 +547,6 @@ kubectl delete -f workload-api.yaml
 pod "workload-api" deleted
 service "workload-service" deleted
 ```
-
-Explanations:
-* **API and Resource Definition:** Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
-
-* **Replica Configuration:** Set the desired number of concurrent Pods, defaulting to one if not explicitly specified. This ensures consistent application deployment across the cluster.
-
-* **Pod Selection Mechanism:** Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
-
-* **Label Matching Strategy:** Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet targets the correct set of containers across the Kubernetes environment.
-
-* **Template Specification:** Provide a Pod template that serves as a blueprint for creating new Pods when necessary, with Kubernetes requires an external mechanism to manage incoming web traffic properly. This Ingress system needs to route requests from standard web ports to the appropriate internal services based on URL paths and domains, while also handling SSL encryption. Unlike other controllers built into Kubernetes core, Ingress controllers must be installed separately - Kubernetes only provides the API framework through its Ingress resource definition. Fortunately, the community has developed numerous Ingress controller implementations to fulfill these requirements, though selection depends on specific project needs and infrastructure constraints.mandatory container definitions that guide the ReplicaSet's deployment logic.
-
-* **Container Definition:** Specify the containers to be deployed within the Pods, detailing their configuration and ensuring consistent application setup across replicas.
-
 
 ### Ingress
 
@@ -600,6 +611,20 @@ spec:
                 port:
                   number: 9000
 ```
+
+Explanations:
+The metadata section introduces annotations as a flexible mechanism for providing controller-specific information beyond
+the core Ingress specification. This design intentionally keeps the Kubernetes Ingress API minimal while enabling
+controller-specific customization through annotations. `k8splayworkload.com` is the fully qualified domain name of a
+network host, as defined by RFC 3986  We disable HTTPS redirection with the annotation
+`nginx.ingress.kubernetes.io/ssl-redirect: false` since we lack SSL certificates for our exercises. In the specification
+section, we define traffic routing rules. Our configuration routes all HTTP requests with paths beginning with `/` to the
+`workload-service` service on port 8080, creating a clean pathway for external traffic to reach our specific application.
+backend defines the referenced service endpoint to which the traffic will be forwarded to in this case `workload-service`.
+To access the service trough the nginx ingress controller open your `/etc/hosts` in a linux machine(or corresponding file on
+other os) and append this line: `node-address k8splayworkload.com` where node-id is the address of your cluster node that
+can be retrieve using `minikube ip`. After this the targeted service becomes accessible from your browser at the hostname
+`k8splayworkload.com`.
 Deploy: `kubectl apply -f workload-api.yaml`
 
 Response:
@@ -632,20 +657,6 @@ pod "workload-api" deleted
 service "workload-service" deleted
 ingress.networking.k8s.io "api-workload-ingress" deleted
 ```
-
-Explanations:
-The metadata section introduces annotations as a flexible mechanism for providing controller-specific information beyond
-the core Ingress specification. This design intentionally keeps the Kubernetes Ingress API minimal while enabling
-controller-specific customization through annotations. `k8splayworkload.com` is the fully qualified domain name of a
-network host, as defined by RFC 3986  We disable HTTPS redirection with the annotation
-`nginx.ingress.kubernetes.io/ssl-redirect: false` since we lack SSL certificates for our exercises. In the specification
-section, we define traffic routing rules. Our configuration routes all HTTP requests with paths beginning with `/` to the
-`workload-service` service on port 8080, creating a clean pathway for external traffic to reach our specific application.
-backend defines the referenced service endpoint to which the traffic will be forwarded to in this case `workload-service`.
-To access the service trough the nginx ingress controller open your `/etc/hosts` in a linux machine(or corresponding file on
-other os) and append this line: `node-address k8splayworkload.com` where node-id is the address of your cluster node that
-can be retrieve using `minikube ip`. After this the targeted service becomes accessible from your browser at the hostname
-`k8splayworkload.com`.
 
 ### ConfigMaps and Secrets: Configuration Maestros
 
@@ -896,19 +907,34 @@ ingress.networking.k8s.io "api-workload-ingress" deleted
 Explanations:
 * **minReadySeconds**: let us specify the minimum number of seconds to wait before Kubernetes starts considering the pods
   ready.
-* **progressDeadlineSeconds**: The maximum time in seconds for a deployment to make progress before it is considered to be failed
-* **revisionHistoryLimit**: Defines the number of previous replicas to track so that we'll be able to roll back to any
+* **progressDeadlineSeconds**: the maximum time in seconds for a deployment to make progress before it is considered to be failed
+* **revisionHistoryLimit**: defines the number of previous replicas to track so that we'll be able to roll back to any
   of those previous ReplicaSets.
-* **strategy**: define a way to replace running pod with new one having another version. There are two types: RollingUpdate
+* **strategy**: defines a way to replace running pod with new one having another version. There are two types: RollingUpdate
   or Recreate. Recreate terminate all the pods before an update(new image to deploy). Rolling update progressively replace
   new old pod with new ones. maxSurge specifies the maximum number of pods that can be scheduled above the desired number
   of pods. maxUnavailable specifies the maximum number of pods that can be unavailable during the update.
-* **readinessProbe**: Periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails
-* **startupProbe**: StartupProbe indicates that the Pod has successfully initialized. If specified, no other probes are executed until
+* **readinessProbe**: periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails
+* **startupProbe**: startup probe indicates that the Pod has successfully initialized. If specified, no other probes are executed until
   this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed.
-* **livenessProbe**: Periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated
+* **livenessProbe**: periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated
 
 ### A complete example from all the previous snippets
+This kubernetes configuration shows a complete wiring of different components to make up a complete deployment of an application on
+Kubernetes. We have added an auto-scaling configuration in it so that the application can scale.
+
+#### Auto-scaling specifications explanations
+* **minReplicas** is the lower limit for the number of replicas to which the auto-scaler can scale down. It defaults to 1 pod.
+* **maxReplicas** is the upper limit for the number of replicas to which the auto-scaler can scale up. It cannot be less that minReplicas.
+* **metrics** contains the specifications for which to use to calculate the desired replica count (the maximum replica count across all metrics will be used
+* **metrics.type** is the type of metric source
+* **metrics.type.resource**  refers to a resource metric (such as those specified in requests and limits) known to
+Kubernetes describing each pod in the current scale target (e.g. CPU or memory)
+* **metrics.resource.name** is the name of the resource in question.
+* **metrics.resource.target** specifies the target value for the given metric.
+* **metrics.resource.target.type** represents whether the metric type is Utilization, Value, or AverageValue.
+* **metrics.resource.target.averageUtilization** is the target value of the average of the resource metric across all
+relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type.
 
 ```yaml
 # Secret
@@ -1145,20 +1171,6 @@ ingress.networking.k8s.io "api-workload-ingress" deleted
 horizontalpodautoscaler.autoscaling "workload-horizontal-autoscaling" deleted
 ```
 
-#### Auto-scaling
-We have added a horizontal auto-scaling policy for this deployment.
-* **minReplicas** is the lower limit for the number of replicas to which the auto-scaler can scale down. It defaults to 1 pod.
-* **maxReplicas** is the upper limit for the number of replicas to which the auto-scaler can scale up. It cannot be less that minReplicas.
-* **metrics** contains the specifications for which to use to calculate the desired replica count (the maximum replica count across all metrics will be used
-* **metrics.type** is the type of metric source
-* **metrics.type.resource**  refers to a resource metric (such as those specified in requests and limits) known to
-  Kubernetes describing each pod in the current scale target (e.g. CPU or memory)
-* **metrics.resource.name** is the name of the resource in question.
-* **metrics.resource.target** specifies the target value for the given metric.
-* **metrics.resource.target.type** represents whether the metric type is Utilization, Value, or AverageValue.
-* **metrics.resource.target.averageUtilization** is the target value of the average of the resource metric across all
-  relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type.
-
 Using this bash script you can overload your scala play framework application running in the pod, and see how the
 Kubernetes auto-scale the application in response to the incoming load. Adjust the frequencies per minutes and the duration
 of the overload in minutes.
@@ -1238,14 +1250,14 @@ We can
 * control the amount and the number of resources(memory, compute, ...) used in a namespace
 * dedicate a Namespace for development, staging, production, testing environment or more
 * Control what some have access to in the cluster
-In kubernetes some objects(e.g. Deployments, Services, etc.) are namespaced objects and other ones like Storage classes, Nodes are not
+In Kubernetes some objects(e.g. Deployments, Services, etc.) are namespaced objects and other ones like Storage classes, Nodes are not
 namespace-based scoped. Kubernetes by default create some namespaces:
 * **default**: The namespace in which resources are created by default and all the previous resources were created in this
     name space
 * **kube-node-lease**: It holds objects that allow each node to send heartbeats through the kubelet so that the control plane
     can detect node failure.
 * **kube-public**: For cluster usage it contains resources that should be visible and readable publicly throughout the whole cluster.
-* **kube-system**: This namespace contains object created by the kubernetes system
+* **kube-system**: This namespace contains object created by the Kubernetes system
 To get the list of namespaces, run: `kubectl get namespaces` or `kubectl get ns`
 
 Response:
@@ -1338,7 +1350,7 @@ NAME                                                                  REFERENCE 
 horizontalpodautoscaler.autoscaling/workload-horizontal-autoscaling   Deployment/workload-api   cpu: 67%/75%, memory: 46%/75%   1         4         1          12m
 ```
 
-## 5. Zero down-time deployment
+## Zero down-time deployment
 We have defined a zero-downtime deployment in the attribute `strategy`. to see how this works we can change the actual version
 of the app that is running, and we'll see that Kubernetes does not stop all the running container before starting new ones. Instead,
 it progressively changes old instances(`pfpw:20.20.31`) with new instances having the new version/release(`pfpw:20.20.32`). Doing this there will be no time when
