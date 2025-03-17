@@ -246,7 +246,7 @@ This ensures consistent application deployment across the cluster.
 * **Pod Selection Mechanism(template.metadata.labels)**: Use a selector to identify and manage Pods, regardless of their
 origin. The ReplicaSet dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
 
-* **Label Matching Strategy(spec:.elector.matchLabels)**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
+* **Label Matching Strategy(spec.elector.matchLabels)**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
 targets the correct set of containers across the Kubernetes environment. In this case pod having the labels
 type: api, language: Scala and framework: play-framework will be managed by the ReplicaSet
 
@@ -757,16 +757,16 @@ changes.
 
 #### Deployment Lifecycle
 
-1) * **Initiation** : The user submits a Deployment YAML to the API Server, which validates and stores it.
-2) * **Controller Actions** :
+1) **Initiation** : The user submits a Deployment YAML to the API Server, which validates and stores it.
+2) **Controller Actions** :
     * The Deployment Controller in the Controller Manager creates a ReplicaSet
     * The ReplicaSet Controller then creates Pod objects to match the desired count
-3) * **Scheduling Process** : The Scheduler assigns Pods to specific Nodes based on resource requirements and constraints
-4) * **Pod Creation** :
+3) **Scheduling Process** : The Scheduler assigns Pods to specific Nodes based on resource requirements and constraints
+4) **Pod Creation** :
     * The Kubelet on the assigned Node pulls container images
     * Container Runtime creates and starts the actual containers
     * Status updates flow back through the system
-5) * **Monitoring Cycle** :
+5) **Monitoring Cycle** :
     * The Kubelet monitors container health and restarts containers if needed
     * The Controllers ensure the desired state is maintained
 
