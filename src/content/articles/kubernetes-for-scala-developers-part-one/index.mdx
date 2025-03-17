@@ -190,17 +190,17 @@ pod "workload-api" deleted
 ```
 
 ### ReplicaSet
-The primary function of a ReplicaSet is to ensure that a specified number of pods replicas is almost always running.
-A ReplicaSet is used by Kubernetes to maintain the availability of a specified number of identical Pods. In practice,
-they are not managed individually by the user specification, but they are transitively created by Kubernetes when required
-to control the number of Pod replicas. The number of replicas here is proportional to the workload that Pods are supposed
-to manage. The more the workload, the more the replicas of the Pods.
+ReplicaSet is a Kubernetes component of which The primary function is to ensure that a specified number of pods replicas
+is almost always running.A ReplicaSet is used by Kubernetes to maintain the availability of a specified number of identical Pods.
+In practice, they are not managed individually by the user specification, but they are transitively created by Kubernetes
+when required, to control the number of Pod replicas. The number of replicas here is proportional to the workload that Pods are supposed
+to manage, and it fully depends on your use case. The more the workload, the more the replicas of the Pods.
 
 #### ReplicaSet Lifecycle: A Step-by-Step Symphony
-When the user or system triggers a ReplicaSet creation, Kubernetes client (kubectl) sends a ReplicaSet creation request
+When the user or the system triggers a ReplicaSet creation, Kubernetes client (kubectl) sends a ReplicaSet creation request
 to the API server and the payload includes detailed specifications.
 When the Kubernetes controller detects new ReplicaSet object in the cluster, it initiates a reconciliation process
-by Comparing the desired state (specified replicas) with current cluster state. This will be followed by the pod creation
+by Comparing the desired state(specified replicas) with current cluster state. This will be followed by the pod creation
 mechanism as described above.
 
 #### Visualization of the Process
@@ -220,7 +220,7 @@ spec:
       type: api
       language: Scala
       framework: play-framework
-  template: # Pod definition
+  template:
     metadata:
       labels:
         type: api
@@ -237,24 +237,25 @@ spec:
 ```
 
 Explanations:
-* **API and Resource Definition**: specifies the Kubernetes API version for a ReplicaSet, defining its basic metadata with
-a name identifier.
+* **API(apiVersion) and Resource Definition(Kind)**: specifies the Kubernetes API version for a ReplicaSet, defining its
+basic metadata with a name identifier.
 
-* **Replica Configuration**: sets the desired number of concurrent Pods, defaulting to one if not explicitly specified.
+* **Replica Configuration(spec)**: sets the desired number of concurrent Pods, defaulting to one if not explicitly specified.
 This ensures consistent application deployment across the cluster.
 
-* **Pod Selection Mechanism**: Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet
-dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
+* **Pod Selection Mechanism(template.metadata.labels)**: Use a selector to identify and manage Pods, regardless of their
+origin. The ReplicaSet dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
 
-* **Label Matching Strategy**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
+* **Label Matching Strategy(spec:.elector.matchLabels)**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
 targets the correct set of containers across the Kubernetes environment. In this case pod having the labels
 type: api, language: Scala and framework: play-framework will be managed by the ReplicaSet
 
-* **Template Specification**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary,
+* **Template Specification(spec.template)**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary,
 with mandatory container definitions that guide the ReplicaSet's deployment logic.
 
-* **Container Definition**: In the template specifications, containers entry specifies the containers to be deployed within the Pods, detailing their configuration and
-ensuring consistent application setup across replicas. we specify a name for the pod, image and limits(maximum resource to be used by the pod) of the resources(cpu or memory) consumed
+* **Container Definition(spec.template.spec.containers)**: In the template specifications, containers entry specifies the containers
+to be deployed within the Pods, detailing their configuration and ensuring consistent application setup across replicas.
+we specify a name for the pod, image and limits(maximum resource to be used by the pod) of the resources(cpu or memory) consumed
 by the containers in pods so that resource usage can be controlled.
 
 Deploy: `kubectl apply -f workload-api.yaml`
@@ -283,21 +284,21 @@ replicaset.apps "workload-api-rep" deleted
 
 ### Services
 
-Services route the traffic to the right containers and provide a stable network endpoint.
-In Kubernetes, Services are the master network conductors,
-transforming the ephemeral and dynamic nature of Pods into stable, predictable communication endpoints.
-They provide stable addresses for communication while pod network addresses are lost when a pod is killed and
-new one are assigned when pods are created and started. Imagine Pods as temporary workers constantly moving between offices.
-Services are like permanent phone numbers that always route to the right person, regardless of their current
-location. Without Services, networking in Kubernetes would be chaotic and unreliable. They receive the request targeting
-Pods(having unstable network address) they route traffic to(on their state address) and route those Pods. With this when
-a pod has failed and a new one is started, it can still be reached through the service.
+Services route the traffic to the right containers and provide a stable network endpoint. When multiple instances(replicas)
+of a Pod are running they act like a load balancer, distributing traffic to different pods.
+In Kubernetes, Services are the master network conductors, transforming the ephemeral and dynamic nature of Pods into
+stable, predictable communication endpoints. They provide stable addresses for communication that doesn't depend on the lifecycle
+of the pod. On a contrary, a pod is killed and new one are created, they are new network address and the previous ones ar lost.
+Imagine Pods as temporary workers constantly moving between offices. Services are like permanent phone numbers that always
+route to the right person, regardless of their current location. Without Services, networking in Kubernetes would be chaotic
+and unreliable. They receive the request(on their state address) targeting Pods(having unstable network address) and route
+traffic to them. With this when a pod has failed and a new one is started, it can still be reached through the service.
 
 #### Service Types
 
 1. **ClusterIP Service**: This is the backbone of cluster Internal Communication, and it is the default service type.
-    It provides the stable IP address inside the cluster and is accessible internally. It is best suited for inter service
-    communication, and internal networking.
+    It provides the stable(available as long as the service is alive) IP address inside the cluster and is accessible internally.
+    It is best suited for inter service communication, and internal networking.
 
     ```yaml
     apiVersion: v1
@@ -341,8 +342,8 @@ a pod has failed and a new one is started, it can still be reached through the s
     ```
 
 2. **NodePort Service**: This service type offer and external Access Gateway by exposing a service on a static port(30000-32767)
-    across all nodes. With this type of service you can make your application accessible outside the cluster. this type is best suited
-    for development and testing environments.
+    across all nodes. With this type of service you can make your application accessible outside the cluster. This type is best
+    suited for development and testing environments and we will provide a full example for this specific service type.
 
    ```yaml
    apiVersion: v1
@@ -429,11 +430,11 @@ a pod has failed and a new one is started, it can still be reached through the s
     service "workload-service" deleted
     ```
 
-4. **ExternalName Service**: this type of service maps the service to an external DNS name, like a database hosted outside
-    the cluster. It then helps as an abstraction layer for external resources. The key advantages of using services over direct pod
-    communication is that  services survive to Pod restarts, and decouple service discovery from pod lifecycle. When a pod restarts,
-    the previous network address is lost and a new one is assigned to the new pod. It also serves as a load balancer distributing
-    traffic across multiple pods.
+4. **ExternalName Service**: maps the service to an external DNS name, like a database hosted outside
+    the cluster. It then serves as an abstraction layer around cluster external addresses. The key advantages of using
+    services over direct pod communication is that  services survive to Pod restarts, and decouple service discovery from
+    pod lifecycle. When a pod restarts, the previous network address is lost and a new one is assigned to the new pod.
+    It also serves as a load balancer distributing traffic across multiple pods.
 
    ```yaml
    apiVersion: v1
@@ -514,18 +515,12 @@ spec:
 ```
 
 Explanations:
-* **API and Resource Definition**: Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
+* **API(apiVersion) and Resource Definition(Kind)**: Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
 
-* **Replica Configuration**: Set the desired number of concurrent Pods, defaulting to one if not explicitly specified. This ensures consistent application deployment across the cluster.
+* **Pod Selection Mechanism(spec.selector)**: Use a selector to identify and manage Pods, regardless of their origin. All the pod that share
+    these labels will be served by this service.
 
-* **Pod Selection Mechanism**: Use a selector to identify and manage Pods, regardless of their origin. The ReplicaSet dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
-
-* **Label Matching Strategy**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet targets the correct set of containers across the Kubernetes environment.
-
-* **Template Specification**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary, with Kubernetes requires an external mechanism to manage incoming web traffic properly. This Ingress system needs to route requests from standard web ports to the appropriate internal services based on URL paths and domains, while also handling SSL encryption. Unlike other controllers built into Kubernetes core, Ingress controllers must be installed separately - Kubernetes only provides the API framework through its Ingress resource definition. Fortunately, the community has developed numerous Ingress controller implementations to fulfill these requirements, though selection depends on specific project needs and infrastructure constraints.mandatory container definitions that guide the ReplicaSet's deployment logic.
-
-* **Container Definition**: Specify the containers to be deployed within the Pods, detailing their configuration and ensuring consistent application setup across replicas.
-
+* **Label Matching Strategy(metadata.labels)**: Define precise label criteria on pod that will be matched by the service.
 
 Deploy: `kubectl apply -f workload-api.yaml`
 
