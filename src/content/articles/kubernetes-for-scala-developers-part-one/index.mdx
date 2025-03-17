@@ -159,12 +159,12 @@ Explanations:
 to understand the intended action and correctly process the Pod creation request.
 * **Metadata Section**: This part provides descriptive information about the Pod, including its name and labels. While
 labels don't affect the Pod's behavior currently, they become important when working with Kubernetes controllers.
-* **Specification Section(`spec`)**: The spec defines the Pod behavior
-container, but Kubernetes allows multiple containers to be defined in a single Pod configuration.
-* **Container Definition(`spec.containers`)**: The container details include its name, the Docker image to use, and the specific command to
-run when the container starts up. In this case, it's a Play framework app container with the port 9000 exposed.
-It should be noted that pod are not intended to be created individually in real-life scenarios. They will be created through
-deployments.
+* **Specification Section(`spec`)**: The spec defines the Pod behavior.
+* **Container Definition(`spec.containers`)**: The container details include its name, the Docker image to use, and the
+specific command to run when the container starts up. It is advised to specify only one container in a pod, but Kubernetes
+allows multiple containers to be defined in a single Pod configuration. In this case, it's a Play framework app container
+with the port 9000 exposed. It should be noted that pod are not intended to be created individually in real-life scenarios.
+They will be created through deployments.
 
 Deploy: `kubectl apply -f workload-api.yaml`
 
