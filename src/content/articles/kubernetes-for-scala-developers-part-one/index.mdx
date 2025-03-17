@@ -617,8 +617,7 @@ spec:
 
 Explanations:
 The metadata section introduces annotations as a flexible mechanism for providing controller-specific information beyond
-the core Ingress specification. This design intentionally keeps the Kubernetes Ingress API minimal while enabling
-controller-specific customization through annotations. `k8splayworkload.com` is the fully qualified domain name of a
+the core Ingress specification. `k8splayworkload.com` is the fully qualified domain name of a
 network host, as defined by RFC 3986  We disable HTTPS redirection with the annotation
 `nginx.ingress.kubernetes.io/ssl-redirect: false` since we lack SSL certificates for our exercises. In the specification
 section, we define traffic routing rules. Our configuration routes all HTTP requests with paths beginning with `/` to the
@@ -743,7 +742,7 @@ secret "workload-secret" deleted
 
 ### Deployments: Your Rollout Strategy Manager
 
-Deployments are the smart project managers of Kubernetes. They handle updates, rollbacks, and ensure smooth transitions
+Deployments are the actual project managers of Kubernetes. They handle updates, rollbacks, and ensure smooth transitions
 between application versions. Kubernetes Deployments offer sophisticated orchestration capabilities that eliminate
 downtime during application updates. This mechanism handles the complex coordination required when transitioning between
 software versions by carefully managing Pod lifecycles and traffic routing. When initiated, a Deployment creates a new
@@ -939,6 +938,7 @@ Kubernetes describing each pod in the current scale target (e.g. CPU or memory)
 * **metrics.resource.target.averageUtilization** is the target value of the average of the resource metric across all
 relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for
 Resource metric source type.
+
 In addition to this we have created a HorizontalPodAutoscaler. It contains the configuration for a horizontal Pod autoscaler,
 which automatically manages the replica count of the pod based on the metrics specified.
 The `spec.scaleTargetRef` specifies the kind of resource to be scaled as Deployment, and the name being workload-api, the
@@ -1251,6 +1251,7 @@ echo "Total requests sent: $COUNTER"
 echo "Actual duration: $(bc <<< "scale=2; $TOTAL_TIME / 60") minutes"
 echo "Average rate: $ACTUAL_RATE requests per minute"
 ```
+
 Having an eye on the Kubernetes dashboard page you can see how the cluster reacts in response to the
 load. You'll notice how it scales by adding the number of pods and later when the overload is passed it
 scales down.
