@@ -2,24 +2,26 @@
 author: gedeon-tabela
 category: guide
 difficulty: intermediate
-excerpt: Learn how to scale and deploy your Scala application to Kubernetes
+excerpt: Learn how to deploy and scale your Scala application using Kubernetes
 publishedDate: 2025-03-10
 tags: [kubernetes, scala, devops, scalability]
 title: "Scala applications containers Orchestration with Kubernetes(Part 1)"
 updatedDate: 2025-03-11
 ---
 
+
 ## Introduction: Why Kubernetes Matters for Scala Developers
 Imagine that you've built an interesting Scala application, and you are ready to deploy it for your users to consume
 your services. As a good developer you foresee numerous real challenges to address for your application to efficiently
-serve the public: how will the application scale up and down in response to the traffic, avoid service downtime?
-The most efficient solution for your worries is Kubernetes.
+serve the public. How will the application scale up and down in response to the traffic, avoid service downtime, maximize
+cost-efficiency? The most efficient solution for your worries is Kubernetes.
 
-If you as a Scala developer you are struggling with your infrastructure, auto-scaling, deployment headaches, this first
-part guide will guide you through building a powerful application ecosystem by introducing you to the core concepts of
-a Kubernetes cluster. By the end of this first part you'll be able to understand the architecture of a Kubernetes cluster,
-The main components of Kubernetes, how to scale up or down your application, how to apply zero-downtime deployments and more.
-The second part will guide you through continuous integration and deployment, monitoring, and help you build a production-ready Kubernetes cluster.
+If you as a Scala developer you are struggling with your infrastructure, auto-scaling and some deployment automation
+headaches, this first part guide will guide you through building a powerful application ecosystem by introducing you to
+the core concepts of a Kubernetes cluster. By the end of this first part you'll be able to understand the architecture
+of a Kubernetes cluster, the main components of Kubernetes, how to scale up or down your application, how to apply
+zero-downtime deployments and more. The second part will guide you through continuous integration and deployment, monitoring,
+and help you build a production-ready Kubernetes cluster.
 
 ## Kubernetes: Your Application's New Best Friend
 Kubernetes is not just another helper tool for deploying applications. It's a complete infrastructural ecosystem positioning
@@ -27,27 +29,30 @@ itself as the most modern solution for deploying resilient and elastics applicat
 deployment orchestrator that manages all aspects of your application's lifecycle.
 
 ### Why Should Scala Developers Care?
-The reasons for caring about Kubernetes it promises:
-- **Effortless Scaling**: Grow or shrink your application automatically in response to workload
+The reasons for caring about Kubernetes are what it promises. The most important promises of Kubernetes are:
+- **Effortless Scaling**: Grow or shrink your application automatically in response to the incoming workload
 - **Self-Healing Magic**: Automatic response to failing containers during their lifecycle
-- **Consistent Deployments**: Run the same application anywhere—local machine, cloud, hybrid environment
+- **Consistent Deployments**: Run the same application anywhere either on local machine, cloud or hybrid environment
 - **Resource Optimization**: Squeeze maximum performance from your infrastructure
 
 ## Development environment
-For the development environment we'll use Minikube as our local kubernetes. It is a solution that make easy learning and
-development easier for kubernetes. For it to work, you mainly need Docker installed. After this all you need is to follow
-the instructions on the page [Install k8s for local development](https://minikube.sigs.k8s.io/docs/start).
+For the development environment multiple solutions exists, but we'll use Minikube as our local kubernetes. It is a
+solution that make learning and development easier for kubernetes. For it to work, you mainly need Docker installed.
+After this all you need is to follow the instructions on the page [Install k8s for local development](https://minikube.sigs.k8s.io/docs/start).
 Kubernetes specifications artifact are written in yaml format and all the Kubernetes components details are found on the
-link [Kubernetes components](https://kubernetes.io/docs/concepts/). For the following deployment scripts we'll use these
-two commands to deploy and drop Kubernetes components on our cluster, where `workload-api.yaml` is a Kubernetes yaml
-configuration file(place in a folder of your computer and open a terminal at the root of that folder). The name of the file
-doesn't matter only its content matter. `kubectl` is the client we use to send our request to the API-Server.
-To make a deployment run `kubectl apply -f workload-api.yaml`.
-To drop a deployment run `kubectl delete -f workload-api.yaml`.
-To have a view of the Kubernetes internals we can run in a separate terminal the commands `minikube addons enable dashboard` and
-` kubectl addons enable metrics-server` that will install the needed tools to visualize the activity on the cluster.
-We can then run the command `minikube dashboard` which will open a web page in our default browser to see all the objects
-running on the cluster.
+link [Kubernetes components](https://kubernetes.io/docs/concepts/). For the Kubernetes specifications in this article we'll use the
+following two commands to deploy and drop Kubernetes components on our cluster.
+* To make a deployment run `kubectl apply -f workload-api.yaml`.
+* To drop a deployment run `kubectl delete -f workload-api.yaml`.
+
+In these commands, `workload-api.yaml` is a Kubernetes yaml configuration file(place in a folder of your computer and
+open a terminal at the root of that folder). The name of the file doesn't matter only its content matter. `kubectl` is
+the kubernetes client we use to send our request to the API-Server with is the front end of any kubernetes cluster.
+It is the element to which any new change on the cluster is sent to, and it collaborates with other component to achieve
+the expected result if possible. To have a view of the Kubernetes internals we can run in a separate terminal the
+commands `minikube addons enable dashboard` and `kubectl addons enable metrics-server` that will install the needed tools
+to visualize the activity on the cluster. We can then run the command `minikube dashboard` which will open a web page in
+our default browser to see all the objects running on the cluster.
 
 ## The Kubernetes Landscape: A High-Level View
 Kubernetes came to life from a Google engineering team drawing on their long experience in managing large-scale containerized
@@ -71,26 +76,26 @@ for monitoring the cluster and making sure the desired state of the cluster is m
 are:
 * **Kube-apiserver**: responsible for exposing the Kubernetes API, it is the front end of the Kubernetes control plane through
     which we can talk to Kubernetes.
-* **etcd** Highly-available consistent key value store for all Kubernetes cluster data.
+* **etcd**: Highly-available consistent key value store for all Kubernetes cluster data.
 * **Kube-scheduler**: process constantly watching for newly created Pods that are not assigned to a node, select
     a node for them to run base on resource availability distribution cluster-wide.
-* **Kube-controller-manager**: responsible for executing **Controllers** processes. In Kubernetes Controllers are control loops
+* **Kube-controller-manager**: responsible for executing Controllers processes. In Kubernetes Controllers are control loops
     that watch the state of your cluster through the API-Server, then make or request changes where needed in other to move
     the actual state of your cluster toward the desired state. A given controller is responsible for tracking one type of
     Kubernetes resource type.
-        An example of Controller is the built-in **Job Controller**. A Job is a Kubernetes resource that runs one or multiple
-    Pods to execute a task and then stops. When a new task will be scheduled the Job Controller will make sure that some nodes
+        An example of Controller is the built-in Job Controller. A Job is a Kubernetes resource that runs one or multiple
+    Pods to execute a task and then stops. When a new task is scheduled the Job Controller will make sure that some nodes
     on the cluster are running the desired number of Pods to get the work done. It does this by telling the API server to instruct
     the creation of the Pods(containers encapsulation that is the smallest unit on kubernetes) that will execute the task.
 
 ### Worker Nodes
-The main goal of the worker nodes is to host the Pods that are the components of the application workload. All your application
+The main goal of the worker nodes is to host the Pods that are run the application workload. All your application
 container instances will be run on the worker nodes. The control plane schedule and manages all activities carry out on the worker
 nodes. The main components of the worker nodes are:
-* **Kubelet**: an agent running on each node in the cluster and making sure container are running in the Pods as per the
+* **Kubelet**: an agent running on each node in the cluster and making sure that containers are running in the Pods as per the
 desired state, and are in a good state.
 * **Kube-proxy**: a network proxy running on each node in the cluster, responsible for maintaining network rules on nodes. These
-network rules allow the communication  to the pods from network sessions inside and outside the cluster.
+network rules allow the communication to the pods from network sessions inside and outside the cluster.
 * **Container runtime**: a software package that knows how to leverage specific features on a supported operating system
 to run the containers. Its responsibility is to manage the execution of containers withing the Kubernetes environment.
 
@@ -100,8 +105,8 @@ to run the containers. Its responsibility is to manage the execution of containe
 Think of a Pod like a dedicated apartment for your containers. It's a compact living space where one or more containers
 live together, sharing resources. Imagine a Pod as a smart, self-contained shipping container for your application.
 It's not just a simple container, but a sophisticated ecosystem with multiple layers of intelligence behind its creation
-and deployment. It abstracts the containers and provides a unique interface through with different containers(Docker, Virtual machines,...)
-solutions can be used.
+and deployment. It abstracts the containers and provides a unique interface for different containers(Docker, Virtual machines,...)
+solutions that can be used.
 
 #### Pod Lifecycle and Scheduling: Behind the Scenes
 In kubernetes, Pods are the smallest unit of workload execution that you can create and manage. It is a group of one or
@@ -110,15 +115,18 @@ more containers, with shared storage and network resources and specification for
 When you create a Pod, Kubernetes initiates multiple actions:
 
 * **Scheduling Decision**: The scheduler receives pod creation request and base on the current state of the cluster,
-    the available computing resources the cluster topology requirements, Hardware constraints and other factors selects
-    the node on which the pod will run.
+    the available computing resources, the cluster topology requirements, Hardware constraints and other factors, selects
+    the node on which the pod should run.
 ** **Pod Placement Workflow**: After the Scheduler has identified the optimal node on which the pod will run,
     the Control plane communicates with the selected node's Kubelet and give all the specification for running the pod.
     The Kubelet then pulls necessary container images and the container runtime create and starts containers. At this step
     the Pod is said to be in "Running" state after a successful initialization.
 * **Container Startup Sequence**: If the init containers have been provided, they will run first and only after that the
-    pod main container will start. If liveness and readiness probes are provided, pod will become available only after they
-    are successful and will then be made available for service discovery and networking.
+    pod main container will start. They are containers that are intended to be started, run initializing works and stops
+    before the actual container that should execute the application to deploy is started. If liveness and readiness probes
+    are provided, pod will become available only after the startup probe is successful and will be considered alive as long
+    as the liveness probe will be successful. After they are started, the containers are made available for service
+    discovery and networking.
 
 * **Notification**: After the pods are created, Kubelet will reports Pod creation status to the API Server, and confirms
     successful container deployment. After this the cluster state in the `ectd` key-value store database will be updated.
@@ -275,7 +283,7 @@ replicaset.apps "workload-api-rep" deleted
 
 ### Services
 
-Services route the traffic to the right containers and providing a stable network endpoint.
+Services route the traffic to the right containers and provide a stable network endpoint.
 In Kubernetes, Services are the master network conductors,
 transforming the ephemeral and dynamic nature of Pods into stable, predictable communication endpoints.
 They provide stable addresses for communication while pod network addresses are lost when a pod is killed and
