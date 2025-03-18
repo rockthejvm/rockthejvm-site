@@ -1,0 +1,11 @@
+company:
+  entity: ververica
+  role: Software Architect
+location:
+  country: Greece
+name: Giannis Polyzos
+photo: ./photo.jpeg
+socials:
+  email: ipolyzos.se@gmail.com
+  github: polyzos
+  linkedin: polyzos

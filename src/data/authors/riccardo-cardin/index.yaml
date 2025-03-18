@@ -1,0 +1,11 @@
+biography: A proud alumnus of Rock the JVM, now a senior engineer working on critical systems written in Java, Scala and Kotlin.
+location:
+  city: Padua
+  country: Italy
+name: Riccardo Cardin
+photo: ./photo.png
+socials:
+  github: rcardin
+  linkedin: riccardocardin
+  twitter: "@riccardo_cardin"
+  website: https://blog.rcard.in

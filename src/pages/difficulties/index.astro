@@ -1,0 +1,11 @@
+---
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import ArticleDifficulties from "./_components/ArticleDifficulties.astro";
+
+const difficulties = await getCollection("difficulties");
+---
+
+<BaseLayout title="Difficulties" description="The difficulty index">
+  <ArticleDifficulties {difficulties} />
+</BaseLayout>
