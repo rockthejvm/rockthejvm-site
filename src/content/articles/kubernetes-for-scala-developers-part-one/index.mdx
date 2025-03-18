@@ -28,6 +28,39 @@ Kubernetes is not just another helper tool for deploying applications. It's a co
 itself as the most modern solution for deploying resilient and elastics applications. It is a hyper-intelligent and extensible
 deployment orchestrator that manages all aspects of your application's lifecycle.
 
+In this article we'll deploy a Scala cars parking management application built with Play Framework and using in memory database.
+The Docker images that we'll be using are:
+`pfpw:20.20.31` and `pfpw:20.20.32` publicly available on Docker Hub. It exposes two api's that we can test:
+* `insertNewCarV2` to insert a new car in as a json object with the attributes: (year: Int, brand: String, maxSpeed: Double) with
+    the http method `POST`.
+*  `listOfCars` to get the list of cars with the http method `GET`.
+listing cars will output a result in the form:
+```text
+[
+    {
+        "year": 2021,
+        "brand": "Bugatti Chiron Super Sport[vii]",
+        "maxSpeed": 300
+    },
+    {
+        "year": 2018,
+        "brand": "Lamborghini Huracán Performante[vii]",
+        "maxSpeed": 257
+    },
+    {
+        "year": 2018,
+        "brand": "McLaren 720S",
+        "maxSpeed": 259
+    },
+    {
+        "year": 2024,
+        "brand": "Chevrolet Corvette C8 E-Ray",
+        "maxSpeed": 157
+    }
+]
+```
+If you create a new car the api will return the updated list of cars.
+
 ### Why Should Scala Developers Care?
 The reasons for caring about Kubernetes are what it promises. The most important promises of Kubernetes are:
 - **Effortless Scaling**: Grow or shrink your application automatically in response to the incoming workload
@@ -343,7 +376,7 @@ traffic to them. With this when a pod has failed and a new one is started, it ca
 
 2. **NodePort Service**: This service type offer and external Access Gateway by exposing a service on a static port(30000-32767)
     across all nodes. With this type of service you can make your application accessible outside the cluster. This type is best
-    suited for development and testing environments and we will provide a full example for this specific service type.
+    suited for development and testing environments, and we will provide a full example for this specific service type.
 
    ```yaml
    apiVersion: v1
@@ -520,7 +553,7 @@ Explanations:
 * **Pod Selection Mechanism(spec.selector)**: Use a selector to identify and manage Pods, regardless of their origin. All the pod that share
     these labels will be served by this service.
 
-* **Label Matching Strategy(metadata.labels)**: Define precise label criteria on pod that will be matched by the service.
+* **Label Matching Strategy(metadata.labels)**: Define precise label criteria on pod that will be matched by the service.\
 
 Deploy: `kubectl apply -f workload-api.yaml`
 
@@ -550,6 +583,7 @@ kubectl delete -f workload-api.yaml
 pod "workload-api" deleted
 service "workload-service" deleted
 ```
+The api's indicated at the beginning for cars parking management can be tested as indicated.
 
 ### Ingress
 
