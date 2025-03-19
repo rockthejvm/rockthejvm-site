@@ -6,7 +6,7 @@ location:
   city: Bucharest
   country: Romania
 name: Daniel Ciocîrlan
-photo: ./photo.jpeg
+photo: ../../../images/daniel-ciocirlan.jpeg
 socials:
   email: daniel@rockthejvm.com
   facebook: "@rockthejvm"

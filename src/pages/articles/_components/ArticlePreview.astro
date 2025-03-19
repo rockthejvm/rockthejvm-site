@@ -67,12 +67,12 @@ const { article } = Astro.props,
         } &nbsp;•&nbsp; {category.data.name}
       </p>
       <p class="mt-2 text-content-2">
-        <ArticleDifficulty difficultyId={difficulty.id} />
+        <!-- <ArticleDifficulty {difficulty} /> -->
       </p>
       <div
         class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs"
       >
-        {tags.slice(0, 3).map((tag) => <ArticleTag tagId={tag.id} />)}
+        <!-- {tags.slice(0, 3).map((tag) => <ArticleTag {tag} />)} -->
       </div>
       <p class="mt-4 text-sm leading-6 text-content">
         {excerpt}

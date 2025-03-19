@@ -8,9 +8,10 @@ import { getCollection } from "astro:content";
 import Articles from "./_components/Articles.astro";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-  const articles = (await getCollection("articles")).sort((a, b) =>
-    b.data.publishedDate.getTime() <= a.data.publishedDate.getTime() ? -1 : 1,
-  );
+  const articles = await getCollection("articles"),
+    sortedArtlces = articles.sort((a, b) =>
+      b.data.publishedDate.getTime() <= a.data.publishedDate.getTime() ? -1 : 1,
+    );
 
   return paginate(articles, { pageSize: 6 });
 }

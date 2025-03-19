@@ -1,24 +1,22 @@
 ---
 import getReadingTime from "@/utils/getReadingTime";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import ArticleLayout from "./_layouts/ArticleLayout.astro";
 
 export async function getStaticPaths() {
   const allArticles = await getCollection("articles");
 
   return allArticles.map((article) => ({
-    params: { slug: article.slug },
+    params: { id: article.id },
     props: { article, allArticles },
   }));
 }
 
-interface Props {
-  article: CollectionEntry<"articles">;
-  allArticles: CollectionEntry<"articles">[];
-}
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { article, allArticles } = Astro.props,
-  { Content, headings } = await article.render();
+  { Content, headings } = await render(article);
 ---
 
 <ArticleLayout
