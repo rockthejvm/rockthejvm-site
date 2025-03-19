@@ -1,11 +1,15 @@
 ---
+import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
 import type { CollectionEntry } from "astro:content";
 import ArticlePreview from "./ArticlePreview.astro";
 
 interface Props {
   articles: CollectionEntry<"articles">[];
 }
-const { articles } = Astro.props;
+const { articles: _articles } = Astro.props,
+  articles = [..._articles].sort((a, b) =>
+    compareByNaturalOrder(a.data.title, b.data.title),
+  );
 ---
 
 <section class="pb-8 sm:py-2 md:pb-16">
