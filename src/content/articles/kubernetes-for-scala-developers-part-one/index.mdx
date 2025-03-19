@@ -28,7 +28,8 @@ Kubernetes is not just another helper tool for deploying applications. It's a co
 itself as the most modern solution for deploying resilient and elastics applications. It is a hyper-intelligent and extensible
 deployment orchestrator that manages all aspects of your application's lifecycle.
 
-In this article we'll deploy a Scala cars parking management application built with Play Framework and using in memory database.
+In this article we'll deploy a Scala cars parking management application built with Play Framework uses an in-memory database
+for simplicity.
 The Docker images that we'll be using are:
 `pfpw:20.20.31` and `pfpw:20.20.32` publicly available on Docker Hub. It exposes two api's that we can test:
 * `insertNewCarV2` to insert a new car in as a json object with the attributes: (year: Int, brand: String, maxSpeed: Double) with
