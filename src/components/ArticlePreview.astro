@@ -15,16 +15,17 @@ const { article } = Astro.props,
   {
     category: _category,
     author: _author,
-    difficulty,
+    difficulty: _difficulty,
     excerpt,
     publishedDate: _publishedDate,
     tags,
     title,
     updatedDate: _updatedDate,
   } = article.data,
+  author = await getEntry(_author.collection, _author.id),
   date = _updatedDate ?? _publishedDate,
-  author = await getEntry("authors", _author.id),
-  category = await getEntry("articleCategories", _category.id),
+  category = await getEntry(_category.collection, _category.id),
+  difficulty = await getEntry(_difficulty.collection, _difficulty.id),
   entity = author.data.company
     ? await getEntry("companies", author.data.company.entity.id)
     : undefined;
@@ -67,7 +68,7 @@ const { article } = Astro.props,
         } &nbsp;•&nbsp; {category.data.name}
       </p>
       <p class="mt-2 text-content-2">
-        <!-- <ArticleDifficulty {difficulty} /> -->
+        <ArticleDifficulty {difficulty} />
       </p>
       <div
         class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs"
