@@ -1,19 +1,18 @@
 ---
+import Articles from "@/components/Articles.astro";
 import BackgroundGradient from "@/components/BackgroundGradient.astro";
-
 import Pagination from "@/components/Pagination.astro";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import type { GetStaticPathsOptions, Page } from "astro";
 import { getCollection } from "astro:content";
-import Articles from "./_components/Articles.astro";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-  const articles = await getCollection("articles"),
-    sortedArtlces = articles.sort((a, b) =>
+  const _articles = await getCollection("articles"),
+    sortedArticles = _articles.sort((a, b) =>
       b.data.publishedDate.getTime() <= a.data.publishedDate.getTime() ? -1 : 1,
     );
 
-  return paginate(articles, { pageSize: 6 });
+  return paginate(sortedArticles, { pageSize: 6 });
 }
 
 interface Props {

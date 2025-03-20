@@ -7,7 +7,7 @@ interface Props {
   articles: CollectionEntry<"articles">[];
 }
 const { articles: _articles } = Astro.props,
-  articles = [..._articles].sort((a, b) =>
+  sortedArticles = _articles.sort((a, b) =>
     compareByNaturalOrder(a.data.title, b.data.title),
   );
 ---
@@ -17,7 +17,7 @@ const { articles: _articles } = Astro.props,
     <div
       class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"
     >
-      {articles.map((article) => <ArticlePreview {article} />)}
+      {sortedArticles.map((article) => <ArticlePreview {article} />)}
     </div>
   </div>
 </section>

@@ -1,4 +1,5 @@
 ---
+import ArticlePreview from "@/components/ArticlePreview.astro";
 import ArticleSeries from "@/components/ArticleSeries.astro";
 import AuthorWide from "@/components/AuthorWide.astro";
 import Byline from "@/components/Byline.astro";
@@ -19,7 +20,6 @@ import type { MarkdownHeading } from "astro";
 import "astro-starlight-remark-asides/styles.css";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
-import ArticlePreview from "../_components/ArticlePreview.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
 
