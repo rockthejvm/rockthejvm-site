@@ -7,6 +7,7 @@ export default defineCollection({
     .object({
       id: z.string(),
       name: z.string(),
+      website: z.string().url(),
     })
     .strict(),
 });

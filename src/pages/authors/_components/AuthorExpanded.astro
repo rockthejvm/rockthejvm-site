@@ -7,24 +7,24 @@ import Website from "@/components/icons/Website.astro";
 import YouTube from "@/components/icons/YouTube.astro";
 import MyPicture from "@/components/MyPicture.astro";
 import { type CollectionEntry, getEntry } from "astro:content";
+import { undefined } from "astro:schema";
 
 interface Props {
   author: CollectionEntry<"authors">;
 }
 
 const { author } = Astro.props,
-  { biography, company, name, photo, socials } = author.data,
-  role = company?.role,
-  companyName = company
-    ? await getEntry(company.entity.collection, company.entity.id).then(
-        (company) => company.data.title,
-      )
-    : undefined,
-  companyWebsite = company
-    ? await getEntry(company.entity.collection, company.entity.id).then(
-        (company) => company.data.website,
-      )
-    : undefined;
+  { biography, company: _company, name, photo, socials } = author.data,
+  company =
+    _company === undefined
+      ? undefined
+      : {
+          ..._company!,
+          entity: await getEntry(
+            _company.entity.collection,
+            _company.entity.id,
+          )!,
+        };
 ---
 
 <article
@@ -46,16 +46,16 @@ const { author } = Astro.props,
         {name}
       </div>
       {
-        role && (
+        company !== undefined && (
           <p class="text-sm leading-6 text-content">
-            {role} |{" "}
+            {company.role} |{" "}
             <a
-              href={companyWebsite}
+              href={company.entity.data.website}
               target="_blank"
               rel="noreferrer"
               class="font-bold text-content"
             >
-              {companyName}
+              {company.entity.data.name}
             </a>
           </p>
         )

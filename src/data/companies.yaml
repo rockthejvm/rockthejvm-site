@@ -1,28 +1,48 @@
 - id: adobe
   name: Adobe
+  website: https://adobe.com
 - id: apple
   name: Apple
+  website: https://apple.com
 - id: carvana
   name: Carvana
+  website: https://carvana.com
 - id: datto
   name: Datto
+  website: https://datto.com
 - id: google
   name: Google
+  website: https://about.google
 - id: hapag-lloyd
   name: Hapag-Lloyd
+  website: https://www.hapag-lloyd.com
 - id: hm-revenue-and-customs
   name: HM Revenue & Customs
+  website: https://www.gov.uk/government/organisations/hm-revenue-customs
 - id: intuit
   name: Intuit
+  website: https://intuit.com
 - id: iov42
   name: iov42
+  website: https://iov42.com
+- id: lastminute.com
+  name: lastminute.com
+  website: https://lastminute.com
 - id: microsoft
   name: Microsoft
+  website: https://microsoft.com
 - id: orange
   name: Orange
+  website: https://orange.com
+- id: riverwalk-software
+  name: Riverwalk Software
+  website: https://riverwalk.dev
 - id: rock-the-jvm
   name: Rock the JVM
+  website: https://rockthejvm.com
 - id: swiss-re
   name: Swiss Re
+  website: https://swissre.com
 - id: ververica
   name: Ververica
+  website: https://ververica.com
