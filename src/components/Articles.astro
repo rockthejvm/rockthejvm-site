@@ -5,11 +5,16 @@ import ArticlePreview from "./ArticlePreview.astro";
 
 interface Props {
   articles: CollectionEntry<"articles">[];
+  sortBy: "title" | "none";
 }
-const { articles: _articles } = Astro.props,
-  sortedArticles = _articles.sort((a, b) =>
-    compareByNaturalOrder(a.data.title, b.data.title),
-  );
+
+const { articles: _articles, sortBy = "title" } = Astro.props,
+  sortedArticles =
+    sortBy === "title"
+      ? _articles.sort((a, b) =>
+          compareByNaturalOrder(a.data.title, b.data.title),
+        )
+      : _articles;
 ---
 
 <section class="pb-8 sm:py-2 md:pb-16">
