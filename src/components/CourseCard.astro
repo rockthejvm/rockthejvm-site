@@ -40,7 +40,7 @@ const isUpdated = course.data.updatedDate
   <div
     class="relative mb-0 shrink-0 overflow-hidden md:mb-0 md:min-h-full md:rounded-l-2xl"
   >
-    <a href={`/courses/${course.slug}`}>
+    <a href={`/courses/${course.id}`}>
       <div
         class="h-72 w-full overflow-hidden text-gray-300 md:h-full md:w-64 lg:w-96"
       >
@@ -54,7 +54,7 @@ const isUpdated = course.data.updatedDate
     </a>
     {
       holiday && couponCode && (
-        <CourseCardLinks slug={course.slug} {pricingPlanId} {couponCode} />
+        <CourseCardLinks slug={course.id} {pricingPlanId} {couponCode} />
       )
     }
   </div>
@@ -74,7 +74,7 @@ const isUpdated = course.data.updatedDate
           )
         }
         <a
-          href={`/courses/${course.slug}`}
+          href={`/courses/${course.id}`}
           class={holiday
             ? "text-holiday-card-accent-1 hover:text-holiday-card-accent-2"
             : ""}

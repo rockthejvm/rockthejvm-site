@@ -73,7 +73,7 @@ const courseSeriess = (await getCollection("seriess")).filter(
   coursess = await Promise.all(
     (memberss as CollectionEntry<"courses">[][]).map(async (members) =>
       Promise.all(
-        members.map(async (member) => getEntry("courses", member.slug)),
+        members.map(async (member) => getEntry("courses", member.id)),
       ),
     ),
   ),
@@ -94,7 +94,7 @@ const courseSeriess = (await getCollection("seriess")).filter(
       .map((course, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: `${Astro.site!}/courses/${course.slug}`,
+        url: `${Astro.site!}/courses/${course.id}`,
       })),
   });
 ---

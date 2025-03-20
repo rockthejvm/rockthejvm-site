@@ -25,9 +25,9 @@ export default function Example({ article, articleSeries, label, open }) {
       </summary>
       <ol className="divide-y divide-gray-200 px-4 py-5 text-content-1 sm:p-6">
         {articleSeries.map((seriesArticle) =>
-          seriesArticle.slug === article.slug ? (
+          seriesArticle.id === article.id ? (
             <li
-              key={seriesArticle.slug}
+              key={seriesArticle.id}
               className="flex items-center py-4 text-content"
             >
               <span className="px-2 italic">{seriesArticle.data.title}</span>
@@ -52,8 +52,8 @@ export default function Example({ article, articleSeries, label, open }) {
               <span>This article</span>
             </li>
           ) : (
-            <li key={seriesArticle.slug} className="py-4 text-content">
-              <a href={`/articles/${seriesArticle.slug}`}>
+            <li key={seriesArticle.id} className="py-4 text-content">
+              <a href={`/articles/${seriesArticle.id}`}>
                 {seriesArticle.data.title}
               </a>
             </li>

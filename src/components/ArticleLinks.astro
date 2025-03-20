@@ -13,7 +13,7 @@ const allArticles = await getCollection("articles"),
 <ul>
   {
     articles.map((article) => (
-      <ArticleLink slug={article.slug} title={article.data.title} />
+      <ArticleLink slug={article.id} title={article.data.title} />
     ))
   }
 </ul>

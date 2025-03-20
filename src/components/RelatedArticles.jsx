@@ -22,7 +22,7 @@ export default function CarouselSpacing(props) {
         <CarouselContent className="-ml-1 p-4">
           {articleSlots.map((article, index) => (
             <CarouselItem
-              key={article.slug}
+              key={article.id}
               className="h-auto pl-4 md:basis-1/2 lg:basis-1/3"
             >
               {article}

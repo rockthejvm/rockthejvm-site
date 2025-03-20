@@ -9,7 +9,7 @@ export async function GET(context) {
     description: site.description,
     items: articles.map((article) => ({
       description: article.data.excerpt,
-      link: `/articles/${article.slug}/`,
+      link: `/articles/${article.id}/`,
       pubDate: article.data.publishedDate.toISOString(),
       title: article.data.title,
     })),

@@ -17,12 +17,12 @@ const { article, label, open = false } = Astro.props,
   articless = await Promise.all(
     (memberss as CollectionEntry<"articles">[][]).map(async (members) =>
       Promise.all(
-        members.map(async (member) => getEntry("articles", member.slug)),
+        members.map(async (member) => getEntry("articles", member.id)),
       ),
     ),
   ),
   articleSeries = articless.find((articles) =>
-    articles.map((article) => article.slug).includes(article.slug),
+    articles.map((article) => article.id).includes(article.id),
   );
 ---
 

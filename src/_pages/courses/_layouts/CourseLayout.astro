@@ -102,7 +102,7 @@ function difficultyToOrdinal(
 }
 const _prerequisitess = await getCollection("prerequisites"),
   prerequisites = _prerequisitess.find(({ data: { nodes } }) =>
-    nodes.find((node) => node.id === course.slug),
+    nodes.find((node) => node.id === course.id),
   ),
   reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
     ? await Promise.all(
@@ -289,7 +289,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       ) : (
         <Curriculum
           color={categoryColor}
-          courseSlug={course.slug}
+          courseSlug={course.id}
           {pricingPlanId}
         />
       )
@@ -299,7 +299,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       {benefits}
       {bundledCourses}
       color={categoryColor}
-      courseSlug={course.slug}
+      courseSlug={course.id}
       {pricingPlanId}
       {title}
     />

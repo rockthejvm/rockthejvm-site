@@ -10,7 +10,7 @@ const courseSeriess = (await getCollection("seriess")).filter(
   coursess = await Promise.all(
     (memberss as CollectionEntry<"courses">[][]).map(async (members) =>
       Promise.all(
-        members.map(async (member) => getEntry("courses", member.slug)),
+        members.map(async (member) => getEntry("courses", member.id)),
       ),
     ),
   ),
