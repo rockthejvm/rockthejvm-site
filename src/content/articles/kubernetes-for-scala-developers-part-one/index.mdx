@@ -5,7 +5,7 @@ difficulty: intermediate
 excerpt: Learn how to deploy and scale your Scala application using Kubernetes
 publishedDate: 2025-03-10
 tags: [kubernetes, scala, devops, scalability]
-title: "Scala applications containers Orchestration with Kubernetes(Part 1)"
+title: "Deploying a Scala Application on Kubernetes - part 1"
 updatedDate: 2025-03-11
 ---
 
@@ -23,7 +23,7 @@ of a Kubernetes cluster, the main components of Kubernetes, how to scale up or d
 zero-downtime deployments and more. The second part will guide you through continuous integration and deployment, monitoring,
 and help you build a production-ready Kubernetes cluster.
 
-## Kubernetes: Your Application's New Best Friend
+### Kubernetes: Your Application's New Best Friend
 Kubernetes is not just another helper tool for deploying applications. It's a complete infrastructural ecosystem positioning
 itself as the most modern solution for deploying resilient and elastics applications. It is a hyper-intelligent and extensible
 deployment orchestrator that manages all aspects of your application's lifecycle.
@@ -63,14 +63,14 @@ listing cars will output a result in the form:
 If you create a new car the api will return the updated list of cars.
 
 ### Why Should Scala Developers Care?
-The reasons for caring about Kubernetes are what it promises. The most important promises of Kubernetes are:
-- **Effortless Scaling**: Grow or shrink your application automatically in response to the incoming workload
-- **Self-Healing Magic**: Automatic response to failing containers during their lifecycle
-- **Consistent Deployments**: Run the same application anywhere either on local machine, cloud or hybrid environment
-- **Resource Optimization**: Squeeze maximum performance from your infrastructure
+The reasons for caring about Kubernetes are what it promises. The most important promises of Kubernetes are.
+- **Effortless Scaling**: grow or shrink your application automatically in response to the incoming workload
+- **Self-Healing Magic**: automatic response to failing containers during their lifecycle
+- **Consistent Deployments**: run the same application anywhere either on local machine, cloud or hybrid environment
+- **Resource Optimization**: squeeze maximum performance from your infrastructure
 
 ## Development environment
-For the development environment multiple solutions exists, but we'll use Minikube as our local kubernetes. It is a
+For the development environment multiple solutions exist, but we'll use Minikube as our local kubernetes. It is a
 solution that make learning and development easier for kubernetes. For it to work, you mainly need Docker installed.
 After this all you need is to follow the instructions on the page [Install k8s for local development](https://minikube.sigs.k8s.io/docs/start).
 Kubernetes specifications artifact are written in yaml format and all the Kubernetes components details are found on the
@@ -80,13 +80,14 @@ following two commands to deploy and drop Kubernetes components on our cluster.
 * To drop a deployment run `kubectl delete -f workload-api.yaml`.
 
 In these commands, `workload-api.yaml` is a Kubernetes yaml configuration file(place in a folder of your computer and
-open a terminal at the root of that folder). The name of the file doesn't matter only its content matter. `kubectl` is
-the kubernetes client we use to send our request to the API-Server with is the front end of any kubernetes cluster.
-It is the element to which any new change on the cluster is sent to, and it collaborates with other component to achieve
-the expected result if possible. To have a view of the Kubernetes internals we can run in a separate terminal the
-commands `minikube addons enable dashboard` and `kubectl addons enable metrics-server` that will install the needed tools
-to visualize the activity on the cluster. We can then run the command `minikube dashboard` which will open a web page in
-our default browser to see all the objects running on the cluster.
+open a terminal at the root of that folder). The name of the file doesn't matter only its content matter. To test every
+Kubernetes configuration in this article, you'll replace the content of the `workload-api.yaml` with the configuration
+you want to test. `kubectl` is the Kubernetes client we use to send our request to the API-Server with is the front end
+of any Kubernetes cluster. It is the element to which any new change on the cluster is sent to, and it collaborates with
+other component to achieve the expected result if possible. To have a view of the Kubernetes internals we can run in a
+separate terminal the commands `minikube addons enable dashboard` and `minikube addons enable metrics-server` that will
+install the needed tools to visualize the activity on the cluster. We can then run the command `minikube dashboard` which
+will open a web page in our default browser to see all the objects running on the cluster.
 
 ## The Kubernetes Landscape: A High-Level View
 Kubernetes came to life from a Google engineering team drawing on their long experience in managing large-scale containerized
@@ -151,7 +152,7 @@ When you create a Pod, Kubernetes initiates multiple actions:
 * **Scheduling Decision**: The scheduler receives pod creation request and base on the current state of the cluster,
     the available computing resources, the cluster topology requirements, Hardware constraints and other factors, selects
     the node on which the pod should run.
-** **Pod Placement Workflow**: After the Scheduler has identified the optimal node on which the pod will run,
+* **Pod Placement Workflow**: After the Scheduler has identified the optimal node on which the pod will run,
     the Control plane communicates with the selected node's Kubelet and give all the specification for running the pod.
     The Kubelet then pulls necessary container images and the container runtime create and starts containers. At this step
     the Pod is said to be in "Running" state after a successful initialization.
@@ -189,7 +190,7 @@ spec:
 ```
 
 Explanations:
-* **API Version and Kind**: The first two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
+* **API Version(`apiVersion`) and kind(`Kind`)**: The first two lines specify the Kubernetes Pods API version, which is crucial for Kubernetes
 to understand the intended action and correctly process the Pod creation request.
 * **Metadata Section**: This part provides descriptive information about the Pod, including its name and labels. While
 labels don't affect the Pod's behavior currently, they become important when working with Kubernetes controllers.
@@ -271,23 +272,23 @@ spec:
 ```
 
 Explanations:
-* **API(apiVersion) and Resource Definition(Kind)**: specifies the Kubernetes API version for a ReplicaSet, defining its
+* **API(`apiVersion`) and Resource Definition(`Kind`)**: specifies the Kubernetes API version for a ReplicaSet, defining its
 basic metadata with a name identifier.
 
-* **Replica Configuration(spec)**: sets the desired number of concurrent Pods, defaulting to one if not explicitly specified.
+* **Replica Configuration(`spec`)**: sets the desired number of concurrent Pods, defaulting to one if not explicitly specified.
 This ensures consistent application deployment across the cluster.
 
-* **Pod Selection Mechanism(template.metadata.labels)**: Use a selector to identify and manage Pods, regardless of their
+* **Pod Selection Mechanism(`template.metadata.labels`)**: Use a selector to identify and manage Pods, regardless of their
 origin. The ReplicaSet dynamically maintains the specified number of Pods by creating, monitoring, or terminating instances as needed.
 
-* **Label Matching Strategy(spec.elector.matchLabels)**: Define precise label criteria to match and manage Pods, ensuring that the ReplicaSet
-targets the correct set of containers across the Kubernetes environment. In this case pod having the labels
-type: api, language: Scala and framework: play-framework will be managed by the ReplicaSet
+* **Label Matching Strategy(`spec.elector.matchLabels`)**: Define precise label criteria to match and manage Pods, ensuring
+that the ReplicaSet targets the correct set of containers across the Kubernetes environment. In this case pod having the labels
+`type: api`, `language: Scala and framework: play-framework` will be managed by the ReplicaSet
 
-* **Template Specification(spec.template)**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary,
+* **Template Specification(`spec.template`)**: Provide a Pod template that serves as a blueprint for creating new Pods when necessary,
 with mandatory container definitions that guide the ReplicaSet's deployment logic.
 
-* **Container Definition(spec.template.spec.containers)**: In the template specifications, containers entry specifies the containers
+* **Container Definition(`spec.template.spec.containers`)**: In the template specifications, containers entry specifies the containers
 to be deployed within the Pods, detailing their configuration and ensuring consistent application setup across replicas.
 we specify a name for the pod, image and limits(maximum resource to be used by the pod) of the resources(cpu or memory) consumed
 by the containers in pods so that resource usage can be controlled.
@@ -549,12 +550,12 @@ spec:
 ```
 
 Explanations:
-* **API(apiVersion) and Resource Definition(Kind)**: Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
+* **API(`apiVersion`) and Resource Definition(`Kind`)**: Specify the Kubernetes API version for a ReplicaSet, defining its basic metadata with a name identifier.
 
-* **Pod Selection Mechanism(spec.selector)**: Use a selector to identify and manage Pods, regardless of their origin. All the pod that share
+* **Pod Selection Mechanism(`spec.selector`)**: Use a selector to identify and manage Pods, regardless of their origin. All the pod that share
     these labels will be served by this service.
 
-* **Label Matching Strategy(metadata.labels)**: Define precise label criteria on pod that will be matched by the service.\
+* **Label Matching Strategy(`metadata.labels`)**: Define precise label criteria on pod that will be matched by the service.\
 
 Deploy: `kubectl apply -f workload-api.yaml`
 
@@ -956,8 +957,8 @@ Explanations:
   this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed.
 * **livenessProbe**: periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated
 
-### A complete example from all the previous snippets
-This kubernetes configuration shows a complete wiring of different components to make up a complete deployment of an application on
+### A complete example
+This Kubernetes configuration shows a complete wiring of different components to make up a complete deployment of an application on
 Kubernetes. We have added an auto-scaling configuration in it so that the application can scale.
 
 #### Auto-scaling specifications explanations
@@ -1410,8 +1411,8 @@ deployed when conditions are met and this dynamic is driven by a tool like Jenki
 
 Kubernetes isn't just a tool, it's a mindset. For Scala developers, it represents a powerful way to transform how we
 think about deploying and managing applications. Start small, experiment, and gradually build your Kubernetes expertise.
-In this article we have discovered the basics components of a Kubernetes cluster. how to create, observe, update and delete them.
-The next part(part 2) will build on top of this. We'll explore Automatic creation and management of Kubernetes cluster using JenKins X and
+In this article we have discovered the basic components of a Kubernetes cluster. how to create, observe, update and delete them.
+The next part will explore Automatic creation and management of Kubernetes cluster using JenKins X and
 perform continuous automation and deployment.
 
-The learning curve is steep, but the view from the top is spectacular! Keep up
+The learning curve is steep, but the view from the top is spectacular!
