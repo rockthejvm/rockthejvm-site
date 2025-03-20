@@ -18,7 +18,7 @@ const { article } = Astro.props,
     difficulty: _difficulty,
     excerpt,
     publishedDate: _publishedDate,
-    tags,
+    tags: _tags,
     title,
     updatedDate: _updatedDate,
   } = article.data,
@@ -28,7 +28,10 @@ const { article } = Astro.props,
   difficulty = await getEntry(_difficulty.collection, _difficulty.id),
   entity = author.data.company
     ? await getEntry("companies", author.data.company.entity.id)
-    : undefined;
+    : undefined,
+  tags = await Promise.all(
+    _tags.map(async (tag) => await getEntry(tag.collection, tag.id)),
+  );
 ---
 
 <article class="card-shadow card-shadow-color rounded-2xl bg-secondary p-4">
@@ -73,7 +76,7 @@ const { article } = Astro.props,
       <div
         class="mt-4 flex w-full items-center gap-x-2 overflow-hidden text-xs"
       >
-        <!-- {tags.slice(0, 3).map((tag) => <ArticleTag {tag} />)} -->
+        {tags.slice(0, 3).map((tag) => <ArticleTag {tag} />)}
       </div>
       <p class="mt-4 text-sm leading-6 text-content">
         {excerpt}
