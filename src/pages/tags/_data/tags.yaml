@@ -26,7 +26,6 @@
 - id: finagle
 - id: flink
 - id: fp
-- id: frontend
 - id: fs2
 - id: full-stack
 - id: heroku

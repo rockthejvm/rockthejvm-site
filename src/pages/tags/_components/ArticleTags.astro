@@ -8,7 +8,9 @@ interface Props {
 }
 
 const { tags: _tags } = Astro.props,
-  tags = [..._tags].sort((a, b) => compareByNaturalOrder(a.data.id, b.data.id));
+  sortedTags = [..._tags].sort((a, b) =>
+    compareByNaturalOrder(a.data.id, b.data.id),
+  );
 ---
 
 <section class="pb-8 sm:py-2 md:pb-16">
@@ -18,6 +20,6 @@ const { tags: _tags } = Astro.props,
   <div
     class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
   >
-    {tags.map((tag) => <ArticleTag {tag} />)}
+    {sortedTags.map((tag) => <ArticleTag {tag} />)}
   </div>
 </section>
