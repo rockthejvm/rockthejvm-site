@@ -22,13 +22,20 @@ const { article } = Astro.props,
     title,
     updatedDate: _updatedDate,
   } = article.data,
-  author = await getEntry(_author.collection, _author.id),
+  author = await getEntry(_author.collection, _author.id)!,
+  authorCompany =
+    author.data.company === undefined
+      ? undefined
+      : {
+          ...author.data.company!,
+          entity: await getEntry(
+            author.data.company.entity.collection,
+            author.data.company.entity.id,
+          )!,
+        },
   date = _updatedDate ?? _publishedDate,
   category = await getEntry(_category.collection, _category.id),
   difficulty = await getEntry(_difficulty.collection, _difficulty.id),
-  entity = author.data.company
-    ? await getEntry("companies", author.data.company.entity.id)
-    : undefined,
   tags = await Promise.all(
     _tags.map(async (tag) => await getEntry(tag.collection, tag.id)),
   );
@@ -36,27 +43,6 @@ const { article } = Astro.props,
 
 <article class="card-shadow card-shadow-color rounded-2xl bg-secondary p-4">
   <div class="flex flex-col items-start justify-between px-4 pb-4">
-    <!-- <div class="relative w-full">
-    {
-      heroImage ? (
-        <MyPicture
-          src={heroImage.image}
-          alt={heroImage.alt}
-          class="aspect-[16/9] w-full rounded-2xl bg-secondary object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
-        />
-      ) : (
-        <MyPicture
-          src={Placeholder}
-          alt="Placeholder"
-          class="aspect-[16/9] w-full rounded-2xl bg-secondary object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
-        />
-      )
-    }
-    <div
-      class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
-    >
-    </div>
-  </div> -->
     <div class="relative w-full">
       <h2
         class="mt-2 line-clamp-3 text-xl font-semibold leading-6 md:text-2xl lg:min-h-28 lg:text-3xl"
@@ -97,9 +83,9 @@ const { article } = Astro.props,
           </a>
         </p>
         {
-          author.data.company && (
+          authorCompany !== undefined && (
             <p class="text-content">
-              {author.data.company.role} | {entity?.data.title}
+              {authorCompany.role} | {authorCompany.entity.data.name}
             </p>
           )
         }
