@@ -1,0 +1,20 @@
+---
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const courses = await getCollection("courses");
+
+  return courses.map((course) => ({
+    params: { id: course.id },
+    props: { course },
+  }));
+}
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { course } = Astro.props,
+  { Content } = await render(course);
+---
+
+<Content />

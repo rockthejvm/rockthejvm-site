@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-export default function Example({ article, articleSeries, label, open }) {
+export default function Example({
+  article,
+  articleSeriesMembers,
+  label,
+  open,
+}) {
   const [detailsOpen, setDetailsOpen] = useState(false);
 
   const handleClick = () => {
@@ -24,13 +29,15 @@ export default function Example({ article, articleSeries, label, open }) {
         </div>
       </summary>
       <ol className="divide-y divide-gray-200 px-4 py-5 text-content-1 sm:p-6">
-        {articleSeries.map((seriesArticle) =>
-          seriesArticle.id === article.id ? (
+        {articleSeriesMembers.map((articleSeriesMember) =>
+          articleSeriesMember.id === article.id ? (
             <li
-              key={seriesArticle.id}
+              key={articleSeriesMember.id}
               className="flex items-center py-4 text-content"
             >
-              <span className="px-2 italic">{seriesArticle.data.title}</span>
+              <span className="px-2 italic">
+                {articleSeriesMember.data.title}
+              </span>
               <span className="text-accent-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -52,9 +59,9 @@ export default function Example({ article, articleSeries, label, open }) {
               <span>This article</span>
             </li>
           ) : (
-            <li key={seriesArticle.id} className="py-4 text-content">
-              <a href={`/articles/${seriesArticle.id}`}>
-                {seriesArticle.data.title}
+            <li key={articleSeriesMember.id} className="py-4 text-content">
+              <a href={`/articles/${articleSeriesMember.id}`}>
+                {articleSeriesMember.data.title}
               </a>
             </li>
           ),

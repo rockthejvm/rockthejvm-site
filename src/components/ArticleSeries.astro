@@ -1,7 +1,7 @@
 ---
 import ArticleSeriesHelper from "@/components/ArticleSeriesHelper";
 import type { CollectionEntry } from "astro:content";
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntries } from "astro:content";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -10,24 +10,18 @@ interface Props {
 }
 
 const { article, label, open = false } = Astro.props,
-  articleSeriess = (await getCollection("seriess")).filter(
-    (series) => series.data.members[0].collection === "articles",
+  _seriess = await getCollection("articleSeriess"),
+  articleSeries = _seriess.find(({ data: { members } }) =>
+    members.map((member) => member.id).includes(article.id),
   ),
-  memberss = articleSeriess.map((series) => series.data.members),
-  articless = await Promise.all(
-    (memberss as CollectionEntry<"articles">[][]).map(async (members) =>
-      Promise.all(
-        members.map(async (member) => getEntry("articles", member.id)),
-      ),
-    ),
-  ),
-  articleSeries = articless.find((articles) =>
-    articles.map((article) => article.id).includes(article.id),
-  );
+  articleSeriesMembers =
+    articleSeries?.data.members !== undefined
+      ? await getEntries(articleSeries.data.members)
+      : undefined;
 ---
 
 {
-  articleSeries && (
+  articleSeries !== undefined && (
     <section
       class:list={[
         "bg-secondary",
@@ -37,7 +31,7 @@ const { article, label, open = false } = Astro.props,
     >
       <ArticleSeriesHelper
         {article}
-        {articleSeries}
+        {articleSeriesMembers}
         {open}
         label={label}
         client:load

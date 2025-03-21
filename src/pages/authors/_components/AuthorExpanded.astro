@@ -7,7 +7,6 @@ import Website from "@/components/icons/Website.astro";
 import YouTube from "@/components/icons/YouTube.astro";
 import MyPicture from "@/components/MyPicture.astro";
 import { type CollectionEntry, getEntry } from "astro:content";
-import { undefined } from "astro:schema";
 
 interface Props {
   author: CollectionEntry<"authors">;
@@ -43,7 +42,9 @@ const { author } = Astro.props,
       <div
         class="mt-6 text-base font-semibold leading-7 tracking-tight text-content"
       >
-        {name}
+        <a href={`/authors/${author.id}`}>
+          {name}
+        </a>
       </div>
       {
         company !== undefined && (

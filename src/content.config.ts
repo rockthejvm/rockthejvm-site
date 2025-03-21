@@ -3,11 +3,13 @@ import articleCategories from "./collections/articleCategories";
 import articles from "./collections/articles";
 import authors from "./collections/authors";
 import companies from "./collections/companies";
-import difficulties from "./pages/difficulties/_collections/difficulties";
-import tags from "./pages/tags/_collections/tags";
+import difficulties from "./collections/difficulties";
+import tags from "./collections/tags";
+import articleSeriess from "./pages/articles/_collections/articleSeriess";
 
 export const collections = {
   articleCategories,
+  articleSeriess,
   articles,
   authors,
   companies,

@@ -30,9 +30,9 @@ export default function CarouselSpacing(props) {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious />
+        <CarouselPrevious className="bg-black" />
 
-        <CarouselNext />
+        <CarouselNext className="bg-black" />
       </Carousel>
     </section>
   );

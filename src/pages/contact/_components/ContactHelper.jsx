@@ -1,39 +1,6 @@
 import { Field, Switch } from "@headlessui/react";
 import { useState } from "react";
 
-// const handleSubmit = async (event) => {
-//   event.preventDefault();
-
-//   const formData = new FormData(event.target);
-//   const { email, message, name } = Object.fromEntries(formData.entries());
-
-//   try {
-//     const response = await fetch("/api/sendEmail.json", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         from: "andrei@riverwalk.dev",
-//         to: "william@riverwalk.dev",
-//         reply_to: email,
-//         subject: `New message from ${name}`,
-//         html: `<p>${message}</p>`,
-//         text: message,
-//       }),
-//     });
-
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok");
-//     }
-
-//     const result = await response.json();
-//     console.log("Success:", result);
-//   } catch (error) {
-//     console.error("Error:", error);
-//   }
-// };
-
 export default function Example() {
   const [agreed, setAgreed] = useState(false);
 

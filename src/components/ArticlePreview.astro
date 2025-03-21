@@ -5,7 +5,7 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import MyPicture from "@/components/MyPicture.astro";
 import getReadingTime from "@/utils/getReadingTime.ts";
 import type { CollectionEntry } from "astro:content";
-import { getEntry } from "astro:content";
+import { getEntries, getEntry } from "astro:content";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -36,9 +36,7 @@ const { article } = Astro.props,
   date = _updatedDate ?? _publishedDate,
   category = await getEntry(_category.collection, _category.id),
   difficulty = await getEntry(_difficulty.collection, _difficulty.id),
-  tags = await Promise.all(
-    _tags.map(async (tag) => await getEntry(tag.collection, tag.id)),
-  );
+  tags = await getEntries(_tags);
 ---
 
 <article class="card-shadow card-shadow-color rounded-2xl bg-secondary p-4">

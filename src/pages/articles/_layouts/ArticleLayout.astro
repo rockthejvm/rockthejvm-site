@@ -45,7 +45,10 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
     videoId,
   } = _frontmatter,
   date = updatedDate ?? publishedDate,
-  category = await getEntry("articleCategories", article.data.category.id),
+  category = await getEntry(
+    _frontmatter.category.collection,
+    _frontmatter.category.id,
+  ),
   author = await getEntry(
     _frontmatter.author.collection,
     _frontmatter.author.id,
@@ -80,23 +83,21 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
       }),
     ),
   }),
-  matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
+  _matchedArticlesResult = ArticleMatchSchema.safeParse(matchedArticles);
 
-if (!matchedArticlesDataResult.success) {
+if (!_matchedArticlesResult.success) {
   throw new Error("Failed to parse matched articles data");
 }
 
-const matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
-    matchedArticlesDataResult.data,
-  matches = matchedArticlesData.all_matches.filter(
+const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
+    _matchedArticlesResult.data,
+  _matches = _matchedArticlesData.all_matches.filter(
     (match) => match.source_slug === article.id,
+  ),
+  _sortedMatches = [..._matches].sort((a, b) => b.similarity - a.similarity),
+  relatedArticles = _sortedMatches.map((match) =>
+    allArticles.find((article) => article.id === match.matched_slug),
   );
-
-matches.sort((a, b) => b.similarity - a.similarity);
-
-const relatedArticles = matches.map((match) =>
-  allArticles.find((article) => article.id === match.matched_slug),
-);
 ---
 
 <BaseLayout
@@ -162,111 +163,110 @@ const relatedArticles = matches.map((match) =>
             {title}
           </h1>
         </Prose>
-        <!-- <Byline {author}> -->
+        <Byline {author}>
+          {
+            minutesRead && (
+              <p>
+                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}{" "}
+                &nbsp;•&nbsp; {category.data.name} &nbsp;•&nbsp;{" "}
+                {capitalizeFirstChar(difficulty.id)}
+              </p>
+            )
+          }
+          <TagList {tags} />
+        </Byline>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
+        <div class="my-5">
+          <ArticleSeries {article} label="This article is part of a series" />
+        </div>
+        {videoId && <MyYouTube id={videoId} />}
+      </header>
+      <div class="xl:flex xl:flex-row">
+        <Prose class="my-4 prose-h2:mt-2">
+          <div id="toc" class="hidden lg:block xl:hidden">
+            <TableOfContents {headings} {repositoryUrl} {videoId} />
+          </div>
+          <slot />
+        </Prose>
+        <Prose
+          class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 prose-h2:mt-2 xl:block"
+          ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
+        >
+      </div>
+      <footer>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
+        <ArticleSeries {article} open={true} />
+        <AuthorWide {author} />
         {
-          minutesRead && (
-            <p>
-              {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}{" "}
-              &nbsp;•&nbsp; {category.data.name} &nbsp;•&nbsp;{" "}
-              {capitalizeFirstChar(difficulty.id)}
-            </p>
+          relatedArticles.length > 0 && (
+            <RelatedArticles length={relatedArticles.length} client:load>
+              {relatedArticles.length >= 1 && (
+                <ArticlePreview
+                  slot="firstArticle"
+                  article={relatedArticles[0]!}
+                />
+              )}
+              {relatedArticles.length >= 2 && (
+                <ArticlePreview
+                  slot="secondArticle"
+                  article={relatedArticles[1]!}
+                />
+              )}
+              {relatedArticles.length >= 3 && (
+                <ArticlePreview
+                  slot="thirdArticle"
+                  article={relatedArticles[2]!}
+                />
+              )}
+              {relatedArticles.length >= 4 && (
+                <ArticlePreview
+                  slot="fourthArticle"
+                  article={relatedArticles[3]!}
+                />
+              )}
+              {relatedArticles.length >= 5 && (
+                <ArticlePreview
+                  slot="fifthArticle"
+                  article={relatedArticles[4]!}
+                />
+              )}
+            </RelatedArticles>
           )
         }
-        <TagList {tags} />
-      </header>
-      <div class="hidden lg:block">
-        <SocialShare
-          title={article.data.title}
-          description={article.data.description ?? ""}
-          url={Astro.url.href}
-          tags={article.data.tags}
-        />
-      </div>
-      <!-- <div class="my-5">
-        <ArticleSeries {article} label="This article is part of a series" />
-      </div> -->
-      {videoId && <MyYouTube id={videoId} />}
-      <!-- <div class="lg:hidden fixed bottom-4 right-4">
-          <a class="flex flex-col align-center justify-center content-center" href="#toc">
-            <div class="mx-auto"><CaretUp /></div>
-          <TOC />
-        </a>
-        </div> -->
+
+        <NewsletterSection />
+      </footer>
     </article>
-    <div class="xl:flex xl:flex-row">
-      <Prose class="my-4 prose-h2:mt-2">
-        <div id="toc" class="hidden lg:block xl:hidden">
-          <TableOfContents {headings} {repositoryUrl} {videoId} />
-        </div>
-        <slot />
-      </Prose>
-      <Prose
-        class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 prose-h2:mt-2 xl:block"
-        ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
-      >
-    </div>
-    <footer>
-      <div class="hidden lg:block">
-        <SocialShare
-          title={article.data.title}
-          description={article.data.description ?? ""}
-          url={Astro.url.href}
-          tags={article.data.tags}
-        />
-      </div>
-      <!-- <ArticleSeries {article} open={true} /> -->
-      <!-- <AuthorWide {author} /> -->
-
-      {
-        relatedArticles.length > 0 && (
-          <RelatedArticles length={relatedArticles.length} client:load>
-            {relatedArticles.length >= 1 && (
-              <ArticlePreview
-                slot="firstArticle"
-                article={relatedArticles[0]!}
-              />
-            )}
-            {relatedArticles.length >= 2 && (
-              <ArticlePreview
-                slot="secondArticle"
-                article={relatedArticles[1]!}
-              />
-            )}
-            {relatedArticles.length >= 3 && (
-              <ArticlePreview
-                slot="thirdArticle"
-                article={relatedArticles[2]!}
-              />
-            )}
-            {relatedArticles.length >= 4 && (
-              <ArticlePreview
-                slot="fourthArticle"
-                article={relatedArticles[3]!}
-              />
-            )}
-            {relatedArticles.length >= 5 && (
-              <ArticlePreview
-                slot="fifthArticle"
-                article={relatedArticles[4]!}
-              />
-            )}
-          </RelatedArticles>
-        )
-      }
-
-      <NewsletterSection />
-    </footer>
   </NarrowContainer>
+  <FloatingActionMenuHelper client:load>
+    <Prose class="prose-h2:mt-2" slot="toc">
+      <TableOfContents
+        {headings}
+        {repositoryUrl}
+        {videoId}
+        hideButtons={false}
+      />
+    </Prose>
+    <SocialShare
+      title={article.data.title}
+      description={article.data.description ?? ""}
+      url={Astro.url.href}
+      tags={article.data.tags}
+      slot="share"
+    />
+  </FloatingActionMenuHelper>
 </BaseLayout>
-<FloatingActionMenuHelper client:load>
-  <Prose class="prose-h2:mt-2" slot="toc">
-    <TableOfContents {headings} {repositoryUrl} {videoId} hideButtons={false} />
-  </Prose>
-  <SocialShare
-    title={article.data.title}
-    description={article.data.description ?? ""}
-    url={Astro.url.href}
-    tags={article.data.tags}
-    slot="share"
-  />
-</FloatingActionMenuHelper>
