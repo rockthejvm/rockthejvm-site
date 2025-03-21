@@ -1065,7 +1065,37 @@ kubectl delete -f workload-api.yaml
 pod "workload-api" deleted
 service "workload-service" deleted
 ```
-The api's indicated at the beginning for cars parking management can be tested as indicated.
+
+To test the api do this:
+* execute `minikube ip` to get the `ip` of the cluster(e.g. `192.168.49.2`)
+* call the endpoints `192.168.49.2:30123/listOfCars` and `192.168.49.2:30123/insertNewCar`
+and the result is something like
+
+```text
+[
+    {
+        "year": 2021,
+        "brand": "Bugatti Chiron Super Sport[vii]",
+        "maxSpeed": 300
+    },
+    {
+        "year": 2018,
+        "brand": "Lamborghini Huracán Performante[vii]",
+        "maxSpeed": 257
+    },
+    {
+        "year": 2018,
+        "brand": "McLaren 720S",
+        "maxSpeed": 259
+    },
+    {
+        "year": 2024,
+        "brand": "Chevrolet Corvette C8 E-Ray",
+        "maxSpeed": 157
+    }
+]
+```
+
 
 ### Ingress
 
@@ -1166,6 +1196,34 @@ service/workload-service   ClusterIP   10.111.108.11   <none>        9000/TCP   
 
 NAME                                             CLASS   HOSTS                 ADDRESS   PORTS   AGE
 ingress.networking.k8s.io/api-workload-ingress   nginx   k8splayworkload.com             80      30s
+```
+
+The endpoints(`/listOfCars`, `/insertNewCar`) indicated at the beginning for cars parking management can be tested as indicated
+using `k8splayworkload.com/listOfCars` and `k8splayworkload.com/insertNewCar` and the result is something like
+
+```text
+[
+    {
+        "year": 2021,
+        "brand": "Bugatti Chiron Super Sport[vii]",
+        "maxSpeed": 300
+    },
+    {
+        "year": 2018,
+        "brand": "Lamborghini Huracán Performante[vii]",
+        "maxSpeed": 257
+    },
+    {
+        "year": 2018,
+        "brand": "McLaren 720S",
+        "maxSpeed": 259
+    },
+    {
+        "year": 2024,
+        "brand": "Chevrolet Corvette C8 E-Ray",
+        "maxSpeed": 157
+    }
+]
 ```
 
 Drop: `kubectl delete -f workload-api.yaml`
