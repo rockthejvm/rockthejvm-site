@@ -29,7 +29,7 @@ interface Response {
 
 const course = await getEntry(
     "courses",
-    Astro.params.slug as CollectionEntry<"courses">["slug"],
+    Astro.params.id as CollectionEntry<"courses">["id"],
   ),
   _frontmatter = course.data,
   [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
@@ -294,7 +294,7 @@ const _prerequisitess = await getCollection("prerequisites"),
         />
       )
     }
-    <Pricing
+    <!-- <Pricing
       {includedInMembership}
       {benefits}
       {bundledCourses}
@@ -302,7 +302,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       courseSlug={course.id}
       {pricingPlanId}
       {title}
-    />
+    /> -->
     <CourseFAQ
       {categoryFaqs}
       courseFaqs={faqs}
