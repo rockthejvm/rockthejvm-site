@@ -28,13 +28,16 @@ Kubernetes is not just another helper tool for deploying applications. It's a co
 itself as the most modern solution for deploying resilient and elastics applications. It is a hyper-intelligent and extensible
 deployment orchestrator that manages all aspects of your application's lifecycle.
 
+### Scala application to deploy
+
+#### Endpoints and application versions to deploy
 In this article we'll deploy a Scala cars parking management application built with Play Framework uses an in-memory database
 for simplicity.
 The Docker images that we'll be using are:
 `pfpw:20.20.31` and `pfpw:20.20.32` publicly available on Docker Hub. It exposes two api's that we can test:
-* `insertNewCarV2` to insert a new car in as a json object with the attributes: (year: Int, brand: String, maxSpeed: Double) with
+* `/insertNewCar` to insert a new car in as a json object with the attributes: (year: Int, brand: String, maxSpeed: Double) with
     the http method `POST`.
-*  `listOfCars` to get the list of cars with the http method `GET`.
+*  `/listOfCars` to get the list of cars with the http method `GET`.
 listing cars will output a result in the form:
 ```text
 [
@@ -62,7 +65,484 @@ listing cars will output a result in the form:
 ```
 If you create a new car the api will return the updated list of cars.
 
-### Why Should Scala Developers Care?
+#### Source code of the application
+* **Scala Play framework application built(`build.sbt`)**
+```scala
+name := """pfpw"""
+organization := "com.rockthejvm"
+
+version := "1.0-SNAPSHOT"
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala)
+
+scalaVersion := "3.3.4"
+
+libraryDependencies += guice
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % Test
+
+// Adds additional packages into Twirl
+//TwirlKeys.templateImports += "rockthejvm.controllers._"
+
+// Adds additional packages into conf/routes
+// play.sbt.routes.RoutesKeys.routesImport += "rockthejvm.binders._"
+````
+
+* **Scala code for simple cars parking management**
+```scala 3
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
+import play.api.libs.json.Reads.*
+import dtos.{Car, Location, Parking, User}
+
+import scala.annotation.tailrec
+import scala.collection.mutable
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+
+case class Car (year: Int, brand: String, maxSpeed: Double)
+
+object Car {
+  // Destructuring a car
+  def unapply(car: Car): Option[(Int, String, Double)] =
+    Some(car.year, car.brand, car.maxSpeed)
+
+  given carWrites: Writes[Car] = (
+    (JsPath \ "year").write[Int] and
+      (JsPath \ "brand").write[String] and
+      (JsPath \ "maxSpeed").write[Double]
+  )(unlift(Car.unapply)) // car => (car.year, car.brand, car.maxSpeed) == unlift(Car.unapply)
+
+  // Car json decoder with validation on fields
+  given carReads: Reads[Car] = (
+    // Benz built his first automobile, the Benz Patent Motorcar, in 1885 in Mannheim.
+    // It is considered the first modern car
+    (JsPath \ "year").read[Int](min[Int](1885) keepAnd max[Int](2100)) and
+      // The brand `BMW Individual M760Li xDrive Model V12 Excellence The Next 100 Years`
+      // is considered the longest car brand name at the  moment with 68 characters
+      (JsPath \ "brand").read[String](minLength[String](2) keepAnd maxLength[String](32)) and
+      // The fastest car in the world is: Koenigsegg Jesko Absolut (330 MPH)
+      (JsPath \ "maxSpeed").read[Double](min[Double](0.0) keepAnd max[Double](330.0))
+  )(Car.apply _)
+
+  // The max speeds might not be the right ones
+  val carList: List[Car] = List(
+    Car(year = 2021, brand = "Bugatti Chiron Super Sport[vii]", maxSpeed = 300),
+    Car(year = 2018, brand = "Lamborghini Huracán Performante[vii]", maxSpeed = 257),
+    Car(year = 2018, brand = "McLaren 720S", maxSpeed = 259),
+    Car(year = 2024, brand = "Chevrolet Corvette C8 E-Ray", maxSpeed = 157),
+  )
+}
+
+object CarManagementInMemoryDb {
+
+  // Mutable collection of cars
+  private val cars: ListBuffer[Car] = ListBuffer[Car](Car.carList.toSeq *)
+
+  // list of all cars
+  def listAllCars: List[Car] = cars.toList
+
+  // insert a new car into the db
+  def insertNewCar(car: Car): List[Car] = {
+    cars += car
+    cars.toList
+  }
+
+  // insert a new parking into the db
+  def insertNewParking(p: Parking): List[Parking] = {
+    parking += p
+    parking.toList
+  }
+
+````
+
+* **Memory workload code used to create surge in memory usage**
+
+This code uses the `java.lang.Runtime` API to perform operations on the memory.
+```scala 3
+  /**
+   * A parameterized function that creates high memory load for a specified duration.
+   *
+   * @param durationSeconds Time in seconds to maintain the memory load
+   * @param memoryMB        Amount of memory to allocate in megabytes
+   * @param stepSizeMB      Optional step size for gradual allocation in megabytes (default: 100)
+   * @param logEnabled      Optional flag to enable logging (default: true)
+   * @return Statistics about the memory usage during execution
+   */
+  def createMemoryLoad(
+                        durationSeconds: Int,
+                        memoryMB: Int,
+                        stepSizeMB: Int = 100,
+                        logEnabled: Boolean = true
+                      ): Map[String, Any] = {
+
+    // Helper function to convert bytes to MB
+    def bytesToMB(bytes: Long): Double = bytes.toDouble / (1024 * 1024)
+
+    // Helper function to get current memory usage
+    def getCurrentMemoryUsage: Map[String, Double] = {
+      val runtime: Runtime = Runtime.getRuntime
+      val totalMemory: Double = bytesToMB(runtime.totalMemory())
+      val freeMemory: Double = bytesToMB(runtime.freeMemory())
+      val usedMemory: Double = totalMemory - freeMemory
+      val maxMemory: Double = bytesToMB(runtime.maxMemory())
+
+      Map(
+        "total" -> totalMemory,
+        "free" -> freeMemory,
+        "used" -> usedMemory,
+        "max" -> maxMemory
+      )
+    }
+
+    // Helper function to log memory usage
+    def logMemory(phase: String): Unit = {
+      if (logEnabled) {
+        val memoryInfo: Map[String, Double] = getCurrentMemoryUsage
+        println(s"[$phase] Memory usage:")
+        println(f"  Used: ${memoryInfo("used")}%.2f MB")
+        println(f"  Free: ${memoryInfo("free")}%.2f MB")
+        println(f"  Total: ${memoryInfo("total")}%.2f MB")
+        println(f"  Max: ${memoryInfo("max")}%.2f MB")
+      }
+    }
+
+    if (logEnabled) {
+      println(s"Starting memory load: ${memoryMB}MB for ${durationSeconds}s")
+      logMemory("Initial")
+    }
+
+    val startTime: Long = System.currentTimeMillis()
+
+    // Create collection to store byte arrays
+    val memoryHogs: ArrayBuffer[Array[Byte]] = scala.collection.mutable.ArrayBuffer[Array[Byte]]()
+
+    // Statistics for return
+    var peakMemoryUsed = 0.0
+    var allocationAttempts = 0
+    var successfulAllocations = 0
+
+    try {
+      // Allocate memory in steps
+      val steps: Int = Math.max(memoryMB / stepSizeMB, 1)
+      val bytesPerStep: Int = stepSizeMB * 1024 * 1024
+
+      for (i <- 1 to steps) {
+        allocationAttempts += 1
+        try {
+          val byteArray = new Array[Byte](bytesPerStep)
+          // Fill array with random data to ensure actual memory usage
+          java.util.Arrays.fill(byteArray, 1.toByte)
+          memoryHogs += byteArray
+          successfulAllocations += 1
+
+          val currentUsage: Map[String, Double] = getCurrentMemoryUsage
+          peakMemoryUsed = Math.max(peakMemoryUsed, currentUsage("used"))
+
+          if (logEnabled && i % Math.max(steps / 10, 1) == 0) {
+            println(f"Allocated ${i * stepSizeMB}/$memoryMB MB (${i * 100.0 / steps}%.1f%%)")
+          }
+        } catch {
+          case e: OutOfMemoryError =>
+            if (logEnabled) {
+              println(s"OutOfMemoryError reached after allocating ~${(i - 1) * stepSizeMB} MB")
+            }
+          case e: Throwable =>
+            if (logEnabled) {
+              println(s"Error during allocation: ${e.getMessage}")
+            }
+        }
+      }
+
+      if (logEnabled) {
+        logMemory("Peak")
+        println(s"Memory allocation complete. Holding for $durationSeconds seconds...")
+      }
+
+      // Hold the memory for the specified duration
+      val sleepUntil: Long = startTime + (durationSeconds * 1000)
+
+      while (System.currentTimeMillis() < sleepUntil) {
+        Thread.sleep(1000)
+        if (logEnabled) {
+          val remainingSeconds: Long = (sleepUntil - System.currentTimeMillis()) / 1000
+          if (remainingSeconds % 5 == 0 && remainingSeconds > 0) {
+            println(s"Holding memory... ${remainingSeconds}s remaining")
+          }
+        }
+      }
+      Map(
+        "peakMemoryUsedMB" -> peakMemoryUsed,
+        "memoryRequestedMB" -> memoryMB,
+        "allocationAttempts" -> allocationAttempts,
+        "successfulAllocations" -> successfulAllocations,
+      )
+
+    } finally {
+      // Explicitly clear references to allow garbage collection
+      val beforeCleanupMemory: Map[String, Double] = getCurrentMemoryUsage
+      memoryHogs.clear()
+      System.gc() // Request garbage collection
+      Thread.sleep(1000) // Give GC time to run
+
+      val afterCleanupMemory: Map[String, Double] = getCurrentMemoryUsage
+      val freedMemory: Double = beforeCleanupMemory("used") - afterCleanupMemory("used")
+
+      if (logEnabled) {
+        println("Releasing memory...")
+        logMemory("After cleanup")
+        println(f"Memory freed: $freedMemory%.2f MB")
+      }
+
+      val endTime: Long = System.currentTimeMillis()
+      val elapsedSeconds: Double = (endTime - startTime) / 1000.0
+
+      if (logEnabled) {
+        println(f"Function completed in $elapsedSeconds%.2f seconds")
+      }
+
+      Map(
+        "peakMemoryUsedMB" -> peakMemoryUsed,
+        "memoryRequestedMB" -> memoryMB,
+        "memoryFreedMB" -> freedMemory,
+        "durationSeconds" -> elapsedSeconds,
+        "allocationAttempts" -> allocationAttempts,
+        "successfulAllocations" -> successfulAllocations,
+        "finalMemoryUsageMB" -> afterCleanupMemory("used")
+      )
+    }
+  }
+
+  }
+````
+
+* **Code use to create a surge in CPU usage**
+
+It's an incremental tail-recursive fibonaci sequence in the sense to
+the value of the order `n` it goes from the value for `0` and `1`, and increment until it get the value for the order
+`n-2` and `n-1` and from there it derives the value for the order `n` by doing `f(n) = f(n -1) + f(n-2)`.
+
+```scala 3
+import scala.annotation.tailrec
+
+def fibonacci(n: BigInt): BigInt = {
+
+    @tailrec
+    def helper(rank: Int, f1: BigInt, f2: BigInt): BigInt =
+      if rank == n then f1
+      else helper(rank = rank + 1, f1 = f1 + f2, f1)
+
+    if n == 1 || n == 2 then 1
+    else helper(rank = 3, f1 = 2, f2 = 1)
+  }
+````
+
+* **Api serving the endpoints**
+
+```scala 3
+package controllers
+
+import dtos.{Car, Location, ParkingFruits, ParkingPizza, User}
+import models.CarManagementInMemoryDb
+import play.api.libs.json.{JsError, Json, JsResult, JsValue, Reads}
+import play.api.mvc.{Action, AnyContent, BaseController, BodyParser, ControllerComponents, Request}
+
+import javax.inject.Inject
+import scala.concurrent.{ExecutionContext, Future}
+
+
+class CarsAndWorkloadManagementController @Inject()(val controllerComponents: ControllerComponents)(
+    using ec: ExecutionContext
+)
+    extends BaseController {
+
+  /**
+   *  This helper parses and validates JSON using the implicit [[Reads]]
+   *  above, returning errors if the parsed json fails validation.
+   * @tparam A Type to validate the request body against
+   * @return [[BodyParser]][ [[A]] ]
+   */
+  private def validateJson[A: Reads]: BodyParser[A] = parse.json.validate(
+    _.validate[A].asEither.left.map(e => BadRequest(JsError.toJson(e)))
+  )
+
+  /**
+   * This action simply returns the list of cars available in our in-memory database
+   * on the field carList of the model Car
+   * from the source code it is clear that the model -> json conversion (json encoding)
+   * would not be possible if there was not an implicit [[Writes]] for the model accessible
+   * {{{
+   *   def toJson[T](o: T)(implicit tjs: Writes[T]): JsValue
+   * }}}
+   * result: returns a Json in the form
+   * {{{
+   *   [
+   *   {
+   *     "year": 2021,
+   *     "brand": "Bugatti Chiron Super Sport[vii]",
+   *     "maxSpeed": 300
+   *   },
+   *   {
+   *     "year": 2018,
+   *     "brand": "Lamborghini Huracán Performante[vii]",
+   *     "maxSpeed": 257
+   *   },
+   *   {
+   *     "year": 2018,
+   *     "brand": "McLaren 720S",
+   *     "maxSpeed": 259
+   *   },
+   *   {
+   *     "year": 2024,
+   *     "brand": "Chevrolet Corvette C8 E-Ray",
+   *     "maxSpeed": 157
+   *   }
+   * ]
+   * }}}
+   *
+   * @return
+   */
+  def listOfCars: Action[AnyContent] = Action {
+    // Json encoding of Model -> Json
+    val jsonListOfCars: JsValue = Json.toJson(CarManagementInMemoryDb.listAllCars)
+    Ok(jsonListOfCars)
+  }
+
+
+  /**
+   * We still insert a new car into our in memory db, but now we leverage the power of
+   * [[validateJson]] which automatically validate the request and parse it
+   * @return
+   */
+  def insertNewCar(): Action[Car] = Action(validateJson[Car]) { (request: Request[Car]) =>
+    val car: Car = request.body
+    val newListOfCars: List[Car] = CarManagementInMemoryDb.insertNewCar(car)
+    Ok(Json.toJson(newListOfCars))
+  }
+
+  /**
+   * Action returning the value of fibonacci series for the order n
+   * @param n order
+   * @return integer number
+   */
+  def fibonacci(n: Int): Action[AnyContent] = Action.async {
+    import scala.concurrent.ExecutionContext.Implicits.global
+
+      def fib(n: BigInt): BigInt = {
+
+        @tailrec
+        def helper(rank: Int, f1: BigInt, f2: BigInt): BigInt =
+          if rank == n then f1
+          else helper(rank = rank + 1, f1 = f1 + f2, f1)
+
+        if n == 1 || n == 2 then 1
+        else helper(rank = 3, f1 = 2, f2 = 1)
+      }
+    // Json encoding of Model -> Json
+
+    Future(Ok(s"${fib(n)}"))
+  }
+
+
+  /**
+   * Action to generate a memory load
+   * @param d Time in seconds to maintain the memory load
+   * @param m Amount of memory to allocate in megabytes
+   * @param s Optional step size for gradual allocation in megabytes (default: 100)
+   * @param l Optional flag to enable logging (default: true)
+   * @return Statistics about the memory usage during execution
+   */
+  def createMemoryLoad(d: Int, m: Int, s: Int, l: Boolean): Action[AnyContent] = Action.async {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    import models.createMemoryLoad
+    // Json encoding of Model -> Json
+    createMemoryLoad(
+      durationSeconds = d, memoryMB = m, stepSizeMB = s, logEnabled = l
+    )
+    Future(Ok(r.toString()))
+  }
+}
+
+````
+
+* **Routing in `routes` file**
+```text
+GET     /listOfCars         controllers.CarsAndWorkloadManagementController.listOfCars
+
+POST    /insertNewCar       controllers.CarsAndWorkloadManagementController.insertNewCar()
+
+GET     /fibonacci          controllers.CarsAndWorkloadManagementController.fibonachi(n: Int)
+
+GET     /createMemoryLoad   controllers.CarsAndWorkloadManagementController.createMemoryLoad(d: Int, m: Int, s: Int, l: Boolean)
+````
+
+* **Configurations in `application.conf` file**
+```text
+# https://www.playframework.com/documentation/latest/Configuration
+PLAY_HTTP_SECRET_KEY = "jpk^<;`4:dXx?9vWmz3GkrNwiG]BfN_04Tp8]Ev_V?g6ud6y1Cp7>=Hpbrip9gsS"
+
+play = {
+    http = {
+        parser = {
+            maxMemoryBuffer = 1000K
+            maxDiskBuffer = 5G
+        }
+        errorHandler = play.api.http.JsonHttpErrorHandler
+        secret = {
+            key = ${?PLAY_HTTP_SECRET_KEY}
+        }
+    }
+}
+play.server.akka.max-header-size=100M
+
+play.filters.hosts {
+  # Allow requests to example.com, its subdomains, and localhost:9000.
+  allowed = [.]
+}
+
+play.filters.cors {
+    allowedOrigins = "*"
+}
+```
+
+* **Docker file**
+```dockerfile
+FROM eclipse-temurin:21 AS base
+
+# Install Java and set the JAVA_HOME variable /opt/java/openjdk
+ENV JAVA_HOME /opt/java/openjdk
+COPY --from=eclipse-temurin:21 $JAVA_HOME $JAVA_HOME
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+ENV SBT_VERSION=1.10.1
+
+# Install curl and vim
+RUN \
+  apt-get update && \
+  apt-get -y install curl && \
+  apt-get -y install vim
+
+# Install both scala and sbt
+RUN \
+  curl -L -o sbt-$SBT_VERSION.deb https://repo.scala-sbt.org/scalasbt/debian/sbt-$SBT_VERSION.deb && \
+  dpkg -i sbt-$SBT_VERSION.deb && \
+  rm sbt-$SBT_VERSION.deb && \
+  apt-get update && \
+  apt-get -y install sbt
+
+EXPOSE 9000
+
+# Production
+FROM base AS production
+
+WORKDIR /pfpw
+
+COPY . .
+
+RUN sbt 'compile'
+
+ENTRYPOINT [ "sbt", "runProd" ]
+```
+
+### Why Should Scala Developers Care about Kubernetes?
 The reasons for caring about Kubernetes are what it promises. The most important promises of Kubernetes are.
 - **Effortless Scaling**: grow or shrink your application automatically in response to the incoming workload
 - **Self-Healing Magic**: automatic response to failing containers during their lifecycle
@@ -659,7 +1139,7 @@ network host, as defined by RFC 3986  We disable HTTPS redirection with the anno
 section, we define traffic routing rules. Our configuration routes all HTTP requests with paths beginning with `/` to the
 `workload-service` service on port 8080, creating a clean pathway for external traffic to reach our specific application.
 backend defines the referenced service endpoint to which the traffic will be forwarded to in this case `workload-service`.
-To access the service trough the nginx ingress controller open your `/etc/hosts` in a linux machine(or corresponding file on
+To access the service trough the nginx ingress controller open your `/etc/hosts` in a linux machine(or corresponding settings on
 other os) and append this line: `node-address k8splayworkload.com` where node-id is the address of your cluster node that
 can be retrieve using `minikube ip`. After this the targeted service becomes accessible from your browser at the hostname
 `k8splayworkload.com`.
