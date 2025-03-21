@@ -712,7 +712,7 @@ when required, to control the number of Pod replicas. The number of replicas her
 to manage, and it fully depends on your use case. The more the workload, the more the replicas of the Pods.
 
 #### ReplicaSet Lifecycle: A Step-by-Step Symphony
-When the user or the system triggers a ReplicaSet creation, Kubernetes client (kubectl) sends a ReplicaSet creation request
+When the user or the system triggers a ReplicaSet creation, Kubernetes client `(kubectl)` sends a ReplicaSet creation request
 to the API server and the payload includes detailed specifications.
 When the Kubernetes controller detects new ReplicaSet object in the cluster, it initiates a reconciliation process
 by Comparing the desired state(specified replicas) with current cluster state. This will be followed by the pod creation
@@ -1035,7 +1035,7 @@ Explanations:
 * **Pod Selection Mechanism(`spec.selector`)**: Use a selector to identify and manage Pods, regardless of their origin. All the pod that share
     these labels will be served by this service.
 
-* **Label Matching Strategy(`metadata.labels`)**: Define precise label criteria on pod that will be matched by the service.\
+* **Label Matching Strategy(`metadata.labels`)**: Define precise label criteria on pod that will be matched by the service.
 
 Deploy: `kubectl apply -f workload-api.yaml`
 
@@ -1173,6 +1173,7 @@ To access the service trough the nginx ingress controller open your `/etc/hosts`
 other os) and append this line: `node-address k8splayworkload.com` where node-id is the address of your cluster node that
 can be retrieve using `minikube ip`. After this the targeted service becomes accessible from your browser at the hostname
 `k8splayworkload.com`.
+
 Deploy: `kubectl apply -f workload-api.yaml`
 
 Response:
