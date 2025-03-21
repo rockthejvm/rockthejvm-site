@@ -4,8 +4,8 @@ import Section from "@/components/Section.astro";
 import { getCollection, getEntry } from "astro:content";
 import MembershipPricingSectionHelper from "./MembershipPricingSectionHelper";
 
-import PersonalImage from "src/assets/images/logos/personal.png";
-import TeamImage from "src/assets/images/logos/team.png";
+import PersonalImage from "src/images/logos/personal.png";
+import TeamImage from "src/images/logos/team.png";
 
 const membership = await getEntry("memberships", "personal"),
   monthlyPriceId = membership.data.packages[0].pricingPlanId,

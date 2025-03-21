@@ -3,94 +3,23 @@ import BackgroundGradient from "@/components/BackgroundGradient.astro";
 import CourseCardVertical from "@/components/CourseCardVertical.astro";
 import MyPicture from "@/components/MyPicture.astro";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
-import { zip } from "@/utils/zip";
-import { type CollectionEntry, getCollection, getEntry } from "astro:content";
-// const { slug } = Astro.params;
-// const course = await getEntry("courses", slug!);
-// const frontmatter = course!.data;
-// const {
-//   archived,
-//   answer,
-//   featureSection1,
-//   featureSection2,
-//   featureSection3,
-//   featureSection4,
-//   featureSection5,
-//   bundledCourses,
-//   description,
-//   excerpt,
-//   faqs,
-//   grouping,
-//   image,
-//   price,
-//   title,
-// } = frontmatter;
+import { getCollection, getEntries } from "astro:content";
 
-// const faqs = [
-//   {
-//     question: "How is a typical lesson like?",
-//     answer:
-//       "Code is king, and we write it from scratch. In a typical lesson I'll explain some concepts, either briefly on a diagram or directly in the code. We then run live examples, and usually I'll finish the lesson with some exercises, which I then solve on camera after you've tried them yourself.",
-//   },
-//   {
-//     question: "Does this work in real life?",
-//     answer:
-//       "It works. That's not for me to say, that's the 80000 people taking this material and applying it in real life. I teach the same material at Apple, Adobe and some of the best companies in the world.",
-//   },
-//   {
-//     question: "Dude, this seems massive. How do I approach it?",
-//     answer:
-//       "Yes, it's massive, but it doesn't have to be intimidating. This is a buffet, you don't need to eat everything. Take Scala first. You'll probably like it, so much that I bet after 2 weeks this question won't be relevant anymore.",
-//   },
-//   {
-//     question: "What if I don't like it?",
-//     answer:
-//       "Just cancel your subscription, and you'll be on your way. You will have access to everything until the next payment is due. The payments already made are not refundable, though. You'll still be a member of the Slack community - unless you want to leave us for good, which will make us all sad.",
-//   },
-//   {
-//     question:
-//       "I've never written code before, but this seems interesting. Can I enroll?",
-//     answer:
-//       "You can, but you probably shouldn't (yet). The courses are for people who have coded before (in some other language), and we assume general programming fundamentals. I'll probably come back with a very (very) slow and easy version for Scala as a first language, which will unlock the skills you need to take everything else.",
-//   },
-//   {
-//     question:
-//       "I already have access to some of the courses. Can I just pay the difference?",
-//     answer:
-//       'The mechanics for this one is different. When you buy a course, you have access to it for life. When you buy the membership, you have access to everything on the site as long as you\'re subscribed, including future courses. For that reason, I cannot accommodate a "pay the difference" request.',
-//   },
-//   {
-//     question: "What's not included in the membership?",
-//     answer:
-//       "The Rites of Passage. Even as the Rock the JVM courses are jam-packed, effective and full of lessons, the Rites of Passage are a completely different kind of experience and they require a different kind of commitment.",
-//   },
-// ];
-
-const courseSeriess = (await getCollection("seriess")).filter(
-    (series) => series.data.members[0].collection === "courses",
-  ),
-  memberss = courseSeriess.map((series) => series.data.members),
-  coursess = await Promise.all(
-    (memberss as CollectionEntry<"courses">[][]).map(async (members) =>
-      Promise.all(
-        members.map(async (member) => getEntry("courses", member.id)),
-      ),
-    ),
-  ),
-  categories = await Promise.all(
-    coursess.map(async (courses) =>
-      getEntry("courseCategories", courses[0]?.data.category.id),
-    ),
-  ),
-  mycoursess = zip(categories, coursess).sort(
-    (category1, category2) =>
-      category1[0].data.ordinal - category2[0].data.ordinal,
+const _courseCategories = await getCollection("courseCategories"),
+  courseCategories = await Promise.all(
+    _courseCategories.map(async (category) => ({
+      ...category,
+      data: {
+        ...category.data,
+        members: await getEntries(category.data.members),
+      },
+    })),
   ),
   structuredData = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ItemList",
-    itemListElement: mycoursess
-      .flatMap(([, courses]) => courses)
+    itemListElement: courseCategories
+      .flatMap(({ data: { members } }) => members)
       .map((course, index) => ({
         "@type": "ListItem",
         position: index + 1,
@@ -112,23 +41,23 @@ const courseSeriess = (await getCollection("seriess")).filter(
   <BackgroundGradient />
   <article>
     {
-      mycoursess.map(([category, courses]) => (
+      courseCategories.map(({ data: { logo, members, name } }) => (
         <section class="pt-8 md:pt-12">
           <div class="flex flex-col items-center">
             <div class="flex flex-row gap-x-4 align-middle">
               <div class="ml-8 flex size-16 items-center justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
                 <MyPicture
-                  src={category.data.logo}
-                  alt={category.data.name}
+                  src={logo}
+                  alt={name}
                   quality="low"
                   class="my-auto w-full"
                 />
               </div>
-              <h2 class="my-auto">{category.data.name}</h2>
+              <h2 class="my-auto">{name}</h2>
             </div>
           </div>
           <ul class="mx-auto my-8 grid max-w-7xl grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
-            {courses.map((course) => (
+            {members.map((course) => (
               <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
                 <CourseCardVertical {course} />
               </li>

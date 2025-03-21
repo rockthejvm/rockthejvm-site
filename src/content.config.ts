@@ -3,6 +3,8 @@ import articleCategories from "./collections/articleCategories";
 import articles from "./collections/articles";
 import authors from "./collections/authors";
 import companies from "./collections/companies";
+import courseCategories from "./collections/courseCategories";
+import courses from "./collections/courses";
 import difficulties from "./collections/difficulties";
 import tags from "./collections/tags";
 import articleSeriess from "./pages/articles/_collections/articleSeriess";
@@ -13,8 +15,8 @@ export const collections = {
   articles,
   authors,
   companies,
-  // courseCategories,
-  // courses,
+  courseCategories,
+  courses,
   difficulties,
   // memberships,
   policies,

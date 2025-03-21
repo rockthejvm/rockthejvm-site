@@ -22,7 +22,7 @@ If this is your first time writing an article on the blog, you will need an auth
 You need two things:
 
 1. Your details in a `yaml` file under `src/content/authors` in a snake-case capitalization. If I'm Daniel Ciocîrlan, the file should be `src/content/authors/daniel-ciocirlan.yaml`. In this case `daniel-ciocirlan` is my author id.
-2. Your profile picture under `src/content/authors`. Name it the same as the YAML file, e.g. `src/content/authors/daniel-ciocirlan.jpg`.
+2. Your profile picture under `src/content/authors`. Name it the same as the YAML file, e.g. `src/content/authors/daniel-ciocirlan.jpeg`.
 
 Here's an example of a YAML file of a long-time contributor on the blog:
 
