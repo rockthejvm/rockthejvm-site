@@ -67,7 +67,7 @@ The main goal of the worker nodes is to host the Pods that are run the applicati
 
 - **Kubelet**: an agent running on each node in the cluster and making sure that containers are running in the Pods as per the desired state, and are in a good state.
 - **Kube-proxy**: a network proxy running on each node in the cluster, responsible for maintaining network rules on nodes. These network rules allow the communication to the pods from network sessions inside and outside the cluster.
-- **Container runtime**: a software package that knows how to leverage specific features on a supported operating system to run the containers. Its responsibility is to manage the execution of containers withing the Kubernetes environment.
+- **Container runtime**: a software package that knows how to leverage specific features on a supported operating system to run the containers. Its responsibility is to manage the execution of containers within the Kubernetes environment.
 
 ## Kubernetes Components
 
@@ -206,7 +206,7 @@ Deploy: `kubectl apply -f workload-api.yaml`
 
 Response:
 
-```
+```bash
 kubectl apply -f workload-api.yaml
 replicaset.apps/workload-api-rep created
 ```
@@ -238,190 +238,190 @@ Services route the traffic to the right containers and provide a stable network 
 
 1. **ClusterIP Service**: This is the backbone of cluster Internal Communication, and it is the default service type. It provides the stable(available as long as the service is alive) IP address inside the cluster and is accessible internally. It is best suited for inter service communication, and internal networking.
 
-    ```yaml
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: workload-service
-    spec:
-      type: ClusterIP
-      selector:
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+    name: workload-service
+spec:
+    type: ClusterIP
+    selector:
         type: api
         language: scala
         framework: play-framework
         service: workload
-      ports:
-       - port: 9000
-         targetPort: 9000
-    ```
+    ports:
+    - port: 9000
+      targetPort: 9000
+```
 
-    Deploy: `kubectl apply -f workload-api.yaml`
+Deploy: `kubectl apply -f workload-api.yaml`
 
-    Response:
+Response:
 
-    ```text
-    kubectl apply -f workload-api.yaml
-    service/workload-service created
-    ```
+```text
+kubectl apply -f workload-api.yaml
+service/workload-service created
+```
 
-    View: `kubectl get services` or `kubectl get -f workload-api.yaml`
+View: `kubectl get services` or `kubectl get -f workload-api.yaml`
 
-    Response:
+Response:
 
-    ```text
-    kubectl get services
-    NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-    Kubernetes         ClusterIP   100.64.0.1     <none>        443/TCP    15h
-    workload-service   ClusterIP   100.66.5.235   <none>        9000/TCP   45s
-    ```
+```text
+kubectl get services
+NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+Kubernetes         ClusterIP   100.64.0.1     <none>        443/TCP    15h
+workload-service   ClusterIP   100.66.5.235   <none>        9000/TCP   45s
+```
 
-    Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
+Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
 
-    Response:
+Response:
 
-    ```text
-    kubectl delete -f workload-api.yaml
-    service "workload-service" deleted
-    ```
+```text
+kubectl delete -f workload-api.yaml
+service "workload-service" deleted
+```
 
 2. **NodePort Service**: This service type offer and external Access Gateway by exposing a service on a static port(30000-32767) across all nodes. With this type of service you can make your application accessible outside the cluster. This type is best suited for development and testing environments, and we will provide a full example for this specific service type.
 
-    ```yaml
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: workload-service
-    spec:
-      type: NodePort
-      selector:
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+    name: workload-service
+spec:
+    type: NodePort
+    selector:
         type: api
         language: scala
         framework: play-framework
-      ports:
-        - port: 9000
-          targetPort: 9000
-          nodePort: 30123
-    ```
+    ports:
+    - port: 9000
+      targetPort: 9000
+      nodePort: 30123
+```
 
-    Deploy: `kubectl apply -f workload-api.yaml`
+Deploy: `kubectl apply -f workload-api.yaml`
 
-    Response:
+Response:
 
-    ```text
-    kubectl apply -f workload-api.yaml
-    service/workload-service created
-    ```
+```text
+kubectl apply -f workload-api.yaml
+service/workload-service created
+```
 
-    View: `kubectl get services` or `kubectl get -f workload-api.yaml`
+View: `kubectl get services` or `kubectl get -f workload-api.yaml`
 
-    Response:
+Response:
 
-    ```text
-    kubectl get services
-    NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-    Kubernetes         ClusterIP   100.64.0.1     <none>        443/TCP          15h
-    workload-service   NodePort    100.67.236.7   <none>        9000:30123/TCP   44s
-    ```
+```text
+kubectl get services
+NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+Kubernetes         ClusterIP   100.64.0.1     <none>        443/TCP          15h
+workload-service   NodePort    100.67.236.7   <none>        9000:30123/TCP   44s
+```
 
-    Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
+Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
 
-    Response:
+Response:
 
-    ```text
-    kubectl delete -f workload-api.yaml
-    service "workload-service" deleted
-    ```
+```text
+kubectl delete -f workload-api.yaml
+service "workload-service" deleted
+```
 
 3. **LoadBalancer Service**: This type exposes the service externally using an external load balancer generally provided by your cloud provider. It is best suited for production ready web applications, public-facing services, and integration with external systems.
 
-    ```yaml
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: workload-service
-    spec:
-      type: LoadBalancer
-      selector:
-         type: api
-         language: scala
-         framework: play-framework
-         service: workload
-      ports:
-        - port: 9000
-          targetPort: 9000
-    ```
-
-    Deploy: `kubectl apply -f workload-api.yaml`
-
-    ```text
-    kubectl apply -f workload-api.yaml
-    service/workload-service created
-    ```
-
-    View: `kubectl get services` or `kubectl get -f workload-api.yaml`
-
-    Response:
-
-    ```text
-    kubectl get services
-    NAME               TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-    Kubernetes         ClusterIP      10.96.0.1      <none>        443/TCP          22d
-    workload-service   LoadBalancer   10.108.48.81   <pending>     9000:31248/TCP   5s
-    ```
-
-    Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
-
-    Response:
-
-    ```text
-    kubectl delete -f workload-api.yaml
-    service "workload-service" deleted
-    ```
-
-4. **ExternalName Service**: maps the service to an external DNS name, like a database hosted outside the cluster. It then serves as an abstraction layer around cluster external addresses. The key advantages of using services over direct pod communication is that services survive to Pod restarts, and decouple service discovery from pod lifecycle. When a pod restarts, the previous network address is lost and a new one is assigned to the new pod. It also serves as a load balancer distributing traffic across multiple pods.
-
-    ```yaml
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: workload-external-database
-    spec:
-      type: ExternalName
-      selector:
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+    name: workload-service
+spec:
+    type: LoadBalancer
+    selector:
         type: api
         language: scala
         framework: play-framework
         service: workload
-      externalName: workload-database.example.com
-    ```
+    ports:
+    - port: 9000
+      targetPort: 9000
+```
 
-    Deploy: `kubectl apply -f workload-api.yaml`
+Deploy: `kubectl apply -f workload-api.yaml`
 
-    Response:
+```text
+kubectl apply -f workload-api.yaml
+service/workload-service created
+```
 
-    ```text
-    kubectl apply -f workload-api.yaml
-    service/workload-external-database created
-    ```
+View: `kubectl get services` or `kubectl get -f workload-api.yaml`
 
-    View: `kubectl get services` or `kubectl get -f workload-api.yaml`
+Response:
 
-    Response:
+```text
+kubectl get services
+NAME               TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+Kubernetes         ClusterIP      10.96.0.1      <none>        443/TCP          22d
+workload-service   LoadBalancer   10.108.48.81   <pending>     9000:31248/TCP   5s
+```
 
-    ```text
-    kubectl get -f workload-api.yaml
-    NAME                         TYPE           CLUSTER-IP   EXTERNAL-IP                     PORT(S)   AGE
-    workload-external-database   ExternalName   <none>       workload-database.example.com   <none>    77s
-    ```
+Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-service`
 
-    Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-external-database`
+Response:
 
-    Response:
+```text
+kubectl delete -f workload-api.yaml
+service "workload-service" deleted
+```
 
-    ```text
-    kubectl delete service workload-external-database
-    service "workload-external-database" deleted
-    ```
+4. **ExternalName Service**: maps the service to an external DNS name, like a database hosted outside the cluster. It then serves as an abstraction layer around cluster external addresses. The key advantages of using services over direct pod communication is that services survive to Pod restarts, and decouple service discovery from pod lifecycle. When a pod restarts, the previous network address is lost and a new one is assigned to the new pod. It also serves as a load balancer distributing traffic across multiple pods.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+    name: workload-external-database
+spec:
+    type: ExternalName
+    selector:
+        type: api
+        language: scala
+        framework: play-framework
+        service: workload
+    externalName: workload-database.example.com
+```
+
+Deploy: `kubectl apply -f workload-api.yaml`
+
+Response:
+
+```text
+kubectl apply -f workload-api.yaml
+service/workload-external-database created
+```
+
+View: `kubectl get services` or `kubectl get -f workload-api.yaml`
+
+Response:
+
+```text
+kubectl get -f workload-api.yaml
+NAME                         TYPE           CLUSTER-IP   EXTERNAL-IP                     PORT(S)   AGE
+workload-external-database   ExternalName   <none>       workload-database.example.com   <none>    77s
+```
+
+Drop: `kubectl delete -f workload-api.yaml` or `kubectl delete service workload-external-database`
+
+Response:
+
+```text
+kubectl delete service workload-external-database
+service "workload-external-database" deleted
+```
 
 #### Visualization: Service Communication Flow
 
@@ -595,7 +595,7 @@ spec:
                   number: 9000
 ```
 
-Explanations: The metadata section introduces annotations as a flexible mechanism for providing controller-specific information beyond the core Ingress specification. `k8splayworkload.com` is the fully qualified domain name of a network host, as defined by RFC 3986 We disable HTTPS redirection with the annotation `nginx.ingress.Kubernetes.io/ssl-redirect: false` since we lack SSL certificates for our exercises. In the specification section, we define traffic routing rules. Our configuration routes all HTTP requests with paths beginning with `/` to the `workload-service` service on port 8080, creating a clean pathway for external traffic to reach our specific application. backend defines the referenced service endpoint to which the traffic will be forwarded to in this case `workload-service`. To access the service trough the nginx ingress controller open your `/etc/hosts` in a Linux machine (or corresponding settings on other os) and append this line: `node-address k8splayworkload.com` where node-id is the address of your cluster node that can be retrieve using `minikube ip`. After this the targeted service becomes accessible from your browser at the hostname `k8splayworkload.com`.
+Explanations: The metadata section introduces annotations as a flexible mechanism for providing controller-specific information beyond the core Ingress specification. `k8splayworkload.com` is the fully qualified domain name of a network host, as defined by RFC 3986 We disable HTTPS redirection with the annotation `nginx.ingress.Kubernetes.io/ssl-redirect: false` since we lack SSL certificates for our exercises. In the specification section, we define traffic routing rules. Our configuration routes all HTTP requests with paths beginning with `/` to the `workload-service` service on port 8080, creating a clean pathway for external traffic to reach our specific application. backend defines the referenced service endpoint to which the traffic will be forwarded to in this case `workload-service`. To access the service through the nginx ingress controller open your `/etc/hosts` in a Linux machine (or corresponding settings on other os) and append this line: `node-address k8splayworkload.com` where node-id is the address of your cluster node that can be retrieve using `minikube ip`. After this the targeted service becomes accessible from your browser at the hostname `k8splayworkload.com`.
 
 Deploy: `kubectl apply -f workload-api.yaml`
 
