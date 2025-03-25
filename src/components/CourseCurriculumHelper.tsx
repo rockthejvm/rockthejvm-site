@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 interface Props {
   pricingPlanId: number;
-  courseSlug: string;
+  courseId: string;
   color: string;
 }
 
@@ -172,7 +172,7 @@ export default function Example(props: Props) {
     //   await getTeachableCurriculum(props.pricingPlanId);
     // };
     const call = async () => {
-      const response = await fetch(`/api/curriculums/${props.courseSlug}`),
+      const response = await fetch(`/api/curriculums/${props.courseId}`),
         course: CourseResponse = (await response.json()) as CourseResponse;
       lectureSectionData = course.updatedLectureSections;
 
@@ -193,7 +193,7 @@ export default function Example(props: Props) {
     collapse();
     // fetchPrice();
     call();
-  }, [props.courseSlug]);
+  }, [props.courseId]);
 
   return (
     <div className="mx-auto max-w-3xl px-2 sm:px-4 lg:px-8">
@@ -218,7 +218,7 @@ export default function Example(props: Props) {
                         <p>{lecture.name}</p>
                       </div>
                       <a
-                        href={`https://courses.rockthejvm.com/courses/${props.courseSlug}/lectures/${lecture.id}`}
+                        href={`https://courses.rockthejvm.com/courses/${props.courseId}/lectures/${lecture.id}`}
                         style={{ background: props.color }}
                         className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-content-1 shadow-sm hover:bg-accent-1 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >

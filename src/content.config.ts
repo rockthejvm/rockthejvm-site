@@ -8,6 +8,7 @@ import courses from "./collections/courses";
 import difficulties from "./collections/difficulties";
 import tags from "./collections/tags";
 import articleSeriess from "./pages/articles/_collections/articleSeriess";
+import prerequisites from "./pages/courses/_collections/prerequisites";
 
 export const collections = {
   articleCategories,
@@ -20,7 +21,7 @@ export const collections = {
   difficulties,
   // memberships,
   policies,
-  // prerequisites,
+  prerequisites,
   tags,
   // testimonials,
 };

@@ -3,7 +3,6 @@ import Profile from "@/components/Profile.astro";
 import site from "@/data/site.json";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import type { ReactFlowEdge, ReactFlowNode } from "@/types/ReactFlow";
-import capitalizeFirstChar from "@/utils/capitalizeFirstChar.ts";
 import {
   type CollectionEntry,
   getCollection,
@@ -60,7 +59,6 @@ const course = await getEntry(
     includedInMembership,
     benefits,
     description,
-    difficulty,
     faqs,
     features,
     heroImage,
@@ -76,54 +74,62 @@ const course = await getEntry(
     hasSkills,
     instructorEnabled,
   } = _frontmatter,
+  difficulty =
+    _frontmatter.difficulty !== undefined
+      ? await getEntry(
+          _frontmatter.difficulty.collection!,
+          _frontmatter.difficulty.id!,
+        )
+      : undefined,
   instructors = await getEntries(_instructors),
   response = await fetch(
     `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed(0)}`,
   ),
   { price } = (await response.json()) as Response;
 
-function difficultyToOrdinal(
-  difficulty: "beginner" | "intermediate" | "advanced",
-): number {
-  switch (difficulty) {
-    case "beginner": {
-      return 1;
-    }
-    case "intermediate": {
-      return 2;
-    }
-    case "advanced": {
-      return 3;
-    }
-    default: {
-      return 0;
-    }
+const difficultyLevelToEducationalLevel = (level: number) => {
+  switch (level) {
+    case 1:
+      return "Beginner";
+    case 2:
+      return "Intermediate";
+    default:
+      return "Advanced";
   }
-}
+};
+
 const _prerequisitess = await getCollection("prerequisites"),
   prerequisites = _prerequisitess.find(({ data: { nodes } }) =>
     nodes.find((node) => node.id === course.id),
   ),
-  reactFlowNodes: ReactFlowNode[] | undefined = prerequisites
-    ? await Promise.all(
-        prerequisites.data.nodes.map(async (node) => ({
-          id: node.slug,
-          type: "linkNode",
-          position: { x: 0, y: 0 },
-          data: {
-            difficulty: (await getEntry("courses", node.slug)).data.difficulty,
-            isCurrent: node.slug === course.slug,
-            label: (await getEntry("courses", node.slug)).data.title,
-            href: `/courses/${node.slug}`,
-          },
-        })),
-      )
-    : undefined,
+  reactFlowNodes: ReactFlowNode[] | undefined =
+    prerequisites !== undefined
+      ? await Promise.all(
+          prerequisites.data.nodes.map(async (node) => ({
+            id: node.id,
+            type: "linkNode",
+            position: { x: 0, y: 0 },
+            data: {
+              difficulty: (
+                await getEntry(node.collection, node.id)?.then(
+                  async ({ data: { difficulty } }) =>
+                    difficulty !== undefined
+                      ? await getEntry(difficulty.collection, difficulty.id)
+                      : undefined,
+                )
+              )?.data.id,
+              isCurrent: node.id === course.id,
+              label: (await getEntry(node.collection, node.id)).data.title,
+              href: `/courses/${node.id}`,
+            },
+          })),
+        )
+      : undefined,
   reactFlowEdges: ReactFlowEdge[] | undefined = prerequisites?.data.edges.map(
     (edge) => ({
-      id: `${edge.from.slug}TO${edge.to.slug}`,
-      source: edge.from.slug,
-      target: edge.to.slug,
+      id: `${edge.from.id}TO${edge.to.id}`,
+      source: edge.from.id,
+      target: edge.to.id,
       // type: "smart",
       animated: Boolean(edge.optional),
     }),
@@ -170,14 +176,18 @@ const _prerequisitess = await getCollection("prerequisites"),
       },
     ],
     availableLanguage: ["en"],
-    educationalLevel: capitalizeFirstChar(
-      difficulty ??
-        bundledCourses
-          .map((course) => course.data.difficulty ?? "beginner")
-          .reduce(
-            (b, a) => (difficultyToOrdinal(a) > difficultyToOrdinal(b) ? a : b),
-            "beginner",
-          ),
+    educationalLevel: difficultyLevelToEducationalLevel(
+      difficulty?.data.level ??
+        (
+          await Promise.all(
+            bundledCourses.map(async ({ data: { difficulty } }) =>
+              difficulty !== undefined
+                ? (await getEntry(difficulty.collection!, difficulty.id!)).data
+                    .level!
+                : 1,
+            ),
+          )
+        ).reduce((b, a) => (a > b ? a : b), 1),
     ),
     image: [heroImage.src],
     inLanguage: "en",
@@ -289,7 +299,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       ) : (
         <Curriculum
           color={categoryColor}
-          courseSlug={course.id}
+          courseId={course.id}
           {pricingPlanId}
         />
       )

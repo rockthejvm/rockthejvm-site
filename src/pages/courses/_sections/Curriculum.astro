@@ -6,16 +6,16 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
-  courseSlug: CollectionEntry<"courses">["slug"];
+  courseId: CollectionEntry<"courses">["slug"];
 }
 
-const { color, courseSlug, pricingPlanId } = Astro.props;
+const { color, courseId, pricingPlanId } = Astro.props;
 ---
 
 <Section {color} title="What's Included">
   <CourseCurriculumHelper
     {pricingPlanId}
-    {courseSlug}
+    {courseId}
     {color}
     client:visible={{ rootMargin: "2160px" }}
   />

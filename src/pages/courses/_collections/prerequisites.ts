@@ -2,7 +2,7 @@ import { file } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
-  loader: file("src/data/prerequisites.yaml"),
+  loader: file("src/pages/courses/_data/prerequisites.yaml"),
   schema: z
     .object({
       id: z.string(),

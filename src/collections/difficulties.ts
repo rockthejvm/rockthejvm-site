@@ -7,6 +7,7 @@ export default defineCollection({
     .object({
       id: z.string(),
       name: z.string(),
+      level: z.number().int().positive(),
     })
     .strict(),
 });
