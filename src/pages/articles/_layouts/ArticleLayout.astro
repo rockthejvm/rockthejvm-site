@@ -2,13 +2,10 @@
 import ArticlePreview from "@/components/ArticlePreview.astro";
 import ArticleSeries from "@/components/ArticleSeries.astro";
 import AuthorWide from "@/components/AuthorWide.astro";
-import Byline from "@/components/Byline.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 import MyYouTube from "@/components/MyYouTube.astro";
 import Prose from "@/components/Prose.astro";
-import RelatedArticles from "@/components/RelatedArticles";
 import SocialShare from "@/components/SocialShare.astro";
-import TableOfContents from "@/components/TableOfContents.astro";
 import TagList from "@/components/TagList.astro";
 import NarrowContainer from "@/containers/NarrowContainer";
 import matchedArticles from "@/data/matchedArticles.json";
@@ -20,8 +17,11 @@ import type { MarkdownHeading } from "astro";
 import "astro-starlight-remark-asides/styles.css";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
+import Byline from "../_components/Byline.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
+import RelatedArticles from "../_components/RelatedArticles";
+import TableOfContents from "../_components/TableOfContents.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;

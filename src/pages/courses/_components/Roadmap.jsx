@@ -13,7 +13,7 @@ import ELK from "elkjs/lib/elk.bundled.js";
 import { useCallback, useEffect, useState } from "react";
 
 import "@xyflow/react/dist/style.css";
-import MyLinkNode from "./MyLinkNode";
+import MyLinkNode from "../../../components/MyLinkNode";
 
 const elk = new ELK();
 
