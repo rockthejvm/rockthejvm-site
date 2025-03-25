@@ -33,13 +33,13 @@ const _courseCategories = await getCollection("courseCategories"),
   {structuredData}
   title="The Rock the JVM Membership"
 >
-  <header class="pt-8 md:pt-16">
-    <h1 class="m-16 text-center text-content-1 lg:m-20">
-      Rock the JVM Courses
-    </h1>
-  </header>
   <BackgroundGradient />
   <article>
+    <header class="pt-8 md:pt-16">
+      <h1 class="m-16 text-center text-content-1 lg:m-20">
+        Rock the JVM Courses
+      </h1>
+    </header>
     {
       courseCategories.map(({ data: { logo, members, name } }) => (
         <section class="pt-8 md:pt-12">

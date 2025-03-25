@@ -33,13 +33,13 @@ const course = await getEntry(
   ),
   _frontmatter = course.data,
   [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
-    _frontmatter.bundledCourses
+    _frontmatter.bundledCourses !== undefined
       ? getEntries(_frontmatter.bundledCourses)
       : Promise.resolve([]),
     getEntry(_frontmatter.category.collection, _frontmatter.category.id).then(
       (category) => category.data,
     ),
-    _frontmatter.collaborators
+    _frontmatter.collaborators !== undefined
       ? await Promise.all(
           _frontmatter.collaborators.map(async (collaborator) => ({
             frontmatter: (
@@ -76,7 +76,7 @@ const course = await getEntry(
     hasSkills,
     instructorEnabled,
   } = _frontmatter,
-  instructors = await getEntries<"authors">(_instructors),
+  instructors = await getEntries(_instructors),
   response = await fetch(
     `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed(0)}`,
   ),

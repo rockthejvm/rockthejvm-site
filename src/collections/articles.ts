@@ -2,7 +2,7 @@ import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
-  loader: glob({ pattern: "**/*.mdx", base: "src/data/articles" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/data/articles" }),
   schema: z
     .object({
       author: reference("authors").default("daniel-ciocirlan"),

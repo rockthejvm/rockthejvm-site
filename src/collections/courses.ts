@@ -6,18 +6,17 @@ export default defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        includedInMembership: z.boolean().default(true),
         archived: z.boolean().default(false),
-        bundledCourses: z
-          .array(reference("courses"))
-          .min(2, "At least 2 courses are required for a bundle")
-          .optional(),
         benefits: z
           .object({
             hours: z.number().positive(),
             linesOfCode: z.number().int().positive(),
           })
           .strict()
+          .optional(),
+        bundledCourses: z
+          .array(reference("courses"))
+          .min(2, "At least 2 courses are required for a bundle")
           .optional(),
         category: reference("courseCategories"),
         collaborators: z
@@ -43,7 +42,7 @@ export default defineCollection({
           .string()
           .min(20, "Description must be at least 20 characters")
           .max(500, "Description must be at most 500 characters"), // Recommended is 240 characters
-        difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+        difficulty: reference("difficulties").optional(),
         excerpt: z
           .string()
           .refine(
@@ -75,7 +74,11 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        hasGoal: z.boolean().default(true),
+        hasSkills: z.boolean().default(true),
         heroImage: image(),
+        includedInMembership: z.boolean().default(true),
+        instructorEnabled: z.boolean().default(true),
         // .refine(
         //   (image) => (image.width / image.height) === (16 / 9),
         //   {
@@ -136,9 +139,6 @@ export default defineCollection({
         repositoryUrl: z.string().optional(),
         updatedDate: z.date().optional(),
         videoId: z.string().optional(),
-        hasGoal: z.boolean().default(true),
-        hasSkills: z.boolean().default(true),
-        instructorEnabled: z.boolean().default(true),
       })
       .strict()
       .refine(
