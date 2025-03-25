@@ -1,6 +1,5 @@
 name: Team
 description: Everything on Rock the JVM in a convenient package for your team.
-image: ./team.png
 packages:
   - pricingPlanId: 4660874
   - pricingPlanId: 3514312

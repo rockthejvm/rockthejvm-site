@@ -12,9 +12,6 @@ const membershipTypes = [
   { value: "Yearly", label: "Yearly", priceSuffix: "/year" },
 ];
 
-const monthlyMembershipPricingPlanId = 4131055;
-const yearlyMembershipPricingPlanId = 4131056;
-
 // const plans = [
 //   {
 //     id: "5",
@@ -146,7 +143,7 @@ export default function Example(props) {
                 id="tier-hobby"
                 className="text-base font-semibold leading-7 text-accent-1"
               >
-                {props.monthlyTitle}
+                Monthly Membership
               </h3>
               <p className="mt-4 flex items-baseline gap-x-2">
                 {monthlyError && (
@@ -295,7 +292,7 @@ export default function Example(props) {
                 </li>
               </ul>
               <PurchaseLink
-                pricingPlanId={monthlyMembershipPricingPlanId}
+                pricingPlanId={props.monthlyPriceId}
                 ariaDescribedBy="tier-hobby"
                 className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
                 client:load
@@ -314,7 +311,7 @@ export default function Example(props) {
                 id="tier-enterprise"
                 className="text-base font-semibold leading-7 text-accent-1"
               >
-                {props.yearlyTitle}
+                Yearly Membership
               </h3>
               <p className="mt-4 flex items-baseline gap-x-2">
                 {yearlyError && (
@@ -463,7 +460,7 @@ export default function Example(props) {
                 </li>
               </ul>
               <PurchaseLink
-                pricingPlanId={yearlyMembershipPricingPlanId}
+                pricingPlanId={props.yearlyPriceId}
                 ariaDescribedBy="tier-enterprise"
                 className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-ctatext focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
                 client:load

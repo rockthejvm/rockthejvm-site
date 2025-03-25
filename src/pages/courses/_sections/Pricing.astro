@@ -14,7 +14,7 @@ interface Props {
   includedInMembership: CourseFrontmatter["includedInMembership"];
   benefits: CourseFrontmatter["benefits"];
   bundledCourses: CollectionEntry<"courses">[];
-  courseSlug: CollectionEntry<"courses">["slug"];
+  courseId: CollectionEntry<"courses">["slug"];
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
@@ -25,7 +25,7 @@ const {
     benefits,
     bundledCourses,
     color,
-    courseSlug,
+    courseId,
     pricingPlanId,
     title,
   } = Astro.props,
@@ -52,7 +52,7 @@ const {
     .filter((category) => category.id !== "bundle")
     .sort((a, b) => (a.data.ordinal <= b.data.ordinal ? -1 : 1)),
   featuredBundles = _courses.filter((course) =>
-    course.data.bundledCourses?.some((course) => course.id === courseSlug),
+    course.data.bundledCourses?.some((course) => course.id === courseId),
   ),
   // remove this when including the RoP courses in the membership
   membershipIncludedClassNames = includedInMembership && "grid grid-cols-1",

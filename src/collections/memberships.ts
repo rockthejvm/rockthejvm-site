@@ -7,7 +7,7 @@ export default defineCollection({
     z
       .object({
         description: z.string(),
-        image: image(),
+        image: image().default("./images/image.png"),
         name: z.string(),
         packages: z
           .array(

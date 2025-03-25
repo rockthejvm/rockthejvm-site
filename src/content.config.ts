@@ -6,6 +6,7 @@ import companies from "./collections/companies";
 import courseCategories from "./collections/courseCategories";
 import courses from "./collections/courses";
 import difficulties from "./collections/difficulties";
+import memberships from "./collections/memberships";
 import tags from "./collections/tags";
 import articleSeriess from "./pages/articles/_collections/articleSeriess";
 import prerequisites from "./pages/courses/_collections/prerequisites";
@@ -19,7 +20,7 @@ export const collections = {
   courseCategories,
   courses,
   difficulties,
-  // memberships,
+  memberships,
   policies,
   prerequisites,
   tags,

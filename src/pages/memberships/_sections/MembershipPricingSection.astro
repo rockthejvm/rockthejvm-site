@@ -1,34 +1,26 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
 import Section from "@/components/Section.astro";
+import PersonalImage from "@/images/logos/personal.png";
+import TeamImage from "@/images/logos/team.png";
 import { getCollection, getEntry } from "astro:content";
 import MembershipPricingSectionHelper from "./MembershipPricingSectionHelper";
 
-import PersonalImage from "src/images/logos/personal.png";
-import TeamImage from "src/images/logos/team.png";
-
-const membership = await getEntry("memberships", "personal"),
-  monthlyPriceId = membership.data.packages[0].pricingPlanId,
-  monthlyTitle = "Monthly Membership",
-  yearlyPriceId = membership.data.packages[1].pricingPlanId,
-  yearlyTitle = "Yearly Membership",
+const _personalMembership = await getEntry("memberships", "personal"),
+  monthlyPriceId = _personalMembership.data.packages[0].pricingPlanId,
+  yearlyPriceId = _personalMembership.data.packages[1].pricingPlanId,
   membershipHours = (await getCollection("courses"))
-    .map((e) => e.data.benefits?.hours ?? 0)
+    .map(({ data: { benefits } }) => benefits?.hours ?? 0)
     .reduce((b, a) => b + a),
   membershipLinesOfCode = (await getCollection("courses"))
-    .map((e) => e.data.benefits?.linesOfCode ?? 0)
+    .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
     .reduce((b, a) => b + a);
-// const categories = (await getCollection("courseCategories")).sort((a, b) =>
-//   a.data.ordinal <= b.data.ordinal ? -1 : 1,
-// );
 ---
 
 <Section color="bg-secondary" title="Get started now!">
   <MembershipPricingSectionHelper
-    {monthlyTitle}
     {monthlyPriceId}
     {yearlyPriceId}
-    {yearlyTitle}
     {membershipHours}
     {membershipLinesOfCode}
     client:visible={{ rootMargin: "2160px" }}

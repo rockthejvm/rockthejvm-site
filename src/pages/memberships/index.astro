@@ -1,13 +1,15 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
 import PurchaseLink from "@/components/PurchaseLink";
-import MembershipImage from "@/content/memberships/personal.png";
+import MembershipImage from "@/images/logos/personal.png";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getEntry } from "astro:content";
 import Courses from "./_sections/Courses.astro";
 import Description from "./_sections/Description.astro";
 import MembershipPricingSection from "./_sections/MembershipPricingSection.astro";
 
-const monthlyMembershipPricingPlanId = 4131055;
+const _personalMembership = await getEntry("memberships", "personal")!,
+  { pricingPlanId } = _personalMembership.data.packages[0];
 ---
 
 <BaseLayout
@@ -42,7 +44,7 @@ const monthlyMembershipPricingPlanId = 4131055;
                   class="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
                 >
                   <PurchaseLink
-                    pricingPlanId={monthlyMembershipPricingPlanId}
+                    {pricingPlanId}
                     className="rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                     client:visible={{ rootMargin: "2160px" }}
                   >
@@ -87,7 +89,5 @@ const monthlyMembershipPricingPlanId = 4131055;
 
     <Courses />
     <MembershipPricingSection />
-
-    <!-- <Profile color="bg-secondary" /> -->
   </article>
 </BaseLayout>
