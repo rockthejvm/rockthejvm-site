@@ -3,8 +3,8 @@ import Photo from "@/assets/images/latest/articles.png";
 import MyPicture from "@/components/MyPicture.astro";
 import { getCollection } from "astro:content";
 
-const articles = await getCollection("articles"),
-  latestArticles = articles
+const _articles = await getCollection("articles"),
+  latestArticles = _articles
     .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
     .slice(0, 6);
 ---

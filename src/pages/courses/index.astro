@@ -5,9 +5,9 @@ import MyPicture from "@/components/MyPicture.astro";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import { getCollection, getEntries } from "astro:content";
 
-const _courseCategories = await getCollection("courseCategories"),
-  courseCategories = await Promise.all(
-    _courseCategories.map(async (category) => ({
+const _categories = await getCollection("courseCategories"),
+  categories = await Promise.all(
+    _categories.map(async (category) => ({
       ...category,
       data: {
         ...category.data,
@@ -18,7 +18,7 @@ const _courseCategories = await getCollection("courseCategories"),
   structuredData = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ItemList",
-    itemListElement: courseCategories
+    itemListElement: categories
       .flatMap(({ data: { members } }) => members)
       .map((course, index) => ({
         "@type": "ListItem",
@@ -41,7 +41,7 @@ const _courseCategories = await getCollection("courseCategories"),
       </h1>
     </header>
     {
-      courseCategories.map(({ data: { logo, members, name } }) => (
+      categories.map(({ data: { logo, members, name } }) => (
         <section class="pt-8 md:pt-12">
           <div class="flex flex-col items-center">
             <div class="flex flex-row gap-x-4 align-middle">

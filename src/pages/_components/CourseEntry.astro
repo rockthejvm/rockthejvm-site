@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+import CourseCard from "./CourseCard.astro";
+
+interface Props {
+  course: CollectionEntry<"courses">;
+  couponCode?: string;
+  prices?: {
+    old: number;
+    new: number;
+  };
+  holiday?: boolean;
+}
+
+const { course, holiday = false, prices, couponCode } = Astro.props,
+  { pricingPlanId } = course.data;
+---
+
+<dd class="mt-2" id="faq-0">
+  <CourseCard {course} {holiday} {prices} {pricingPlanId} {couponCode} />
+</dd>

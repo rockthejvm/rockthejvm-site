@@ -10,7 +10,9 @@ import LatestVideos from "./LatestVideos.astro";
       class="mx-4 flex flex-col gap-y-10 sm:mx-8 md:mx-12 lg:mx-8 lg:flex-row lg:gap-x-10"
     >
       <LatestArticles />
-      <LatestVideos />
+      <LatestVideos server:defer>
+        <p slot="fallback">Loading...</p>
+      </LatestVideos>
     </div>
   </div>
 </section>

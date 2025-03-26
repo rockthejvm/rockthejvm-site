@@ -1,17 +1,12 @@
 ---
 import BackgroundGradient from "@/components/BackgroundGradient.astro";
-import Contact from "@/components/Contact.astro";
-import Courses from "@/components/Courses.astro";
-import Hero from "@/components/Hero.astro";
-import SocialProof from "@/components/SocialProof.astro";
 import CardList from "@/containers/CardList";
 import NarrowContainer from "@/containers/NarrowContainer";
 import site from "@/data/site.json";
-import Logo from "@/images/logos/rtjvm-red.png";
+import Logo from "@/images/logos/rock-the-jvm.svg";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
-import Membership from "@/pages/memberships/_components/Membership.astro";
+import Hero from "./_components/Hero.astro";
 import LatestContent from "./_components/LatestContent.astro";
-import Testimonials from "./_testimonials/_components/Testimonials.astro";
 ---
 
 <BaseLayout
@@ -25,11 +20,11 @@ import Testimonials from "./_testimonials/_components/Testimonials.astro";
     <CardList class="text-white">
       <Hero slot="one" />
       <LatestContent slot="two" />
-      <Courses slot="three" />
-      <Membership slot="four" />
-      <SocialProof slot="five" />
-      <Testimonials slot="six" />
-      <Contact slot="seven" />
+      <!-- <Courses slot="three" /> -->
+      <!-- <Membership slot="four" /> -->
+      <!-- <SocialProof slot="five" /> -->
+      <!-- <Testimonials slot="six" /> -->
+      <!-- <Contact slot="seven" /> -->
     </CardList>
   </NarrowContainer>
 </BaseLayout>

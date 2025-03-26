@@ -2,34 +2,43 @@
 import Photo from "@/assets/images/latest/videos.png";
 import MyPicture from "@/components/MyPicture.astro";
 import site from "@/data/site.json";
+import { youtube } from "@googleapis/youtube";
+import { YOUTUBE_API_KEY } from "astro:env/server";
 
-const latestVideos: { title: string; url: string }[] = [
-  {
-    title: "Automatic Dependency Injection in Scala - Just the Type System!",
-    url: "https://www.youtube.com/watch?v=gLJOagwtQDw",
-  },
-  {
-    title: "A Remote Code Execution System with Apache Pekko & Scala",
-    url: "https://www.youtube.com/watch?v=1uP6FTUn8_E",
-  },
-  {
-    title: "The Power of Recursion - How To Think Code Clearly",
-    url: "https://www.youtube.com/watch?v=hHMEMRGHmAI",
-  },
-  {
-    title: "Kotlin Scope Functions for Expressiveness: let, run, with, apply",
-    url: "https://www.youtube.com/watch?v=d0BYBs4JSsE",
-  },
-  {
-    title:
-      "htmx, ScalaTags and ZIO HTTP - Single-Page Web Applications in Scala",
-    url: "https://www.youtube.com/watch?v=xJnuXAc4siY",
-  },
-  {
-    title: "Scala PostgreSQL Integration With Skunk",
-    url: "https://www.youtube.com/watch?v=xNCCHFljwBg",
-  },
-];
+interface YoutubeVideo {
+  id: {
+    videoId: string;
+  };
+  snippet: {
+    title: string;
+  };
+}
+
+interface YoutubeResponse {
+  data: {
+    items: YoutubeVideo[];
+  };
+}
+
+const youtubeHandler = youtube({
+  version: "v3",
+  auth: YOUTUBE_API_KEY,
+});
+
+const params = {
+  part: "snippet",
+  channelId: "UCRS4DvO9X7qaqVYUW2_dwOw",
+  maxResults: 6,
+  order: "date",
+};
+
+const {
+  data: { items },
+}: YoutubeResponse = await youtubeHandler.search.list(params);
+const latestVideos = items.map(({ id: { videoId }, snippet: { title } }) => ({
+  title,
+  url: `https://www.youtube.com/watch?v=${videoId}`,
+}));
 ---
 
 <div class="rounded-3xl">
@@ -57,17 +66,17 @@ const latestVideos: { title: string; url: string }[] = [
         </a>
         <div class="py-4 sm:py-4">
           {
-            latestVideos.map(async (video) => (
+            latestVideos.map(async ({ title, url }) => (
               <Fragment>
                 <article class="max-w-full hover:bg-primary hover:text-content-2">
                   <div class="group relative mx-auto">
                     <h4 class="article-home-link mx-auto my-1 px-4 py-2.5 text-center text-lg font-normal leading-6 text-content no-underline group-hover:text-content-2">
                       <a
-                        href={video.url}
+                        href={url}
                         class="text-content no-underline hover:no-underline group-hover:text-content-2"
                       >
                         <span class="absolute inset-0" />
-                        {video.title}
+                        {title}
                       </a>
                     </h4>
                   </div>
