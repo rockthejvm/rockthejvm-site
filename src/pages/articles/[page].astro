@@ -3,6 +3,7 @@ import Articles from "@/components/Articles.astro";
 import BackgroundGradient from "@/components/BackgroundGradient.astro";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import type { GetStaticPathsOptions, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import Pagination from "./_components/Pagination.astro";
 
@@ -16,7 +17,7 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 }
 
 interface Props {
-  page: Page;
+  page: Page<CollectionEntry<"articles">>;
 }
 
 const { page } = Astro.props,

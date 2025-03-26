@@ -1,10 +1,11 @@
 ---
 import type { Page } from "astro";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
   prevUrl?: string;
   nextUrl?: string;
-  page: Page;
+  page: Page<CollectionEntry<"articles">>;
 }
 
 const { prevUrl, nextUrl, page } = Astro.props;
