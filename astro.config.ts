@@ -1,3 +1,4 @@
+import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -9,7 +10,7 @@ import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import pagefind from "astro-pagefind";
 import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import remarkDirective from "remark-directive";
 import {
   addEmbeddedArticles,
@@ -39,6 +40,8 @@ export default defineConfig({
   build: {
     format: "file",
   },
+  output: "static",
+  adapter: cloudflare(),
   integrations: [
     buildStart(),
     icon({
@@ -91,6 +94,14 @@ export default defineConfig({
         light: "github-light-default",
         dark: "github-dark-default",
       },
+    },
+  },
+  env: {
+    schema: {
+      YOUTUBE_API_KEY: envField.string({
+        access: "secret",
+        context: "server",
+      }),
     },
   },
   redirects: {

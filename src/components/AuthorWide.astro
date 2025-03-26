@@ -20,7 +20,7 @@ const { author, loading = "lazy" } = Astro.props,
   role = company?.role,
   companyName = company
     ? await getEntry(company.entity.collection, company.entity.id)!.then(
-        (company) => company.data.title,
+        (company) => company.data.name,
       )
     : undefined,
   companyWebsite = company
