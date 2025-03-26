@@ -1,46 +1,46 @@
 ---
-import MoneyBackGuarantee from "@/assets/images/money-back-guarantee.svg";
-import MyPicture from "@/components/MyPicture.astro";
-import Prose from "@/components/Prose.astro";
-import PurchaseLink from "@/components/PurchaseLink";
 import Section from "@/components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
-import CoursePrice from "../_components/CoursePrice";
+import FeaturedBundles from "../_components/FeaturedBundles.astro";
+import MoneyBackGuarantee from "../_components/MoneyBackGuarantee.astro";
+import PricingPanels from "../_components/PricingPanels.astro";
 
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
-  includedInMembership: CourseFrontmatter["includedInMembership"];
   benefits: CourseFrontmatter["benefits"];
   bundledCourses: CollectionEntry<"courses">[];
   courseId: CollectionEntry<"courses">["id"];
   color: CollectionEntry<"courseCategories">["data"]["color"];
+  includedInMembership: CourseFrontmatter["includedInMembership"];
+  isCourse: boolean;
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
 }
 
 const {
-    includedInMembership,
     benefits,
     bundledCourses,
     color,
     courseId,
+    includedInMembership,
+    isCourse,
     pricingPlanId,
     title,
   } = Astro.props,
   _personalMembership = await getEntry("memberships", "personal")!,
   monthlyMembership = _personalMembership.data.packages[0],
-  hours =
-    benefits?.hours ??
-    bundledCourses
-      .map(({ data: { benefits } }) => benefits?.hours ?? 0)
-      .reduce((b, a) => b + a, 0),
-  linesOfCode =
-    benefits?.linesOfCode ??
-    bundledCourses
-      .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
-      .reduce((b, a) => b + a, 0),
+  hours = isCourse
+    ? benefits!.hours
+    : bundledCourses
+        .map(({ data: { benefits } }) => benefits?.hours ?? 0)
+        .reduce((b, a) => b + a, 0),
+  linesOfCode = isCourse
+    ? benefits!.linesOfCode
+    : bundledCourses
+        .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
+        .reduce((b, a) => b + a, 0),
   _courses = await getCollection("courses"),
   membershipHours = _courses
     .map(({ data: { benefits } }) => benefits?.hours ?? 0)
@@ -53,209 +53,25 @@ const {
   ),
   featuredBundles = _courses.filter((course) =>
     course.data.bundledCourses?.some(({ id }) => id === courseId),
-  ),
-  // remove this when including the RoP courses in the membership
-  membershipIncludedClassNames = includedInMembership && "grid grid-cols-1",
-  membershipIncludedCardClassNames =
-    includedInMembership && "sm:rounded-b-none lg:rounded-tr-none";
+  );
 ---
 
 <Section {color} gradientOption={1} gradientFlipped={false} title="Enroll now!">
   <div class="relative isolate w-full px-2 py-1 sm:px-6 sm:py-2 lg:px-8">
     <div class="mx-auto max-w-2xl text-center lg:max-w-4xl"></div>
-    <div
-      class=`mx-auto mt-16 max-w-lg items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2 ${membershipIncludedClassNames}`
-    >
-      <div
-        class=`card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:p-10 lg:mx-0 lg:rounded-bl-3xl ${membershipIncludedCardClassNames}`
-      >
-        <h3
-          id="tier-hobby"
-          class="text-base font-semibold leading-7 text-accent-1"
-        >
-          {title} - Lifetime License
-        </h3>
-        <span
-          class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
-        >
-          <CoursePrice
-            {pricingPlanId}
-            client:visible={{ rootMargin: "2160px" }}
-          />
-        </span>
-        <p class="mt-6 text-base leading-7 text-content">
-          {benefits ? "Just the course" : `All of the courses in this bundle`} with
-          a one-time payment
-        </p>
-        <ul class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
-          {
-            [
-              `${hours} hours of 4K content`,
-              `${linesOfCode} lines of code written`,
-              "All PDF slides",
-              "Access to the private Rock the JVM community",
-              "Free updates",
-              "Lifetime access",
-            ].map((line) => (
-              <li class="flex gap-x-3">
-                <svg
-                  class="h-6 w-5 flex-none text-accent-1"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {line}
-              </li>
-            ))
-          }
-        </ul>
-        <PurchaseLink
-          {pricingPlanId}
-          ariaDescribedBy="tier-hobby"
-          className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-          client:visible={{ rootMargin: "2160px" }}
-        >
-          Get Now</PurchaseLink
-        >
-      </div>
-      {
-        includedInMembership && (
-          <div class="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
-            <h3
-              id="tier-enterprise"
-              class="text-base font-semibold leading-7 text-accent-1"
-            >
-              All-Access Membership
-            </h3>
-            <div class="mt-4 flex items-baseline gap-x-2">
-              <span class="text-5xl font-bold tracking-tight text-content">
-                <CoursePrice
-                  pricingPlanId={monthlyMembership.pricingPlanId}
-                  client:visible={{ rootMargin: "2160px" }}
-                />
-              </span>
-              <span class="text-base text-content">/monthly</span>
-            </div>
-            <p class="mt-6 text-base leading-7 text-content">
-              All of the Rock the JVM courses
-            </p>
-            <ul class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
-              {[
-                `${membershipHours} hours of 4K content`,
-                `${membershipLinesOfCode} lines of code written`,
-                ...categories.map(
-                  (category) => `All ${category.data.name} courses`,
-                ),
-              ].map((line) => (
-                <li class="flex gap-x-3">
-                  <svg
-                    class="h-6 w-5 flex-none text-accent-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  {line}
-                </li>
-              ))}
-            </ul>
-            <PurchaseLink
-              pricingPlanId={monthlyMembership.pricingPlanId}
-              ariaDescribedBy="tier-enterprise"
-              className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-              client:visible={{ rootMargin: "2160px" }}
-            >
-              Join Now
-            </PurchaseLink>
-          </div>
-        )
-      }
-    </div>
-
-    {
-      featuredBundles &&
-        featuredBundles.map((bundle) => (
-          <div class="mx-auto my-8 flex max-w-5xl flex-col items-center gap-x-8 gap-y-6 rounded-3xl bg-secondary p-8 ring-2 ring-content-1/10 sm:gap-y-10 sm:p-10 lg:col-span-2 lg:flex-row">
-            <MyPicture
-              class="rounded-lg"
-              width={250}
-              src={bundle.data.heroImage}
-              alt={bundle.data.title}
-              quality="max"
-            />
-            <div class="lg:min-w-0 lg:flex-1">
-              <h3 class="text-center text-lg font-semibold leading-8 tracking-tight text-accent-1 lg:text-start">
-                <a href={`/courses/${bundle.id}`}>{bundle.data.title}</a>
-              </h3>
-              <div class="mt-1 text-center text-base leading-7 text-content-1 lg:text-start">
-                <Fragment set:html={bundle.data.excerpt} />
-              </div>
-            </div>
-            <a
-              href={`/courses/${bundle.id}`}
-              class="mx-auto rounded-md px-5 py-3 text-sm font-semibold leading-6 text-accent-1 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3.5 sm:py-2"
-            >
-              <span aria-hidden="true" class="text-content-1">
-                Buy Now &rarr;
-              </span>
-            </a>
-          </div>
-        ))
-    }
-
-    <div class="mx-auto">
-      <div
-        class="relative isolate overflow-hidden px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0"
-      >
-        <div
-          class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10"
-        >
-          <div
-            class={`lg:col-span-2 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:gap-x-8 lg:px-8`}
-          >
-            <div class="lg:pr-4">
-              <div class="lg:max-w-lg">
-                <Prose class="mt-1">
-                  <strong class="text-lg">100% Money Back Guarantee</strong>
-                  <p class="text-base">
-                    If you're not happy with this course, I want you to have
-                    your money back. If that happens, <a href="/contact"
-                      >contact me</a
-                    > with a copy of your welcome email and I will refund you the
-                    course.
-                  </p>
-                  <p class="text-base">
-                    Less than 0.05% of students refunded a course on the entire
-                    site, and every payment was returned in less than 72 hours.
-                  </p>
-                </Prose>
-              </div>
-            </div>
-          </div>
-          <div
-            class={`-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:overflow-hidden`}
-          >
-            <MyPicture
-              class="mx-auto max-w-sm rounded-xl"
-              width={250}
-              src={MoneyBackGuarantee}
-              quality="mid"
-              alt="money back guarantee"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <PricingPanels
+      {categories}
+      {hours}
+      {linesOfCode}
+      {includedInMembership}
+      {isCourse}
+      {membershipHours}
+      {membershipLinesOfCode}
+      {monthlyMembership}
+      {pricingPlanId}
+      {title}
+    />
+    <FeaturedBundles {featuredBundles} />
+    <MoneyBackGuarantee />
   </div>
 </Section>

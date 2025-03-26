@@ -50,7 +50,6 @@ const course = await getEntry(
         )
       : [],
   ]),
-  isBundle = bundledCourses.length > 0,
   tags = await getEntries(_frontmatter.tags ?? []),
   { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter,
   {
@@ -80,6 +79,8 @@ const course = await getEntry(
         )
       : undefined,
   instructors = await getEntries(_instructors),
+  isCourse = benefits !== undefined,
+  isBundle = benefits === undefined,
   response = await fetch(
     `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed(0)}`,
   ),
@@ -160,7 +161,14 @@ const _prerequisitess = await getCollection("prerequisites"),
       {
         "@type": "CourseInstance",
         courseMode: "Online",
-        courseWorkload: `PT${Math.round(2 * (isBundle ? bundledCourses.map((course) => course.data.benefits!.hours).reduce((b, a) => b + a, 0) : benefits!.hours)).toFixed(0)}H`,
+        courseWorkload: `PT${Math.round(
+          2 *
+            (isBundle
+              ? bundledCourses
+                  .map(({ data: { benefits } }) => benefits?.hours ?? 0)
+                  .reduce((b, a) => b + a, 0)
+              : benefits!.hours),
+        ).toFixed(0)}H`,
         instructor: instructors.map((instructor) => ({
           "@type": "Person",
           name: instructor.data.name,
@@ -204,7 +212,7 @@ const _prerequisitess = await getCollection("prerequisites"),
   {structuredData}
   searchIndexable={true}
 >
-  {!isBundle && <div data-pagefind-filter={`Difficulties: ${difficulty!}`} />}
+  {isCourse && <div data-pagefind-filter={`Difficulties: ${difficulty!}`} />}
   <div data-pagefind-filter="Categories:Courses (All)"></div>
   <div
     data-pagefind-filter={`Categories:${isBundle ? "Courses (Bundles)" : "Courses (Singles)"}`}
@@ -304,6 +312,7 @@ const _prerequisitess = await getCollection("prerequisites"),
     }
     <Pricing
       {includedInMembership}
+      {isCourse}
       {benefits}
       {bundledCourses}
       color={categoryColor}
@@ -315,7 +324,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       {categoryFaqs}
       courseFaqs={faqs}
       color={categoryColor}
-      isBundle={benefits === undefined}
+      {isBundle}
     />
   </article>
 </BaseLayout>
