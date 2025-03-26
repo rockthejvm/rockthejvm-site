@@ -6,21 +6,21 @@ import TeamImage from "@/images/logos/team.png";
 import { getCollection, getEntry } from "astro:content";
 import MembershipPricingSectionHelper from "./MembershipPricingSectionHelper";
 
-const _personalMembership = await getEntry("memberships", "personal"),
-  monthlyPriceId = _personalMembership.data.packages[0].pricingPlanId,
-  yearlyPriceId = _personalMembership.data.packages[1].pricingPlanId,
+const _personalMembership = await getEntry("memberships", "personal")!,
+  monthlyMembership = _personalMembership.data.packages[0],
+  yearlyMembership = _personalMembership.data.packages[1],
   membershipHours = (await getCollection("courses"))
     .map(({ data: { benefits } }) => benefits?.hours ?? 0)
-    .reduce((b, a) => b + a),
+    .reduce((b, a) => b + a, 0),
   membershipLinesOfCode = (await getCollection("courses"))
     .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
-    .reduce((b, a) => b + a);
+    .reduce((b, a) => b + a, 0);
 ---
 
 <Section color="bg-secondary" title="Get started now!">
   <MembershipPricingSectionHelper
-    {monthlyPriceId}
-    {yearlyPriceId}
+    {monthlyMembership}
+    {yearlyMembership}
     {membershipHours}
     {membershipLinesOfCode}
     client:visible={{ rootMargin: "2160px" }}

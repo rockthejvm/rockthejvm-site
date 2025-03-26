@@ -88,18 +88,22 @@ export default function Example(props) {
 
   useEffect(() => {
     getCoursePrice({
-      pricingPlanId: props.monthlyPriceId,
+      pricingPlanId: props.monthlyMembership.pricingPlanId,
       func: setMonthlyPrice,
       errorFunc: setMonthlyError,
       loadingFunc: setMonthlyLoading,
     });
     getCoursePrice({
-      pricingPlanId: props.yearlyPriceId,
+      pricingPlanId: props.yearlyMembership.pricingPlanId,
       func: setYearlyPrice,
       errorFunc: setYearlyError,
       loadingFunc: setYearlyLoading,
     });
-  }, [props.monthlyPriceId, props.yearlyPriceId, getCoursePrice]);
+  }, [
+    props.monthlyMembership.pricingPlanId,
+    props.yearlyMembership.pricingPlanId,
+    getCoursePrice,
+  ]);
 
   return (
     <div className="relative isolate px-6 py-1 sm:py-2 lg:px-8">
@@ -292,7 +296,7 @@ export default function Example(props) {
                 </li>
               </ul>
               <PurchaseLink
-                pricingPlanId={props.monthlyPriceId}
+                pricingPlanId={props.monthlyMembership.pricingPlanId}
                 ariaDescribedBy="tier-hobby"
                 className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
                 client:load
@@ -460,7 +464,7 @@ export default function Example(props) {
                 </li>
               </ul>
               <PurchaseLink
-                pricingPlanId={props.yearlyPriceId}
+                pricingPlanId={props.yearlyMembership.pricingPlanId}
                 ariaDescribedBy="tier-enterprise"
                 className="mt-8 block rounded-xl bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-ctatext focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
                 client:load

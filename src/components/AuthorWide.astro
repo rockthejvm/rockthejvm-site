@@ -5,10 +5,10 @@ import LinkedIn from "@/components/icons/LinkedIn.astro";
 import Twitter from "@/components/icons/Twitter.astro";
 import Website from "@/components/icons/Website.astro";
 import YouTube from "@/components/icons/YouTube.astro";
+import MyPicture from "@/components/MyPicture.astro";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import AuthorWideHelper from "./AuthorWideHelper";
-import MyPicture from "./MyPicture.astro";
 
 interface Props {
   author: CollectionEntry<"authors">;
@@ -19,12 +19,12 @@ const { author, loading = "lazy" } = Astro.props,
   { biography, company, name, photo, socials } = author.data,
   role = company?.role,
   companyName = company
-    ? await getEntry(company.entity.collection, company.entity.id).then(
+    ? await getEntry(company.entity.collection, company.entity.id)!.then(
         (company) => company.data.title,
       )
     : undefined,
   companyWebsite = company
-    ? await getEntry(company.entity.collection, company.entity.id).then(
+    ? await getEntry(company.entity.collection, company.entity.id)!.then(
         (company) => company.data.website,
       )
     : undefined;

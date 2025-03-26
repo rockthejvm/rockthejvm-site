@@ -5,7 +5,7 @@ import ArticlePreview from "./ArticlePreview.astro";
 
 interface Props {
   articles: CollectionEntry<"articles">[];
-  sortBy: "title" | "none";
+  sortBy?: "title" | "none";
 }
 
 const { articles: _articles, sortBy = "title" } = Astro.props,

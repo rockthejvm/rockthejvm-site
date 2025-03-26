@@ -1,9 +1,9 @@
 ---
+import MyPicture from "@/components/MyPicture.astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import CourseEntry from "./CourseEntry.astro";
 import CoursesHelper from "./CoursesHelper";
-import MyPicture from "./MyPicture.astro";
 
 const courseSeriess = (await getCollection("seriess")).filter(
     (series) => series.data.members[0].collection === "courses",
@@ -26,34 +26,32 @@ const courseSeriess = (await getCollection("seriess")).filter(
       <div class="mx-auto max-w-6xl divide-y divide-gray-900/10">
         <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
           {
-            categories
-              .sort((a, b) => (a.data.ordinal < b.data.ordinal ? -1 : 1))
-              .map((category) => (
-                <Fragment>
-                  <CoursesHelper category={category} client:visible>
-                    <Fragment slot="entries">
-                      {coursess
-                        .filter(
-                          (courses) =>
-                            courses[0]?.data.category.id === category.id,
-                        )
-                        .map((courses) =>
-                          courses.map((course) => (
-                            <CourseEntry course={course} />
-                          )),
-                        )}
-                    </Fragment>
-                    <Fragment slot="categoryImage">
-                      <MyPicture
-                        class="my-auto w-full"
-                        src={category.data.logo}
-                        alt={category.data.name}
-                        quality="low"
-                      />
-                    </Fragment>
-                  </CoursesHelper>
-                </Fragment>
-              ))
+            categories.map((category) => (
+              <Fragment>
+                <CoursesHelper category={category} client:visible>
+                  <Fragment slot="entries">
+                    {coursess
+                      .filter(
+                        (courses) =>
+                          courses[0]?.data.category.id === category.id,
+                      )
+                      .map((courses) =>
+                        courses.map((course) => (
+                          <CourseEntry course={course} />
+                        )),
+                      )}
+                  </Fragment>
+                  <Fragment slot="categoryImage">
+                    <MyPicture
+                      class="my-auto w-full"
+                      src={category.data.logo}
+                      alt={category.data.name}
+                      quality="low"
+                    />
+                  </Fragment>
+                </CoursesHelper>
+              </Fragment>
+            ))
           }
         </dl>
       </div>

@@ -13,7 +13,7 @@ interface Props {
 }
 
 const { color, collaborators, thanks } = Astro.props,
-  author = await getEntry("authors", "daniel-ciocirlan");
+  author = await getEntry("authors", "daniel-ciocirlan")!;
 ---
 
 <Section {color} title="Meet Rock the JVM">

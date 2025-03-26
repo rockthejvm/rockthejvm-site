@@ -1,7 +1,7 @@
 ---
 import Photo from "@/assets/images/latest/articles.png";
+import MyPicture from "@/components/MyPicture.astro";
 import { getCollection } from "astro:content";
-import MyPicture from "./MyPicture.astro";
 
 const articles = await getCollection("articles"),
   latestArticles = articles

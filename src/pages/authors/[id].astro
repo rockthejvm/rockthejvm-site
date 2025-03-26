@@ -3,6 +3,7 @@ import Articles from "@/components/Articles.astro";
 import AuthorWide from "@/components/AuthorWide.astro";
 import FullContainer from "@/containers/FullContainer";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import type { InferGetStaticParamsType, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {

@@ -14,7 +14,7 @@ interface Props {
   includedInMembership: CourseFrontmatter["includedInMembership"];
   benefits: CourseFrontmatter["benefits"];
   bundledCourses: CollectionEntry<"courses">[];
-  courseId: CollectionEntry<"courses">["slug"];
+  courseId: CollectionEntry<"courses">["id"];
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
@@ -29,30 +29,30 @@ const {
     pricingPlanId,
     title,
   } = Astro.props,
-  monthlyMembershipPricingPlanId = (await getEntry("memberships", "personal"))
-    .data.packages[0].pricingPlanId,
+  _personalMembership = await getEntry("memberships", "personal")!,
+  monthlyMembership = _personalMembership.data.packages[0],
   hours =
     benefits?.hours ??
     bundledCourses
-      .map((course) => course.data.benefits?.hours ?? 0)
+      .map(({ data: { benefits } }) => benefits?.hours ?? 0)
       .reduce((b, a) => b + a, 0),
   linesOfCode =
     benefits?.linesOfCode ??
     bundledCourses
-      .map((course) => course.data.benefits?.linesOfCode ?? 0)
+      .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
       .reduce((b, a) => b + a, 0),
   _courses = await getCollection("courses"),
-  monthlyMembershipHours = _courses
-    .map((course) => course.data.benefits?.hours ?? 0)
+  membershipHours = _courses
+    .map(({ data: { benefits } }) => benefits?.hours ?? 0)
     .reduce((b, a) => b + a, 0),
-  monthlyMembershipLinesOfCode = _courses
-    .map((course) => course.data.benefits?.linesOfCode ?? 0)
+  membershipLinesOfCode = _courses
+    .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
     .reduce((b, a) => b + a, 0),
-  categories = (await getCollection("courseCategories"))
-    .filter((category) => category.id !== "bundle")
-    .sort((a, b) => (a.data.ordinal <= b.data.ordinal ? -1 : 1)),
+  categories = (await getCollection("courseCategories")).filter(
+    ({ id }) => id !== "bundle",
+  ),
   featuredBundles = _courses.filter((course) =>
-    course.data.bundledCourses?.some((course) => course.id === courseId),
+    course.data.bundledCourses?.some(({ id }) => id === courseId),
   ),
   // remove this when including the RoP courses in the membership
   membershipIncludedClassNames = includedInMembership && "grid grid-cols-1",
@@ -136,7 +136,7 @@ const {
             <div class="mt-4 flex items-baseline gap-x-2">
               <span class="text-5xl font-bold tracking-tight text-content">
                 <CoursePrice
-                  pricingPlanId={monthlyMembershipPricingPlanId}
+                  pricingPlanId={monthlyMembership.pricingPlanId}
                   client:visible={{ rootMargin: "2160px" }}
                 />
               </span>
@@ -147,8 +147,8 @@ const {
             </p>
             <ul class="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
               {[
-                `${monthlyMembershipHours} hours of 4K content`,
-                `${monthlyMembershipLinesOfCode} lines of code written`,
+                `${membershipHours} hours of 4K content`,
+                `${membershipLinesOfCode} lines of code written`,
                 ...categories.map(
                   (category) => `All ${category.data.name} courses`,
                 ),
@@ -171,7 +171,7 @@ const {
               ))}
             </ul>
             <PurchaseLink
-              pricingPlanId={monthlyMembershipPricingPlanId}
+              pricingPlanId={monthlyMembership.pricingPlanId}
               ariaDescribedBy="tier-enterprise"
               className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
               client:visible={{ rootMargin: "2160px" }}

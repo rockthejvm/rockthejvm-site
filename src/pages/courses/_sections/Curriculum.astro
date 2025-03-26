@@ -6,7 +6,7 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
-  courseId: CollectionEntry<"courses">["slug"];
+  courseId: CollectionEntry<"courses">["id"];
 }
 
 const { color, courseId, pricingPlanId } = Astro.props;

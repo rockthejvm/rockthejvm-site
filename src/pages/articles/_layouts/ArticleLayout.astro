@@ -48,11 +48,11 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
   category = await getEntry(
     _frontmatter.category.collection,
     _frontmatter.category.id,
-  ),
+  )!,
   author = await getEntry(
     _frontmatter.author.collection,
     _frontmatter.author.id,
-  ),
+  )!,
   tags = await getEntries(_frontmatter.tags),
   structuredData = JSON.stringify({
     "@context": "https://schema.org",

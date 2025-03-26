@@ -1,5 +1,6 @@
 ---
 import getReadingTime from "@/utils/getReadingTime";
+import type { InferGetStaticParamsType, InferGetStaticPropsType } from "astro";
 import { getCollection, render } from "astro:content";
 import ArticleLayout from "./_layouts/ArticleLayout.astro";
 
@@ -23,7 +24,7 @@ const { article, allArticles } = Astro.props,
   {article}
   {allArticles}
   {headings}
-  minutesRead={getReadingTime(article.body)}
+  minutesRead={getReadingTime(article.body!)}
 >
   <Content />
 </ArticleLayout>

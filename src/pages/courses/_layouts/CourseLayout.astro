@@ -29,24 +29,22 @@ interface Response {
 const course = await getEntry(
     "courses",
     Astro.params.id as CollectionEntry<"courses">["id"],
-  ),
+  )!,
   _frontmatter = course.data,
   [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
     _frontmatter.bundledCourses !== undefined
       ? getEntries(_frontmatter.bundledCourses)
       : Promise.resolve([]),
-    getEntry(_frontmatter.category.collection, _frontmatter.category.id).then(
+    getEntry(_frontmatter.category.collection, _frontmatter.category.id)!.then(
       (category) => category.data,
     ),
     _frontmatter.collaborators !== undefined
       ? await Promise.all(
           _frontmatter.collaborators.map(async (collaborator) => ({
-            frontmatter: (
-              await getEntry(
-                collaborator.author.collection,
-                collaborator.author.id,
-              )
-            ).data,
+            frontmatter: (await getEntry(
+              collaborator.author.collection,
+              collaborator.author.id,
+            ))!.data,
             biography: collaborator.biography,
           })),
         )
@@ -119,7 +117,7 @@ const _prerequisitess = await getCollection("prerequisites"),
                 )
               )?.data.id,
               isCurrent: node.id === course.id,
-              label: (await getEntry(node.collection, node.id)).data.title,
+              label: (await getEntry(node.collection, node.id))!.data.title,
               href: `/courses/${node.id}`,
             },
           })),
@@ -182,7 +180,7 @@ const _prerequisitess = await getCollection("prerequisites"),
           await Promise.all(
             bundledCourses.map(async ({ data: { difficulty } }) =>
               difficulty !== undefined
-                ? (await getEntry(difficulty.collection!, difficulty.id!)).data
+                ? (await getEntry(difficulty.collection!, difficulty.id!))!.data
                     .level!
                 : 1,
             ),
