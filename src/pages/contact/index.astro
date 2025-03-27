@@ -1,13 +1,11 @@
 ---
+import Contact from "@/components/Contact.astro";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
-import ContactHelper from "./_components/ContactHelper";
 ---
 
 <BaseLayout
   description="Get in touch with us! Whether you have questions, feedback, or need assistance, we're here to help."
   title="Contact"
 >
-  <section>
-    <ContactHelper client:load />
-  </section>
+  <Contact />
 </BaseLayout>
