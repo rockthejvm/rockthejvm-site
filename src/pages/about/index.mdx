@@ -5,6 +5,8 @@ title: The Rock the JVM Story
 
 import site from "@/data/site.json";
 import InformationalLayout from "./_layouts/InformationalLayout.astro";
+import MyPicture from "@/components/MyPicture.astro";
+import DanielPhoto from "@/images/profiles/daniel-ciocirlan.jpeg";
 
 export const structuredData = JSON.stringify({
     "@context": "https://schema.org",
@@ -36,6 +38,6 @@ I spend most of my time between Scala, Akka and Spark, and I'm really fortunate 
 
 [I'm always there to help](/contact) if you need anything.
 
-![image](@/images/profiles/daniel-ciocirlan.jpeg)
+<MyPicture src={DanielPhoto} alt="Daniel Ciocîrlan" />
 
 </InformationalLayout>

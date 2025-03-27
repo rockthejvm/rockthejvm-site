@@ -109,7 +109,7 @@ Very rarely we will need to explore a certain part in detail.
 ## Conclusion
 ```
 
-For **images**, they sit in the `images/` directory, and you can reference them in Markdown as `![Alt text](../images/myimage.png "Caption")`.
+For **images**, they sit in the `src/images/` directory, and you can reference them in Markdown as `![Alt text](../images/myimage.png "Caption")` but it would be preferred to use the MyPicture component and import the image instead.
 
 To embed **YouTube videos**, include a line of this form in the front-matter:
 

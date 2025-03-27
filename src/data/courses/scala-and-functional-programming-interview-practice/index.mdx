@@ -18,6 +18,8 @@ tags: [scala, fp, data-structures, algorithms]
 ---
 
 import CourseLayout from "@/pages/courses/_layouts/CourseLayout.astro";
+import MyPicture from "@/components/MyPicture.astro";
+import MemeImage from "./images/meme.jpeg";
 
 <CourseLayout>
 <Fragment slot="goal">
@@ -43,7 +45,7 @@ Functional programming is not for everyone. It's hard to master, because it's ha
 
 </Fragment>
 <Fragment slot="skills">
-!["Tail Recursion meme"](images/meme.jpeg)
+<MyPicture src={MemeImage} alt="Tail recursion meme" />
 
 Let me tell you straight: **you will practice the S[_] out of tail recursion.** You will dream in tail recursion. EVERYTHING WE WRITE is tail-recursive. Here are some stats:
 
