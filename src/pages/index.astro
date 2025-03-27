@@ -5,6 +5,7 @@ import NarrowContainer from "@/containers/NarrowContainer";
 import site from "@/data/site.json";
 import Logo from "@/images/logos/rock-the-jvm.svg";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import Courses from "./_components/Courses.astro";
 import Hero from "./_components/Hero.astro";
 import LatestContent from "./_components/LatestContent.astro";
 ---
@@ -20,7 +21,7 @@ import LatestContent from "./_components/LatestContent.astro";
     <CardList class="text-white">
       <Hero slot="one" />
       <LatestContent slot="two" />
-      <!-- <Courses slot="three" /> -->
+      <Courses slot="three" />
       <!-- <Membership slot="four" /> -->
       <!-- <SocialProof slot="five" /> -->
       <!-- <Testimonials slot="six" /> -->
