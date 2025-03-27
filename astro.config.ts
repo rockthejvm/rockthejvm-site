@@ -98,6 +98,10 @@ export default defineConfig({
   },
   env: {
     schema: {
+      TEACHABLE_API_KEY: envField.string({
+        access: "secret",
+        context: "server",
+      }),
       YOUTUBE_API_KEY: envField.string({
         access: "secret",
         context: "server",
