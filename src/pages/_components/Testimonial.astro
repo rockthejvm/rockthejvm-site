@@ -10,7 +10,7 @@ interface Props {
 
 const { testimonial: _testimonial } = Astro.props,
   { Content } = await render(_testimonial),
-  _testimonial = {
+  testimonial = {
     ..._testimonial,
     data: {
       ..._testimonial.data,
@@ -20,7 +20,7 @@ const { testimonial: _testimonial } = Astro.props,
       },
     },
   },
-  { company, photo, profile } = testimonial.data;
+  { company, name, photo, profile } = testimonial.data;
 ---
 
 <TestimonialHelper {testimonial}>

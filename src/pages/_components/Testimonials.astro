@@ -3,12 +3,12 @@ import { getCollection } from "astro:content";
 import Testimonial from "./Testimonial.astro";
 
 const _testimonials = await getCollection("testimonials"),
-  testimonials = [..._testimonials].sort(
+  sortedTestimonials = [..._testimonials].sort(
     (a, b) => a.data.ordinal - b.data.ordinal,
   );
 ---
 
 <section class="mx-auto mb-8 max-w-4xl text-content md:mb-16">
   <h2 class="mb-12 text-center text-content">Testimonials</h2>
-  {testimonials.map((testimonial) => <Testimonial {testimonial} />)}
+  {sortedTestimonials.map((testimonial) => <Testimonial {testimonial} />)}
 </section>

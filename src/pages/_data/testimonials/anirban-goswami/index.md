@@ -7,6 +7,7 @@ location:
     city: Cupertino
     country: California
 name: Anirban Goswami
+photo: ./images/photo.jpeg
 ordinal: 3
 ---
 

@@ -7,6 +7,7 @@ location:
     city: San Francisco Bay Area
     country: California
 name: Mihai Fecioru
+photo: ./images/photo.jpeg
 ordinal: 1
 ---
 

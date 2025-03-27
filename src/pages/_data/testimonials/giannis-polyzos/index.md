@@ -7,6 +7,7 @@ location:
     city: Athens
     country: Greece
 name: Giannis Polyzos
+photo: ./images/photo.jpeg
 ordinal: 2
 ---
 
