@@ -18,6 +18,7 @@ const { course } = Astro.props;
   <div class="relative size-full overflow-hidden rounded-xl bg-secondary">
     <a
       href={`/courses/${course.id}`}
+      data-astro-prefetch="viewport"
       class="h-full max-w-sm hover:no-underline"
     >
       <div class="max-h-52 w-full overflow-hidden">

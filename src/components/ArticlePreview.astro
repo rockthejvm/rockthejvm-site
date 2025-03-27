@@ -45,7 +45,11 @@ const { article } = Astro.props,
       <h2
         class="mt-2 line-clamp-3 text-xl font-semibold leading-6 md:text-2xl lg:min-h-28 lg:text-3xl"
       >
-        <a href={`/articles/${article.id}`} class="text-content-2">
+        <a
+          href={`/articles/${article.id}`}
+          class="text-content-2"
+          data-astro-prefetch="viewport"
+        >
           {title}
         </a>
       </h2>

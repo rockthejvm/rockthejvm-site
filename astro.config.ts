@@ -40,6 +40,9 @@ export default defineConfig({
   build: {
     format: "file",
   },
+  prefetch: {
+    prefetchAll: true,
+  },
   output: "static",
   adapter: cloudflare(),
   integrations: [
