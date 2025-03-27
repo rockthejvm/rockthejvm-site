@@ -5,7 +5,10 @@ import site from "@/data/site.json";
 import { getCollection } from "astro:content";
 
 const _videos = await getCollection("videos"),
-  latestVideos = _videos.map(({ data }) => data);
+  latestVideos = _videos.map(({ data: { id, title } }) => ({
+    title,
+    url: `https://m.youtube.com/watch?v=${id}`,
+  }));
 ---
 
 <div class="rounded-3xl">

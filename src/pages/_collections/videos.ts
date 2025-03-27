@@ -9,18 +9,18 @@ const params = {
   type: "video",
 };
 
-interface YoutubeVideo {
-  id: {
-    videoId: string;
-  };
-  snippet: {
-    title: string;
-  };
-}
+const YoutubeVideoSchema = z.object({
+  id: z.object({
+    videoId: z.string(),
+  }),
+  snippet: z.object({
+    title: z.string(),
+  }),
+});
 
-interface YoutubeData {
-  items: YoutubeVideo[];
-}
+const YoutubeDataSchema = z.object({
+  items: z.array(YoutubeVideoSchema),
+});
 
 const apiUrl = "https://www.googleapis.com/youtube/v3/search";
 
@@ -29,7 +29,8 @@ export default defineCollection({
     const response = await fetch(
       apiUrl + "?" + new URLSearchParams({ ...params, key: YOUTUBE_API_KEY }),
     );
-    const { items }: YoutubeData = await response.json();
+    const responseData = await response.json();
+    const { items } = YoutubeDataSchema.parse(responseData);
     return items.map(({ id: { videoId }, snippet: { title } }) => ({
       id: videoId,
       title,
