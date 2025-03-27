@@ -96,7 +96,7 @@ export default defineCollection({
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
         isFree: z.boolean().default(false),
-        pricingPlanId: z.number().int().positive(),
+        pricingPlanId: z.number().int().nonnegative(),
         publishedDate: z.date().optional(),
         question: z
           .object({

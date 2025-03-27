@@ -1,36 +1,13 @@
 ---
 import centsToPrice from "@/utils/centsToPrice";
-import { z } from "astro:content";
-import { TEACHABLE_API_KEY } from "astro:env/server";
+import { getTeachablePricingPlan } from "@/utils/teachable";
 
 interface Props {
   pricingPlanId: number;
 }
 
-const TeachablePricingPlanSchema = z.object({
-  pricing_plan: z.object({
-    currency: z.string(),
-    price: z.number().int().positive(),
-    course_id: z.number().int().positive(),
-  }),
-});
-
 const { pricingPlanId } = Astro.props,
-  _options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      apiKey: TEACHABLE_API_KEY,
-    },
-  },
-  _response = await fetch(
-    `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
-    _options,
-  ),
-  _responseData = await _response.json(),
-  {
-    pricing_plan: { course_id, currency, price: cents },
-  } = TeachablePricingPlanSchema.parse(_responseData),
+  { currency, price: cents } = await getTeachablePricingPlan(pricingPlanId),
   price = centsToPrice(cents, currency);
 ---
 

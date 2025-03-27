@@ -13,7 +13,7 @@ export default defineCollection({
           .array(
             z
               .object({
-                pricingPlanId: z.number().positive(),
+                pricingPlanId: z.number().nonnegative(),
               })
               .strict(),
           )

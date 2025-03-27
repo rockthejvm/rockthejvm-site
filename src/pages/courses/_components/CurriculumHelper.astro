@@ -1,0 +1,30 @@
+---
+import { getTeachableCourse, getTeachablePricingPlan } from "@/utils/teachable";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
+  courseId: CollectionEntry<"courses">["id"];
+}
+
+const { color, courseId, pricingPlanId } = Astro.props,
+  {
+    course_id,
+    currency,
+    price: cents,
+  } = await getTeachablePricingPlan(pricingPlanId),
+  lectureSections = await getTeachableCourse(course_id);
+
+console.log(courseId, pricingPlanId, course_id);
+---
+
+{
+  lectureSections.map(({ lectures }) => (
+    <h2 class="mb-4 text-center text-2xl font-bold">
+      {lectures.map(
+        ({ id, is_published }) =>
+          is_published && <div class="text-lg text-gray-700">{id}</div>,
+      )}
+    </h2>
+  ))
+}
