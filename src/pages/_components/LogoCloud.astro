@@ -4,25 +4,27 @@ import { getCollection } from "astro:content";
 import ClientLogo from "./ClientLogo.astro";
 import LogoCloudHelper from "./LogoCloudHelper";
 
-const clients = [
-  ...(await getCollection("companies", ({ data: { id } }) =>
-    [
-      "adobe",
-      "apple",
-      "datto",
-      "google",
-      "hapag-lloyd",
-      "hm-revenue-and-customs",
-      "intuit",
-      "microsoft",
-      "orange",
-      "swiss-re",
-      "ververica",
-    ].includes(id),
-  )),
-].sort(compareByNaturalOrder);
+const _clientsToDisplay = [
+    "adobe",
+    "apple",
+    "datto",
+    "google",
+    "hapag-lloyd",
+    "hm-revenue-and-customs",
+    "intuit",
+    "microsoft",
+    "orange",
+    "swiss-re",
+    "ververica",
+  ],
+  _clients = [
+    ...(await getCollection("companies", ({ data: { id } }) =>
+      _clientsToDisplay.includes(id),
+    )),
+  ],
+  sortedClients = _clients.sort((a, b) => compareByNaturalOrder(a.id, b.id));
 ---
 
 <LogoCloudHelper>
-  {clients.map((client) => <ClientLogo {client} />)}
+  {sortedClients.map((client) => <ClientLogo {client} />)}
 </LogoCloudHelper>
