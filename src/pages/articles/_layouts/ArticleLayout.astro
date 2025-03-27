@@ -37,7 +37,7 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
     description,
     difficulty,
     excerpt,
-    heroImage,
+    // heroImage,
     publishedDate,
     repositoryUrl,
     title,
@@ -72,7 +72,7 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
     dateModified: updatedDate,
     datePublished: publishedDate,
     headline: title,
-    image: heroImage?.image.src,
+    // image: heroImage?.image.src,
   }),
   ArticleMatchSchema = z.object({
     all_matches: z.array(
@@ -120,9 +120,6 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
   }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}
-  image={heroImage
-    ? { alt: heroImage.alt, src: heroImage.image.src }
-    : undefined}
   {structuredData}
   {title}
   type="article"

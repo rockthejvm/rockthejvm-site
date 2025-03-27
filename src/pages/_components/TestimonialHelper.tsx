@@ -3,8 +3,8 @@ import type React from "react";
 
 interface Props {
   children: React.ReactNode;
-  companyLogo: React.ReactNode;
-  photo: React.ReactNode;
+  companyLogo?: JSX.Element; // Not actually optional; passed in as named slot
+  photo?: JSX.Element; // Not actually optional; passed in as named slot
   testimonial: Omit<CollectionEntry<"testimonials">, "data"> & {
     data: Omit<CollectionEntry<"testimonials">["data"], "company"> & {
       company: Omit<

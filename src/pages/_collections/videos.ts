@@ -4,7 +4,7 @@ import { YOUTUBE_API_KEY } from "astro:env/server";
 const params = {
   part: "snippet",
   channelId: "UCRS4DvO9X7qaqVYUW2_dwOw",
-  maxResults: 6,
+  maxResults: "6",
   order: "date",
   type: "video",
 };
