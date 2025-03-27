@@ -1,3 +1,4 @@
+import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -39,6 +40,8 @@ export default defineConfig({
   build: {
     format: "file",
   },
+  output: "static",
+  adapter: cloudflare(),
   integrations: [
     buildStart(),
     icon({

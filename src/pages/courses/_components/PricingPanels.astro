@@ -50,7 +50,7 @@ const {
     <span
       class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
     >
-      <CoursePrice {pricingPlanId} />
+      <CoursePrice {pricingPlanId} server:defer />
     </span>
     <p class="mt-6 text-base leading-7 text-content">
       {isCourse ? "Just the course" : `All of the courses in this bundle`} with a
@@ -104,7 +104,10 @@ const {
         </h3>
         <div class="mt-4 flex items-baseline gap-x-2">
           <span class="text-5xl font-bold tracking-tight text-content">
-            <CoursePrice pricingPlanId={monthlyMembership.pricingPlanId} />
+            <CoursePrice
+              pricingPlanId={monthlyMembership.pricingPlanId}
+              server:defer
+            />
           </span>
           <span class="text-base text-content">/monthly</span>
         </div>
