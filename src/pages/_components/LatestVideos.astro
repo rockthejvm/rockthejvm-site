@@ -16,7 +16,7 @@ const _videos = await getCollection("videos"),
     class="card-shadow card-shadow-color overflow-hidden rounded-3xl bg-secondary"
   >
     <div class="max-h-40 w-full max-w-7xl overflow-hidden">
-      <a href={site.socials.youtube.url}>
+      <a href={site.socials.youtube.url} target="_blank" rel="noreferrer">
         <MyPicture
           src={Photo}
           alt="videos thumbnail"
@@ -29,6 +29,8 @@ const _videos = await getCollection("videos"),
       <div class="mx-auto">
         <a
           href={site.socials.youtube.url}
+          target="_blank"
+          rel="noreferrer"
           class="no-underline hover:no-underline"
         >
           <h3
@@ -46,6 +48,8 @@ const _videos = await getCollection("videos"),
                     <h4 class="article-home-link mx-auto my-1 px-4 py-2.5 text-center text-lg font-normal leading-6 text-content no-underline group-hover:text-content-2">
                       <a
                         href={url}
+                        target="_blank"
+                        rel="noreferrer"
                         class="text-content no-underline hover:no-underline group-hover:text-content-2"
                       >
                         <span class="absolute inset-0" />
