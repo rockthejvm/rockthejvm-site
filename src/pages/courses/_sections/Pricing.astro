@@ -6,17 +6,15 @@ import FeaturedBundles from "../_components/FeaturedBundles.astro";
 import MoneyBackGuarantee from "../_components/MoneyBackGuarantee.astro";
 import PricingPanels from "../_components/PricingPanels.astro";
 
-type CourseFrontmatter = CollectionEntry<"courses">["data"];
-
 interface Props {
-  benefits: CourseFrontmatter["benefits"];
+  benefits: CollectionEntry<"courses">["data"]["benefits"];
   bundledCourses: CollectionEntry<"courses">[];
   courseId: CollectionEntry<"courses">["id"];
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  includedInMembership: CourseFrontmatter["includedInMembership"];
+  includedInMembership: CollectionEntry<"courses">["data"]["includedInMembership"];
   isCourse: boolean;
-  pricingPlanId: CourseFrontmatter["pricingPlanId"];
-  title: CourseFrontmatter["title"];
+  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
+  title: CollectionEntry<"courses">["data"]["title"];
 }
 
 const {

@@ -1,0 +1,35 @@
+---
+import { numberToPrice } from "@/utils/numberToPrice";
+
+interface Props {
+  pricingPlanId: number;
+}
+
+const { pricingPlanId } = Astro.props,
+  options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      apiKey: "AO9L9Gs9spfFPXuOT7B9lpozCOXi9Qfv",
+    },
+  },
+  responseData = await fetch(
+    `https://developers.teachable.com/v1/pricing_plans/${pricingPlanId}`,
+    options,
+  )
+    .then((res) => res.json())
+    .then((res) => console.log(res))
+    .catch((err) => console.error(err));
+
+console.log(responseData);
+// const { pricing_plan_id } = Astro.props as Props,
+//   pricing_plan = await teachable.showPricingPlans({
+//     pricing_plan_id,
+//   }),
+//   { price: cents } = pricing_plan.data.pricing_plan;
+// price = `$${(cents / 100).toFixed(2)}`;
+---
+
+<Fragment>
+  ${numberToPrice(50.28235)}
+</Fragment>

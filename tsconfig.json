@@ -10,7 +10,7 @@
     "exactOptionalPropertyTypes": false
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "functions/**/*"],
+  "exclude": ["dist"],
   "mdx": {
     "checkMdx": true
   }

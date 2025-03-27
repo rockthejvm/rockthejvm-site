@@ -1,7 +1,7 @@
 ---
 import PurchaseLink from "@/components/PurchaseLink";
 import type { CollectionEntry } from "astro:content";
-import CoursePrice from "../_components/CoursePrice";
+import CoursePrice from "./CoursePrice.astro";
 
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
@@ -50,7 +50,7 @@ const {
     <span
       class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
     >
-      <CoursePrice {pricingPlanId} client:visible={{ rootMargin: "2160px" }} />
+      <CoursePrice {pricingPlanId} />
     </span>
     <p class="mt-6 text-base leading-7 text-content">
       {isCourse ? "Just the course" : `All of the courses in this bundle`} with a
@@ -104,10 +104,7 @@ const {
         </h3>
         <div class="mt-4 flex items-baseline gap-x-2">
           <span class="text-5xl font-bold tracking-tight text-content">
-            <CoursePrice
-              pricingPlanId={monthlyMembership.pricingPlanId}
-              client:visible={{ rootMargin: "2160px" }}
-            />
+            <CoursePrice pricingPlanId={monthlyMembership.pricingPlanId} />
           </span>
           <span class="text-base text-content">/monthly</span>
         </div>
