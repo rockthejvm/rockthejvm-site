@@ -3,19 +3,11 @@ import RockTheJVM from "@/components/icons/RockTheJVM.astro";
 import site from "@/data/site.json";
 import HeroAnnotation from "./HeroAnnotation.astro";
 
-interface Props {
-  title?: string;
-  subtitle1?: string;
-  subtitle2?: string;
-  annotation?: string;
-}
-
-const {
-  annotation,
-  title = site.name.toUpperCase(),
-  subtitle1 = "The zero-to-master online courses and hands-on training for Scala, Kotlin, Apache Spark, Apache Flink, ZIO, Akka/Apache Pekko and more.",
-  subtitle2 = "No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king.",
-} = Astro.props;
+const title = site.name.toUpperCase(),
+  subtitle1 =
+    "The zero-to-master online courses and hands-on training for Scala, Kotlin, Apache Spark, Apache Flink, ZIO, Akka/Apache Pekko and more.",
+  subtitle2 =
+    "No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king.";
 ---
 
 <header>
@@ -24,7 +16,7 @@ const {
       <div
         class="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20"
       >
-        {annotation ?? <HeroAnnotation />}
+        <HeroAnnotation />
       </div>
     </div>
     <div class="flex">
