@@ -4,13 +4,21 @@ import { getTeachablePricingPlan } from "@/utils/teachable";
 
 interface Props {
   pricingPlanId: number;
+  recurring?: "nonrecurring" | "monthly" | "yearly";
 }
 
-const { pricingPlanId } = Astro.props,
+const { pricingPlanId, recurring = "nonrecurring" } = Astro.props,
   { currency, price: cents } = await getTeachablePricingPlan(pricingPlanId),
   price = centsToPrice(cents, currency);
 ---
 
-<Fragment>
+<span
+  class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+>
   {price}
-</Fragment>
+</span>
+{
+  recurring !== "nonrecurring" && (
+    <span class="text-base text-content">/{recurring}</span>
+  )
+}

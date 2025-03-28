@@ -47,11 +47,14 @@ const {
     <h3 id="tier-hobby" class="text-base font-semibold leading-7 text-accent-1">
       {title} - Lifetime License
     </h3>
-    <span
-      class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
-    >
-      <CoursePrice {pricingPlanId} server:defer />
-    </span>
+    <CoursePrice {pricingPlanId} server:defer>
+      <div
+        class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+        slot="fallback"
+      >
+        Loading...
+      </div>
+    </CoursePrice>
     <p class="mt-6 text-base leading-7 text-content">
       {isCourse ? "Just the course" : `All of the courses in this bundle`} with a
       one-time payment
@@ -103,13 +106,18 @@ const {
           All-Access Membership
         </h3>
         <div class="mt-4 flex items-baseline gap-x-2">
-          <span class="text-5xl font-bold tracking-tight text-content">
-            <CoursePrice
-              pricingPlanId={monthlyMembership.pricingPlanId}
-              server:defer
-            />
-          </span>
-          <span class="text-base text-content">/monthly</span>
+          <CoursePrice
+            pricingPlanId={monthlyMembership.pricingPlanId}
+            recurring="monthly"
+            server:defer
+          >
+            <div
+              class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+              slot="fallback"
+            >
+              Loading...
+            </div>
+          </CoursePrice>
         </div>
         <p class="mt-6 text-base leading-7 text-content">
           All of the Rock the JVM courses
