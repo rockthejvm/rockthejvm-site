@@ -2,7 +2,7 @@
 import HolidayLayout from "@/layouts/HolidayLayout/HolidayLayout.astro";
 import type { HolidayCategory } from "@/layouts/HolidayLayout/_types/holidayCategory.ts";
 import { getCollection } from "astro:content";
-import { _courses } from "./_data/courses.ts";
+import { _courses } from "./_data/courses.js";
 import BundleImage from "./_images/black-friday-bundle.png";
 
 const __courses = await getCollection("courses"),
