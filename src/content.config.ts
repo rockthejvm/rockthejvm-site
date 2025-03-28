@@ -20,6 +20,7 @@ export const collections = {
   authors,
   companies,
   courseCategories,
+  // courseLecturesss,
   courses,
   difficulties,
   memberships,
