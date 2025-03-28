@@ -92,6 +92,10 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkDirective, astroStarlightRemarkAsides],
     rehypePlugins: [sectionize],
+    syntaxHighlight: {
+      type: "shiki",
+      excludeLangs: ["mermaid", "math"],
+    },
     shikiConfig: {
       themes: {
         light: "github-light-default",
