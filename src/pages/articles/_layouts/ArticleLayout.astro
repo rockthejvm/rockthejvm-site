@@ -83,6 +83,8 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
       }),
     ),
   }),
+  // _matchedArticlesResponse = await fetch("/api/v1/matchedArticles.json"),
+  // matchedArticles = await _matchedArticlesResponse.json(),
   _matchedArticlesResult = ArticleMatchSchema.safeParse(matchedArticles);
 
 if (!_matchedArticlesResult.success) {
