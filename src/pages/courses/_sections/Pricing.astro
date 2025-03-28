@@ -46,8 +46,9 @@ const {
   membershipLinesOfCode = _courses
     .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
     .reduce((b, a) => b + a, 0),
-  categories = (await getCollection("courseCategories")).filter(
-    ({ id }) => id !== "bundle",
+  categories = await getCollection(
+    "courseCategories",
+    ({ data: { id } }) => id !== "bundle",
   ),
   featuredBundles = _courses.filter((course) =>
     course.data.bundledCourses?.some(({ id }) => id === courseId),
