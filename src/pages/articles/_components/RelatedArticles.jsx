@@ -8,11 +8,11 @@ import {
 
 export default function CarouselSpacing(props) {
   const articleSlots = [
-    props.firstArticle,
-    props.secondArticle,
-    props.thirdArticle,
-    props.fourthArticle,
-    props.fifthArticle,
+    { article: props.firstArticle, key: "firstArticle" },
+    { article: props.secondArticle, key: "secondArticle" },
+    { article: props.thirdArticle, key: "thirdArticle" },
+    { article: props.fourthArticle, key: "fourthArticle" },
+    { article: props.fifthArticle, key: "fifthArticle" },
   ];
 
   return (
@@ -20,9 +20,9 @@ export default function CarouselSpacing(props) {
       <h2 className="mx-auto text-center">Related Articles</h2>
       <Carousel className="mx-auto w-full max-w-full p-4">
         <CarouselContent className="-ml-1 p-4">
-          {articleSlots.map((article, index) => (
+          {articleSlots.map(({ article, key }) => (
             <CarouselItem
-              key={article.id}
+              key={key}
               className="h-auto pl-4 md:basis-1/2 lg:basis-1/3"
             >
               {article}
