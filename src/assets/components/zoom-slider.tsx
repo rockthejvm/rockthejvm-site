@@ -12,7 +12,7 @@ import { cn } from "@/assets/lib/utils";
 const ZoomSlider = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLProps<HTMLDivElement>, "children">
->(({ className, ...props }) => {
+>(({ className, ...props }, ref) => {
   const { zoom } = useViewport(),
     { zoomTo, zoomIn, zoomOut, fitView } = useReactFlow(),
     { minZoom, maxZoom } = useStore(
