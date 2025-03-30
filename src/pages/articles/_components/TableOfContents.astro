@@ -33,7 +33,7 @@ const { headings, hideButtons, repositoryUrl, videoId } = Astro.props,
             </a>
           )}
           {repositoryUrl && (
-            <a href={repositoryUrl}>
+            <a href={repositoryUrl} target="_blank" rel="noreferrer">
               <span class="inline-flex items-center gap-x-1.5 rounded-full bg-secondary px-2 py-1 text-sm font-medium text-content-1">
                 <Icon
                   name="fa6-brands:github"
