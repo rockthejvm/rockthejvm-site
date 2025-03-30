@@ -7,6 +7,7 @@ type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
 interface Props {
   categories: CollectionEntry<"courseCategories">[];
+  currency: string;
   hours: number;
   linesOfCode: number;
   includedInMembership: CourseFrontmatter["includedInMembership"];
@@ -16,12 +17,15 @@ interface Props {
   monthlyMembership: {
     pricingPlanId: number;
   };
+  monthlyPriceInCents: number;
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
+  priceInCents: number;
   title: CourseFrontmatter["title"];
 }
 
 const {
     categories,
+    currency,
     hours,
     linesOfCode,
     includedInMembership,
@@ -29,7 +33,9 @@ const {
     membershipHours,
     membershipLinesOfCode,
     monthlyMembership,
+    monthlyPriceInCents,
     pricingPlanId,
+    priceInCents,
     title,
   } = Astro.props,
   // remove this when including the RoP courses in the membership
@@ -47,7 +53,7 @@ const {
     <h3 id="tier-hobby" class="text-base font-semibold leading-7 text-accent-1">
       {title} - Lifetime License
     </h3>
-    <CoursePrice {pricingPlanId} server:defer>
+    <CoursePrice {currency} {priceInCents} server:defer>
       <div
         class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
         slot="fallback"
@@ -107,7 +113,8 @@ const {
         </h3>
         <div class="mt-4 flex items-baseline gap-x-2">
           <CoursePrice
-            pricingPlanId={monthlyMembership.pricingPlanId}
+            priceInCents={monthlyPriceInCents}
+            {currency}
             recurring="monthly"
             server:defer
           >

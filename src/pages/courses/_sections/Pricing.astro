@@ -1,5 +1,6 @@
 ---
 import Section from "@/components/Section.astro";
+import { getTeachablePricingPlan } from "@/utils/teachable";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import FeaturedBundles from "../_components/FeaturedBundles.astro";
@@ -11,8 +12,10 @@ interface Props {
   bundledCourses: CollectionEntry<"courses">[];
   courseId: CollectionEntry<"courses">["id"];
   color: CollectionEntry<"courseCategories">["data"]["color"];
+  currency: string;
   includedInMembership: CollectionEntry<"courses">["data"]["includedInMembership"];
   isCourse: boolean;
+  priceInCents: number;
   pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
   title: CollectionEntry<"courses">["data"]["title"];
 }
@@ -22,13 +25,18 @@ const {
     bundledCourses,
     color,
     courseId,
+    currency,
     includedInMembership,
     isCourse,
+    priceInCents,
     pricingPlanId,
     title,
   } = Astro.props,
   _personalMembership = await getEntry("memberships", "personal")!,
   monthlyMembership = _personalMembership.data.packages[0],
+  { price: monthlyPriceInCents } = await getTeachablePricingPlan(
+    monthlyMembership.pricingPlanId,
+  ),
   hours = isCourse
     ? benefits!.hours
     : bundledCourses
@@ -60,6 +68,7 @@ const {
     <div class="mx-auto max-w-2xl text-center lg:max-w-4xl"></div>
     <PricingPanels
       {categories}
+      {currency}
       {hours}
       {linesOfCode}
       {includedInMembership}
@@ -67,6 +76,8 @@ const {
       {membershipHours}
       {membershipLinesOfCode}
       {monthlyMembership}
+      {monthlyPriceInCents}
+      {priceInCents}
       {pricingPlanId}
       {title}
     />

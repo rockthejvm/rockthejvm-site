@@ -3,6 +3,7 @@ import Profile from "@/components/Profile.astro";
 import site from "@/data/site.json";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import type { ReactFlowEdge, ReactFlowNode } from "@/types/ReactFlow";
+import { getTeachablePricingPlan } from "@/utils/teachable";
 import {
   type CollectionEntry,
   getCollection,
@@ -81,10 +82,8 @@ const course = await getEntry(
   instructors = await getEntries(_instructors),
   isCourse = benefits !== undefined,
   isBundle = benefits === undefined,
-  response = await fetch(
-    `https://rockthejvm.com/api/purchase/${pricingPlanId.toFixed(0)}`,
-  ),
-  { price } = (await response.json()) as Response;
+  { currency, price: priceInCents } =
+    await getTeachablePricingPlan(pricingPlanId);
 
 const difficultyLevelToEducationalLevel = (level: number) => {
   switch (level) {
@@ -153,8 +152,8 @@ const _prerequisitess = await getCollection("prerequisites"),
         : {
             "@type": "Offer",
             category: "Paid",
-            priceCurrency: "USD",
-            price: price / 100,
+            priceCurrency: currency,
+            price: priceInCents / 100,
           },
     ],
     hasCourseInstance: [
@@ -318,6 +317,8 @@ const _prerequisitess = await getCollection("prerequisites"),
       color={categoryColor}
       courseId={course.id}
       {pricingPlanId}
+      {priceInCents}
+      {currency}
       {title}
     />
     <CourseFAQ
