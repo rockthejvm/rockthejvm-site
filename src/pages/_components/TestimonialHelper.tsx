@@ -25,7 +25,7 @@ export default ({
     data: { company, location, name, profile },
   },
 }: Props) => (
-  <article className="relative isolate overflow-hidden py-8 text-content sm:py-12">
+  <article className="relative isolate overflow-hidden pb-8 text-content sm:pb-16">
     <div className="mx-auto text-content">
       {companyLogo}
       <figure className="mt-8">

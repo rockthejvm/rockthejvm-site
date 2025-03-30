@@ -1,4 +1,5 @@
 ---
+import Section from "@/components/Section.astro";
 import { getCollection } from "astro:content";
 import Testimonial from "./Testimonial.astro";
 
@@ -8,7 +9,6 @@ const _testimonials = await getCollection("testimonials"),
   );
 ---
 
-<section class="mx-auto mb-8 max-w-4xl text-content md:mb-16">
-  <h2 class="mb-12 text-center text-content">Testimonials</h2>
+<Section title="Testimonials" color="bg-none">
   {sortedTestimonials.map((testimonial) => <Testimonial {testimonial} />)}
-</section>
+</Section>

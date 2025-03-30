@@ -14,7 +14,7 @@ interface Props {
 const { color, gradientFlipped = false, gradientOption, title } = Astro.props;
 ---
 
-<section>
+<section class="py-8">
   {
     title && (
       <header class="mx-auto" style={`background: ${color}`}>
@@ -25,7 +25,7 @@ const { color, gradientFlipped = false, gradientOption, title } = Astro.props;
     )
   }
   <div
-    class="relative mx-auto w-full overflow-y-hidden overflow-x-visible px-2 py-16 sm:px-8"
+    class="relative mx-auto w-full overflow-y-hidden overflow-x-visible px-2 sm:px-8"
   >
     {gradientOption && <GradientSelect {gradientOption} {gradientFlipped} />}
     <div class="z-10 mx-auto max-w-7xl">

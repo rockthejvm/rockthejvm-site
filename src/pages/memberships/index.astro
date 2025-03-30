@@ -1,6 +1,7 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
 import PurchaseLink from "@/components/PurchaseLink";
+import Section from "@/components/Section.astro";
 import MembershipImage from "@/images/logos/personal.png";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import { getEntry } from "astro:content";
@@ -17,7 +18,7 @@ const _personalMembership = await getEntry("memberships", "personal")!,
   title="The Rock the JVM Membership"
 >
   <article>
-    <section class="py-8 md:py-16">
+    <Section>
       <div class="">
         <div class="relative isolate">
           <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -56,7 +57,7 @@ const _personalMembership = await getEntry("memberships", "personal")!,
           </div>
         </div>
       </div>
-    </section>
+    </Section>
 
     <Description>
       <p>
