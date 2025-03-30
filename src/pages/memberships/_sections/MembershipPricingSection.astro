@@ -3,6 +3,8 @@ import MyPicture from "@/components/MyPicture.astro";
 import Section from "@/components/Section.astro";
 import PersonalImage from "@/images/logos/personal.png";
 import TeamImage from "@/images/logos/team.png";
+import CoursePrice from "@/pages/courses/_components/CoursePrice.astro";
+import { getTeachablePricingPlan } from "@/utils/teachable";
 import { getCollection, getEntry } from "astro:content";
 import MembershipPricingSectionHelper from "./MembershipPricingSectionHelper";
 
@@ -14,32 +16,116 @@ const _personalMembership = await getEntry("memberships", "personal")!,
     .reduce((b, a) => b + a, 0),
   membershipLinesOfCode = (await getCollection("courses"))
     .map(({ data: { benefits } }) => benefits?.linesOfCode ?? 0)
-    .reduce((b, a) => b + a, 0);
+    .reduce((b, a) => b + a, 0),
+  membershipTypes = [
+    { value: "Monthly", label: "Monthly", priceSuffix: "/month" },
+    { value: "Yearly", label: "Yearly", priceSuffix: "/year" },
+  ],
+  monthlyPriceInformation = await getTeachablePricingPlan(
+    monthlyMembership.pricingPlanId,
+  ),
+  yearlyPriceInformation = await getTeachablePricingPlan(
+    yearlyMembership.pricingPlanId,
+  );
 ---
 
 <Section color="bg-secondary" title="Get started now!">
-  <MembershipPricingSectionHelper
-    {monthlyMembership}
-    {yearlyMembership}
-    {membershipHours}
-    {membershipLinesOfCode}
-    client:visible={{ rootMargin: "2160px" }}
-  >
-    <Fragment slot="personalImage">
-      <MyPicture
-        src={PersonalImage}
-        alt="Personal"
-        quality="mid"
-        class="mx-auto mb-2 w-[225px]"
-      />
-    </Fragment>
-    <Fragment slot="teamImage">
-      <MyPicture
-        src={TeamImage}
-        alt="Team"
-        quality="mid"
-        class="mx-auto mb-2 w-[225px]"
-      />
-    </Fragment>
-  </MembershipPricingSectionHelper>
+  <div class="relative isolate px-6 py-1 sm:py-2 lg:px-8">
+    <div
+      class={"isolate mx-auto mt-8 grid max-w-md grid-cols-1 gap-16 lg:mx-0 lg:max-w-none lg:grid-cols-2"}
+    >
+      <div
+        class="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10"
+      >
+        <div class="mx-auto max-w-2xl text-center lg:max-w-4xl">
+          <MyPicture
+            src={PersonalImage}
+            alt="Personal"
+            quality="mid"
+            class="mx-auto mb-2 w-[225px]"
+          />
+          <MembershipPricingSectionHelper
+            {monthlyMembership}
+            {yearlyMembership}
+            {membershipHours}
+            {membershipLinesOfCode}
+            client:visible={{ rootMargin: "2160px" }}
+          >
+            <CoursePrice
+              currency={monthlyPriceInformation.currency}
+              priceInCents={monthlyPriceInformation.price}
+              server:defer
+              slot="monthlyPrice"
+            >
+              <div
+                class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+                slot="fallback"
+              >
+                Loading...
+              </div>
+            </CoursePrice>
+            <CoursePrice
+              currency={yearlyPriceInformation.currency}
+              priceInCents={yearlyPriceInformation.price}
+              server:defer
+              slot="yearlyPrice"
+            >
+              <div
+                class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+                slot="fallback"
+              >
+                Loading...
+              </div>
+            </CoursePrice>
+          </MembershipPricingSectionHelper>
+        </div>
+      </div>
+      <div>
+        <div
+          class="card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 xl:p-10"
+        >
+          <MyPicture
+            src={TeamImage}
+            alt="Team"
+            quality="mid"
+            class="mx-auto mb-2 w-[225px]"
+          />
+          <h3 class="text-5xl font-bold tracking-tight text-content">
+            Team Pack
+          </h3>
+          <p class="mt-6 text-base leading-7 text-content">
+            A single yearly membership for a team.
+          </p>
+          <p class="mt-6 text-base leading-7 text-content">
+            Easier bookkeeping for your company.
+          </p>
+          <p class="mt-6 text-base leading-7 text-content">
+            This single purchase gives you access to everything on the site for
+            your team.{" "}
+            <a href="/contact">
+              Send their names and emails to me and I will enroll your team
+              instantly.
+            </a>
+          </p>
+          <p class="mt-8 text-sm text-content-1">
+            This is a subscription product billed on a yearly basis until you
+            cancel. Cancel anytime from the account management page.
+          </p>
+          <a
+            href="/contact"
+            aria-describedby="tier-hobby"
+            class="mt-8 block rounded-full px-4 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+          >
+            Contact Me
+          </a>
+          <small class="mt-16 text-sm text-content-1">
+            <i class="mt-8">
+              This is a subscription product billed on a yearly basis until you
+              cancel. Cancel anytime from the account management page.
+            </i>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
 </Section>
