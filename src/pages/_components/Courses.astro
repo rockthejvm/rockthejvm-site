@@ -27,9 +27,9 @@ const _categories = await getCollection("courseCategories"),
               <Fragment>
                 <CoursesHelper {category} client:visible>
                   <Fragment slot="entries">
-                    {categories.map(({ data: { members } }) =>
-                      members.map((course) => <CourseEntry {course} />),
-                    )}
+                    {category.data.members.map((course) => (
+                      <CourseEntry {course} />
+                    ))}
                   </Fragment>
                   <Fragment slot="categoryImage">
                     <MyPicture
