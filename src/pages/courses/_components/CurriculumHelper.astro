@@ -1,6 +1,7 @@
 ---
 import durationToMinutes from "@/utils/durationToMinutes";
 import { z } from "astro/zod";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
