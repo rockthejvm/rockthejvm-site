@@ -6,7 +6,7 @@ This repository contains the front pages of the Rock the JVM website, including 
 
 ## Setup
 
-This repository is built on [Astro](https://astro.build/) with JavaScript/TypeScript. It requires an NPM installation on your machine. Here's how to run it locally:
+This repository is built on [Astro](https://astro.build/) with JavaScript/TypeScript. It requires an NPM installation and for [Git LFS](https://git-lfs.com/) to be enabled on your machine. Here's how to run it locally:
 
 - clone the repository
 - `npm install` just once, which will download the appropriate JS/TS packages
