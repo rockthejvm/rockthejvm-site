@@ -5,6 +5,7 @@ import type {
   InferGetStaticPropsType,
 } from "astro";
 import { getCollection, render } from "astro:content";
+import { TEACHABLE_API_KEY } from "astro:env/server";
 
 export const getStaticPaths = (async () => {
   const courses = await getCollection("courses");
@@ -22,4 +23,4 @@ const { course } = Astro.props,
   { Content } = await render(course);
 ---
 
-<Content />
+{TEACHABLE_API_KEY ? <Content /> : <h1>NO API KEY</h1>}

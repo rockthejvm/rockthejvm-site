@@ -110,10 +110,12 @@ export default defineConfig({
       TEACHABLE_API_KEY: envField.string({
         access: "secret",
         context: "server",
+        optional: true,
       }),
       YOUTUBE_API_KEY: envField.string({
         access: "secret",
         context: "server",
+        optional: true,
       }),
     },
   },

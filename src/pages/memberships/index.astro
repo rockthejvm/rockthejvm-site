@@ -5,6 +5,7 @@ import Section from "@/components/Section.astro";
 import MembershipImage from "@/images/logos/personal.png";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import { getEntry } from "astro:content";
+import { TEACHABLE_API_KEY } from "astro:env/server";
 import Courses from "./_sections/Courses.astro";
 import Description from "./_sections/Description.astro";
 import MembershipPricingSection from "./_sections/MembershipPricingSection.astro";
@@ -13,82 +14,83 @@ const _personalMembership = await getEntry("memberships", "personal")!,
   { pricingPlanId } = _personalMembership.data.packages[0];
 ---
 
-<BaseLayout
-  description="All of the Rock the JVM premium content, at your service."
-  title="The Rock the JVM Membership"
->
-  <article>
-    <Section>
-      <div class="">
-        <div class="relative isolate">
-          <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div
-              class="mx-auto flex max-w-xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
-            >
-              <MyPicture
-                src={MembershipImage}
-                alt="Personal membership"
-                class="w-full flex-none rounded-2xl"
-                quality="mid"
-                slot="image"
-              />
-              <div class="w-full flex-auto">
-                <h1
-                  class="text-3xl font-bold tracking-tight text-content sm:text-4xl"
-                >
-                  The Rock the JVM Membership
-                </h1>
-                <p class="mt-6 text-lg leading-8 text-content">
-                  All of the Rock the JVM premium content, at your service.
-                </p>
-                <div
-                  class="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
-                >
-                  <PurchaseLink
-                    {pricingPlanId}
-                    className="rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                    client:visible={{ rootMargin: "2160px" }}
-                  >
-                    Enroll
-                  </PurchaseLink>
+{
+  TEACHABLE_API_KEY ? (
+    <BaseLayout
+      description="All of the Rock the JVM premium content, at your service."
+      title="The Rock the JVM Membership"
+    >
+      <article>
+        <Section>
+          <div class="">
+            <div class="relative isolate">
+              <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="mx-auto flex max-w-xl flex-col gap-16 px-6 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20">
+                  <MyPicture
+                    src={MembershipImage}
+                    alt="Personal membership"
+                    class="w-full flex-none rounded-2xl"
+                    quality="mid"
+                    slot="image"
+                  />
+                  <div class="w-full flex-auto">
+                    <h1 class="text-3xl font-bold tracking-tight text-content sm:text-4xl">
+                      The Rock the JVM Membership
+                    </h1>
+                    <p class="mt-6 text-lg leading-8 text-content">
+                      All of the Rock the JVM premium content, at your service.
+                    </p>
+                    <div class="mt-10 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start">
+                      <PurchaseLink
+                        {pricingPlanId}
+                        className="rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        client:visible={{ rootMargin: "2160px" }}
+                      >
+                        Enroll
+                      </PurchaseLink>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </Section>
+        </Section>
 
-    <Description>
-      <p>
-        No need for me to say anything that I haven't said already. You have <strong
-          >everything there is to know</strong
-        > about Scala, functional programming with Cats/Cats Effect or ZIO, big data
-        with Spark, distributed computing with Akka, streaming with Flink. You'll
-        have access to a giant catalog for slow & easy or for binge learning, and
-        you have:
-      </p>
-      <ul class="">
-        <li>more than 230 hours of HD content (as of July 2022)</li>
-        <li>25000+ lines of code, all written live and working</li>
-        <li>500+ examples</li>
-        <li>400+ exercises</li>
-        <li>
-          Forever access to the Rock the JVM private community (even if you
-          cancel)
-        </li>
-        <li>250+ cheat sheets and takeaway slides</li>
-      </ul>
-      <p>
-        Check out the individual courses below. They are all self-contained, and
-        I guide you every step of the way, from noob to master. <strong
-          >I promise that you will learn in this series more life-long skills
-          than many engineers learn in their entire careers.</strong
-        >
-      </p>
-    </Description>
+        <Description>
+          <p>
+            No need for me to say anything that I haven't said already. You have{" "}
+            <strong>everything there is to know</strong> about Scala, functional
+            programming with Cats/Cats Effect or ZIO, big data with Spark,
+            distributed computing with Akka, streaming with Flink. You'll have
+            access to a giant catalog for slow & easy or for binge learning, and
+            you have:
+          </p>
+          <ul class="">
+            <li>more than 230 hours of HD content (as of July 2022)</li>
+            <li>25000+ lines of code, all written live and working</li>
+            <li>500+ examples</li>
+            <li>400+ exercises</li>
+            <li>
+              Forever access to the Rock the JVM private community (even if you
+              cancel)
+            </li>
+            <li>250+ cheat sheets and takeaway slides</li>
+          </ul>
+          <p>
+            Check out the individual courses below. They are all self-contained,
+            and I guide you every step of the way, from noob to master.{" "}
+            <strong>
+              I promise that you will learn in this series more life-long skills
+              than many engineers learn in their entire careers.
+            </strong>
+          </p>
+        </Description>
 
-    <Courses />
-    <MembershipPricingSection />
-  </article>
-</BaseLayout>
+        <Courses />
+        <MembershipPricingSection />
+      </article>
+    </BaseLayout>
+  ) : (
+    <h1>NO API KEY</h1>
+  )
+}

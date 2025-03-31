@@ -13,10 +13,13 @@ const YoutubeVideoSchema = z.object({
   YoutubeDataSchema = z.object({
     items: z.array(YoutubeVideoSchema),
   }),
-  youtubeHandler = youtube({
-    version: "v3",
-    auth: YOUTUBE_API_KEY,
-  }),
+  youtubeHandler =
+    YOUTUBE_API_KEY !== undefined
+      ? youtube({
+          version: "v3",
+          auth: YOUTUBE_API_KEY,
+        })
+      : null,
   params = {
     part: "snippet",
     channelId: "UCRS4DvO9X7qaqVYUW2_dwOw",
@@ -27,6 +30,10 @@ const YoutubeVideoSchema = z.object({
 
 export default defineCollection({
   loader: async () => {
+    if (youtubeHandler === null) {
+      return [];
+    }
+
     const { data } = await youtubeHandler.search.list(params),
       { items } = YoutubeDataSchema.parse(data);
     return items.map(({ id: { videoId }, snippet: { title } }) => ({
