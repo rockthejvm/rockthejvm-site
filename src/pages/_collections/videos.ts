@@ -21,11 +21,11 @@ const YoutubeVideoSchema = z.object({
         })
       : null,
   params = {
-    part: "snippet",
+    part: ["snippet"],
     channelId: "UCRS4DvO9X7qaqVYUW2_dwOw",
-    maxResults: "6",
+    maxResults: 6,
     order: "date",
-    type: "video",
+    type: ["video"],
   };
 
 export default defineCollection({
