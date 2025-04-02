@@ -69,7 +69,7 @@ function Legend({ open }) {
   };
 
   return (
-    <div className="mt-24 w-36 rounded-md bg-secondary p-2">
+    <div className="mt-24 w-36 rounded-md p-2">
       <details open={open} onClick={handleClick}>
         <summary className="cursor-pointer list-none px-4 text-content-1 sm:px-6">
           <div className="flex flex-row items-center justify-start">
@@ -141,11 +141,11 @@ function LayoutFlow({ initialNodes, initialEdges }) {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       // fitView
-      style={{ backgroundColor: "#F7F9FB" }}
+      className="bg-bkg"
     >
-      <Panel position="top-right" className="pr-16">
+      <Panel position="top-right" className="bg-secondary pr-16">
         <ZoomSlider />
-        <Legend open={false} />
+        <Legend open={true} />
       </Panel>
       <Background />
     </ReactFlow>
