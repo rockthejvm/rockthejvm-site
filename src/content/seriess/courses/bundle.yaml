@@ -1,7 +1,0 @@
-description: All of Rock the JVM's bundles in one place.
-members:
-  - the-scala-bundle
-  - the-kotlin-bundle
-  - the-apache-spark-bundle-with-scala
-  - the-akka-apache-pekko-bundle-with-scala
-title: Bundles

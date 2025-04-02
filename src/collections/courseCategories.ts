@@ -1,11 +1,17 @@
-import { defineCollection, z } from "astro:content";
+import { file } from "astro/loaders";
+import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
-  type: "data",
+  loader: file("src/data/courseCategories.yaml"),
   schema: ({ image }) =>
     z
       .object({
+        id: z.string(),
         color: z.string(),
+        description: z.string().optional(),
+        members: z
+          .array(reference("courses"))
+          .min(1, "At least 1 member is required for a series"),
         faqs: z
           .array(
             z
@@ -16,9 +22,8 @@ export default defineCollection({
               .strict(),
           )
           .optional(),
-        name: z.string(),
-        ordinal: z.number().int().positive(),
         logo: image(),
+        name: z.string(),
       })
       .strict(),
 });

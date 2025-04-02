@@ -1,0 +1,34 @@
+---
+import getReadingTime from "@/utils/getReadingTime";
+import type {
+  GetStaticPaths,
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+} from "astro";
+import { getCollection, render } from "astro:content";
+import ArticleLayout from "./_layouts/ArticleLayout.astro";
+
+export const getStaticPaths = (async () => {
+  const allArticles = await getCollection("articles");
+
+  return allArticles.map((article) => ({
+    params: { id: article.id },
+    props: { article, allArticles },
+  }));
+}) satisfies GetStaticPaths;
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { article, allArticles } = Astro.props,
+  { Content, headings } = await render(article);
+---
+
+<ArticleLayout
+  {article}
+  {allArticles}
+  {headings}
+  minutesRead={getReadingTime(article.body!)}
+>
+  <Content />
+</ArticleLayout>

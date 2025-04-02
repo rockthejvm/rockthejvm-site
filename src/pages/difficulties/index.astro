@@ -1,15 +1,11 @@
 ---
-import ArticleDifficulties from "@components/ArticleDifficulties.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import ArticleDifficulties from "./_components/ArticleDifficulties.astro";
 
-const difficulties = await getCollection("difficulties").then((difficulties) =>
-  difficulties
-    .sort((a, b) => (a.data.ordinal <= b.data.ordinal ? -1 : 1))
-    .map(({ id }) => id),
-);
+const difficulties = await getCollection("difficulties");
 ---
 
-<BaseLayout title="Difficulty index" description="The difficulty index">
+<BaseLayout title="Difficulties" description="The difficulty index">
   <ArticleDifficulties {difficulties} />
 </BaseLayout>

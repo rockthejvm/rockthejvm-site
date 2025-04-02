@@ -1,6 +1,6 @@
 ---
-import Prose from "@components/Prose.astro";
-import Section from "@components/Section.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -11,7 +11,7 @@ const { color } = Astro.props;
 ---
 
 <Section title="Goal" {color}>
-  <Prose class="mx-auto max-w-3xl">
+  <Prose class="mx-auto max-w-3xl py-16">
     <slot />
   </Prose>
 </Section>

@@ -1,0 +1,33 @@
+---
+import ArticlesThumbnail from "@/assets/images/latest/articles.png";
+import MyPicture from "@/components/MyPicture.astro";
+import { getCollection } from "astro:content";
+import LatestCard from "./LatestCard.astro";
+
+interface Props {
+  size: number;
+}
+
+const { size } = Astro.props,
+  _articles = await getCollection("articles"),
+  latestArticles = _articles
+    .sort((a, b) => (a.data.publishedDate > b.data.publishedDate ? -1 : 1))
+    .slice(0, size)
+    .map((article) => ({
+      url: `/articles/${article.id}`,
+      title: article.data.title,
+    }));
+---
+
+<LatestCard contents={latestArticles} link="/articles/1" type="Articles">
+  <a href={`/articles`} slot="thumbnail">
+    <div class="max-h-40 w-full overflow-hidden">
+      <MyPicture
+        src={ArticlesThumbnail}
+        alt="articles thumbnail"
+        quality="mid"
+        class="object-cover object-center"
+      />
+    </div>
+  </a>
+</LatestCard>

@@ -1,0 +1,22 @@
+---
+import MyPicture from "@/components/MyPicture.astro";
+import type { CollectionEntry } from "astro:content";
+import AuthorSmallHelper from "./AuthorSmallHelper";
+
+interface Props {
+  author: CollectionEntry<"authors">;
+}
+const { author } = Astro.props;
+---
+
+<AuthorSmallHelper authorName={author.data.name} authorId={author.id}>
+  <MyPicture
+    src={author.data.photo}
+    alt={author.data.name}
+    class="mx-auto size-20 rounded-full shadow-lg"
+    loading="eager"
+    quality="low"
+    slot="photo"
+  />
+  <slot slot="time" />
+</AuthorSmallHelper>

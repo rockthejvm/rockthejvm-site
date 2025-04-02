@@ -1,27 +1,27 @@
 ---
-import ArticleSeries from "@components/ArticleSeries.astro";
-import MyYouTube from "@components/MyYouTube.astro";
-import Prose from "@components/Prose.astro";
-import RelatedArticles from "@components/RelatedArticles";
-import SocialShare from "@components/SocialShare.astro";
-import TagList from "@components/TagList.astro";
-import matchedArticles from "@data/matchedArticles.json";
-import site from "@data/site.json";
-import capitalizeFirstChar from "@utils/capitalizeFirstChar";
-import formatDate from "@utils/formatDate";
+import ArticlePreview from "@/components/ArticlePreview.astro";
+import ArticleSeries from "@/components/ArticleSeries.astro";
+import AuthorWide from "@/components/AuthorWide.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import MyYouTube from "@/components/MyYouTube.astro";
+import Prose from "@/components/Prose.astro";
+import SocialShare from "@/components/SocialShare.astro";
+import TagList from "@/components/TagList.astro";
+import NarrowContainer from "@/containers/NarrowContainer";
+import matchedArticles from "@/data/matchedArticles.json";
+import site from "@/data/site.json";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import capitalizeFirstChar from "@/utils/capitalizeFirstChar";
+import formatDate from "@/utils/formatDate";
 import type { MarkdownHeading } from "astro";
 import "astro-starlight-remark-asides/styles.css";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
-import AuthorWide from "../../../components/AuthorWide.astro";
-import Byline from "../../../components/Byline.astro";
-import FormattedDate from "../../../components/FormattedDate.astro";
-import TableOfContents from "../../../components/TableOfContents.astro";
-import NarrowContainer from "../../../containers/NarrowContainer";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ArticlePreview from "../_components/ArticlePreview.astro";
+import Byline from "../_components/Byline.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import NewsletterSection from "../_components/NewsletterSection.astro";
+import RelatedArticles from "../_components/RelatedArticles";
+import TableOfContents from "../_components/TableOfContents.astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
@@ -37,7 +37,7 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
     description,
     difficulty,
     excerpt,
-    heroImage,
+    // heroImage,
     publishedDate,
     repositoryUrl,
     title,
@@ -45,11 +45,14 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
     videoId,
   } = _frontmatter,
   date = updatedDate ?? publishedDate,
-  category = await getEntry("articleCategories", article.data.category.id),
+  category = await getEntry(
+    _frontmatter.category.collection,
+    _frontmatter.category.id,
+  )!,
   author = await getEntry(
     _frontmatter.author.collection,
     _frontmatter.author.id,
-  ),
+  )!,
   tags = await getEntries(_frontmatter.tags),
   structuredData = JSON.stringify({
     "@context": "https://schema.org",
@@ -69,7 +72,7 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
     dateModified: updatedDate,
     datePublished: publishedDate,
     headline: title,
-    image: heroImage?.image.src,
+    // image: heroImage?.image.src,
   }),
   ArticleMatchSchema = z.object({
     all_matches: z.array(
@@ -80,23 +83,23 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
       }),
     ),
   }),
-  matchedArticlesDataResult = ArticleMatchSchema.safeParse(matchedArticles);
+  // _matchedArticlesResponse = await fetch("/api/v1/matchedArticles.json"),
+  // matchedArticles = await _matchedArticlesResponse.json(),
+  _matchedArticlesResult = ArticleMatchSchema.safeParse(matchedArticles);
 
-if (!matchedArticlesDataResult.success) {
+if (!_matchedArticlesResult.success) {
   throw new Error("Failed to parse matched articles data");
 }
 
-const matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
-    matchedArticlesDataResult.data,
-  matches = matchedArticlesData.all_matches.filter(
-    (match) => match.source_slug === article.slug,
+const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
+    _matchedArticlesResult.data,
+  _matches = _matchedArticlesData.all_matches.filter(
+    (match) => match.source_slug === article.id,
+  ),
+  _sortedMatches = [..._matches].sort((a, b) => b.similarity - a.similarity),
+  relatedArticles = _sortedMatches.map((match) =>
+    allArticles.find((article) => article.id === match.matched_slug),
   );
-
-matches.sort((a, b) => b.similarity - a.similarity);
-
-const relatedArticles = matches.map((match) =>
-  allArticles.find((article) => article.slug === match.matched_slug),
-);
 ---
 
 <BaseLayout
@@ -119,9 +122,6 @@ const relatedArticles = matches.map((match) =>
   }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}
-  image={heroImage
-    ? { alt: heroImage.alt, src: heroImage.image.src }
-    : undefined}
   {structuredData}
   {title}
   type="article"
@@ -186,12 +186,6 @@ const relatedArticles = matches.map((match) =>
           <ArticleSeries {article} label="This article is part of a series" />
         </div>
         {videoId && <MyYouTube id={videoId} />}
-        <!-- <div class="lg:hidden fixed bottom-4 right-4">
-          <a class="flex flex-col align-center justify-center content-center" href="#toc">
-            <div class="mx-auto"><CaretUp /></div>
-          <TOC />
-        </a>
-        </div> -->
       </header>
       <div class="xl:flex xl:flex-row">
         <Prose class="my-4 prose-h2:mt-2">
@@ -216,7 +210,6 @@ const relatedArticles = matches.map((match) =>
         </div>
         <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
-
         {
           relatedArticles.length > 0 && (
             <RelatedArticles length={relatedArticles.length} client:load>

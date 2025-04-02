@@ -1,7 +1,22 @@
+import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
+const username = (field: string) =>
+    z
+      .string()
+      .regex(
+        /^(?!https?:\/\/)/,
+        `${field} should not be a URL, but rather a username`,
+      )
+      .optional(),
+  handle = (field: string) =>
+    z
+      .string()
+      .regex(/^@/, `${field} should start with the '@' symbol`)
+      .optional();
+
 export default defineCollection({
-  type: "data",
+  loader: glob({ pattern: "**/*.yaml", base: "src/data/authors" }),
   schema: ({ image }) =>
     z
       .object({
@@ -45,17 +60,3 @@ export default defineCollection({
       })
       .strict(),
 });
-
-const username = (field: string) =>
-    z
-      .string()
-      .regex(
-        /^(?!https?:\/\/)/,
-        `${field} should not be a URL, but rather a username`,
-      )
-      .optional(),
-  handle = (field: string) =>
-    z
-      .string()
-      .regex(/^@/, `${field} should start with the '@' symbol`)
-      .optional();

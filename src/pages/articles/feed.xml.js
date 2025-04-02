@@ -1,6 +1,6 @@
+import site from "@/data/site.json";
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
-import site from "../../data/site.json";
 
 export async function GET(context) {
   const articles = await getCollection("articles");
@@ -9,7 +9,7 @@ export async function GET(context) {
     description: site.description,
     items: articles.map((article) => ({
       description: article.data.excerpt,
-      link: `/articles/${article.slug}/`,
+      link: `/articles/${article.id}/`,
       pubDate: article.data.publishedDate.toISOString(),
       title: article.data.title,
     })),

@@ -1,0 +1,8 @@
+- id: guide
+  name: Guide
+- id: explanation
+  name: Explanation
+- id: opinion
+  name: Opinion
+- id: retrospective
+  name: Retrospective

@@ -1,11 +1,13 @@
+import { file } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
 export default defineCollection({
-  type: "data",
+  loader: file("src/data/difficulties.yaml"),
   schema: z
     .object({
+      id: z.string(),
       name: z.string(),
-      ordinal: z.number().int().positive(),
+      level: z.number().int().positive(),
     })
     .strict(),
 });

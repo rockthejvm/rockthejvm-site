@@ -1,0 +1,21 @@
+---
+import Dark from "./_components/Dark.astro";
+import Light from "./_components/Light.astro";
+import System from "./_components/System.astro";
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<button
+  {id}
+  type="button"
+  class="mx-1 size-8 rounded-full p-1 text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+>
+  <System />
+  <Light />
+  <Dark />
+</button>

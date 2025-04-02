@@ -1,0 +1,81 @@
+---
+import site from "@/data/site.json";
+import "@/styles/base.css";
+import "@/styles/fonts.css";
+import type { CollectionEntry } from "astro:content";
+import CookieBanner from "./_components/CookieBanner";
+import Head from "./_components/Head/Head.astro";
+import AffiliateScript from "./_scripts/AffiliateScript.astro";
+import Footer from "./_sections/Footer/Footer.astro";
+import Header from "./_sections/Header/Header.astro";
+
+interface Props {
+  article?: {
+    author: {
+      name: string;
+      twitter?: string;
+    };
+    category: CollectionEntry<"articleCategories">["id"];
+    minutesRead: number;
+    photo: CollectionEntry<"authors">["data"]["photo"];
+    publishedTime: Date;
+    section: string;
+    tags: string[];
+    updatedTime?: Date;
+    video?: URL;
+  };
+  canonicalUrl?: URL;
+  forcedTheme?: string;
+  description: string;
+  image?: {
+    alt: string;
+    src: string;
+  };
+  isHomePage?: boolean;
+  structuredData?: string;
+  title: string;
+  type?: string;
+  error?: boolean;
+  searchIndexable?: boolean;
+}
+
+const {
+  article,
+  canonicalUrl = new URL(Astro.url.pathname.replace(/\.html$/, ""), Astro.site),
+  searchIndexable = false,
+  forcedTheme,
+  description,
+  error = false,
+  image = site.logo,
+  isHomePage = false,
+  structuredData,
+  title,
+  type = "website",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <Head
+    {article}
+    {canonicalUrl}
+    {forcedTheme}
+    {description}
+    {error}
+    {image}
+    {structuredData}
+    {title}
+    {type}
+  />
+  <body
+    class={`${isHomePage ? "body-gradient" : ""} min-h-screen ${forcedTheme ? "bg-holiday-bkg" : "bg-bkg"}`}
+  >
+    <Header showThemeToggle={!forcedTheme} />
+    <main {...searchIndexable ? { "data-pagefind-body": true } : {}}>
+      <slot />
+      <CookieBanner client:load />
+    </main>
+    <Footer holiday={Boolean(forcedTheme)} />
+  </body>
+</html>
+<AffiliateScript />

@@ -1,0 +1,50 @@
+---
+import MyPicture from "@/components/MyPicture.astro";
+import { getCollection, getEntries } from "astro:content";
+import CourseEntry from "./CourseEntry.astro";
+import CoursesHelper from "./CoursesHelper";
+
+const _categories = await getCollection("courseCategories"),
+  categories = await Promise.all(
+    _categories.map(async (category) => ({
+      ...category,
+      data: {
+        ...category.data,
+        members: await getEntries(category.data.members),
+      },
+    })),
+  );
+---
+
+<section class="mb-8 md:mb-16">
+  <h2 class="mb-12 text-center text-content">Available Courses</h2>
+  <div class="">
+    <div class="mx-auto max-w-7xl px-6 pb-12 sm:pb-16 lg:px-8 lg:pb-24">
+      <div class="mx-auto max-w-6xl divide-y divide-gray-900/10">
+        <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
+          {
+            categories.map((category) => (
+              <Fragment>
+                <CoursesHelper {category} client:visible>
+                  <Fragment slot="entries">
+                    {category.data.members.map((course) => (
+                      <CourseEntry {course} />
+                    ))}
+                  </Fragment>
+                  <Fragment slot="categoryImage">
+                    <MyPicture
+                      class="my-auto w-full"
+                      src={category.data.logo}
+                      alt={category.data.name}
+                      quality="low"
+                    />
+                  </Fragment>
+                </CoursesHelper>
+              </Fragment>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

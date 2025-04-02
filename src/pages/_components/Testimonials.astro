@@ -1,0 +1,14 @@
+---
+import Section from "@/components/Section.astro";
+import { getCollection } from "astro:content";
+import Testimonial from "./Testimonial.astro";
+
+const _testimonials = await getCollection("testimonials"),
+  sortedTestimonials = [..._testimonials].sort(
+    (a, b) => a.data.ordinal - b.data.ordinal,
+  );
+---
+
+<Section additionalClasses="py-8" title="Testimonials" color="bg-none">
+  {sortedTestimonials.map((testimonial) => <Testimonial {testimonial} />)}
+</Section>

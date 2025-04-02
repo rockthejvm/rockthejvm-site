@@ -1,22 +1,22 @@
+import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 export default defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.mdx", base: "src/data/courses" }),
   schema: ({ image }) =>
     z
       .object({
-        includedInMembership: z.boolean().default(true),
         archived: z.boolean().default(false),
-        bundledCourses: z
-          .array(reference("courses"))
-          .min(2, "At least 2 courses are required for a bundle")
-          .optional(),
         benefits: z
           .object({
             hours: z.number().positive(),
             linesOfCode: z.number().int().positive(),
           })
           .strict()
+          .optional(),
+        bundledCourses: z
+          .array(reference("courses"))
+          .min(2, "At least 2 courses are required for a bundle")
           .optional(),
         category: reference("courseCategories"),
         collaborators: z
@@ -42,7 +42,7 @@ export default defineCollection({
           .string()
           .min(20, "Description must be at least 20 characters")
           .max(500, "Description must be at most 500 characters"), // Recommended is 240 characters
-        difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+        difficulty: reference("difficulties").optional(),
         excerpt: z
           .string()
           .refine(
@@ -74,7 +74,11 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        hasGoal: z.boolean().default(true),
+        hasSkills: z.boolean().default(true),
         heroImage: image(),
+        includedInMembership: z.boolean().default(true),
+        instructorEnabled: z.boolean().default(true),
         // .refine(
         //   (image) => (image.width / image.height) === (16 / 9),
         //   {
@@ -92,7 +96,7 @@ export default defineCollection({
           .min(1, "At least 1 instructor is required")
           .default(["daniel-ciocirlan"]),
         isFree: z.boolean().default(false),
-        pricingPlanId: z.number().int().positive(),
+        pricingPlanId: z.number().int().nonnegative(),
         publishedDate: z.date().optional(),
         question: z
           .object({
@@ -135,9 +139,6 @@ export default defineCollection({
         repositoryUrl: z.string().optional(),
         updatedDate: z.date().optional(),
         videoId: z.string().optional(),
-        hasGoal: z.boolean().default(true),
-        hasSkills: z.boolean().default(true),
-        instructorEnabled: z.boolean().default(true),
       })
       .strict()
       .refine(

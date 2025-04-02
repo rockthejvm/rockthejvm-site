@@ -1,0 +1,18 @@
+---
+import LatestArticles from "./LatestArticles.astro";
+import LatestVideos from "./LatestVideos.astro";
+
+const size = 6;
+---
+
+<section>
+  <div class="mx-auto mb-8 min-h-screen md:mb-16">
+    <h2 class="mb-12 text-center text-content">Latest Content</h2>
+    <div
+      class="mx-4 flex max-w-7xl flex-col gap-y-10 sm:mx-8 md:mx-12 lg:mx-auto lg:grid lg:grid-cols-2 lg:gap-x-10"
+    >
+      <LatestArticles {size} />
+      <LatestVideos {size} />
+    </div>
+  </div>
+</section>
