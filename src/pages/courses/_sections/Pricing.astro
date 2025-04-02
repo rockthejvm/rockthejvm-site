@@ -34,7 +34,7 @@ const {
   } = Astro.props,
   _personalMembership = await getEntry("memberships", "personal")!,
   monthlyMembership = _personalMembership.data.packages[0],
-  { price: monthlyPriceInCents } = await getTeachablePricingPlan(
+  monthlyPricingPlan = await getTeachablePricingPlan(
     monthlyMembership.pricingPlanId,
   ),
   hours = isCourse
@@ -66,21 +66,27 @@ const {
 <Section {color} gradientOption={1} gradientFlipped={false} title="Enroll now!">
   <div class="relative isolate w-full px-2 py-1 sm:px-6 sm:py-2 lg:px-8">
     <div class="mx-auto max-w-2xl text-center lg:max-w-4xl"></div>
-    <PricingPanels
-      {categories}
-      {currency}
-      {hours}
-      {linesOfCode}
-      {includedInMembership}
-      {isCourse}
-      {membershipHours}
-      {membershipLinesOfCode}
-      {monthlyMembership}
-      {monthlyPriceInCents}
-      {priceInCents}
-      {pricingPlanId}
-      {title}
-    />
+    {
+      monthlyPricingPlan !== null ? (
+        <PricingPanels
+          {categories}
+          {currency}
+          {hours}
+          {linesOfCode}
+          {includedInMembership}
+          {isCourse}
+          {membershipHours}
+          {membershipLinesOfCode}
+          {monthlyMembership}
+          monthlyPriceInCents={monthlyPricingPlan!.price}
+          {priceInCents}
+          {pricingPlanId}
+          {title}
+        />
+      ) : (
+        <p>MISSING TEACHABLE_API_KEY</p>
+      )
+    }
     <FeaturedBundles {featuredBundles} />
     <MoneyBackGuarantee />
   </div>

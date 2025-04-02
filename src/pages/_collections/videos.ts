@@ -31,7 +31,12 @@ const YoutubeVideoSchema = z.object({
 export default defineCollection({
   loader: async () => {
     if (youtubeHandler === null) {
-      return [];
+      return [
+        {
+          id: "dummy",
+          title: "MISSING YOUTUBE_API_KEY",
+        },
+      ];
     }
 
     const { data } = await youtubeHandler.search.list(params),

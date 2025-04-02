@@ -5,7 +5,6 @@ import Section from "@/components/Section.astro";
 import MembershipImage from "@/images/logos/personal.png";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import { getEntry } from "astro:content";
-import { TEACHABLE_API_KEY } from "astro:env/server";
 import Courses from "./_sections/Courses.astro";
 import Description from "./_sections/Description.astro";
 import MembershipPricingSection from "./_sections/MembershipPricingSection.astro";
@@ -15,7 +14,7 @@ const _personalMembership = await getEntry("memberships", "personal")!,
 ---
 
 {
-  TEACHABLE_API_KEY ? (
+  (
     <BaseLayout
       description="All of the Rock the JVM premium content, at your service."
       title="The Rock the JVM Membership"
@@ -90,7 +89,5 @@ const _personalMembership = await getEntry("memberships", "personal")!,
         <MembershipPricingSection />
       </article>
     </BaseLayout>
-  ) : (
-    <h1>NO API KEY</h1>
   )
 }

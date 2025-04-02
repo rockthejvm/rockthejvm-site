@@ -51,32 +51,44 @@ const _personalMembership = await getEntry("memberships", "personal")!,
             {membershipLinesOfCode}
             client:visible={{ rootMargin: "2160px" }}
           >
-            <CoursePrice
-              currency={monthlyPriceInformation.currency}
-              priceInCents={monthlyPriceInformation.price}
-              server:defer
-              slot="monthlyPrice"
-            >
-              <div
-                class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
-                slot="fallback"
-              >
-                Loading...
-              </div>
-            </CoursePrice>
-            <CoursePrice
-              currency={yearlyPriceInformation.currency}
-              priceInCents={yearlyPriceInformation.price}
-              server:defer
-              slot="yearlyPrice"
-            >
-              <div
-                class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
-                slot="fallback"
-              >
-                Loading...
-              </div>
-            </CoursePrice>
+            {
+              monthlyPriceInformation !== null ? (
+                <CoursePrice
+                  currency={monthlyPriceInformation!.currency}
+                  priceInCents={monthlyPriceInformation!.price}
+                  server:defer
+                  slot="monthlyPrice"
+                >
+                  <div
+                    class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+                    slot="fallback"
+                  >
+                    Loading...
+                  </div>
+                </CoursePrice>
+              ) : (
+                <p>MISSING TEACHABLE_API_KEY</p>
+              )
+            }
+            {
+              yearlyPriceInformation !== null ? (
+                <CoursePrice
+                  currency={yearlyPriceInformation!.currency}
+                  priceInCents={yearlyPriceInformation!.price}
+                  server:defer
+                  slot="yearlyPrice"
+                >
+                  <div
+                    class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+                    slot="fallback"
+                  >
+                    Loading...
+                  </div>
+                </CoursePrice>
+              ) : (
+                <p>MISSING TEACHABLE_API_KEY</p>
+              )
+            }
           </MembershipPricingSectionHelper>
         </div>
       </div>

@@ -82,8 +82,7 @@ const course = await getEntry(
   instructors = await getEntries(_instructors),
   isCourse = benefits !== undefined,
   isBundle = benefits === undefined,
-  { currency, price: priceInCents } =
-    await getTeachablePricingPlan(pricingPlanId);
+  pricingPlan = await getTeachablePricingPlan(pricingPlanId);
 
 const difficultyLevelToEducationalLevel = (level: number) => {
   switch (level) {
@@ -152,8 +151,8 @@ const _prerequisitess = await getCollection("prerequisites"),
         : {
             "@type": "Offer",
             category: "Paid",
-            priceCurrency: currency,
-            price: priceInCents / 100,
+            priceCurrency: pricingPlan?.currency,
+            price: pricingPlan !== null ? pricingPlan.price / 100 : 0,
           },
     ],
     hasCourseInstance: [
@@ -309,18 +308,22 @@ const _prerequisitess = await getCollection("prerequisites"),
         />
       )
     }
-    <Pricing
-      {includedInMembership}
-      {isCourse}
-      {benefits}
-      {bundledCourses}
-      color={categoryColor}
-      courseId={course.id}
-      {pricingPlanId}
-      {priceInCents}
-      {currency}
-      {title}
-    />
+    {
+      pricingPlan !== null && (
+        <Pricing
+          {includedInMembership}
+          {isCourse}
+          {benefits}
+          {bundledCourses}
+          color={categoryColor}
+          courseId={course.id}
+          {pricingPlanId}
+          priceInCents={pricingPlan.price}
+          currency={pricingPlan.currency}
+          {title}
+        />
+      )
+    }
     <CourseFAQ
       {categoryFaqs}
       courseFaqs={faqs}

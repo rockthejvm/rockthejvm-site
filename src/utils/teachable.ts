@@ -10,6 +10,10 @@ export const TeachablePricingPlanSchema = z.object({
 });
 
 export const getTeachablePricingPlan = async (pricingPlanId: number) => {
+  if (TEACHABLE_API_KEY === undefined) {
+    return null;
+  }
+
   const options = {
       method: "GET",
       headers: {
@@ -25,37 +29,4 @@ export const getTeachablePricingPlan = async (pricingPlanId: number) => {
     { pricing_plan } = TeachablePricingPlanSchema.parse(responseData);
 
   return pricing_plan;
-};
-
-const TeachableLectureSchema = z.object({
-  id: z.number().int().nonnegative(),
-  position: z.number().int().nonnegative(),
-  is_published: z.boolean(),
-});
-
-export const TeachableCourseSchema = z.object({
-  course: z.object({
-    lecture_sections: z.array(
-      z.object({
-        lectures: z.array(TeachableLectureSchema),
-      }),
-    ),
-  }),
-});
-
-export const getTeachableCourse = async (courseId: number) => {
-  const options = {
-      method: "GET",
-      headers: { accept: "application/json", apiKey: TEACHABLE_API_KEY },
-    },
-    response = await fetch(
-      `https://developers.teachable.com/v1/courses/${courseId}`,
-      options,
-    ),
-    responseData = await response.json(),
-    {
-      course: { lecture_sections },
-    } = TeachableCourseSchema.parse(responseData);
-
-  return lecture_sections;
 };
