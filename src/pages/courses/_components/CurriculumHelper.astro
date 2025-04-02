@@ -31,7 +31,7 @@ const { color, courseId, pricingPlanId } = Astro.props,
   lectureSections = ResponseSchema.parse(responseData);
 ---
 
-<div class="my-8 h-[65vh] overflow-y-auto">
+<div class="my-16 h-[65vh] overflow-y-auto">
   {
     lectureSections.map((lectureSection) => (
       <div class="mx-auto max-w-5xl">
