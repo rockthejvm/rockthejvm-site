@@ -9,6 +9,6 @@ const _testimonials = await getCollection("testimonials"),
   );
 ---
 
-<Section title="Testimonials" color="bg-none">
+<Section additionalClasses="py-8" title="Testimonials" color="bg-none">
   {sortedTestimonials.map((testimonial) => <Testimonial {testimonial} />)}
 </Section>

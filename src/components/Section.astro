@@ -5,16 +5,23 @@ import H2 from "@/components/H2.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
+  additionalClasses?: string;
   color: CollectionEntry<"courseCategories">["data"]["color"];
   gradientFlipped?: boolean;
   gradientOption?: GradientOption;
   title?: string;
 }
 
-const { color, gradientFlipped = false, gradientOption, title } = Astro.props;
+const {
+  additionalClasses,
+  color,
+  gradientFlipped = false,
+  gradientOption,
+  title,
+} = Astro.props;
 ---
 
-<section class="py-8">
+<section class:list={["", additionalClasses]}>
   {
     title && (
       <header class="mx-auto" style={`background: ${color}`}>
