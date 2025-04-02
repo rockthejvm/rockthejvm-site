@@ -1,0 +1,57 @@
+---
+interface Props {
+  link: string;
+  contents: {
+    url: string;
+    title: string;
+  }[];
+  type: string;
+}
+
+const { contents, link, type } = Astro.props;
+---
+
+<div class="w-full rounded-3xl lg:col-span-1">
+  <div
+    class="card-shadow card-shadow-color w-full overflow-hidden rounded-3xl bg-secondary"
+  >
+    <slot name="thumbnail" />
+    <div class="mx-auto mb-4 w-full">
+      <div class="mx-auto w-full">
+        <a href={link} class="no-underline hover:no-underline">
+          <h3
+            class="my-4 text-center text-3xl font-bold tracking-tight text-content hover:text-accent-2 sm:text-4xl"
+          >
+            Latest {type}
+          </h3>
+        </a>
+        <div class="w-full py-4 sm:py-4">
+          {
+            contents.map(async ({ title, url }) => (
+              <article class="w-full hover:bg-primary hover:text-content-2">
+                <ul class="group relative mx-auto flex w-full items-center justify-center px-8">
+                  <a
+                    href={url}
+                    class="block w-full text-content no-underline hover:text-content-2 hover:no-underline"
+                    title={title}
+                  >
+                    <li class="article-home-link text-md mx-auto my-1 flex items-center justify-center py-2 leading-5 no-underline hover:text-content-2">
+                      <p class="w-full overflow-hidden text-ellipsis text-nowrap text-center">
+                        {title}
+                      </p>
+                    </li>
+                  </a>
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  article:hover h3 {
+    color: white !important;
+  }
+</style>

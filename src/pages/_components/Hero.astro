@@ -1,0 +1,43 @@
+---
+import RockTheJVM from "@/components/icons/RockTheJVM.astro";
+import site from "@/data/site.json";
+import HeroAnnotation from "./HeroAnnotation.astro";
+
+const title = site.name.toUpperCase(),
+  subtitle1 =
+    "The zero-to-master online courses and hands-on training for Scala, Kotlin, Apache Spark, Apache Flink, ZIO, Akka/Apache Pekko and more.",
+  subtitle2 =
+    "No more mindless browsing, obscure blog posts and blurry videos. Save yourself the time and frustration and follow a smooth learning curve where code is king.";
+---
+
+<header>
+  <div class="min-h-[92vh] pb-40 pt-20">
+    <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+      <div
+        class="relative rounded-full px-3 py-1 text-sm leading-6 text-content-1 ring-1 ring-content-2/10 hover:ring-content-2/20"
+      >
+        <HeroAnnotation />
+      </div>
+    </div>
+    <div class="flex">
+      <div class="mx-8 my-auto md:mx-24 md:flex">
+        <div class="mb-4 shrink-0 sm:mb-0 sm:mr-4">
+          <RockTheJVM class="h-48 w-full md:h-64" slot="logo" />
+        </div>
+        <div>
+          <h1
+            class="my-6 text-5xl font-extrabold text-content sm:text-6xl md:text-7xl"
+          >
+            {title}
+          </h1>
+          <p class="mb-5 text-content">
+            {subtitle1}
+          </p>
+          <p class="mb-5 text-content">
+            {subtitle2}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

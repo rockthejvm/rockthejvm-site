@@ -11,6 +11,7 @@ interface Props {
   height?: number;
   quality: ImageQuality;
   searchImage?: boolean;
+  attrs?: Record<string, unknown>;
 }
 
 const {
@@ -21,21 +22,21 @@ const {
     width,
     height,
     quality,
-    searchImage,
+    searchImage = false,
+    ...attrs
   } = Astro.props,
   defaultFormats = ["webp", src.format];
 ---
 
 <Picture
   {alt}
-  class:list={["", additionalClasses]}
-  formats={src.format === "gif"
-    ? [...defaultFormats]
-    : ["avif", ...defaultFormats]}
+  class:list={[additionalClasses]}
+  formats={(src.format === "gif" ? [] : ["avif"]).concat(defaultFormats)}
   {loading}
   {src}
   {width}
   {height}
   {quality}
-  {...searchImage ? { "data-pagefind-meta": "image[src], image_alt[alt]" } : {}}
+  {...searchImage && { "data-pagefind-meta": "image[src], image_alt[alt]" }}
+  {...attrs}
 />

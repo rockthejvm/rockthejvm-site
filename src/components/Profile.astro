@@ -1,6 +1,6 @@
 ---
+import Feature from "@/pages/courses/_components/Feature.astro";
 import { type CollectionEntry, getEntry } from "astro:content";
-import Feature from "../pages/courses/_components/Feature.astro";
 import Section from "./Section.astro";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const { color, collaborators, thanks } = Astro.props,
-  author = await getEntry("authors", "daniel-ciocirlan");
+  author = await getEntry("authors", "daniel-ciocirlan")!;
 ---
 
 <Section {color} title="Meet Rock the JVM">

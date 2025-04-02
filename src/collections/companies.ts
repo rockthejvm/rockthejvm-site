@@ -1,11 +1,12 @@
+import { file } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
 export default defineCollection({
-  type: "data",
+  loader: file("src/data/companies.yaml"),
   schema: z
     .object({
-      slug: z.string(),
-      title: z.string(),
+      id: z.string(),
+      name: z.string(),
       website: z.string().url(),
     })
     .strict(),

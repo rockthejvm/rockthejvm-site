@@ -1,6 +1,6 @@
 ---
+import MyPicture from "@/components/MyPicture.astro";
 import type { CollectionEntry } from "astro:content";
-import MyPicture from "./MyPicture.astro";
 
 // const articles = await getCollection("articles");
 // const latestArticles = articles
@@ -17,7 +17,7 @@ const { course } = Astro.props;
 <div class="card-shadow card-shadow-color h-full max-w-sm rounded-xl">
   <div class="relative size-full overflow-hidden rounded-xl bg-secondary">
     <a
-      href={`/courses/${course.slug}`}
+      href={`/courses/${course.id}`}
       class="h-full max-w-sm hover:no-underline"
     >
       <div class="max-h-52 w-full overflow-hidden">
@@ -32,7 +32,7 @@ const { course } = Astro.props;
     <div class="mx-auto mb-4 w-full">
       <div class="mx-auto px-4">
         <a
-          href={`/courses/${course.slug}`}
+          href={`/courses/${course.id}`}
           class="h-full max-w-sm hover:no-underline"
         >
           <h3

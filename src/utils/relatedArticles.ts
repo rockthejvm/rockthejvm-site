@@ -54,7 +54,7 @@ function buildArticleJson() {
 export async function addEmbeddedArticles() {
   console.log("Vectorizing articles...");
 
-  const directory = "./src/content/articles";
+  const directory = "src/content/articles";
 
   readDirectory(directory, null);
   buildArticleJson();

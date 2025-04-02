@@ -1,20 +1,27 @@
 ---
-import type { GradientOption } from "@components/GradientSelect.astro";
-import GradientSelect from "@components/GradientSelect.astro";
+import type { GradientOption } from "@/components/GradientSelect.astro";
+import GradientSelect from "@/components/GradientSelect.astro";
+import H2 from "@/components/H2.astro";
 import type { CollectionEntry } from "astro:content";
-import H2 from "./H2.astro";
 
 interface Props {
+  additionalClasses?: string;
   color: CollectionEntry<"courseCategories">["data"]["color"];
   gradientFlipped?: boolean;
   gradientOption?: GradientOption;
   title?: string;
 }
 
-const { color, gradientFlipped = false, gradientOption, title } = Astro.props;
+const {
+  additionalClasses,
+  color,
+  gradientFlipped = false,
+  gradientOption,
+  title,
+} = Astro.props;
 ---
 
-<section>
+<section class:list={["", additionalClasses]}>
   {
     title && (
       <header class="mx-auto" style={`background: ${color}`}>
@@ -25,7 +32,7 @@ const { color, gradientFlipped = false, gradientOption, title } = Astro.props;
     )
   }
   <div
-    class="relative mx-auto w-full overflow-y-hidden overflow-x-visible px-2 py-16 sm:px-8"
+    class="relative mx-auto w-full overflow-y-hidden overflow-x-visible px-2 sm:px-8"
   >
     {gradientOption && <GradientSelect {gradientOption} {gradientFlipped} />}
     <div class="z-10 mx-auto max-w-7xl">

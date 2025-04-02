@@ -1,0 +1,34 @@
+---
+import VideosThumbnail from "@/assets/images/latest/videos.png";
+import MyPicture from "@/components/MyPicture.astro";
+import site from "@/data/site.json";
+import { getCollection } from "astro:content";
+import LatestCard from "./LatestCard.astro";
+interface Props {
+  size: number;
+}
+
+const { size } = Astro.props,
+  _videos = await getCollection("videos"),
+  latestVideos = _videos.slice(0, size).map(({ data: { id, title } }) => ({
+    title,
+    url: `https://m.youtube.com/watch?v=${id}`,
+  }));
+---
+
+<LatestCard
+  contents={latestVideos}
+  link={site.socials.youtube.url}
+  type="Videos"
+>
+  <a href={`/videos`} slot="thumbnail">
+    <div class="max-h-40 w-full overflow-hidden">
+      <MyPicture
+        src={VideosThumbnail}
+        alt="videos thumbnail"
+        quality="mid"
+        class="-translate-y-[15%] object-cover object-center"
+      />
+    </div>
+  </a>
+</LatestCard>

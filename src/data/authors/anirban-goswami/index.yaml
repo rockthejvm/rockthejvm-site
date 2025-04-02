@@ -1,0 +1,12 @@
+biography: Data Freak, Scala Geek!
+company:
+  entity: apple
+  role: Data Engineer
+location:
+  city: Cupertino
+  country: California
+name: Anirban Goswami
+photo: ./photo.jpeg
+socials:
+  github: anigos
+  linkedin: anirban-goswami-5a724559

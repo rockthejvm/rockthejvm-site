@@ -1,0 +1,43 @@
+---
+import MyPicture from "@/components/MyPicture.astro";
+import { Icon } from "astro-icon/components";
+import { type CollectionEntry, getEntry, render } from "astro:content";
+import TestimonialHelper from "./TestimonialHelper";
+
+interface Props {
+  testimonial: CollectionEntry<"testimonials">;
+}
+
+const { testimonial: _testimonial } = Astro.props,
+  { Content } = await render(_testimonial),
+  testimonial = {
+    ..._testimonial,
+    data: {
+      ..._testimonial.data,
+      company: {
+        ..._testimonial.data.company,
+        entity: (await getEntry(_testimonial.data.company.entity)).data,
+      },
+    },
+  },
+  { company, name, photo, profile } = testimonial.data;
+---
+
+<TestimonialHelper {testimonial}>
+  <Content />
+  <MyPicture
+    src={photo}
+    alt={name}
+    quality="low"
+    class="mx-auto size-20 rounded-full shadow-lg"
+    slot="photo"
+  />
+  <Icon
+    name=`companies/${company.entity.id}`
+    title={company.entity.name}
+    width={158}
+    height={48}
+    class="mx-auto h-12"
+    slot="companyLogo"
+  />
+</TestimonialHelper>

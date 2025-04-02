@@ -1,15 +1,19 @@
 ---
-import capitalizeFirstChar from "@utils/capitalizeFirstChar";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  difficultyId: string;
+  difficulty: CollectionEntry<"difficulties">;
 }
-const { difficultyId } = Astro.props;
+const {
+  difficulty: {
+    data: { id, name },
+  },
+} = Astro.props;
 ---
 
 <a
-  href={`/difficulties/${difficultyId}`}
+  href={`/difficulties/${id}`}
   class="left-0 top-0 z-10 rounded-full text-center font-medium"
 >
-  {capitalizeFirstChar(difficultyId)}
+  {name}
 </a>

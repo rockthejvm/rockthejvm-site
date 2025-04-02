@@ -1,30 +1,22 @@
 ---
-import CourseCardVertical from "@components/CourseCardVertical.astro";
-import Section from "@components/Section.astro";
-import { type CollectionEntry, getCollection, getEntry } from "astro:content";
+import CourseCardVertical from "@/components/CourseCardVertical.astro";
+import Section from "@/components/Section.astro";
+import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
+import { getCollection } from "astro:content";
 
-const courseSeriess = (await getCollection("seriess")).filter(
-    (series) => series.data.members[0].collection === "courses",
+const _courses = await getCollection("courses"),
+  _inMembershipCourses = _courses.filter(
+    ({ data: { includedInMembership } }) => includedInMembership,
   ),
-  memberss = courseSeriess.map((series) => series.data.members),
-  coursess = await Promise.all(
-    (memberss as CollectionEntry<"courses">[][]).map(async (members) =>
-      Promise.all(
-        members.map(async (member) => getEntry("courses", member.slug)),
-      ),
-    ),
-  ),
-  courseList = coursess
-    .flat()
-    .filter((course) => course.data.includedInMembership);
+  sortedCourses = [..._inMembershipCourses].sort((a, b) =>
+    compareByNaturalOrder(a.data.title, b.data.title),
+  );
 ---
 
 <Section color="bg-secondary" title="Courses Included">
-  <ul
-    class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
-  >
+  <ul class="mx-auto grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 lg:grid-cols-3">
     {
-      courseList.map((course) => (
+      sortedCourses.map((course) => (
         <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
           <CourseCardVertical {course} />
         </li>

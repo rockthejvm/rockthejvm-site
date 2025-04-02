@@ -1,0 +1,18 @@
+---
+import { getCollection } from "astro:content";
+
+const _courses = await getCollection("courses"),
+  _sortedCourses = _courses.sort((a, b) =>
+    new Date(b.data.publishedDate ?? "0000-01-01").getTime() <=
+    new Date(a.data.publishedDate ?? "0000-01-01").getTime()
+      ? -1
+      : 1,
+  ),
+  latestCourse = _sortedCourses[0];
+---
+
+Check out the new{" "}
+<a href=`/courses/${latestCourse.id}` class="font-semibold text-accent-1">
+  {latestCourse.data.title}
+</a>{" "}
+course

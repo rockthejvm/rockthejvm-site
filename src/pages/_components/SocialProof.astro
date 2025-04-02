@@ -1,0 +1,15 @@
+---
+import AuthorExpanded from "@/components/AuthorExpanded.astro";
+import { getEntry } from "astro:content";
+import LogoCloud from "./LogoCloud.astro";
+
+const author = await getEntry("authors", "daniel-ciocirlan")!;
+---
+
+<section class="mx-auto max-w-4xl pb-12 pt-24">
+  <h2 class="mb-12 text-center font-bold tracking-tight text-content">
+    The Founder
+  </h2>
+  <AuthorExpanded {author} />
+  <LogoCloud />
+</section>

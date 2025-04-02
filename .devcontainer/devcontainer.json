@@ -1,7 +1,9 @@
 {
   "image": "mcr.microsoft.com/devcontainers/base:1-ubuntu-24.04",
   "features": {
-    "ghcr.io/devcontainers/features/git-lfs:1": {},
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "autoPull": false
+    },
     "ghcr.io/devcontainers/features/node:1": {
       "version": "22"
     }
@@ -20,6 +22,7 @@
         "GitHub.copilot",
         "github.vscode-github-actions",
         "GitHub.vscode-pull-request-github",
+        "moalamri.inline-fold",
         "ms-vsliveshare.vsliveshare",
         "redhat.vscode-yaml",
         "remcohaszing.schemastore",
@@ -30,7 +33,9 @@
       ]
     }
   },
-  "updateContentCommand": "pnpm install --frozen-lockfile && npx astro sync && npx trunk install",
+  "onCreateCommand": "git lfs install",
+  "updateContentCommand": "pnpm install --frozen-lockfile && npx trunk install && npx astro sync",
+  "postCreateCommand": "git lfs pull",
   "postAttachCommand": "pnpm run dev",
   "forwardPorts": [4321],
   "portsAttributes": {
