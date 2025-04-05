@@ -12,6 +12,7 @@ import pagefind from "astro-pagefind";
 import astroStarlightRemarkAsides from "astro-starlight-remark-asides";
 import { defineConfig, envField } from "astro/config";
 import remarkDirective from "remark-directive";
+import { visualizer } from "rollup-plugin-visualizer";
 import {
   addEmbeddedArticles,
   getArticleMatches,
@@ -104,6 +105,14 @@ export default defineConfig({
         dark: "github-dark-default",
       },
     },
+  },
+  vite: {
+    plugins: [
+      visualizer({
+        emitFile: true,
+        filename: "stats.html",
+      }),
+    ],
   },
   env: {
     schema: {
