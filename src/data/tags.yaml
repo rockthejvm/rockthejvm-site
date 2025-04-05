@@ -18,6 +18,7 @@
 - id: concurrency
 - id: coroutines
 - id: data-structures
+- id: devops
 - id: distributed-systems
 - id: doobie
 - id: effect-systems
@@ -36,6 +37,7 @@
 - id: java
 - id: kafka
 - id: kafka-streams
+- id: kubernetes
 - id: kotlin
 - id: laminar
 - id: loom
@@ -59,11 +61,12 @@
 - id: pulsar
 - id: redis
 - id: sbt
+- id: scala
+- id: scalability
+- id: scalafx
 - id: scala-3
 - id: scala-cli
-- id: scalafx
 - id: scala-js
-- id: scala
 - id: scala-native
 - id: skunk
 - id: slick
