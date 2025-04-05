@@ -28,12 +28,7 @@ const {
   defaultFormats = ["webp", src.format];
 ---
 
-<!-- <img {alt} class:list={[additionalClasses]} {src}
-{width}
-{height} /> -->
-<div></div>
-
-<!-- <Picture
+<Picture
   {alt}
   class:list={[additionalClasses]}
   formats={(src.format === "gif" ? [] : ["avif"]).concat(defaultFormats)}
@@ -44,4 +39,4 @@ const {
   {quality}
   {...searchImage && { "data-pagefind-meta": "image[src], image_alt[alt]" }}
   {...attrs}
-/> -->
+/>
