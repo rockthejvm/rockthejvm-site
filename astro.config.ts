@@ -43,6 +43,7 @@ export default defineConfig({
     prefetchAll: true,
   },
   output: "static",
+  // Test without adapter
   // adapter: cloudflare({
   //   imageService: "compile",
   // }),
