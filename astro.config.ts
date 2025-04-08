@@ -45,7 +45,7 @@ export default defineConfig({
   },
   output: "static",
   adapter: cloudflare({
-    imageService: "compile",
+    // imageService: "compile",
   }),
   integrations: [
     buildStart(),
