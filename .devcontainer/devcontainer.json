@@ -1,3 +1,47 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b7fc05b1051afb377eee4cc2407048f74f5943cad59bebf3a16ff9f85d1a5382
-size 1330
+{
+  "image": "mcr.microsoft.com/devcontainers/base:1-ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "autoPull": false
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "-dbaeumer.vscode-eslint",
+        "adpyke.codesnap",
+        "astro-build.astro-vscode",
+        "bradlc.vscode-tailwindcss",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "GitHub.copilot",
+        "github.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+        "moalamri.inline-fold",
+        "ms-vsliveshare.vsliveshare",
+        "redhat.vscode-yaml",
+        "remcohaszing.schemastore",
+        "tamasfe.even-better-toml",
+        "Trunk.io",
+        "unifiedjs.vscode-mdx",
+        "vitest.explorer"
+      ]
+    }
+  },
+  "onCreateCommand": "git lfs install",
+  "updateContentCommand": "pnpm install --frozen-lockfile && npx trunk install && npx astro sync",
+  "postCreateCommand": "git lfs pull",
+  "postAttachCommand": "pnpm run dev",
+  "forwardPorts": [4321],
+  "portsAttributes": {
+    "4321": {
+      "label": "Website",
+      "onAutoForward": "openPreview"
+    }
+  }
+}

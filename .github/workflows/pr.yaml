@@ -1,3 +1,49 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e668025318f387e4ffeb69757a7c6f0171768dad5f3be09392939e4110ad7bb4
-size 1387
+name: Pull Request
+on: [pull_request]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+permissions: read-all
+jobs:
+  trunk_check:
+    name: Trunk Code Quality Runner
+    runs-on: ubuntu-24.04
+    permissions:
+      checks: write # trunk PR annotations
+      contents: read # code checkout and dependency installation
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile && npx astro sync
+      - name: Trunk Code Quality
+        uses: trunk-io/trunk-action@v1
+  astro_check:
+    name: Astro Check
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install astro @astrojs/check typescript
+      - name: Astro Check
+        run: npx astro check --minimumFailingSeverity error

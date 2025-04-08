@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a29f7a5767c30d787fb6999bb7f3bc012783bffd719a84fe161155fbcbc20b5f
-size 436
+---
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+}
+
+const { color } = Astro.props;
+---
+
+<Section gradientOption={2} {color} title="Skills You'll Learn">
+  <Prose class="mx-auto max-w-3xl py-16 prose-ul:leading-6">
+    <slot />
+  </Prose>
+</Section>

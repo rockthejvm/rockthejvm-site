@@ -1,3 +1,203 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fd3099afeaa9be29c6d6e473e219ec0267720de89c5fdd066f6d62f2bfa849ea
-size 10850
+---
+includedInMembership: false
+benefits:
+    hours: 30
+    linesOfCode: 6200
+category: zio
+description: "Create a full-stack Scala application using the ZIO stack in our comprehensive course: learn to integrate features like credit card checkout, AI, and emails. Perfect for hands-on, real-world development experience."
+difficulty: advanced
+excerpt: "<p><strong>Build your own full-stack Scala application with ZIO</strong>: from credit card checkout to AI and emails, experience real-world development with our comprehensive course, and see the live app <a href='https://companies.rockthejvm.com'>here</a></p>"
+faqs:
+    - question: How about the Typelevel stack?
+      answer: I offer a similarly comprehensive course for the Typelevel stack, focusing on a different application and approach.
+    - question: The ____ library for frontend with ____ for backend is much better!
+      answer: That's not a question, but I understand your point. After evaluating various libraries and setups for building a full-stack app with ZIO for nearly a year, I found this stack to be the most effective. All included libraries are well-supported and actively developed. This course isn't just about connecting libraries; it's about learning to think and build full-stack Scala applications. The principles you'll learn apply beyond just these libraries.
+    - question: Is this course included with the membership?
+      answer: Membership provides a significant discount on this course. To claim it, click on the membership card in your course dashboard to find your discount code. Membership benefits will continue to grow with each new course we offer.
+    - question: What can I do with the code? Can I put it on GitHub?
+      answer: You're free to use the code however you like, including sharing it on GitHub. However, please avoid creating your own course based on this app. Feel free to use the code as a portfolio piece, a starting point for your next project, or a prototype to showcase to your boss. The ideas you take away from this course are even more valuable than the code itself.
+heroImage: images/zio-rite-of-passage.png
+question:
+  text: What is ZIO?
+  image: images/zio-rite-of-passage.png
+thanks: <p>Mark Rudolph, fellow Scala developer, for the initial scaffolded project that became the seed of this project-based course.</p><br/><p>@fellownoodle for the amazing Rite of Passage banner.</p>
+title: ZIO Rite of Passage
+pricingPlanId: 5192130
+videoId: 5L13CisHyhw
+publishedDate: 2023-12-18
+tags: [zio, laminar, full-stack, project, scala-js]
+features:
+  one: images/feature1.png
+  two: images/feature2.png
+  three: images/feature3.png
+---
+
+import CourseLayout from "@/pages/courses/_layouts/CourseLayout.astro";
+import { YouTube } from "astro-embed";
+import AutoPlayYouTube from "@/components/AutoPlayYouTube.astro";
+
+<CourseLayout>
+<Fragment slot="video">
+Just as Scala has transformed the way we build applications with functional programming, the ZIO stack is changing how we build strong, testable and provably correct APIs.
+
+With a focus on **functional Scala** and a **real world application,** this course is a start-to-finish way to learn Full Stack Scala 3 with ZIO, Laminar and friends.
+
+</Fragment>
+<Fragment slot="goal">
+### Build a Full-Stack Application with Scala 3 and the ZIO Stack
+
+Just as Scala has transformed the way we build applications with functional programming, the ZIO stack is changing how we build strong, testable and provably correct APIs.
+
+With a focus on functional Scala and a real world application, this course is a start-to-finish way to learn Full Stack Scala 3 with ZIO, Laminar and friends.
+
+<AutoPlayYouTube videoId="oXKHwJWdWrc" />
+
+</Fragment>
+<Fragment slot="extra">
+Together we will build the [Rock the JVM Companies Board](https://companies.rockthejvm.com/), a full stack online reviews platform with **credit card checkout and AI integration.** Users can create and **manage their account, post and view reviews** for Scala companies, and **invite** others to do the same.
+
+We will build the application from scratch, using a ZIO-specific decoupled layered architecture on the backend, and **functional-reactive programming** architecture on the frontend with **ScalaJS and Laminar.**
+
+The app includes many server-side bits including authentication, sending email, uploading images, charging credit cards and using an AI content generator. We have comprehensive **test coverage** in the backend, and we develop some core modules with **test-driven development (TDD).**
+
+The frontend is built as a **single-page application,** organized for for scalability if you want to add new pages or functional components.
+
+For a full list of topics covered, see below.
+
+</Fragment>
+<Fragment slot="question">
+ZIO is a Scala toolkit that allows us to write powerful, concurrent, and high-performance applications in Scala using pure functional programming.
+
+Zay What?!
+
+ZIO describes what it means to perform an "effect" in your code, which allows us to compose actions seamlessly.
+
+On top of the main ZIO "effect" type, the ZIO library comes with powerful tools built on battle-tested practices and design patterns, so we can write more easily composable code.
+
+Works the same on the frontend, too.
+
+**We use all the important ZIO libraries in this course.**
+
+</Fragment>
+<Fragment slot="feature1">
+### Who is this course is for?
+Scala developers who want to expand their Scala skills with a full-blown product as a full-stack application.
+
+You should be comfortable writing any sort of Scala code, as we don't go over the Scala fundamentals. The beginner and advanced Scala courses focus on the language.
+
+You should already be familiar with ZIO. We'll do a round of recap at the beginning of the course, but we'll focus more on the project.
+
+The frontend is written in ScalaJS with Laminar. Any experience with them is nice, but 100% not needed.
+
+To sum up, this course is for:
+
+- anyone looking for a complete end-to-end Scala project
+- backend developers looking to go full-stack on Scala
+- Scala developers looking to advance their skills and career
+- anyone who wants to get better at Scala, full-stack architecture or functional programming
+
+Not sure if it's for you? 100% money back if it's not a fit for you 💰
+
+In any case, don't be scared. We'll build something great together.
+
+</Fragment>
+<Fragment slot="feature2">
+### 100% Practical
+This course is long so we waste no time. This screenshot shows you the code that we'll write together.
+
+As with anything at Rock the JVM, this course is **hands-on.** We start by recapping the fundamentals of major ZIO libraries (ZIO, Quill, Tapir etc) and then we get started.
+
+We'll **build the project from scratch,** starting from a blank directory and from first principles. As our code becomes more complex, we will **modularize as necessary.**
+
+We will arrive at our layered architecture organically, without my imposing any style on you from the start. You may find it quite nice.
+
+A chunk of the backend is written in **test-driven development** style. We also have chunks where we write tests after the implementation, so that you feel the difference first-hand. We also write some verticals bottom-up, some top-down, so that you know what it's like.
+
+As for the **frontend,** we will add ScalaJS support from scratch, then we'll start scaffolding our app for **scalability** so you can easily add a new page, new stateful component or new endpoints.
+
+We will also design our **domain** in a careful way so that the frontend and backend share the same definitions, eliminating nasty bugs due to schema mismatches.
+
+</Fragment>
+<Fragment slot="feature3">
+### "Real-Life" means Real-LIVE
+I want to put my code where my mouth is.
+
+The application that you learn to build in this course is fully deployed and live here:
+
+[companies.rockthejvm.com](https://companies.rockthejvm.com/)
+
+Yes, it's **a real company review platform that I will personally use** for my students at Rock the JVM - I don't know if it makes a good billion$$ startup, but you can proudly deploy the project in this course.
+
+If you're a company and want to promote yourself to the Rock the JVM community, **go ahead and use it!**
+
+To me, "real-life" means:
+
+- it works with real email accounts
+- it can charge money for buying product features
+- it's complex enough to be a full-blown product
+- it looks and works like a finished product you'll deploy it to a website with a domain you own (I'll do it on camera)
+
+This isn't even a "project-based" course. You will learn to build a **full-blown product** that people can use and pay for. You can build your startup with what you learn in this course (maybe with a better business idea).
+
+</Fragment>
+<Fragment slot="feature4">
+### The Tech Stack
+This course is built on ZIO. We use the following libraries:
+
+- **ZIO (core)** for everything
+- **ZIO HTTP** for server implementation
+- **Tapir** for endpoint definitions, Swagger and frontend client
+- **Quill** for type-safe database queries
+- **ZIO JSON** for encoding/decoding HTTP payloads
+- **ZIO Config** for, you know, configs
+- **ZIO Test** for the test suite
+- **ZIO Test Containers** for testing repositories and integration tests
+- **ZIO Logging** for logs
+
+On the frontend, we use
+
+- **Laminar.** It's an amazing library for functional-reactive programming on the frontend with ScalaJS, and it's a breeze to use. **We integrate it with ZIO in ScalaJS,** into a mini-framework for the application.
+
+We also use the following libraries and tools, wrapped in ZIO effects and ZIO layers:
+
+- **Stripe** for credit card checkout
+- **GPT-4** for AI-generated content
+- **Flyway DB** for schema migrations
+- **Auth0 JWT** for creating and signing authentication tokens
+- **PostgreSQL** for the database
+- **Java Mail** for sending emails to people
+
+</Fragment>
+<Fragment slot="skills">
+### Skills You'll Learn for Real Life
+
+This course is far more than a list of features. In fact, we don't even care too much about all the features a library has, unless it serves our purpose of building a real-life product.
+
+In the process of building this full-stack product, you will learn, practice and internalize
+
+- REST APIs
+- Authentication
+- Authorization with JWTs
+- Sending Email
+- Validating/Invalidating User Sessions
+- User Input Sanitizing & validation
+- Charging Credit Cards
+- Hosting and Transforming Images
+- Incremental Loading and Pagination
+- Complex Backend Filters
+- Loading and Error states
+- Functional-Reactive frontend architecture
+- Routing
+- Asynchronous effects
+- Integrating an effect system into the frontend
+- Webhooks
+- Layering and Decoupling Modules
+- Configuration
+- Shared domain models
+- Test-driven development
+- Test Containers
+- Building & Configuring for Dev, Staging and Prod
+- Deployment With Custom Domains
+
+</Fragment>
+</CourseLayout>

@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f06a2a07a00e018df826efe67c04bf291dfe1eee01d8bc21e82b2ea5dd77c8c9
-size 597
+---
+import RockTheJVM from "@/components/icons/RockTheJVM.astro";
+import MySearch from "./_components/MySearch.astro";
+import ThemeToggle from "./_components/ThemeToggle/ThemeToggle.astro";
+import HeaderHelper from "./HeaderHelper";
+
+interface Props {
+  showThemeToggle?: boolean;
+}
+
+const { showThemeToggle } = Astro.props;
+---
+
+<HeaderHelper client:media="(width < 1024px)" holiday={!showThemeToggle}>
+  <RockTheJVM class="h-10 w-auto sm:h-11 md:h-12 lg:h-14" slot="logo" />
+  {showThemeToggle && <ThemeToggle id="themeToggle" slot="themeToggle" />}
+  <MySearch slot="search" />
+</HeaderHelper>

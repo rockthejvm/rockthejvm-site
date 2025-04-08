@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b0ca0e64beb82d6cd3ca57fcbef68c255ece921fc4bd2b7e85f52d0de92c55ef
-size 480
+---
+import { getCollection } from "astro:content";
+
+const _courses = await getCollection("courses"),
+  _sortedCourses = _courses.sort((a, b) =>
+    new Date(b.data.publishedDate ?? "0000-01-01").getTime() <=
+    new Date(a.data.publishedDate ?? "0000-01-01").getTime()
+      ? -1
+      : 1,
+  ),
+  latestCourse = _sortedCourses[0];
+---
+
+Check out the new{" "}
+<a href=`/courses/${latestCourse.id}` class="font-semibold text-accent-1">
+  {latestCourse.data.title}
+</a>{" "}
+course

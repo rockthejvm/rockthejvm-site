@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a38414a881b1b5597929cc715f3935245464f7ede9b5a362c043de2d459b7ec3
-size 734
+---
+import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
+import { getCollection } from "astro:content";
+import ClientLogo from "./ClientLogo.astro";
+import LogoCloudHelper from "./LogoCloudHelper";
+
+const _clientsToDisplay = [
+    "adobe",
+    "apple",
+    "datto",
+    "google",
+    "hapag-lloyd",
+    "hm-revenue-and-customs",
+    "intuit",
+    "microsoft",
+    "orange",
+    "swiss-re",
+    "ververica",
+  ],
+  _clients = [
+    ...(await getCollection("companies", ({ data: { id } }) =>
+      _clientsToDisplay.includes(id),
+    )),
+  ],
+  sortedClients = _clients.sort((a, b) => compareByNaturalOrder(a.id, b.id));
+---
+
+<LogoCloudHelper>
+  {sortedClients.map((client) => <ClientLogo {client} />)}
+</LogoCloudHelper>

@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f9e4256dfb6fda12b1308e128fa1d41ba613eb1b083144ff11c10297fe1ec30a
-size 152
+rules:
+  quoted-strings:
+    required: only-when-needed
+    extra-allowed: ["{|}"]
+  key-duplicates: {}
+  octal-values:
+    forbid-implicit-octal: true

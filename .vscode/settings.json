@@ -1,3 +1,155 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c8486a36473076a5df2efd785fbccf43081b804d82865a5a6f45614d811c187e
-size 5862
+{
+  //// Visual Studio Code
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.trimAutoWhitespace": true,
+  "editor.wordWrap": "off",
+  "editor.wordWrapColumn": 80,
+  "explorer.excludeGitIgnore": true,
+  "explorer.fileNesting.patterns": {
+    ".gitignore": ".gitattributes"
+  },
+  "files.autoSave": "off",
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.readonlyInclude": {
+    "**/.gitignore": true,
+    "**/.gitattributes": true,
+    "**/{,*-,*.}{lock,lockfile}{,-*,.*}": true,
+    "**/{CHANGELOG,LICENSE,LEGAL}{,.*}": true
+  },
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": false,
+  "git.mergeEditor": true,
+  "git.postCommitCommand": "none",
+  "git.suggestSmartCommit": false,
+  "html.format.enable": false,
+  "javascript.format.enable": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.validate.enable": false,
+  "markdown.editor.drop.copyIntoWorkspace": "never",
+  "markdown.editor.filePaste.copyIntoWorkspace": "never",
+  "markdown.updateLinksOnFileMove.enabled": "always",
+  "notebook.formatOnSave.enabled": true,
+  "notebook.insertFinalNewline": true,
+  "notebook.output.wordWrap": true,
+  "search.exclude": {
+    "**/{,*-,*.}{lock,lockfile}{,-*,.*}": true,
+    "**/*.code-search": true,
+    "**/*.xsl": true
+  },
+  "typescript.format.enable": false,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.suppressWhenTypeMatchesName": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.validate.enable": false,
+  //// Language-Specific
+  "[markdown]": {
+    "editor.tabSize": 4,
+    "editor.wordWrap": "on"
+  },
+  "[mdx]": {
+    "editor.tabSize": 4,
+    "editor.wordWrap": "on"
+  },
+  "[plaintext]": {
+    "editor.tabSize": 4,
+    "editor.wordWrap": "on"
+  },
+  //// Extensions
+  // mcr.microsoft.com/devcontainers/base:1-ubuntu-22.04
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  // bradlc.vscode-tailwindcss
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.validate": true, // Temporarily enabled until eslint-plugin-tailwindcss works with Tailwind CSS v4 https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/384
+  // christian-kohler.path-intellisense
+  "javascript.suggest.paths": false,
+  "path-intellisense.autoSlashAfterDirectory": true,
+  "path-intellisense.autoTriggerNextSuggestion": true,
+  "path-intellisense.showHiddenFiles": true,
+  "typescript.suggest.paths": false,
+  // eamodio.gitlens
+  "gitlens.currentLine.enabled": false,
+  "gitlens.defaultDateFormat": "YYYY-MM-DD",
+  "gitlens.defaultTimeFormat": "H:mm",
+  // EditorConfig.EditorConfig
+  "editorconfig.generateAuto": false,
+  "editorconfig.showMenuEntry": false,
+  // GitHub.copilot
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  // GitHub.copilot-chat
+  "github.copilot.chat.welcomeMessage": "never",
+  // GitHub.vscode-pull-request-github
+  "githubIssues.createIssueTriggers": [],
+  "githubIssues.issueBranchTitle": "issue${issueNumber}",
+  "githubIssues.workingIssueFormatScm": "${issueTitle}\n\nResolves ${issueNumberLabel}",
+  "githubPullRequests.assignCreated": "${user}",
+  "githubPullRequests.createOnPublishBranch": "never",
+  "githubPullRequests.defaultCreateOption": "createDraft",
+  "githubPullRequests.defaultMergeMethod": "squash",
+  "githubPullRequests.notifications": "pullRequests",
+  "githubPullRequests.pullBranch": "always",
+  "githubPullRequests.pushBranch": "always",
+  "githubPullRequests.terminalLinksHandler": "vscode",
+  // ms-vsliveshare.vsliveshare
+  "liveshare.allowGuestDebugControl": true,
+  "liveshare.allowGuestTaskControl": true,
+  "liveshare.languages.allowGuestCommandControl": true,
+  "liveshare.launcherClient": "visualStudioCode",
+  "liveshare.notebooks.allowGuestExecuteCells": true,
+  "liveshare.publishWorkspaceInfo": true,
+  "liveshare.showVerboseNotifications": false,
+  // redhat.vscode-yaml
+  "yaml.extension.recommendations": false,
+  "yaml.format.enable": false,
+  "yaml.validate": false,
+  "redhat.telemetry.enabled": false,
+  "yaml.schemas": {
+    // ".astro/collections/articleCategories.schema.json": [
+    //   "/src/content/articleCategories/**"
+    // ],
+    // ".astro/collections/authors.schema.json": ["/src/content/authors/**"],
+    // ".astro/collections/companies.schema.json": ["/src/content/companies/**"],
+    // ".astro/collections/courseCategories.schema.json": [
+    //   "/src/content/courseCategories/**"
+    // ],
+    // ".astro/collections/difficulties.schema.json": [
+    //   "/src/content/difficulties/**"
+    // ],
+    // ".astro/collections/memberships.schema.json": [
+    //   "/src/content/memberships/**"
+    // ],
+    // ".astro/collections/prerequisites.schema.json": [
+    //   "/src/content/prerequisites/**"
+    // ],
+    // ".astro/collections/seriess.schema.json": ["/src/content/seriess/**"],
+    // ".astro/collections/socials.schema.json": ["/src/content/socials/**"],
+    // ".astro/collections/tags.schema.json": ["/src/content/tags/**"]
+  },
+  // trunk.io
+  "editor.defaultFormatter": "trunk.io",
+  "trunk.showPreexistingIssues": false,
+  "trunk.languageServerArguments": ["--skip-startup-scan"]
+}

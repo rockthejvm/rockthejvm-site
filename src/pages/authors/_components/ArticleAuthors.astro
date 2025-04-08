@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:91b3b61c9deab0a450a7c93ae73adff9a1afc88f5c13f7b549133d8cd72999a7
-size 566
+---
+import AuthorExpanded from "@/components/AuthorExpanded.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  authors: CollectionEntry<"authors">[];
+}
+const { authors } = Astro.props;
+---
+
+<section class="pb-8 sm:py-2 md:pb-16">
+  <header class="py-8 md:py-16">
+    <h1 class="mx-6 text-center text-content-1 lg:mx-8">Article Authors</h1>
+  </header>
+  <div
+    class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
+  >
+    {authors.map((author) => <AuthorExpanded {author} />)}
+  </div>
+</section>

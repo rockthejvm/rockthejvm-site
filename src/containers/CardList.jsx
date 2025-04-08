@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7c96ee5540c97186ee017442bf66c1a6260d16a99de8c40c1087c80db712dcf5
-size 406
+export default function Example(props) {
+  return (
+    <ul>
+      {<li className="py-0">{props.one}</li>}
+      {<li className="py-0">{props.two}</li>}
+      {<li className="py-0">{props.three}</li>}
+      {<li className="py-0">{props.four}</li>}
+      {<li className="py-0">{props.five}</li>}
+      {<li className="py-0">{props.six}</li>}
+      {<li className="py-0">{props.seven}</li>}
+    </ul>
+  );
+}

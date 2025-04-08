@@ -1,3 +1,43 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c284f70134a0535f97a47aa557b9d7808c59345d4ad3e6152ea82e94c0a4409d
-size 1182
+---
+import BackgroundGradient from "./BackgroundGradient.astro";
+import BackgroundGradient2 from "./BackgroundGradient2.astro";
+import BackgroundGradient2Flipped from "./BackgroundGradient2Flipped.astro";
+import BackgroundGradient3 from "./BackgroundGradient3.astro";
+import BackgroundGradient3Flipped from "./BackgroundGradient3Flipped.astro";
+import BackgroundGradientFlipped from "./BackgroundGradientFlipped.astro";
+
+export type GradientOption = 1 | 2 | 3;
+
+interface Props {
+  // color: CollectionEntry<"courseCategories">["data"]["color"];
+  gradientFlipped?: boolean;
+  gradientOption: GradientOption;
+  // title?: string;
+  // showGradient?: boolean;
+}
+
+const { gradientFlipped = false, gradientOption } = Astro.props;
+---
+
+<Fragment>
+  {
+    gradientOption === 1 &&
+      (gradientFlipped ? <BackgroundGradientFlipped /> : <BackgroundGradient />)
+  }
+  {
+    gradientOption === 2 &&
+      (gradientFlipped ? (
+        <BackgroundGradient2Flipped />
+      ) : (
+        <BackgroundGradient2 />
+      ))
+  }
+  {
+    gradientOption === 3 &&
+      (gradientFlipped ? (
+        <BackgroundGradient3Flipped />
+      ) : (
+        <BackgroundGradient3 />
+      ))
+  }
+</Fragment>

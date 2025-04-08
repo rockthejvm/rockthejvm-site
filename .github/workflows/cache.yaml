@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf90b6f38d3296cd2ef91530a2827c8a18ef45e402254e425fad9414a660e436
-size 739
+name: Cache
+on:
+  push:
+    branches: [main]
+    paths: [.trunk/trunk.yaml]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+permissions: read-all
+jobs:
+  cache_trunk:
+    name: Cache Trunk
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Cache Trunk
+        uses: trunk-io/trunk-action@v1
+        with:
+          check-mode: populate_cache_only

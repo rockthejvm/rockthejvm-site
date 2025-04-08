@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:584f23e6f180ca3784750fcd87346acd65691b5ffa59e362ed565303a9756032
-size 300
+import { file } from "astro/loaders";
+import { defineCollection, z } from "astro:content";
+
+export default defineCollection({
+  loader: file("src/data/companies.yaml"),
+  schema: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      website: z.string().url(),
+    })
+    .strict(),
+});

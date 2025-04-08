@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a907b285bcd6e9f3e9f1a860a7602da30c0cd79403247eda03c4e51c8d4b71fa
-size 607
+import { glob } from "astro/loaders";
+import { defineCollection, z } from "astro:content";
+
+export default defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "src/pages/memberships/_data" }),
+  schema: ({ image }) =>
+    z
+      .object({
+        description: z.string(),
+        image: image(),
+        name: z.string(),
+        packages: z
+          .array(
+            z
+              .object({
+                pricingPlanId: z.number().nonnegative(),
+              })
+              .strict(),
+          )
+          .min(1, "At least one package is required"),
+      })
+      .strict(),
+});

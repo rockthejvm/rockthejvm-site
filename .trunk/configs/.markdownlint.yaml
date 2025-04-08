@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1110841a5fb4028199320f28a6849f8eec6d36e5d897167acdd0b6d2ee3c4588
-size 383
+# Prettier friendly markdownlint config (all formatting rules disabled)
+extends: markdownlint/style/prettier
+code-block-style:
+  style: fenced
+first-line-h1: false
+no-duplicate-heading:
+  siblings_only: true
+no-inline-html: false
+no-trailing-punctuation: false
+no-space-in-emphasis: false # Required to allow comments in MDX files
+no-bare-urls: false # Creates issues with MDX files

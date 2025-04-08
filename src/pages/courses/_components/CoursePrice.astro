@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8d175460c6725b0521cdd487b088230bd309f541f78ad28d7240129798de4519
-size 522
+---
+import centsToPrice from "@/utils/centsToPrice";
+
+interface Props {
+  priceInCents: number;
+  currency: string;
+  recurring?: "nonrecurring" | "monthly" | "yearly";
+}
+
+const { priceInCents, currency, recurring = "nonrecurring" } = Astro.props,
+  price = centsToPrice(priceInCents, currency);
+---
+
+<span
+  class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
+>
+  {price}
+</span>
+{
+  recurring !== "nonrecurring" && (
+    <span class="text-base text-content">/{recurring}</span>
+  )
+}

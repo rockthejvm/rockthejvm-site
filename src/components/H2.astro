@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d94c5a396f5b4769ee0c445b28d896635264473eee15e5f3e9d3b12cdfd3bcdf
-size 288
+---
+import Prose from "@/components/Prose.astro";
+
+interface Props {
+  class?: string;
+  color?: string;
+}
+
+const { class: additionalClasses } = Astro.props;
+---
+
+<Prose class="mx-auto">
+  <h2 class={`bg-transparent py-16 text-center ${additionalClasses}`}>
+    <slot />
+  </h2>
+</Prose>

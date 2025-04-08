@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c210f71030c0a8265282935a880e15609e3ba13e9c8def3f6e8270b2eed9cde4
-size 252
+biography: I'm a freelance Scala developer and Functional Programming educator.
+name: Daniel Beskin
+photo: ./photo.png
+socials:
+  email: daniel.beskin+linkstack@gmail.com
+  github: ncreep
+  linkedin: daniel-beskin
+  website: https://linksta.cc/@ncreep

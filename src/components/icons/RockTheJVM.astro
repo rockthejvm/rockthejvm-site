@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e7b9bc175e30325897a3b10a71e54fd22cc0e7ca93abf0c93cf753bbf6ee3c79
-size 291
+---
+import site from "@/data/site.json";
+import { Icon } from "astro-icon/components";
+
+// interface Props {
+//   suffix?: string;
+// }
+
+const { suffix = "", ...rest } = Astro.props;
+---
+
+<Icon
+  name=`companies/rock-the-jvm${suffix}`
+  title={site.name}
+  aria-hidden="true"
+  {...rest}
+/>

@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c336d9bff3683ee3b875ad1996041f5ae689d1ac52aa476cc58823d3aea257aa
-size 551
+---
+import Section from "@/components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+import CurriculumHelper from "../_components/CurriculumHelper.astro";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
+  courseId: CollectionEntry<"courses">["id"];
+}
+
+const { color, courseId, pricingPlanId } = Astro.props;
+---
+
+<Section {color} title="What's Included">
+  <CurriculumHelper {pricingPlanId} {courseId} {color} />
+</Section>

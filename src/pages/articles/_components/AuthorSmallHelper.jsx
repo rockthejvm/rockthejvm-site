@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4f417f3755cedfd50e828bf9c618d2723b0cd6d94488003c2cb2c1dfed4f5f82
-size 573
+export default function Example(props) {
+  return (
+    <div className="mb-2 mt-6 flex">
+      {/* <a href={`/authors/${props.authorId}`} className="mt-auto"> */}
+      <div className="mr-4 shrink-0">{props.photo}</div>
+      {/* </a> */}
+      <div className="text-content-1">
+        <a href={`/authors/${props.authorId}`} className="mt-auto">
+          <p className="text-lg font-bold text-content-1 hover:text-accent-2 sm:text-xl">
+            {props.authorName}
+          </p>
+        </a>
+        <p className="mt-0.5">{props.time}</p>
+      </div>
+    </div>
+  );
+}

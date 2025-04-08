@@ -1,3 +1,72 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:11ee2c01b003398dffea0049eaeed6e85cae84fe3fea53d863958d02eccd69d4
-size 2451
+---
+import BackgroundGradient from "@/components/BackgroundGradient.astro";
+import CourseCardVertical from "@/components/CourseCardVertical.astro";
+import MyPicture from "@/components/MyPicture.astro";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getCollection, getEntries } from "astro:content";
+
+const _categories = await getCollection("courseCategories"),
+  categories = await Promise.all(
+    _categories.map(async (category) => ({
+      ...category,
+      data: {
+        ...category.data,
+        members: await getEntries(category.data.members),
+      },
+    })),
+  ),
+  structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: categories
+      .flatMap(({ data: { members } }) => members)
+      .map((course, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${Astro.site!}/courses/${course.id}`,
+      })),
+  });
+---
+
+{
+  (
+    <BaseLayout
+      description="All of the Rock the JVM premium content, at your service."
+      {structuredData}
+      title="The Rock the JVM Membership"
+    >
+      <BackgroundGradient />
+      <article>
+        <header class="pt-8 md:pt-16">
+          <h1 class="m-16 text-center text-content-1 lg:m-20">
+            Rock the JVM Courses
+          </h1>
+        </header>
+        {categories.map(({ data: { logo, members, name } }) => (
+          <section class="pt-8 md:pt-12">
+            <div class="flex flex-col items-center">
+              <div class="flex flex-row gap-x-4 align-middle">
+                <div class="ml-8 flex size-16 items-center justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5">
+                  <MyPicture
+                    src={logo}
+                    alt={name}
+                    quality="low"
+                    class="my-auto w-full"
+                  />
+                </div>
+                <h2 class="my-auto">{name}</h2>
+              </div>
+            </div>
+            <ul class="mx-auto my-8 grid max-w-7xl grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3">
+              {members.map((course) => (
+                <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
+                  <CourseCardVertical {course} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </article>
+    </BaseLayout>
+  )
+}

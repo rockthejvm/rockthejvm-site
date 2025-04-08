@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9a461824339a0fbaa2ce2da0845465ae1556ebc63551d242c765b2a059b1ede2
-size 479
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/styles/base.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@assets/components",
+    "utils": "@assets/lib/utils",
+    "ui": "@assets/components/ui",
+    "lib": "@assets/lib",
+    "hooks": "@assets/hooks"
+  },
+  "iconLibrary": "lucide"
+}

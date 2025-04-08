@@ -1,3 +1,94 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:937eaba930f6e00c15677ddb582db4a4c8dd53add6313ee855fcd770303cda57
-size 4572
+- id: bundle
+  color: "#003366"
+  description: All of Rock the JVM's bundles in one place.
+  members:
+    - the-scala-bundle
+    - the-kotlin-bundle
+    - the-apache-spark-bundle-with-scala
+    - the-akka-apache-pekko-bundle-with-scala
+  faqs:
+    - question: I've already enrolled in some of the courses but want to take this bundle. Can I pay the difference?
+      answer: Yes, you can. To avoid paying for the same content twice, contact me at rockthejvm.com/contact with proof of your previous purchases, and I'll provide a discount to cover the amount you've already paid.
+    - question: I'm a senior developer and want to gift this bundle to some junior developers on my team. Can I audit this bundle?
+      answer: Absolutely. Feel free to contact me at rockthejvm.com/contact for assistance.
+  name: Bundles
+  logo: src/images/logos/bundles.png
+- id: scala
+  color: "#dd3431"
+  description: Learn everything there is to know about Scala, from zero to master.
+  members:
+    - scala-at-light-speed
+    - scala-essentials
+    - advanced-scala
+    - scala-macros-and-metaprogramming
+    - scala-and-functional-programming-interview-practice
+    - scala-3-new-features
+  faqs:
+    - question: I'm just learning to code. Should I start with Scala?
+      answer: Probably not directly. While some have learned to code in Scala through Rock the JVM, we don't cover the fundamental computer science topics needed to understand Scala's design and functionality. However, if you want to dive in, go for it! You'll have my support and that of the community whenever you need help.
+  name: Scala
+  logo: src/images/logos/scala-3.svg
+- id: kotlin
+  color: "#6b47d2"
+  description: Learn everything there is to know about Kotlin, from zero to master.
+  members:
+    - kotlin-at-light-speed
+    - kotlin-essentials
+    - kotlin-coroutines-and-concurrency
+    - advanced-kotlin
+  faqs:
+    - question: Does this course cover Android development?
+      answer: No, this course focuses on Kotlin as a programming language, regardless of the platform you use.
+    - question: Do you have any affiliation with JetBrains or the Kotlin Foundation?
+      answer: No, this course is not affiliated with JetBrains (the creators of Kotlin), Google, or the Kotlin Foundation. However, I hope they'll have positive things to say about it once they see it!
+  name: Kotlin
+  logo: src/images/logos/kotlin.svg
+- id: typelevel
+  color: "#fe4559"
+  description: Learn everything there is to know about Typelevel, from zero to master.
+  members:
+    - cats
+    - cats-effect
+    - typelevel-rite-of-passage
+  name: Typelevel
+  logo: src/images/logos/typelevel.svg
+- id: zio
+  color: "#b80000"
+  description: Learn everything there is to know about ZIO, from zero to master.
+  members:
+    - zio
+    - zio-rite-of-passage
+  name: ZIO
+  logo: src/images/logos/zio.png
+- id: apache-spark
+  color: "#e25a1c"
+  name: Apache Spark
+  description: Learn everything there is to know about Spark, from zero to master.
+  members:
+    - apache-spark-essentials-with-scala
+    - apache-spark-streaming-with-scala
+    - apache-spark-optimization-with-scala
+    - apache-spark-performance-tuning-with-scala
+  logo: src/images/logos/spark.png
+- id: apache-flink
+  color: "#e6526f"
+  description: Learn everything there is to know about Flink, from zero to master.
+  members:
+    - apache-flink-with-scala
+  faqs:
+    - question: The Scala API has been deprecated in Flink; is this course still relevant?
+      answer: That's a valid question. You can safely use the Java language and API in this course, as the Scala API is nearly identical (one reason for its deprecation). Many students have successfully taken this course in Java. We plan to re-record it in Java after Flink releases version 2.0.
+  name: Apache Flink
+  logo: src/images/logos/flink.png
+- id: akka-apache-pekko
+  color: "#15a9ce"
+  description: Learn everything there is to know about Akka Pekko, from zero to master.
+  members:
+    - akka-apache-pekko-essentials-with-scala
+    - akka-apache-pekko-streams-with-scala
+    - akka-apache-pekko-http-with-scala
+  faqs:
+    - question: Which do you prefer, Akka or Pekko? What's the difference in coding for the course?
+      answer: Both offer identical APIs. If you want to stay open-source, use Pekko; if your company uses (and pays for) Akka, go with that. We set things up at the beginning of the project (either Akka or Pekko), and the IDE will provide the correct package name suggestions. There's very little you need to do beyond that.
+  name: Akka/Pekko
+  logo: src/images/logos/akka.svg

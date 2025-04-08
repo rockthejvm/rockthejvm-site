@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:43959fa783ff8cb1e173e5ca2fed7118767d5aecb23aa281bdbcbdd30416ce2c
-size 462
+biography: Software engineer student in the last year of my master's degree at Polytech Montpellier. Functional programming & Scala enthusiast, currently deepening my knowledge of the language and its ecosystem. I also started participating in the organization of conferences (Sunny Tech).
+location:
+  city: Montpellier
+  country: France
+name: Lucas Nouguier
+photo: ./photo.jpeg
+socials:
+  github: iusildra
+  linkedin: lucas-nouguier
+  twitter: "@LucasNouguier"

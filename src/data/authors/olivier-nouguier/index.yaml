@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:24f494452d19aabf0b68cdf9dcbec3ec0e82f4d32fe8339425d6e55de17ceb96
-size 304
+biography: Senior Scala developer, conference speaker, specializing in Big Data, Kafka, Akka Streams, ZIO and streaming architectures.
+location:
+  city: Montpellier
+  country: France
+name: Olivier Nouguier
+photo: ./photo.png
+socials:
+  github: cheleb
+  linkedin: olivier-nouguier
+  twitter: "@oNouguier"

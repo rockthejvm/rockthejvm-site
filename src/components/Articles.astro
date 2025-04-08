@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9209d593d5c3fa24acfcbf380a20f77a5a9c1a150264f91567131287b310bbe5
-size 817
+---
+import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
+import type { CollectionEntry } from "astro:content";
+import ArticlePreview from "./ArticlePreview.astro";
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+  sortBy?: "title" | "none";
+}
+
+const { articles: _articles, sortBy = "title" } = Astro.props,
+  sortedArticles =
+    sortBy === "title"
+      ? _articles.sort((a, b) =>
+          compareByNaturalOrder(a.data.title, b.data.title),
+        )
+      : _articles;
+---
+
+<section class="pb-8 sm:py-2 md:pb-16">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div
+      class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+    >
+      {sortedArticles.map((article) => <ArticlePreview {article} />)}
+    </div>
+  </div>
+</section>

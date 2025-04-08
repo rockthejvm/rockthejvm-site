@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f6d993e1ddcd24f6b027b939c21bf576567ca04207b5f5ab9b927aa99785cb5c
-size 425
+biography: Experienced software developer that is very passionate about functional programming in Scala, and always keeps tabs on what's trending in the Scala ecosystem. When he is not programming he plays jazz guitar and takes his dog on walks.
+location:
+  country: Uganda
+name: Herbert Kateu
+photo: ./photo.png
+socials:
+  github: hkateu
+  twitter: "@kateuherbert"
+  website: https://hkateu.github.io/kateuherbert.github.io

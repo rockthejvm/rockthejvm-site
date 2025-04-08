@@ -1,3 +1,57 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1143f87cbc11993aa8eac24999c35c8fd191b13ccc034935370a7185aa2ad8c1
-size 2192
+---
+import FAQ from "@/components/FAQ";
+import Section from "@/components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  categoryFaqs: CollectionEntry<"courseCategories">["data"]["faqs"];
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  courseFaqs: CollectionEntry<"courses">["data"]["faqs"];
+  isBundle: boolean;
+}
+
+const { categoryFaqs = [], color, courseFaqs = [], isBundle } = Astro.props,
+  generalCourseFaqs = [
+    {
+      question: "What is a typical lesson like?",
+      answer:
+        "We generally create separate mini-applications focusing on a specific small subject, with examples and exercises. Each lesson is about 10-30 minutes long.",
+    },
+    {
+      question: "Do you provide a certificate?",
+      answer:
+        "Sure do! You'll automatically get a certificate which you can export and use to get reimbursed or land a job. The exceptions are the '... at Light Speed' courses, which don't include a certificate.",
+    },
+    {
+      question: "Can I expense this at my company?",
+      answer:
+        "Of course! After you enroll, you'll automatically get a tax-compliant receipt which you can use to reimburse this course with your employer.",
+    },
+    {
+      question: "What if I don't like the course?",
+      answer:
+        "Your 💰 back, no problem. Only a handful of people have ever asked for a refund on the entire site of 20+ courses, just to give you an idea. If you are not satisfied with the course, contact me at rockthejvm.com/contact or daniel@rockthejvm.com.",
+    },
+    {
+      question: "How long do I have access to the course?",
+      answer:
+        "If you're buying courses individually, you have access to them forever, including updates. If you take these courses through the membership, you'll have access as long as you're subscribed.",
+    },
+  ];
+const generalBundleFaqs: { question: string; answer: string }[] = [];
+---
+
+<Section {color} title="FAQ">
+  {
+    (
+      <FAQ
+        faqs={[
+          ...courseFaqs,
+          ...categoryFaqs,
+          ...(isBundle ? generalBundleFaqs : generalCourseFaqs),
+        ]}
+        client:visible
+      />
+    )
+  }
+</Section>
