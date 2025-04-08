@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5685b53971616e6d0b0db8cf1dca5e6bfed6a1f2b3ba1dd4a100d44b85798e45
-size 812
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+
+export default function Example({
+  pricingPlanId,
+  className,
+  children,
+  ariaDescribedBy = "",
+}) {
+  const [cookies, setCookies] = useState(undefined);
+
+  useEffect(() => {
+    const cookiesAccepted = Cookies.get("cookies-accepted");
+    const affiliateCode = Cookies.get("teachable-affiliate");
+    setCookies([cookiesAccepted, affiliateCode]);
+  }, []);
+
+  return (
+    <a
+      className={className}
+      aria-describedby={ariaDescribedBy}
+      href={`https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}${
+        cookies !== undefined &&
+        cookies[0] === "true" &&
+        cookies[1] !== undefined
+          ? `&affcode=${cookies[1]}`
+          : ""
+      }`}
+    >
+      {children}
+    </a>
+  );
+}

@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b392cb61dffd4970aa520cfcebd295d1a8855917dff7ad9b18c8207f99b6d030
-size 1235
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  tags: CollectionEntry<"articles">["data"]["tags"];
+}
+
+const { tags } = Astro.props;
+---
+
+<p class="text-wrap">
+  {
+    tags.map((tag) => (
+      <a href={`/tags/${tag.id}`} class="hover:no-underline">
+        <span class="mr-2 mt-2 inline-flex items-center rounded-md bg-tag px-2 py-1 text-xs font-medium text-indigo-700">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="mr-1 size-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 6h.008v.008H6V6Z"
+            />
+          </svg>
+          {tag.id.length > 8 ? `${tag.id.slice(0, 9)}...` : tag.id}
+        </span>
+      </a>
+    ))
+  }
+</p>

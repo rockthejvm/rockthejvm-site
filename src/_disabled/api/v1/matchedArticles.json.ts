@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2be15eed3af48e0d708c3bcac61a234a9d8d0754903433df97b71fd989189400
-size 393
+import type { APIRoute } from "astro";
+
+export const GET: APIRoute = async ({ params, request }) => {
+  const response = await fetch(
+      "https://related-articles.andrei-023.workers.dev/match_articles",
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      },
+    ),
+    data = await response.json();
+
+  return new Response(JSON.stringify(data));
+};

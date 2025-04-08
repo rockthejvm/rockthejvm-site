@@ -1,3 +1,47 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a501dfaa50b5f9c1c412de31d68bfe7e9416666a895dad6f40792bf7988db3ca
-size 1404
+---
+import Articles from "@/components/Articles.astro";
+import Prose from "@/components/Prose.astro";
+import NarrowContainer from "@/containers/NarrowContainer";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import capitalizeFirstChar from "@/utils/capitalizeFirstChar";
+import type {
+  GetStaticPaths,
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+} from "astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+  const difficulties = await getCollection("difficulties"),
+    articles = await getCollection("articles");
+
+  return difficulties.map((difficulty) => ({
+    params: { id: difficulty.id },
+    props: {
+      articles: articles.filter(
+        (article) => article.data.difficulty.id === difficulty.id,
+      ),
+      difficulty,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { articles, difficulty } = Astro.props,
+  title = `Articles marked as '${capitalizeFirstChar(difficulty.id)}' difficulty`;
+---
+
+<BaseLayout {title} description={title}>
+  <NarrowContainer>
+    <article class="pt-16 md:pt-8">
+      <header>
+        <Prose class="max-w-none">
+          <h1>{title}</h1>
+        </Prose>
+      </header>
+      <Articles {articles} />
+    </article>
+  </NarrowContainer>
+</BaseLayout>

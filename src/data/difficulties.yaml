@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:09ab2c30745e495f3e553cc424842651d995a77a8d44dc5583f11469fc1b9b13
-size 137
+- id: beginner
+  name: Beginner
+  level: 1
+- id: intermediate
+  name: Intermediate
+  level: 2
+- id: advanced
+  name: Advanced
+  level: 3

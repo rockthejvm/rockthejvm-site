@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6793fc653b09e864cfec2ca38d1d539a3d07eb1b05de741836e0c8e1bedc75a6
-size 868
+---
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import { YouTube } from "astro-embed";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  videoId: NonNullable<CollectionEntry<"courses">["data"]["videoId"]>;
+}
+
+const { color, videoId } = Astro.props;
+---
+
+<!-- <Section {color} title="What's inside?">
+  <YouTube id={videoId} class="max-w-4xl mx-auto aspect-w-16 aspect-h-9" posterQuality="max" />
+</Section> -->
+<Section {color} title="What's inside?">
+  <div class="mx-auto max-w-4xl">
+    <Prose>
+      <slot />
+    </Prose>
+    <div class="aspect-h-9 aspect-w-16">
+      <YouTube
+        id={videoId}
+        class="aspect-h-9 aspect-w-16 mx-auto max-w-4xl"
+        posterQuality="max"
+      />
+    </div>
+  </div>
+</Section>

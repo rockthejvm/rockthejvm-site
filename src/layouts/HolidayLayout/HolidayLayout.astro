@@ -1,3 +1,59 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cb01373a108f1b21810b993ea45d9c589cd263724aa32a299c44bf9f5661d4c7
-size 1430
+---
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import type { ImageMetadata } from "astro";
+import HolidayCourseList from "./_components/HolidayCourseList.astro";
+import HolidayDiscountBundle from "./_components/HolidayDiscountBundle.astro";
+import HolidayHero from "./_components/HolidayHero.astro";
+import type { HolidayCategory } from "./_types/holidayCategory.ts";
+
+interface Props {
+  annotation: string;
+  bundleImage: ImageMetadata;
+  bundlePricingPlanId: number;
+  categories: HolidayCategory[];
+  couponCode: string;
+  description: string;
+  forcedTheme: string;
+  logoSuffix: string;
+  offer: string;
+  bundlePrices: { old: number; new: number };
+  courseSlug: string;
+  subtitle1: string;
+  subtitle2: string;
+  title: string;
+}
+
+const {
+    annotation,
+    bundleImage,
+    bundlePricingPlanId,
+    categories,
+    couponCode,
+    description,
+    forcedTheme,
+    logoSuffix,
+    offer,
+    bundlePrices,
+    courseSlug,
+    subtitle1,
+    subtitle2,
+    title,
+  } = Astro.props,
+  image = {
+    src: bundleImage.src,
+    alt: title,
+  };
+---
+
+<BaseLayout {description} {forcedTheme} {title} {image}>
+  <HolidayHero {annotation} {logoSuffix} {subtitle1} {subtitle2} {title} />
+  <HolidayDiscountBundle
+    {bundleImage}
+    {offer}
+    pricingPlanId={bundlePricingPlanId}
+    {courseSlug}
+    prices={bundlePrices}
+    {title}
+  />
+  <HolidayCourseList {categories} {couponCode} />
+</BaseLayout>

@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b4b45f230679d612ebfdf5bcf5221b4ba9504959661deca8b8edb5d8044953df
-size 316
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  difficulty: CollectionEntry<"difficulties">;
+}
+const {
+  difficulty: {
+    data: { id, name },
+  },
+} = Astro.props;
+---
+
+<a
+  href={`/difficulties/${id}`}
+  class="left-0 top-0 z-10 rounded-full text-center font-medium"
+>
+  {name}
+</a>

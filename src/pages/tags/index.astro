@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cea3a20614dfb48303c4587eb34ea26751531bf5116b3a2304c8a3ad8e81f39e
-size 316
+---
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import ArticleTags from "./_components/ArticleTags.astro";
+
+const tags = await getCollection("tags");
+---
+
+<BaseLayout title="Tags" description="The tags index">
+  <ArticleTags {tags} />
+</BaseLayout>

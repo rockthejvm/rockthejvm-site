@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:963721ae3bf46d6e9d5af79f32c9945a518a656ade98db9d713753c54f8122ac
-size 187
+name: Personal
+description: All of the Rock the JVM premium content, at your service.
+image: src/images/logos/personal.png
+packages:
+  - pricingPlanId: 4131055
+  - pricingPlanId: 4131056

@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:97d0ae544bcdc9309bef37ddce3e2b502bd9bdf0cddc0e907a99c88a4f086f70
-size 199
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  heading: MarkdownHeading;
+}
+
+const { heading } = Astro.props;
+---
+
+<li>
+  <a href={`#${heading.slug}`}>{heading.text}</a>
+</li>

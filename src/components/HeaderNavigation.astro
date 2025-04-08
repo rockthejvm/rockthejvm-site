@@ -1,3 +1,51 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fa135243fb54f0140786495274e6b11fd56213a6eea0e93325fe7a5e0061ca18
-size 1268
+---
+import MyPicture from "@/components/MyPicture.astro";
+import site from "@/data/site.json";
+import Logo from "@/images/logos/rtjvm-red.png";
+---
+
+<nav>
+  <div>
+    <a href="/">
+      <MyPicture src={Logo} alt={site.logo.alt} width={50} quality="low" />
+    </a>
+  </div>
+  <div>
+    <a href="/about-us/">About</a>
+    <a href="/articles/">Articles</a>
+    <a href="/courses/">Courses</a>
+    <a href={site.socials.youtube.url} target="_blank" rel="noreferrer"
+      >YouTube</a
+    >
+    <a href="/articles/feed.xml" target="_blank" rel="noreferrer">RSS</a>
+    <a href="https://sso.teachable.com/secure/256201/identity/login/password"
+      ><button type="button">Log In</button></a
+    >
+  </div>
+</nav>
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+  a {
+    color: var(--color-navigation);
+    padding: 0rem 0.6rem;
+    text-decoration: none;
+  }
+  button {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: var(--color-primary-dark);
+  }
+</style>

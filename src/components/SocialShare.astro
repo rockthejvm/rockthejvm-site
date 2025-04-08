@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a29164d42b649ea2882c0c3e9ba870b17de11c069fc1719485858886559d9fd6
-size 968
+---
+import Facebook from "@/components/icons/Facebook.astro";
+import LinkedIn from "@/components/icons/LinkedIn.astro";
+import Pocket from "@/components/icons/Pocket.astro";
+import Reddit from "@/components/icons/Reddit.astro";
+import Twitter from "@/components/icons/Twitter.astro";
+import tagToHashTag from "@/utils/tagToHashTag";
+import type { CollectionEntry } from "astro:content";
+import SocialShareHelper from "./SocialShareHelper";
+
+interface Props {
+  description: string;
+  title: string;
+  tags: CollectionEntry<"articles">["data"]["tags"];
+  url: string;
+}
+
+const { description, title, url, tags: _tags } = Astro.props,
+  hashTags = _tags.map(({ id }) => tagToHashTag(id));
+---
+
+<div class="my-4">
+  <SocialShareHelper {description} {title} {url} {hashTags} client:idle>
+    <Twitter slot="twitter" />
+    <LinkedIn slot="linkedin" />
+    <Facebook slot="facebook" />
+    <Reddit slot="reddit" />
+    <Pocket slot="pocket" />
+  </SocialShareHelper>
+</div>

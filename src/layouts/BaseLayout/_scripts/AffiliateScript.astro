@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ecab9f010223b15cbd71a3daa69bd522d1d8de7a0521ff60eca11be17b6a92a6
-size 392
+<script>
+  import Cookies from "js-cookie";
+
+  function getURLParameter(paramName: string) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(paramName);
+  }
+
+  const affCode = getURLParameter("affcode");
+
+  if (affCode && Cookies.get("cookies-accepted") === "true") {
+    Cookies.set("teachable-affiliate", affCode, { expires: 30 });
+  }
+</script>

@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:56369c188d660cffa13a657ac2c72ceaa0e52f4598d24040e76eea4cf30ee6a2
-size 878
+---
+import CourseCardVertical from "@/components/CourseCardVertical.astro";
+import Section from "@/components/Section.astro";
+import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
+import { getCollection } from "astro:content";
+
+const _courses = await getCollection("courses"),
+  _inMembershipCourses = _courses.filter(
+    ({ data: { includedInMembership } }) => includedInMembership,
+  ),
+  sortedCourses = [..._inMembershipCourses].sort((a, b) =>
+    compareByNaturalOrder(a.data.title, b.data.title),
+  );
+---
+
+<Section color="bg-secondary" title="Courses Included">
+  <ul class="mx-auto grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      sortedCourses.map((course) => (
+        <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
+          <CourseCardVertical {course} />
+        </li>
+      ))
+    }
+  </ul>
+</Section>

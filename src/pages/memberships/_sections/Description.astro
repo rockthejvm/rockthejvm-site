@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:16fe79581af8d7b279df10cb947e828167a5e1d03709d24b305e18ff6070b361
-size 270
+---
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+---
+
+<Section color="bg-secondary" title="Learn Scala and everything else">
+  <div class="mx-auto max-w-3xl">
+    <Prose>
+      <slot />
+    </Prose>
+  </div>
+</Section>

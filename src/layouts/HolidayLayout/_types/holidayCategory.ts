@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5c04d3c794e553a5218ad90582602334ba8da23e4f9f9271a53f059c8477bf36
-size 214
+import type { CollectionEntry } from "astro:content";
+
+export interface HolidayCategory {
+  category: string;
+  courses: {
+    course: CollectionEntry<"courses">;
+    prices: { old: number; new: number };
+  }[];
+}

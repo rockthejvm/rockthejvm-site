@@ -1,3 +1,46 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6002df6bb7ee92962524b12bb30b90dc32cb22b0b54853d5852553fcf7074049
-size 1262
+---
+import Articles from "@/components/Articles.astro";
+import Prose from "@/components/Prose.astro";
+import NarrowContainer from "@/containers/NarrowContainer";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import type {
+  GetStaticPaths,
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+} from "astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+  const tags = await getCollection("tags"),
+    articles = await getCollection("articles");
+
+  return tags.map((tag) => ({
+    params: { id: tag.id },
+    props: {
+      articles: articles.filter((article) =>
+        article.data.tags.map((tag) => tag.id).includes(tag.id),
+      ),
+      tag,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { articles, tag } = Astro.props,
+  title = `Articles tagged with '${tag.id}'`;
+---
+
+<BaseLayout {title} description={title}>
+  <NarrowContainer>
+    <article class="pt-16 md:pt-8">
+      <header>
+        <Prose class="max-w-none">
+          <h1>{title}</h1>
+        </Prose>
+      </header>
+      <Articles {articles} />
+    </article>
+  </NarrowContainer>
+</BaseLayout>

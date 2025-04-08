@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d6843c05a440c5128547709a6c200b5f2878647b49183246505cfe8a123fb658
-size 205
+location:
+  city: Hamburg
+  country: Germany
+name: Yadu Krishnan
+photo: ./photo.avif
+socials:
+  github: yadavan88
+  linkedin: yadukrishnank
+  twitter: "@yadukrishnank"
+  website: https://yadukrishnan.live

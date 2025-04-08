@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2b1df1f31ccd374f60c9409fe387abfe532d94e0dfc9f2f5d6737f45c5718e6f
-size 337
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "exactOptionalPropertyTypes": false
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"],
+  "mdx": {
+    "checkMdx": true
+  }
+}

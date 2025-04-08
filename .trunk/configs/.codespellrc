@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:eadd837f669b8182e75382c59b5f75a216caa65c4a85b15c1091c277150568ea
-size 116
+[codespell]
+skip = *.svg,*.xsl
+ignore-words-list = assertIO,aNumber,optionA,OptIn,compiletime,launchIn,shouldBe,RIn

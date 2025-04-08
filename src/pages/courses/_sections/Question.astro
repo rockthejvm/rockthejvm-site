@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f0332ad0a2213f5946b0776c0a5388408a56f237fe1dfc27b5ac633805db44b3
-size 555
+---
+import Section from "@/components/Section.astro";
+import Feature from "@/pages/courses/_components/Feature.astro";
+import type { CollectionEntry } from "astro:content";
+
+type CourseFrontmatter = CollectionEntry<"courses">["data"];
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  question: NonNullable<CourseFrontmatter["question"]>;
+}
+
+const { color, question } = Astro.props;
+---
+
+<Section {color} title={question.text}>
+  <Feature image={question.image} imagePosition="left">
+    <slot />
+  </Feature>
+</Section>

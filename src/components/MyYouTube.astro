@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:40e4b6d1be669a3087ebeecc706b363e87dc692736cf8f0c2f83e1b4507b78a4
-size 204
+---
+import { YouTube } from "astro-embed";
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<YouTube
+  {id}
+  title="Prefer Watching?"
+  posterQuality="high"
+  class="mx-auto my-8"
+/>

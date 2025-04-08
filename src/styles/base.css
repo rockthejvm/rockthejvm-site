@@ -1,3 +1,278 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c6ca8419888806ef44bcb928dc2def4890018e11eeb4fda4cc7dbc536f1029e5
-size 5562
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  a {
+    @apply text-accent-1 no-underline;
+  }
+
+  a:hover {
+    @apply text-accent-2 underline;
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+
+    --color-bkg: 54deg 33.3% 94.1%;
+    --color-content1: 217deg 32.6% 17.5%;
+    --color-content2: 217deg 32.6% 25%;
+    --color-accent1: 197deg 100% 30%;
+    --color-accent2: 168deg 84% 30%;
+
+    --color-primary: 221deg 90% 74%;
+    --color-secondary: 0deg 50% 98%;
+    --color-base: 360deg 100% 100%;
+    --color-shadow: 360deg 100% 0%;
+    --color-cta: 221deg 90% 50%;
+    --color-text-cta: 217deg 17% 98%;
+    --color-tag: 226deg 100% 94%;
+    --color-search: 173deg 12% 88%;
+
+    --color-beginner: 155deg 45% 75%;
+    --color-intermediate: 40deg 95% 75%;
+    --color-advanced: 230deg 60% 80%;
+
+    .card-shadow {
+      @apply shadow-[0_10px_20px_#000000];
+    }
+
+    .card-shadow-color {
+      @apply shadow-opposite/40;
+    }
+
+    .body-gradient {
+      background: linear-gradient(
+        180deg,
+        rgb(245, 244, 235) 0%,
+        rgb(223, 211, 179) 100%
+      );
+      height: 100vh;
+      background-repeat: repeat;
+      background-attachment: fixed;
+    }
+
+    /* Uncomment to hide the home page gradient on light mode */
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --color-bkg: 210deg 40% 10%;
+
+    --color-content1: 217deg 17% 98%;
+    --color-content2: 217deg 17% 87%;
+    --color-accent1: 30deg 70% 75%;
+    --color-accent2: 168deg 83.8% 48.2%;
+
+    --color-primary: 221deg 90% 43%;
+    --color-secondary: 221deg 70% 30%;
+
+    --color-base: 360deg 100% 0%;
+    --color-text-cta: 217deg 17% 98%;
+    --color-cta: 221deg 90% 50%;
+    --color-tag: 226deg 100% 94%;
+    --color-search: 217deg 32.6% 18%;
+
+    --color-beginner: 155deg 25% 35%;
+    --color-intermediate: 40deg 70% 45%;
+    --color-advanced: 230deg 55% 50%;
+
+    .card-shadow {
+      @apply shadow-[0px_4px_50px_0px_#000000];
+    }
+
+    .card-shadow-color {
+      @apply shadow-indigo-600/15;
+    }
+
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+    }
+  }
+
+  :root[holiday-theme="black-friday"] {
+    color-scheme: dark;
+
+    --color-holiday-bkg: 0deg 0% 0%;
+
+    --color-holiday-content1: 217deg 17% 98%;
+    --color-holiday-content2: 217deg 17% 87%;
+    --color-holiday-accent1: 30deg 100% 70%;
+    --color-holiday-accent2: 168deg 83.8% 48.2%;
+
+    --color-holiday-card-content1: 217deg 11.41% 38.71%;
+    --color-holiday-card-content2: 217deg 32.6% 25%;
+    --color-holiday-card-accent1: 0deg 0% 0%;
+    --color-holiday-card-accent2: 0deg 84% 30%;
+
+    --color-holiday-primary: 221deg 90% 74%;
+    --color-holiday-secondary: 360deg 100% 100%;
+
+    --color-holiday-base: 360deg 100% 0%;
+    --color-holiday-text-cta: 24deg 93% 55%;
+    --color-holiday-cta: 360deg 0% 95%;
+    --color-holiday-tag: 226deg 100% 94%;
+
+    .card-shadow {
+      @apply shadow-[0px_4px_50px_0px_#000000];
+    }
+
+    .card-shadow-color {
+      @apply shadow-indigo-600/15;
+    }
+
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+    }
+
+    a {
+      @apply text-holiday-card-accent-1 no-underline;
+    }
+
+    a:hover {
+      @apply text-holiday-card-accent-2 underline;
+    }
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-bold;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+
+  h5 {
+    @apply text-base md:text-lg lg:text-xl;
+  }
+
+  h6 {
+    @apply text-sm md:text-base lg:text-lg;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .article-home-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .article-home-link::after {
+    content: "";
+    background: #999;
+    width: 80%;
+    height: 1px;
+    position: absolute;
+    bottom: -0.2rem;
+  }
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+.beginner {
+  background-color: hsl(var(--color-beginner));
+}
+.intermediate {
+  background-color: hsl(var(--color-intermediate));
+}
+.advanced {
+  background-color: hsl(var(--color-advanced));
+}
+
+.rainbow-text {
+  background-image: linear-gradient(
+    to left,
+    violet,
+    indigo,
+    blue,
+    green,
+    yellow,
+    orange,
+    red
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.roadmap-node-border {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roadmap-node-border .inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.roadmap-node-border .inner {
+  margin: 4px;
+}
+
+.roadmap-node-border::before {
+  content: "";
+  display: block;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(58, 58, 58, 0.75) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  height: 300px;
+  width: 100px;
+  transform: translate(0);
+  position: absolute;
+  animation: rotate 5s linear forwards infinite;
+  z-index: 0;
+  top: 50%;
+  transform-origin: top center;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

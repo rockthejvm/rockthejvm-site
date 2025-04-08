@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:639c10f431a6ff0cec4fa2a783d2bdbb1e2495a4ffb9ba00715f4ea73fcb3604
-size 651
+import site from "@/data/site.json";
+import rss from "@astrojs/rss";
+import { getCollection } from "astro:content";
+
+export async function GET(context) {
+  const articles = await getCollection("articles");
+  return rss({
+    customData: "<language>en-us</language>",
+    description: site.description,
+    items: articles.map((article) => ({
+      description: article.data.excerpt,
+      link: `/articles/${article.id}/`,
+      pubDate: article.data.publishedDate.toISOString(),
+      title: article.data.title,
+    })),
+    site: context.site,
+    stylesheet: "/rss/styles.xsl",
+    title: `${site.name} Articles`,
+    trailingSlash: false,
+  });
+}

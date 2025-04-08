@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e8327e909213365371de7245120c9c6795fd544cd3013f0f14af04939ec0ba5e
-size 300
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true # Use `<br>` for line breaks in markdown instead https://www.markdownguide.org/basic-syntax/#line-break-best-practices
+insert_final_newline = true
+
+[*.{md,mdx,txt}]
+indent_size = 4
