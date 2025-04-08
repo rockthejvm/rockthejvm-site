@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e26eabf5034de7c3525f5664b2b2e708bbd77993468271526560c91d23fc2502
-size 335
+export default (durationInSeconds: number): string => {
+  const minutes = Math.floor(durationInSeconds / 60);
+  const seconds = durationInSeconds % 60;
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+  const formattedSeconds = seconds.toString().padStart(2, "0");
+  return `${formattedMinutes}:${formattedSeconds}`;
+};

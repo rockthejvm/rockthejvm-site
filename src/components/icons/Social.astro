@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:182f8eeafcbeb320a5d459df23c6695326e5968d97b612d375519a704a6d4343
-size 220
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  name: string;
+  title: string;
+}
+
+const { name, title } = Astro.props;
+---
+
+<Icon {name} {title} aria-hidden="true" class="size-6 text-content-2" />

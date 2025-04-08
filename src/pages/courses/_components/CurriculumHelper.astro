@@ -1,3 +1,78 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:77bd478a71b1c51a35a31db7425562a9ad8bda80341060b2df1df7b81c40b4fc
-size 2488
+---
+import durationToMinutes from "@/utils/durationToMinutes";
+import { z } from "astro/zod";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
+  courseId: CollectionEntry<"courses">["id"];
+}
+
+const ResponseSchema = z.array(
+  z.object({
+    id: z.number().int().nonnegative(),
+    name: z.string(),
+    lectures: z.array(
+      z.object({
+        id: z.number().int().nonnegative(),
+        name: z.string().optional(),
+        media_duration: z.number().int().nonnegative(),
+      }),
+    ),
+  }),
+);
+
+const { color, courseId, pricingPlanId } = Astro.props,
+  response = await fetch(
+    `https://rtjvm-teachable-worker.andrei-023.workers.dev/curriculum/${pricingPlanId}`,
+  ),
+  responseData = await response.json(),
+  lectureSections = ResponseSchema.parse(responseData);
+---
+
+<div class="my-16 h-[65vh] overflow-y-auto">
+  {
+    lectureSections.map((lectureSection) => (
+      <div class="mx-auto max-w-5xl">
+        <div
+          class="sticky top-0 z-10 mb-4 min-w-0 flex-auto pl-4"
+          style={{ background: color }}
+        >
+          <h3 class="py-4 pl-4">{lectureSection.name}</h3>
+        </div>
+
+        {lectureSection.lectures.map(({ id, media_duration, name }) => (
+          <div class="flex justify-between gap-x-6 py-2">
+            <div class="flex-1 overflow-hidden text-nowrap text-xl text-content">
+              <span class="flex items-center gap-2">
+                <a
+                  href={`https://courses.rockthejvm.com/courses/${courseId}/lectures/${id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="block truncate"
+                  style="max-width: 100%;"
+                >
+                  {name}
+                </a>
+                <span class="whitespace-nowrap text-xs">
+                  {durationToMinutes(media_duration)}
+                </span>
+              </span>
+            </div>
+
+            <a
+              href={`https://courses.rockthejvm.com/courses/${courseId}/lectures/${id}`}
+              style={{ background: color }}
+              class="rounded-md px-3.5 py-2.5 shadow-sm"
+            >
+              <span class="text-sm font-semibold text-content hover:text-content hover:no-underline">
+                Preview
+              </span>
+            </a>
+          </div>
+        ))}
+      </div>
+    ))
+  }
+</div>

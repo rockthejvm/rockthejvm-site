@@ -1,3 +1,43 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:912474cea235de0f212b5ce5f14eebc41f2fc0895c8a1cdd0a746bfc80d60d46
-size 3285
+---
+description: The best training material on Java, Scala, Akka and the JVM, on the whole damn web.
+title: The Rock the JVM Story
+---
+
+import site from "@/data/site.json";
+import InformationalLayout from "./_layouts/InformationalLayout.astro";
+import MyPicture from "@/components/MyPicture.astro";
+import DanielPhoto from "@/images/profiles/daniel-ciocirlan.jpeg";
+
+export const structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    description: frontmatter.description,
+    legalName: site.legalName,
+    logo: "https://rockthejvm.com/logos/rtjvm.png", // TODO
+    name: site.name,
+    url: "https://rockthejvm.com",
+});
+
+<InformationalLayout description={frontmatter.description} structuredData={structuredData} title={frontmatter.title}>
+
+## The one-liner
+
+Rock the JVM aims to be the go-to resource for learning Scala, Akka, Spark and everything JVM. Everything is battle-tested on yours truly.
+
+## The reasonably short version
+
+I'm [Daniel Ciocîrlan](https://danielciocirlan.com), a developer and teacher from Bucharest, Romania. I've started Rock the JVM to share everything that I learned through pain, blood, sweat and tears and distill everything in action-packed courses with a smooth learning curve. Since 2013, I've been teaching a variety of programming topics to people all over the world and at every level of the game, from senior engineers processing trillions of data points to 7-year-olds moving spaceships on the screen.
+
+At first, I mastered Java, then I taught it for 3.5 years to university students. I found Scala 7 years ago when a good friend told me about functional collections. I was blown away, and still am to this day as I discover more of the Scala magic. The rabbit hole only went deeper from there: I learned Akka with my own small projects, then Spark and big data while at Palantir. I left Palantir in mid 2019, but it's very likely my old pipelines are still crunching data every day, as we speak.
+
+I hope you enjoy my material - in the meantime, I've just started on [Twitter](https://x.com/@rockthejvm) and would love to meet you!
+
+## A bit more
+
+I spend most of my time between Scala, Akka and Spark, and I'm really fortunate I get to work with them and teach them to other developers. I love the expressiveness and the concise power of a good technology. I learn from the community and the people I've had in my courses and I love to share back what I've learned. I love to speak at meetups and conferences and I adore people's faces when something really hard "clicks" in their mind and their face lights up. I don't know how people react to my online courses in real time, but I love the "this changed my life" comments. I've graduated from University Politehnica of Bucharest with a BSc and a MSc in Computer Science. My Bachelor and Master thesis were on quantum computation, of all things. That can be explained by the fact that I was really into physics before - I was winning medals at international physics competitions. When I'm not coding, I dance salsa and bachata and I tend to play an absurd amount of Ed Sheeran on my acoustic guitar.
+
+[I'm always there to help](/contact) if you need anything.
+
+<MyPicture src={DanielPhoto} alt="Daniel Ciocîrlan" />
+
+</InformationalLayout>

@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:94f0984f21e360a41aaf3ed3666bfccedd62fd5329cae97d3b68b06113f37560
-size 769
+---
+import NewsletterForm from "@/components/NewsletterForm.astro";
+import CourseEntry from "@/pages/_components/CourseEntry.astro";
+import type { HolidayCategory } from "../_types/holidayCategory.ts";
+
+interface Props {
+  categories: HolidayCategory[];
+  couponCode: string;
+}
+
+const { categories, couponCode } = Astro.props;
+---
+
+<article>
+  {
+    categories.map(({ category, courses }) => (
+      <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
+        <div class="flex flex-row gap-x-4">
+          <h2 class="my-auto w-full text-center">{category}</h2>
+        </div>
+        {courses.map(({ course, prices }) => (
+          <CourseEntry {course} holiday={true} {couponCode} {prices} />
+        ))}
+      </section>
+    ))
+  }
+  <NewsletterForm />
+</article>

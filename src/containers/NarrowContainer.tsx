@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1fefb44c65458525f15eb36697c8ce90a87b35abffc64dee0f6163f2893fdbb0
-size 747
+import type { ReactNode } from "react";
+
+// export default function Example({ children }: { children: ReactNode }) {
+//   return (
+//     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+//       {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
+//       <div className="mx-auto max-w-3xl">{children}</div>
+//     </div>
+//   );
+// }
+
+// export default function Example({ children }: { children: ReactNode }) {
+//   return (
+//     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">{children}</div>
+//   );
+// }
+export default function Example(props: { children: ReactNode }) {
+  return (
+    <div className="container z-10 mx-auto px-4 sm:px-6 lg:px-4">
+      {props.children}
+    </div>
+  );
+}

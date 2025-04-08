@@ -1,3 +1,271 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1d4ad71fa3ba5169a3473e59bb7f4284386ef2759bf6d7ab8d83f1a3e211702b
-size 8583
+---
+import ArticlePreview from "@/components/ArticlePreview.astro";
+import ArticleSeries from "@/components/ArticleSeries.astro";
+import AuthorWide from "@/components/AuthorWide.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import MyYouTube from "@/components/MyYouTube.astro";
+import Prose from "@/components/Prose.astro";
+import SocialShare from "@/components/SocialShare.astro";
+import TagList from "@/components/TagList.astro";
+import NarrowContainer from "@/containers/NarrowContainer";
+import matchedArticles from "@/data/matchedArticles.json";
+import site from "@/data/site.json";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import capitalizeFirstChar from "@/utils/capitalizeFirstChar";
+import formatDate from "@/utils/formatDate";
+import type { MarkdownHeading } from "astro";
+import "astro-starlight-remark-asides/styles.css";
+import type { CollectionEntry } from "astro:content";
+import { getEntries, getEntry, z } from "astro:content";
+import Byline from "../_components/Byline.astro";
+import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
+import NewsletterSection from "../_components/NewsletterSection.astro";
+import RelatedArticles from "../_components/RelatedArticles";
+import TableOfContents from "../_components/TableOfContents.astro";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+  allArticles: CollectionEntry<"articles">[];
+  headings: MarkdownHeading[];
+  minutesRead: number;
+}
+
+const { article, allArticles, headings, minutesRead } = Astro.props,
+  _frontmatter = article.data,
+  {
+    canonicalUrl,
+    description,
+    difficulty,
+    excerpt,
+    // heroImage,
+    publishedDate,
+    repositoryUrl,
+    title,
+    updatedDate,
+    videoId,
+  } = _frontmatter,
+  date = updatedDate ?? publishedDate,
+  category = await getEntry(
+    _frontmatter.category.collection,
+    _frontmatter.category.id,
+  )!,
+  author = await getEntry(
+    _frontmatter.author.collection,
+    _frontmatter.author.id,
+  )!,
+  tags = await getEntries(_frontmatter.tags),
+  structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    author: [
+      {
+        "@type": "Person",
+        name: author.data.name,
+        url: `${Astro.site!}/authors/${author.id}`,
+      },
+    ],
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      url: Astro.site,
+    },
+    dateModified: updatedDate,
+    datePublished: publishedDate,
+    headline: title,
+    // image: heroImage?.image.src,
+  }),
+  ArticleMatchSchema = z.object({
+    all_matches: z.array(
+      z.object({
+        matched_slug: z.string(),
+        similarity: z.number(),
+        source_slug: z.string(),
+      }),
+    ),
+  }),
+  // _matchedArticlesResponse = await fetch("/api/v1/matchedArticles.json"),
+  // matchedArticles = await _matchedArticlesResponse.json(),
+  _matchedArticlesResult = ArticleMatchSchema.safeParse(matchedArticles);
+
+if (!_matchedArticlesResult.success) {
+  throw new Error("Failed to parse matched articles data");
+}
+
+const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
+    _matchedArticlesResult.data,
+  _matches = _matchedArticlesData.all_matches.filter(
+    (match) => match.source_slug === article.id,
+  ),
+  _sortedMatches = [..._matches].sort((a, b) => b.similarity - a.similarity),
+  relatedArticles = _sortedMatches.map((match) =>
+    allArticles.find((article) => article.id === match.matched_slug),
+  );
+---
+
+<BaseLayout
+  article={{
+    author: {
+      name: author.data.name,
+      // add a twitter username if available
+      twitter: author.data.socials?.twitter,
+    },
+    category: category.id,
+    minutesRead,
+    photo: author.data.photo,
+    publishedTime: publishedDate,
+    section: "Programming",
+    tags: tags.map((tag) => tag.id),
+    updatedTime: updatedDate,
+    // video: video?.data.canonicalUrl
+    //   ? new URL(video.data.canonicalUrl)
+    //   : undefined,
+  }}
+  canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
+  description={description ?? excerpt}
+  {structuredData}
+  {title}
+  type="article"
+  searchIndexable={true}
+>
+  <NarrowContainer>
+    <div data-pagefind-filter={`Difficulties: ${difficulty.id}`}></div>
+    <div data-pagefind-filter="Categories:Articles (All)"></div>
+    <div
+      data-pagefind-filter={`Categories:Articles (${(() => {
+        switch (category.data.name) {
+          case "Explanation": {
+            return "Explanations";
+          }
+          case "Guide": {
+            return "Guides";
+          }
+          case "Opinion": {
+            return "Opinions";
+          }
+          case "Retrospective": {
+            return "Retrospectives";
+          }
+          default: {
+            return "";
+          }
+        }
+      })()})`}
+    >
+    </div>
+    <div data-pagefind-filter={`Authors:${author.data.name}`}></div>
+    {tags.map((tag) => <div data-pagefind-filter={`Tags:${tag.id}`} />)}
+    <div data-pagefind-meta={`Date:${formatDate(date)}`}></div>
+    <article class="pt-16 md:pt-8">
+      <header>
+        <Prose class="max-w-none">
+          <h1>
+            {title}
+          </h1>
+        </Prose>
+        <Byline {author}>
+          {
+            minutesRead && (
+              <p>
+                {minutesRead} min read &nbsp;•&nbsp; {<FormattedDate {date} />}{" "}
+                &nbsp;•&nbsp; {category.data.name} &nbsp;•&nbsp;{" "}
+                {capitalizeFirstChar(difficulty.id)}
+              </p>
+            )
+          }
+          <TagList {tags} />
+        </Byline>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
+        <div class="my-5">
+          <ArticleSeries {article} label="This article is part of a series" />
+        </div>
+        {videoId && <MyYouTube id={videoId} />}
+      </header>
+      <div class="xl:flex xl:flex-row">
+        <Prose class="my-4 prose-h2:mt-2">
+          <div id="toc" class="hidden lg:block xl:hidden">
+            <TableOfContents {headings} {repositoryUrl} {videoId} />
+          </div>
+          <slot />
+        </Prose>
+        <Prose
+          class="no-scrollbar sticky left-full top-0 ml-2 hidden max-h-[90vh] max-w-sm justify-end self-start overflow-y-scroll px-2 prose-h2:mt-2 xl:block"
+          ><TableOfContents {headings} {repositoryUrl} {videoId} /></Prose
+        >
+      </div>
+      <footer>
+        <div class="hidden lg:block">
+          <SocialShare
+            title={article.data.title}
+            description={article.data.description ?? ""}
+            url={Astro.url.href}
+            tags={article.data.tags}
+          />
+        </div>
+        <ArticleSeries {article} open={true} />
+        <AuthorWide {author} />
+        {
+          relatedArticles.length > 0 && (
+            <RelatedArticles length={relatedArticles.length} client:load>
+              {relatedArticles.length >= 1 && (
+                <ArticlePreview
+                  slot="firstArticle"
+                  article={relatedArticles[0]!}
+                />
+              )}
+              {relatedArticles.length >= 2 && (
+                <ArticlePreview
+                  slot="secondArticle"
+                  article={relatedArticles[1]!}
+                />
+              )}
+              {relatedArticles.length >= 3 && (
+                <ArticlePreview
+                  slot="thirdArticle"
+                  article={relatedArticles[2]!}
+                />
+              )}
+              {relatedArticles.length >= 4 && (
+                <ArticlePreview
+                  slot="fourthArticle"
+                  article={relatedArticles[3]!}
+                />
+              )}
+              {relatedArticles.length >= 5 && (
+                <ArticlePreview
+                  slot="fifthArticle"
+                  article={relatedArticles[4]!}
+                />
+              )}
+            </RelatedArticles>
+          )
+        }
+
+        <NewsletterSection />
+      </footer>
+    </article>
+  </NarrowContainer>
+  <FloatingActionMenuHelper client:load>
+    <Prose class="prose-h2:mt-2" slot="toc">
+      <TableOfContents
+        {headings}
+        {repositoryUrl}
+        {videoId}
+        hideButtons={false}
+      />
+    </Prose>
+    <SocialShare
+      title={article.data.title}
+      description={article.data.description ?? ""}
+      url={Astro.url.href}
+      tags={article.data.tags}
+      slot="share"
+    />
+  </FloatingActionMenuHelper>
+</BaseLayout>

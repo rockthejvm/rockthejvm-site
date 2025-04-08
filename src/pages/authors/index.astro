@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8184e2776d413c04ae804bf5d4c9f47974be2a0787ac582e427dcd2fd92c5f70
-size 339
+---
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import ArticleAuthors from "./_components/ArticleAuthors.astro";
+
+const authors = await getCollection("authors");
+---
+
+<BaseLayout title="Authors" description="The author index">
+  <ArticleAuthors {authors} />
+</BaseLayout>

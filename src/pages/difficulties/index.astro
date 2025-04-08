@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:72101cbd545c731bd1777cda8cbe0ab2f0ea561687d9b1d1eefc485f76132415
-size 378
+---
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import ArticleDifficulties from "./_components/ArticleDifficulties.astro";
+
+const difficulties = await getCollection("difficulties");
+---
+
+<BaseLayout title="Difficulties" description="The difficulty index">
+  <ArticleDifficulties {difficulties} />
+</BaseLayout>

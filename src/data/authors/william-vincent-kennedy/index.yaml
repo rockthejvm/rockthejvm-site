@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf4d90442d733e98906586458fdca7bb87f63948381bb19641f09460e959cd9b
-size 106
+name: William Vincent Kennedy
+company:
+  entity: riverwalk-software
+  role: Co-Founder
+photo: ./photo.png

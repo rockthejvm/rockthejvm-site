@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:946487c486a6c0e63b017faba08d5fe2114bd4dfeea7abadd7ef06d9ee4deef3
-size 620
+---
+import ArticleDifficulty from "@/components/ArticleDifficulty.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  difficulties: CollectionEntry<"difficulties">[];
+}
+const { difficulties } = Astro.props;
+---
+
+<section class="pb-8 sm:py-2 md:pb-16">
+  <header class="py-8 md:py-16">
+    <h1 class="mx-6 text-center text-content-1 lg:mx-8">
+      Article Difficulties
+    </h1>
+  </header>
+  <div
+    class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
+  >
+    {difficulties.map((difficulty) => <ArticleDifficulty {difficulty} />)}
+  </div>
+</section>

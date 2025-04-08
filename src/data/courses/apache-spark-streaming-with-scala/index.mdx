@@ -1,3 +1,97 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d7c48139f8313bbb415933c747f1cbb446dd2da4dc7761d436cdfde66f1dcb1e
-size 5736
+---
+benefits:
+    hours: 11
+    linesOfCode: 2200
+category: apache-spark
+description: Unlock the power of Apache Spark Streaming with Scala. Learn to process massive data in real time, integrate with Kafka, JDBC, Cassandra, and other tools, and manage live data streams with ease. Ideal for mastering real-time data processing and streaming applications.
+difficulty: intermediate
+excerpt: "<p>Master Apache Spark Streaming with Scala: process massive data as it arrives, integrate with Kafka, JDBC, Cassandra, and more &ndash;  handle live data streams effortlessly</p>"
+# faqs:
+#   - question: Is Spark Streaming difficult to learn?
+# answer: It could be, if you're learning on your own, but I've designed this course with a clear learning path that you can follow step by step. The course was designed to give you a challenge so you're not bored, but not so much that you flip the table in anger. In case you struggle, we have a community willing to help, and I'm responsive for questions!
+#   - question: I have very little Scala or Spark experience. Can I learn Spark Streaming?
+# answer: I don't recommend diving into Spark Streaming without any previous Spark experience. We have two recap lessons at the beginning, but they're not a crash course into Scala or Spark. You should take the Scala beginners course and the Spark Essentials course at least.
+heroImage: images/apache-spark-streaming-with-scala.png
+title: Apache Spark Streaming with Scala
+pricingPlanId: 3886435
+publishedDate: 2020-05-22
+updatedDate: 2023-11-25
+tags: [spark, streaming]
+---
+
+import CourseLayout from "@/pages/courses/_layouts/CourseLayout.astro";
+
+<CourseLayout>
+<Fragment slot="goal">
+### Nothing static, all in motion.
+
+You probably know by now: Spark is the most popular computing engine for big data, the most maintained, and with a proven track record of performance. It's 100 times faster than the old MapReduce paradigm, and can easily be extended with machine learning and streaming capabilities, and much more.
+
+In this Spark Streaming course, we'll take the natural step forward: process big data as it arrives.
+
+### What's in for you:
+
+- You'll learn how Spark Structured Streaming and "normal" Spark batch operations are similar and different
+- You'll work with new streaming abstractions (DStreams) for low-level, high-control processing
+- You'll integrate Kafka, JDBC, Cassandra and Akka Streams (!) so that you can later integrate anything you like
+- You'll work with powerful stateful APIs that only a few know how to properly use
+
+And some extra perks: - You'll have access to the entire code I write on camera (2200+ LOC) - You'll be invited to our private Slack room where I'll share latest updates, discounts, talks, conferences, and recruitment opportunities - (soon) You'll have access to the takeaway slides - (soon) You'll be able to download the videos for your offline view
+
+</Fragment>
+<Fragment slot="skills">
+### Skills you'll get:
+
+- Same comfort with Spark Structured Streaming APIs as with "normal" Spark batch:
+    - projections
+    - joins
+    - aggregations
+    - sums
+    - groups
+- High control over how data is processed with DStreams:
+    - map, flatMap, filter
+    - transform
+    - by-key operations
+    - process each RDD individually
+- Ability to work with time columns and window functions, both on structured and low-level streams
+    - sliding windows
+    - tumbling windows
+    - reduce by window
+    - reduce by window and key
+- Integration between Spark and other data sources, including
+    - Kafka (structured and low-level)
+    - JDBC
+    - NoSQL
+    - and something that's not "natural" to Spark, like Akka
+- Ability to manually manage stateful data processing in ways SQL is incapable of
+    - mapGroupsWithState
+    - flatMapGroupsWithState
+
+**This course is for Scala and Spark programmers who need to process streaming data rather than one-time or batch. If you've never done Scala or Spark, this course is not for you.**
+
+### Project 1: Twitter
+
+In this project we will integrate live data from Twitter. We will create a custom data source that we use with Spark, and we will do various analyses: tweet lengths, most used hashtags in real time. You will be able to use this project as a blueprint for any data source that you might want to integrate. At the very end, we will use an NLP library from Stanford to do sentiment analysis on tweets and find the general state of social media.
+
+You will learn:
+
+- How to set up your own data receiver, that you can manage yourself and "pull" new data
+- How to create a DStream from your custom code
+- How to pull data from Twitter
+- How to aggregate tweets
+- How to use Stanford's coreNLP library for sentiment analysis
+- How to apply sentiment analysis on tweets in real time
+
+### Project 2: A Science Project
+
+In this project we will write a full-stack web application which will support multiple users that are test subjects of a scientific test. We will investigate the effects of alcohol/substances/insert_your_addictive_drug_like_Scala on reflexes and response times. We will send the data through a web UI connected to a REST endpoint, then the data will flow through a Kafka broker and finally to a Spark Streaming backend which will do the data crunching. You can use this application as a blueprint for any full-stack application that aggregates and processes data with Spark Streaming in real time, from any number of concurrent users.
+
+You will learn:
+
+- How to set up an HTTP server in minutes with Akka HTTP
+- How to manually send data through Kafka
+- How to aggregate data in a way that's almost impossible in SQL
+- How to write a full-stack application with a web UI, Akka HTTP, Kafka and Spark Streaming
+
+</Fragment>
+</CourseLayout>

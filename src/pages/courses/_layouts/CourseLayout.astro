@@ -1,3 +1,374 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:08e679d89fb8f5d9a02a518940f0a111dd01a9d3e426d87fa24ca9e198579363
-size 10163
+---
+import Profile from "@/components/Profile.astro";
+import site from "@/data/site.json";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import type { ReactFlowEdge, ReactFlowNode } from "@/types/ReactFlow";
+import { getTeachablePricingPlan } from "@/utils/teachable";
+import {
+  type CollectionEntry,
+  getCollection,
+  getEntries,
+  getEntry,
+} from "astro:content";
+import Roadmap from "../_components/Roadmap";
+import BundledCourses from "../_sections/BundledCourses.astro";
+import CourseFAQ from "../_sections/CourseFAQ.astro";
+import CourseVideo from "../_sections/CourseVideo.astro";
+import Curriculum from "../_sections/Curriculum.astro";
+import Features from "../_sections/Features.astro";
+import Goal from "../_sections/Goal.astro";
+import Hero from "../_sections/Hero.astro";
+import Pricing from "../_sections/Pricing.astro";
+import Question from "../_sections/Question.astro";
+import Skills from "../_sections/Skills.astro";
+import TechStack from "../_sections/TechStack.astro";
+
+interface Response {
+  price: number;
+}
+
+const course = await getEntry(
+    "courses",
+    Astro.params.id as CollectionEntry<"courses">["id"],
+  )!,
+  _frontmatter = course.data,
+  [bundledCourses, _categoryFrontmatter, collaborators] = await Promise.all([
+    _frontmatter.bundledCourses !== undefined
+      ? getEntries(_frontmatter.bundledCourses)
+      : Promise.resolve([]),
+    getEntry(_frontmatter.category.collection, _frontmatter.category.id)!.then(
+      (category) => category.data,
+    ),
+    _frontmatter.collaborators !== undefined
+      ? await Promise.all(
+          _frontmatter.collaborators.map(async (collaborator) => ({
+            frontmatter: (await getEntry(
+              collaborator.author.collection,
+              collaborator.author.id,
+            ))!.data,
+            biography: collaborator.biography,
+          })),
+        )
+      : [],
+  ]),
+  tags = await getEntries(_frontmatter.tags ?? []),
+  { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter,
+  {
+    includedInMembership,
+    benefits,
+    description,
+    faqs,
+    features,
+    heroImage,
+    instructors: _instructors,
+    isFree,
+    pricingPlanId,
+    question,
+    technologies,
+    thanks,
+    title,
+    videoId,
+    hasGoal,
+    hasSkills,
+    instructorEnabled,
+  } = _frontmatter,
+  difficulty =
+    _frontmatter.difficulty !== undefined
+      ? await getEntry(
+          _frontmatter.difficulty.collection!,
+          _frontmatter.difficulty.id!,
+        )
+      : undefined,
+  instructors = await getEntries(_instructors),
+  isCourse = benefits !== undefined,
+  isBundle = benefits === undefined,
+  pricingPlan = await getTeachablePricingPlan(pricingPlanId);
+
+const difficultyLevelToEducationalLevel = (level: number) => {
+  switch (level) {
+    case 1:
+      return "Beginner";
+    case 2:
+      return "Intermediate";
+    default:
+      return "Advanced";
+  }
+};
+
+const _prerequisitess = await getCollection("prerequisites"),
+  prerequisites = _prerequisitess.find(({ data: { nodes } }) =>
+    nodes.find((node) => node.id === course.id),
+  ),
+  reactFlowNodes: ReactFlowNode[] | undefined =
+    prerequisites !== undefined
+      ? await Promise.all(
+          prerequisites.data.nodes.map(async (node) => ({
+            id: node.id,
+            type: "linkNode",
+            position: { x: 0, y: 0 },
+            data: {
+              difficulty: (
+                await getEntry(node.collection, node.id)?.then(
+                  async ({ data: { difficulty } }) =>
+                    difficulty !== undefined
+                      ? await getEntry(difficulty.collection, difficulty.id)
+                      : undefined,
+                )
+              )?.data.id,
+              isCurrent: node.id === course.id,
+              label: (await getEntry(node.collection, node.id))!.data.title,
+              href: `/courses/${node.id}`,
+            },
+          })),
+        )
+      : undefined,
+  reactFlowEdges: ReactFlowEdge[] | undefined = prerequisites?.data.edges.map(
+    (edge) => ({
+      id: `${edge.from.id}TO${edge.to.id}`,
+      source: edge.from.id,
+      target: edge.to.id,
+      // type: "smart",
+      animated: Boolean(edge.optional),
+    }),
+  ),
+  _companies = await getCollection("companies"),
+  structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: title,
+    description,
+    provider: {
+      "@type": "Organization",
+      name: site.name,
+      url: Astro.site,
+    },
+    offers: [
+      isFree
+        ? {
+            "@type": "Offer",
+            category: "Free",
+          }
+        : {
+            "@type": "Offer",
+            category: "Paid",
+            priceCurrency: pricingPlan?.currency,
+            price: pricingPlan !== null ? pricingPlan.price / 100 : 0,
+          },
+    ],
+    hasCourseInstance: [
+      {
+        "@type": "CourseInstance",
+        courseMode: "Online",
+        courseWorkload: `PT${Math.round(
+          2 *
+            (isBundle
+              ? bundledCourses
+                  .map(({ data: { benefits } }) => benefits?.hours ?? 0)
+                  .reduce((b, a) => b + a, 0)
+              : benefits!.hours),
+        ).toFixed(0)}H`,
+        instructor: instructors.map((instructor) => ({
+          "@type": "Person",
+          name: instructor.data.name,
+          description:
+            instructor.data.biography ??
+            (instructor.data.company
+              ? `${instructor.data.company.role} at ${_companies.find((_company) => _company.data.id === instructor.data.company!.entity.id)!.data.name}.`
+              : ""),
+          image: instructor.data.photo.src,
+        })),
+      },
+    ],
+    availableLanguage: ["en"],
+    educationalLevel: difficultyLevelToEducationalLevel(
+      difficulty?.data.level ??
+        (
+          await Promise.all(
+            bundledCourses.map(async ({ data: { difficulty } }) =>
+              difficulty !== undefined
+                ? (await getEntry(difficulty.collection!, difficulty.id!))!.data
+                    .level!
+                : 1,
+            ),
+          )
+        ).reduce((b, a) => (a > b ? a : b), 1),
+    ),
+    image: [heroImage.src],
+    inLanguage: "en",
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      url: Astro.site,
+    },
+  });
+---
+
+<BaseLayout
+  {description}
+  {title}
+  image={{ alt: title, src: heroImage.src }}
+  {structuredData}
+  searchIndexable={true}
+>
+  {isCourse && <div data-pagefind-filter={`Difficulties: ${difficulty!}`} />}
+  <div data-pagefind-filter="Categories:Courses (All)"></div>
+  <div
+    data-pagefind-filter={`Categories:${isBundle ? "Courses (Bundles)" : "Courses (Singles)"}`}
+  >
+  </div>
+  {
+    instructors.map((instructor) => (
+      <div data-pagefind-filter={`Authors:${instructor.data.name}`} />
+    ))
+  }
+  {
+    collaborators.map((collaborator) => (
+      <div data-pagefind-filter={`Authors:${collaborator.frontmatter.name}`} />
+    ))
+  }
+  {tags.map((tag) => <div data-pagefind-filter={`Tags:${tag.id}`} />)}
+  <article>
+    <Hero
+      {description}
+      {heroImage}
+      inRoadmap={prerequisites !== undefined}
+      {pricingPlanId}
+      {title}
+    >
+      <div
+        slot="roadmap"
+        class="relative mx-auto w-full overflow-y-hidden overflow-x-visible"
+      >
+        <div class="z-10 mx-auto w-full overflow-hidden">
+          <div id="app" class="w-full overflow-hidden">
+            <Roadmap
+              client:load
+              initialNodes={reactFlowNodes}
+              initialEdges={reactFlowEdges}
+            />
+          </div>
+        </div>
+      </div>
+    </Hero>
+    {
+      videoId && (
+        <CourseVideo color={categoryColor} {videoId}>
+          <slot />
+        </CourseVideo>
+      )
+    }
+    <slot name="description" />
+    {
+      hasGoal && (
+        <Goal color={categoryColor}>
+          <slot name="goal" />
+        </Goal>
+      )
+    }
+    {
+      question && (
+        <Question color={categoryColor} {question}>
+          <slot name="question" />
+        </Question>
+      )
+    }
+    {
+      features && (
+        <Features color={categoryColor} {features}>
+          <slot name="verticalSection" slot="verticalSection" />
+          <slot name="feature1" slot="feature1" />
+          <slot name="feature2" slot="feature2" />
+          <slot name="feature3" slot="feature3" />
+          <slot name="feature4" slot="feature4" />
+          <slot name="feature5" slot="feature5" />
+        </Features>
+      )
+    }
+    {technologies && <TechStack {technologies} color={categoryColor} />}
+    {
+      hasSkills && (
+        <Skills color={categoryColor}>
+          <slot name="skills" />
+        </Skills>
+      )
+    }
+    {
+      instructorEnabled && (
+        <Profile color={categoryColor} {collaborators} {thanks} />
+      )
+    }
+    {
+      isBundle ? (
+        <BundledCourses color={categoryColor} {bundledCourses} />
+      ) : (
+        <Curriculum
+          color={categoryColor}
+          courseId={course.id}
+          {pricingPlanId}
+        />
+      )
+    }
+    {
+      pricingPlan !== null && (
+        <Pricing
+          {includedInMembership}
+          {isCourse}
+          {benefits}
+          {bundledCourses}
+          color={categoryColor}
+          courseId={course.id}
+          {pricingPlanId}
+          priceInCents={pricingPlan.price}
+          currency={pricingPlan.currency}
+          {title}
+        />
+      )
+    }
+    <CourseFAQ
+      {categoryFaqs}
+      courseFaqs={faqs}
+      color={categoryColor}
+      {isBundle}
+    />
+  </article>
+</BaseLayout>
+<style is:global>
+  #app {
+    width: 100vw;
+    height: 100vh;
+  }
+  .react-flow__handle {
+    opacity: 0;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 0.5em;
+    border: 1px solid #333;
+  }
+
+  .legend-line {
+    width: 40px;
+    height: 0;
+    border-top: 2px solid black;
+    margin-right: 0.5em;
+  }
+
+  .dashed {
+    border-top-style: dashed;
+  }
+</style>

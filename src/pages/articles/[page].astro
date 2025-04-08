@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf7053a11f28a04b26e7baf63e8258b6d64e76f025f9f567566ea957169fb53b
-size 1236
+---
+import Articles from "@/components/Articles.astro";
+import BackgroundGradient from "@/components/BackgroundGradient.astro";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import type { GetStaticPathsOptions, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import Pagination from "./_components/Pagination.astro";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const _articles = await getCollection("articles"),
+    sortedArticles = _articles.sort((a, b) =>
+      b.data.publishedDate.getTime() <= a.data.publishedDate.getTime() ? -1 : 1,
+    );
+
+  return paginate(sortedArticles, { pageSize: 6 });
+}
+
+interface Props {
+  page: Page<CollectionEntry<"articles">>;
+}
+
+const { page } = Astro.props,
+  title = "Article Index";
+---
+
+<BaseLayout {title} description={title}>
+  <header class="pt-8 md:pt-16">
+    <h1 class="mx-6 text-center text-content-1 lg:mx-8">
+      Rock the JVM Articles
+    </h1>
+  </header>
+  <BackgroundGradient />
+  <Articles articles={page.data} sortBy={"none"} />
+  <footer class="pb-4">
+    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} {page} />
+  </footer>
+</BaseLayout>

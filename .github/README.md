@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ae76b11656a42cdde12485a79191ce4801268154eb272f0b9d516264fe95bdd0
-size 834
+# The official repository of the Rock the JVM website
+
+[Rock the JVM](https://rockthejvm.com) is a learning platform with in-depth coverage of topics in the Scala ecosystem, including Scala language, Akka/Apache Pekko, functional programming libraries like Cats, effect systems (Cats Effect, ZIO), data engineering with Apache Spark and Flink, streaming with Pulsar, Kafka and more.
+
+## Setup
+
+You only need to have NPM installed on your machine.
+
+On first clone, run `npm install`. To run the website locally, run `npm run dev`, then open `http://localhost:4321`. The bundler will run incremental compilation as you make changes.
+
+## How to contribute
+
+See the [contributors guide](./CONTRIBUTING.md) for structure of articles, submit your PR with your article, and we will carry the review/article discussion in the PR code review.

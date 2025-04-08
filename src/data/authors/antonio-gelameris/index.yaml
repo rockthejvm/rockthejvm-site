@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:205474aa57efa2d2ee55a71d05a568037bdfc9ee5379484f2eff4aa99bc94a1b
-size 350
+biography: Turing-complete Italian/Greek Scala developer & former physicist.
+company:
+  entity: iov42
+  role: Scala Developer
+location:
+  city: Milan
+  country: Italy
+name: Antonio Gelameris
+photo: ./photo.jpeg
+socials:
+  email: toniogela89@gmail.com
+  github: TonioGela
+  linkedin: toniogela
+  twitter: "@toniogela"
+  website: https://toniogela.dev

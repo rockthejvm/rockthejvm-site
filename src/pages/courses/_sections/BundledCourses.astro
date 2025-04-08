@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:96dd9a706d65228143b1908bab9b635b1c6f5ae4623204d38516be8b72811999
-size 725
+---
+import CourseCardVertical from "@/components/CourseCardVertical.astro";
+import Section from "@/components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  bundledCourses: CollectionEntry<"courses">[];
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+}
+
+const { color, bundledCourses } = Astro.props;
+---
+
+<Section {color} title="Included Courses">
+  <ul
+    class="mx-auto my-8 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
+  >
+    {
+      bundledCourses.map((course) => (
+        <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
+          <CourseCardVertical {course} />
+        </li>
+      ))
+    }
+  </ul>
+</Section>

@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9d5f10cb89e8f42e31d7ca3c5bb246f9390fe2e6df183a2208e2f40e516d1363
-size 1090
+---
+import MyPicture from "@/components/MyPicture.astro";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  description: string;
+  image: ImageMetadata;
+  alt: string;
+}
+
+const { title, description, image, alt } = Astro.props;
+---
+
+<div class="mt-8 w-full overflow-hidden rounded-2xl md:flex md:h-52">
+  <div
+    class="mb-4 shrink-0 overflow-hidden md:mb-0 md:mr-4 md:min-h-full md:rounded-l-2xl"
+  >
+    <div
+      class="flex h-72 w-full justify-center overflow-hidden text-gray-300 md:h-full md:w-64 md:justify-end lg:w-96"
+    >
+      <!-- <img
+          src={course.data.heroImage.src}
+          alt={`${course.data.title}`}
+          class="min-w-full min-h-full object-cover object-center"
+        /> -->
+      <MyPicture class="max-h-full w-auto" src={image} {alt} quality="mid" />
+    </div>
+  </div>
+  <div class="my-8 px-8 md:my-auto md:px-8">
+    <h3 class="text-center text-lg font-bold text-content-2 md:text-left">
+      {title}
+    </h3>
+    <p class="mt-1 text-content-1">
+      <Fragment set:html={description} />
+    </p>
+  </div>
+</div>

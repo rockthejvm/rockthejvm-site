@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:37d8a16be43280fe8bb35f5cdafcc2ff51401e0eee0bc83d1312edd7cabf1fd6
-size 1039
+import policies from "@/pages/policies/_collections/policies";
+import articleCategories from "./collections/articleCategories";
+import articles from "./collections/articles";
+import authors from "./collections/authors";
+import companies from "./collections/companies";
+import courseCategories from "./collections/courseCategories";
+import courses from "./collections/courses";
+import difficulties from "./collections/difficulties";
+import memberships from "./collections/memberships";
+import tags from "./collections/tags";
+import testimonials from "./pages/_collections/testimonials";
+import videos from "./pages/_collections/videos";
+import articleSeriess from "./pages/articles/_collections/articleSeriess";
+import prerequisites from "./pages/courses/_collections/prerequisites";
+
+export const collections = {
+  articleCategories,
+  articleSeriess,
+  articles,
+  authors,
+  companies,
+  courseCategories,
+  // courseLecturesss,
+  courses,
+  difficulties,
+  memberships,
+  policies,
+  prerequisites,
+  tags,
+  testimonials,
+  videos,
+};

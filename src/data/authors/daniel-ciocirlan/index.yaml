@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3901b2f7a2e3ef10e08eafb4b2062713d656ca08a4997320e72c05a2ee323fe8
-size 589
+biography: Software engineer and best-selling instructor. I'm an avid fan of Scala, Kotlin, functional programming, big data and streaming. As of May 2023, I've taught more than 80000 people all over the world.
+company:
+  entity: rock-the-jvm
+  role: Founder
+location:
+  city: Bucharest
+  country: Romania
+name: Daniel Ciocîrlan
+photo: ../../../images/profiles/daniel-ciocirlan.jpeg
+socials:
+  email: daniel@rockthejvm.com
+  facebook: "@rockthejvm"
+  github: rockthejvm
+  linkedin: danielciocirlan
+  twitter: "@rockthejvm"
+  website: https://danielciocirlan.com/
+  youtube: "@rockthejvm"

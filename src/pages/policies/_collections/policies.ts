@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:054fd33d8bb636563d16b556bd20b8fbcb83ea6c83cce660886e9bbdfecb99a0
-size 308
+import { glob } from "astro/loaders";
+import { defineCollection, z } from "astro:content";
+
+export default defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "src/pages/policies/_data" }),
+  schema: z
+    .object({
+      description: z.string(),
+      title: z.string(),
+    })
+    .strict(),
+});

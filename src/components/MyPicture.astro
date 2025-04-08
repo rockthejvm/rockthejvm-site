@@ -1,3 +1,42 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c54c92904228169f3f660fca26869e35766fa45ed23f817246d28ee90417e024
-size 820
+---
+import type { ImageMetadata, ImageQuality } from "astro";
+import { Picture } from "astro:assets";
+
+interface Props {
+  class?: string;
+  alt: string;
+  loading?: "lazy" | "eager";
+  src: ImageMetadata;
+  width?: number;
+  height?: number;
+  quality: ImageQuality;
+  searchImage?: boolean;
+  attrs?: Record<string, unknown>;
+}
+
+const {
+    alt,
+    class: additionalClasses,
+    loading = "lazy",
+    src,
+    width,
+    height,
+    quality,
+    searchImage = false,
+    ...attrs
+  } = Astro.props,
+  defaultFormats = ["webp", src.format];
+---
+
+<Picture
+  {alt}
+  class:list={[additionalClasses]}
+  formats={(src.format === "gif" ? [] : ["avif"]).concat(defaultFormats)}
+  {loading}
+  {src}
+  {width}
+  {height}
+  {quality}
+  {...searchImage && { "data-pagefind-meta": "image[src], image_alt[alt]" }}
+  {...attrs}
+/>

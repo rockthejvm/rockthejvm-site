@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0ea6568ba990a4520141cb1d2601b1ee475cc336a85b240c219e3f9df8377c7c
-size 276
+biography: Lvl 3 Scala Bard
+company:
+  entity: carvana
+  role: Principal Engineer
+location:
+  country: United States
+name: Mark Rudolph
+photo: ./photo.png
+socials:
+  email: mark@k8ty.app
+  github: alterationx10
+  twitter: "@alterationx10"
+  website: https://alterationx10.com

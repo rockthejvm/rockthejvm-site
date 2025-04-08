@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:88a84f3f59bc3e2449864f1c83faef154cd776f705249b2e54e04bd52e6f1143
-size 690
+---
+import Prose from "@/components/Prose.astro";
+import NarrowContainer from "@/containers/NarrowContainer";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  policy: CollectionEntry<"policies">;
+}
+
+const {
+  policy: {
+    data: { description, title },
+  },
+} = Astro.props;
+---
+
+<BaseLayout {description} {title}>
+  <NarrowContainer>
+    <article class="my-8">
+      <header class="my-8">
+        <Prose class="max-w-none">
+          <h1>{title}</h1>
+        </Prose>
+      </header>
+      <Prose class="max-w-none">
+        <slot />
+      </Prose>
+    </article>
+  </NarrowContainer>
+</BaseLayout>

@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:96650dc78c22dde9c28bacbc9c84430d86d674374d7cc21c852740b9a62f80ed
-size 975
+- id: functional-error-handling-in-kotlin
+  title: Functional Error Handling in Kotlin
+  members:
+    - functional-error-handling-in-kotlin-part-1-absent-values
+    - functional-error-handling-in-kotlin-part-2-result-and-either
+    - functional-error-handling-in-kotlin-part-3-the-raise-dsl
+- id: type-level-programming-in-scala-3
+  title: Type-Level Programming in Scala 3
+  members:
+    - type-level-programming-in-scala-3-part-1-comparing-types
+    - type-level-programming-in-scala-3-part-2-a-quicksort-on-types
+- id: type-level-programming-in-scala
+  title: Type-Level Programming in Scala
+  members:
+    - type-level-programming-in-scala-part-1-numbers-and-comparisons
+    - type-level-programming-in-scala-part-2-adding-numbers-as-types
+    - type-level-programming-in-scala-part-3-sorting-lists
+- id: websockets-in-scala
+  title: WebSockets in Scala
+  members:
+    - websockets-in-scala-part-1-http4s
+    - websockets-in-scala-part-2-integrating-redis-and-postgresql

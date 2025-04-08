@@ -1,3 +1,74 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f694b857f94108a22f9a7ad1969ad136cb09d6995df789a008b54d048a6f20ff
-size 2436
+---
+import Feature from "@/pages/courses/_components/Feature.astro";
+import { type CollectionEntry, getEntry } from "astro:content";
+import Section from "./Section.astro";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  collaborators?: {
+    frontmatter: CollectionEntry<"authors">["data"];
+    biography: string;
+  }[];
+  thanks?: string;
+}
+
+const { color, collaborators, thanks } = Astro.props,
+  author = await getEntry("authors", "daniel-ciocirlan")!;
+---
+
+<Section {color} title="Meet Rock the JVM">
+  <Feature
+    image={author.data.photo}
+    imagePosition="left"
+    imageRounded={true}
+    imageClassName="w-3/4"
+  >
+    <h3>Daniel Ciocîrlan</h3>
+    <article>
+      <p>I'm a software engineer and the founder of Rock the JVM.</p>
+      <p>
+        I'm a software engineer and the founder of Rock the JVM. I started the
+        Rock the JVM project out of love for Scala and the technologies it
+        powers - they are all amazing tools and I want to share as much of my
+        experience with them as I can.
+      </p>
+      <p>
+        As of February 2024, I've taught Java, Scala, Kotlin and related tech
+        (e.g. Cats, ZIO, Spark) to 100000+ students at various levels and I've
+        held live training sessions for some of the best companies in the
+        industry, including Adobe and Apple. I've also taught university
+        students who now work at Google and Facebook (among others), I've held
+        Hour of Code for 7-year-olds and I've taught more than 35000 kids to
+        code.
+      </p>
+      <p>
+        I have a Master's Degree in Computer Science and I wrote my Bachelor and
+        Master thesis on Quantum Computation. Before starting to learn
+        programming, I won medals at international Physics competitions.
+      </p>
+    </article>
+  </Feature>
+  {
+    collaborators?.map((collaborator) => (
+      <Feature
+        image={collaborator.frontmatter.photo}
+        imagePosition="right"
+        imageRounded={true}
+        imageClassName="w-3/4"
+      >
+        <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
+        <div>
+          <Fragment set:html={collaborator.biography} />
+        </div>
+      </Feature>
+    ))
+  }
+  {
+    thanks && (
+      <div class="mx-auto mb-8 max-w-[40rem] px-8 md:mb-16">
+        <h3 class="my-4">With Special Thanks To</h3>
+        <Fragment set:html={thanks} />
+      </div>
+    )
+  }
+</Section>

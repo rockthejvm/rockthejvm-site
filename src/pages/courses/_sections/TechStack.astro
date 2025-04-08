@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:14c7f216af96735e29c8f72d9fd89638a0a6267b1bdba5547cd2319cfe4295c7
-size 664
+---
+import Section from "@/components/Section.astro";
+import TechStackCard from "@/components/TechStackCard.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+  technologies: NonNullable<CollectionEntry<"courses">["data"]["technologies"]>;
+}
+
+const { color, technologies } = Astro.props;
+---
+
+<Section {color} title="The Tech Stack">
+  {
+    technologies.map((technology) => (
+      <TechStackCard
+        title={technology.title}
+        description={technology.description}
+        image={technology.image}
+        alt={technology.title}
+      />
+    ))
+  }
+</Section>

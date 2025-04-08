@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:185501dd70d2a1c915b52be4b81fa4209248a8a8e3de1bb092525a89971177d7
-size 231
+{
+  "recommendations": [
+    "GitHub.github-vscode-theme",
+    "PKief.material-icon-theme"
+  ],
+  "unwantedRecommendations": [
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "donjayamanne.githistory"
+  ]
+}

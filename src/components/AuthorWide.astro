@@ -1,3 +1,58 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:adeb983a3b882c1ecca83f8526f41c369f1bc18db7f95bf093e159db85403e7b
-size 1647
+---
+import Facebook from "@/components/icons/Facebook.astro";
+import GitHub from "@/components/icons/GitHub.astro";
+import LinkedIn from "@/components/icons/LinkedIn.astro";
+import Twitter from "@/components/icons/Twitter.astro";
+import Website from "@/components/icons/Website.astro";
+import YouTube from "@/components/icons/YouTube.astro";
+import MyPicture from "@/components/MyPicture.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+import AuthorWideHelper from "./AuthorWideHelper";
+
+interface Props {
+  author: CollectionEntry<"authors">;
+  loading?: "lazy" | "eager";
+}
+
+const { author, loading = "lazy" } = Astro.props,
+  { biography, company, name, photo, socials } = author.data,
+  role = company?.role,
+  companyName = company
+    ? await getEntry(company.entity.collection, company.entity.id)!.then(
+        (company) => company.data.name,
+      )
+    : undefined,
+  companyWebsite = company
+    ? await getEntry(company.entity.collection, company.entity.id)!.then(
+        (company) => company.data.website,
+      )
+    : undefined;
+---
+
+<div class="my-8">
+  <AuthorWideHelper
+    authorId={author.id}
+    {biography}
+    {name}
+    {role}
+    {companyName}
+    {companyWebsite}
+    {socials}
+  >
+    <MyPicture
+      src={photo}
+      alt={name}
+      class="mx-auto size-56 rounded-full shadow-lg"
+      {loading}
+      quality="mid"
+      slot="photo"
+    />
+    <Website slot="website" />
+    <Facebook slot="facebook" />
+    <GitHub slot="github" />
+    <LinkedIn slot="linkedin" />
+    <Twitter slot="twitter" />
+    <YouTube slot="youtube" />
+  </AuthorWideHelper>
+</div>
