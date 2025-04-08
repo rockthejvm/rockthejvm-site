@@ -43,9 +43,9 @@ export default defineConfig({
     prefetchAll: true,
   },
   output: "static",
-  // adapter: cloudflare({
-  //   imageService: "compile",
-  // }),
+  adapter: cloudflare({
+    //   imageService: "compile",
+  }),
   integrations: [
     buildStart(),
     icon({
