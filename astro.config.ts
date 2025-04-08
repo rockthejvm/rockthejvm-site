@@ -1,4 +1,3 @@
-import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -44,9 +43,9 @@ export default defineConfig({
     prefetchAll: true,
   },
   output: "static",
-  adapter: cloudflare({
-    imageService: "passthrough",
-  }),
+  // adapter: cloudflare({
+  //   imageService: "passthrough",
+  // }),
   integrations: [
     buildStart(),
     icon({
