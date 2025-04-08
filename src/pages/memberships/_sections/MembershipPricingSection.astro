@@ -56,7 +56,6 @@ const _personalMembership = await getEntry("memberships", "personal")!,
                 <CoursePrice
                   currency={monthlyPriceInformation!.currency}
                   priceInCents={monthlyPriceInformation!.price}
-                  server:defer
                   slot="monthlyPrice"
                 >
                   <div
@@ -75,7 +74,6 @@ const _personalMembership = await getEntry("memberships", "personal")!,
                 <CoursePrice
                   currency={yearlyPriceInformation!.currency}
                   priceInCents={yearlyPriceInformation!.price}
-                  server:defer
                   slot="yearlyPrice"
                 >
                   <div

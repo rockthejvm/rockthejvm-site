@@ -53,7 +53,7 @@ const {
     <h3 id="tier-hobby" class="text-base font-semibold leading-7 text-accent-1">
       {title} - Lifetime License
     </h3>
-    <CoursePrice {currency} {priceInCents} server:defer>
+    <CoursePrice {currency} {priceInCents}>
       <div
         class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
         slot="fallback"
@@ -116,7 +116,6 @@ const {
             priceInCents={monthlyPriceInCents}
             {currency}
             recurring="monthly"
-            server:defer
           >
             <div
               class="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
