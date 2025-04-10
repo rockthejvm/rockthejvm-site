@@ -6,11 +6,13 @@ This repository contains the front pages of the Rock the JVM website, including 
 
 ## Setup
 
-This repository is built on [Astro](https://astro.build/) with JavaScript/TypeScript. It requires an NPM installation on your machine. Here's how to run it locally:
+This repository is built on [Astro](https://astro.build/) with JavaScript/TypeScript. It requires an NPM or PNPM installation on your machine. Here's how to run it locally:
 
+- make sure you have Git LFS installed
 - clone the repository
-- `npm install` just once, which will download the appropriate JS/TS packages
-- `npm run dev` every time you need to start a local server
+- `git lfs install` once - this sets up Git LFS for images
+- `pnpm install` once - this will download the appropriate JS/TS packages
+- `pnpm run dev` every time you need to start a local server
 - open `localhost:4321` to see the website
 
 The bundler will automatically update as you modify content.
@@ -21,8 +23,8 @@ If this is your first time writing an article on the blog, you will need an auth
 
 You need two things:
 
-1. Your details in a `yaml` file under `src/content/authors` in a snake-case capitalization. If I'm Daniel Ciocîrlan, the file should be `src/content/authors/daniel-ciocirlan.yaml`. In this case `daniel-ciocirlan` is my author id.
-2. Your profile picture under `src/content/authors`. Name it the same as the YAML file, e.g. `src/content/authors/daniel-ciocirlan.jpeg`.
+1. Your details in a `yaml` file under `src/data/authors` in a snake-case capitalization. If I'm Daniel Ciocîrlan, the file should be `src/data/authors/daniel-ciocirlan.yaml`. In this case `daniel-ciocirlan` is my author id.
+2. Your profile picture under `src/data/authors`. Name it the same as the YAML file, e.g. `src/data/authors/daniel-ciocirlan.jpeg`.
 
 Here's an example of a YAML file of a long-time contributor on the blog:
 
@@ -44,7 +46,7 @@ socials:
 
 ### Location and Boilerplate
 
-All articles are in the `src/content/articles` directory. To add a new article, create a new file with the name `title-of-the-article.mdx`. The `title-of-the-article` will be the **slug** that gets appended after the base path, in the style `https://rockthejvm.com/blog/title-of-the-article`.
+All articles are in the `src/data/articles` directory. To add a new article, create a new file with the name `title-of-the-article.mdx`. The `title-of-the-article` will be the **slug** that gets appended after the base path, in the style `https://rockthejvm.com/articles/title-of-the-article`.
 
 All files are in [MDX](https://mdxjs.com/) - a Markdown dialect with the ability to inject JSX components. This allows us to add interactive elements on articles, if necessary.
 
@@ -66,7 +68,7 @@ For every article, please set:
 
 - title (obviously)
 - excerpt (one sentence)
-- category: `guide`, `explanation`, `opinion` or `retrospective` (all possible values under `src/content/articleCategories`)
+- category: `guide`, `explanation`, `opinion` or `retrospective` (all possible values under `src/data/articleCategories.yaml`)
 - tags: a list of values for topics (the site can filter on topics)
 - publishedDate
 - updatedDate: initially the same as the publishedDate at the time of publishing
@@ -75,9 +77,9 @@ For every article, please set:
 
 For example, the Akka vs Kafka vs Spark article contains
 
-- a directory in the path `src/content/articles/comparing-akka-streams-kafka-streams-spark-streaming`
-- the article itself under `src/content/articles/comparing-akka-streams-kafka-streams-spark-streaming/index.mdx`
-- images under `src/content/articles/comparing-akka-streams-kafka-streams-spark-streaming/images`
+- a directory in the path `src/data/articles/comparing-akka-streams-kafka-streams-spark-streaming`
+- the article itself under `src/data/articles/comparing-akka-streams-kafka-streams-spark-streaming/index.mdx`
+- images under `src/data/articles/comparing-akka-streams-kafka-streams-spark-streaming/images`
 
 ### Content
 
@@ -121,28 +123,39 @@ videoId: 1uP6FTUn8_E
 
 Submit a PR with your changes! We can carry the review/article discussion in the PR code review.
 
-# Article Style Guide
+## Article Style Tips
 
-## Embedded
+### Embeds
 
-- Embedded content (Tweets, URL, YouTube) should be handled by [Astro Embed](https://astro-embed.netlify.app)
+- Embedded content (Tweets, URL, YouTube) should be handled by [Astro Embed](https://astro-embed.netlify.app), examples:
 
-## Literals
+```md
+import { YouTube } from 'astro-embed';
+import { Tweet } from 'astro-embed';
+import { LinkPreview } from 'astro-embed';
 
-- The less-than and greater-than symbols should be written as `\<` and `\>` respectively
-- Odd characters such a the curly apostrophe should be avoided
+<YouTube id="TtRtkTzHVBU" />
+<Tweet id="https://twitter.com/astrodotbuild/status/1511750228428435457" />
+<LinkPreview id="https://astro.build/blog/welcome-world/" />
+```
 
-## Code Blocks
+### Article text rules
 
+- Headings should start with `##`
+    - `#` is reserved for the article title
+- All headings should be written in title case
+- Headings should not end with a period
+- Headings should never start with a number
+- All list items should be written in sentence case
+- List items should not end with a period unless they contain multiple sentences
 - Code blocks should always include a language identifier
-
-## Links
-
 - Internal links should be root relative
     - `(/articles/...)` for articles
     - `(/images/...)` for images
+- The less-than and greater-than symbols should be written as `\<` and `\>` respectively
+- Odd characters such a the curly apostrophe should be avoided
 
-## Images
+### Images
 
 - All images should be stored in the article's local `images` directory
 - All images should have corresponding alt text
@@ -150,20 +163,7 @@ Submit a PR with your changes! We can carry the review/article discussion in the
 - Images should be named descriptively
 - Highest quality images should be used due to the fact that they will be automatically compressed
 
-## Formatting
 
-### Headings
-
-- Heading should start with `##`
-    - `#` is reserved for the article title
-- All headings should be written in title case
-- Headings should not end with a period
-- Headings should never start with a number
-
-### Lists
-
-- All list items should be written in sentence case
-- List items should not end with a period unless they contain multiple sentences
 
 ## Admonitions
 
@@ -186,22 +186,25 @@ This is my note. Make note of it, or I will make note of you.
 
 ### Types of Admonitions
 
-#### Caution
-
-Issues or errors that don't require immediate action but are important to be aware of
-
-#### Note
-
-Additional information that is relevant to the topic at hand
+- `note` - Additional information that is relevant to the topic at hand
+- `tip` - Useful tips or recommendations that are relevant to the topic at hand
+- `caution` - Issues or errors that don't require immediate action but are important to be aware of
+- `warning` - Actions to take or avoid to prevent issues
+- `success`
 
 #### Tip
-
-Useful tips or recommendations that are relevant to the topic at hand
-
-#### Warning
-
-Actions to take or avoid to prevent issues
 
 ## Tabs
 
 [Documentation](https://starlight.astro.build/components/tabs/)
+
+Example:
+
+```md
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+  <TabItem label="Stars">Sirius, Vega, Betelgeuse</TabItem>
+  <TabItem label="Moons">Io, Europa, Ganymede</TabItem>
+</Tabs>
+```
