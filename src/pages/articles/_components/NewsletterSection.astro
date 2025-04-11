@@ -7,11 +7,11 @@
     >
       Like what you see? Keep learning by subscribing to the newsletter!
     </h2>
-    <form class="w-full max-w-md lg:col-span-5 lg:pt-2">
+    <form id="newsletter-form" class="w-full max-w-md lg:col-span-5 lg:pt-2">
       <div class="flex gap-x-4">
-        <label for="email-address" class="sr-only">Email address</label>
+        <label for="email" class="sr-only"> Email address </label>
         <input
-          id="email-address"
+          id="email"
           name="email"
           type="email"
           autocomplete="email"
@@ -22,15 +22,42 @@
         <button
           type="submit"
           class="flex-none rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >Subscribe</button
         >
+          Subscribe
+        </button>
       </div>
       <p class="mt-4 text-sm/6 text-content-1">
-        This site is built on trust, and your data is safe. Check out the <a
-          href="/policies/privacy"
-          class="font-semibold">privacy&nbsp;policy</a
-        >.
+        This site is built on trust, and your data is safe. Check out the{" "}
+        <a href="/policies/privacy" class="font-semibold">
+          privacy&nbsp;policy
+        </a>
+        .
       </p>
     </form>
+    <p id="confirmation-message" class="mt-4 hidden text-sm/6 text-green-200">
+      Thank you for subscribing! Check your email for confirmation.
+    </p>
   </div>
 </div>
+
+<script>
+  import { actions } from "astro:actions";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("#newsletter-form");
+    const confirmationMessage = document.querySelector("#confirmation-message");
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const { error } = await actions.newsletter(formData);
+
+      if (!error) {
+        form.style.display = "none";
+        confirmationMessage.classList.remove("hidden");
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    });
+  });
+</script>
