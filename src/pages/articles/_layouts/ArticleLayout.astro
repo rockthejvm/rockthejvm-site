@@ -122,6 +122,7 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
   }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}
+  hideFooterNewsletter={true}
   {structuredData}
   {title}
   type="article"

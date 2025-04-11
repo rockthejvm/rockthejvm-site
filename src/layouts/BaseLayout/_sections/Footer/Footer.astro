@@ -9,10 +9,11 @@ import NewsletterSection from "@/components/NewsletterSection.astro";
 import FooterHelper from "./FooterHelper";
 
 interface Props {
+  hideNewsletter?: boolean;
   holiday?: boolean;
 }
 
-const { holiday } = Astro.props;
+const { hideNewsletter = false, holiday } = Astro.props;
 ---
 
 <FooterHelper client:visible {holiday}>
@@ -22,5 +23,5 @@ const { holiday } = Astro.props;
   <Twitter slot="twitter" />
   <YouTube slot="youtube" />
   <RSS slot="rss" />
-  {!holiday && <NewsletterSection stacked={true} slot="newsletter" />}
+  {!holiday && !hideNewsletter && <NewsletterSection stacked={true} slot="newsletter" />}
 </FooterHelper>
