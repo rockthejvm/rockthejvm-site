@@ -72,7 +72,7 @@ export default defineConfig({
       },
       useDarkModeMediaQuery: false,
       defaultProps: {
-        wrap: true,
+        wrap: false,
         overridesByLang: {
           "shell,sh,ps,zsh": {
             preserveIndent: false,
