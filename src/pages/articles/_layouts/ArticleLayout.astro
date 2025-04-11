@@ -210,7 +210,7 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
         </div>
         <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
-        <!-- <NewsletterSection /> -->
+        <NewsletterSection />
         {
           relatedArticles.length > 0 && (
             <RelatedArticles length={relatedArticles.length} client:load>
