@@ -1,18 +1,21 @@
 ---
 interface Props {
   stacked?: boolean;
+  title?: string;
 }
 
-const { stacked = false } = Astro.props;
+const { stacked = false, title } = Astro.props;
 ---
 
 {
   stacked ? (
-    <div class="bg-bkg py-8 sm:py-12 lg:py-16">
+    <div class="bg-bkg py-8 md:py-0">
       <div class="mx-auto max-w-7xl px-6">
-        <h2 class="max-w-xl text-balance text-3xl font-semibold tracking-tight text-content-1 sm:text-4xl">
-          Like what you see? Keep learning by subscribing to the newsletter!
-        </h2>
+        {title && (
+          <h2 class="max-w-xl text-balance text-xl font-semibold tracking-tight text-content-1 sm:text-2xl">
+            {title}
+          </h2>
+        )}
         <form id="newsletter-form" class="w-full max-w-md pt-2 lg:col-span-5">
           <div class="flex gap-x-4">
             <label for="email" class="sr-only">
@@ -102,22 +105,53 @@ const { stacked = false } = Astro.props;
 }
 
 <script>
-  import { actions } from "astro:actions";
+  import { z } from "astro/zod";
+
+  const subscribeToNewsletterSchema = z.object({
+      email: z.string().email(),
+    }),
+    subscribeToNewsletter = async (email: string) => {
+      const url = "https://rtjvm-mailerlite-worker.andrei-023.workers.dev",
+        route = "/",
+        body = JSON.stringify({
+          email,
+        }),
+        response = await fetch(url + route, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body,
+        });
+
+      if (!response.ok) {
+        throw new Error(
+          "Failed to subscribe to the newsletter. Try again later.",
+        );
+      }
+
+      return;
+    };
 
   document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("#newsletter-form"),
-      confirmationMessage = document.querySelector("#confirmation-message");
+    const form: HTMLFormElement = document.querySelector("#newsletter-form")!,
+      confirmationMessage = document.querySelector("#confirmation-message")!;
 
     form?.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const formData = new FormData(form),
-        { error } = await actions.newsletter(formData);
+      const formData = new FormData(form);
 
-      if (!error) {
+      const { email } = subscribeToNewsletterSchema.parse({
+        email: formData.get("email"),
+      });
+
+      try {
+        await subscribeToNewsletter(email);
         form.style.display = "none";
         confirmationMessage.classList.remove("hidden");
-      } else {
-        alert(error.message);
+      } catch (_) {
+        alert("Failed to subscribe to the newsletter. Please try again later.");
       }
     });
   });

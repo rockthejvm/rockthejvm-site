@@ -23,5 +23,13 @@ const { hideNewsletter = false, holiday } = Astro.props;
   <Twitter slot="twitter" />
   <YouTube slot="youtube" />
   <RSS slot="rss" />
-  {!holiday && !hideNewsletter && <NewsletterSection stacked={true} slot="newsletter" />}
+  {
+    !holiday && !hideNewsletter && (
+      <NewsletterSection
+        stacked={true}
+        title="Subscribe to our newsletter!"
+        slot="newsletter"
+      />
+    )
+  }
 </FooterHelper>

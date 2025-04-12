@@ -77,7 +77,10 @@ const {
       <slot />
       <CookieBanner client:load />
     </main>
-    <Footer hideNewsletter={hideFooterNewsletter} holiday={Boolean(forcedTheme)} />
+    <Footer
+      hideNewsletter={hideFooterNewsletter}
+      holiday={Boolean(forcedTheme)}
+    />
   </body>
 </html>
 <AffiliateScript />

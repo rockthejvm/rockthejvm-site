@@ -1,0 +1,32 @@
+---
+import ArticlePreview from "@/components/ArticlePreview.astro";
+import type { CollectionEntry } from "astro:content";
+import RelatedArticles from "./RelatedArticles";
+
+interface Props {
+  relatedArticles: CollectionEntry<"articles">[];
+}
+const { relatedArticles } = Astro.props;
+---
+
+{
+  relatedArticles.length > 0 && (
+    <RelatedArticles length={relatedArticles.length} client:load>
+      {relatedArticles.length >= 1 && (
+        <ArticlePreview slot="firstArticle" article={relatedArticles[0]!} />
+      )}
+      {relatedArticles.length >= 2 && (
+        <ArticlePreview slot="secondArticle" article={relatedArticles[1]!} />
+      )}
+      {relatedArticles.length >= 3 && (
+        <ArticlePreview slot="thirdArticle" article={relatedArticles[2]!} />
+      )}
+      {relatedArticles.length >= 4 && (
+        <ArticlePreview slot="fourthArticle" article={relatedArticles[3]!} />
+      )}
+      {relatedArticles.length >= 5 && (
+        <ArticlePreview slot="fifthArticle" article={relatedArticles[4]!} />
+      )}
+    </RelatedArticles>
+  )
+}
