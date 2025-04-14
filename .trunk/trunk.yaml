@@ -1,10 +1,10 @@
 version: 0.1
 cli:
-  version: 1.22.11
+  version: 1.22.12
 plugins:
   sources:
     - id: trunk
-      ref: v1.6.7
+      ref: v1.6.8
       uri: https://github.com/trunk-io/plugins
 runtimes:
   enabled:
@@ -13,17 +13,17 @@ runtimes:
 lint:
   enabled:
     - actionlint@1.7.7
-    - checkov@3.2.392
+    - checkov@3.2.403
     - codespell@2.4.1
     - git-diff-check
     - markdownlint-cli2@0.17.2
-    - osv-scanner@2.0.0
+    - osv-scanner@2.0.1
     - oxipng@9.1.4
     - prettier@3.5.3
     - sort-package-json@3.0.0
     - svgo@3.3.2
     - taplo@0.9.3
-    - trufflehog@3.88.18
+    - trufflehog@3.88.23
     - yamllint@1.37.0
   definitions:
     # - name: biome
@@ -104,3 +104,11 @@ lint:
 #     - trunk-announce
 #     - trunk-check-pre-push
 #     - trunk-upgrade-available
+actions:
+  disabled:
+    - git-lfs
+    - trunk-announce
+    - trunk-check-pre-push
+    - trunk-fmt-pre-commit
+  enabled:
+    - trunk-upgrade-available
