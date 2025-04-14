@@ -118,9 +118,12 @@ export default function Example(props) {
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="mx-auto max-w-7xl px-6 pb-8 pt-20 sm:pt-24 lg:px-8 lg:pt-32">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div className="grid grid-cols-2 gap-8 xl:col-span-2">
+      <div className="mx-auto w-full max-w-7xl px-6 pb-8 pt-20 sm:pt-24 lg:px-8 lg:pt-32">
+        <div className="w-full xl:grid xl:grid-cols-4 xl:gap-8">
+          <div className="col-span-2 mb-8 mt-10 w-full justify-center xl:order-2 xl:mb-0 xl:mt-0 xl:flex xl:w-auto">
+            {props.newsletter}
+          </div>
+          <div className="grid grid-cols-2 gap-8 xl:order-1 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3
@@ -215,7 +218,6 @@ export default function Example(props) {
               </div>
             </div>
           </div>
-          <div className="mt-10 xl:mt-0">{props.newsletter}</div>
         </div>
         <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
           <ul className="flex space-x-6 md:order-2">

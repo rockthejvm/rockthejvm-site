@@ -27,6 +27,7 @@ interface Props {
   canonicalUrl?: URL;
   forcedTheme?: string;
   description: string;
+  hideFooterNewsletter?: boolean;
   image?: {
     alt: string;
     src: string;
@@ -48,6 +49,7 @@ const {
   error = false,
   image = site.logo,
   isHomePage = false,
+  hideFooterNewsletter = false,
   structuredData,
   title,
   type = "website",
@@ -75,7 +77,10 @@ const {
       <slot />
       <CookieBanner client:load />
     </main>
-    <Footer holiday={Boolean(forcedTheme)} />
+    <Footer
+      hideNewsletter={hideFooterNewsletter}
+      holiday={Boolean(forcedTheme)}
+    />
   </body>
 </html>
 <AffiliateScript />

@@ -1,9 +1,9 @@
 ---
-import ArticlePreview from "@/components/ArticlePreview.astro";
 import ArticleSeries from "@/components/ArticleSeries.astro";
 import AuthorWide from "@/components/AuthorWide.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 import MyYouTube from "@/components/MyYouTube.astro";
+import NewsletterSection from "@/components/NewsletterSection.astro";
 import Prose from "@/components/Prose.astro";
 import SocialShare from "@/components/SocialShare.astro";
 import TagList from "@/components/TagList.astro";
@@ -19,8 +19,7 @@ import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
 import Byline from "../_components/Byline.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
-import NewsletterSection from "../_components/NewsletterSection.astro";
-import RelatedArticles from "../_components/RelatedArticles";
+import RelatedArticlesSection from "../_components/RelatedArticlesSection.astro";
 import TableOfContents from "../_components/TableOfContents.astro";
 
 interface Props {
@@ -97,9 +96,11 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
     (match) => match.source_slug === article.id,
   ),
   _sortedMatches = [..._matches].sort((a, b) => b.similarity - a.similarity),
-  relatedArticles = _sortedMatches.map((match) =>
-    allArticles.find((article) => article.id === match.matched_slug),
-  );
+  relatedArticles = _sortedMatches
+    .map((match) =>
+      allArticles.find((article) => article.id === match.matched_slug),
+    )
+    .filter((article) => article !== undefined);
 ---
 
 <BaseLayout
@@ -122,6 +123,7 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
   }}
   canonicalUrl={canonicalUrl ? new URL(canonicalUrl) : undefined}
   description={description ?? excerpt}
+  hideFooterNewsletter={true}
   {structuredData}
   {title}
   type="article"
@@ -210,44 +212,10 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
         </div>
         <ArticleSeries {article} open={true} />
         <AuthorWide {author} />
-        {
-          relatedArticles.length > 0 && (
-            <RelatedArticles length={relatedArticles.length} client:load>
-              {relatedArticles.length >= 1 && (
-                <ArticlePreview
-                  slot="firstArticle"
-                  article={relatedArticles[0]!}
-                />
-              )}
-              {relatedArticles.length >= 2 && (
-                <ArticlePreview
-                  slot="secondArticle"
-                  article={relatedArticles[1]!}
-                />
-              )}
-              {relatedArticles.length >= 3 && (
-                <ArticlePreview
-                  slot="thirdArticle"
-                  article={relatedArticles[2]!}
-                />
-              )}
-              {relatedArticles.length >= 4 && (
-                <ArticlePreview
-                  slot="fourthArticle"
-                  article={relatedArticles[3]!}
-                />
-              )}
-              {relatedArticles.length >= 5 && (
-                <ArticlePreview
-                  slot="fifthArticle"
-                  article={relatedArticles[4]!}
-                />
-              )}
-            </RelatedArticles>
-          )
-        }
-
-        <NewsletterSection />
+        <RelatedArticlesSection {relatedArticles} />
+        <NewsletterSection
+          title="Like what you see? Keep learning by subscribing to the newsletter!"
+        />
       </footer>
     </article>
   </NarrowContainer>
