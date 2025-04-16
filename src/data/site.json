@@ -39,6 +39,7 @@
     }
   },
   "workers": {
-    "teachable": "https://teachable-worker.daniel-ciocirlan.workers.dev"
+    "teachable": "https://teachable-worker.daniel-ciocirlan.workers.dev",
+    "mailerlite": "https://mailerlite-worker.daniel-ciocirlan.workers.dev"
   }
 }
