@@ -2,6 +2,7 @@
 import durationToMinutes from "@/utils/durationToMinutes";
 import { z } from "astro/zod";
 import type { CollectionEntry } from "astro:content";
+import { workers } from "@/data/site.json";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
@@ -25,7 +26,7 @@ const ResponseSchema = z.array(
 
 const { color, courseId, pricingPlanId } = Astro.props,
   response = await fetch(
-    `https://rtjvm-teachable-worker.andrei-023.workers.dev/curriculum/${pricingPlanId}`,
+    `${workers.teachable}/${pricingPlanId}`,
   ),
   responseData = await response.json(),
   lectureSections = ResponseSchema.parse(responseData);
