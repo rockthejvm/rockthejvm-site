@@ -25,7 +25,7 @@ const ResponseSchema = z.array(
 );
 
 const { color, courseId, pricingPlanId } = Astro.props,
-  response = await fetch(`${workers.teachable}/${pricingPlanId}`),
+  response = await fetch(`${workers.teachable}/curriculum/${pricingPlanId}`),
   responseData = await response.json(),
   lectureSections = ResponseSchema.parse(responseData);
 ---
