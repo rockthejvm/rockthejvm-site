@@ -37,5 +37,9 @@
     "feed": {
       "url": "/articles/feed.xml"
     }
+  },
+  "workers": {
+    "teachable": "https://teachable-worker.daniel-ciocirlan.workers.dev",
+    "mailerlite": "https://mailerlite-worker.daniel-ciocirlan.workers.dev"
   }
 }

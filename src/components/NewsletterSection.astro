@@ -105,13 +105,14 @@ const { stacked = false, title } = Astro.props;
 }
 
 <script>
+  import { workers } from "@/data/site.json";
   import { z } from "astro/zod";
 
   const subscribeToNewsletterSchema = z.object({
       email: z.string().email(),
     }),
     subscribeToNewsletter = async (email: string) => {
-      const url = "https://rtjvm-mailerlite-worker.andrei-023.workers.dev",
+      const url = workers.mailerlite,
         route = "/",
         body = JSON.stringify({
           email,

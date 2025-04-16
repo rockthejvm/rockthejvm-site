@@ -1,3 +1,4 @@
+import { workers } from "@/data/site.json";
 import { defineCollection, getCollection, z } from "astro:content";
 
 export default defineCollection({
@@ -6,7 +7,7 @@ export default defineCollection({
     const courses = (await Promise.all(
       _courses.map(async ({ data: { pricingPlanId } }) => {
         const response = await fetch(
-          `https://rtjvm-teachable-worker.andrei-023.workers.dev/curriculum/${pricingPlanId}`,
+          `${workers.teachable}/curriculum/${pricingPlanId}`,
         );
         const responseData = await response.json();
 

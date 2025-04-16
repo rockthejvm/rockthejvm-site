@@ -1,4 +1,5 @@
 ---
+import { workers } from "@/data/site.json";
 import durationToMinutes from "@/utils/durationToMinutes";
 import { z } from "astro/zod";
 import type { CollectionEntry } from "astro:content";
@@ -24,9 +25,7 @@ const ResponseSchema = z.array(
 );
 
 const { color, courseId, pricingPlanId } = Astro.props,
-  response = await fetch(
-    `https://rtjvm-teachable-worker.andrei-023.workers.dev/curriculum/${pricingPlanId}`,
-  ),
+  response = await fetch(`${workers.teachable}/curriculum/${pricingPlanId}`),
   responseData = await response.json(),
   lectureSections = ResponseSchema.parse(responseData);
 ---
