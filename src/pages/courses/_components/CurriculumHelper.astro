@@ -1,8 +1,8 @@
 ---
+import { workers } from "@/data/site.json";
 import durationToMinutes from "@/utils/durationToMinutes";
 import { z } from "astro/zod";
 import type { CollectionEntry } from "astro:content";
-import { workers } from "@/data/site.json";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
@@ -25,9 +25,7 @@ const ResponseSchema = z.array(
 );
 
 const { color, courseId, pricingPlanId } = Astro.props,
-  response = await fetch(
-    `${workers.teachable}/${pricingPlanId}`,
-  ),
+  response = await fetch(`${workers.teachable}/${pricingPlanId}`),
   responseData = await response.json(),
   lectureSections = ResponseSchema.parse(responseData);
 ---

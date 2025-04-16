@@ -1,5 +1,5 @@
-import { defineCollection, getCollection, z } from "astro:content";
 import { workers } from "@/data/site.json";
+import { defineCollection, getCollection, z } from "astro:content";
 
 export default defineCollection({
   loader: async () => {
