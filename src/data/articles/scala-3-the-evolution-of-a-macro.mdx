@@ -24,14 +24,14 @@ Throughout the code examples basic understanding of Scala 3's macro APIs is assu
 ## Setup
 
 All the code from the post is available in <a href={frontmatter.repositoryUrl}>this</a> repo. The project is set up using sbt. If you want to follow along in a REPL, please use the project's sbt console:
-```
+```bash
 sbt console
 ```
 
 This will set up the imports required for code snippets to work.
 
 You can use:
-```
+```bash
 sbt run
 ```
 To choose any of the runnable examples in the code.
@@ -308,7 +308,7 @@ The information about the method where tracing is invoked is readily available t
 
 We do have to be careful, when invoking a macro the compiler creates a synthetic `Symbol` which is the owner of the macro invocation. This is not what we want for the tracing ID. Luckily, the "real" invoker of the macro (in our case the enclosing method) is the owner of the synthetic symbol. And so we obtain the real owner by climbing up one level from the `spliceOwner` result[^moreRobust].
 
-[^moreRobust]: A more robust macro might recursively go up until reaching an enclosing method. Instead we just skip one level up and check that the result is indeed a method. This is risky as nothing guarantees that the complier won't insert more synthetic symbols in the future.
+[^moreRobust]: A more robust macro might recursively go up until reaching an enclosing method. Instead we just skip one level up and check that the result is indeed a method. This is risky as nothing guarantees that the compiler won't insert more synthetic symbols in the future.
 
 Let's define `trace3` to be the same as `trace2` but now we no longer have to specify the name of the enclosing method being invoked, so we omit the `id` argument. Like so:
 ```scala wrap=false
@@ -535,7 +535,7 @@ class NoFieldNamesUsage:
       else "bye"
 ```
 
-We can use tracing just as we did before (1), but now we no longer have to manually repeat the argument names, they are extracted automatically from the names of the values we passed in (and we still automatically extract the enclosing method name as an ID). We can see this happening in the generated
+We can use tracing just as we did before (1), but now we no longer have to manually repeat the argument names, they are extracted automatically from the names of the values we passed in (and we still automatically extract the enclosing method name as an ID). We can see this happening in the generated code.
 
 <details>
 <summary>Click here to see the generated code</summary>
@@ -1093,7 +1093,7 @@ class traceMethod(level: TraceLevel) extends MacroAnnotation:
       case _ => // 13
         report.errorAndAbort("Tracing is only supported on a non-abstract `def`")
 ```
-This looks quite different compared to what we had so far, as macro annotations have their own way to operate on code. Let's walk trough the code step by step:
+This looks quite different compared to what we had so far, as macro annotations have their own way to operate on code. Let's walk through the code step by step:
 - We define a new class that extends `MacroAnnotation` (1), this is what lets us turn this annotation into magic
 - To be able to accept a tracing level from the user, the annotation takes a `TraceLevel` argument (1), this is the only argument that it needs to receive explicitly (the `Tracer` will be resolved from given scope)
 - The `transform` method follows the signature dictated by `MacroAnnotation`, which gives us access to the `Definition` that the annotation was applied to (2)
