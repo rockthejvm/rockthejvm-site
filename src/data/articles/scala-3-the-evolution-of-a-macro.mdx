@@ -54,27 +54,30 @@ Our goal is to trace a block of code with some metadata that is provided by the 
 ```scala wrap=false
 import scala.util.control.NonFatal
 
-object Baseline:
+object Baseline {
   def trace0[A](level: TraceLevel, // 1
                 id: => String, // 2
                 fields: => (String, String)*) // 3
                (body: => A) // 4
-               (using tracer: Tracer): A = // 5
+               (using tracer: Tracer): A = { // 5
 
-    if tracer.isLevelEnabled(level) then // 6
+    if tracer.isLevelEnabled(level) then { // 6
       tracer.start(level, id, fields*) // 7
 
-      try // 8
+      try { // 8
         val result = body // 9
         tracer.finish(level, id, "result" -> result.toString) // 10
 
         result // 11
-      catch
+      } catch {
         case NonFatal(e) => // 12
           tracer.finish(level, id, "exception" -> e.toString) // 13
 
           throw e // 14
-    else body // 15
+      }
+    } else body // 15
+  }
+}
 ```
 
 Let's break this down:
@@ -103,7 +106,7 @@ Let's break this down:
 And here's a usage example exercising this code:
 
 ```scala wrap=false
-class ClassToBeTraced0:
+class ClassToBeTraced0 {
   import Baseline.*
 
   // 1
@@ -120,10 +123,11 @@ class ClassToBeTraced0:
       "arg1" -> arg1.toString,
       "arg2" -> arg2.toString,
       "arg3" -> arg3.toString,
-      "arg4" -> arg4.toString):
-
-        if arg2 > 2 then "hello" // 4
-        else "bye"
+      "arg4" -> arg4.toString) {
+      if arg2 > 2 then "hello" // 4
+      else "bye"
+    }
+}
 ```
 
 In this example:
@@ -146,24 +150,28 @@ You can read more about them [here](scala-3-inlines).
 Marking all the arguments as `inline` makes our tracing function zero-cost, we no longer have to wrap our arguments in any function wrappers. We mark the whole method as inline so as to completely remove any overhead to calling `trace1`.
 
 ```scala wrap=false
-object WithInlining:
+object WithInlining {
   inline def trace1[A](level: TraceLevel,
                        inline id: String, // 1
                        inline fields: (String, String)*)
                       (inline body: A) // 2
-                      (using tracer: Tracer): A =
+                      (using tracer: Tracer): A = {
     // 3
-    if tracer.isLevelEnabled(level) then
+    if tracer.isLevelEnabled(level) then {
       tracer.start(level, id, fields*)
-      try
+      try {
         val result = body
         tracer.finish(level, id, "result" -> result.toString)
+
         result
-      catch
+      } catch {
         case NonFatal(e) =>
           tracer.finish(level, id, "exception" -> e.toString)
           throw e
-    else body
+      }
+    } else body
+  }
+}
 ```
 
 - Note how instead of `=>` we now use `inline` (1)
@@ -172,7 +180,7 @@ object WithInlining:
 
 Now we can try actually calling `trace1` and inspect the compiler generated code:
 ```scala wrap=false
-class ClassToBeTraced1:
+class ClassToBeTraced1 {
   import WithInlining.*
 
   private given tracer: Tracer = Tracer.make[ClassToBeTraced1]
@@ -180,7 +188,7 @@ class ClassToBeTraced1:
   def theMethodToBeTraced(arg1: String,
                           arg2: Int,
                           arg3: SomeData,
-                          arg4: UntraceableData): String =
+                          arg4: UntraceableData): String = {
     // 1
     trace1(
       level = TraceLevel.Info,
@@ -188,9 +196,12 @@ class ClassToBeTraced1:
       "arg1" -> arg1.toString,
       "arg2" -> arg2.toString,
       "arg3" -> arg3.toString,
-      "arg4" -> arg4.toString):
+      "arg4" -> arg4.toString) {
       if arg2 > 2 then "hello"
       else "bye"
+    }
+  }
+}
 ```
 This code looks exactly like before. The only difference being apparent if we inspect the compiler generated code, we can see that the `trace1` call disappears completely and the code looks pretty much the same as if someone wrote a manual `if/else` block (1).
 
@@ -249,7 +260,7 @@ First, we'll reimplement the logic from `trace1` using a macro. This serves as a
 ```scala wrap=false
 import scala.quoted.*
 
-object BasicMacro:
+object BasicMacro {
   // 1
   inline def trace2[A](level: TraceLevel,
                        inline id: String,
@@ -270,16 +281,19 @@ object BasicMacro:
     '{
       if $tracer.isLevelEnabled($level) then
         $tracer.start($level, $id, $fields*)
-        try
+        try {
           val result = $body
           $tracer.finish($level, $id, "result" -> result.toString)
           result
-        catch
+        }
+        catch {
           case NonFatal(e) =>
             $tracer.finish($level, $id, "exception" -> e.toString)
             throw e
+        }
       else $body
     }
+}
 ```
 
 Ignoring the special macro syntax, this code is very similar to the previous example:
@@ -312,7 +326,7 @@ We do have to be careful, when invoking a macro the compiler creates a synthetic
 
 Let's define `trace3` to be the same as `trace2` but now we no longer have to specify the name of the enclosing method being invoked, so we omit the `id` argument. Like so:
 ```scala wrap=false
-object NoMethodName:
+object NoMethodName {
   // 1
   inline def trace3[A](level: TraceLevel, inline fields: (String, String)*)
                       (inline body: A)
@@ -323,17 +337,20 @@ object NoMethodName:
                           fields: Expr[Seq[(String, String)]],
                           body: Expr[A],
                           tracer: Expr[Tracer])
-                         (using Quotes): Expr[A] =
+                         (using Quotes): Expr[A] = {
     import quotes.reflect.* // 3
 
-    val methodName = Symbol.spliceOwner.owner match // 4
+    val methodName = Symbol.spliceOwner.owner match { // 4
       case methodSymbol if methodSymbol.isDefDef => // 5
         methodSymbol.name // 6
       case _ => report.errorAndAbort("`trace` can only be used inside a method") // 7
+    }
 
     val id = Expr(methodName) // 8
 
     '{ WithInlining.trace1($level, $id, $fields*)($body)(using $tracer) } // 9
+  }
+}
 ```
 
 This new macro looks quite different compared to what we had before:
@@ -353,7 +370,7 @@ This new macro looks quite different compared to what we had before:
 
 We can use this as follows:
 ```scala wrap=false
-class NoMethodNameUsage:
+class NoMethodNameUsage {
   import NoMethodName.*
 
   private given tracer: Tracer = Tracer.make[NoMethodNameUsage]
@@ -367,9 +384,11 @@ class NoMethodNameUsage:
       "arg1" -> arg1.toString,
       "arg2" -> arg2.toString,
       "arg3" -> arg3.toString,
-      "arg4" -> arg4.toString):
+      "arg4" -> arg4.toString) {
       if arg2 > 2 then "hello"
       else "bye"
+    }
+}
 ```
 
 This is the same as the usage example before, but we no longer pass in the method name (1). We can see in the generated code how it's filled in.
@@ -399,7 +418,7 @@ def theMethodToBeTraced(arg1: String, arg2: Int, arg3: SomeData, arg4: Untraceab
             )
             result:String
           }
-         catch 
+         catch
           {
             case scala.util.control.NonFatal(e @ _) =>
               this.tracer.finish(TraceLevel.Info,
@@ -420,15 +439,16 @@ Conversely, the code below won't compile, as it is not invoked within a method a
 
 ```scala wrap=false
 val theValToBeTraced: String =
-  trace3( TraceLevel.Info):
+  trace3(TraceLevel.Info) {
     if 3 > 2 then "hello"
     else "bye"
+  }
 ```
 
 Like so:
 ```txt wrap=false
 [error] -- Error: 03b.NoMethodNameUsage.scala:22:4
-[error] 22 |    trace3( TraceLevel.Info):
+[error] 22 |    trace3( TraceLevel.Info) {
 [error]    |    ^
 [error]    |    `trace` can only be used inside a method
 [error] 23 |      if 3 > 2 then "hello"
@@ -465,7 +485,7 @@ The stars of this section are going to be `Varargs` and `Expr.ofSeq`. These let 
 
 To wit:
 ```scala wrap=false
-object NoFieldNames:
+object NoFieldNames {
 
   inline def trace4[A](level: TraceLevel, inline fieldValues: Any*) // 1
                       (inline body: A)
@@ -476,26 +496,31 @@ object NoFieldNames:
                           fieldValues: Expr[Seq[Any]],
                           body: Expr[A],
                           tracer: Expr[Tracer])
-                         (using Quotes): Expr[A] =
+                         (using Quotes): Expr[A] = {
     import quotes.reflect.*
 
     // 2
-    val varargExpressions: Seq[Expr[Any]] = fieldValues match
+    val varargExpressions: Seq[Expr[Any]] = fieldValues match {
       case Varargs(argExprs) => argExprs // 3
       case _ => // 4
         report.errorAndAbort("`fieldValues` must be varargs")
+    }
 
-    val fieldsWithNames = varargExpressions.map: arg => // 5
-      arg.asTerm match // 6
+    val fieldsWithNames = varargExpressions.map { arg => // 5
+      arg.asTerm match { // 6
         case Ident(name) => // 7
           val fieldName = Expr(name)
 
           '{ $fieldName -> $arg.toString } // 8
         case _ => report.errorAndAbort("field names must be simple identifiers") // 9
+      }
+    }
 
     val fields: Expr[Seq[(String, String)]] = Expr.ofSeq(fieldsWithNames) // 10
 
     NoMethodName.trace3Impl(level, fields, body, tracer) // 11
+  }
+}
 ```
 
 Things are starting to get serious, let's break it down:
@@ -514,13 +539,13 @@ Things are starting to get serious, let's break it down:
 - In case we got anything that's not a simple identifier, we abort compilation (9)
 - We can now use `Expr.ofSeq` to go back to an `Expr[Seq[...]]`, again, note the layer flip (10)
 - Finally, the fully baked `Expr` for the fields can be passed along as a vararg to the implementation of `trace3` macro (11)
-- This way we don't have to rewrite the method name extraction logic but we pre-populate the fields with the ones we extracted from the varargs 
+- This way we don't have to rewrite the method name extraction logic but we pre-populate the fields with the ones we extracted from the varargs
 
 [^complexArgs]: It's conceivable to support more complicated arguments as well but that would open the question of how to name them in the tracing output.
 
 Using the macro now just got much simpler:
 ```scala wrap=false
-class NoFieldNamesUsage:
+class NoFieldNamesUsage {
   import NoFieldNames.*
 
   private given tracer: Tracer = Tracer.make[NoFieldNamesUsage]
@@ -528,11 +553,14 @@ class NoFieldNamesUsage:
   def theMethodToBeTraced(arg1: String,
                           arg2: Int,
                           arg3: SomeData,
-                          arg4: UntraceableData): String =
+                          arg4: UntraceableData): String = {
     // 1
-    trace4(TraceLevel.Info, arg1, arg2, arg3, arg4):
+    trace4(TraceLevel.Info, arg1, arg2, arg3, arg4) {
       if arg2 > 2 then "hello"
       else "bye"
+    }
+  }
+}
 ```
 
 We can use tracing just as we did before (1), but now we no longer have to manually repeat the argument names, they are extracted automatically from the names of the values we passed in (and we still automatically extract the enclosing method name as an ID). We can see this happening in the generated code.
@@ -556,7 +584,7 @@ def theMethodToBeTraced(arg1: String,
           ArrowAssoc[String]("arg4").->[String](arg4.toString()) :
           (String, String)]**
       )
-      try 
+      try
         {
           val result: String = if arg2.>(2) then "hello" else "bye"
           this.tracer.finish(TraceLevel.Info,
@@ -566,7 +594,7 @@ def theMethodToBeTraced(arg1: String,
           )
           result:String
         }
-      catch 
+      catch
         {
           case scala.util.control.NonFatal(e @ _) =>
             this.tracer.finish(TraceLevel.Info,
@@ -591,15 +619,16 @@ def theMethodToBeTraced2(arg1: String,
                          arg2: Int,
                          arg3: SomeData,
                          arg4: UntraceableData): String =
-  trace4(TraceLevel.Info, arg1, arg2 * 2, arg3, arg4): // 1
+  trace4(TraceLevel.Info, arg1, arg2 * 2, arg3, arg4) { // 1
     if arg2 > 2 then "hello"
     else "bye"
+  }
 ```
 
 (1) will fail like so:
 ```txt wrap=false
 [error] -- Error: 04b.NoFieldNamesUsage.scala:18:4
-[error] 18 |    trace4(TraceLevel.Info, arg1, arg2 * 2, arg3, arg4):
+[error] 18 |    trace4(TraceLevel.Info, arg1, arg2 * 2, arg3, arg4) {
 [error]    |    ^
 [error]    |    field names must be simple identifiers
 [error] 19 |      if arg2 > 2 then "hello"
@@ -625,12 +654,14 @@ Since methods in Scala can be quite involved, we need to be careful and make sur
 First some helper functions that will need.
 
 ```scala wrap=false
-def getEnclosingMethodSymbol(using Quotes): quotes.reflect.Symbol = // 1
+def getEnclosingMethodSymbol(using Quotes): quotes.reflect.Symbol = { // 1
   import quotes.reflect.*
 
-  Symbol.spliceOwner.owner match
+  Symbol.spliceOwner.owner match {
     case methodSymbol if methodSymbol.isDefDef => methodSymbol
     case _ => report.errorAndAbort("trace can only be used at the top-level of a method")
+  }
+}
 ```
 This helper extracts the `Symbol` of the method that encloses the macro call, this is pretty much the same code we saw before extracted into a reusable function.
 
@@ -639,34 +670,37 @@ Note how the signature of the helper uses a path-dependent type (1). The reflect
 [^noPun]: No pun here, none at all.
 
 ```scala wrap=false
-def isGiven(using Quotes)(param: quotes.reflect.Symbol) =
+def isGiven(using Quotes)(param: quotes.reflect.Symbol) = {
   import quotes.reflect.*
 
   val flags = param.flags // 1
 
   flags.is(Flags.Given) || flags.is(Flags.Implicit) // 2
+}
 ```
 
 `isGiven` checks whether a `Symbol` that corresponds to a method argument is a given parameter. We do this by extracting the symbol's `Flags` (1), these contain lots of useful metadata about symbols. We then verify that the `Symbol` is neither `given` nor `implicit` (for legacy reasons) (2).
 
 ```scala wrap=false
-def isByName(using Quotes)(param: quotes.reflect.Symbol) =
+def isByName(using Quotes)(param: quotes.reflect.Symbol) = {
   import quotes.reflect.*
 
-  param.info match // 1
+  param.info match { // 1
     case ByNameType(_) => true // 2
     case _ => false
-
+  }
+}
 ```
 
 Similarly, `isByName` checks whether a method argument is a by-name argument. We do this by getting the `info` field of the parameter (1), which contains type information about the `Symbol`. By matching with the custom extractor `ByNameType` (2) on the `info` value, we can decide whether this is a by-name argument or not.
 
 ```scala wrap=false
-def isUntraceable(using Quotes)(param: quotes.reflect.Symbol) =
+def isUntraceable(using Quotes)(param: quotes.reflect.Symbol) = {
   import quotes.reflect.*
 
   // 1
   param.info =:= TypeRepr.of[UntraceableData]
+}
 ```
 
 For reasons that will become clear later on, we have a helper that checks whether a symbol is of the `UntraceableData` type. We do this again by using the `info` field, and we type-compare it to the `TypeRepr` of `UntraceableData` (1).
@@ -674,7 +708,7 @@ For reasons that will become clear later on, we have a helper that checks whethe
 With these helpers in hand, we are ready to tackle `trace5`. Brace yourselves:
 
 ```scala wrap=false
-object DataFromSignature:
+object DataFromSignature {
   inline def trace5[A](level: TraceLevel) // 1
                       (inline body: A)
                       (using tracer: Tracer): A =
@@ -683,7 +717,7 @@ object DataFromSignature:
   def trace5Impl[A: Type](level: Expr[TraceLevel],
                           body: Expr[A],
                           tracer: Expr[Tracer])
-                         (using Quotes): Expr[A] =
+                         (using Quotes): Expr[A] = {
     import quotes.reflect.*
 
     val enclosingMethod = getEnclosingMethodSymbol // 2
@@ -710,6 +744,8 @@ object DataFromSignature:
     val name = Expr(enclosingMethod.name) // 15
 
     '{ WithInlining.trace1($level, $name, $fields*)($body)(using $tracer) } // 16
+  }
+}
 ```
 
 Step by step:
@@ -741,7 +777,7 @@ Step by step:
 
 And a slightly more involved usage example:
 ```scala wrap=false
-class DataFromSignatureUsage:
+class DataFromSignatureUsage {
   import DataFromSignature.*
 
   private given tracer: Tracer = Tracer.make[DataFromSignatureUsage]
@@ -752,9 +788,11 @@ class DataFromSignatureUsage:
                                     arg3: SomeData,
                                     arg4: UntraceableData)
                                    (using arg5: Boolean): String =
-    trace5(TraceLevel.Info):
+    trace5(TraceLevel.Info) {
       if arg2 > 2 then "hello"
       else "bye"
+    }
+}
 ```
 
 Here we have both type and argument lists (1). We also have all the things that we shouldn't trace (by-names, `UntraceableData`, and a given argument). The resulting generated code traces all the valid arguments and the enclosing method's name without us needing to specify any of those.
@@ -773,7 +811,7 @@ def theMethodToBeTraced[A >: Nothing <: Int](arg1: => String, arg2: A, arg3: Som
           ArrowAssoc[String]("arg3").->[String](arg3.toString()) :
           (String, String)]**
       )
-      try 
+      try
         {
           val result: String = if arg2.>(2) then "hello" else "bye"
           this.tracer.finish(TraceLevel.Info,
@@ -783,7 +821,7 @@ def theMethodToBeTraced[A >: Nothing <: Int](arg1: => String, arg2: A, arg3: Som
           )
           result:String
         }
-      catch 
+      catch
         {
           case scala.util.control.NonFatal(e @ _) =>
             this.tracer.finish(TraceLevel.Info,
@@ -807,8 +845,9 @@ With `UntraceableData` we've opened up a new potential problem. Hardcoding `Untr
 
 We want a more robust way to filter out data that shouldn't be traced. To that end we are going to use the following typeclass:
 ```scala wrap=false
-trait ToTrace[A]:
+trait ToTrace[A] {
   def toTraceString(value: A): String
+}
 ```
 
 The `ToTrace` typeclass is just a function to convert a value into a string that can be used for tracing output. We'll use the typeclass to determine which parameters should or should not be traced.
@@ -822,22 +861,26 @@ If an instance of `ToTrace` is available for a type then we can trace it. This w
 To achieve this goal we are going to use a new version of `toField`. The new `toField` implementation will also convert a `Symbol` into a pair of name and reference `name -> value`. But now it will also check whether there is a `ToTrace` instance in scope and respond accordingly.
 ```scala wrap=false
 def toField(using Quotes)
-           (param: quotes.reflect.Symbol): Option[Expr[(String, String)]] = // 1
+           (param: quotes.reflect.Symbol): Option[Expr[(String, String)]] = { // 1
   import quotes.reflect.*
 
   val fieldName = Expr(param.name) // 2
 
   val paramType = param.info.asType // 3
 
-  val maybeField = paramType match // 4
-    case '[t] => // 5
+  val maybeField = paramType match { // 4
+    case '[t] => { // 5
       val maybeTraceable = Expr.summon[ToTrace[t]] // 6
       val fieldValue = Ref(param).asExprOf[t] // 7
 
-      maybeTraceable.map: traceable => // 8
+      maybeTraceable.map { traceable => // 8
         '{ $fieldName -> $traceable.toTraceString($fieldValue) } // 9
+      }
+    }
+  }
 
   maybeField
+}
 ```
 
 Step by step:
@@ -870,7 +913,7 @@ Hopefully, by now the names of these functions are self-explanatory.
 
 Now we are ready to implement `trace6`, which is similar to but more civilized than `trace5`:
 ```scala wrap=false
-object TraceFiltering:
+object TraceFiltering {
   inline def trace6[A](level: TraceLevel) // 1
                       (inline body: A)
                       (using tracer: Tracer): A =
@@ -879,7 +922,7 @@ object TraceFiltering:
   def trace6Impl[A: Type](level: Expr[TraceLevel],
                           body: Expr[A],
                           tracer: Expr[Tracer])
-                         (using Quotes): Expr[A] =
+                         (using Quotes): Expr[A] = {
     import quotes.reflect.*
 
     val params = getEnclosingMethodParams // 2
@@ -894,6 +937,8 @@ object TraceFiltering:
 
     // 7
     '{ WithInlining.trace1($level, $name, $fields*)($body)(using $tracer) }
+  }
+}
 ```
 
 In this implementation:
@@ -910,7 +955,7 @@ In this implementation:
 
 The usage example is pretty much the same as before:
 ```scala wrap=false
-class TraceFilteringUsage:
+class TraceFilteringUsage {
   import TraceFiltering.*
 
   given tracer: Tracer = Tracer.make[TraceFilteringUsage]
@@ -919,14 +964,14 @@ class TraceFilteringUsage:
                           arg2: Int,
                           arg3: SomeData,
                           arg4: UntraceableData): String =
-    trace6(TraceLevel.Info):
+    trace6(TraceLevel.Info) {
       if arg2 > 2 then "hello"
       else "bye"
+    }
+}
 ```
 
-
 Tracing still works the same, but `UntraceableData` is omitted because it doesn't have a `ToTrace` instance in scope, as can be seen in the generated code.
-
 
 <details>
 <summary>Click here to see the generated code</summary>
@@ -980,11 +1025,13 @@ In (1) we see the invocation of the appropriate `ToTrace.toTraceString` function
 
 We can also run the example like so:
 ```scala wrap=false
-object TraceFilteringUsage:
-  @main def traceFiltering() =
+object TraceFilteringUsage {
+  @main def traceFiltering() = {
     val usage = new TraceFilteringUsage
 
     usage.theMethodToBeTraced("abc", 123, SomeData(4, "password"), UntraceableData('d', "efg"))
+  }
+}
 ```
 
 And in the output we see that one of the fields of `SomeData` (suggestively named `sensitiveDoNotLog`) appears as "redacted", this is a customization that we applied using `SomeData`'s `ToTrace` instance:
@@ -1004,7 +1051,7 @@ Before we move on to macro annotations, a quick digression. We'll create a small
 The point of this is that we can invoke `trace7` in a macro without there being a statically known (at macro compile-time) instance of a `Tracer`, and the resolution of the `Tracer` instance will be deferred to macro inlining time in the scope of the caller. This will help us circumvent some limitations with macro annotations down the line.
 
 ```scala wrap=false
-object NoGivenTracer:
+object NoGivenTracer {
   // 1
   inline def trace7[A](level: TraceLevel, fallbackTracer: Tracer)(inline body: A): A =
     ${ trace7Impl('level, 'fallbackTracer, 'body) }
@@ -1012,7 +1059,7 @@ object NoGivenTracer:
   def trace7Impl[A: Type](
       level: Expr[TraceLevel],
       fallbackTracer: Expr[Tracer],
-      body: Expr[A])(using Quotes): Expr[A] =
+      body: Expr[A])(using Quotes): Expr[A] = {
     import quotes.reflect.*
 
     val params = getEnclosingMethodParams
@@ -1027,6 +1074,8 @@ object NoGivenTracer:
     val tracer = Expr.summon[Tracer].getOrElse(fallbackTracer)
 
     '{ WithInlining.trace1($level, $name, $fields*)($body)(using $tracer) }
+  }
+}
 ```
 
 - The signature of `trace7` is almost the same as `trace6` except that the `Tracer` instance is no longer a given, we treat it as an explicit fallback (1)
@@ -1043,15 +1092,17 @@ This poses a problem, as arguments to annotations are just regular constructor a
 
 Here is that definition:
 ```scala wrap=false
-given ToExpr[TraceLevel] with
+given ToExpr[TraceLevel] with {
 
   def apply(level: TraceLevel)(using Quotes): Expr[TraceLevel] =
     // 1
-    level match
+    level match {
       case TraceLevel.Debug => '{ TraceLevel.Debug }
       case TraceLevel.Info => '{ TraceLevel.Info }
       case TraceLevel.Warn => '{ TraceLevel.Warn }
       case TraceLevel.Error => '{ TraceLevel.Error }
+    }
+}
 ```
 The definition of `ToExpr` for simple enums is straightforward. We just match on the value we got, and create a corresponding quote for each case (1).
 
@@ -1067,24 +1118,25 @@ With these issues out of the way, let's proceed to the implementation. Macro ann
 import scala.annotation.MacroAnnotation
 
 // 1
-class traceMethod(level: TraceLevel) extends MacroAnnotation:
+class traceMethod(level: TraceLevel) extends MacroAnnotation {
 
   // 2
   def transform(using Quotes)
                (definition: quotes.reflect.Definition,
-                companion: Option[quotes.reflect.Definition]): List[quotes.reflect.Definition] =
+                companion: Option[quotes.reflect.Definition]): List[quotes.reflect.Definition] = {
     import quotes.reflect.*
 
-    definition match // 3
+    definition match { // 3
       case defDef @ DefDef(name, _, _, Some(rhsTree)) => // 4
         val levelExpr = Expr(level) // 5
         val nameExpr = Expr(name) // 6
 
         val tracer = '{ compiletime.summonInline[Tracer] } // 7
 
-        val newRhs = rhsTree.asExpr match // 8
+        val newRhs = rhsTree.asExpr match { // 8
           case '{ $body: t } => // 9
             '{ TraceFiltering.trace6($levelExpr)($body)(using $tracer) } // 10
+        }
 
         val newTree = DefDef(defDef.symbol, _ => Some(newRhs.asTerm)) // 11
 
@@ -1092,6 +1144,9 @@ class traceMethod(level: TraceLevel) extends MacroAnnotation:
 
       case _ => // 13
         report.errorAndAbort("Tracing is only supported on a non-abstract `def`")
+    }
+  }
+}
 ```
 This looks quite different compared to what we had so far, as macro annotations have their own way to operate on code. Let's walk through the code step by step:
 - We define a new class that extends `MacroAnnotation` (1), this is what lets us turn this annotation into magic
@@ -1117,7 +1172,7 @@ Phew, that was plenty. But does it actually work?
 
 It seems so:
 ```scala wrap=false
-class MethodAnnotationUsage:
+class MethodAnnotationUsage {
   // 1
   given Tracer = Tracer.make[ClassAnnotationUsage]
 
@@ -1127,7 +1182,7 @@ class MethodAnnotationUsage:
                            arg2: Int,
                            arg3: SomeData,
                            arg4: UntraceableData): String =
-    if arg2 > 2 then "hello"
+    if (arg2 > 2) "hello"
     else "bye"
 
   // 3
@@ -1136,9 +1191,11 @@ class MethodAnnotationUsage:
                            arg2: Int,
                            arg3: SomeData,
                            arg4: UntraceableData)
-                          (using Tracer): String = // 4
-    if arg2 > 2 then "hello"
+                          (using Tracer): String = { // 4
+    if (arg2 > 2) "hello"
     else "bye"
+  }
+}
 ```
 
 Here we exercise the annotation with different method setups:
@@ -1162,7 +1219,7 @@ final lazy given val given_Tracer: Tracer =
   )
 
 @traceMethod(TraceLevel.Debug) def theMethodToBeTraced1( arg1: String, arg2: Int, arg3: SomeData, arg4: UntraceableData): String =
-  (if this.given_Tracer.isLevelEnabled(TraceLevel.Debug) then // <--- 1 
+  (if this.given_Tracer.isLevelEnabled(TraceLevel.Debug) then // <--- 1
 
     {
       this.given_Tracer.start(TraceLevel.Debug,
@@ -1179,7 +1236,7 @@ final lazy given val given_Tracer: Tracer =
           )
         : (String, String)]**
       )
-      try 
+      try
         {
           val result: ("hello" : String) | ("bye" : String) =
             if arg2.>(2) then "hello" else "bye"
@@ -1190,7 +1247,7 @@ final lazy given val given_Tracer: Tracer =
           )
           result:("hello" : String) | ("bye" : String)
         }
-      catch 
+      catch
         {
           case scala.util.control.NonFatal(e @ _) =>
             this.given_Tracer.finish(TraceLevel.Debug,
@@ -1220,7 +1277,7 @@ final lazy given val given_Tracer: Tracer =
           )
         : (String, String)]**
       )
-      try 
+      try
         {
           val result: ("hello" : String) | ("bye" : String) =
             if arg2.>(2) then "hello" else "bye"
@@ -1231,7 +1288,7 @@ final lazy given val given_Tracer: Tracer =
           )
           result:("hello" : String) | ("bye" : String)
         }
-      catch 
+      catch
         {
           case scala.util.control.NonFatal(e @ _) =>
             x$5.finish(TraceLevel.Info,
@@ -1254,20 +1311,23 @@ As promised, in (1) we are using the class's tracer at the debug level, and in (
 
 To see that we actually are picking up the correct tracers, let's try to run the code:
 ```scala wrap=false
-object MethodAnnotationUsage:
-  @main def methodAnnotation() =
+object MethodAnnotationUsage {
+  @main def methodAnnotation() = {
     val usage = new MethodAnnotationUsage
 
     // 1
     usage.theMethodToBeTraced1("abc", 123, SomeData(4, "password"), UntraceableData('d', "efg"))
 
-    locally:
+    locally {
       // 2
       trait OtherTracer
       given Tracer = Tracer.make[OtherTracer]
 
       // 3
       usage.theMethodToBeTraced2("abc", 123, SomeData(4, "password"), UntraceableData('d', "efg"))
+    }
+  }
+}
 ```
 
 When calling the first method (1) we get the default tracer:
@@ -1276,7 +1336,7 @@ When calling the first method (1) we get the default tracer:
 [debug][ClassAnnotationUsage]: *finish* theMethodToBeTraced1 result: hello
 ```
 
-Next we create another scope with a another tracer, which we mark with a different name, so as to distinguish it from the default tracer (2). We can see in the output that `OtherTracer` is picked by the macro (3): 
+Next we create another scope with a another tracer, which we mark with a different name, so as to distinguish it from the default tracer (2). We can see in the output that `OtherTracer` is picked by the macro (3):
 ```txt wrap=false
 [info][OtherTracer]: *start* theMethodToBeTraced2 arg1: abc, arg2: 123, arg3: SomeData(4, <redacted>)
 [info][OtherTracer]: *finish* theMethodToBeTraced2 result: hello
@@ -1318,30 +1378,35 @@ This annotation has a single field: the `TraceLevel` that will be supplied by th
 When processing the `traceAt` annotation the macro is going to receive it as part of the AST it will work on. This means that instead of the annotation value, we'll have to deal with an `Expr[traceAt]`. To make it usable within the macro code, we need to define a `FromExpr` instance for `traceAt`. Since `traceAt` contains a `TraceLevel` value, we need to define a `FromExpr` instance for it as well:
 
 ```scala wrap=false
-given FromExpr[TraceLevel] with
+given FromExpr[TraceLevel] with {
   def unapply(x: Expr[TraceLevel])(using Quotes): Option[TraceLevel] =
-    x match // 1
+    x match { // 1
       case '{ TraceLevel.Debug } => Some(TraceLevel.Debug)
       case '{ TraceLevel.Info } => Some(TraceLevel.Info)
       case '{ TraceLevel.Warn } => Some(TraceLevel.Warn)
       case '{ TraceLevel.Error } => Some(TraceLevel.Error)
       case _ => None
+    }
+}
 ```
+
 This is almost a mirror image of the `ToExpr` instance we defined above. We are matching quotes with the different possible `TraceLevel`s and convert them to the corresponding values (1).
 Note that unlike a regular pattern match, when matching on quotes, nothing is forcing us to check all the cases. If we add a new case, this code will fail silently (that is, at compile-time when a user invokes the macro), there's no way to turn on exhaustivity checking for quotes (to be checked at macro definition time).
 
 Now we can create the `FromExpr` instance for `traceAt`:
 
 ```scala wrap=false
-given FromExpr[traceAt] with
+given FromExpr[traceAt] with {
   def unapply(x: Expr[traceAt])(using Quotes): Option[traceAt] =
-    x match // 1
+    x match { // 1
       case '{ new `traceAt`($level) } => Some(traceAt(level.valueOrAbort)) // 2
       case '{ `traceAt`($level) } => Some(traceAt(level.valueOrAbort))
       case _ => None
+    }
+}
 ```
 
-Because `traceAt` is not a simple enum, we match on all the ways to construct a `traceAt` value we can think of and then convert them to the appropriate values (1). We use `valueOrAbort` (2) to convert the inner `level` `Expr` into a value, which in turn relies on the `FromExpr` instance we just defined for `TraceLevel`. 
+Because `traceAt` is not a simple enum, we match on all the ways to construct a `traceAt` value we can think of and then convert them to the appropriate values (1). We use `valueOrAbort` (2) to convert the inner `level` `Expr` into a value, which in turn relies on the `FromExpr` instance we just defined for `TraceLevel`.
 
 ### Creating a `Tracer` Instance
 
@@ -1365,7 +1430,7 @@ This is where `trace7` comes in. Recall that `trace7` has the same logic as our 
 
 Here's how we create the new definition:
 ```scala wrap=false
-  def makeTracer(using Quotes)(cls: quotes.reflect.Symbol) =
+  def makeTracer(using Quotes)(cls: quotes.reflect.Symbol) = {
     import quotes.reflect.*
 
     val tracerSymbol = // 1
@@ -1376,16 +1441,19 @@ Here's how we create the new definition:
         flags = Flags.Final | Flags.Lazy | Flags.Private, // 4
         privateWithin = Symbol.noSymbol)
 
-    val tracerRhs = // 5
+    val tracerRhs = { // 5
       given Quotes = tracerSymbol.asQuotes // 6
 
-      cls.typeRef.asType match // 7
+      cls.typeRef.asType match { // 7
         case '[t] =>
           '{ Tracer.make[t](using compiletime.summonInline) }.asTerm // 8
+      }
+    }
 
     val tracerVal = ValDef(tracerSymbol, Some(tracerRhs)) // 9
 
     tracerVal
+  }
 ```
 
 - We create a brand new `val`, starting with a `Symbol` for it (1)
@@ -1415,20 +1483,24 @@ Let's find the `Tracer` for our macro:
 ```scala wrap=false
 // 1
 def getOrCreateTracer(using Quotes)
-                     (cls: quotes.reflect.Symbol): (Expr[Tracer], Option[quotes.reflect.ValDef]) =
+                     (cls: quotes.reflect.Symbol): (Expr[Tracer], Option[quotes.reflect.ValDef]) = {
   import quotes.reflect.*
 
-  val maybeTracer = // 2
+  val maybeTracer = { // 2
     given Quotes = cls.asQuotes // 3
     Expr.summon[Tracer]
+  }
 
-  maybeTracer match // 4
+  maybeTracer match { // 4
     case Some(tracer) => (tracer, None) // 5
-    case None => // 6
+    case None => { // 6
       val tracerDefinition = makeTracer(cls) // 7
       val tracerRef = Ref(tracerDefinition.symbol).asExprOf[Tracer] // 8
 
       (tracerRef, Some(tracerDefinition)) // 9
+    }
+  }
+}
 ```
 
 - The signature reflects the complication described above, and returns a compound value (1):
@@ -1452,19 +1524,21 @@ The next step is to figure out the tracing level for a specific method being ins
 Like so:
 ```scala wrap=false
 def getTracingLevel(using Quotes)
-                   (defSym: quotes.reflect.Symbol): Option[TraceLevel] = // 1
-  import quotes.reflect.*
+                   (defSym: quotes.reflect.Symbol): Option[TraceLevel] = { // 1
+ import quotes.reflect.*
 
-  val traceAtSymbol = TypeRepr.of[traceAt].typeSymbol // 2
+ val traceAtSymbol = TypeRepr.of[traceAt].typeSymbol // 2
 
-  defSym
-    .getAnnotation(traceAtSymbol) // 3
-    .map: annotationTerm => // 4
-      val traceAt = annotationTerm
-       .asExprOf[traceAt] // 5
-       .valueOrAbort // 6
+ defSym
+   .getAnnotation(traceAtSymbol) // 3
+   .map { annotationTerm => // 4
+     val traceAt = annotationTerm
+      .asExprOf[traceAt] // 5
+      .valueOrAbort // 6
 
-      traceAt.level // 7
+     traceAt.level // 7
+   }
+}
 ```
 
 - The input to our function is the symbol that corresponds to the method being instrumented (1)
@@ -1484,21 +1558,24 @@ The final building block that we'll define is the logic that instruments all the
 def traceMethods(using Quotes)
                 (body: List[quotes.reflect.Statement], // 1
                  fallbackTracer: Expr[Tracer], // 2
-                 defaultLevel: TraceLevel) = // 3
+                 defaultLevel: TraceLevel) = { // 3
   import quotes.reflect.*
 
-  body.map: // 4
-    case defDef @ DefDef(name, _, _, Some(rhsTree)) => // 5
+  body.map { // 4
+    case defDef @ DefDef(name, _, _, Some(rhsTree)) => { // 5
       val tracingLevel =
         Expr(getTracingLevel(defDef.symbol).getOrElse(defaultLevel)) // 6
 
-      val newRhs = rhsTree.asExpr match // 7
+      val newRhs = rhsTree.asExpr match { // 7
         case '{ $body: t } =>
           '{ NoGivenTracer.trace7($tracingLevel, $fallbackTracer)($body) } // 8
+      }
 
       DefDef(defDef.symbol, _ => Some(newRhs.asTerm)) // 9
-
+    }
     case notMethod => notMethod // 10
+  }
+}
 ```
 
 - The method takes as inputs:
@@ -1523,14 +1600,14 @@ Finally! We are ready for the masterpiece we were yearning to implement, the `tr
 
 All the different building blocks we created so far are now coming together in a single macro annotation:
 ```scala wrap=false
-class traceClass(defaultLevel: TraceLevel) extends MacroAnnotation: // 1
+class traceClass(defaultLevel: TraceLevel) extends MacroAnnotation { // 1
 
   def transform(using Quotes)
                (definition: quotes.reflect.Definition,
-                companion: Option[quotes.reflect.Definition]): List[quotes.reflect.Definition] =
+                companion: Option[quotes.reflect.Definition]): List[quotes.reflect.Definition] = {
     import quotes.reflect.*
 
-    definition match
+    definition match {
       case cls @ ClassDef(_, _, parents, _, body) => // 2
         val (fallbackTracer, tracerDefinition) = getOrCreateTracer(cls.symbol) // 3
 
@@ -1543,8 +1620,10 @@ class traceClass(defaultLevel: TraceLevel) extends MacroAnnotation: // 1
         List(newClass) // 7
       case _ =>
         report.errorAndAbort("Tracing is only supported on classes") // 8
+    }
+  }
+}
 ```
-
 Our shiny new `traceClass` annotation does the following:
 - It takes a default `TraceLevel` that will be used for methods that don't provide their own level (1)
 - We match only on class definitions (this includes traits as well) (2)
@@ -1565,10 +1644,10 @@ That's it, we can use this magical annotation now. We exercise the macro annotat
 ```scala wrap=false
 // 1
 @traceClass(TraceLevel.Info)
-class ClassAnnotationUsage:
+class ClassAnnotationUsage {
   // 2
   given Tracer = Tracer.make[ClassAnnotationUsage]
- 
+
 
   // 3
   @traceAt(TraceLevel.Debug)
@@ -1587,10 +1666,11 @@ class ClassAnnotationUsage:
                           (using Tracer): String =
     if arg2 > 2 then "hello"
     else "bye"
+}
 
 // 5
 @traceClass(TraceLevel.Info)
-trait TraitAnnotationUsage:
+trait TraitAnnotationUsage {
   // 6
 
   // 7
@@ -1603,6 +1683,7 @@ trait TraitAnnotationUsage:
 
   // 8
   def methodNotTraced(arg1: String, arg2: Int): Boolean
+}
 ```
 
 - First a regular class with the `Info` default (1)
@@ -1632,7 +1713,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
        arg1: String, arg2: Int, arg3: SomeData,
        arg4: UntraceableData): String =
        (if this.given_Tracer.isLevelEnabled(TraceLevel.Debug) then // <--- 1
- 
+
          {
            this.given_Tracer.start(TraceLevel.Debug,
              "theMethodToBeTraced1",
@@ -1648,7 +1729,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
                )
               : (String, String)]**
            )
-           try 
+           try
              {
                val result: ("hello" : String) | ("bye" : String) =
                  if arg2.>(2) then "hello" else "bye"
@@ -1659,7 +1740,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
                )
                result:("hello" : String) | ("bye" : String)
              }
-            catch 
+            catch
              {
                case scala.util.control.NonFatal(e @ _) =>
                  this.given_Tracer.finish(TraceLevel.Debug,
@@ -1689,7 +1770,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
                )
               : (String, String)]**
            )
-           try 
+           try
              {
                val result: ("hello" : String) | ("bye" : String) =
                  if arg2.>(2) then "hello" else "bye"
@@ -1700,7 +1781,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
                )
                result:("hello" : String) | ("bye" : String)
              }
-            catch 
+            catch
              {
                case scala.util.control.NonFatal(e @ _) =>
                  x$5.finish(TraceLevel.Info,
@@ -1740,7 +1821,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
                )
               : (String, String)]**
            )
-           try 
+           try
              {
                val result: ("hello" : String) | ("bye" : String) =
                  if arg2.>(2) then "hello" else "bye"
@@ -1751,7 +1832,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
                )
                result:("hello" : String) | ("bye" : String)
              }
-            catch 
+            catch
              {
                case scala.util.control.NonFatal(e @ _) =>
                  this.tracer$macro$1.finish(TraceLevel.Info,
@@ -1765,7 +1846,7 @@ All of these lofty promises are fulfilled in the (very lengthy) generated code.
         else if arg2.>(2) then "hello" else "bye"):
          ("hello" : String) | ("bye" : String):
          ("hello" : String) | ("bye" : String)
-     def methodNotTraced(arg1: String, arg2: Int): Boolean // <--- 5 
+     def methodNotTraced(arg1: String, arg2: Int): Boolean // <--- 5
    }
 ```
 
@@ -1781,25 +1862,29 @@ As promised:
 We can see how instrumentation works in this runnable `main`, respecting all the different combinations we defined above:
 
 ```scala wrap=false
-object ClassAnnotationUsage:
-  @main def classAnnotation() =
+object ClassAnnotationUsage {
+  @main def classAnnotation() = {
     val usage1 = new ClassAnnotationUsage
 
     // 1
     usage1.theMethodToBeTraced1("abc", 123, SomeData(4, "password"), UntraceableData('d', "efg"))
 
-    locally:
+    locally {
       trait OtherTracer // 2
       given Tracer = Tracer.make[OtherTracer]
 
       // 3
       usage1.theMethodToBeTraced2("abc", 123, SomeData(4, "password"), UntraceableData('d', "efg"))
+    }
 
-    val usage2 = new TraitAnnotationUsage: // 4
+    val usage2 = new TraitAnnotationUsage { // 4
       def methodNotTraced(arg1: String, arg2: Int): Boolean = false
+    }
 
     // 5
     usage2.theMethodToBeTraced1("abc", 123, SomeData(4, "password"), UntraceableData('d', "efg"))
+  }
+}
 ```
 
 - (1) should use the default tracer, at the `Debug` tracing level
