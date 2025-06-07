@@ -5,7 +5,7 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
 import FeaturedBundles from "../_components/FeaturedBundles.astro";
 import MoneyBackGuarantee from "../_components/MoneyBackGuarantee.astro";
-import PricingPanels from "../_components/PricingPanels.astro";
+import PricingPanels from "../_components/PricingPanels";
 
 interface Props {
   benefits: CollectionEntry<"courses">["data"]["benefits"];
@@ -36,6 +36,10 @@ const {
   monthlyMembership = _personalMembership.data.packages[0],
   monthlyPricingPlan = await getTeachablePricingPlan(
     monthlyMembership.pricingPlanId,
+  ),
+  yearlyMembership = _personalMembership.data.packages[1],
+    yearlyPricingPlan = await getTeachablePricingPlan(
+    yearlyMembership.pricingPlanId,
   ),
   hours = isCourse
     ? benefits!.hours
@@ -78,10 +82,13 @@ const {
           {membershipHours}
           {membershipLinesOfCode}
           {monthlyMembership}
+          {yearlyMembership}
           monthlyPriceInCents={monthlyPricingPlan!.price}
+          yearlyPriceInCents={yearlyPricingPlan!.price}
           {priceInCents}
           {pricingPlanId}
           {title}
+          client:visible={{ rootMargin: "2160px" }}
         />
       ) : (
         <p>MISSING TEACHABLE_API_KEY</p>
