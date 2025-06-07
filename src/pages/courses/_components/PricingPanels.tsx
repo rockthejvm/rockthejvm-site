@@ -25,22 +25,6 @@ interface Props {
   title: CourseFrontmatter["title"];
 }
 
-// const {
-//     categories,
-//     currency,
-//     hours,
-//     linesOfCode,
-//     includedInMembership,
-//     isCourse,
-//     membershipHours,
-//     membershipLinesOfCode,
-//     monthlyMembership,
-//     monthlyPriceInCents,
-//     pricingPlanId,
-//     priceInCents,
-//     title,
-//   } = Astro.props,
-
 export default function PricingPanels(props) {
   const [membership, setMembership] = useState(membershipTypes[0]);
   const {
