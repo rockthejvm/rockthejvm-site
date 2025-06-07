@@ -77,7 +77,6 @@ export default defineCollection({
         hasGoal: z.boolean().default(true),
         hasSkills: z.boolean().default(true),
         heroImage: image(),
-        includedInMembership: z.boolean().default(true),
         instructorEnabled: z.boolean().default(true),
         // .refine(
         //   (image) => (image.width / image.height) === (16 / 9),

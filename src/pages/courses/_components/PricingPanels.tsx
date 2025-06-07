@@ -12,7 +12,6 @@ interface Props {
   currency: string;
   hours: number;
   linesOfCode: number;
-  includedInMembership: CourseFrontmatter["includedInMembership"];
   isCourse: boolean;
   membershipHours: number;
   membershipLinesOfCode: number;
@@ -32,33 +31,28 @@ interface Props {
 export default function PricingPanels(props: Props) {
   const [membership, setMembership] = useState(membershipTypes[0]);
   const {
-      categories,
-      currency,
-      hours,
-      linesOfCode,
-      includedInMembership,
-      isCourse,
-      membershipHours,
-      membershipLinesOfCode,
-      monthlyMembership,
-      monthlyPriceInCents,
-      yearlyMembership,
-      yearlyPriceInCents,
-      pricingPlanId,
-      priceInCents,
-      title,
-    } = props,
-    // remove this when including the RoP courses in the membership
-    membershipIncludedClassNames = includedInMembership && "grid grid-cols-1",
-    membershipIncludedCardClassNames =
-      includedInMembership && "sm:rounded-b-none lg:rounded-tr-none";
+    categories,
+    currency,
+    hours,
+    linesOfCode,
+    isCourse,
+    membershipHours,
+    membershipLinesOfCode,
+    monthlyMembership,
+    monthlyPriceInCents,
+    yearlyMembership,
+    yearlyPriceInCents,
+    pricingPlanId,
+    priceInCents,
+    title,
+  } = props;
   return (
     <>
       <div
-        className={`mx-auto mt-16 max-w-lg items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2 ${membershipIncludedClassNames}`}
+        className={`grid-cols- mx-auto mt-16 grid max-w-lg items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2`}
       >
         <div
-          className={`card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:p-10 lg:mx-0 lg:rounded-bl-3xl ${membershipIncludedCardClassNames}`}
+          className={`card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none`}
         >
           <h3
             id="tier-hobby"
@@ -112,7 +106,7 @@ export default function PricingPanels(props: Props) {
             Get Now
           </PurchaseLink>
         </div>
-        {includedInMembership && (
+        {(
           <div className="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
             <div className="mb-4 flex justify-center">
               <fieldset aria-label="Payment frequency">

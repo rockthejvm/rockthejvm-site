@@ -5,10 +5,7 @@ import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
 import { getCollection } from "astro:content";
 
 const _courses = await getCollection("courses"),
-  _inMembershipCourses = _courses.filter(
-    ({ data: { includedInMembership } }) => includedInMembership,
-  ),
-  sortedCourses = [..._inMembershipCourses].sort((a, b) =>
+  sortedCourses = [..._courses].sort((a, b) =>
     compareByNaturalOrder(a.data.title, b.data.title),
   );
 ---
