@@ -4,6 +4,7 @@ interface Props {
   priceInCents: number;
   currency: string;
   recurring?: "nonrecurring" | "monthly" | "yearly";
+  children?: React.ReactNode;
 }
 
 export default function CoursePrice(props: Props) {

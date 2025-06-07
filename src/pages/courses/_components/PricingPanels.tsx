@@ -20,12 +20,16 @@ interface Props {
     pricingPlanId: number;
   };
   monthlyPriceInCents: number;
+  yearlyMembership: {
+    pricingPlanId: number;
+  };
+  yearlyPriceInCents: number;
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   priceInCents: number;
   title: CourseFrontmatter["title"];
 }
 
-export default function PricingPanels(props) {
+export default function PricingPanels(props: Props) {
   const [membership, setMembership] = useState(membershipTypes[0]);
   const {
       categories,
@@ -104,7 +108,6 @@ export default function PricingPanels(props) {
             pricingPlanId={pricingPlanId}
             ariaDescribedBy="tier-hobby"
             className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-            client:visible={{ rootMargin: "2160px" }}
           >
             Get Now
           </PurchaseLink>
@@ -150,7 +153,9 @@ export default function PricingPanels(props) {
                     : yearlyPriceInCents
                 }
                 currency={currency}
-                recurring={membership.value.toLowerCase()}
+                recurring={
+                  membership.value === "Monthly" ? "monthly" : "yearly"
+                }
               >
                 <div
                   className="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
@@ -168,7 +173,8 @@ export default function PricingPanels(props) {
                 `${membershipHours} hours of 4K content`,
                 `${membershipLinesOfCode} lines of code written`,
                 ...categories.map(
-                  ({ data: { name } }) => `All ${name} courses`,
+                  ({ data }: { data: { name: string } }) =>
+                    `All ${data.name} courses`,
                 ),
               ].map((line, idx) => (
                 <li className="flex gap-x-3" key={idx}>
@@ -196,7 +202,6 @@ export default function PricingPanels(props) {
               }
               ariaDescribedBy="tier-enterprise"
               className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
-              client:visible={{ rootMargin: "2160px" }}
             >
               Join Now
             </PurchaseLink>
