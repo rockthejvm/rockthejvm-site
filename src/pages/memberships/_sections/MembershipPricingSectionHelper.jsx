@@ -22,7 +22,6 @@ export default function Example(props) {
             <Radio
               key={membershipTypes[0].value}
               value={membershipTypes[0]}
-              defaultChecked={true}
               className="cursor-pointer rounded-full px-2.5 py-1 text-gray-500 data-[checked]:bg-indigo-600 data-[checked]:text-white"
             >
               {membershipTypes[0].label}
