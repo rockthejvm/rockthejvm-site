@@ -3,12 +3,12 @@ import centsToPrice from "@/utils/centsToPrice";
 interface Props {
   priceInCents: number;
   currency: string;
-  recurring?: "nonrecurring" | "monthly" | "yearly";
+  recurring: "nonrecurring" | "monthly" | "yearly";
   children?: React.ReactNode;
 }
 
 export default function CoursePrice(props: Props) {
-  const { priceInCents, currency, recurring = "nonrecurring" } = props;
+  const { priceInCents, currency, recurring } = props;
   const price = centsToPrice(priceInCents, currency);
 
   return (

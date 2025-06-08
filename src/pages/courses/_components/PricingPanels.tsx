@@ -60,7 +60,11 @@ export default function PricingPanels(props: Props) {
           >
             {title} - Lifetime License
           </h3>
-          <CoursePrice currency={currency} priceInCents={priceInCents}>
+          <CoursePrice
+            currency={currency}
+            priceInCents={priceInCents}
+            recurring="nonrecurring"
+          >
             <div
               className="mt-4 flex items-baseline gap-x-2 text-5xl font-bold tracking-tight text-content"
               slot="fallback"
