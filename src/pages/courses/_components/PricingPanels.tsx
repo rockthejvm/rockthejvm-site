@@ -106,7 +106,7 @@ export default function PricingPanels(props: Props) {
             Get Now
           </PurchaseLink>
         </div>
-        {(
+        {
           <div className="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
             <div className="mb-4 flex justify-center">
               <fieldset aria-label="Payment frequency">
@@ -199,7 +199,7 @@ export default function PricingPanels(props: Props) {
               Join Now
             </PurchaseLink>
           </div>
-        )}
+        }
       </div>
     </>
   );
