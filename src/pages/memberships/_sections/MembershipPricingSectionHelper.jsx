@@ -2,7 +2,7 @@ import PurchaseLink from "@/components/PurchaseLink";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useState } from "react";
 
-const membershipTypes = [
+export const membershipTypes = [
   { value: "Monthly", label: "Monthly", priceSuffix: "/month" },
   { value: "Yearly", label: "Yearly", priceSuffix: "/year" },
 ];
@@ -22,7 +22,6 @@ export default function Example(props) {
             <Radio
               key={membershipTypes[0].value}
               value={membershipTypes[0]}
-              defaultChecked={true}
               className="cursor-pointer rounded-full px-2.5 py-1 text-gray-500 data-[checked]:bg-indigo-600 data-[checked]:text-white"
             >
               {membershipTypes[0].label}
@@ -42,7 +41,7 @@ export default function Example(props) {
           id="tier-hobby"
           className="text-base font-semibold leading-7 text-accent-1"
         >
-          Monthly Membership
+          All-Access Monthly Membership
         </h3>
         <div className="mt-4 flex items-baseline gap-x-2">
           {props.monthlyPrice}
@@ -195,7 +194,7 @@ export default function Example(props) {
           id="tier-enterprise"
           className="text-base font-semibold leading-7 text-accent-1"
         >
-          Yearly Membership
+          All-Access Yearly Membership
         </h3>
         <div className="mt-4 flex items-baseline gap-x-2">
           {props.yearlyPrice}

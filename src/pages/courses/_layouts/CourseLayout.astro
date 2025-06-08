@@ -54,7 +54,6 @@ const course = await getEntry(
   tags = await getEntries(_frontmatter.tags ?? []),
   { color: categoryColor, faqs: categoryFaqs } = _categoryFrontmatter,
   {
-    includedInMembership,
     benefits,
     description,
     faqs,
@@ -311,7 +310,6 @@ const _prerequisitess = await getCollection("prerequisites"),
     {
       pricingPlan !== null && (
         <Pricing
-          {includedInMembership}
           {isCourse}
           {benefits}
           {bundledCourses}
