@@ -287,7 +287,7 @@ void main() throws InterruptedException {
 
 When we run the `main` method, we should see the following output:
 
-```
+```text
 14:52:27.097 [virtual-12] INFO  in.rcard.sc.Main - Finding user with id 'UserId[value=1]'
 14:52:27.097 [virtual-12] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=1]'
 Exception in thread "main" java.util.concurrent.StructuredTaskScope$FailedException: java.lang.RuntimeException: Error finding user with id 'UserId[value=1]'
@@ -356,7 +356,7 @@ void main() throws InterruptedException {
 
 When we run the `main` method, we should see the following output:
 
-```
+```text
 18:18:29.406 [virtual-29] INFO  in.rcard.sc.Main - Finding user with id 'UserId[value=2]'
 18:18:29.406 [virtual-33] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=2]'
 18:18:29.406 [virtual-30] INFO  in.rcard.sc.Main - Finding user with id 'UserId[value=1]'
@@ -465,7 +465,7 @@ void main() throws InterruptedException {
 
 We expect the cache to throw an exception because the user's repositories with `UserId(1L)` are not cached, and the repository cannot complete the execution successfully. As we said, the `AnySuccessful<T>` joiner waits for the first successful task. So, it will not fail, but it'll expect the other tasks to be completed. The output of the execution is, in fact, the following:
 
-```
+```text
 11:53:52.760 [virtual-27] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=1]'
 11:53:52.864 [virtual-25] INFO  in.rcard.sc.Main - No cached repositories found for user with id 'UserId[value=1]'
 11:53:53.773 [virtual-27] INFO  in.rcard.sc.Main - Repositories found for user 'UserId[value=1]'
@@ -574,7 +574,7 @@ void main() throws InterruptedException {
 
 When we run the `main` method, we should see an output similar to the following:
 
-```
+```text
 21:03:20.708 [virtual-25] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=1]'
 21:03:20.708 [virtual-27] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=2]'
 21:03:21.718 [virtual-27] INFO  in.rcard.sc.Main - Repositories found for user 'UserId[value=2]'
@@ -735,7 +735,7 @@ We want to find the first repository that has a README file. A task will throw a
 
 When we run the `main` method, we should see the following output:
 
-```
+```text
 21:48:48.193 [virtual-30] INFO  in.rcard.sc.Main - Finding files for repository 'yaes'
 21:48:48.193 [virtual-25] INFO  in.rcard.sc.Main - Finding files for repository 'raise4s'
 21:48:48.193 [virtual-32] INFO  in.rcard.sc.Main - Finding files for repository 'kafkaesque'
@@ -947,7 +947,7 @@ void main() throws InterruptedException {
 
 The execution of the `main` method should produce the following output:
 
-```
+```text
 09:21:48.571 [virtual-25] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=1]'
 Exception in thread "main" java.util.concurrent.StructuredTaskScope$FailedException: java.util.concurrent.TimeoutException: Timeout of PT0.5S reached
 	at java.base/java.util.concurrent.StructuredTaskScopeImpl.join(StructuredTaskScopeImpl.java:258)
@@ -961,7 +961,7 @@ Caused by: java.util.concurrent.TimeoutException: Timeout of PT0.5S reached
 
 The execution hit the timeout, and the subtask retrieving the repositories was cancelled. It didn't write the second log message. Whereas, if we increase the timeout to 1.5 seconds, the computation retrieves the repositories successfully:
 
-```
+```text
 09:26:18.321 [virtual-25] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=1]'
 09:26:19.335 [virtual-25] INFO  in.rcard.sc.Main - Repositories found for user 'UserId[value=1]'
 09:26:19.338 [main] INFO  in.rcard.sc.Main - GitHub user's repositories: [Repository[name=raise4s, visibility=PUBLIC, uri=https://github.com/rcardin/raise4s], Repository[name=sus4s, visibility=PUBLIC, uri=https://github.com/rcardin/sus4s]]
@@ -1046,7 +1046,7 @@ record ConfigImpl(
 
 If we try to use our new `FindRepositoriesByUserIdWithConfigTimeout` class in the `main` method with a timeout equal to 500 milliseconds, we can see that it works as expected:
 
-```java
+```text
 14:34:16.960 [virtual-26] INFO  in.rcard.sc.Main - Finding repositories for user with id 'UserId[value=1]'
 Exception in thread "main" java.util.concurrent.StructuredTaskScope$TimeoutException
 	at java.base/java.util.concurrent.StructuredTaskScopeImpl.join(StructuredTaskScopeImpl.java:247)
