@@ -40,7 +40,7 @@
     "@types/react-dom": "^18.3.5",
     "@typescript-eslint/parser": "^8.28.0",
     "@xyflow/react": "^12.5.1",
-    "astro": "^5.5.5",
+    "astro": "^5.12.8",
     "astro-embed": "^0.7.4",
     "astro-expressive-code": "^0.40.2",
     "astro-icon": "^1.1.5",
