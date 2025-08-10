@@ -249,7 +249,7 @@ As we saw, the `StructuredTaskScope` in JDK 25 is a sealed interface, which mean
 
 **In JDK 25, concurrency policies are defined through a new API called `Joiner`**. The `Joiner` API allows us to determine how the results of subtasks are combined and how failures are handled.
 
-**The JDK offers a set of built-in joiners that cover the most common use cases, and are available as static factory methods** on the `Joiner` interface. Let's take a look at how we can use these joiners to define the behavior of our structured task scope.
+**The JDK offers a set of built-in joiners that cover the most common use cases, and are available as static factory methods on the `Joiner` interface**. Let's take a look at how we can use these joiners to define the behavior of our structured task scope.
 
 The first `Joiner` we see is the `Joiner.AwaitSuccessful<T>`. It's the default joiner used by the `StructuredTaskScope.open()` method without parameters. It waits for all subtasks to complete successfully, and if any subtask fails, it throws a `StructuredTaskScope.FailedException`. We can create an instance of such a joiner by calling the static factory method `Joiner.awaitAllSuccessfulOrThrow()`:
 
@@ -701,7 +701,7 @@ class FirstRepositoryByFileNameService implements FirstRepositoryByFileNameUseCa
 }
 ```
 
-There are a few things to notice in the above implementation. We implemented a custom `Predicate<Subtask<? extends RepoStructure>>` that checks if the subtask has completed successfully and if the files returned by the subtask contain the file we are looking for. The class `CancelIfFound` will be used as our stopping condition for the joiner. (By the way, do you know that you can define classes inside methods in Java?).
+There are a few things to notice in the above implementation. We implemented a custom `Predicate<Subtask<? extends RepoStructure>>` that checks if the subtask has completed successfully and if the files returned by the subtask contain the file we are looking for. The class `CancelIfFound` will be used as our stopping condition for the joiner.
 
 We then use the `Joiner.allUntil(cancelIfFound)` to create a joiner that collects results from all subtasks until the predicate evaluates to `true`. Finally, we return the first repository that has the file we are looking for, if any.
 
@@ -1060,7 +1060,7 @@ Unfortunately, the name of the scope is not visible in the logs.
 
 Our journey through the new structured concurrency features in JDK 25 has come to an end. As we saw, the changes compared to previous versions are mainly syntactical, making the API more intuitive and easier to use. In detail, the Java architects refactored the structured concurrency API to separate the concerns of the `StructuredTaskScope` and the `Joiner`, allowing us to define custom concurrency policies more easily. In doing so, they introduced new concurrency policies through the `Joiner` class, such as `Joiner.awaitAll()` and `Joiner.allUntil()`, which provide more flexibility and power to structured concurrency. We also saw how to create custom joiners to implement new concurrency patterns, such as the `FirstCompleted` joiner, which allows us to implement the `race` pattern and timeout policies more elegantly. Finally, we explored the new configuration options for structured task scopes, which will enable us to set timeouts and other parameters more conveniently.
 
-## Appendix A
+## Appendix A: `StructuredTaskScope` & `Joiner` Internals
 
 In the previous article about structured concurrency, we gave some insights about the internals of the `StructuredTaskScope` class. As we saw, the JDK 25 refactored the concerns of the old `StructuredTaskScope` class to make it more modular and easier to use. In detail, we need to understand how the new `StructuredTaskScope` class works together with the `Joiner` class to grasp the new structured concurrency features fully.
 
@@ -1233,11 +1233,11 @@ public R join() throws InterruptedException {
 }
 ```
 
-Despite of the operations on the `flock` object, which is at the base of the structured concurrency implementation (we briefly talked about `ThreadFlock` type in the previous articole), the `join()` method is responsible for invoking the `result()` method of the joiner to retrieve the final result of the scope.
+Despite of the operations on the `flock` object, which is at the base of the structured concurrency implementation (we briefly talked about `ThreadFlock` type in the previous article), the `join()` method is responsible for invoking the `result()` method of the joiner to retrieve the final result of the scope.
 
 As we said, the new version of the structured concurrency API in JDK 25 is more modular and easier to use. It redistributes the responsibilities between the `StructuredTaskScope` and the `Joiner`. In contrast, the main workflow is still the same (see [Project Loom: Structured Concurrency in Java - Parent-Children Relationship](https://rockthejvm.com/articles/structured-concurrency-in-java#parent-children-relationship) for further details).
 
-## Appendix B
+## Appendix B: The `pom.xml` File
 
 As usual, we provide the complete `pom.xml` file for the project so that you can run the code examples without any hassle:
 
