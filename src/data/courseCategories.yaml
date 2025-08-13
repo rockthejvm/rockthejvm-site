@@ -19,6 +19,7 @@
   members:
     - scala-at-light-speed
     - scala-essentials
+    - scala-projects
     - advanced-scala
     - scala-macros-and-metaprogramming
     - scala-and-functional-programming-interview-practice
