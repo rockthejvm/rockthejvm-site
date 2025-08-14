@@ -308,7 +308,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       )
     }
     {
-      pricingPlan !== null && (
+      pricingPlan !== null ? (
         <Pricing
           {isCourse}
           {benefits}
@@ -320,6 +320,10 @@ const _prerequisitess = await getCollection("prerequisites"),
           currency={pricingPlan.currency}
           {title}
         />
+      ) : (
+        <p class="my-8 text-center text-2xl text-red-600">
+          No pricing plan available. Check if TEACHABLE_API_KEY is missing.
+        </p>
       )
     }
     <CourseFAQ
