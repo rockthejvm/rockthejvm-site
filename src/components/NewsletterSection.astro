@@ -10,51 +10,119 @@ const { stacked = false, title, isPreview = false } = Astro.props;
 
 {
   stacked ? (
-    <div class={`${isPreview ? "bg-transparent" : "bg-bkg"} py-8 md:py-0`}>
-      <div class="mx-auto max-w-7xl px-6">
-        {title && (
-          <h2 class="max-w-xl text-balance text-xl font-semibold tracking-tight text-content-1 sm:text-2xl">
-            {title}
-          </h2>
-        )}
-        <form id="newsletter-form" class="w-full max-w-md pt-2 lg:col-span-5">
-          <div class="flex gap-x-4">
-            <label for="email" class="sr-only">
-              {" "}
-              Email address{" "}
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
-              class="min-w-0 flex-auto rounded-md bg-white px-3.5 py-2 text-base text-black placeholder-black outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-black focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-              placeholder="Enter your email"
-            />
-            <button
-              type="submit"
-              class="flex-none rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Subscribe
-            </button>
-          </div>
-          <p class="mt-4 text-sm/6 text-content-1">
-            This site is built on trust, and your data is safe. Check out the{" "}
-            <a href="/policies/privacy" class="font-semibold">
-              privacy&nbsp;policy
-            </a>
-            .
+    isPreview ? (
+      <div class="mb-4 mt-10 bg-transparent py-8 md:py-0">
+        <div class="mx-auto max-w-2xl px-6 text-center underline decoration-white">
+          {title && (
+            <h2 class="text-lg font-medium text-gray-200 sm:text-xl">
+              {title}
+            </h2>
+          )}
+
+          <form id="newsletter-form" class="mt-6">
+            <div class="mx-auto max-w-xl overflow-hidden rounded-2xl bg-white/10 p-2 shadow-xl ring-1 ring-black/10 backdrop-blur-md dark:ring-white/15">
+              <div class="flex flex-col gap-2 sm:flex-row">
+                <div class="relative flex-1">
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    class="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 opacity-70"
+                  >
+                    <path
+                      fill="white"
+                      d="M20 6H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Zm0 2v.01L12 13 4 8.01V8h16ZM4 16V9.7l7.4 4.63a1 1 0 0 0 1.2 0L20 9.7V16H4Z"
+                    />
+                  </svg>
+                  <label for="email" class="sr-only">
+                    Email address
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    placeholder="Enter your email"
+                    class="w-full rounded-xl border-0 bg-transparent py-3 pl-11 pr-4 text-base text-gray-100 placeholder-gray-300 outline-none focus:ring-2 focus:ring-cta/70"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  class="rounded-xl bg-cta px-5 py-3 text-base font-semibold text-ctatext shadow-lg transition-all hover:-translate-y-0.5 hover:bg-accent-1 hover:shadow-xl focus:ring-2 focus:ring-cta/80 focus:ring-offset-2 focus:ring-offset-black focus-visible:outline-none active:translate-y-0"
+                >
+                  Subscribe
+                </button>
+              </div>
+
+              <p class="mt-2 text-center text-xs text-gray-200/85">
+                We'll only email about this course. Read our{" "}
+                <a
+                  href="/policies/privacy"
+                  class="font-semibold text-gray-100 underline-offset-2 hover:underline"
+                >
+                  privacy policy
+                </a>
+                .
+              </p>
+            </div>
+          </form>
+
+          <p
+            id="confirmation-message"
+            class="mt-4 hidden text-sm/6 text-green-200"
+          >
+            Thank you for subscribing! Check your email for confirmation.
           </p>
-        </form>
-        <p
-          id="confirmation-message"
-          class="mt-4 hidden text-sm/6 text-green-200"
-        >
-          Thank you for subscribing! Check your email for confirmation.
-        </p>
+        </div>
       </div>
-    </div>
+    ) : (
+      <div class="bg-transparent py-8 md:py-0">
+        <div class="mx-auto max-w-7xl px-6">
+          {title && (
+            <h2 class="max-w-xl text-balance text-xl font-semibold tracking-tight text-content-1 sm:text-2xl">
+              {title}
+            </h2>
+          )}
+          <form id="newsletter-form" class="w-full max-w-md pt-2 lg:col-span-5">
+            <div class="flex gap-x-4">
+              <label for="email" class="sr-only">
+                {" "}
+                Email address{" "}
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                class="min-w-0 flex-auto rounded-xl bg-white px-3.5 py-2 text-base text-black placeholder-black outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-black focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                placeholder="Enter your email"
+              />
+              <button
+                type="submit"
+                class="flex-none rounded-md bg-cta px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Subscribe
+              </button>
+            </div>
+            <p class="mt-4 text-sm/6 text-content-1">
+              This site is built on trust, and your data is safe. Check out the{" "}
+              <a href="/policies/privacy" class="font-semibold">
+                privacy&nbsp;policy
+              </a>
+              .
+            </p>
+          </form>
+          <p
+            id="confirmation-message"
+            class="mt-4 hidden text-sm/6 text-green-200"
+          >
+            Thank you for subscribing! Check your email for confirmation.
+          </p>
+        </div>
+      </div>
+    )
   ) : (
     <div class="bg-bkg py-8 sm:py-12 lg:py-16">
       <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
