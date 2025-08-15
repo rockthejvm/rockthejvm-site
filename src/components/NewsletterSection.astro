@@ -2,14 +2,15 @@
 interface Props {
   stacked?: boolean;
   title?: string;
+  isPreview?: boolean;
 }
 
-const { stacked = false, title } = Astro.props;
+const { stacked = false, title, isPreview = false } = Astro.props;
 ---
 
 {
   stacked ? (
-    <div class="bg-bkg py-8 md:py-0">
+    <div class={`${isPreview ? "bg-transparent" : "bg-bkg"} py-8 md:py-0`}>
       <div class="mx-auto max-w-7xl px-6">
         {title && (
           <h2 class="max-w-xl text-balance text-xl font-semibold tracking-tight text-content-1 sm:text-2xl">

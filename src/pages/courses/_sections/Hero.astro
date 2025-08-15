@@ -1,5 +1,6 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
+import NewsletterSection from "@/components/NewsletterSection.astro";
 import PurchaseLink from "@/components/PurchaseLink";
 import type { CollectionEntry } from "astro:content";
 
@@ -9,11 +10,13 @@ interface Props {
   description: CourseFrontmatter["description"];
   heroImage: CourseFrontmatter["heroImage"];
   inRoadmap: boolean;
+  isPreview: boolean;
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   title: CourseFrontmatter["title"];
 }
 
-const { description, heroImage, inRoadmap, pricingPlanId, title } = Astro.props;
+const { description, heroImage, inRoadmap, pricingPlanId, title, isPreview } =
+  Astro.props;
 ---
 
 <header class="relative min-h-[92vh]">
@@ -39,22 +42,31 @@ const { description, heroImage, inRoadmap, pricingPlanId, title } = Astro.props;
       {description}
     </p>
     <div class="mt-10 flex flex-row justify-center gap-8 text-center">
-      <PurchaseLink
-        {pricingPlanId}
-        className="rounded-md bg-cta px-3.5 py-2.5 text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        client:load
-      >
-        Enroll now</PurchaseLink
-      >
-
       {
-        inRoadmap && (
-          <button
-            id="open-roadmap-modal"
-            class="rounded-md bg-gray-400 px-3.5 py-2.5 text-base font-semibold text-black shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Course roadmap
-          </button>
+        !isPreview ? (
+          <Fragment>
+            <PurchaseLink
+              {pricingPlanId}
+              className="rounded-md bg-cta px-3.5 py-2.5 text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              client:load
+            >
+              Enroll Now
+            </PurchaseLink>
+            {inRoadmap && (
+              <button
+                id="open-roadmap-modal"
+                class="rounded-md bg-gray-400 px-3.5 py-2.5 text-base font-semibold text-black shadow-sm hover:bg-accent-1 hover:text-gray-100 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Course roadmap
+              </button>
+            )}
+          </Fragment>
+        ) : (
+          <NewsletterSection
+            stacked={true}
+            {isPreview}
+            title="Subscribe to be notified of when this course is available!"
+          />
         )
       }
     </div>

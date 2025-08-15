@@ -58,18 +58,19 @@ const course = await getEntry(
     description,
     faqs,
     features,
+    hasGoal,
+    hasSkills,
     heroImage,
+    instructorEnabled,
     instructors: _instructors,
     isFree,
+    isPreview,
     pricingPlanId,
     question,
     technologies,
     thanks,
     title,
     videoId,
-    hasGoal,
-    hasSkills,
-    instructorEnabled,
   } = _frontmatter,
   difficulty =
     _frontmatter.difficulty !== undefined
@@ -233,6 +234,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       inRoadmap={prerequisites !== undefined}
       {pricingPlanId}
       {title}
+      {isPreview}
     >
       <div
         slot="roadmap"
@@ -308,7 +310,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       )
     }
     {
-      pricingPlan !== null ? (
+      isPreview ? null : pricingPlan !== null ? (
         <Pricing
           {isCourse}
           {benefits}
