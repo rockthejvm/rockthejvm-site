@@ -302,11 +302,13 @@ const _prerequisitess = await getCollection("prerequisites"),
       isBundle ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
       ) : (
-        <Curriculum
-          color={categoryColor}
-          courseId={course.id}
-          {pricingPlanId}
-        />
+        !isPreview && (
+          <Curriculum
+            color={categoryColor}
+            courseId={course.id}
+            {pricingPlanId}
+          />
+        )
       )
     }
     {
