@@ -5,7 +5,8 @@
       "autoPull": false
     },
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "22"
+      "version": "22",
+      "pnpmVersion": "10.14.0"
     }
   },
   "customizations": {

@@ -58,18 +58,19 @@ const course = await getEntry(
     description,
     faqs,
     features,
+    hasGoal,
+    hasSkills,
     heroImage,
+    instructorEnabled,
     instructors: _instructors,
     isFree,
+    isPreview,
     pricingPlanId,
     question,
     technologies,
     thanks,
     title,
     videoId,
-    hasGoal,
-    hasSkills,
-    instructorEnabled,
   } = _frontmatter,
   difficulty =
     _frontmatter.difficulty !== undefined
@@ -233,6 +234,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       inRoadmap={prerequisites !== undefined}
       {pricingPlanId}
       {title}
+      {isPreview}
     >
       <div
         slot="roadmap"
@@ -300,15 +302,17 @@ const _prerequisitess = await getCollection("prerequisites"),
       isBundle ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
       ) : (
-        <Curriculum
-          color={categoryColor}
-          courseId={course.id}
-          {pricingPlanId}
-        />
+        !isPreview && (
+          <Curriculum
+            color={categoryColor}
+            courseId={course.id}
+            {pricingPlanId}
+          />
+        )
       )
     }
     {
-      pricingPlan !== null && (
+      isPreview ? null : pricingPlan !== null ? (
         <Pricing
           {isCourse}
           {benefits}
@@ -320,6 +324,10 @@ const _prerequisitess = await getCollection("prerequisites"),
           currency={pricingPlan.currency}
           {title}
         />
+      ) : (
+        <p class="my-8 text-center text-2xl text-red-600">
+          No pricing plan available. Check if TEACHABLE_API_KEY is missing.
+        </p>
       )
     }
     <CourseFAQ

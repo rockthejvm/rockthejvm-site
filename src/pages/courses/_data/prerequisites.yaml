@@ -26,12 +26,15 @@
     - scala-and-functional-programming-interview-practice
     - scala-essentials
     - scala-macros-and-metaprogramming
+    - scala-projects
     - typelevel-rite-of-passage
     - zio
     - zio-rite-of-passage
   edges:
     - from: scala-essentials
       to: advanced-scala
+    - from: scala-essentials
+      to: scala-projects
     - from: advanced-scala
       to: scala-macros-and-metaprogramming
     - from: advanced-scala
