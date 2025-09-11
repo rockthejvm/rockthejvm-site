@@ -384,7 +384,7 @@ We can copy from the previous article the implementation of the `FindRepositorie
 ```java
 class FindRepositoriesByUserIdCache implements FindRepositoriesByUserIdPort {
 
-  private final Map<UserId, List<Repository>> cache = new HashMap<>();
+  private final Map<UserId, List<Repository>> cache = new ConcurrentHashMap<>();
 
   public FindRepositoriesByUserIdCache() {
     cache.put(
@@ -504,7 +504,7 @@ class GitHubRepository
   @Override
   public Map<UserId, List<Repository>> findRepositories(List<UserId> userIds)
       throws InterruptedException {
-    var repositoriesByUserId = new HashMap<UserId, List<Repository>>();
+    var repositoriesByUserId = new ConcurrentHashMap<UserId, List<Repository>>();
     try (var scope = StructuredTaskScope.open(Joiner.awaitAll())) {
       userIds.forEach(
           userId -> {
