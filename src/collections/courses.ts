@@ -71,6 +71,7 @@ export default defineCollection({
             three: image().optional(),
             four: image().optional(),
             five: image().optional(),
+            six: image().optional(),
           })
           .strict()
           .optional(),

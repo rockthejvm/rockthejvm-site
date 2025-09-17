@@ -1,17 +1,26 @@
 ---
-benefits:
-    hours: 12
-    linesOfCode: 3000
-category: scala
+title: Scala Projects
+publishedDate: 2025-09-17
 description: Learn and practice Scala with real-life projects. Ideal for developers who have just learned the fundamentals of Scala, and want to get practical experience by building real applications.
+benefits:
+    hours: 15
+    linesOfCode: 3300
+category: scala
 difficulty: intermediate
 excerpt: <p>Get practical experience with Scala by building real things &mdash; file synchronizers, photo processors, AI agents and more</p>
 heroImage: images/scala-projects.png
-title: Scala Projects
-isPreview: true
 pricingPlanId: 6340608
-publishedDate: 2025-09-01
 tags: [scala, project]
+features:
+  one: images/photoscala.png
+  two: images/scrapeyard.png
+  three: images/statick.png
+  four: images/chattie.png
+  five: images/scaladrive.png
+  six: images/ai.png
+collaborators:
+  - author: li-haoyi
+    biography: <p>Haoyi Li is a software engineer and the author of com-lihaoyi, an ecosystem of popular open-source Scala libraries, including os-lib, uPickle, Cask and Scalatags, which we used in this course. He is also the author of the book Hands-On Scala Programming, which he gracefully allowed me to use as an inspiration for 4 out of 6 projects of this course. I took his code examples in the book to a more "product-like" state, with refactorings and a more functional-style Scala, so that the total overlap with his book is about 30%. You'll get a lot of value from this course even if (especially if) you have his book close by.</p><p>Haoyi is also the creator of the Mill build tool, which he recently released as 1.0.</p>
 ---
 
 import CourseLayout from "@/pages/courses/_layouts/CourseLayout.astro";
@@ -27,43 +36,104 @@ Maybe you'd like to start building your own projects, but you don't know where t
 This course is for you. In here, you will build real applications with Scala, from scratch. Maybe one of them will be the starting point for your next startup.
 
 </Fragment>
+
+<Fragment slot="verticalSection">
+
+<br/>
+Each project takes about 2 hours to complete - enough for an evening hack session - but with plenty of room for expanding into something more serious if you like the project or want to use it yourself.
+
+At the beginning of every project, you'll get a tutorial on the libraries we'll use, then we'll go lasers blazing into the project itself.
+
+Let me tell you about the projects:
+
+</Fragment>
+
 <Fragment slot="skills">
 ### After this course, you'll be able to:
 - use Scala as a fast, productive language for the task at hand
 - pick the right tools and libraries for a Scala project
 - use either plain Scala or straightforward libraries (instead of effect systems or magical frameworks) for powerful applications
 - deploy your Scala applications to the target of your choice
+- hopefully, use the projects you've built or turn them into real products!
+</Fragment>
 
-### The applications you'll build:
+<Fragment slot="feature1">
+### Project 1: PhotoScala
+This is a command-line image editor, which can transform pictures in various ways. You can crop, resize, apply filters and effects, and combine multiple images together.
 
-- Photo processor
-    - Java interop
-    - photo manipulation techniques
-    - practical math
-    - custom command line
-- Website scraper
-    - JVM scraping libraries
-    - mapping to your own domain model
-    - data extraction techniques
-    - email newsletters
-- Static site generator
-    - server-side rendering
-    - website packaging
-    - configurations
-    - build pipelines & deployment
-- Full-stack web application
-    - full-stack layered architecture
-    - HTTP APIs
-    - database access
-    - frontend integration
-- File synchronizers
-    - system access
-    - concurrency
-    - process communication
-- AI agents
-    - data ingestion
-    - agent fine-tuning
-    - exposing chat interfaces
+We architect this app so that you can add as many other transformations, effects and filters as you want. The code is modular and easy to extend.
+
+You'll learn
+- how to work with pictures
+- image effects
+- blend modes (the kind of stuff you see in Photoshop)
+- kernel filters like blur, sharpen, emboss and edge detection
+- not least, how to build a command line
+</Fragment>
+
+<Fragment slot="feature2">
+### Project 2: ScrapeYard
+
+This is a web scraper, which can scrape any website and extract useful information from it. You can use it to scrape news articles, product information, or any other kind of data.
+
+We'll write different scrapers for different sites (including Rock the JVM!), and by the end of this project we'll be able to extract news headlines from a popular site and send them to you over email, instead of endless doom-scrolling.
+
+You'll learn
+- parsing real websites
+- recursive scraping (e.g. on forums)
+- parallel crawling
+- sending emails
+</Fragment>
+
+<Fragment slot="feature3">
+### Project 3: Statick
+In this project, we'll build a static site generator.
+
+By the end of this chapter, you'll have a personal Markdown-based programming blog deployed on GitHub Pages, with syntax highlighting and all.
+
+It takes far less code than you think, it looks great and you can expand it into a full-blown framework if you want.
+
+You'll learn
+- static site rendering
+- deploying a website to a popular hosting platform
+- adding configuration
+- syntax highlighting
+- templating
+</Fragment>
+
+<Fragment slot="feature4">
+### Project 4: Chattie
+
+This is a full-stack Scala application in the style of WhatsApp. Multiple users can connect to a chat room, and send messages and replies, with persistent storage. When a user logs in, they see the full chat history.
+
+You'll learn
+- using databases
+- exposing web servers
+- frontend with ScalaJS
+- sharing domain model (so underrated!)
+- real-time updates with websockets
+</Fragment>
+
+<Fragment slot="feature5">
+### Project 5: ScalaDrive
+This is a real-time file synchronizer. Works real fast: I try cloning my big Typelevel Rite of Passage repo on camera and it's instantly mirrored on the other side. The screenshot doesn't do it justic: I'm cloning the repo in `indir` and it's instantly mirrored in `outdir`.
+
+You'll learn
+- parallelizing workloads with actors
+- file management
+- spawning processes
+- inter-process communication
+- communicating remotely across the network
+</Fragment>
+
+<Fragment slot="feature6">
+### Project 6: Rock the JVM AI
+
+This is a RAG AI chatbot trained on my own blog on camera. It's able to give you contextualized answers with code examples and references where it found the information.
+
+You'll learn how to build your own AI agent trained on your own data.
+
+Enough said!
 
 </Fragment>
 </CourseLayout>

@@ -47,4 +47,11 @@ const { color, features } = Astro.props;
       </Feature>
     )
   }
+  {
+    features.six && (
+      <Feature image={features.six} imagePosition="left">
+        <slot name="feature6" />
+      </Feature>
+    )
+  }
 </Section>
