@@ -1,0 +1,7 @@
+biography: Haoyi Li is a software engineer and the author of com-lihaoyi, an ecosystem of popular open-source Scala libraries, including os-lib, uPickle, Cask and Scalatags. He also recently released the 1.0 version of his improved Mill build tool, and is is the author of the book Hands-On Scala Programming.
+name: Haoyi Li
+photo: ./photo.png
+socials:
+  email: haoyi.sg@gmail.com
+  github: lihaoyi
+  website: https://www.lihaoyi.com/
