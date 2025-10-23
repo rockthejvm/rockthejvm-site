@@ -1,0 +1,97 @@
+---
+title: "Build your own async"
+excerpt: "This article provides some information on how to build your own async in Scala"
+category: guide
+tags: [async, continuations, graalvm, scala, scala-3]
+publishedDate: 2025-10-23
+updatedDate: 2025-10-23
+author: chia-hung-lin
+repositoryUrl: https://codeberg.org/chlin501/async4s
+---
+
+## Introduction
+
+Have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O) works under the hood? I have a similar question, and here is the journy of my exploration.
+
+## Concepts
+
+Before our journey begins, two components are important, including
+
+1. Coroutine
+
+2. Event loop
+
+[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine **Gen** *yield*s values at the line 3rd, 5th, and 7th, and the main thread notifies the coroutine by *send* method at the line 17th.
+
+```scala
+  1: class Gen extends Coroutine[String, Int] {
+  2:   override def generate(): Unit = {
+  3:     val received1 = `yield`(1)
+  4:     println(s"Message sent from the caller: ${received1}")
+  5:     val received2 = `yield`(2)
+  6:     println(s"Message sent from the caller: ${received2}")
+  7:     val received3 = `yield`(3)
+  8:     println(s"Message sent from the caller: ${received3}")
+  9:   }
+ 10: }
+ 11:
+ 12: @main def run(): Unit =  {
+ 13:   val gen = new Gen()
+ 14:   while (gen.hasMoreElements()) {
+ 15:     val yielded = gen.nextElement()
+ 16:     println("Caller receives a value: ${yielded}")
+ 17:     gen.send(s"Caller sends str ${yielded}")
+ 18:   }
+ 19: }
+```
+
+Thus, it can be viewed as a generalized subroutine in favor of [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking). A higher level workflow between coroutine(s), and the main thread can be roughly sketeched with the following image.
+
+![Coroutine cooperates with the main thread](images/cooperative-multitasking.png "cooperative multitasking")
+
+Beside the component coroutine, the entire system needs a way to manage the life cycle of coruotines submitted. A simplest setup is create an event loop that picks up a coroutine from its backlog, and execute that coroutine until the coroutine suspends, or completes. The control flow is then returned to the event loop, which picks up the next coroutine to run, repeating the same operation, until no more pending tasks. The pseudocode could be something like this:
+
+```pseudocode
+SET all coroutines TO event loop's backlog some where in the program
+WHILE event loop's backlog size > 0 DO
+  GET a coroutine from event loop's backlog
+  EXECUTE the coroutine
+  IF suspended == coroutine state
+    PUT the coroutine back to the event loop's backlog
+  ELSE IF done == coroutine state
+    PASS
+```
+
+Scala code snippet from this project with some detail omitted can be refferred to as below. First, the program **fetche**s a task, i.e.coroutine, from its corresponded task queue at the line 5th; second, the program **execute**s that task at the line 6th; third, the program **check**s the task's state, and act accordingly at the line 7th to 13th - if the task is in **ready** or **running** state, the program place the task back to the task queue, continouing the program by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the program repeats the same flow by fetching the next task to run, or the program **exit**s when no more tasks in the task queue.
+
+```scala
+  1:  def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
+  2:    @tailrec
+  3:    def fnWhile(fetchTask: => Task[_, _]...): Any = {
+  4:
+  5:      val (newTask, ...) = fetchTask
+  6:      val (_, newTask1) = execute(newTask)
+  7:      newTask1.state() match {
+  8:        case State.Ready | State.Running =>
+  9:          val (_, ...) = newTaskQueue.add(newTask1)
+ 10:          fnWhile(newTaskQueue1.fetch())
+ 11:        case State.Stopped =>
+ 12:          if (0 != newTaskQueue.size()) fnWhile(newTaskQueue.fetch()) else ()
+ 13:      }
+ 14:    }
+ 15:    fnWhile(taskQueue.fetch())
+ 16:  }
+ 17:  scheduler.taskQueues.foreach { taskQueue =>
+ 18:    val callable = new Callable[Any] {
+ 19:      @throws(classOf[RuntimeException])
+ 20:      override def call(): Any = consume(taskQueue)
+ 21:    }
+ 22:    executors.submit(callable)
+ 23:  }
+ ```
+
+## Prerequisite
+
+
+
+## Conclusions
