@@ -17,9 +17,11 @@ Have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/
 
 Before our journey begins, two components are important, including
 
-1. Coroutine
+1. [Coroutine](#coroutine)
 
-2. Event loop
+2. [Event Loop](#event-loop)
+
+### Coroutine
 
 [Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine **Gen** *yield*s values at the line 3rd, 5th, and 7th, and the main thread notifies the coroutine by *send* method at the line 17th.
 
@@ -49,17 +51,20 @@ Thus, it can be viewed as a generalized subroutine in favor of [cooperative mult
 
 ![Coroutine cooperates with the main thread](images/cooperative-multitasking.png "cooperative multitasking")
 
+### Event loop
+
 Beside the component coroutine, the entire system needs a way to manage the life cycle of coruotines submitted. A simplest setup is create an event loop that picks up a coroutine from its backlog, and execute that coroutine until the coroutine suspends, or completes. The control flow is then returned to the event loop, which picks up the next coroutine to run, repeating the same operation, until no more pending tasks. The pseudocode could be something like this:
 
 ```pseudocode
-SET all coroutines TO event loop's backlog some where in the program
+SET all coroutines TO event loop's backlog somewhere in the program
 WHILE event loop's backlog size > 0 DO
   GET a coroutine from event loop's backlog
   EXECUTE the coroutine
-  IF suspended == coroutine state
+  IF suspended == coroutine state THEN
     PUT the coroutine back to the event loop's backlog
-  ELSE IF done == coroutine state
+  ELSE IF done == coroutine state THEN
     PASS
+  END IF
 ```
 
 Scala code snippet from this project with some detail omitted can be refferred to as below. First, the program **fetche**s a task, i.e.coroutine, from its corresponded task queue at the line 5th; second, the program **execute**s that task at the line 6th; third, the program **check**s the task's state, and act accordingly at the line 7th to 13th - if the task is in **ready** or **running** state, the program place the task back to the task queue, continouing the program by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the program repeats the same flow by fetching the next task to run, or the program **exit**s when no more tasks in the task queue.
@@ -92,6 +97,30 @@ Scala code snippet from this project with some detail omitted can be refferred t
 
 ## Prerequisite
 
+:::caution
 
+The code in the repository only test against specific versions of Scala and GraalVM specified in this section. Other versions may or may not be working as expected.
+
+:::
+
+- [GraalVM Espresso: 24.2 standalone](https://www.graalvm.org/latest/reference-manual/espresso)
+
+- Scala 3.3.6
+
+## Higher Overview
+
+![Async Class Diagram](images/class-diagram.png "Async Class Diagram")
+
+## Components
+
+### Task
+
+### Worker
+
+### Task Queue
+
+### Scheduler
+
+### Runtime
 
 ## Conclusions
