@@ -11,7 +11,7 @@ repositoryUrl: https://codeberg.org/chlin501/async4s
 
 ## Introduction
 
-When writing programmes with the aid of async/ await pattern code, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O) works under the hood? I have a similar question. Here we are going to explore an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
+When writing programmes with the aid of async/ await pattern code, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
 
 ## Concepts
 
@@ -23,7 +23,7 @@ Before starting, two concepts are important, including
 
 ### Coroutine
 
-[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine **Gen** *yield*s values at the line 3rd, 5th, and 7th, and the main thread notifies the coroutine by *send* method at the line 17th.
+[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine *Gen* **yield**s values at the line 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th.
 
 ```scala
   1: class Gen extends Coroutine[String, Int] {
@@ -67,7 +67,13 @@ WHILE event loop's backlog size > 0 DO
   END IF
 ```
 
-Scala code snippet from this project with some detail omitted can be refferred to as below. First, the programme **fetche**s a task, i.e.coroutine, from its corresponded task queue at the line 5th; second, the programme **execute**s that task at the line 6th; third, the programme **check**s the task's state, and act accordingly at the line 7th to 13th - if the task is in **ready** or **running** state, the programme place the task back to the task queue, continouing the programme by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the programme repeats the same flow by fetching the next task to run, or the programme **exit**s when no more tasks in the task queue.
+Scala version's code snippet with some detail omitted can be refferred to as below.
+
+* First, the code **fetch**es a task, i.e., coroutine, from its corresponded task queue at the line 5th
+
+* Second, the code **execute**s that task at the line 6th
+
+* Third, the code **check**s the task's state, and act accordingly from the line 7th to 13th - if the task is in *Ready* or *Running* state, the code places the task back to the task queue, continouing the programme by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the code repeats the same flow by fetching the next task to run, or the code **exit**s when no more tasks in the task queue
 
 ```scala
   1:  def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
@@ -99,24 +105,24 @@ Scala code snippet from this project with some detail omitted can be refferred t
 
 :::caution
 
-The code in the repository merely tests against a specific version of Scala and GraalVM specified in this section. Other versions may or may not be working as expected. Also, at the writeup, build tools such as sbt, maven, and gradle did not work, so some manual operations are necessary.
+The code in the repository merely tests against specific versions of Scala and GraalVM specified in this section. Other versions may or may not be working as expected. Also, at the writeup, build tools such as sbt, maven, and gradle did not work, so some manual operations are necessary.
 
 :::
 
-In order to achieve our goal, following two softwares are required to install before proceeding to the next step - one is GraalVM, the other Scala.
+In order to achieve the goal, following two softwares are required to install before proceeding further - one is GraalVM, the other Scala.
 
 - [GraalVM Espresso: 24.2 standalone](https://www.graalvm.org/latest/reference-manual/espresso)
 
 - Scala 3.3.6
 
-GraalVM provides [Continuation API](https://www.graalvm.org/jdk25/reference-manual/espresso/continuations/), based on [Truffleo framework](https://www.graalvm.org/22.2/graalvm-as-a-platform/language-implementation-framework/), allowing the programme to suspend, resume, and serialize to external storages.
+GraalVM provides [Continuation API](https://www.graalvm.org/jdk25/reference-manual/espresso/continuations/), based on [Truffleo framework](https://www.graalvm.org/22.2/graalvm-as-a-platform/language-implementation-framework/), allowing the programme to suspend, resume, and serialize its state to external storages.
 
 ### Structure Layout
 
 The layout of the folder structure actually is the same as that of conventional build tools employeed by sbt, maven, and so on.
 
 ```bash
-.
+async4s
 ├── async
 │   └── src
 │       └── main
@@ -134,9 +140,7 @@ The layout of the folder structure actually is the same as that of conventional 
 
 ### Dependencies
 
-Required dependencies for this project include scala-xml_2.13-1.2.0, scala-library_2.13.16, scala3-library_3-3.3.6, scala3-library_sjs1_3-3.7.2, continuations-24.2.2.
-
-The installation of these jar files can be reffered to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install dependencies manully.
+The installation of required depdendent jars can be reffered to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
 
 ```bash
 curl -s -L -O --create-dirs --output-dir $(async lib dir) "https://{maven repo website}/.../{scala or continuations}.jar"
@@ -148,11 +152,11 @@ The diagram below sketeches a higher overview relationship between the component
 
 * *Task* is the model upon which all other components operate
 
-* *Worker* serves as a proxy sitting between *[Scheduler](#scheduler)* and *[Task Queue](#task-queue)
+* *Worker* serves as a proxy sitting between *[Scheduler](#scheduler)* and *[Task Queue](#task-queue)*
 
-* *Task Queue* stores *[task](#task)s* to be executed
+* *Task Queue* stores [task](#task)s to be executed
 
-* *Scheduler*'s responsibility is schedule *[task](#task)*
+* *Scheduler*'s responsibility is schedule [task](#task)
 
 * *Runtime* assembles all components together, hosting an environemt for necessary operations
 
@@ -160,15 +164,19 @@ The diagram below sketeches a higher overview relationship between the component
 
 ## Components
 
-Primarily, this programme requires following components to work, including [Task](#task), [Worker](#worker), [Task Queue](#task-queue), [Scheduler](#scheduler), and [Runtime](#runtime).
+Primarily, this programme requires following components to work, including *[Task](#task)*, *[Worker](#worker)*, *[Task Queue](#task-queue)*, *[Scheduler](#scheduler)*, and *[Runtime](#runtime)*.
 
 ### Task
 
 #### Coroutine
 
-Although GraalVM provdes Continuation API, the API itself does not contain any Coroutine classes. Fortunately, this API offers *[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)* class, that serves several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first methods is a place where a developer fills in their programme's primary logic, inside which the code can execute `emit()` providing a value to the caller if needed, and then suspend the programme execution, whilst the developer can exploit the last two methods checking if the Generator object offers more values to emit at the caller side.
+Although GraalVM provdes Continuation API, the API itself does not contain any *Coroutine* classes. Fortunately, this API offers *[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)* class, which serves several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first method is a place where a developer fills in their programme's primary logic, inside which the code can execute `emit()` providing a value to the caller if needed, and then suspend the programme execution, whilst the developer can also exploit the last two methods checking if the *Generator* object emits more values inside the caller function.
 
-Therefore, the frist thing is to create our own Coroutine.
+Therefore, the frist thing is to create a *Coroutine* class. The steps include
+
+1. Adding the `[send()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8)` method (at the line 3th, and 4th) for storing the value sent from the caller side, which will call the Coroutine instance during runtime execution
+
+2. Creating the `[yield()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L12)` method that will emit a value (at the line 6th) if one or multiple elements to produce, and pass the value (at the line 7th) sent from the caller back to the *Coroutine* if any
 
 ```scala
   1: abstract class Coroutine[S, E] extends Generator[E] {
@@ -182,7 +190,13 @@ Therefore, the frist thing is to create our own Coroutine.
   9: }
 ```
 
-In fact, *Task* component is merely a wrapper of Coroutine mentioned above, plus self defined [State](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Task.scala#L20)s
+Back to the *Task* component, in fact it is merely a wrapper of the coroutine mentioned above, plus self defined *[State](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Task.scala#L20)*s shown as the code snippet annotated with `enum` -
+
+* *Ready* is the initial state during the creation of *Task*
+
+* *Running* denotes this coroutine is in execution at the moment
+
+* *Stopped* means the current coroutine is neither at ready state nor at running state, e.g., the coroutine accomplishes its execution
 
 ```scala
   1: enum State {
@@ -190,7 +204,9 @@ In fact, *Task* component is merely a wrapper of Coroutine mentioned above, plus
   3: }
 ```
 
-so that the system can determine whether to emit (at the line 5th, and 11th below), send (at the line 9th) values during execution.
+The *Task* state transition starts from **Ready**, to **Running**, and then to **Stopped**.
+
+With these states, the system can determine whether to **emit** (at the line 5th, and 11th below), or **send** (at the line 9th) values during programme execution.
 
 ```scala
   1: override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
@@ -212,8 +228,9 @@ so that the system can determine whether to emit (at the line 5th, and 11th belo
  18:   }
 ```
 
-
 ### Worker
+
+As shown in the [higher overview diagram](#higher-overview), after a task is submitted, the worker passes that task by `send()` method to its corresponded task queue through a shared channel called **tx**, which is a *[LinkedBlockingQueue](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html)* class. The relationship between *Worker* and *[Task Queue](#task-queue)* is 1 to 1.
 
 ### Task Queue
 
