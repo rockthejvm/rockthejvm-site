@@ -156,7 +156,7 @@ The diagram below sketeches a higher overview relationship between the component
 
 * *Task Queue* stores [task](#task)s to be executed
 
-* *Scheduler*'s responsibility is schedule [task](#task)s
+* *Scheduler*'s responsibility is to schedule [task](#task)s
 
 * *Runtime* assembles all components together, hosting an environemt for necessary operations
 
@@ -206,7 +206,7 @@ Back to the *Task* component, in fact it is merely a wrapper of the coroutine me
 
 The *Task* state transition starts from **Ready**, to **Running**, and then to **Stopped**.
 
-With these states, the system can determine whether to **emit** (at the line 5th, and 11th below), or **send** (at the line 9th) values during programme execution.
+With these states, the system can then determine whether to **emit** (at the line 5th, and 11th below), or to **send** (at the line 9th) values during programme execution.
 
 ```scala
   1: override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
@@ -230,7 +230,7 @@ With these states, the system can determine whether to **emit** (at the line 5th
 
 ### Worker
 
-As shown in the [higher overview diagram](#higher-overview), after a task is submitted, the worker passes that task by `send()` method (at the following line 5th) to its corresponded task queue through a shared channel called **tx**, which is a *[LinkedBlockingQueue](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html)* class, which is [thread-safe](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#), and [atomicty for queuing methods](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#). The relationship between *Worker* and *[Task Queue](#task-queue)* is 1 to 1.
+When a task is delgated to the worker, it passes that task by `send()` method (at the following line 5th) to its corresponded task queue through a shared channel **tx** - a *[LinkedBlockingQueue](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html)* class that is [thread-safe](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#), and [atomicty for queuing methods](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#). The relationship between *Worker* and *[Task Queue](#task-queue)* is 1 to 1.
 
 ```scala
   1: final case class Worker[T](
@@ -244,11 +244,93 @@ As shown in the [higher overview diagram](#higher-overview), after a task is sub
 
 ### Task Queue
 
+The purpose of task queue:
+
+1. Fetch a *Task* from **tx** (at the line 3rd), a channel shared with *[Worker](#worker)*, and an internal list
+
+    1.1. Check the internal list, i.e., **inner**, if containing any *Task*s (at the line 11th)
+
+    1.2. Try fetching with timeout from the shared queue **rx** (at the line 12th) otherwise
+
+    1.3. Blocking fetch from **rx** indfintively (at the line 14th) until a new Task is available
+
+2. Add an unaccomplished *Task* back (at the line 19th) for later execution
+
+```scala
+  1: final case class TaskQueue[T](
+  2:  name: String,
+  3:  rx: LinkedBlockingQueue[T],
+  4:  inner: Seq[T] = Seq.empty[T]
+  5: ) {
+  6:   final def fetch(
+  7:     timeout: Duration = 0.seconds,
+  8:     blockingFetch: => T = rx.take()
+  9:   ): (T, TaskQueue[T]) = {
+ 10:     val task =
+ 11:       inner.headOption.getOrElse {
+ 12:         tryFetch(timeout) match { // tryFetch executes rx.poll(0, TimeUnit.SECONDS) in default
+ 13:           case Some(taskInQueue) => taskInQueue
+ 14:           case None              => blockingFetch
+ 15:         }
+ 16:       }
+ 17:     (task, copy(inner = inner.drop(1)))
+ 18:   }
+ 19:   final def add(task: T): (T, TaskQueue[T]) =
+ 20:     (task, copy(inner = task +: inner))
+ 21:   ... // other methods
+ 22: }
+```
+
 ### Scheduler
+
+This is pretty self explanatory, this component manages how a task to be ran. Specifically, the scheduling makes use of *Least-Loaded (LL)* strategy.
 
 #### Least-Loaded (LL) Scheduler
 
-This project exploits least loaded scheduling logic, which schedules task to a least loaded worker. The primary reason comes from that the scheduling logic employeed by, e.g., Rust's Tokio work-stealing scheduler is very complicated[1]. Least-Loaded scheduling logic is simple yet effective strategy.
+This project exploits least loaded scheduling strategy, which schedules a task to a least loaded worker. The primary reason comes from that the scheduling strategy employed by, e.g., Rust's Tokio work-stealing scheduler is very complicated[1]. Least-Loaded scheduling strategy is simple yet effective[2].
+
+For LL strategy to work, two functions are required:
+
+1. Calculate the range of next batch
+
+    ```scala
+      1: final case class LeastLoadedScheduler[T](
+      2:    currentRound: Int = 0
+      3: ) ...
+      4:   final def nextBatch(): (Range, LeastLoadedScheduler[T]) = {
+      5:     val prev = currentRound
+      6:     val workerLength = workers.length
+      7:     val multiple = workerLength + (batchSize - 1)
+      8:     val nextMultipleOf = multiple - (multiple % batchSize)
+      9:     val next = (prev * batchSize) % nextMultipleOf
+     10:     val end = Math.min(next + batchSize, workerLength)
+     11:     (Range(next, end), copy(currentRound = currentRound + 1))
+     12:   }
+    ```
+
+
+Whilst searching the next batch's range, first keep the value of current round (at the line 5th), and find the length of worker list (at the line 6th).
+
+Second, find the next multiple of value (from the line 7th to 8th). The line 7th by adding `batch size - 1` to **worker length** ensures the obtained number is at least as large as the next multiple, and smaller than the one after that. Then, using that number subtracts the modulo value for acquiring the desired next multiple of value. For instance, with the setting of 22 workers, and batch size 8, the **multiple** value is 29, which is larger than the next multiple value 24, but is smaller than its next multiple of value after 24, which is 32.
+
+Third, calculate the next batch's range. The line 9th makes sure the next value will rorate when exceeding the expected next multiple of number. And the line 10th picks up the minimum value between **workers length**, and `next + batch size`, setting the end of range value to the worker length when the `next + batch size` exceeds the value of **worker length**. Again with the setting of 22 workers, and batch size 8, when the `next + batch size` reaches 24, the logic picks up the worker length 22, which is the maximum worker in the worker list.
+
+Therefore, configuring 22 workers with 8 as its batch size, the range of next batch values in sequence should be (0, 8), (8, 16), (16, 22), and then start over from (0, 8) again.
+
+2. Pick up the lightest loading *Worker*
+
+    ```scala
+      1: override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
+      2:   val (tmpWorkers, newSched) =
+      3:     if (workers.length <= batchSize) (workers, this)
+      4:     else {
+      5:       val (range, sched) = nextBatch()
+      6:       (workers.slice(range.start, range.end), sched)
+      7:     }
+      8:   (tmpWorkers.minBy(_.size()), newSched)
+      9: }
+    ```
+
 
 ### Runtime
 
@@ -256,5 +338,6 @@ This project exploits least loaded scheduling logic, which schedules task to a l
 
 ## References
 
-[1]. [Least-Loaded (LL) Scheduler](https://nurmohammed840.github.io/posts/announcing-nio/#least-loaded-ll-scheduler)
 [1]. [Announcing Nio](https://nurmohammed840.github.io/posts/announcing-nio/)
+
+[2]. [Least-Loaded (LL) Scheduler](https://nurmohammed840.github.io/posts/announcing-nio/#least-loaded-ll-scheduler)
