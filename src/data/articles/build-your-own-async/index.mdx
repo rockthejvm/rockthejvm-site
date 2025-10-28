@@ -125,17 +125,29 @@ The layout of the folder structure actually is the same as that of conventional 
 ```bash
 async4s
 ├── async
+│   ├── libs
+│   │   └── *.jar
 │   └── src
-│       └── main
-│           └── scala
-│               └── async
-│                   └── ... scala files ...
+│   │   └── main
+│   │       └── scala
+│   │           └── async
+│   │               └── *.scala
+│   └── target
+│       └── classes
+│           └── continuations
+│               └── *.tasty and *.class
 ├── continuations
+│   ├── libs
+│   │   └── *.jar
 │   └── src
-│       └── main
-│           └── scala
-│               └── continuations
-│                   └── Coroutine.scala
+│   │   └── main
+│   │       └── scala
+│   │           └── continuations
+│   │               └── *.scala
+│   └── target
+│       └── classes
+│           └── continuations
+│               └── *.tasty and *.class
 └── Makefile
 ```
 
@@ -193,7 +205,7 @@ abstract class Coroutine[S, E] extends Generator[E] {
 
 #### Compilation
 
-* Add the *Coroutine* code to **continuations** fodler
+* Add the *Coroutine* code to **continuations** folder
 
 * Compile the code either by
 
@@ -202,6 +214,7 @@ abstract class Coroutine[S, E] extends Generator[E] {
     * execute
 
         ```bash
+        mkdir -p ./continuations/target/classes && \
         scalac \
 	        -d ./continuations/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar \
