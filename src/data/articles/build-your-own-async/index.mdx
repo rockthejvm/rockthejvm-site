@@ -287,50 +287,53 @@ This is pretty self explanatory, this component manages how a task to be ran. Sp
 
 #### Least-Loaded (LL) Scheduler
 
-This project exploits least loaded scheduling strategy, which schedules a task to a least loaded worker. The primary reason comes from that the scheduling strategy employed by, e.g., Rust's Tokio work-stealing scheduler is very complicated[1]. Least-Loaded scheduling strategy is simple yet effective[2].
+This project exploits least loaded scheduling strategy, which schedules a task to a least loaded worker. The primary reason comes from that the scheduling strategy employed by, e.g., Rust's Tokio work-stealing scheduler is very complicated[1]. Least-Loaded scheduling strategy is simple yet effective, and can address the issue of starvation[2].
 
 For LL strategy to work, two functions are required:
 
 1. Calculate the range of next batch
 
-    ```scala
-      1: final case class LeastLoadedScheduler[T](
-      2:    currentRound: Int = 0
-      3: ) ...
-      4:   final def nextBatch(): (Range, LeastLoadedScheduler[T]) = {
-      5:     val prev = currentRound
-      6:     val workerLength = workers.length
-      7:     val multiple = workerLength + (batchSize - 1)
-      8:     val nextMultipleOf = multiple - (multiple % batchSize)
-      9:     val next = (prev * batchSize) % nextMultipleOf
-     10:     val end = Math.min(next + batchSize, workerLength)
-     11:     (Range(next, end), copy(currentRound = currentRound + 1))
-     12:   }
-    ```
-
-
 Whilst searching the next batch's range, first keep the value of current round (at the line 5th), and find the length of worker list (at the line 6th).
 
-Second, find the next multiple of value (from the line 7th to 8th). The line 7th by adding `batch size - 1` to **worker length** ensures the obtained number is at least as large as the next multiple, and smaller than the one after that. Then, using that number subtracts the modulo value for acquiring the desired next multiple of value. For instance, with the setting of 22 workers, and batch size 8, the **multiple** value is 29, which is larger than the next multiple value 24, but is smaller than its next multiple of value after 24, which is 32.
+Second, find the next multiple of value (from the line 7th to 8th). The line 7th by adding `batch size - 1` to **worker length** ensures the obtained number `multiple` is at least as large as the next multiple, and smaller than the one after that. Then, using that number, i.e., `mutliple`, subtracts the modulo value for acquiring the desired next multiple of number. For instance, with the setting of 22 workers, and batch size 8, the **multiple** value is 29, which is larger than the next multiple value 24, but is smaller than its next multiple of value after 24, which is 32.
 
-Third, calculate the next batch's range. The line 9th makes sure the next value will rorate when exceeding the expected next multiple of number. And the line 10th picks up the minimum value between **workers length**, and `next + batch size`, setting the end of range value to the worker length when the `next + batch size` exceeds the value of **worker length**. Again with the setting of 22 workers, and batch size 8, when the `next + batch size` reaches 24, the logic picks up the worker length 22, which is the maximum worker in the worker list.
+Third, calculate the next batch's range. The line 9th makes sure the next value will rorate when exceeding the expected next multiple of number. And the line 10th picks up the minimum value between **workers length**, and `next + batch size`, setting the end of range value to the worker length when the `next + batch size` exceeds the value of **worker length**. Again with the setting of 22 workers, and batch size 8, when the `next + batch size` reaches 24, the logic picks up the worker length 22 instead.
 
 Therefore, configuring 22 workers with 8 as its batch size, the range of next batch values in sequence should be (0, 8), (8, 16), (16, 22), and then start over from (0, 8) again.
 
+```scala
+  1: final case class LeastLoadedScheduler[T](
+  2:    currentRound: Int = 0
+  3: ) ... {
+  4:   final def nextBatch(): (Range, LeastLoadedScheduler[T]) = {
+  5:     val prev = currentRound
+  6:     val workerLength = workers.length
+  7:     val multiple = workerLength + (batchSize - 1)
+  8:     val nextMultipleOf = multiple - (multiple % batchSize)
+  9:     val next = (prev * batchSize) % nextMultipleOf
+ 10:     val end = Math.min(next + batchSize, workerLength)
+ 11:     (Range(next, end), copy(currentRound = currentRound + 1))
+ 12:   }
+ 12: }
+```
+
 2. Pick up the lightest loading *Worker*
 
-    ```scala
-      1: override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
-      2:   val (tmpWorkers, newSched) =
-      3:     if (workers.length <= batchSize) (workers, this)
-      4:     else {
-      5:       val (range, sched) = nextBatch()
-      6:       (workers.slice(range.start, range.end), sched)
-      7:     }
-      8:   (tmpWorkers.minBy(_.size()), newSched)
-      9: }
-    ```
+In order to find the least loaded worker, the logic first checks if the worker length is smaller than the batch size - if true, the entire wokrer list is returned (at the line 3rd); otherwise, the next batch range is calculated (at the line 5th), and then pick up the worker list based on the range given.
 
+Second, choose the worker having the minimum queue size, which is [the size of LinkedBlockingQueue](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L56).
+
+```scala
+  1: override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
+  2:   val (tmpWorkers, ...) =
+  3:     if (workers.length <= batchSize) (workers, this)
+  4:     else {
+  5:       val (range, ...) = nextBatch()
+  6:       (workers.slice(range.start, range.end), ...)
+  7:     }
+  8:   (tmpWorkers.minBy(_.size()), ...)
+  9: }
+```
 
 ### Runtime
 
