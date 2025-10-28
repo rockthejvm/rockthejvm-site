@@ -2,11 +2,12 @@
 title: "Build your own async"
 excerpt: "This article provides some information on how to build your own async in Scala"
 category: guide
-tags: [async, continuations, graalvm, scala, scala-3]
+tags: [async, scala, scala-3]
 publishedDate: 2025-10-23
 updatedDate: 2025-10-23
 author: chia-hung-lin
 repositoryUrl: https://codeberg.org/chlin501/async4s
+difficulty: intermediate
 ---
 
 ## Introduction
@@ -26,25 +27,25 @@ Before starting, two concepts are important, including
 [Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine *Gen* **yield**s values at the line 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th.
 
 ```scala
-  1: class Gen extends Coroutine[String, Int] {
-  2:   override def generate(): Unit = {
-  3:     val received1 = `yield`(1)
-  4:     println(s"Message sent from the caller: ${received1}")
-  5:     val received2 = `yield`(2)
-  6:     println(s"Message sent from the caller: ${received2}")
-  7:     val received3 = `yield`(3)
-  8:     println(s"Message sent from the caller: ${received3}")
-  9:   }
- 10: }
- 11:
- 12: @main def run(): Unit =  {
- 13:   val gen = new Gen()
- 14:   while (gen.hasMoreElements()) {
- 15:     val yielded = gen.nextElement()
- 16:     println("Caller receives a value: ${yielded}")
- 17:     gen.send(s"Caller sends str ${yielded}")
- 18:   }
- 19: }
+class Gen extends Coroutine[String, Int] {
+    override def generate(): Unit = {
+        val received1 = `yield`(1)
+        println(s"Message sent from the caller: ${received1}")
+        val received2 = `yield`(2)
+        println(s"Message sent from the caller: ${received2}")
+        val received3 = `yield`(3)
+        println(s"Message sent from the caller: ${received3}")
+    }
+}
+
+@main def run(): Unit =  {
+    val gen = new Gen()
+    while (gen.hasMoreElements()) {
+        val yielded = gen.nextElement()
+        println("Caller receives a value: ${yielded}")
+        gen.send(s"Caller sends str ${yielded}")
+    }
+}
 ```
 
 Thus, it can be viewed as a generalized subroutine in favor of [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking). A higher level workflow between coroutine(s), and the main thread can be roughly sketeched with the following image.
@@ -76,30 +77,30 @@ Scala version's code snippet with some detail omitted can be refferred to as bel
 * Third, the code **check**s the task's state, and act accordingly from the line 7th to 13th - if the task is in *Ready* or *Running* state, the code places the task back to the task queue, continouing the programme by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the code repeats the same flow by fetching the next task to run, or the code **exit**s when no more tasks in the task queue
 
 ```scala
-  1:  def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
-  2:    @tailrec
-  3:    def fnWhile(fetchTask: => Task[_, _]...): Any = {
-  4:
-  5:      val (newTask, ...) = fetchTask
-  6:      val (_, newTask1) = execute(newTask)
-  7:      newTask1.state() match {
-  8:        case State.Ready | State.Running =>
-  9:          val (_, ...) = newTaskQueue.add(newTask1)
- 10:          fnWhile(newTaskQueue1.fetch())
- 11:        case State.Stopped =>
- 12:          if (0 != newTaskQueue.size()) fnWhile(newTaskQueue.fetch()) else ()
- 13:      }
- 14:    }
- 15:    fnWhile(taskQueue.fetch())
- 16:  }
- 17:  scheduler.taskQueues.foreach { taskQueue =>
- 18:    val callable = new Callable[Any] {
- 19:      @throws(classOf[RuntimeException])
- 20:      override def call(): Any = consume(taskQueue)
- 21:    }
- 22:    executors.submit(callable)
- 23:  }
- ```
+def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
+    @tailrec
+    def fnWhile(fetchTask: => Task[_, _]...): Any = {
+
+        val (newTask, ...) = fetchTask
+        val (_, newTask1) = execute(newTask)
+        newTask1.state() match {
+            case State.Ready | State.Running =>
+                val (_, ...) = newTaskQueue.add(newTask1)
+                fnWhile(newTaskQueue1.fetch())
+            case State.Stopped =>
+                if (0 != newTaskQueue.size()) fnWhile(newTaskQueue.fetch()) else ()
+        }
+    }
+    fnWhile(taskQueue.fetch())
+}
+scheduler.taskQueues.foreach { taskQueue =>
+    val callable = new Callable[Any] {
+      @throws(classOf[RuntimeException])
+      override def call(): Any = consume(taskQueue)
+    }
+    executors.submit(callable)
+}
+```
 
 ## Prerequisite
 
@@ -143,7 +144,7 @@ async4s
 The installation of required depdendent jars can be reffered to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
 
 ```bash
-curl -s -L -O --create-dirs --output-dir $(async lib dir) "https://{maven repo website}/.../{scala or continuations}.jar"
+curl -s -L -O --create-dirs --output-dir ./async/libs "https://{maven repo website}/.../{scala or continuations}.jar"
 ```
 
 ## Higher Overview
@@ -179,18 +180,35 @@ Therefore, the frist thing is to create a *[Coroutine](https://codeberg.org/chli
 2. Creating the [yield()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L12) method that will emit a value (at the line 6th) if one or multiple elements to produce, and pass the value (at the line 7th) sent from the caller back to the *Coroutine* if any
 
 ```scala
-  1: abstract class Coroutine[S, E] extends Generator[E] {
-  2:   var value: Option[S] = None
-  3:   def send(value: Option[S]): Unit = this.value = value
-  4:   def send(value: S): Unit = send(Option(value))
-  5:   def `yield`(element: E): Option[S] = {
-  6:     emit(element)
-  7:     value
-  8:   }
-  9: }
+abstract class Coroutine[S, E] extends Generator[E] {
+    var value: Option[S] = None
+    def send(value: Option[S]): Unit = this.value = value
+    def send(value: S): Unit = send(Option(value))
+    def `yield`(element: E): Option[S] = {
+        emit(element)
+        value
+    }
+}
 ```
 
-Back to the *Task* component, in fact it is merely a wrapper of the coroutine mentioned above, plus self defined *[State](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Task.scala#L20)s* shown as the code snippet annotated with `enum` -
+#### Compilation
+
+* Add the *Coroutine* code to **continuations** fodler
+
+* Compile the code either by
+
+    * [make compile-continuations](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L61) target, or
+
+    * execute
+
+        ```bash
+        scalac \
+	        -d ./continuations/target/classes \
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar \
+	        `find ./continuations/src/main/scala -name '*.scala'`
+        ```
+
+Back to the *Task* component, in fact it is merely a wrapper of the coroutine mentioned above, plus self defined *[State](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Task.scala#L20)s* shown as below -
 
 * *Ready* is the initial state during the creation of *Task*
 
@@ -199,47 +217,49 @@ Back to the *Task* component, in fact it is merely a wrapper of the coroutine me
 * *Stopped* means the current coroutine is neither at ready state nor at running state, e.g., the coroutine accomplishes its execution
 
 ```scala
-  1: enum State {
-  2:   case Ready, Stopped, Running
-  3: }
+enum State {
+    case Ready, Stopped, Running
+}
 ```
 
-The *Task* state transition starts from **Ready**, to **Running**, and then to **Stopped**.
+The *Task* state transits starting from **Ready**, to **Running**, and then to **Stopped**.
 
 With these states, the system can then determine whether to **emit** (at the line 5th, and 11th below), or to **send** (at the line 9th) values during programme execution.
 
 ```scala
-  1: override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
-  2:   internalState match {
-  3:     case State.Ready =>
-  4:       if (coroutine.hasMoreElements())
-  5:         (Option(coroutine.nextElement()), copy(internalState = State.Running))
-  6:       else
-  7:         (None, copy(internalState = State.Running))
-  8:     case State.Running =>
-  9:       value.foreach(coroutine.send(_))
- 10:       if (coroutine.hasMoreElements())
- 11:         (Option(coroutine.nextElement()), copy(internalState = State.Running))
- 12:       else {
- 13:         signal.foreach(_.offer(Stopped(name)))
- 14:         (None, copy(internalState = State.Stopped))
- 15:       }
- 16:     case State.Stopped => (None, this)
- 18:   }
+override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
+    internalState match {
+        case State.Ready =>
+            if (coroutine.hasMoreElements())
+                (Option(coroutine.nextElement()), copy(internalState = State.Running))
+            else
+                (None, copy(internalState = State.Running))
+        case State.Running =>
+            value.foreach(coroutine.send(_))
+            if (coroutine.hasMoreElements())
+                (Option(coroutine.nextElement()), copy(internalState = State.Running))
+            else {
+                signal.foreach(_.offer(Stopped(name)))
+                (None, copy(internalState = State.Stopped))
+            }
+        case State.Stopped => (None, this)
+    }
 ```
+
+#### Compilation
 
 ### Worker
 
 When a task is delgated to the worker, it passes that task by `send()` method (at the following line 5th) to its corresponded task queue through a shared channel **tx** - a *[LinkedBlockingQueue](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html)* class that is [thread-safe](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#), and [atomicty for queuing methods](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#). The relationship between *Worker* and *[Task Queue](#task-queue)* is 1 to 1.
 
 ```scala
-  1: final case class Worker[T](
-  2:   name: String,
-  3:   tx: LinkedBlockingQueue[T]
-  4: ) {
-  5:   final def send(task: T): T = { tx.put(task); task }
-  6:   ... // other methods
-  7: }
+final case class Worker[T](
+  name: String,
+  tx: LinkedBlockingQueue[T]
+) {
+  final def send(task: T): T = { tx.put(task); task }
+  ... // other methods
+}
 ```
 
 ### Task Queue
@@ -257,28 +277,28 @@ The purpose of task queue:
 2. Add an unaccomplished *Task* back (at the line 19th) for later execution
 
 ```scala
-  1: final case class TaskQueue[T](
-  2:  name: String,
-  3:  rx: LinkedBlockingQueue[T],
-  4:  inner: Seq[T] = Seq.empty[T]
-  5: ) {
-  6:   final def fetch(
-  7:     timeout: Duration = 0.seconds,
-  8:     blockingFetch: => T = rx.take()
-  9:   ): (T, TaskQueue[T]) = {
- 10:     val task =
- 11:       inner.headOption.getOrElse {
- 12:         tryFetch(timeout) match { // tryFetch executes rx.poll(0, TimeUnit.SECONDS) in default
- 13:           case Some(taskInQueue) => taskInQueue
- 14:           case None              => blockingFetch
- 15:         }
- 16:       }
- 17:     (task, copy(inner = inner.drop(1)))
- 18:   }
- 19:   final def add(task: T): (T, TaskQueue[T]) =
- 20:     (task, copy(inner = task +: inner))
- 21:   ... // other methods
- 22: }
+final case class TaskQueue[T](
+    name: String,
+    rx: LinkedBlockingQueue[T],
+    inner: Seq[T] = Seq.empty[T]
+) {
+    final def fetch(
+        timeout: Duration = 0.seconds,
+        blockingFetch: => T = rx.take()
+    ): (T, TaskQueue[T]) = {
+        val task =
+            inner.headOption.getOrElse {
+                tryFetch(timeout) match { // tryFetch executes rx.poll(0, TimeUnit.SECONDS) in default
+                    case Some(taskInQueue) => taskInQueue
+                    case None              => blockingFetch
+                }
+            }
+       (task, copy(inner = inner.drop(1)))
+    }
+    final def add(task: T): (T, TaskQueue[T]) =
+        (task, copy(inner = task +: inner))
+    ... // other methods
+}
 ```
 
 ### Scheduler
@@ -302,37 +322,37 @@ Third, calculate the next batch's range. The line 9th makes sure the next value 
 Therefore, configuring 22 workers with 8 as its batch size, the range of next batch values in sequence should be (0, 8), (8, 16), (16, 22), and then start over from (0, 8) again.
 
 ```scala
-  1: final case class LeastLoadedScheduler[T](
-  2:    currentRound: Int = 0
-  3: ) ... {
-  4:   final def nextBatch(): (Range, LeastLoadedScheduler[T]) = {
-  5:     val prev = currentRound
-  6:     val workerLength = workers.length
-  7:     val multiple = workerLength + (batchSize - 1)
-  8:     val nextMultipleOf = multiple - (multiple % batchSize)
-  9:     val next = (prev * batchSize) % nextMultipleOf
- 10:     val end = Math.min(next + batchSize, workerLength)
- 11:     (Range(next, end), copy(currentRound = currentRound + 1))
- 12:   }
- 12: }
+final case class LeastLoadedScheduler[T](
+   currentRound: Int = 0
+) ... {
+    final def nextBatch(): (Range, LeastLoadedScheduler[T]) = {
+        val prev = currentRound
+        val workerLength = workers.length
+        val multiple = workerLength + (batchSize - 1)
+        val nextMultipleOf = multiple - (multiple % batchSize)
+        val next = (prev * batchSize) % nextMultipleOf
+        val end = Math.min(next + batchSize, workerLength)
+        (Range(next, end), copy(currentRound = currentRound + 1))
+    }
+}
 ```
 
 2. Pick up the lightest loading *Worker*
 
-In order to find the least loaded worker, the logic first checks if the worker length is smaller than the batch size - if true, the entire wokrer list is returned (at the line 3rd); otherwise, the next batch range is calculated (at the line 5th), and then pick up the worker list based on the range given.
+In order to find the least loaded worker, the logic first checks if the worker length is smaller than the batch size - if true, the entire wokrer list is returned (at the line 3rd); otherwise, the next batch range is calculated (at the line 5th), and then the logic picks up the worker list based on the range given.
 
 Second, choose the worker having the minimum queue size, which is [the size of LinkedBlockingQueue](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L56).
 
 ```scala
-  1: override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
-  2:   val (tmpWorkers, ...) =
-  3:     if (workers.length <= batchSize) (workers, this)
-  4:     else {
-  5:       val (range, ...) = nextBatch()
-  6:       (workers.slice(range.start, range.end), ...)
-  7:     }
-  8:   (tmpWorkers.minBy(_.size()), ...)
-  9: }
+override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
+    val (tmpWorkers, ...) =
+        if (workers.length <= batchSize) (workers, this)
+        else {
+            val (range, ...) = nextBatch()
+            (workers.slice(range.start, range.end), ...)
+        }
+    (tmpWorkers.minBy(_.size()), ...)
+}
 ```
 
 ### Runtime
