@@ -12,7 +12,7 @@ difficulty: intermediate
 
 ## Introduction
 
-When writing programmes with the aid of async/ await pattern code, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
+When writing programmes with the aid of async/ await pattern, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O#Light-weight_processes_or_threads) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
 
 ## Concepts
 
@@ -120,7 +120,7 @@ GraalVM provides [Continuation API](https://www.graalvm.org/jdk25/reference-manu
 
 ### Structure Layout
 
-The layout of the folder structure actually is the same as that of conventional build tools employeed by sbt, maven, and so on.
+The layout of the folder structure actually is similar to that of conventional build tools employeed by sbt, maven, and so on.
 
 ```bash
 async4s
@@ -156,36 +156,34 @@ async4s
 The installation of required depdendent jars can be reffered to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
 
 ```bash
-curl -s -L -O --create-dirs --output-dir ./async/libs "https://{maven repo website}/.../{scala or continuations}.jar"
+curl -s -L -O --create-dirs --output-dir ./${async or continuations dir}/libs "https://{maven repo website}/.../{scala or continuations}.jar"
 ```
 
 ## Higher Overview
 
 The diagram below sketeches a higher overview relationship between the components this project is going to use.
 
-* *Task* is the model upon which all other components operate
+* *[Task](#task)* is the model upon which all other components operate
 
-* *Worker* serves as a proxy sitting between *[Scheduler](#scheduler)* and *[Task Queue](#task-queue)*
+* *[Worker](#worker)* serves as a proxy sitting between *Scheduler* and *Task Queue*
 
-* *Task Queue* stores [task](#task)s to be executed
+* *[Task Queue](#task-queue)* stores tasks to be executed
 
-* *Scheduler*'s responsibility is to schedule [task](#task)s
+* *[Scheduler](#scheduler)*'s responsibility is to schedule tasks
 
-* *Runtime* assembles all components together, hosting an environemt for necessary operations
+* *[Runtime](#runtime)* assembles all components together, hosting an environemt for necessary operations
 
 ![Async Class Diagram](images/class-diagram.png "Async Class Diagram")
 
 ## Components
 
-Primarily, this programme requires following components to work, including *[Task](#task)*, *[Worker](#worker)*, *[Task Queue](#task-queue)*, *[Scheduler](#scheduler)*, and *[Runtime](#runtime)*.
-
 ### Task
 
 #### Coroutine
 
-Although GraalVM provdes Continuation API, the API itself does not contain any *Coroutine* classes. Fortunately, this API offers *[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)* class, which serves several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first method is a place where a developer fills in their programme's primary logic, inside which the code can execute `emit()` providing a value to the caller if needed, and then suspend the programme execution, whilst the developer can also exploit the last two methods checking if the *Generator* object emits more values inside the caller function.
+Although GraalVM provdes Continuation API, the API itself does not contain any *Coroutine* classes. Fortunately, this API offers *[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)* class, which provides several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first method is a place where a developer fills in their programme's logic, inside which the code can execute `emit()` producing a value to the caller if needed, and then suspend the programme execution, whilst the developer can also exploit the last two methods checking if the *Generator* object emits more values in the caller function.
 
-Therefore, the frist thing is to create a *[Coroutine](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L5)* class. The steps include
+Therefore, the frist thing is to create a *Coroutine* class. The steps include
 
 1. Adding the [send()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8) method (at the line 3th, and 4th) for storing the value sent from the caller side, which will call the *Coroutine* instance during runtime execution
 
@@ -203,11 +201,11 @@ abstract class Coroutine[S, E] extends Generator[E] {
 }
 ```
 
-#### Compilation
+#### Compile Coroutine
 
-* Add the *Coroutine* code to **continuations** folder
+* Add the *[Coroutine](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L5)* code to `continuations/src/main/scala/continuations` directory
 
-* Compile the code either by
+* Compile the code with
 
     * [make compile-continuations](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L61) target, or
 
@@ -259,7 +257,23 @@ override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
     }
 ```
 
-#### Compilation
+#### Compile Task
+
+* Add the *[Task](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Task.scala#L9)* code to `async/src/main/scala/async/` directory
+
+* Compile the code with
+
+    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+
+    * execute
+
+        ```bash
+        mkdir -p ./async/target/classes && \
+        scalac \
+	        -d ./async/target/classes \
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+	        `find ./async/src/main/scala -name '*.scala'`
+        ```
 
 ### Worker
 
@@ -275,11 +289,29 @@ final case class Worker[T](
 }
 ```
 
+#### Compile Worker
+
+* Add the *[Worker](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L49)* code to `async/src/main/scala/async/` directory
+
+* Compile the code with
+
+    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+
+    * execute
+
+        ```bash
+        mkdir -p ./async/target/classes && \
+        scalac \
+	        -d ./async/target/classes \
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+	        `find ./async/src/main/scala -name '*.scala'`
+        ```
+
 ### Task Queue
 
 The purpose of task queue:
 
-1. Fetch a *Task* from **tx** (at the line 3rd), a channel shared with *[Worker](#worker)*, and an internal list
+1. Fetch a *Task* from **tx** (at the line 3rd), a channel shared with *[Worker](#worker)*, and an internal list (at the line 4th)
 
     1.1. Check the internal list, i.e., **inner**, if containing any *Task*s (at the line 11th)
 
@@ -313,6 +345,24 @@ final case class TaskQueue[T](
     ... // other methods
 }
 ```
+
+#### Compile Task Queue
+
+* Add the *[Task Queue](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L9)* code to `async/src/main/scala/async/` directory
+
+* Compile the code with
+
+    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+
+    * execute
+
+        ```bash
+        mkdir -p ./async/target/classes && \
+        scalac \
+	        -d ./async/target/classes \
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+	        `find ./async/src/main/scala -name '*.scala'`
+        ```
 
 ### Scheduler
 
@@ -354,7 +404,7 @@ final case class LeastLoadedScheduler[T](
 
 In order to find the least loaded worker, the logic first checks if the worker length is smaller than the batch size - if true, the entire wokrer list is returned (at the line 3rd); otherwise, the next batch range is calculated (at the line 5th), and then the logic picks up the worker list based on the range given.
 
-Second, choose the worker having the minimum queue size, which is [the size of LinkedBlockingQueue](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L56).
+Second, choose the worker having the minimum queue size (at the line 8th), which is [the size of LinkedBlockingQueue](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L56).
 
 ```scala
 override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
@@ -368,7 +418,45 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
 }
 ```
 
+#### Compile Scheduler
+
+* Add the *[Scheduler](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L66)* code to `async/src/main/scala/async/` directory
+
+* Compile the code with
+
+    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+
+    * execute
+
+        ```bash
+        mkdir -p ./async/target/classes && \
+        scalac \
+	        -d ./async/target/classes \
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+	        `find ./async/src/main/scala -name '*.scala'`
+        ```
+
 ### Runtime
+
+Finally, it is the time to orchestrate the entire flow.
+
+#### Compile Runtime
+
+* Add the *[Runtime](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Runtime.scala#L12)* code to `async/src/main/scala/async/` directory
+
+* Compile the code with
+
+    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+
+    * execute
+
+        ```bash
+        mkdir -p ./async/target/classes && \
+        scalac \
+	        -d ./async/target/classes \
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+	        `find ./async/src/main/scala -name '*.scala'`
+        ```
 
 ## Conclusions
 
