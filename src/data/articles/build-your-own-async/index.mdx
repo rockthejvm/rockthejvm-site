@@ -68,7 +68,7 @@ WHILE event loop's backlog size > 0 DO
   END IF
 ```
 
-Scala version's code snippet with some detail omitted can be refferred to as below.
+Scala version's code snippet with some detail omitted can be referred to as below.
 
 * First, the code **fetch**es a task, i.e., coroutine, from its corresponded task queue at the line 5th
 
@@ -177,7 +177,7 @@ $ mkdir continuations/libs
 
 ### Dependencies
 
-The installation of required depdendent jars can be reffered to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
+The installation of required depdendent jars can be referred to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
 
 ```bash
 $ curl -s -L -O --create-dirs --output-dir ./continuations/libs \
@@ -333,7 +333,7 @@ final case class Worker[T](
 
 The purpose of task queue:
 
-1. Fetch a *Task* from **tx** (at the line 3rd), a channel shared with *[Worker](#worker)*, and an internal list (at the line 4th)
+1. Fetch a *Task* from **rx** (at the line 3rd), a channel shared with *[Worker](#worker)*, and an internal list (at the line 4th)
 
     1.1. Check the internal list, i.e., **inner**, if containing any *Task*s (at the line 11th)
 
@@ -486,11 +486,11 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
         def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
             @tailrec
             def fnWhile(fetchTask: => (Task[_, _], ...)): Any = {
-                ... fetchTask
-                ... execute(newTask)
+                val (newTask, ...) = fetchTask
+                val (..., newTask1) = execute(newTask)
                 newTask1.state() match {
                     case State.Ready | State.Running =>
-                        ...
+                        val (..., newTaskQueue1) = newTaskQueue.add(newTask1)
                         fnWhile(newTaskQueue1.fetch())
                     case State.Stopped =>
                         if (!newTaskQueue.isEmpty()) fnWhile(newTaskQueue.fetch()) else ()
@@ -552,7 +552,7 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
 
 ## Conclusion
 
-So far we have visited the concepts that compries async for developing software project. Then, we walk through the components that could be used to build such tool. Benefits of understanding async mechenism under the hood not merely help developers grasp an idea that can improve the software responsiveness, but also assist developers comprehend the structure and relationship between necessary components. With this mindset, developers may solve problems when encountering similar issues, and may make a better trade-off when working on a project.
+We visit the concepts that compries async for developing software project. Then, we walk through the components that could be used to build such tool. Benefits of understanding async mechenism under the hood not merely help developers grasp an idea that can improve the software responsiveness, but also assist developers comprehend the structure and relationship between necessary components. With this mindset, developers may solve problems from different angles, and may make a better trade-off when working on a project.
 
 ## References
 
