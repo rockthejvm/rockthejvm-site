@@ -12,7 +12,7 @@ difficulty: intermediate
 
 ## Introduction
 
-When writing programmes with the aid of async/ await pattern, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O#Light-weight_processes_or_threads) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
+When writing programmes with the aid of async related tools, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O#Light-weight_processes_or_threads) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
 
 ## Concepts
 
@@ -24,7 +24,7 @@ Before starting, two concepts are important, including
 
 ### Coroutine
 
-[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine *Gen* **yield**s values at the line 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th.
+[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine *Gen* **yield**s values at the lines 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th; *Gen* instance can then output those values to console at the lines 4th, 6th, and 8th.
 
 ```scala
 class Gen extends Coroutine[String, Int] {
@@ -56,7 +56,7 @@ Thus, it can be viewed as a generalized subroutine in favor of [cooperative mult
 
 Beside the component coroutine, the entire system needs a way to manage the execution of coruotines submitted. A simplest setup is create an event loop that picks up a coroutine from its backlog, and execute that coroutine until the coroutine suspends, or completes. The control flow is then returned to the event loop, which picks up the next coroutine to run, repeating the same operation, until no more pending tasks. The pseudocode could be something like this:
 
-```pseudocode
+```text
 SET all coroutines TO event loop's backlog somewhere in the system
 WHILE event loop's backlog size > 0 DO
   GET a coroutine from event loop's backlog
@@ -118,6 +118,16 @@ In order to achieve the goal, following two softwares are required to install be
 
 GraalVM provides [Continuation API](https://www.graalvm.org/jdk25/reference-manual/espresso/continuations/), based on [Truffleo framework](https://www.graalvm.org/22.2/graalvm-as-a-platform/language-implementation-framework/), allowing the programme to suspend, resume, and serialize its state to external storages.
 
+After instllation, configure and export related environment variables.
+
+```bash
+$ export JAVA_HOME=/path/to/graalvm-espresso-dir
+$ export SCALA_HOME=/path/to/scala-3.3.6
+$ export PATH=$JAVA_HOME/bin:$SCALA_HOME/bin:$PATH
+$ java --version  # Check if output continas information like (build 21-espresso-24.2.0, mixed mode)
+$ scala --version # Check if output contains information like version 3.3.6
+```
+
 ### Structure Layout
 
 The layout of the folder structure actually is similar to that of conventional build tools employeed by sbt, maven, and so on.
@@ -151,12 +161,27 @@ async4s
 └── Makefile
 ```
 
+Before starting, please execute following commands
+
+```bash
+# Crate async directories
+$ mkdir -p async/src/main/scala/async
+$ mkdir -p async/target/classes
+$ mkdir async/libs
+
+# Crate continuations directories
+$ mkdir -p continuations/src/main/scala/continuations
+$ mkdir -p continuations/target/classes
+$ mkdir continuations/libs
+```
+
 ### Dependencies
 
 The installation of required depdendent jars can be reffered to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
 
 ```bash
-curl -s -L -O --create-dirs --output-dir ./${async or continuations dir}/libs "https://{maven repo website}/.../{scala or continuations}.jar"
+$ curl -s -L -O --create-dirs --output-dir ./continuations/libs \
+    https://repo1.maven.org/maven2/org/graalvm/espresso/continuations/24.2.2/continuations-24.2.2.jar
 ```
 
 ## Higher Overview
@@ -185,7 +210,7 @@ Although GraalVM provdes Continuation API, the API itself does not contain any *
 
 Therefore, the frist thing is to create a *Coroutine* class. The steps include
 
-1. Adding the [send()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8) method (at the line 3th, and 4th) for storing the value sent from the caller side, which will call the *Coroutine* instance during runtime execution
+1. Adding the [send()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8) method (at the lines 3th, and 4th) for storing the value sent from the caller side, which will call the *Coroutine* instance during runtime execution
 
 2. Creating the [yield()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L12) method that will emit a value (at the line 6th) if one or multiple elements to produce, and pass the value (at the line 7th) sent from the caller back to the *Coroutine* if any
 
@@ -212,7 +237,6 @@ abstract class Coroutine[S, E] extends Generator[E] {
     * execute
 
         ```bash
-        mkdir -p ./continuations/target/classes && \
         scalac \
 	        -d ./continuations/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar \
@@ -235,7 +259,7 @@ enum State {
 
 The *Task* state transits starting from **Ready**, to **Running**, and then to **Stopped**.
 
-With these states, the system can then determine whether to **emit** (at the line 5th, and 11th below), or to **send** (at the line 9th) values during programme execution.
+With these states, the system can then determine whether to **emit** (at the lines 5th, and 11th below), or to **send** (at the line 9th) values during programme execution.
 
 ```scala
 override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
@@ -268,7 +292,6 @@ override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
     * execute
 
         ```bash
-        mkdir -p ./async/target/classes && \
         scalac \
 	        -d ./async/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
@@ -300,7 +323,6 @@ final case class Worker[T](
     * execute
 
         ```bash
-        mkdir -p ./async/target/classes && \
         scalac \
 	        -d ./async/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
@@ -357,7 +379,6 @@ final case class TaskQueue[T](
     * execute
 
         ```bash
-        mkdir -p ./async/target/classes && \
         scalac \
 	        -d ./async/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
@@ -429,7 +450,6 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
     * execute
 
         ```bash
-        mkdir -p ./async/target/classes && \
         scalac \
 	        -d ./async/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
@@ -438,7 +458,80 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
 
 ### Runtime
 
-Finally, it is the time to orchestrate the entire flow.
+Finally, it is the time to orchestrate the entire flow. The *Runtime* object in fact performs following functions
+
+1. At the beginning, it creates a scheduler (at the line 5th), and a queue (at the line 6th) shared with all tasks for signifying when a task accomplishes its execution
+
+    ```scala
+    final def apply(): Runtime = {
+        val nrOfThreads = java.lang.Runtime.getRuntime().availableProcessors()
+        apply(
+            nrOfThreads,
+            LeastLoadedScheduler[Task[_, _]](nrOfThreads, 8),
+            new LinkedBlockingQueue[Stopped]()
+       )
+    }
+    ```
+
+2. It then launches a list of threads (from the lines 17th to 23th), equipped with a task queue (at the line 20th) that
+
+    2.1. Fetches a task (at the line 5th)
+
+    2.2. Executes the Tasks (at the line 6th), and
+
+    2.3. Determines if continuing this operation (at the line 12th)
+
+    ```scala
+    final def start(execute: Task[_, _] => (Any, Task[_, _])): Unit = {
+        def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
+            @tailrec
+            def fnWhile(fetchTask: => (Task[_, _], ...)): Any = {
+                ... fetchTask
+                ... execute(newTask)
+                newTask1.state() match {
+                    case State.Ready | State.Running =>
+                        ...
+                        fnWhile(newTaskQueue1.fetch())
+                    case State.Stopped =>
+                        if (!newTaskQueue.isEmpty()) fnWhile(newTaskQueue.fetch()) else ()
+                }
+            }
+            fnWhile(taskQueue.fetch())
+        }
+        scheduler.taskQueues.foreach { taskQueue =>
+            val callable = new Callable[Any] {
+                @throws(classOf[RuntimeException])
+                override def call(): Any = consume(taskQueue)
+            }
+            executors.submit(callable)
+        }
+    }
+    ```
+
+3. In the end, the *Runtime*
+
+    3.1. Passes tasks (at the line 11th) to the *Scheduler* instance
+
+    3.2. Waits for *Task*s *Stopped* signal (at the line 4th), and
+
+    3.3. Terminates the entire flow when all scheduled tasks are stopped (at the line 6th)
+
+    ```scala
+    final def spawn(runtime: Runtime, tasks: Task[_, _]*): Unit = {
+        @tailrec
+        def fnWhile(rt: Runtime): Unit = {
+            val stopped = rt.signal.take()
+            val newRt = rt.copy(totalScheduledTasks = rt.totalScheduledTasks - 1)
+            if (0 != newRt.totalScheduledTasks) fnWhile(newRt)
+        }
+        val newRuntime = tasks.toSeq
+            .foldLeft(runtime) { (rt, task) =>
+               ...
+               rt.schedule(newTask)
+            }
+        fnWhile(newRuntime)
+    }
+    ```
 
 #### Compile Runtime
 
@@ -451,7 +544,6 @@ Finally, it is the time to orchestrate the entire flow.
     * execute
 
         ```bash
-        mkdir -p ./async/target/classes && \
         scalac \
 	        -d ./async/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
