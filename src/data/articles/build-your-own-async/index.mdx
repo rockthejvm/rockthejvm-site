@@ -2,7 +2,7 @@
 title: "Build your own async"
 excerpt: "This article provides some information on how to build your own async in Scala"
 category: guide
-tags: [async, scala, scala-3]
+tags: [async, coroutines, graalvm, scala, scala-3]
 publishedDate: 2025-10-23
 updatedDate: 2025-10-23
 author: chia-hung-lin
@@ -473,7 +473,7 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
     }
     ```
 
-2. It then launches a list of threads (from the lines 17th to 23th), equipped with a task queue (at the line 20th) that
+2. *Runtime* instance then launches a list of threads (from the lines 17th to 23th), equipped with a task queue (at the line 20th) that
 
     2.1. Fetches a task (at the line 5th)
 
@@ -550,7 +550,9 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
 	        `find ./async/src/main/scala -name '*.scala'`
         ```
 
-## Conclusions
+## Conclusion
+
+So far we have visited the concepts that compries async for developing software project. Then, we walk through the components that could be used to build such tool. Benefits of understanding async mechenism under the hood not merely help developers grasp an idea that can improve the software responsiveness, but also assist developers comprehend the structure and relationship between necessary components. With this mindset, developers may solve problems when encountering similar issues, and may make a better trade-off when working on a project.
 
 ## References
 
