@@ -12,7 +12,7 @@ difficulty: intermediate
 
 ## Introduction
 
-When writing programmes with the aid of async related tools, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O#Light-weight_processes_or_threads) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
+When writing programes with the aid of async related tools, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O#Light-weight_processes_or_threads) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO, cats-effect.
 
 ## Concepts
 
@@ -74,7 +74,7 @@ Scala version's code snippet with some detail omitted can be referred to as belo
 
 * Second, the code **execute**s that task at the line 6th
 
-* Third, the code **check**s the task's state, and act accordingly from the line 7th to 13th - if the task is in *Ready* or *Running* state, the code places the task back to the task queue, continouing the programme by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the code repeats the same flow by fetching the next task to run, or the code **exit**s when no more tasks in the task queue
+* Third, the code **check**s the task's state, and act accordingly from the line 7th to 13th - if the task is in *Ready* or *Running* state, the code places the task back to the task queue, continouing the program by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the code repeats the same flow by fetching the next task to run, or the code **exit**s when no more tasks in the task queue
 
 ```scala
 def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
@@ -116,16 +116,16 @@ In order to achieve the goal, following two softwares are required to install be
 
 - Scala 3.3.6
 
-GraalVM provides [Continuation API](https://www.graalvm.org/jdk25/reference-manual/espresso/continuations/), based on [Truffleo framework](https://www.graalvm.org/22.2/graalvm-as-a-platform/language-implementation-framework/), allowing the programme to suspend, resume, and serialize its state to external storages.
+GraalVM provides [Continuation API](https://www.graalvm.org/jdk25/reference-manual/espresso/continuations/), based on [Truffleo framework](https://www.graalvm.org/22.2/graalvm-as-a-platform/language-implementation-framework/), allowing the program to suspend, resume, and serialize its state to external storages.
 
 After instllation, configure and export related environment variables.
 
 ```bash
-$ export JAVA_HOME=/path/to/graalvm-espresso-dir
-$ export SCALA_HOME=/path/to/scala-3.3.6
-$ export PATH=$JAVA_HOME/bin:$SCALA_HOME/bin:$PATH
-$ java --version  # Check if output continas information like (build 21-espresso-24.2.0, mixed mode)
-$ scala --version # Check if output contains information like version 3.3.6
+export JAVA_HOME=/path/to/graalvm-espresso-dir
+export SCALA_HOME=/path/to/scala-3.3.6
+export PATH=$JAVA_HOME/bin:$SCALA_HOME/bin:$PATH
+java --version  # Check if output continas information like (build 21-espresso-24.2.0, mixed mode)
+scala --version # Check if output contains information like version 3.3.6
 ```
 
 ### Structure Layout
@@ -165,14 +165,14 @@ Before starting, please execute following commands
 
 ```bash
 # Crate async directories
-$ mkdir -p async/src/main/scala/async
-$ mkdir -p async/target/classes
-$ mkdir async/libs
+mkdir -p async/src/{main,test}/scala/async
+mkdir -p async/target/{classes,test-classes}
+mkdir async/libs
 
 # Crate continuations directories
-$ mkdir -p continuations/src/main/scala/continuations
-$ mkdir -p continuations/target/classes
-$ mkdir continuations/libs
+mkdir -p continuations/src/main/scala/continuations
+mkdir -p continuations/target/classes
+mkdir continuations/libs
 ```
 
 ### Dependencies
@@ -180,7 +180,7 @@ $ mkdir continuations/libs
 The installation of required depdendent jars can be referred to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
 
 ```bash
-$ curl -s -L -O --create-dirs --output-dir ./continuations/libs \
+curl -s -L -O --create-dirs --output-dir ./continuations/libs \
     https://repo1.maven.org/maven2/org/graalvm/espresso/continuations/24.2.2/continuations-24.2.2.jar
 ```
 
@@ -206,7 +206,7 @@ The diagram below sketeches a higher overview relationship between the component
 
 #### Coroutine
 
-Although GraalVM provdes Continuation API, the API itself does not contain any *Coroutine* classes. Fortunately, this API offers *[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)* class, which provides several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first method is a place where a developer fills in their programme's logic, inside which the code can execute `emit()` producing a value to the caller if needed, and then suspend the programme execution, whilst the developer can also exploit the last two methods checking if the *Generator* object emits more values in the caller function.
+Although GraalVM provdes Continuation API, the API itself does not contain any *Coroutine* classes. Fortunately, this API offers *[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)* class, which provides several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first method is a place where a developer fills in their program's logic, inside which the code can execute `emit()` producing a value to the caller if needed, and then suspend the program execution, whilst the developer can also exploit the last two methods checking if the *Generator* object emits more values in the caller function.
 
 Therefore, the frist thing is to create a *Coroutine* class. The steps include
 
@@ -232,9 +232,9 @@ abstract class Coroutine[S, E] extends Generator[E] {
 
 * Compile the code with
 
-    * [make compile-continuations](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L61) target, or
+    * [Make compile-continuations](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L61) target, or
 
-    * execute
+    * Execute
 
         ```bash
         scalac \
@@ -259,7 +259,7 @@ enum State {
 
 The *Task* state transits starting from **Ready**, to **Running**, and then to **Stopped**.
 
-With these states, the system can then determine whether to **emit** (at the lines 5th, and 11th below), or to **send** (at the line 9th) values during programme execution.
+With these states, the system can then determine whether to **emit** (at the lines 5th, and 11th below), or to **send** (at the line 9th) values during program execution.
 
 ```scala
 override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
@@ -287,9 +287,9 @@ override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
 
 * Compile the code with
 
-    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
 
-    * execute
+    * Execute
 
         ```bash
         scalac \
@@ -318,9 +318,9 @@ final case class Worker[T](
 
 * Compile the code with
 
-    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
 
-    * execute
+    * Execute
 
         ```bash
         scalac \
@@ -374,9 +374,9 @@ final case class TaskQueue[T](
 
 * Compile the code with
 
-    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
 
-    * execute
+    * Execute
 
         ```bash
         scalac \
@@ -445,9 +445,9 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
 
 * Compile the code with
 
-    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
 
-    * execute
+    * Execute
 
         ```bash
         scalac \
@@ -539,9 +539,9 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
 
 * Compile the code with
 
-    * [make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
 
-    * execute
+    * Execute
 
         ```bash
         scalac \
@@ -550,9 +550,132 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
 	        `find ./async/src/main/scala -name '*.scala'`
         ```
 
+## An Example
+
+Now it is time to see the program in action.
+
+First, create several coroutines, and wrap those code by *Task* object.
+
+```scala
+val co1 = new Coroutine[String, String] {
+    override def generate(): Unit = {
+        `yield`("x")
+        `yield`("y")
+        `yield`("z")
+    }
+}
+
+val co2 = new Coroutine[String, Int] {
+    override def generate(): Unit = {
+        `yield`(1)
+        `yield`(2)
+        `yield`(3)
+    }
+}
+
+val co3 = new Coroutine[String, Int] {
+    override def generate(): Unit = {
+        `yield`(99)
+        `yield`(98)
+        `yield`(97)
+    }
+}
+
+val co4 = new Coroutine[String, Char] {
+    override def generate(): Unit = {
+        `yield`('a')
+        `yield`('b')
+        `yield`('c')
+    }
+}
+
+val t1 = Task(co1)
+val t2 = Task(co2)
+val t3 = Task(co3)
+val t4 = Task(co4)
+```
+
+Second, configure *Scheduler*, and *Runtime* object with necessary options, such as **workers**, **batch size**, and so on.
+
+```scala
+val nrOfThreads = 3
+val batchSize = 2
+val scheduler = LeastLoadedScheduler[Task[_, _]](nrOfThreads, batchSize)
+val signal = new LinkedBlockingQueue[Stopped]()
+val runtime = Runtime(nrOfThreads, scheduler, signal)
+```
+
+Third, verify the **result** based on a task' **state**.
+
+```scala
+runtime.start { task =>
+    val (result, newTask) = task.execute()
+    task.state() match {
+        case Task.State.Ready =>
+            // assert statement ...
+        case Task.State.Running =>
+            // assert statement ...
+        case Task.State.Stopped =>
+    }
+    (result, newTask)
+}
+```
+
+Fourth, spawn and execute the tasks.
+
+```scala
+Runtime.spawn(runtime, t1, t2, t3, t4)
+```
+
+### Testing Dependencies
+
+Before running our async program, following dependencies are required to install beforehand.
+
+```bash
+curl -s -L -O --create-dirs --output-dir ./async/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/scala3-library_sjs1_3/3.7.2/scala3-library_sjs1_3-3.7.2.jar
+curl -s -L -O --create-dirs --output-dir ./async/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar
+curl -s -L -O --create-dirs --output-dir ./async/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar
+curl -s -L -O --create-dirs --output-dir ./async/libs \
+	https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest-app_3/3.2.17/scalatest-app_3-3.2.17.jar
+```
+
+### Test Async Program
+
+* Add the *[RuntimeSpec](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/test/scala/async/RuntimeSpec.scala#L8)* code to `async/src/test/scala/async/` directory
+
+* Compile the code with
+
+    * [Make compile-test-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L84) target, or
+
+    * Execute
+
+        ```bash
+        scalac \
+		    -d ./async/target/test-classes \
+		    -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./async/libs/scalatest-app_3-3.2.17.jar:./async/target/classes \
+		    `find ./async/src/test/scala -name '*.scala'`
+        ```
+
+* Test the code with
+
+    * [Make run-test-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L90) target, or
+
+    * Execute
+
+        ```bash
+        java \
+	        --experimental-options \
+	        --java.Continuum=true  \
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./async/libs/scala3-library_sjs1_3-3.7.2.jar:./async/libs/scala-library-2.13.16.jar:./async/libs/scalatest-app_3-3.2.17.jar:./async/libs/scala-xml_2.13-1.2.0.jar:./async/target/classes:./async/target/test-classes \
+	        org.scalatest.tools.Runner -R async/target/test-classes -o -w async
+        ```
+
 ## Conclusion
 
-We visit the concepts that compries async for developing software project. Then, we walk through the components that could be used to build such tool. Benefits of understanding async mechenism under the hood not merely help developers grasp an idea that can improve the software responsiveness, but also assist developers comprehend the structure and relationship between necessary components. With this mindset, developers may solve problems from different angles, and may make a better trade-off when working on a project.
+We visit the concepts that compries async for developing software project. Then, we walk through the components that could be used to build such tool. Benefits of understanding async mechenism under the hood not merely help developers grasp an idea that can improve the software responsiveness, but also assist developers comprehend the structure and relationship between necessary components. With this mindset, developers may solve problems from different angles, and may have a better idea when making a trade-off.
 
 ## References
 
