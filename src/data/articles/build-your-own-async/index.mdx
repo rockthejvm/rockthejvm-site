@@ -177,7 +177,7 @@ mkdir continuations/libs
 
 ### Dependencies
 
-The installation of required depdendent jars can be referred to at the Makefile [install-concurrent-libraries](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L27) target, and [install-continuations-libraries](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L37) target. Otherwise, please use the curl command to install those dependencies manully.
+The installation of required depdendent jar can be referred to at the Makefile [install-continuations-libraries](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L45) target. Otherwise, please use the curl command to install the jar file manully.
 
 ```bash
 # continuations dependencies
@@ -233,7 +233,7 @@ abstract class Coroutine[S, E] extends Generator[E] {
 
 * Compile the code with
 
-    * [Make compile-continuations](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L67) target, or
+    * [Make compile-continuations](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L65) target, or
 
     * Execute
 
@@ -288,7 +288,7 @@ override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
 
 * Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L84) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
@@ -319,7 +319,7 @@ final case class Worker[T](
 
 * Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L84) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
@@ -375,7 +375,7 @@ final case class TaskQueue[T](
 
 * Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L84) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
@@ -446,7 +446,7 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
 
 * Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L84) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
@@ -540,7 +540,7 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
 
 * Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L84) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
@@ -649,7 +649,7 @@ curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
 
 * Compile the code with
 
-    * [Make compile-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L90) target, or
+    * [Make compile-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L88) target, or
 
     * Execute
 
@@ -662,7 +662,7 @@ curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
 
 * Test the code with
 
-    * [Make run-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L96) target, or
+    * [Make run-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L94) target, or
 
     * Execute
 
