@@ -1,8 +1,8 @@
 ---
-title: "Build your own async"
-excerpt: "This article provides some information on how to build your own async in Scala"
+title: "Coroutines, Event Loops - Build Your Own in Scala"
+excerpt: "What better way to learn about concurrency than roll your own?"
 category: guide
-tags: [async, coroutines, graalvm, scala, scala-3]
+tags: [coroutines, graalvm, scala, scala-3]
 publishedDate: 2025-10-23
 updatedDate: 2025-10-23
 author: chia-hung-lin
@@ -12,11 +12,11 @@ difficulty: intermediate
 
 ## Introduction
 
-When writing programes with the aid of async related tools, have you ever wondered how [async](https://en.wikipedia.org/wiki/Asynchronous_I/O#Light-weight_processes_or_threads) works under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO Fiber, cats-effect Fiber.
+When writing concurrency programs, have you ever wondered how its mechanism may work under the hood? I have a similar question. Here is the journey of exploring an apporach alternative to monadic operations style employeed by libraries such as ZIO Fiber, cats-effect Fiber.
 
 ## Concepts
 
-Before starting, two concepts are important, including
+Before starting, two concepts are important
 
 1. [Coroutine](#coroutine)
 
@@ -24,7 +24,7 @@ Before starting, two concepts are important, including
 
 ### Coroutine
 
-[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to the Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine *Gen* **yield**s values at the lines 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th; *Gen* instance can then output those values to console at the lines 4th, 6th, and 8th.
+[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine *Gen* **yield**s values at the lines 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th; *Gen* instance can then output those values to console at the lines 4th, 6th, and 8th.
 
 ```scala
 class Gen extends Coroutine[String, Int] {
@@ -401,7 +401,7 @@ Whilst searching the next batch's range, first keep the value of current round (
 
 Second, find the next multiple of value (from the line 7th to 8th). The line 7th by adding `batch size - 1` to **worker length** ensures the obtained number `multiple` is at least as large as the next multiple, and smaller than the one after that. Then, using that number, i.e., `mutliple`, subtracts the modulo value for acquiring the desired next multiple of number. For instance, with the setting of 22 workers, and batch size 8, the **multiple** value is 29, which is larger than the next multiple value 24, but is smaller than its next multiple of value after 24, which is 32.
 
-Third, calculate the next batch's range. The line 9th makes sure the next value will rorate when exceeding the expected next multiple of number. And the line 10th picks up the minimum value between **workers length**, and `next + batch size`, setting the end of range value to the worker length when the `next + batch size` exceeds the value of **worker length**. Again with the setting of 22 workers, and batch size 8, when the `next + batch size` reaches 24, the logic picks up the worker length 22 instead.
+Third, calculate the next batch's range. The line 9th makes sure the next value will rotate when exceeding the expected next multiple of number. And the line 10th picks up the minimum value between **workers length**, and `next + batch size`, setting the end of range value to the worker length when the `next + batch size` exceeds the value of **worker length**. Again with the setting of 22 workers, and batch size 8, when the `next + batch size` reaches 24, the logic picks up the worker length 22 instead.
 
 Therefore, configuring 22 workers with 8 as its batch size, the range of next batch values in sequence should be (0, 8), (8, 16), (16, 22), and then start over from (0, 8) again.
 
@@ -421,7 +421,7 @@ final case class LeastLoadedScheduler[T](
 }
 ```
 
-2. Pick up the lightest loading *Worker*
+2. Pick up the lightest loading *worker*
 
 In order to find the least loaded worker, the logic first checks if the worker length is smaller than the batch size - if true, the entire wokrer list is returned (at the line 3rd); otherwise, the next batch range is calculated (at the line 5th), and then the logic picks up the worker list based on the range given.
 
@@ -460,7 +460,7 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
 
 Finally, it is the time to orchestrate the entire flow. The *Runtime* object in fact performs following functions
 
-1. At the beginning, it creates a scheduler (at the line 5th), and a queue (at the line 6th) shared with all tasks for signifying when a task accomplishes its execution
+1. At the beginning, it creates a scheduler (at the line 5th), and a queue (at the line 6th) shared with all tasks for signalling when a task accomplishes its execution
 
     ```scala
     final def apply(): Runtime = {
@@ -675,7 +675,7 @@ curl -s -L -O --create-dirs --output-dir ./async/libs \
 
 ## Conclusion
 
-We visit the concepts that compries async for developing software project. Then, we walk through the components that could be used to build such tool. Benefits of understanding async mechenism under the hood not merely help developers grasp an idea that can improve the software responsiveness, but also assist developers comprehend the structure and relationship between necessary components. With this mindset, developers may solve problems from different angles, and may have a better idea when making a trade-off.
+We revisited some concurrency primitives that are necessary for complex software, and we learned about the internal mechanism by writing our own. Hopefully, understanding this machinery under the hood should both help you internalize ideas that can improve the software performance, but also assist you in visualizing the structure and relationship between the necessary components. With this mindset, you may solve problems from different angles, and may have a better idea when making a trade-off.
 
 ## References
 
