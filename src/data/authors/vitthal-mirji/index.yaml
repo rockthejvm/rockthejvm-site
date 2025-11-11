@@ -1,0 +1,12 @@
+biography: Staff Software Engineer specializing in Data Engineering, working on shaping large-scale systems. I build unapologetically honest data platforms and open source work, while happily saving space for chai-fuelled stories, road trips, cars, watches, speak at and support conferences, and turning all that into practical, welcoming playbooks for engineers and teams.
+location:
+  city: Mumbai
+  country: India
+name: Vitthal Mirji
+photo: ./photo.jpeg
+socials:
+  website: https://vitthalmirji.com
+  github: vim89
+  linkedin: vitthal10
+  twitter: "@whoami_vim"
+  email: vitthalmirji@gmail.com
