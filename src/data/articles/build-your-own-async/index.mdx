@@ -6,7 +6,7 @@ tags: [coroutines, graalvm, scala, scala-3]
 publishedDate: 2025-10-23
 updatedDate: 2025-10-23
 author: chia-hung-lin
-repositoryUrl: https://codeberg.org/chlin501/async4s
+repositoryUrl: https://codeberg.org/chlin501/concurrent4s
 difficulty: intermediate
 ---
 
@@ -133,14 +133,14 @@ scala --version # Check if output contains information like version 3.3.6
 The layout of the folder structure actually is similar to that of conventional build tools employeed by sbt, maven, and so on.
 
 ```bash
-async4s
-├── async
+concurrent4s
+├── concurrent
 │   ├── libs
 │   │   └── *.jar
 │   └── src
 │   │   └── main
 │   │       └── scala
-│   │           └── async
+│   │           └── concurrent
 │   │               └── *.scala
 │   └── target
 │       └── classes
@@ -164,10 +164,10 @@ async4s
 Before starting, please execute following commands
 
 ```bash
-# Crate async directories
-mkdir -p async/src/{main,test}/scala/async
-mkdir -p async/target/{classes,test-classes}
-mkdir async/libs
+# Crate concurrent directories
+mkdir -p concurrent/src/{main,test}/scala/concurrent
+mkdir -p concurrent/target/{classes,test-classes}
+mkdir concurrent/libs
 
 # Crate continuations directories
 mkdir -p continuations/src/main/scala/continuations
@@ -177,11 +177,22 @@ mkdir continuations/libs
 
 ### Dependencies
 
-The installation of required depdendent jars can be referred to at the Makefile [install-async-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L15) target, and [install-continuations-libraries](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L33) target. Otherwise, please use the curl command to install those dependencies manully.
+The installation of required depdendent jars can be referred to at the Makefile [install-concurrent-libraries](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L27) target, and [install-continuations-libraries](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L37) target. Otherwise, please use the curl command to install those dependencies manully.
 
 ```bash
+# continuations dependencies
 curl -s -L -O --create-dirs --output-dir ./continuations/libs \
     https://repo1.maven.org/maven2/org/graalvm/espresso/continuations/24.2.2/continuations-24.2.2.jar
+curl -s -L -O --create-dirs --output-dir ./continuations/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.3.6/scala3-library_3-3.3.6.jar
+curl -s -L -O --create-dirs --output-dir ./continuations/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar
+
+# concurrent dependencies
+curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
+	https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest-app_3/3.2.17/scalatest-app_3-3.2.17.jar
+curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar
 ```
 
 ## Higher Overview
@@ -198,7 +209,7 @@ The diagram below sketeches a higher overview relationship between the component
 
 * *[Runtime](#runtime)* assembles all components together, hosting an environemt for necessary operations
 
-![Async Class Diagram](images/class-diagram.png "Async Class Diagram")
+![Class Diagram](images/class-diagram.png "Class Diagram")
 
 ## Components
 
@@ -210,9 +221,9 @@ Although GraalVM provdes Continuation API, the API itself does not contain any *
 
 Therefore, the frist thing is to create a *Coroutine* class. The steps include
 
-1. Adding the [send()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8) method (at the lines 3th, and 4th) for storing the value sent from the caller side, which will call the *Coroutine* instance during runtime execution
+1. Adding the [send()](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8) method (at the lines 3th, and 4th) for storing the value sent from the caller side, which will call the *Coroutine* instance during runtime execution
 
-2. Creating the [yield()](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L12) method that will emit a value (at the line 6th) if one or multiple elements to produce, and pass the value (at the line 7th) sent from the caller back to the *Coroutine* if any
+2. Creating the [yield()](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L12) method that will emit a value (at the line 6th) if one or multiple elements to produce, and pass the value (at the line 7th) sent from the caller back to the *Coroutine* if any
 
 ```scala
 abstract class Coroutine[S, E] extends Generator[E] {
@@ -228,11 +239,11 @@ abstract class Coroutine[S, E] extends Generator[E] {
 
 #### Compile Coroutine
 
-* Add the *[Coroutine](https://codeberg.org/chlin501/async4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L5)* code to `continuations/src/main/scala/continuations` directory
+* Add the *[Coroutine](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L5)* code to `continuations/src/main/scala/continuations` directory
 
 * Compile the code with
 
-    * [Make compile-continuations](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L61) target, or
+    * [Make compile-continuations](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L65) target, or
 
     * Execute
 
@@ -243,7 +254,7 @@ abstract class Coroutine[S, E] extends Generator[E] {
 	        `find ./continuations/src/main/scala -name '*.scala'`
         ```
 
-Back to the *Task* component, in fact it is merely a wrapper of the coroutine mentioned above, plus self defined *[State](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Task.scala#L20)s* shown as below -
+Back to the *Task* component, in fact it is merely a wrapper of the coroutine mentioned above, plus self defined *[State](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Task.scala#L20)s* shown as below -
 
 * *Ready* is the initial state during the creation of *Task*
 
@@ -283,19 +294,19 @@ override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
 
 #### Compile Task
 
-* Add the *[Task](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Task.scala#L9)* code to `async/src/main/scala/async/` directory
+* Add the *[Task](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Task.scala#L9)* code to `concurrent/src/main/scala/concurrent/` directory
 
 * Compile the code with
 
-    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
         ```bash
         scalac \
-	        -d ./async/target/classes \
+	        -d ./concurrent/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./async/src/main/scala -name '*.scala'`
+	        `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Worker
@@ -314,19 +325,19 @@ final case class Worker[T](
 
 #### Compile Worker
 
-* Add the *[Worker](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L49)* code to `async/src/main/scala/async/` directory
+* Add the *[Worker](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L49)* code to `concurrent/src/main/scala/concurrent/` directory
 
 * Compile the code with
 
-    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
         ```bash
         scalac \
-	        -d ./async/target/classes \
+	        -d ./concurrent/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./async/src/main/scala -name '*.scala'`
+	        `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Task Queue
@@ -370,19 +381,19 @@ final case class TaskQueue[T](
 
 #### Compile Task Queue
 
-* Add the *[Task Queue](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L9)* code to `async/src/main/scala/async/` directory
+* Add the *[Task Queue](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L9)* code to `concurrent/src/main/scala/concurrent/` directory
 
 * Compile the code with
 
-    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
         ```bash
         scalac \
-	        -d ./async/target/classes \
+	        -d ./concurrent/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./async/src/main/scala -name '*.scala'`
+	        `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Scheduler
@@ -425,7 +436,7 @@ final case class LeastLoadedScheduler[T](
 
 In order to find the least loaded worker, the logic first checks if the worker length is smaller than the batch size - if true, the entire wokrer list is returned (at the line 3rd); otherwise, the next batch range is calculated (at the line 5th), and then the logic picks up the worker list based on the range given.
 
-Second, choose the worker having the minimum queue size (at the line 8th), which is [the size of LinkedBlockingQueue](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L56).
+Second, choose the worker having the minimum queue size (at the line 8th), which is [the size of LinkedBlockingQueue](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L56).
 
 ```scala
 override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
@@ -441,19 +452,19 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
 
 #### Compile Scheduler
 
-* Add the *[Scheduler](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Scheduler.scala#L66)* code to `async/src/main/scala/async/` directory
+* Add the *[Scheduler](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L66)* code to `concurrent/src/main/scala/concurrent/` directory
 
 * Compile the code with
 
-    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
         ```bash
         scalac \
-	        -d ./async/target/classes \
+	        -d ./concurrent/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./async/src/main/scala -name '*.scala'`
+	        `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Runtime
@@ -535,19 +546,19 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
 
 #### Compile Runtime
 
-* Add the *[Runtime](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/main/scala/async/Runtime.scala#L12)* code to `async/src/main/scala/async/` directory
+* Add the *[Runtime](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Runtime.scala#L12)* code to `concurrent/src/main/scala/concurrent/` directory
 
 * Compile the code with
 
-    * [Make compile-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L78) target, or
+    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
     * Execute
 
         ```bash
         scalac \
-	        -d ./async/target/classes \
+	        -d ./concurrent/target/classes \
 	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./async/src/main/scala -name '*.scala'`
+	        `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ## An Example
@@ -629,39 +640,42 @@ Runtime.spawn(runtime, t1, t2, t3, t4)
 
 ### Testing Dependencies
 
-Before running our async program, following dependencies are required to install beforehand.
+Before running our program, following dependencies are required to install beforehand.
 
 ```bash
-curl -s -L -O --create-dirs --output-dir ./async/libs \
-	https://repo1.maven.org/maven2/org/scala-lang/scala3-library_sjs1_3/3.7.2/scala3-library_sjs1_3-3.7.2.jar
-curl -s -L -O --create-dirs --output-dir ./async/libs \
-	https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar
-curl -s -L -O --create-dirs --output-dir ./async/libs \
+# scalatest dependencies
+curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
 	https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar
-curl -s -L -O --create-dirs --output-dir ./async/libs \
+curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/scala3-library_sjs1_3/3.7.2/scala3-library_sjs1_3-3.7.2.jar
+
+# our concurrent code dependencies
+curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
+	https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar
+curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
 	https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest-app_3/3.2.17/scalatest-app_3-3.2.17.jar
 ```
 
-### Test Async Program
+### Test Our Program
 
-* Add the *[RuntimeSpec](https://codeberg.org/chlin501/async4s/src/branch/main/async/src/test/scala/async/RuntimeSpec.scala#L8)* code to `async/src/test/scala/async/` directory
+* Add the *[RuntimeSpec](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/test/scala/concurrent/RuntimeSpec.scala#L8)* code to `concurrent/src/test/scala/concurrent/` directory
 
 * Compile the code with
 
-    * [Make compile-test-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L84) target, or
+    * [Make compile-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L88) target, or
 
     * Execute
 
         ```bash
         scalac \
-		    -d ./async/target/test-classes \
-		    -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./async/libs/scalatest-app_3-3.2.17.jar:./async/target/classes \
-		    `find ./async/src/test/scala -name '*.scala'`
+		    -d ./concurrent/target/test-classes \
+		    -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./concurrent/libs/scalatest-app_3-3.2.17.jar:./concurrent/target/classes \
+		    `find ./concurrent/src/test/scala -name '*.scala'`
         ```
 
 * Test the code with
 
-    * [Make run-test-async](https://codeberg.org/chlin501/async4s/src/branch/main/Makefile#L90) target, or
+    * [Make run-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L94) target, or
 
     * Execute
 
@@ -669,8 +683,8 @@ curl -s -L -O --create-dirs --output-dir ./async/libs \
         java \
 	        --experimental-options \
 	        --java.Continuum=true  \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./async/libs/scala3-library_sjs1_3-3.7.2.jar:./async/libs/scala-library-2.13.16.jar:./async/libs/scalatest-app_3-3.2.17.jar:./async/libs/scala-xml_2.13-1.2.0.jar:./async/target/classes:./async/target/test-classes \
-	        org.scalatest.tools.Runner -R async/target/test-classes -o -w async
+	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./concurrent/libs/scala3-library_sjs1_3-3.7.2.jar:./concurrent/libs/scala-library-2.13.16.jar:./concurrent/libs/scalatest-app_3-3.2.17.jar:./concurrent/libs/scala-xml_2.13-1.2.0.jar:./concurrent/target/classes:./concurrent/target/test-classes \
+	        org.scalatest.tools.Runner -R concurrent/target/test-classes -o -w concurrent
         ```
 
 ## Conclusion
