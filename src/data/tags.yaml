@@ -18,11 +18,11 @@
 - id: concurrency
 - id: coroutines
 - id: data-structures
+- id: data-contracts
+- id: data-engineering
 - id: devops
 - id: distributed-systems
 - id: doobie
-- id: data-contracts
-- id: data-engineering
 - id: effect-systems
 - id: event-sourcing
 - id: file_list
