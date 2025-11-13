@@ -26,7 +26,7 @@ export const _courses: {
     courses: [
       {
         id: "the-scala-bundle",
-        prices: { old: 195, new: 97.5 },
+        prices: { old: 245, new: 122.5 },
       },
       {
         id: "the-kotlin-bundle",
@@ -50,12 +50,20 @@ export const _courses: {
         prices: { old: 85, new: 42.5 },
       },
       {
-        id: "scala-and-functional-programming-interview-practice",
+        id: "advanced-scala",
+        prices: { old: 85, new: 42.5 },
+      },
+      {
+        id: "scala-projects",
         prices: { old: 95, new: 47.5 },
       },
       {
-        id: "advanced-scala",
-        prices: { old: 85, new: 42.5 },
+        id: "scala-macros-and-metaprogramming",
+        prices: { old: 95, new: 47.5 },
+      },
+      {
+        id: "scala-and-functional-programming-interview-practice",
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "scala-3-new-features",
