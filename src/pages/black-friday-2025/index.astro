@@ -15,7 +15,7 @@ const __courses = await getCollection("courses"),
     })),
   })),
   bundlePrices = categories
-    .filter(({ category }) => category !== "Bundles")
+    .filter(({ category }) => category !== "Bundles" && category !== "Black Friday Upgrades")
     .flatMap(({ courses }) => courses)
     .map(({ prices }) => prices)
     .reduce(
