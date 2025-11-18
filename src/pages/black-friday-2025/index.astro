@@ -6,8 +6,9 @@ import { _courses } from "./_data/courses.js";
 import BundleImage from "./_images/black-friday-bundle.png";
 
 const __courses = await getCollection("courses"),
-  categories: HolidayCategory[] = _courses.map(({ category, courses }) => ({
+  categories: HolidayCategory[] = _courses.map(({ category, description, courses }) => ({
     category,
+    description,
     courses: courses.map(({ id, prices }) => ({
       course: __courses.find((_course) => _course.id === id)!,
       prices,
@@ -22,7 +23,7 @@ const __courses = await getCollection("courses"),
         old: acc.old + element.old,
         new: acc.new,
       }),
-      { old: 0, new: 395 },
+      { old: 0, new: 495 },
     );
 ---
 

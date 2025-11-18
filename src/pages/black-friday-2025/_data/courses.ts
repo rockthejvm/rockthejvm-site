@@ -1,5 +1,6 @@
 export const _courses: {
   category: string;
+  description: string;
   courses: {
     id: string;
     prices: {
@@ -9,7 +10,30 @@ export const _courses: {
   }[];
 }[] = [
   {
+    category: "Black Friday Upgrades",
+    description: "If you bought previous years' Black Friday bundles, you can upgrade to all new courses published since at an outrageous price.",
+    courses: [
+      {
+        id: "black-friday-2024-upgrade",
+        prices: { old: 190, new: 95 },
+      },
+      {
+        id: "black-friday-2023-upgrade",
+        prices: { old: 435, new: 195 },
+      },
+      {
+        id: "black-friday-2022-upgrade",
+        prices: { old: 1425, new: 375 },
+      },
+      {
+        id: "black-friday-2021-upgrade",
+        prices: { old: 1585, new: 395 },
+      },
+    ],
+  },
+  {
     category: "Project-Based Courses",
+    description: "Production-grade projects, built from scratch, to take your skills to the next level.",
     courses: [
       {
         id: "zio-rite-of-passage",
@@ -23,6 +47,7 @@ export const _courses: {
   },
   {
     category: "Bundles",
+    description: "The classical packs, at a massive discount.",
     courses: [
       {
         id: "the-scala-bundle",
@@ -44,6 +69,7 @@ export const _courses: {
   },
   {
     category: "Scala",
+    description: "Everything you need to know about Scala, at the best discount of the year.",
     courses: [
       {
         id: "scala-essentials",
@@ -81,6 +107,7 @@ export const _courses: {
   },
   {
     category: "Kotlin",
+    description: "Master Kotlin with these in-depth courses, with massive discounts.",
     courses: [
       {
         id: "kotlin-essentials",
@@ -98,6 +125,7 @@ export const _courses: {
   },
   {
     category: "ZIO",
+    description: "Learn ZIO from the ground up, at an unbeatable price.",
     courses: [
       {
         id: "zio",
@@ -107,6 +135,7 @@ export const _courses: {
   },
   {
     category: "Typelevel",
+    description: "Get up to speed with Typelevel libraries, at the best price.",
     courses: [
       {
         id: "cats",
@@ -120,6 +149,7 @@ export const _courses: {
   },
   {
     category: "Apache Flink",
+    description: "Master Apache Flink with Scala, at a massive discount.",
     courses: [
       {
         id: "apache-flink-with-scala",
@@ -129,6 +159,7 @@ export const _courses: {
   },
   {
     category: "Apache Spark",
+    description: "Become an Apache Spark expert with Scala, at the best price.",
     courses: [
       {
         id: "apache-spark-essentials-with-scala",
@@ -150,6 +181,7 @@ export const _courses: {
   },
   {
     category: "Akka/Apache Pekko",
+    description: "Learn Akka/Apache Pekko with Scala, at an unbeatable price.",
     courses: [
       {
         id: "akka-apache-pekko-essentials-with-scala",
@@ -167,6 +199,7 @@ export const _courses: {
   },
   {
     category: "Still Free!",
+    description: "Can't discount these, but super valuable.",
     courses: [
       {
         id: "scala-at-light-speed",
@@ -179,7 +212,8 @@ export const _courses: {
     ],
   },
   {
-    category: "Akka Classic Courses",
+    category: "Akka Classic",
+    description: "For those who still need Akka Classic, this is your shot at a big discount.",
     courses: [
       {
         id: "akka-classic-essentials-with-scala",
