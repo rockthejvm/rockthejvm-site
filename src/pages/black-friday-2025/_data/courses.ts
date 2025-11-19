@@ -3,6 +3,7 @@ export const _courses: {
   description: string;
   courses: {
     id: string;
+    hasCoupon: boolean;
     prices: {
       old: number;
       new: number;
@@ -15,18 +16,22 @@ export const _courses: {
     courses: [
       {
         id: "black-friday-2024-upgrade",
+        hasCoupon: false,
         prices: { old: 190, new: 95 },
       },
       {
         id: "black-friday-2023-upgrade",
+        hasCoupon: false,
         prices: { old: 435, new: 195 },
       },
       {
         id: "black-friday-2022-upgrade",
+        hasCoupon: false,
         prices: { old: 1425, new: 375 },
       },
       {
         id: "black-friday-2021-upgrade",
+        hasCoupon: false,
         prices: { old: 1585, new: 395 },
       },
     ],
@@ -37,10 +42,12 @@ export const _courses: {
     courses: [
       {
         id: "zio-rite-of-passage",
+        hasCoupon: true,
         prices: { old: 495, new: 247.5 },
       },
       {
         id: "typelevel-rite-of-passage",
+        hasCoupon: true,
         prices: { old: 495, new: 247.5 },
       },
     ],
@@ -51,18 +58,22 @@ export const _courses: {
     courses: [
       {
         id: "the-scala-bundle",
+        hasCoupon: true,
         prices: { old: 245, new: 122.5 },
       },
       {
         id: "the-kotlin-bundle",
+        hasCoupon: true,
         prices: { old: 160, new: 80 },
       },
       {
         id: "the-apache-spark-bundle-with-scala",
+        hasCoupon: true,
         prices: { old: 180, new: 90 },
       },
       {
         id: "the-akka-apache-pekko-bundle-with-scala",
+        hasCoupon: true,
         prices: { old: 180, new: 90 },
       },
     ],
@@ -73,34 +84,42 @@ export const _courses: {
     courses: [
       {
         id: "scala-essentials",
+        hasCoupon: true,
         prices: { old: 85, new: 42.5 },
       },
       {
         id: "advanced-scala",
+        hasCoupon: true,
         prices: { old: 85, new: 42.5 },
       },
       {
         id: "scala-projects",
+        hasCoupon: true,
         prices: { old: 95, new: 47.5 },
       },
       {
         id: "scala-macros-and-metaprogramming",
+        hasCoupon: true,
         prices: { old: 95, new: 47.5 },
       },
       {
         id: "scala-and-functional-programming-interview-practice",
+        hasCoupon: true,
         prices: { old: 95, new: 47.5 },
       },
       {
         id: "scala-3-new-features",
+        hasCoupon: true,
         prices: { old: 35, new: 17.5 },
       },
       {
         id: "scala-essentials-old",
+        hasCoupon: true,
         prices: { old: 50, new: 25 },
       },
       {
         id: "advanced-scala-old",
+        hasCoupon: true,
         prices: { old: 50, new: 25 },
       },
     ],
@@ -111,14 +130,17 @@ export const _courses: {
     courses: [
       {
         id: "kotlin-essentials",
+        hasCoupon: true,
         prices: { old: 95, new: 47.5 },
       },
       {
         id: "advanced-kotlin",
+        hasCoupon: true,
         prices: { old: 75, new: 37.5 },
       },
       {
         id: "kotlin-coroutines-and-concurrency",
+        hasCoupon: true,
         prices: { old: 75, new: 37.5 },
       },
     ],
@@ -129,6 +151,7 @@ export const _courses: {
     courses: [
       {
         id: "zio",
+        hasCoupon: true,
         prices: { old: 95, new: 47.5 },
       },
     ],
@@ -139,10 +162,12 @@ export const _courses: {
     courses: [
       {
         id: "cats",
+        hasCoupon: true,
         prices: { old: 85, new: 42.5 },
       },
       {
         id: "cats-effect",
+        hasCoupon: true,
         prices: { old: 95, new: 47.5 },
       },
     ],
@@ -153,6 +178,7 @@ export const _courses: {
     courses: [
       {
         id: "apache-flink-with-scala",
+        hasCoupon: true,
         prices: { old: 85, new: 42.5 },
       },
     ],
@@ -163,18 +189,22 @@ export const _courses: {
     courses: [
       {
         id: "apache-spark-essentials-with-scala",
+        hasCoupon: true,
         prices: { old: 75, new: 37.5 },
       },
       {
         id: "apache-spark-optimization-with-scala",
+        hasCoupon: true,
         prices: { old: 85, new: 42.5 },
       },
       {
         id: "apache-spark-performance-tuning-with-scala",
+        hasCoupon: true,
         prices: { old: 75, new: 37.5 },
       },
       {
         id: "apache-spark-streaming-with-scala",
+        hasCoupon: true,
         prices: { old: 75, new: 37.5 },
       },
     ],
@@ -185,14 +215,17 @@ export const _courses: {
     courses: [
       {
         id: "akka-apache-pekko-essentials-with-scala",
+        hasCoupon: true,
         prices: { old: 85, new: 42.5 },
       },
       {
         id: "akka-apache-pekko-streams-with-scala",
+        hasCoupon: true,
         prices: { old: 95, new: 47.5 },
       },
       {
         id: "akka-apache-pekko-http-with-scala",
+        hasCoupon: true,
         prices: { old: 50, new: 25 },
       },
     ],
@@ -203,10 +236,12 @@ export const _courses: {
     courses: [
       {
         id: "scala-at-light-speed",
+        hasCoupon: false,
         prices: { old: 0, new: 0 },
       },
       {
         id: "kotlin-at-light-speed",
+        hasCoupon: false,
         prices: { old: 0, new: 0 },
       },
     ],
@@ -217,18 +252,21 @@ export const _courses: {
     courses: [
       {
         id: "akka-classic-essentials-with-scala",
+        hasCoupon: true,
         prices: { old: 50, new: 25 },
       },
       {
         id: "akka-classic-persistence-with-scala",
+        hasCoupon: true,
         prices: { old: 50, new: 25 },
       },
       {
         id: "akka-classic-remoting-and-clustering-with-scala",
+        hasCoupon: true,
         prices: { old: 50, new: 25 },
       },
       {
-        id: "akka-classic-serialization-with-scala",
+        id: "akka-classic-serialization-with-scala",hasCoupon: true,
         prices: { old: 30, new: 15 },
       },
     ],

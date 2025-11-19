@@ -9,8 +9,9 @@ const __courses = await getCollection("courses"),
   categories: HolidayCategory[] = _courses.map(({ category, description, courses }) => ({
     category,
     description,
-    courses: courses.map(({ id, prices }) => ({
+    courses: courses.map(({ id, hasCoupon, prices }) => ({
       course: __courses.find((_course) => _course.id === id)!,
+      hasCoupon,
       prices,
     })),
   })),
