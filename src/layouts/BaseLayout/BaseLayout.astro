@@ -8,6 +8,7 @@ import Head from "./_components/Head/Head.astro";
 import AffiliateScript from "./_scripts/AffiliateScript.astro";
 import Footer from "./_sections/Footer/Footer.astro";
 import Header from "./_sections/Header/Header.astro";
+import NotificationBanner from "@/components/NotificationBanner.astro";
 
 interface Props {
   article?: {
@@ -72,6 +73,7 @@ const {
   <body
     class={`${isHomePage ? "body-gradient" : ""} min-h-screen ${forcedTheme ? "bg-holiday-bkg" : "bg-bkg"}`}
   >
+    {!forcedTheme && <NotificationBanner />}
     <Header showThemeToggle={!forcedTheme} />
     <main {...searchIndexable ? { "data-pagefind-body": true } : {}}>
       <slot />
