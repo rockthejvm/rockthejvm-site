@@ -20,7 +20,12 @@ const { categories, couponCode } = Astro.props;
         </div>
         <p class="my-2 text-center">{description}</p>
         {courses.map(({ course, hasCoupon, prices }) => (
-          <CourseEntry {course} holiday={true} couponCode={hasCoupon && couponCode} {prices} />
+          <CourseEntry
+            {course}
+            holiday={true}
+            couponCode={hasCoupon && couponCode}
+            {prices}
+          />
         ))}
       </section>
     ))

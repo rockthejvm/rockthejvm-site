@@ -12,7 +12,8 @@ export const _courses: {
 }[] = [
   {
     category: "Black Friday Upgrades",
-    description: "If you bought previous years' Black Friday bundles, you can upgrade to all new courses published since at an outrageous price.",
+    description:
+      "If you bought previous years' Black Friday bundles, you can upgrade to all new courses published since at an outrageous price.",
     courses: [
       {
         id: "black-friday-2024-upgrade",
@@ -38,7 +39,8 @@ export const _courses: {
   },
   {
     category: "Project-Based Courses",
-    description: "Production-grade projects, built from scratch, to take your skills to the next level.",
+    description:
+      "Production-grade projects, built from scratch, to take your skills to the next level.",
     courses: [
       {
         id: "zio-rite-of-passage",
@@ -80,7 +82,8 @@ export const _courses: {
   },
   {
     category: "Scala",
-    description: "Everything you need to know about Scala, at the best discount of the year.",
+    description:
+      "Everything you need to know about Scala, at the best discount of the year.",
     courses: [
       {
         id: "scala-essentials",
@@ -126,7 +129,8 @@ export const _courses: {
   },
   {
     category: "Kotlin",
-    description: "Master Kotlin with these in-depth courses, with massive discounts.",
+    description:
+      "Master Kotlin with these in-depth courses, with massive discounts.",
     courses: [
       {
         id: "kotlin-essentials",
@@ -248,7 +252,8 @@ export const _courses: {
   },
   {
     category: "Akka Classic",
-    description: "For those who still need Akka Classic, this is your shot at a big discount.",
+    description:
+      "For those who still need Akka Classic, this is your shot at a big discount.",
     courses: [
       {
         id: "akka-classic-essentials-with-scala",
@@ -266,7 +271,8 @@ export const _courses: {
         prices: { old: 50, new: 25 },
       },
       {
-        id: "akka-classic-serialization-with-scala",hasCoupon: true,
+        id: "akka-classic-serialization-with-scala",
+        hasCoupon: true,
         prices: { old: 30, new: 15 },
       },
     ],
