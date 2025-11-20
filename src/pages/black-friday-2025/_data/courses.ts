@@ -27,7 +27,7 @@ export const _courses: {
       {
         id: "black-friday-2022-upgrade",
         hasCoupon: false,
-        prices: { old: 1425, new: 375 },
+        prices: { old: 1425, new: 325 },
       },
       {
         id: "black-friday-2021-upgrade",
