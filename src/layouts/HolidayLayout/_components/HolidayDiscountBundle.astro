@@ -21,13 +21,13 @@ const { bundleImage, offer, prices, title, courseSlug, pricingPlanId } =
 <section class="mb-8 min-h-[60vh] md:mb-16">
   <div class="relative isolate">
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <div class="rounded-3xl bg-gradient-to-r from-yellow-400 via-orange-500 via-red-500 via-pink-500 via-purple-500 via-blue-500 via-cyan-500 to-yellow-400 bg-[length:400%_400%] animate-gradient-xy p-1 shadow-[0_0_30px_theme(colors.orange.500/60%)]">
-        <div class="rounded-3xl bg-holiday-bkg mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20">
+      <div class="max-w-4xl lg:max-w-7xl m-8 rounded-3xl bg-gradient-to-r from-yellow-400 via-orange-500 via-red-500 via-pink-500 via-purple-500 via-blue-500 via-cyan-500 to-yellow-400 bg-[length:400%_400%] animate-gradient-xy p-1 shadow-[0_0_30px_theme(colors.orange.500/60%)]">
+        <div class="rounded-3xl bg-holiday-bkg mx-auto w-full flex flex-col lg:flex-row lg:items-center gap-16 p-6 sm:p-8 lg:mx-0 lg:max-w-none xl:gap-x-20 xl:px-20">
           <a href={learnMoreURL}>
             <MyPicture
               src={bundleImage}
               alt={title}
-              class="w-full flex-none lg:max-w-lg"
+              class="w-full flex-none max-w-lg mx-auto"
               quality="mid"
             />
           </a>
