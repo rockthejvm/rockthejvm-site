@@ -23,7 +23,7 @@ const { categories, couponCode } = Astro.props;
           <CourseEntry
             {course}
             holiday={true}
-            couponCode={hasCoupon && couponCode}
+            couponCode={hasCoupon ? couponCode : undefined}
             {prices}
           />
         ))}
