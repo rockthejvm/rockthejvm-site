@@ -100,7 +100,7 @@
 
     --color-holiday-content1: 217deg 17% 98%;
     --color-holiday-content2: 217deg 17% 87%;
-    --color-holiday-accent1: 30deg 100% 70%;
+    --color-holiday-accent1: 25deg 95% 55%;
     --color-holiday-accent2: 168deg 83.8% 48.2%;
 
     --color-holiday-card-content1: 217deg 11.41% 38.71%;
@@ -112,8 +112,8 @@
     --color-holiday-secondary: 360deg 100% 100%;
 
     --color-holiday-base: 360deg 100% 0%;
-    --color-holiday-text-cta: 24deg 93% 55%;
-    --color-holiday-cta: 360deg 0% 95%;
+    --color-holiday-text-cta: 0deg 100% 100%;
+    --color-holiday-cta: 25deg 95% 55%;
     --color-holiday-tag: 226deg 100% 94%;
 
     .card-shadow {
@@ -130,9 +130,9 @@
       background-color: var(--shiki-dark-bg) !important;
     }
 
-    a {
+    /* a {
       @apply text-holiday-card-accent-1 no-underline;
-    }
+    } */
 
     a:hover {
       @apply text-holiday-card-accent-2 underline;

@@ -22,49 +22,53 @@ const { bundleImage, offer, prices, title, courseSlug, pricingPlanId } =
   <div class="relative isolate">
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div
-        class="mx-auto flex max-w-2xl flex-col gap-16 px-6 sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
+        class="m-8 max-w-4xl animate-gradient-xy rounded-3xl bg-gradient-to-r from-yellow-400 via-blue-500 via-cyan-500 via-orange-500 via-pink-500 via-purple-500 via-red-500 to-yellow-400 bg-[length:400%_400%] p-1 shadow-[0_0_30px_theme(colors.orange.500/60%)] lg:max-w-7xl"
       >
-        <a href={learnMoreURL}>
-          <MyPicture
-            src={bundleImage}
-            alt={title}
-            class="w-full flex-none lg:max-w-lg"
-            quality="mid"
-          />
-        </a>
-        <div class="w-full flex-auto">
-          <h2
-            class="text-4xl font-bold tracking-tight text-holiday-content-1 sm:text-5xl"
-          >
-            {`The ${title} bundle`.toUpperCase()}
-          </h2>
-          <div class="mt-6 text-lg leading-8 text-holiday-content-1">
-            {offer}
-          </div>
-          <div class="mt-6 text-3xl font-bold">
-            <span class="text-holiday-card-content-1"
-              ><s>${numberToPrice(prices.old)}</s></span
+        <div
+          class="mx-auto flex w-full flex-col gap-16 rounded-3xl bg-holiday-bkg p-6 sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
+        >
+          <a href={learnMoreURL}>
+            <MyPicture
+              src={bundleImage}
+              alt={title}
+              class="mx-auto w-full max-w-lg flex-none"
+              quality="mid"
+            />
+          </a>
+          <div class="w-full flex-auto">
+            <h2
+              class="text-4xl font-bold tracking-tight text-holiday-content-1 sm:text-5xl"
             >
-            {" "}
-            <span class="text-holiday-card-accent-1 text-orange-500"
-              >${numberToPrice(prices.new)}</span
+              {`The ${title} bundle`.toUpperCase()}
+            </h2>
+            <div class="mt-6 text-lg leading-8 text-holiday-content-1">
+              {offer}
+            </div>
+            <div class="mt-6 text-3xl font-bold">
+              <span class="text-holiday-card-content-1"
+                ><s>${numberToPrice(prices.old)}</s></span
+              >
+              {" "}
+              <span class="text-holiday-card-accent-1 text-orange-500"
+                >${numberToPrice(prices.new)}</span
+              >
+            </div>
+            <div
+              class="mt-8 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
             >
-          </div>
-          <div
-            class="mt-8 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
-          >
-            <a
-              href={checkoutURL}
-              class="rounded-md bg-holiday-cta px-3.5 py-2.5 text-sm font-semibold text-holiday-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              <span>Get it now</span>
-            </a>
-            <a
-              href={learnMoreURL}
-              class="rounded-md px-3.5 py-2.5 text-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              <span class="text-gray-100">Learn more</span>
-            </a>
+              <a
+                href={checkoutURL}
+                class="rounded-3xl bg-holiday-cta px-3.5 py-2.5 text-sm font-semibold text-holiday-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <span>Get it now</span>
+              </a>
+              <a
+                href={learnMoreURL}
+                class="rounded-3xl px-3.5 py-2.5 text-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <span class="text-gray-100">Learn more</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>

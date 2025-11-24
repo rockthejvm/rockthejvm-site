@@ -1,4 +1,5 @@
 ---
+import NotificationBanner from "@/components/NotificationBanner.astro";
 import site from "@/data/site.json";
 import "@/styles/base.css";
 import "@/styles/fonts.css";
@@ -72,6 +73,7 @@ const {
   <body
     class={`${isHomePage ? "body-gradient" : ""} min-h-screen ${forcedTheme ? "bg-holiday-bkg" : "bg-bkg"}`}
   >
+    {!forcedTheme && <NotificationBanner />}
     <Header showThemeToggle={!forcedTheme} />
     <main {...searchIndexable ? { "data-pagefind-body": true } : {}}>
       <slot />

@@ -25,15 +25,6 @@ export default defineCollection({
               .object({
                 author: reference("authors"),
                 biography: z.string(),
-                // .refine(
-                //   (excerpt) =>
-                //     excerpt ? /^<p>[\s\S]*[^.]<\/p>$/.test(excerpt) : true,
-                //   {
-                //     message:
-                //       "Excerpt must be an HTML string wrapped in <p> tags and must not end with a period before the closing </p> tag",
-                //     path: ["excerpt"],
-                //   },
-                // ),
               })
               .strict(),
           )
@@ -79,18 +70,6 @@ export default defineCollection({
         hasSkills: z.boolean().default(true),
         heroImage: image(),
         instructorEnabled: z.boolean().default(true),
-        // .refine(
-        //   (image) => (image.width / image.height) === (16 / 9),
-        //   {
-        //     message: "Hero image must have an aspect ratio of 16:9",
-        //   },
-        // ),
-        // .refine(
-        //   (image) => image.width >= 1200 && image.height >= 630,
-        //   {
-        //     message: "Hero image must be at least 1200x630",
-        //   },
-        // ),
         instructors: z
           .array(reference("authors"))
           .min(1, "At least 1 instructor is required")
@@ -106,6 +85,7 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        showMembership: z.boolean().default(true),
         tags: z
           .array(reference("tags"))
           .min(1, "Course must have at least one tag")
