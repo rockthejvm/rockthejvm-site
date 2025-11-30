@@ -162,9 +162,10 @@ object Shape {
   private inline def summonTypeName[T]: String = constValue["" + T]
 
   private inline def zip[L <: Tuple, R <: List[String]](labels: L, types: List[String]): List[(String, String)] =
-    inline labels match
+    inline labels match {
       case _: EmptyTuple => Nil
       case _: (h *: t)   => constValue[h].asInstanceOf[String] -> types.head :: zip[t, List[String]](erasedValue, types.tail)
+    }
 ```
 
 Yeah, it's a bit dense. But here's what it does:
@@ -286,10 +287,11 @@ t <:< TypeRepr.of[Seq[?]]  // true
 t =:= TypeRepr.of[String]  // false
 
 // 3. Pattern matching: Break it apart
-t match
+t match {
   case AppliedType(tycon, args) =>
     // tycon = List
     // args = [String]
+}
 ```
 
 **Why we need this:** To compare schemas, we need to ask questions like:
@@ -328,9 +330,10 @@ object UserObject          // NO - not a class
 ### Inspector 2: What are the type arguments?
 
 ```scala
-def appliedArgs(t: TypeRepr): List[TypeRepr] = t match
+def appliedArgs(t: TypeRepr): List[TypeRepr] = t match {
   case AppliedType(_, args) => args  // Extract the arguments
   case _                    => Nil   // No arguments
+}
 ```
 
 **What's happening:**
@@ -412,11 +415,12 @@ All these should become `SequenceShape(element)`.
 
 ```scala
 def mapArgs(t: TypeRepr): Option[(TypeRepr, TypeRepr)] =
-  if t <:< TypeRepr.of[Map[?, ?]] then
-    appliedArgs(t) match
+  if t <:< TypeRepr.of[Map[?, ?]] then {
+    appliedArgs(t) match {
       case k :: v :: Nil => Some((k, v))  // Got key and value
       case _ => report.errorAndAbort(s"Map requires two type args: ${t.show}")
-  else None
+    }
+  } else None
 ```
 
 **What's happening:**
@@ -495,17 +499,19 @@ def typeShapeOf(t: TypeRepr): TypeShape =
 
       // Step 3: Is it a Map?
       mapArgs(t).map { case (k, v) =>
-        if !isAtomicKey(k) then
+        if !isAtomicKey(k) then {
           report.errorAndAbort(s"Unsupported Map key: ${k.show}")
+        }
         MapShape(PrimitiveShape(k.show), typeShapeOf(v))
       }.getOrElse {
 
         // Step 4: Is it a case class?
-        if isCaseClass(t) then
+        if isCaseClass(t) then {
           // ... handle case class
-        else
+        } else {
           // Step 5: Fallback - primitive
           PrimitiveShape(t.show)
+        }
       }
     }
   }
@@ -546,7 +552,7 @@ Wait, where did the `Option` go? It got consumed! The `typeShapeOf` for `Option`
 ### Handling case classes:
 
 ```scala
-if isCaseClass(t) then
+if isCaseClass(t) then {
   val sym    = t.typeSymbol                      // Get the class symbol
   val params = sym.primaryConstructor.paramSymss.flatten  // Get constructor params
 
@@ -560,6 +566,7 @@ if isCaseClass(t) then
   }
 
   StructShape(fields)
+}
 ```
 
 **Let's break this down line by line:**
@@ -1298,9 +1305,10 @@ case class V2(id: Long, email: String, segment: Option[String] = None) extends C
 case class V3(id: Long, emailAddress: String, segment: Option[String] = None) extends CustomerSchema
 
 // Transformation handles both
-def normalize(schema: CustomerSchema): V3 = schema match
+def normalize(schema: CustomerSchema): V3 = schema match {
   case V2(id, email, segment) => V3(id, email, segment)
   case v3: V3 => v3
+}
 ```
 
 The contract checks both paths:
