@@ -25,6 +25,7 @@ interface Props {
   yearlyPriceInCents: number;
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   priceInCents: number;
+  showMembership: boolean;
   title: CourseFrontmatter["title"];
 }
 
@@ -44,15 +45,21 @@ export default function PricingPanels(props: Props) {
     yearlyPriceInCents,
     pricingPlanId,
     priceInCents,
+    showMembership,
     title,
   } = props;
+
+  const singleSectionClassNames = showMembership && "grid grid-cols-1";
+  const singleCardClassNames =
+    showMembership && "sm:rounded-b-none lg:rounded-tr-none";
+
   return (
     <>
       <div
-        className={`grid-cols- mx-auto mt-16 grid max-w-lg items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2`}
+        className={`mx-auto mt-16 max-w-lg items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2 ${singleSectionClassNames}`}
       >
         <div
-          className={`card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none`}
+          className={`card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:p-10 lg:mx-0 lg:rounded-bl-3xl ${singleCardClassNames}`}
         >
           <h3
             id="tier-hobby"
@@ -110,7 +117,7 @@ export default function PricingPanels(props: Props) {
             Get Now
           </PurchaseLink>
         </div>
-        {
+        {showMembership && (
           <div className="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
             <div className="mb-4 flex justify-center">
               <fieldset aria-label="Payment frequency">
@@ -203,7 +210,7 @@ export default function PricingPanels(props: Props) {
               Join Now
             </PurchaseLink>
           </div>
-        }
+        )}
       </div>
     </>
   );

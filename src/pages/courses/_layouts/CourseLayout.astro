@@ -67,6 +67,7 @@ const course = await getEntry(
     isPreview,
     pricingPlanId,
     question,
+    showMembership = true,
     technologies,
     thanks,
     title,
@@ -324,6 +325,7 @@ const _prerequisitess = await getCollection("prerequisites"),
           priceInCents={pricingPlan.price}
           currency={pricingPlan.currency}
           {title}
+          {showMembership}
         />
       ) : (
         <p class="my-8 text-center text-2xl text-red-600">

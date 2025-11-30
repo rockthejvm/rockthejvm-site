@@ -6,15 +6,22 @@ import { _courses } from "./_data/courses.js";
 import BundleImage from "./_images/black-friday-bundle.png";
 
 const __courses = await getCollection("courses"),
-  categories: HolidayCategory[] = _courses.map(({ category, courses }) => ({
-    category,
-    courses: courses.map(({ id, prices }) => ({
-      course: __courses.find((_course) => _course.id === id)!,
-      prices,
-    })),
-  })),
+  categories: HolidayCategory[] = _courses.map(
+    ({ category, description, courses }) => ({
+      category,
+      description,
+      courses: courses.map(({ id, hasCoupon, prices }) => ({
+        course: __courses.find((_course) => _course.id === id)!,
+        hasCoupon,
+        prices,
+      })),
+    }),
+  ),
   bundlePrices = categories
-    .filter(({ category }) => category !== "Bundles")
+    .filter(
+      ({ category }) =>
+        category !== "Bundles" && category !== "Black Friday Upgrades",
+    )
     .flatMap(({ courses }) => courses)
     .map(({ prices }) => prices)
     .reduce(
@@ -22,16 +29,16 @@ const __courses = await getCollection("courses"),
         old: acc.old + element.old,
         new: acc.new,
       }),
-      { old: 0, new: 395 },
+      { old: 0, new: 495 },
     );
 ---
 
 <HolidayLayout
   annotation="Rock the JVM's annual offer you can't refuse"
   bundleImage={BundleImage}
-  bundlePricingPlanId={5970665}
+  bundlePricingPlanId={6542952}
   {categories}
-  couponCode="BLACK_FRIDAY_2024"
+  couponCode="BLACK_FRIDAY_2025"
   description="Everything on Rock the JVM at an outrageous price, available for a limited time"
   forcedTheme="black-friday"
   logoSuffix="-black-friday"
@@ -39,7 +46,7 @@ const __courses = await getCollection("courses"),
 published ($${bundlePrices.old.toString()} worth of courses), at an unbeatable price.`}
   {bundlePrices}
   courseSlug="black-friday"
-  subtitle1="50% off site-wide, valid until EOD December 2, 2024."
+  subtitle1="50% off site-wide, valid until EOD December 1, 2025."
   subtitle2="Everything must go!"
   title="Black Friday"
 />

@@ -124,10 +124,29 @@ export default defineConfig({
     "/p/about-us": "/about",
     "/p/home": "/",
     "/p/team-pack": "/memberships",
-    "/black-friday-2024": "/black-friday",
+    "/": {
+      status: 302,
+      destination: "/black-friday-2025",
+    },
     "/black-friday": {
       status: 302,
-      destination: "/",
+      destination: "/black-friday-2025",
+    },
+    "/black-friday-2021": {
+      status: 301,
+      destination: "/black-friday-2025",
+    },
+    "/black-friday-2022": {
+      status: 301,
+      destination: "/black-friday-2025",
+    },
+    "/black-friday-2023": {
+      status: 301,
+      destination: "/black-friday-2025",
+    },
+    "/black-friday-2024": {
+      status: 301,
+      destination: "/black-friday-2025",
     },
     "/p/membership": "/memberships",
     // Policies
