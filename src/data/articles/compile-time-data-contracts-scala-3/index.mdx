@@ -1126,7 +1126,7 @@ sealed trait Complete      extends BuilderState
 final case class PipelineBuilder[S <: BuilderState, CurContract] private (
   name: String,
   steps: List[PipelineStep]
-):
+) {
   // Can only add source when Empty
   def addSource[C](src: TypedSource[C])(using SparkSchema[C]): PipelineBuilder[WithSource, C] =
     PipelineBuilder[WithSource, C](name, steps :+ ...)
@@ -1149,6 +1149,7 @@ final case class PipelineBuilder[S <: BuilderState, CurContract] private (
   // Can only build when Complete
   def build(using ev: S =:= Complete): SparkSession => DataFrame =
     (spark: SparkSession) => ...
+}
 
 object PipelineBuilder {
   def apply[CurContract](name: String): PipelineBuilder[Empty, CurContract] = {
@@ -1389,7 +1390,7 @@ How do you test that code fails to compile? With `assertDoesNotCompile`:
 package com.example
 import org.scalatest.funsuite.AnyFunSuite
 
-class CompileTimeSpec extends AnyFunSuite:
+class CompileTimeSpec extends AnyFunSuite {
   test("Exact should fail when a required field is missing") {
     assertDoesNotCompile("summon[Conforms[OutMissing, Contract, Policy.Exact]]")
   }
@@ -1411,6 +1412,7 @@ class CompileTimeSpec extends AnyFunSuite:
   test("Nested types conform correctly") {
     assertCompiles("summon[Conforms[OrderOut, OrderContract, Policy.Backward]]")
   }
+}
 ```
 
 You can wire this into CI:
@@ -1500,8 +1502,9 @@ From `SparkCore.scala`:
 
 ```scala
 // Derive Spark StructType from case class at compile time
-trait SparkSchema[C]:
+trait SparkSchema[C] {
   def struct: StructType
+}
 
 object SparkSchema {
   inline given derived[C]: SparkSchema[C] = ${ sparkSchemaImpl[C] }
@@ -1511,8 +1514,9 @@ object SparkSchema {
 }
 
 // Runtime policy mapping to Spark comparators
-trait PolicyRuntime[P <: SchemaPolicy]:
+trait PolicyRuntime[P <: SchemaPolicy] {
   def ok(found: StructType, expected: StructType): Boolean
+}
 
 object PolicyRuntime {
   given PolicyRuntime[SchemaPolicy.Exact.type] with {
