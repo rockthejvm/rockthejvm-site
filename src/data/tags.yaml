@@ -18,6 +18,8 @@
 - id: concurrency
 - id: coroutines
 - id: data-structures
+- id: data-contracts
+- id: data-engineering
 - id: devops
 - id: distributed-systems
 - id: doobie
