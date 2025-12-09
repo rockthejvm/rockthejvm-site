@@ -29,6 +29,7 @@
 - id: fp
 - id: fs2
 - id: full-stack
+- id: graalvm
 - id: heroku
 - id: http4s
 - id: http
