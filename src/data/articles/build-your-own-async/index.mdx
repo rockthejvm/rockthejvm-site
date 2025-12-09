@@ -24,7 +24,7 @@ Before starting, two concepts are important
 
 ### Coroutine
 
-[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine *Gen* **yield**s values at the lines 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th; *Gen* instance can then output those values to console at the lines 4th, 6th, and 8th.
+[Coroutine](https://en.wikipedia.org/wiki/Coroutine), according to Wikipedia, allows an execution to be suspended, and resumed from where it was left off. From the code snippet below, we can observe that the coroutine _Gen_ **yield**s values at the lines 3rd, 5th, and 7th, and the main thread notifies the coroutine by **send** method at the line 17th; _Gen_ instance can then output those values to console at the lines 4th, 6th, and 8th.
 
 ```scala
 class Gen extends Coroutine[String, Int] {
@@ -70,11 +70,11 @@ WHILE event loop's backlog size > 0 DO
 
 Scala version's code snippet with some detail omitted can be referred to as below.
 
-* First, the code **fetch**es a task, i.e., coroutine, from its corresponded task queue at the line 5th
+- First, the code **fetch**es a task, i.e., coroutine, from its corresponded task queue at the line 5th
 
-* Second, the code **execute**s that task at the line 6th
+- Second, the code **execute**s that task at the line 6th
 
-* Third, the code **check**s the task's state, and act accordingly from the line 7th to 13th - if the task is in *Ready* or *Running* state, the code places the task back to the task queue, continouing the program by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the code repeats the same flow by fetching the next task to run, or the code **exit**s when no more tasks in the task queue
+- Third, the code **check**s the task's state, and act accordingly from the line 7th to 13th - if the task is in _Ready_ or _Running_ state, the code places the task back to the task queue, continouing the program by **fetch**ing the next task to run; whereas if the task **accomplish**es its execution, the code repeats the same flow by fetching the next task to run, or the code **exit**s when no more tasks in the task queue
 
 ```scala
 def consume(taskQueue: TaskQueue[Task[_, _]]): Any = {
@@ -189,15 +189,15 @@ curl -s -L -O --create-dirs --output-dir ./continuations/libs \
 
 The diagram below sketeches a higher overview relationship between the components this project is going to use.
 
-* *[Task](#task)* is the model upon which all other components operate
+- _[Task](#task)_ is the model upon which all other components operate
 
-* *[Worker](#worker)* serves as a proxy sitting between *Scheduler* and *Task Queue*
+- _[Worker](#worker)_ serves as a proxy sitting between _Scheduler_ and _Task Queue_
 
-* *[Task Queue](#task-queue)* stores tasks to be executed
+- _[Task Queue](#task-queue)_ stores tasks to be executed
 
-* *[Scheduler](#scheduler)*'s responsibility is to schedule tasks
+- _[Scheduler](#scheduler)_'s responsibility is to schedule tasks
 
-* *[Runtime](#runtime)* assembles all components together, hosting an environemt for necessary operations
+- _[Runtime](#runtime)_ assembles all components together, hosting an environemt for necessary operations
 
 ![Class Diagram](images/class-diagram.png "Class Diagram")
 
@@ -207,13 +207,13 @@ The diagram below sketeches a higher overview relationship between the component
 
 #### Coroutine
 
-Although GraalVM provdes Continuation API, the API itself does not contain any *Coroutine* classes. Fortunately, this API offers *[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)* class, which provides several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first method is a place where a developer fills in their program's logic, inside which the code can execute `emit()` producing a value to the caller if needed, and then suspend the program execution, whilst the developer can also exploit the last two methods checking if the *Generator* object emits more values in the caller function.
+Although GraalVM provdes Continuation API, the API itself does not contain any _Coroutine_ classes. Fortunately, this API offers _[Generator](https://www.graalvm.org/latest/reference-manual/espresso/continuations/generators/)_ class, which provides several critical methods - `generate()`, `emit()`, `hasMoreElements()`, and `nextElement()`. The first method is a place where a developer fills in their program's logic, inside which the code can execute `emit()` producing a value to the caller if needed, and then suspend the program execution, whilst the developer can also exploit the last two methods checking if the _Generator_ object emits more values in the caller function.
 
-Therefore, the frist thing is to create a *Coroutine* class. The steps include
+Therefore, the frist thing is to create a _Coroutine_ class. The steps include
 
-1. Adding the [send()](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8) method (at the lines 3th, and 4th) for storing the value sent from the caller side, which will call the *Coroutine* instance during runtime execution
+1. Adding the [send()](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L8) method (at the lines 3th, and 4th) for storing the value sent from the caller side, which will call the _Coroutine_ instance during runtime execution
 
-2. Creating the [yield()](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L12) method that will emit a value (at the line 6th) if one or multiple elements to produce, and pass the value (at the line 7th) sent from the caller back to the *Coroutine* if any
+2. Creating the [yield()](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L12) method that will emit a value (at the line 6th) if one or multiple elements to produce, and pass the value (at the line 7th) sent from the caller back to the _Coroutine_ if any
 
 ```scala
 abstract class Coroutine[S, E] extends Generator[E] {
@@ -229,28 +229,28 @@ abstract class Coroutine[S, E] extends Generator[E] {
 
 #### Compile Coroutine
 
-* Add the *[Coroutine](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L5)* code to `continuations/src/main/scala/continuations` directory
+- Add the _[Coroutine](https://codeberg.org/chlin501/concurrent4s/src/branch/main/continuations/src/main/scala/continuations/Coroutine.scala#L5)_ code to `continuations/src/main/scala/continuations` directory
 
-* Compile the code with
+- Compile the code with
 
-    * [Make compile-continuations](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L65) target, or
+    - [Make compile-continuations](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L65) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         scalac \
-	        -d ./continuations/target/classes \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar \
-	        `find ./continuations/src/main/scala -name '*.scala'`
+          -d ./continuations/target/classes \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar \
+          `find ./continuations/src/main/scala -name '*.scala'`
         ```
 
-Back to the *Task* component, in fact it is merely a wrapper of the coroutine mentioned above, plus self defined *[State](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Task.scala#L20)s* shown as below -
+Back to the _Task_ component, in fact it is merely a wrapper of the coroutine mentioned above, plus self defined _[State](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Task.scala#L20)s_ shown as below -
 
-* *Ready* is the initial state during the creation of *Task*
+- _Ready_ is the initial state during the creation of _Task_
 
-* *Running* denotes this coroutine is in execution at the moment
+- _Running_ denotes this coroutine is in execution at the moment
 
-* *Stopped* means the current coroutine is neither at ready state nor at running state, e.g., the coroutine accomplishes its execution
+- _Stopped_ means the current coroutine is neither at ready state nor at running state, e.g., the coroutine accomplishes its execution
 
 ```scala
 enum State {
@@ -258,7 +258,7 @@ enum State {
 }
 ```
 
-The *Task* state transits starting from **Ready**, to **Running**, and then to **Stopped**.
+The _Task_ state transits starting from **Ready**, to **Running**, and then to **Stopped**.
 
 With these states, the system can then determine whether to **emit** (at the lines 5th, and 11th below), or to **send** (at the line 9th) values during program execution.
 
@@ -284,24 +284,24 @@ override def execute(value: Option[S] = None): (Option[E], Task[S, E]) =
 
 #### Compile Task
 
-* Add the *[Task](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Task.scala#L9)* code to `concurrent/src/main/scala/concurrent/` directory
+- Add the _[Task](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Task.scala#L9)_ code to `concurrent/src/main/scala/concurrent/` directory
 
-* Compile the code with
+- Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
+    - [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         scalac \
-	        -d ./concurrent/target/classes \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./concurrent/src/main/scala -name '*.scala'`
+          -d ./concurrent/target/classes \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+          `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Worker
 
-When a task is delgated to the worker, it passes that task by `send()` method (at the following line 5th) to its corresponded task queue through a shared channel **tx** - a *[LinkedBlockingQueue](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html)* class that is [thread-safe](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#), and [atomicty for queuing methods](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#). The relationship between *Worker* and *[Task Queue](#task-queue)* is 1 to 1.
+When a task is delgated to the worker, it passes that task by `send()` method (at the following line 5th) to its corresponded task queue through a shared channel **tx** - a _[LinkedBlockingQueue](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html)_ class that is [thread-safe](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#), and [atomicty for queuing methods](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/BlockingQueue.html#). The relationship between _Worker_ and _[Task Queue](#task-queue)_ is 1 to 1.
 
 ```scala
 final case class Worker[T](
@@ -315,26 +315,26 @@ final case class Worker[T](
 
 #### Compile Worker
 
-* Add the *[Worker](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L49)* code to `concurrent/src/main/scala/concurrent/` directory
+- Add the _[Worker](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L49)_ code to `concurrent/src/main/scala/concurrent/` directory
 
-* Compile the code with
+- Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
+    - [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         scalac \
-	        -d ./concurrent/target/classes \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./concurrent/src/main/scala -name '*.scala'`
+          -d ./concurrent/target/classes \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+          `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Task Queue
 
 The purpose of task queue:
 
-1. Fetch a *Task* from **rx** (at the line 3rd), a channel shared with *[Worker](#worker)*, and an internal list (at the line 4th)
+1. Fetch a _Task_ from **rx** (at the line 3rd), a channel shared with _[Worker](#worker)_, and an internal list (at the line 4th)
 
     1.1. Check the internal list, i.e., **inner**, if containing any *Task*s (at the line 11th)
 
@@ -342,7 +342,7 @@ The purpose of task queue:
 
     1.3. Blocking fetch from **rx** indfintively (at the line 14th) until a new Task is available
 
-2. Add an unaccomplished *Task* back (at the line 19th) for later execution
+2. Add an unaccomplished _Task_ back (at the line 19th) for later execution
 
 ```scala
 final case class TaskQueue[T](
@@ -371,24 +371,24 @@ final case class TaskQueue[T](
 
 #### Compile Task Queue
 
-* Add the *[Task Queue](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L9)* code to `concurrent/src/main/scala/concurrent/` directory
+- Add the _[Task Queue](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L9)_ code to `concurrent/src/main/scala/concurrent/` directory
 
-* Compile the code with
+- Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
+    - [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         scalac \
-	        -d ./concurrent/target/classes \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./concurrent/src/main/scala -name '*.scala'`
+          -d ./concurrent/target/classes \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+          `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Scheduler
 
-This is pretty self explanatory, this component manages how a task to be ran. Specifically, the scheduling makes use of *Least-Loaded (LL)* strategy.
+This is pretty self explanatory, this component manages how a task to be ran. Specifically, the scheduling makes use of _Least-Loaded (LL)_ strategy.
 
 #### Least-Loaded (LL) Scheduler
 
@@ -422,7 +422,7 @@ final case class LeastLoadedScheduler[T](
 }
 ```
 
-2. Pick up the lightest loading *worker*
+2. Pick up the lightest loading _worker_
 
 In order to find the least loaded worker, the logic first checks if the worker length is smaller than the batch size - if true, the entire wokrer list is returned (at the line 3rd); otherwise, the next batch range is calculated (at the line 5th), and then the logic picks up the worker list based on the range given.
 
@@ -442,24 +442,24 @@ override def leastLoaded(): (Worker[T], LeastLoadedScheduler[T]) = {
 
 #### Compile Scheduler
 
-* Add the *[Scheduler](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L66)* code to `concurrent/src/main/scala/concurrent/` directory
+- Add the _[Scheduler](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Scheduler.scala#L66)_ code to `concurrent/src/main/scala/concurrent/` directory
 
-* Compile the code with
+- Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
+    - [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         scalac \
-	        -d ./concurrent/target/classes \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./concurrent/src/main/scala -name '*.scala'`
+          -d ./concurrent/target/classes \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+          `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ### Runtime
 
-Finally, it is the time to orchestrate the entire flow. The *Runtime* object in fact performs following functions
+Finally, it is the time to orchestrate the entire flow. The _Runtime_ object in fact performs following functions
 
 1. At the beginning, it creates a scheduler (at the line 5th), and a queue (at the line 6th) shared with all tasks for signalling when a task accomplishes its execution
 
@@ -474,7 +474,7 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
     }
     ```
 
-2. *Runtime* instance then launches a list of threads (from the lines 17th to 23th), equipped with a task queue (at the line 20th) that
+2. _Runtime_ instance then launches a list of threads (from the lines 17th to 23th), equipped with a task queue (at the line 20th) that
 
     2.1. Fetches a task (at the line 5th)
 
@@ -509,11 +509,11 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
     }
     ```
 
-3. In the end, the *Runtime*
+3. In the end, the _Runtime_
 
-    3.1. Passes tasks (at the line 11th) to the *Scheduler* instance
+    3.1. Passes tasks (at the line 11th) to the _Scheduler_ instance
 
-    3.2. Waits for *Task*s *Stopped* signal (at the line 4th), and
+    3.2. Waits for *Task*s _Stopped_ signal (at the line 4th), and
 
     3.3. Terminates the entire flow when all scheduled tasks are stopped (at the line 6th)
 
@@ -536,26 +536,26 @@ Finally, it is the time to orchestrate the entire flow. The *Runtime* object in 
 
 #### Compile Runtime
 
-* Add the *[Runtime](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Runtime.scala#L12)* code to `concurrent/src/main/scala/concurrent/` directory
+- Add the _[Runtime](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/main/scala/concurrent/Runtime.scala#L12)_ code to `concurrent/src/main/scala/concurrent/` directory
 
-* Compile the code with
+- Compile the code with
 
-    * [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
+    - [Make compile-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L82) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         scalac \
-	        -d ./concurrent/target/classes \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
-	        `find ./concurrent/src/main/scala -name '*.scala'`
+          -d ./concurrent/target/classes \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes \
+          `find ./concurrent/src/main/scala -name '*.scala'`
         ```
 
 ## An Example
 
 Now it is time to see the program in action.
 
-First, create several coroutines, and wrap those code by *Task* object.
+First, create several coroutines, and wrap those code by _Task_ object.
 
 ```scala
 val co1 = new Coroutine[String, String] {
@@ -596,7 +596,7 @@ val t3 = Task(co3)
 val t4 = Task(co4)
 ```
 
-Second, configure *Scheduler*, and *Runtime* objects with necessary options, such as **workers**, **batch size**, and so on.
+Second, configure _Scheduler_, and _Runtime_ objects with necessary options, such as **workers**, **batch size**, and so on.
 
 ```scala
 val nrOfThreads = 3
@@ -645,33 +645,33 @@ curl -s -L -O --create-dirs --output-dir ./concurrent/libs \
 
 ### Test Our Program
 
-* Add the *[RuntimeSpec](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/test/scala/concurrent/RuntimeSpec.scala#L8)* code to `concurrent/src/test/scala/concurrent/` directory
+- Add the _[RuntimeSpec](https://codeberg.org/chlin501/concurrent4s/src/branch/main/concurrent/src/test/scala/concurrent/RuntimeSpec.scala#L8)_ code to `concurrent/src/test/scala/concurrent/` directory
 
-* Compile the code with
+- Compile the code with
 
-    * [Make compile-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L88) target, or
+    - [Make compile-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L88) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         scalac \
-		    -d ./concurrent/target/test-classes \
-		    -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./concurrent/libs/scalatest-app_3-3.2.17.jar:./concurrent/target/classes \
-		    `find ./concurrent/src/test/scala -name '*.scala'`
+          -d ./concurrent/target/test-classes \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./concurrent/libs/scalatest-app_3-3.2.17.jar:./concurrent/target/classes \
+          `find ./concurrent/src/test/scala -name '*.scala'`
         ```
 
-* Test the code with
+- Test the code with
 
-    * [Make run-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L94) target, or
+    - [Make run-test-concurrent](https://codeberg.org/chlin501/concurrent4s/src/branch/main/Makefile#L94) target, or
 
-    * Execute
+    - Execute
 
         ```bash
         java \
-	        --experimental-options \
-	        --java.Continuum=true  \
-	        -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./concurrent/libs/scala3-library_sjs1_3-3.7.2.jar:./concurrent/libs/scala-library-2.13.16.jar:./concurrent/libs/scalatest-app_3-3.2.17.jar:./concurrent/libs/scala-xml_2.13-1.2.0.jar:./concurrent/target/classes:./concurrent/target/test-classes \
-	        org.scalatest.tools.Runner -R concurrent/target/test-classes -o -w concurrent
+          --experimental-options \
+          --java.Continuum=true  \
+          -cp ./:./continuations/libs/continuations-24.2.2.jar:./continuations/target/classes:./concurrent/libs/scala3-library_sjs1_3-3.7.2.jar:./concurrent/libs/scala-library-2.13.16.jar:./concurrent/libs/scalatest-app_3-3.2.17.jar:./concurrent/libs/scala-xml_2.13-1.2.0.jar:./concurrent/target/classes:./concurrent/target/test-classes \
+          org.scalatest.tools.Runner -R concurrent/target/test-classes -o -w concurrent
         ```
 
 ## Conclusion
