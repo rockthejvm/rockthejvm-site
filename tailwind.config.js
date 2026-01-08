@@ -14,6 +14,17 @@ export default {
         "spin-slow": "spin 25s ease-in-out infinite reverse",
         "pulse-slower": "pulse 12s ease infinite",
         "pulse-slow": "pulse 8s ease infinite",
+        "gradient-xy": "gradient-xy 3s ease infinite",
+      },
+      keyframes: {
+        "gradient-xy": {
+          "0%, 100%": {
+            "background-position": "0% 50%",
+          },
+          "50%": {
+            "background-position": "100% 50%",
+          },
+        },
       },
       colors: {
         accent: {

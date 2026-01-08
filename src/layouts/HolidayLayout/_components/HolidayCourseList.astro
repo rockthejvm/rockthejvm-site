@@ -13,13 +13,19 @@ const { categories, couponCode } = Astro.props;
 
 <article>
   {
-    categories.map(({ category, courses }) => (
-      <section class="px-8 pt-4 sm:pt-8 md:pt-12 lg:px-16">
+    categories.map(({ category, description, courses }) => (
+      <section class="mx-auto max-w-7xl px-16 pt-4 sm:pt-8 md:pt-12 xl:px-32">
         <div class="flex flex-row gap-x-4">
           <h2 class="my-auto w-full text-center">{category}</h2>
         </div>
-        {courses.map(({ course, prices }) => (
-          <CourseEntry {course} holiday={true} {couponCode} {prices} />
+        <p class="my-2 text-center">{description}</p>
+        {courses.map(({ course, hasCoupon, prices }) => (
+          <CourseEntry
+            {course}
+            holiday={true}
+            couponCode={hasCoupon ? couponCode : undefined}
+            {prices}
+          />
         ))}
       </section>
     ))

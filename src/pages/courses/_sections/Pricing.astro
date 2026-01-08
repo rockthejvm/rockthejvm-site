@@ -16,6 +16,7 @@ interface Props {
   isCourse: boolean;
   priceInCents: number;
   pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
+  showMembership: boolean;
   title: CollectionEntry<"courses">["data"]["title"];
 }
 
@@ -28,6 +29,7 @@ const {
     isCourse,
     priceInCents,
     pricingPlanId,
+    showMembership,
     title,
   } = Astro.props,
   _personalMembership = await getEntry("memberships", "personal")!,
@@ -84,6 +86,7 @@ const {
           yearlyPriceInCents={yearlyPricingPlan!.price}
           {priceInCents}
           {pricingPlanId}
+          {showMembership}
           {title}
           client:visible={{ rootMargin: "2160px" }}
         />

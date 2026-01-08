@@ -124,11 +124,6 @@ export default defineConfig({
     "/p/about-us": "/about",
     "/p/home": "/",
     "/p/team-pack": "/memberships",
-    "/black-friday-2024": "/black-friday",
-    "/black-friday": {
-      status: 302,
-      destination: "/",
-    },
     "/p/membership": "/memberships",
     // Policies
     "/p/logo-trademarks": "/policies/trademark",

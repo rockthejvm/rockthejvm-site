@@ -163,8 +163,6 @@ import { LinkPreview } from 'astro-embed';
 - Images should be named descriptively
 - Highest quality images should be used due to the fact that they will be automatically compressed
 
-
-
 ## Admonitions
 
 ### How to Use
