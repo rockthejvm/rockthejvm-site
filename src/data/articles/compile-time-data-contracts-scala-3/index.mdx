@@ -1756,13 +1756,13 @@ For Scala 2, add a sibling module with scala‑reflect and copy the S2 file from
 
 Let's be honest about the boundaries. Compile-time contracts handle a lot, but they're not magic. Here's what they **can't** do:
 
-| Category | What it can't catch | Why | Solution |
-| --- | --- | --- | --- |
-| **External data drift** | - Third-party APIs that change without telling you<br/>- Kafka topics from teams you don't coordinate with<br/>- S3 buckets written by external vendors | You don't control their build process | Use runtime validation (schema registries, data contracts) |
-| **Late-arriving schema changes** | - Schema registry updated after your deploy<br/>- Database columns added while your job runs | Compile-time happens before deploy | Runtime checks with version monitoring |
-| **Data quality issues** | - Nulls where you expect values (even if field is non-optional)<br/>- Out-of-range numbers (age = -5)<br/>- Malformed strings (email without @) | Compile-time checks structure, not content | Great Expectations, Deequ, or custom validators |
-| **Non-breaking additions** | - Upstream adds optional field you don't use yet | This is often fine! `Forward` policy handles it | Policy-based awareness or stricter monitoring |
-| **Partial batch failures** | - 1000 records match schema, 5 don't | Compile-time is binary (compiles or doesn't) | Runtime validation with error tables/quarantine |
+| Category                         | What it can't catch                                                                                                                                     | Why                                             | Solution                                                   |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------- |
+| **External data drift**          | - Third-party APIs that change without telling you<br/>- Kafka topics from teams you don't coordinate with<br/>- S3 buckets written by external vendors | You don't control their build process           | Use runtime validation (schema registries, data contracts) |
+| **Late-arriving schema changes** | - Schema registry updated after your deploy<br/>- Database columns added while your job runs                                                            | Compile-time happens before deploy              | Runtime checks with version monitoring                     |
+| **Data quality issues**          | - Nulls where you expect values (even if field is non-optional)<br/>- Out-of-range numbers (age = -5)<br/>- Malformed strings (email without @)         | Compile-time checks structure, not content      | Great Expectations, Deequ, or custom validators            |
+| **Non-breaking additions**       | - Upstream adds optional field you don't use yet                                                                                                        | This is often fine! `Forward` policy handles it | Policy-based awareness or stricter monitoring              |
+| **Partial batch failures**       | - 1000 records match schema, 5 don't                                                                                                                    | Compile-time is binary (compiles or doesn't)    | Runtime validation with error tables/quarantine            |
 
 **The takeaway**: Compile-time contracts catch drift **within your controlled codebase** during development and deployment. For everything else - external sources, runtime changes, data quality - layer in runtime validation. Think defense-in-depth: compile-time as the first gate, runtime as the safety net.
 
