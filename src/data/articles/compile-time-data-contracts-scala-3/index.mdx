@@ -5,8 +5,8 @@ difficulty: advanced
 title: Compile-time data contracts in Scala 3
 excerpt: Build Scala compile-time data contracts with macros, TypeInspector patterns, and policy-driven validation so schema drift fails at compile time instead of midnight in production
 tags: [scala, scala-3, macros, metaprogramming, data-contracts, data-engineering, big-data, spark]
-publishedDate: 2025-01-11
-updatedDate: 2025-01-11
+publishedDate: 2026-01-19
+updatedDate: 2026-01-19
 repositoryUrl: https://github.com/vim89/compile-time-data-contracts
 ---
 
@@ -14,8 +14,7 @@ repositoryUrl: https://github.com/vim89/compile-time-data-contracts
 
 What if broken pipelines never launched - because the compiler stopped them?
 
-> "If it compiles, data-contracts align."
-> Let's catch schema mismatches at compile time in Scala 3.
+> "If it compiles, data-contracts align." Let's catch schema mismatches at compile time in Scala 3.
 
 I've been working on this problem for a while now. You know how it goes - you're running a data pipeline, everything's fine, then someone changes a field name upstream and boom, your job crashes at 2 AM. The on-call engineer (probably you) gets paged, and you spend the next hour figuring out what went wrong.
 
@@ -32,17 +31,17 @@ All code here runs in a vanilla sbt project. You can grab the working code on [G
 Writing tests is important. But tests are only samples - they check what you think might break. But the compiler is _exhaustive for structure_. It can prove your schemas match - every field, every type, every time.
 
 Here's the thing - schemas change all the time in real projects. And when they do:
+
 - Your build should fail early, not your production job
 - Keep transformations pure and effects at the edges (so retries don't duplicate writes)
 - Let the compiler do the heavy lifting
 
-:::warning[Scope boundary]
-Compile-time contracts catch drift in your controlled codebase - the transforms you write, the case classes you define, the schemas you version together. They won't catch upstream API changes, late-arriving schema registry updates, or external data sources that change independently. Use compile-time for what you control, runtime validation for everything else. Defense in depth, not either/or.
-:::
+:::warning[Scope boundary] Compile-time contracts catch drift in your controlled codebase - the transforms you write, the case classes you define, the schemas you version together. They won't catch upstream API changes, late-arriving schema registry updates, or external data sources that change independently. Use compile-time for what you control, runtime validation for everything else. Defense in depth, not either/or. :::
 
 ## What we'll build
 
 We're going to build a small compile-time validation system:
+
 1. A way to describe case class structure at compile time (we'll call it "shape")
 2. A policy system - Exact, Backward, Forward compatibility modes
 3. A macro that proves "these two shapes conform under policy P" - or refuses to compile
@@ -60,9 +59,7 @@ cd compile-time-data-contracts
 sbt "runMain ctdc.CtdcPoc"
 ```
 
-:::info
-The code on GitHub includes working examples you can run immediately. All compile-fail cases are documented inline - uncomment them to see the compiler errors.
-:::
+:::info The code on GitHub includes working examples you can run immediately. All compile-fail cases are documented inline - uncomment them to see the compiler errors. :::
 
 ---
 
@@ -71,6 +68,7 @@ The code on GitHub includes working examples you can run immediately. All compil
 Scala 3 macros are different from Scala 2. Better, actually. They're safer and easier to reason about.
 
 Two main ideas:
+
 - `inline def`: tells the compiler "expand this at compile time"
 - `quotes` + `Expr[T]`: gives you a typed AST that you can inspect
 
@@ -92,6 +90,7 @@ object IntroMacro {
 ```
 
 What's happening here?
+
 - The `inline` method is what users call
 - The `${ ... }` splice calls the implementation
 - The implementation gets `'x` (quoted code) as `Expr[Any]`
@@ -109,9 +108,7 @@ See how it printed the AST of `1 + 2`? That's the power here - we can inspect co
 
 Check out the [Scala 3 macros overview](https://docs.scala-lang.org/scala3/guides/macros/macros.html), [best practices](https://docs.scala-lang.org/scala3/guides/macros/best-practices.html), and of course [Rock the JVM Macros & Metaprogramming course](https://rockthejvm.com/courses/scala-macros-and-metaprogramming) for more details.
 
-:::tip[Quick win]
-If you're new to Scala 3 macros, start by reading macro-generated code in the REPL: sbt> console, then scala> import scala.quoted.*, then inspect what your macros actually expand to. Understanding the generated code is 80% of debugging macro issues. The compiler's doing the work - you just need to see what it's actually producing.
-:::
+:::tip[Quick win] If you're new to Scala 3 macros, start by reading macro-generated code in the REPL: sbt> console, then scala> import scala.quoted.\*, then inspect what your macros actually expand to. Understanding the generated code is 80% of debugging macro issues. The compiler's doing the work - you just need to see what it's actually producing. :::
 
 ---
 
@@ -169,6 +166,7 @@ object Shape {
 ```
 
 Yeah, it's a bit dense. But here's what it does:
+
 - Uses Scala 3's Mirror to reflect on case classes at compile time
 - Extracts field names and types
 - Marks optional fields (those wrapped in `Option`)
@@ -190,9 +188,7 @@ final case class User(id: Long, email: String, note: Option[String])
 
 Now we can ask the compiler "what fields does this case class have?" at compile time. That's the foundation.
 
-:::note[Alternative approach]
-If you prefer libraries, check out [Magnolia](https://github.com/softwaremill/magnolia) - it works great for both Scala 2 and 3.
-:::
+:::note[Alternative approach] If you prefer libraries, check out [Magnolia](https://github.com/softwaremill/magnolia) - it works great for both Scala 2 and 3. :::
 
 ---
 
@@ -215,18 +211,16 @@ object Policy {
 ```
 
 Why three policies?
+
 - **Exact**: Schemas must match exactly. No surprises. Use this for critical paths.
 - **Backward**: Producer can add optional fields. Useful when rolling out new features without breaking consumers.
 - **Forward**: Consumer ignores extra fields. Useful when the producer might send more than you need.
 
 ![Policy types and their characteristics](./images/03-policy-types.svg)
 
-Policy Lattice
-![Policy lattice](./images/policy-lattice.svg)
+Policy Lattice ![Policy lattice](./images/policy-lattice.svg)
 
-:::success[Production migration strategy]
-The policy progression that works in production: Exact for stable pipelines, Backward during producer rollouts (allows new optional fields), Forward during consumer updates (tolerates extras), then back to Exact after migration completes. Document the expected timeline - "Backward policy through Q2 migration, then tightening to Exact." Prevents policy drift from becoming permanent.
-:::
+:::success[Production migration strategy] The policy progression that works in production: Exact for stable pipelines, Backward during producer rollouts (allows new optional fields), Forward during consumer updates (tolerates extras), then back to Exact after migration completes. Document the expected timeline - "Backward policy through Q2 migration, then tightening to Exact." Prevents policy drift from becoming permanent. :::
 
 ---
 
@@ -237,18 +231,21 @@ Before we dive deeper, you might be thinking: "We already have [Avro](https://av
 Fair question. Here's how they compare:
 
 **Schema Registry ([Confluent Schema Registry](https://docs.confluent.io/platform/current/schema-registry/index.html), [AWS Glue Schema Registry](https://docs.aws.amazon.com/glue/latest/dg/schema-registry.html))**
+
 - **What it does**: Centralized schema storage with version control
 - **When it helps**: Runtime validation across services, schema evolution tracking
 - **The gap**: You find mismatches when the job runs, not when you compile
 - **Use together**: Schema registry for cross-service contracts; compile-time for intra-repo checks
 
 **[Avro](https://avro.apache.org/) / [Protobuf](https://protobuf.dev/)**
+
 - **What they do**: Binary serialization with embedded schemas
 - **When they help**: Network efficiency, strong contracts between services
 - **The gap**: Schema compatibility is checked at runtime or via external tooling
 - **Use together**: Avro/Protobuf for wire format; compile-time checks to ensure your case classes match those schemas
 
 **[Great Expectations](https://greatexpectations.io/) / [Deequ](https://github.com/awslabs/deequ)**
+
 - **What they do**: Runtime data quality validation (nulls, ranges, distributions)
 - **When they help**: Catching bad data values, statistical anomalies
 - **The gap**: They validate data content, not schema structure at compile time
@@ -295,6 +292,7 @@ t match {
 ```
 
 **Why we need this:** To compare schemas, we need to ask questions like:
+
 - "Is this field an Option?"
 - "What's inside this List?"
 - "Does this case class have a primary constructor?"
@@ -316,11 +314,13 @@ def isCaseClass(t: TypeRepr): Boolean =
 ```
 
 **What's happening:**
+
 - `typeSymbol` - Every type has a symbol (like a unique ID)
 - `isClassDef` - Is it a class? (not a trait, object, etc.)
 - `flags.is(Flags.Case)` - Does it have the `case` modifier?
 
 **Try it:**
+
 ```scala
 case class User(id: Long)  // YES - isClassDef=true, has Case flag
 trait UserTrait            // NO - isClassDef=false
@@ -337,10 +337,12 @@ def appliedArgs(t: TypeRepr): List[TypeRepr] = t match {
 ```
 
 **What's happening:**
+
 - `AppliedType` - Pattern for generic types like `List[String]` or `Map[String, Int]`
 - `args` - The type parameters: `[String]` or `[String, Int]`
 
 **Examples:**
+
 ```scala
 List[String]        // AppliedType(List, [String])
                     // appliedArgs returns [String]
@@ -362,11 +364,13 @@ def optionArg(t: TypeRepr): Option[TypeRepr] =
 ```
 
 **What's happening:**
+
 - `<:<` - Subtype check: "Is this type compatible with Option[?]?"
 - `Option[?]` - The `?` means "Option of anything"
 - `appliedArgs(t).headOption` - Get the first (and only) type argument
 
 **Examples:**
+
 ```scala
 Option[String]  // YES - Is subtype of Option[?]
                 // appliedArgs returns [String]
@@ -380,6 +384,7 @@ String          // NO - Not an Option
 ```
 
 **Why we need this:** Field-level optionality. When we see `age: Option[Int]`, we need to know:
+
 1. The field itself is optional
 2. The underlying type is `Int`
 
@@ -397,10 +402,12 @@ def seqArg(t: TypeRepr): Option[TypeRepr] =
 ```
 
 **What's happening:**
+
 - Check if it's ANY kind of sequence type
 - If yes, extract what's inside (the element type)
 
 **Why check multiple types?** Because Scala has many collection types:
+
 ```scala
 List[String]    // Is List[?] YES
 Seq[Int]        // Is Seq[?] YES
@@ -424,11 +431,13 @@ def mapArgs(t: TypeRepr): Option[(TypeRepr, TypeRepr)] =
 ```
 
 **What's happening:**
+
 - Check if it's a `Map[Something, Something]`
 - Extract BOTH type arguments: key and value
 - If Map has wrong number of args, abort (compiler error)
 
 **Examples:**
+
 ```scala
 Map[String, Int]  // true - Returns Some((String, Int))
 Map[Long, User]   // true - Returns Some((Long, User))
@@ -450,6 +459,7 @@ def isAtomicKey(t: TypeRepr): Boolean =
 **Why this matters:** Maps in Spark StructType only support primitive keys. You can't have `Map[User, String]` - User isn't a primitive.
 
 **Examples:**
+
 ```scala
 Map[String, User]  // YES - String is atomic
 Map[Int, Data]     // YES - Int is atomic
@@ -459,6 +469,7 @@ Map[User, String]  // NO - User is NOT atomic - compile error!
 ### The pattern recap:
 
 Each inspector has ONE job:
+
 1. **isCaseClass** - "Is this a case class?"
 2. **appliedArgs** - "What are the generic type arguments?"
 3. **optionArg** - "Is this an Option, and what's inside?"
@@ -475,6 +486,7 @@ Compose these to answer complex questions. That's the TypeInspector pattern.
 Now we use those inspectors to build a `TypeShape` - our internal representation of a type's structure.
 
 This is recursive. For `List[Option[User]]`, we build:
+
 ```
 SequenceShape(
   OptionalShape(
@@ -519,7 +531,6 @@ def typeShapeOf(t: TypeRepr): TypeShape =
 
 **The order matters!** We check Option first, then sequences, then maps, then case classes, finally primitives.
 
-
 ### Walk through an example: `List[Option[String]]`
 
 ![List[Option[String]] type shape walkthrough](./images/06-list-option-string-example.svg)
@@ -541,6 +552,7 @@ def typeShapeOf(t: TypeRepr): TypeShape =
 - **Recursion Step 6:** Fallback to primitive. --> Return `PrimitiveShape("String")`.
 
 **Unwind the recursion:**
+
 ```scala
 PrimitiveShape("String")
   → (from Option recursion)
@@ -575,15 +587,16 @@ if isCaseClass(t) then {
 2. **`sym.primaryConstructor`** - Case classes have a primary constructor
 3. **`.paramSymss.flatten`** - Get all parameters (flatten handles multiple param lists)
 4. **For each parameter `p`:**
-   - **`p.name`** - The field name: `"id"`, `"email"`, etc.
-   - **`t.memberType(p)`** - The field's type as TypeRepr
-   - **`p.flags.is(Flags.HasDefault)`** - Check if it has a default value like `age: Int = 0`
-   - **`optionArg(ptpe).fold(...)`** - Check if the field type is Option[T]:
-     - If yes: extract T, set `isOpt = true`
-     - If no: use the type as-is, set `isOpt = false`
-   - **`typeShapeOf(uT)`** - **Recurse!** Build the shape for the field's underlying type
+    - **`p.name`** - The field name: `"id"`, `"email"`, etc.
+    - **`t.memberType(p)`** - The field's type as TypeRepr
+    - **`p.flags.is(Flags.HasDefault)`** - Check if it has a default value like `age: Int = 0`
+    - **`optionArg(ptpe).fold(...)`** - Check if the field type is Option[T]:
+        - If yes: extract T, set `isOpt = true`
+        - If no: use the type as-is, set `isOpt = false`
+    - **`typeShapeOf(uT)`** - **Recurse!** Build the shape for the field's underlying type
 
 ### Example:
+
 `case class User(id: Long, email: String, age: Option[Int] = None)`
 
 ![Case class User field processing example](./images/07-case-class-user-example.svg)
@@ -591,6 +604,7 @@ if isCaseClass(t) then {
 **Processing:**
 
 1. **Field 1: id**
+
     - `name` = "id"
     - `ptpe` = TypeRepr for `Long`
     - `hasDefault` = false
@@ -599,20 +613,22 @@ if isCaseClass(t) then {
     - Result: `FieldShape("id", PrimitiveShape("Long"), hasDefault=false, isOptional=false)`
 
 2. **Field 2: email**
-  - `name` = "email"
-  - `ptpe` = TypeRepr for `String`
-  - `hasDefault` = false
-  - `optionArg(String)` = None → `uT = String`, `isOpt = false`
-  - `typeShapeOf(String)` = `PrimitiveShape("String")`
-  - Result: `FieldShape("email", PrimitiveShape("String"), hasDefault=false, isOptional=false)`
+
+- `name` = "email"
+- `ptpe` = TypeRepr for `String`
+- `hasDefault` = false
+- `optionArg(String)` = None → `uT = String`, `isOpt = false`
+- `typeShapeOf(String)` = `PrimitiveShape("String")`
+- Result: `FieldShape("email", PrimitiveShape("String"), hasDefault=false, isOptional=false)`
 
 3. **Field 3: age**
-  - `name` = "age"
-  - `ptpe` = TypeRepr for `Option[Int]`
-  - `hasDefault` = **true** (has `= None`)
-  - `optionArg(Option[Int])` = Some(`Int`) → `uT = Int`, `isOpt = true`
-  - `typeShapeOf(Int)` = `PrimitiveShape("Int")`
-  - Result: `FieldShape("age", PrimitiveShape("Int"), hasDefault=true, isOptional=true)`
+
+- `name` = "age"
+- `ptpe` = TypeRepr for `Option[Int]`
+- `hasDefault` = **true** (has `= None`)
+- `optionArg(Option[Int])` = Some(`Int`) → `uT = Int`, `isOpt = true`
+- `typeShapeOf(Int)` = `PrimitiveShape("Int")`
+- Result: `FieldShape("age", PrimitiveShape("Int"), hasDefault=true, isOptional=true)`
 
 4. **Final shape:**
     ```scala
@@ -628,6 +644,7 @@ if isCaseClass(t) then {
 Now we have a normalized representation of the case class. We can compare two `StructShape`s to see if they match, regardless of the original Scala syntax.
 
 The recursive structure handles arbitrarily nested types:
+
 ```scala
 case class Order(
   items: List[LineItem],           // Recurses into List, then into LineItem
@@ -645,18 +662,21 @@ Each recursion builds a piece of the tree. The tree is the schema.
 Here's something subtle that most guides miss. The code on GitHub handles two kinds of optionality:
 
 ### Field-level optionality (Option on the field itself)
+
 ```scala
 case class User(name: String, age: Option[Int])
 //                                   ^^^^^^^^^^^ field-level Option
 ```
 
 The macro detects this and sets `isOptional = true` on the FieldShape:
+
 ```scala
 val (uT, isOpt) = optionArg(ptpe).fold(ptpe -> false)(a => a -> true)
 FieldShape(name, typeShapeOf(uT), hasDefault, isOpt)
 ```
 
 ### Element-level optionality (Option inside a collection)
+
 ```scala
 case class Data(items: List[Option[String]])
 //                          ^^^^^^^^^^^^^^ element-level Option
@@ -673,6 +693,7 @@ optionArg(t).map(typeShapeOf).getOrElse {
 ```
 
 So `List[Option[String]]` becomes:
+
 1. `seqArg` detects List → extract `Option[String]`
 2. Recurse on `Option[String]` → `typeShapeOf(Option[String])`
 3. `optionArg` detects Option → extract `String`
@@ -681,6 +702,7 @@ So `List[Option[String]]` becomes:
 But the final shape is `SequenceShape(PrimitiveShape("String"))` - the intermediate Option is consumed!
 
 **Why this matters for contracts**: When you write:
+
 ```scala
 case class Contract(items: List[String])
 case class Producer(items: List[Option[String]])
@@ -690,9 +712,7 @@ These should probably NOT conform under Exact. The producer allows null elements
 
 This is the kind of edge case you discover when shipping to production. The fix would be to add an `OptionalShape` wrapper in the model.
 
-:::caution[Optionality edge case]
-The element-level optionality issue (List[Option[String]] getting flattened) is real and subtle. If your schemas use nullable collections, test that the compile-time check actually catches the difference between List[String] and List[Option[String]]. The current implementation may allow mismatches here. Add explicit test cases for your nullable collection patterns before relying on them in production.
-:::
+:::caution[Optionality edge case] The element-level optionality issue (List[Option[String]] getting flattened) is real and subtle. If your schemas use nullable collections, test that the compile-time check actually catches the difference between List[String] and List[Option[String]]. The current implementation may allow mismatches here. Add explicit test cases for your nullable collection patterns before relying on them in production. :::
 
 Visual (field vs element optionality):
 
@@ -769,9 +789,10 @@ Let me break down what's happening:
 2. **Compare**: We build maps of field names → (type, optionality) and find differences.
 
 3. **Apply policy**:
-   - Exact: all differences are errors
-   - Backward: missing optional fields are OK, extras are OK
-   - Forward: extras are OK (but missing required fields are not)
+
+    - Exact: all differences are errors
+    - Backward: missing optional fields are OK, extras are OK
+    - Forward: extras are OK (but missing required fields are not)
 
 4. **Abort or succeed**: If there are violations, we call `report.errorAndAbort` with a detailed message showing exactly what's wrong. Otherwise, we return the evidence.
 
@@ -878,20 +899,20 @@ final case class CustomerContractV2(
 **Why this matters:**
 
 Without compile-time contracts, the drift is invisible until runtime. Your Apache Spark job might:
+
 - Silently drop the `segment` field (schema evolution mode)
 - Crash with a schema mismatch error at 2 AM
 - Write nulls for `segment` for weeks before anyone notices
 
 With compile-time contracts, the conversation happens during development:
+
 - "Do downstream dashboards need customer segments?"
 - "Should we version the contract and migrate consumers?"
 - "Is this a temporary field we should filter?"
 
 The build won't pass until you explicitly handle the drift. That's intentional.
 
-:::danger[Build breakage alert]
-Compile-time contract checks will break your build when schemas drift. That's the point, but coordinate with your team. When upstream adds a field, every downstream pipeline build fails until they update contracts or transforms. This forces alignment, but can block deployments if not managed. Use CI branch builds to preview impact before merging schema changes.
-:::
+:::danger[Build breakage alert] Compile-time contract checks will break your build when schemas drift. That's the point, but coordinate with your team. When upstream adds a field, every downstream pipeline build fails until they update contracts or transforms. This forces alignment, but can block deployments if not managed. Use CI branch builds to preview impact before merging schema changes. :::
 
 That's it. The entire core. In production, you'd want to handle nested types and more complex scenarios (which the GitHub code demonstrates), but the structure stays the same.
 
@@ -924,6 +945,7 @@ Clear, actionable, and it stops your build. No cryptic macro errors, no stack tr
 ### Integration patterns
 
 **With Apache Spark:**
+
 ```scala
 // Your Spark job
 val df = spark.read.parquet(path)
@@ -936,6 +958,7 @@ val output = typed.transform(dropSegment).as[CustomerContract]
 ```
 
 **With schema registries:**
+
 ```scala
 // Avro schema in registry → case class → contract check
 case class CustomerAvro(id: Long, email: String, amt: Double)
@@ -943,8 +966,7 @@ summon[Conforms[CustomerAvro, CustomerContract, Policy.Exact]]
 // Build fails if Avro schema drift!
 ```
 
-**CI/CD integration:**
-Just run `sbt compile`. If contracts drift, the build fails. No special tooling needed. Works with Jenkins, GitHub Actions, GitLab CI - anything that runs sbt.
+**CI/CD integration:** Just run `sbt compile`. If contracts drift, the build fails. No special tooling needed. Works with Jenkins, GitHub Actions, GitLab CI - anything that runs sbt.
 
 ### Onboarding
 
@@ -957,11 +979,13 @@ That's it. The compiler guides them. After one or two cases, they get it.
 ### When to use vs skip
 
 **Use compile-time contracts when**:
+
 - Multiple teams work on the same pipeline codebase
 - Schema changes break production regularly
 - You want fast feedback (compile vs deploy-and-test)
 
 **Skip when**:
+
 - One-off scripts or exploratory work
 - External APIs you can't control (use runtime validation)
 - Schema is genuinely dynamic (JSON with unknown keys)
@@ -1100,6 +1124,7 @@ ConformsMod[CIa, CIb, PolicyMod.ExactCI] // YES, case‑insensitive names match
 ```
 
 Why these three? Because real systems need them:
+
 - **ExactOrdered**: For formats where position matters (some CSV parsers, protobuf with field numbers)
 - **ExactCI**: Because someone always uses `UserId` when the contract says `userId`
 - **ExactByPosition**: For legacy systems that ignore field names entirely
@@ -1108,8 +1133,7 @@ Why these three? Because real systems need them:
 
 ## Part 13 - Phantom types & type-state builders: Building impossible-to-misuse APIs
 
-Here's where things get interesting. The code also uses phantom types, type-indexing / typestate builder patterns to build a pipeline builder that's **impossible to misuse**.
-What are phantom types? They're type parameters that don't appear in the class body but control what you can do with an instance. Think of them as compile-time state machines.
+Here's where things get interesting. The code also uses phantom types, type-indexing / typestate builder patterns to build a pipeline builder that's **impossible to misuse**. What are phantom types? They're type parameters that don't appear in the class body but control what you can do with an instance. Think of them as compile-time state machines.
 
 ![Phantom type state machine for pipeline builder](./images/09-phantom-type-state-machine.svg)
 
@@ -1182,6 +1206,7 @@ PipelineBuilder[Contract]("bad")
 4. **Contract checking embedded** - Notice `ev1: SchemaConforms[CurContract, R, P]` in `addSink`? That's where the compile-time contract check happens. The pipeline literally won't build if schemas drift.
 
 This pattern is called the **Phantom Type Builder Pattern**. For more details, see:
+
 - [Compile-safe builder pattern using phantom types (Xebia)](https://xebia.com/blog/compile-safe-builder-pattern-using-phantom-types-in-scala/)
 - [Phantom Types in Scala (Rhetorical Musings)](https://blog.rhetoricalmusings.com/posts/builder1/)
 
@@ -1216,6 +1241,7 @@ final case class CustomerV2(id: Long, email: String, segment: Option[String] = N
 ```
 
 Notice `segment` is:
+
 1. **Optional** (`Option[String]`)
 2. **Has a default** (`= None`)
 
@@ -1226,6 +1252,7 @@ This makes it backward-compatible - old code can work with new data.
 **Phase 1: Add the field (Backward policy)**
 
 Deploy new producers writing `CustomerV2`:
+
 ```scala
 val producer = PipelineBuilder[CustomerV2]("write-v2")
   .addSource(rawData)
@@ -1239,6 +1266,7 @@ Old consumers still read `CustomerV1`. They ignore the `segment` field. No break
 **Phase 2: Migrate consumers**
 
 Update each consumer one by one:
+
 ```scala
 val consumer = PipelineBuilder[CustomerV2]("read-v2")
   .addSource[CustomerV2](source)
@@ -1252,6 +1280,7 @@ The compile-time contract ensures: "Does this consumer handle the new schema?" I
 **Phase 3: Deprecate V1**
 
 Once all pipelines use `CustomerV2`:
+
 ```scala
 // Mark V1 as deprecated
 @deprecated("Use CustomerV2", "2025-10-01")
@@ -1265,6 +1294,7 @@ The compiler warns any remaining V1 usage. After a grace period, delete V1 entir
 What if you need to rename a field? Say, `email` → `emailAddress`?
 
 **Non-breaking approach**:
+
 ```scala
 // Step 1: Add the new field, keep the old
 final case class CustomerV3(
@@ -1276,6 +1306,7 @@ final case class CustomerV3(
 ```
 
 Wait, that's duplication. Better:
+
 ```scala
 // Step 1: Add alias constructor
 final case class CustomerV3(
@@ -1290,9 +1321,7 @@ object CustomerV3 {
 }
 ```
 
-**Step 2**: Migrate producers to write `emailAddress`
-**Step 3**: Migrate consumers to read `emailAddress`
-**Step 4**: Remove the `fromV2` constructor
+**Step 2**: Migrate producers to write `emailAddress` **Step 3**: Migrate consumers to read `emailAddress` **Step 4**: Remove the `fromV2` constructor
 
 At each step, compile-time contracts verify: "Does this transformation produce the expected schema?"
 
@@ -1313,6 +1342,7 @@ def normalize(schema: CustomerSchema): V3 = schema match {
 ```
 
 The contract checks both paths:
+
 ```scala
 summon[Conforms[V2, V3Contract, Policy.Backward]]  // V2 → V3 allowed
 summon[Conforms[V3, V3Contract, Policy.Exact]]     // V3 → V3 exact match
@@ -1352,18 +1382,20 @@ val planB =
 ### What's happening here:
 
 **Phase 1: Producer adds field**
+
 - Upstream adds `segment` field to `CustomerProducer`
 - Our contract is still `CustomerContract` (no `segment`)
 - We use `transformAs[CustomerNext]` to explicitly drop the extra field
 - Then check `CustomerNext` conforms to `CustomerContract` under **Exact**
 
 **Why this works:**
+
 1. The transform explicitly declares the output schema (`CustomerNext`)
 2. The compiler checks: Does `CustomerNext` match `CustomerContract`? Yes (both have id, email, age)
 3. If we later change `CustomerNext` by accident, compilation fails
 
-**Phase 2: Stabilization**
-Once the migration is done:
+**Phase 2: Stabilization** Once the migration is done:
+
 ```scala
 // Later: Everyone uses CustomerContract, no transform needed
 val planStable =
@@ -1483,6 +1515,7 @@ object ConformsS2 {
 ```
 
 Key differences:
+
 - Scala 3: `inline` + `${ ... }` splices; Scala 2: `macro def` with a `Context`
 - Error reporting: `report.errorAndAbort` (Scala 3) vs `c.abort` (Scala 2)
 - Trees: `Expr[T]` (Scala 3) vs raw `Tree` (Scala 2)
@@ -1540,6 +1573,7 @@ object PolicyRuntime {
 ```
 
 **Two-layer validation strategy**:
+
 1. **Compile-time** (macros) - Catches schema drift before deployment
 2. **Runtime** (Spark comparators) - Defensive check for external data sources
 
@@ -1559,6 +1593,7 @@ Here's how I use these policies in practice:
 - **After stabilization → tighten back to Exact**.
 
 And remember:
+
 - Keep transformations pure (no side effects inside map/filter)
 - Place I/O at edges (read once, write once)
 - Make side-effects idempotent (so retries don't duplicate writes)
@@ -1661,23 +1696,22 @@ Run it:
 sbt "runMain ctdc.CtdcPoc"
 ```
 
-:::tip[Scala 2 setup]
-For Scala 2, add a sibling module with scala‑reflect and copy the S2 file from above.
-:::
+:::tip[Scala 2 setup] For Scala 2, add a sibling module with scala‑reflect and copy the S2 file from above. :::
 
 ---
 
 ## References
 
 ### Scala 3 Macros & Metaprogramming
+
 - [Scala 3 Macros - Official overview](https://docs.scala-lang.org/scala3/guides/macros/macros.html)
 - [Scala 3 Reflection guide](https://docs.scala-lang.org/scala3/guides/macros/reflection.html)
 - [Scala 3 Macro best practices](https://docs.scala-lang.org/scala3/guides/macros/best-practices.html)
 - [Rock the JVM - Scala Macros and Metaprogramming (course)](https://rockthejvm.com/courses/scala-macros-and-metaprogramming)
 - [Rock the JVM - Scala 3 Macros comprehensive guide](https://rockthejvm.com/articles/scala-3-macros-comprehensive-guide)
 
-
 ### Apache Spark integration
+
 - [Spark DataType structural comparators](https://spark.apache.org/docs/3.5.1/api/scala/org/apache/spark/sql/types/DataType%24.html)
 - [Spark Dataset implicits (toDF/toDS)](https://spark.apache.org/docs/3.5.1/api/scala/org/apache/spark/sql/DatasetHolder.html)
 - [Spark CSV data source](https://spark.apache.org/docs/3.5.1/sql-data-sources-csv.html)
@@ -1685,15 +1719,18 @@ For Scala 2, add a sibling module with scala‑reflect and copy the S2 file from
 - [Rock the JVM - Apache Spark Essentials](https://rockthejvm.com/courses/apache-spark-essentials-with-scala)
 
 ### Type-Level programming
+
 - [Rock the JVM - Type level](https://rockthejvm.com/courses/typelevel-rite-of-passage)
 - [Rock the JVM - Advanced Scala](https://rockthejvm.com/courses/advanced-scala)
 - [Rock the JVM - Cats](https://rockthejvm.com/courses/cats)
 
 ### Phantom types & type-state / type-level builders
+
 - [Compile-safe builder pattern using phantom types (Xebia)](https://xebia.com/blog/compile-safe-builder-pattern-using-phantom-types-in-scala/)
 - [Phantom Types in Scala - Builder Pattern (Rhetorical Musings)](https://blog.rhetoricalmusings.com/posts/builder1/)
 
 ### Other Resources
+
 - [Magnolia - Generic derivation library](https://github.com/softwaremill/magnolia)
 
 ---
@@ -1703,7 +1740,7 @@ For Scala 2, add a sibling module with scala‑reflect and copy the S2 file from
 Let's be honest about the boundaries. Compile-time contracts handle a lot, but they're not magic. Here's what they **can't** do:
 
 | Category | What it can't catch | Why | Solution |
-|----------|---------------------|-----|----------|
+| --- | --- | --- | --- |
 | **External data drift** | - Third-party APIs that change without telling you<br/>- Kafka topics from teams you don't coordinate with<br/>- S3 buckets written by external vendors | You don't control their build process | Use runtime validation (schema registries, data contracts) |
 | **Late-arriving schema changes** | - Schema registry updated after your deploy<br/>- Database columns added while your job runs | Compile-time happens before deploy | Runtime checks with version monitoring |
 | **Data quality issues** | - Nulls where you expect values (even if field is non-optional)<br/>- Out-of-range numbers (age = -5)<br/>- Malformed strings (email without @) | Compile-time checks structure, not content | Great Expectations, Deequ, or custom validators |
