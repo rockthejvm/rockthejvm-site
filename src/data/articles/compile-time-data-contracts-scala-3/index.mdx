@@ -36,7 +36,10 @@ Here's the thing - schemas change all the time in real projects. And when they d
 - Keep transformations pure and effects at the edges (so retries don't duplicate writes)
 - Let the compiler do the heavy lifting
 
-:::warning[Scope boundary] Compile-time contracts catch drift in your controlled codebase - the transforms you write, the case classes you define, the schemas you version together. They won't catch upstream API changes, late-arriving schema registry updates, or external data sources that change independently. Use compile-time for what you control, runtime validation for everything else. Defense in depth, not either/or. :::
+:::caution[Scope boundary]
+
+Compile-time contracts catch drift in your controlled codebase - the transforms you write, the case classes you define, the schemas you version together. They won't catch upstream API changes, late-arriving schema registry updates, or external data sources that change independently. Use compile-time for what you control, runtime validation for everything else. Defense in depth, not either/or.
+:::
 
 ## What we'll build
 
@@ -59,7 +62,9 @@ cd compile-time-data-contracts
 sbt "runMain ctdc.CtdcPoc"
 ```
 
-:::info The code on GitHub includes working examples you can run immediately. All compile-fail cases are documented inline - uncomment them to see the compiler errors. :::
+:::note
+The code on GitHub includes working examples you can run immediately. All compile-fail cases are documented inline - uncomment them to see the compiler errors.
+:::
 
 ---
 
@@ -108,7 +113,9 @@ See how it printed the AST of `1 + 2`? That's the power here - we can inspect co
 
 Check out the [Scala 3 macros overview](https://docs.scala-lang.org/scala3/guides/macros/macros.html), [best practices](https://docs.scala-lang.org/scala3/guides/macros/best-practices.html), and of course [Rock the JVM Macros & Metaprogramming course](https://rockthejvm.com/courses/scala-macros-and-metaprogramming) for more details.
 
-:::tip[Quick win] If you're new to Scala 3 macros, start by reading macro-generated code in the REPL: sbt> console, then scala> import scala.quoted.\*, then inspect what your macros actually expand to. Understanding the generated code is 80% of debugging macro issues. The compiler's doing the work - you just need to see what it's actually producing. :::
+:::tip[Quick win]
+If you're new to Scala 3 macros, start by reading macro-generated code in the REPL: sbt> console, then scala> import scala.quoted.\*, then inspect what your macros actually expand to. Understanding the generated code is 80% of debugging macro issues. The compiler's doing the work - you just need to see what it's actually producing.
+:::
 
 ---
 
@@ -188,7 +195,9 @@ final case class User(id: Long, email: String, note: Option[String])
 
 Now we can ask the compiler "what fields does this case class have?" at compile time. That's the foundation.
 
-:::note[Alternative approach] If you prefer libraries, check out [Magnolia](https://github.com/softwaremill/magnolia) - it works great for both Scala 2 and 3. :::
+:::note[Alternative approach]
+If you prefer libraries, check out [Magnolia](https://github.com/softwaremill/magnolia) - it works great for both Scala 2 and 3.
+:::
 
 ---
 
@@ -220,7 +229,9 @@ Why three policies?
 
 Policy Lattice ![Policy lattice](./images/policy-lattice.svg)
 
-:::success[Production migration strategy] The policy progression that works in production: Exact for stable pipelines, Backward during producer rollouts (allows new optional fields), Forward during consumer updates (tolerates extras), then back to Exact after migration completes. Document the expected timeline - "Backward policy through Q2 migration, then tightening to Exact." Prevents policy drift from becoming permanent. :::
+:::success[Production migration strategy]
+The policy progression that works in production: Exact for stable pipelines, Backward during producer rollouts (allows new optional fields), Forward during consumer updates (tolerates extras), then back to Exact after migration completes. Document the expected timeline - "Backward policy through Q2 migration, then tightening to Exact." Prevents policy drift from becoming permanent.
+:::
 
 ---
 
@@ -712,7 +723,9 @@ These should probably NOT conform under Exact. The producer allows null elements
 
 This is the kind of edge case you discover when shipping to production. The fix would be to add an `OptionalShape` wrapper in the model.
 
-:::caution[Optionality edge case] The element-level optionality issue (List[Option[String]] getting flattened) is real and subtle. If your schemas use nullable collections, test that the compile-time check actually catches the difference between List[String] and List[Option[String]]. The current implementation may allow mismatches here. Add explicit test cases for your nullable collection patterns before relying on them in production. :::
+:::caution[Optionality edge case]
+The element-level optionality issue (List[Option[String]] getting flattened) is real and subtle. If your schemas use nullable collections, test that the compile-time check actually catches the difference between List[String] and List[Option[String]]. The current implementation may allow mismatches here. Add explicit test cases for your nullable collection patterns before relying on them in production.
+:::
 
 Visual (field vs element optionality):
 
@@ -912,7 +925,9 @@ With compile-time contracts, the conversation happens during development:
 
 The build won't pass until you explicitly handle the drift. That's intentional.
 
-:::danger[Build breakage alert] Compile-time contract checks will break your build when schemas drift. That's the point, but coordinate with your team. When upstream adds a field, every downstream pipeline build fails until they update contracts or transforms. This forces alignment, but can block deployments if not managed. Use CI branch builds to preview impact before merging schema changes. :::
+:::danger[Build breakage alert]
+Compile-time contract checks will break your build when schemas drift. That's the point, but coordinate with your team. When upstream adds a field, every downstream pipeline build fails until they update contracts or transforms. This forces alignment, but can block deployments if not managed. Use CI branch builds to preview impact before merging schema changes.
+:::
 
 That's it. The entire core. In production, you'd want to handle nested types and more complex scenarios (which the GitHub code demonstrates), but the structure stays the same.
 
@@ -1696,7 +1711,9 @@ Run it:
 sbt "runMain ctdc.CtdcPoc"
 ```
 
-:::tip[Scala 2 setup] For Scala 2, add a sibling module with scala‑reflect and copy the S2 file from above. :::
+:::tip[Scala 2 setup]
+For Scala 2, add a sibling module with scala‑reflect and copy the S2 file from above.
+:::
 
 ---
 
