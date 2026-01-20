@@ -123,7 +123,18 @@ def drunkFlip: IO[String] =
   } yield if (heads) "Heads" else "Tails"
 ```
 
-Here's what's happening. Each side effect is wrapped in `IO`. The for-comprehension, which is syntactic sugar for `flatMap` chains, sequences operations. First, get a random generator. Then check if we caught the coin. Then either fail with an error or flip again. Nothing executes until we call `.unsafeRunSync()` or provide an `IOApp` that runs the effect for us.
+Here's what's happening. Each side effect is wrapped in `IO`. The for-comprehension, which is syntactic sugar for `flatMap` chains, sequences operations. First, get a random generator. Then check if we caught the coin. Then either fail with an error or flip again. Nothing executes until we call `unsafeRunSync()` or provide an `IOApp` that runs the effect for us:
+
+```scala 3
+object Main extends IOApp.Simple {
+  def run: IO[Unit] = drunkFlip.flatMap(result => IO.println(result))
+}
+
+// Or
+
+val result: String = drunkFlip.unsafeRunSync()
+val resultF: Future[String] = drunkFlip.unsafeToFuture()
+```
 
 Notice we've achieved the Effect Pattern. Type tracking works: the signature `IO[String]` tells us this performs effects and produces a `String`. Deferred execution works: building the effect doesn't run anything. Execution happens when we explicitly trigger it.
 
@@ -152,17 +163,41 @@ Here's drunk flip in ZIO:
 ```scala 3
 import zio._
 
-def drunkFlip: ZIO[Any, Exception, Boolean] =
+def drunkFlip: ZIO[Random, String, String] =
   for {
     caught <- Random.nextBoolean
-    result <- if (caught) Random.nextBoolean
-              else ZIO.fail(new Exception("We dropped the coin!"))
-  } yield result
+    heads <-
+      if (caught) Random.nextBoolean
+      else ZIO.fail("We dropped the coin")
+  } yield if (heads) "Heads" else "Tails"
 ```
 
-The signature `ZIO[Any, Exception, Boolean]` is remarkably expressive. This operation needs no special dependencies (`Any` means no requirements), might fail with an `Exception`, and produces a `Boolean` on success. We get more type-level information than Cats Effect's `IO`. The trade-off is that the type is more complex to understand initially.
+The signature `ZIO[Random, String, String]` is remarkably expressive. This operation needs to generate random numbers, the `Random` dependency , might fail with an `String`, and produces a `String` on success. We get more type-level information than Cats Effect's `IO`. The trade-off is that the type is more complex to understand initially.
 
-But we're still in monad-land. The for-comprehension is still there. The cognitive load of `flatMap` chains remains. ZIO provides a richer algebra for working with effects than Cats Effect, avoiding some of the monad transformer problems, but the fundamental monadic style persists. The power is undeniable, but so is the learning curve for newcomers to functional programming.
+Dependencies compose using Scala 3 union types. If we need both randomness and access to the console for logging, we can express that:
+
+```scala 3
+val drukFlipOnConsole: ZIO[Random & Console, String, Unit] =
+  drunkFlip.flatMap { result =>
+    Console.printLine(result)
+  }
+```
+
+Running the effect requires providing the necessary environment inside a ZIO app:
+
+```scala 3
+// The Console capability is provided by default in ZIOApp
+object Main extends ZIOAppDefault {
+  override def run =
+    drukFlipOnConsole.provideLayer(ZLayer.succeed(RandomLive))
+}
+```
+
+But we're still in monad-land. The `ZIO` type is a monad defined on the type `A`. It's still a über monad, in the sense we still need to execute everything in one step.
+
+The for-comprehension is still there. The cognitive load of `flatMap` chains remains. ZIO provides a richer algebra for working with effects than Cats Effect, avoiding some of the monad transformer problems, but the fundamental monadic style persists.
+
+The power is undeniable, but so is the learning curve for newcomers to functional programming.
 
 ### Kyo: Algebraic Effects (Still Monadic)
 
