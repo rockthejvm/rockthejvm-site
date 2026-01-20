@@ -206,17 +206,17 @@ Kyo takes a different approach that introduces **algebraic effects** to Scala. I
 Here's drunk flip in Kyo:
 
 ```scala 3
-import kyo._
+import kyo.*
 
-def drunkFlip: Boolean < (Abort[Exception] & Random) =
-  for {
+def drunkFlip: Boolean < (Abort[Exception] & Sync) =
+  for
     caught <- Random.nextBoolean
-    result <- if (caught) Random.nextBoolean
+    result <- if caught then Random.nextBoolean
               else Abort.fail(new Exception("We dropped the coin!"))
-  } yield result
+  yield result
 ```
 
-The type `Boolean < (Abort[Exception] & Random)` means "a Boolean computation with Abort and Random effects". This is more modular than IO and more compositional than ZIO's three-parameter type. Each effect can be handled independently using effect handlers. Want to run just the error handling? Use `Abort.run`. Want to mock out the randomness for tests? Provide a test handler for `Random`.
+The type `Boolean < (Abort[Exception] & Sync)` means "a Boolean computation with Abort and Sync effects". The `Random` operations in Kyo return values with the `Sync` effect pending. This is more modular than IO and more compositional than ZIO's three-parameter type. Each effect can be handled independently using effect handlers. Want to run just the error handling? Use `Abort.run`. Want to mock out the randomness for tests? Provide a test handler via `Random.let`.
 
 But look at the code carefully. We're still using for-comprehensions. Under the hood, Kyo uses monadic composition. The algebraic approach is elegant and solves real composition problems, but the monadic cognitive load persists. We're still thinking in terms of `flatMap` chains, even if Kyo makes those chains more flexible and modular.
 
