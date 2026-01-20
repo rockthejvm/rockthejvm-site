@@ -201,22 +201,33 @@ The power is undeniable, but so is the learning curve for newcomers to functiona
 
 ### Kyo: Algebraic Effects (Still Monadic)
 
-Kyo takes a different approach that introduces **algebraic effects** to Scala. Instead of one über effect type, effects are composed using type-level operators. **You list effects separately and can handle them separately.** This is more modular than the über effect approach. Want randomness and error handling? Compose `Random` and `Abort`. Need different effects elsewhere? Use a different composition.
+Kyo takes a different approach that introduces **algebraic effects** to Scala. Instead of one über effect type, **you list effects separately and can handle them separately.** This is more modular than the über effect approach. Want randomness and error handling? Compose `Random` and `Abort`. Need different effects elsewhere? Use a different composition.
 
 Here's drunk flip in Kyo:
 
 ```scala 3
 import kyo.*
 
-def drunkFlip: Boolean < (Abort[Exception] & Sync) =
-  for
+def drunkFlip: String < (Abort[Exception] & Sync) =
+  for {
     caught <- Random.nextBoolean
-    result <- if caught then Random.nextBoolean
-              else Abort.fail(new Exception("We dropped the coin!"))
-  yield result
+    heads  <- if (caught) Random.nextBoolean else Abort.fail("We dropped the coin")
+  } yield if (heads) "Heads" else "Tails"
 ```
 
-The type `Boolean < (Abort[Exception] & Sync)` means "a Boolean computation with Abort and Sync effects". The `Random` operations in Kyo return values with the `Sync` effect pending. This is more modular than IO and more compositional than ZIO's three-parameter type. Each effect can be handled independently using effect handlers. Want to run just the error handling? Use `Abort.run`. Want to mock out the randomness for tests? Provide a test handler via `Random.let`.
+The type `String < (Abort[Exception] & Sync)` means "a `String` computation with `Abort` and `Sync` effects". The `Random` operations in Kyo return values with the `Sync` effect pending. The `Sync` effect defers any computations that can perform side effects.
+
+The nice part is that we can handle effects separately. It's one of the nice properties of algebraic effects systems. Want to run just the error handling? Use `Abort.run`:
+
+```scala 3
+val partialResult: Result[String, String] < Sync = Abort.run { drunkFlip }
+```
+
+As we can see, the result is a `Result[String, String] < Sync`, meaning we have handled the `Abort` effect, but the `Sync` effect is still pending.
+
+Why Kyo is still a monadic approach? Because under the hood, Kyo uses monadic composition. The `<` (append) operator is a type alias for a monadic context that combines effects. Each effect is still represented as a monadic context. The difference is that effects are modular and can be handled independently.
+
+This is more modular than Cats Effect `IO` and more compositional than ZIO's three-parameter type.
 
 But look at the code carefully. We're still using for-comprehensions. Under the hood, Kyo uses monadic composition. The algebraic approach is elegant and solves real composition problems, but the monadic cognitive load persists. We're still thinking in terms of `flatMap` chains, even if Kyo makes those chains more flexible and modular.
 
