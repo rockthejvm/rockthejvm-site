@@ -233,7 +233,7 @@ But look at the code carefully. We're still using for-comprehensions. Under the 
 
 ### The Common Challenge
 
-All three approaches solve the Effect Pattern beautifully. They track effects in types, giving us compile-time safety. They defer execution until we're ready, separating description from action. They provide rich algebras for composing effects. They're used in production systems around the world and have proven their worth. **But they share a challenge that we can't ignore: monadic composition has a steep learning curve.**
+All three approaches are an elegant implementation of the Effect Pattern. They track effects in types, giving us compile-time safety. They defer execution until we're ready, separating description from action. They provide rich algebras for composing effects. They're used in production systems around the world and have proven their worth. **But they share a challenge that we can't ignore: monadic composition has a steep learning curve.**
 
 Understanding `flatMap`, knowing when to use `map` versus `flatMap`, reasoning about nested monadic contexts, understanding what for-comprehensions desugar to. These are barriers for developers new to functional programming. They're barriers for teams trying to adopt functional effect management. They're barriers that slow down development and make code reviews harder when not everyone has the same monadic intuition.
 
@@ -244,22 +244,73 @@ This raises a question. Can we keep the benefits of the Effect Pattern, type tra
 What if we could write code that looks like this:
 
 ```scala 3
-def drunkFlip(using Random, Abort[Exception]): Boolean = {
-  val caught = Random.nextBoolean
-  if (!caught) Abort.fail(new Exception("We dropped the coin!"))
-  Random.nextBoolean
-}
+def drunkFlip(using Random, Raise[String]): String = {
+    val caught = Random.nextBoolean
+    val heads  =
+      if (caught) Random.nextBoolean
+      else Raise.raise("We dropped the coin")
+    if (heads) "Heads" else "Tails"
+  }
 ```
 
 No `IO`. No for-comprehension. No `flatMap`. Just normal-looking sequential code that reads like the imperative version we started with. But still safe, still composable, still deferred. This is what direct-style effect handlers enable using Scala 3's context functions. So, without further ado, let's see how this works.
 
 ### The Key Insight: Context Functions
 
-The magic is **context functions**, a Scala 3 feature that changes how we think about effects. **Instead of wrapping effects in a monad, we write functions that require permission to run.** That permission is a **capability** passed implicitly using `using` parameters. Think of it like this: monadic style says "here's a wrapped effect, run it by calling methods on it". Direct-style says "here's code that looks normal, but it can't run without permission". The permission is the capability, and the compiler ensures you can't execute effectful code without it.
+The magic behind direct-style effects is **context functions**, a Scala 3 feature that fundamentally changes how we think about deferred computation. To understand how they enable effect systems, we first need to understand what context functions actually are and how they differ from regular functions.
 
-A context function has type `Capability ?=> A`, which means "give me a Capability implicitly and I'll give you an A". The `?=>` syntax indicates that the capability is passed using Scala's context parameter mechanism. **The Scala compiler threads this capability through our code automatically.** Nothing actually executes until we provide the capability explicitly. This is deferred execution without wrapping in `IO` or using `flatMap`. The deferral comes from requiring a capability that hasn't been provided yet.
+In Scala 3, we have two ways to pass parameters implicitly. The first is **context parameters** in functions and methods, which we declare with the `using` keyword:
 
-Here's the crucial insight: when a function needs a capability through a `using` parameter, and we call that function inside another context that also requires the same capability, the compiler passes it automatically. The capability flows through our code invisibly. When we write `val caught = Random.nextBoolean` inside a function that has `using Random`, the compiler sees this and thinks "aha, Random.nextBoolean needs a Random capability, and we have one in scope, so I'll pass it along automatically". We don't need to write `Random.nextBoolean(using random)` explicitly. The compiler handles the threading for us.
+```scala 3
+def greet(name: String)(using logger: Logger): Unit =
+  logger.log(s"Hello, $name")
+```
+
+When we call `greet("Alice")`, the compiler looks for a `Logger` instance in scope and passes it automatically. This is familiar from Scala 2's implicits, just with cleaner syntax.
+
+The second mechanism is **context functions**, and this is where things get interesting. A context function is a function type where some of its parameters are passed implicitly, as if it were a context parameter. The syntax uses `?=>` instead of `=>`. We can
+
+```scala 3
+def greet(name: String): (logger: Logger) ?=> Unit =
+  logger.log(s"Hello, $name")
+```
+
+This reads as "given an `Logger` implicitly, produce an `Unit`". The `?=>` arrow indicates that the `Logger` will be provided through Scala's context mechanism, not passed explicitly. We can even summon the instance of the `Logger` inside the function body using `summon[Logger]` instead of having a named parameter:
+
+
+```scala 3
+def greet(name: String): Logger ?=> Unit =
+  summon[Logger].log(s"Hello, $name")
+```
+
+The value `greet` is a function that requires a `Logger` to be in implicit scope before it can execute. **Nothing happens when we define it.** The greeting isn't logged. The function just sits there, waiting. To actually run it, we need to provide the context:
+
+```scala 3
+given Logger = new Logger
+greet("Alice")  // Now prints "Hello, Alice"
+
+// Or explicitly:
+greet("Bob")(using new Logger)  // Prints "Hello, Bob"
+```
+
+As you can see, it's the same idea as context parameters, but now the entire function is a context function. It is crucial for deferred execution. **This is deferred execution without wrapping in a monad.** The deferral comes from requiring a context that hasn't been provided yet. The function body describes what to do, but it literally cannot execute until we supply what it needs.
+
+Now here's where context functions become powerful for effect systems. **The Scala compiler automatically threads context parameters through nested calls.** When a function needs an effect through a `using` parameter, and we call that function inside another context that also requires the same effect, the compiler passes it along invisibly:
+
+```scala 3
+def innerOperation(using logger: Logger): Unit =
+  logger.log("Inner operation")
+
+def outerOperation(using logger: Logger): Unit = {
+  logger.log("Starting outer")
+  innerOperation  // Compiler passes Logger automatically!
+  logger.log("Ending outer")
+}
+```
+
+When we write `innerOperation` inside `outerOperation`, the compiler sees that `innerOperation` needs a `Logger` context parameter. It also sees that `outerOperation` has a `Logger` in scope. So it passes it along automatically. We don't write `innerOperation(using logger)` explicitly. **The context parameter flows through our code invisibly, threaded by the compiler.**
+
+This automatic threading is the foundation of direct-style effects. **Instead of wrapping effects in a monad, we write functions that require an effect to run.** That effect is passed implicitly as a context parameter. Think of it like this: monadic style says "here's a wrapped effect, run it by calling methods on it". Direct-style says "here's code that looks normal, but it can't run without some context". The context is the effect, and the compiler ensures you can't execute effectful code without it.
 
 ### Building a Direct-Style Effect System
 
