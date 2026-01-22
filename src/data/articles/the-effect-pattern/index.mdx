@@ -314,33 +314,37 @@ This automatic threading is the foundation of direct-style effects. **Instead of
 
 ### Building a Direct-Style Effect System
 
-Let's build our own minimal effect system to understand how this works. First, we need to define capabilities for our effects. A capability is just a trait describing what operations we can perform:
+In the previous section, we saw how context functions enable deferred execution without monads. Context parameters in context functions allow us to track the effects a function needs to run. It seems we can build an effect system using these concepts.
+
+So, let's build our own minimal effect system to understand how this works. First, we need to define the types that represent effects. An effect in this scenario is just a trait describing what effectful operations we can perform:
 
 ```scala 3
 trait Random {
   def nextBoolean: Boolean
 }
 
-trait Abort[E] {
-  def fail(error: E): Nothing
+trait Raise[E] {
+  def raise(error: E): Nothing
 }
 ```
 
-These are just interfaces. **A capability represents "the permission to perform this effect".** Functions that need these capabilities declare them with `using` parameters. Without the capabilities in scope, the function can't compile. The type system enforces that effects can only happen when we have permission.
+These are just interfaces. Given to a context function, **they represent "the permission to perform the effect".** Functions that need these effect declare them with `using` parameters. Without the a concrete instance of the effect type in scope, the function can't compile. The type system enforces that effects can only happen when we have permission.
 
-Now we can write our drunk flip using capabilities:
+Now we can write our drunk flip using direct-style effects:
 
 ```scala 3
-def drunkFlip(using random: Random, abort: Abort[Exception]): Boolean = {
-  val caught = random.nextBoolean
-  if (!caught) abort.fail(new Exception("We dropped the coin!"))
-  random.nextBoolean
-}
+def drunkFlip(using Random, Raise[String]): String = {
+    val caught = Random.nextBoolean
+    val heads  =
+      if (caught) Random.nextBoolean
+      else Raise.raise("We dropped the coin")
+    if (heads) "Heads" else "Tails"
+  }
 ```
 
-Look at that code. It reads like imperative code: check a condition, abort if needed, otherwise flip the coin. But notice the `using` parameters in the signature. **This function requires the Random and Abort capabilities to run.** Without them in scope, calling this function is a compile error. This is how we achieve deferred execution. The function body describes what to do, but it can't do anything until someone provides the capabilities.
+Look at that code. It reads like imperative code: check a condition, abort if needed, otherwise flip the coin. But notice the `using` parameters in the signature. **This function requires instances of the Random and Raise effect to run.** Without them in scope, calling this function is a compile error. This is how we achieve deferred execution. The function body describes what to do, but it can't do anything until someone provides the effects.
 
-To run the effect, we provide capability implementations called **handlers**. Handlers are where the rubber meets the road, where description becomes execution:
+To run the effect, we provide implementations called **handlers**. Handlers are where the rubber meets the road, where description becomes execution:
 
 ```scala 3
 object Random {
@@ -352,24 +356,54 @@ object Random {
   }
 }
 
-object Abort {
-  def run[E, A](program: Abort[E] ?=> A): Either[E, A] = {
+object Raise {
+  def either[E, A](program: Raise[E] ?=> A): Either[E, A] = {
     import scala.util.boundary, boundary.break
     boundary {
-      val abortCapability = new Abort[E] {
-        def fail(error: E): Nothing = break(Left(error))
+      val raiseEffect = new Raise[E] {
+        def raise(error: E): Nothing = break(Left(error))
       }
-      Right(program(using abortCapability))
+      Right(program(using raiseEffect))
     }
   }
 }
 ```
 
-The `Abort.run` handler uses Scala 3's `boundary` and `break` for control flow. Think of `boundary` as defining a labeled scope and `break` as a way to exit that scope early with a value. When `abort.fail` is called, `break(Left(error))` immediately exits the boundary block and returns `Left(error)`. This is how we convert an abortion into an `Either` without using exceptions. If the program succeeds, we wrap the result in `Right`.
+The `Raise.either` handler uses Scala 3's `boundary` and `break` for control flow. Think of `boundary` as defining a labeled scope and `break` as a way to exit that scope early with a value. When `raise.raise` is called, `break(Left(error))` immediately exits the boundary block and returns `Left(error)`. This is how we convert an abortion into an `Either` without using exceptions. If the program succeeds, we wrap the result in `Right`.
 
-These handlers "run" effects by providing actual implementations. The `Random.run` handler provides a real random capability that uses Scala's `Random` under the hood. The `Abort.run` handler provides an abort capability that uses Scala 3's boundary/break control flow to implement early return on failure. **When we call the program function with a capability in scope, the effect executes. This is where deferred execution ends and real execution begins.**
+These handlers "run" effects by providing actual implementations. The `Random.run` handler provides a real random capability that uses Scala's `Random` under the hood. The `Raise.either` handler provides an abort capability that uses Scala 3's boundary/break control flow to implement early return on failure. **When we call the program function with an instance of the effect in scope, the effect executes. This is where deferred execution ends and real execution begins.**:
 
-Notice each handler can interpret effects differently. The `Random` handler uses real randomness, but we could write a test handler that returns fixed values. The `Abort` handler converts failures to `Either`, but we could write a handler that logs errors, or retries, or does something else entirely. **This flexibility is the power of algebraic effects. We separate the description of effects from their interpretation.**
+```scala 3
+val result: Either[String, String] = Random.run {
+  Raise.either {
+    drunkFlip
+  }
+}
+```
+
+The order of handlers matters. It's not the case in our simple example, but in more complex scenarios, the order in which we handle effects can change behavior.
+
+As in Kyo, we can handle effects separately:
+
+```scala 3
+val partialResult: Raise[String] ?=> String = Random.run {
+  drunkFlip
+}
+```
+
+The `partialResult` still needs a `Raise[String]` effect to run, but the `Random` effect has been handled. It's something like algebraic effects, but without monadic composition.
+
+Notice each handler can interpret effects differently. The `Random` handler uses real randomness, but we could write a test handler that returns fixed values:
+
+```scala 3
+def test(fixed: Boolean)(program: Random ?=> Boolean) = {
+  program(using new Random() {
+    override def nextBoolean: Boolean = fixed
+  })
+}
+```
+
+The `Raise` handler converts failures to `Either`, but we could write a handler that logs errors, or retries, or does something else entirely. **This flexibility is the power of the effect pattern. We separate the description of effects from their interpretation.**
 
 ### Direct-Style versus Monadic: Side by Side
 
