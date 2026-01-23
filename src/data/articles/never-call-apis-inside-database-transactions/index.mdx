@@ -1,0 +1,1501 @@
+---
+author: hanishi
+category: guide
+title: Never Call APIs Inside Database Transactions
+excerpt: Learn why calling external APIs inside database transactions leads to inconsistent state and how to fix it with Transactional Outbox, Result Tables, and Saga Compensation patterns
+tags: [pekko, postgresql, event-sourcing, distributed-systems, microservices, backend]
+difficulty: advanced
+publishedDate: 2025-11-14
+updatedDate: 2025-11-14
+---
+
+:::note[TL;DR]
+Never call external APIs inside a database transaction. If the external call succeeds but the DB commit fails, you have an inconsistent state you cannot roll back. Use **Transactional Outbox + Result Table + Saga Compensation** to ensure distributed consistency without 3 AM cleanup scripts.
+:::
+
+*Or: Why putting HTTP calls inside a database transaction will ruin your sleep schedule*
+
+---
+
+## The 3 AM Wake‑Up Call
+
+It's 3 AM. Your phone won't stop buzzing. PagerDuty.
+
+**"CRITICAL: Order reconciliation job failed - 47 orders missing from database"**
+
+You sit up in bed, already dreading what you're about to find. You open your laptop with that sinking feeling - the one every backend engineer knows too well.
+
+The logs show orders from business hours. Normal traffic. Nothing unusual. Payment API responses? All 200 OK. Shipping confirmations? All sent.
+
+But your database?
+
+**47 orders are missing.**
+
+Customers have been charged. Packages are being shipped to addresses. Confirmation emails cheerfully sent. But your `orders` table? It's like those transactions never happened.
+
+You dig deeper. The pattern becomes clear:
+
+```
+14:23:15 INFO  Payment API → 200 OK (order-8473)
+14:23:15 INFO  Shipping API → 200 OK (order-8473)
+14:23:16 ERROR Database transaction → DEADLOCK
+14:23:16 INFO  Retrying transaction... (attempt 2/3)
+14:23:17 ERROR Database transaction → ROLLBACK
+```
+
+This happens because someone wrote code like this:
+
+```scala
+// Looks transactional... but isn't.
+db.run {
+  (for {
+    orderId <- orders += order // DB write
+    inventoryRes <- DBIO.from(inventoryApi.reserve(orderId)) // API call ✅
+    shippingRes <- DBIO.from(shippingApi.schedule(orderId)) // API call ✅
+    billingRes <- DBIO.from(billingApi.charge(orderId)) // API call ✅
+    _ <- shipments += Shipment(orderId, shippingRes.id) // DB write - DEADLOCK!
+  } yield orderId).transactionally
+}
+```
+
+What actually happened:
+
+1. ✅ Insert order → succeeds
+2. ✅ Call inventory API → 200 OK (inventory reserved)
+3. ✅ Call shipping API → 200 OK (shipment scheduled)
+4. ✅ Call billing API → 200 OK (customer charged)
+5. ❌ Insert shipment record →  **Fails** (network error, deadlock - doesn't matter)
+6. 🔄 Transaction rolls back
+
+
+Result: Money charged, shipment scheduled, inventory reserved... but no order exists in your database.
+The external APIs don't know your transaction failed. They already did their work.
+
+## Understanding the Patterns
+
+Before diving into the fix, let's understand **why** we need two patterns working together.
+
+### Problem 1: The Naive Approach (Why It Breaks)
+
+Here's what most developers try first:
+
+```scala
+// Step 1: Save to database
+val orderId = db.run {
+  orders += order
+}.transactionally
+
+// Step 2: Call external services
+inventoryApi.reserve(orderId)
+shippingApi.schedule(orderId)
+billingApi.charge(orderId)
+```
+
+**Seems reasonable, right? Wrong. Here's what breaks:**
+
+#### Failure Mode 1: App Crashes Between Step 1 and Step 2
+
+```scala
+val orderId = db.run {
+  orders += order
+}.transactionally // ✅ Succeeds
+// 💥 App crashes here (out of memory, deployment, server restart)
+inventoryApi.reserve(orderId) // ← Never executed
+```
+
+**Result:** Order saved in the table, but no inventory reserved, no shipping scheduled.
+The order is stuck forever.
+No retry will happen because the app lost the `orderId` from memory.
+
+#### Failure Mode 2: First API Succeeds, Second API Fails
+
+```scala
+val orderId = db.run {
+  orders += order
+}.transactionally // ✅ Succeeds
+inventoryApi.reserve(orderId) // ✅ Succeeds
+shippingApi.schedule(orderId) // ❌ Network timeout after 30 seconds
+```
+
+**Result:** Order saved, inventory reserved, but no shipping.
+The warehouse has reserved items for an order that will never ship.
+And you don't know if you should retry shipping (what if it partially succeeded?).
+
+#### Failure Mode 3: Kafka Publish Fails
+
+```scala
+val orderId = db.run {
+  orders += order
+}.transactionally // ✅ Succeeds
+kafka.publish("order-created", orderId) // ❌ Kafka broker down
+```
+
+**Result:** Order saved, but the event is lost forever. Downstream services never receive the notification. **No way to recover** - you don't even know the event failed to publish.
+
+**The fundamental problem:** You can't make external systems (HTTP APIs, Kafka, message queues) participate in your database transaction.
+They're separate systems with their own failure modes.
+
+---
+
+### The Transactional Outbox Pattern (Making It Reliable)
+
+**The insight:** Instead of calling external systems directly, write a **durable to-do list** in the same transaction.
+
+Think of it like leaving a sticky note on your desk before going to bed:
+
+- ❌ **Naive approach:** "I'll remember to call the API tomorrow" (you won't)
+- ✅ **Outbox approach:** "I'll write it down on paper tonight" (it survives even if you forget)
+
+```scala
+// Write BOTH the order AND the to-do list atomically
+db.run {
+  (for {
+    orderId <- orders += order
+    _ <- outboxEvents += OutboxEvent(
+      aggregateId = orderId.toString,
+      eventType = "OrderCreated",
+      payloads = Map(
+        "inventory" ->...,
+    "shipping" ->...,
+    "billing" ->...
+    )
+    )
+  } yield orderId).transactionally
+}
+
+// Later: A background processes the to-do list
+```
+
+**What this solves:**
+
+| Failure Scenario            | Without Outbox                    | With Outbox                                      |
+|-----------------------------|-----------------------------------|--------------------------------------------------|
+| App crashes after DB commit | ❌ Event lost forever (in memory)  | ✅ Event persisted, processed on restart          |
+| Kafka broker down           | ❌ Event lost, no retry            | ✅ Event stays in outbox, retried automatically   |
+| Network timeout             | ❌ Don't know if request succeeded | ✅ Tracked in result table                        |
+| API succeeds, DB rolls back | ❌ **Can happen with DBIO.from()** | ✅ **Impossible** - APIs only called after commit |
+
+**External APIs are only called AFTER the database transaction commits**.
+This makes the "API succeeds but DB rolls back" scenario physically impossible.
+
+The outbox table is your **durable to-do list** that survives:
+
+- App crashes
+- Deployments
+- Server restarts
+- Network failures
+- Kafka outages
+
+---
+
+### But Wait - the Outbox Doesn't Solve Partial Failures!
+
+---
+
+### Problem 2: Partial Failures
+
+Great, the outbox pattern saved us! Events are durable, apps can crash, everything's fine.
+
+But now imagine your event fans out to 3 services:
+
+```
+1. Reserve inventory  ✅ succeeds → reservationId = "RES-456"
+2. Schedule shipping  ✅ succeeds → shippingId = "SHIP-789"
+3. Charge payment     ❌ fails after 3 retries
+```
+
+Uh oh.
+
+You can't just leave it like this. You have:
+
+- Inventory reserved (blocking stock for other customers)
+- Shipment scheduled (warehouse will pack and ship... nothing)
+- No payment (customer wasn't charged)
+
+**You need to undo steps 1 and 2.**
+
+### The Saga Pattern
+
+A **Saga** is a sequence of transactions where:
+
+- Each transaction is local to one service
+- If any transaction fails, **compensating transactions** undo previous steps
+- Compensation happens in **reverse order** (LIFO - Last In, First Out)
+
+Think of it like a tower of blocks. You can't remove the bottom block first - you have to dismantle from the top down.
+Cancel shipping before releasing inventory, because shipping depends on inventory being reserved.
+
+**Two approaches:**
+
+1. **Choreography**: Each service publishes events, others react (decentralized)
+2. **Orchestration**: A central coordinator controls the flow (centralized)
+
+We use **orchestration** because:
+
+- ✅ Easier to debug (all logic in one place)
+- ✅ You know exactly what succeeded (for compensation)
+- ✅ Conditional routing is straightforward
+
+---
+
+### How They Work Together
+
+| Pattern                  | Solves             | How                                            |
+|--------------------------|--------------------|------------------------------------------------|
+| **Transactional Outbox** | Dual-write problem | Write order + event to DB atomically           |
+| **Saga (Orchestration)** | Partial failures   | Track what succeeded, compensate in LIFO order |
+
+**Together:**
+
+1. **Outbox** ensures the event is never lost (even if app crashes)
+2. **Saga** ensures partial failures are compensated (automatically undo)
+
+**How do we know what to compensate?**
+
+→ **The Result Table** tracks every API call:
+
+- Which calls succeeded
+- What IDs they returned (needed for revert)
+- Complete audit trail
+
+---
+
+### The Overview of the Solution
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 1: Atomic Write (Transactional Outbox)                     │
+└─────────────────────────────────────────────────────────────────┘
+
+POST /api/orders
+    │
+    ▼
+┌─────────────────────────────────┐
+│ db.run { ... }.transactionally  │
+│                                 │
+│  1. INSERT INTO orders          │  ← Both succeed or both fail
+│  2. INSERT INTO outbox_events   │    (atomic)
+└──────────────┬──────────────────┘
+               │
+               ▼ pg_notify('outbox_events_channel')
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 2: Fan-Out Publishing (Saga Orchestration)                 │
+└─────────────────────────────────────────────────────────────────┘
+
+OutboxProcessor (Pekko Actor)
+    │
+    ├─→ POST /api/inventory    ✅ 200 OK  → UPSERT aggregate_results
+    │                                         (aggregate_id, "inventory", "OrderCreated")
+    │
+    ├─→ POST /api/shipping     ✅ 200 OK  → UPSERT aggregate_results
+    │                                         (aggregate_id, "shipping", "OrderCreated")
+    │
+    └─→ POST /api/billing      ❌ 500 ERR → UPSERT aggregate_results
+                                             (aggregate_id, "billing", "OrderCreated")
+
+        After 3 retries:
+          ↓
+        INSERT INTO dead_letter_events
+          ↓
+        pg_notify('dlq_events_channel')
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 3: Compensation (Saga Rollback - LIFO)                     │
+└─────────────────────────────────────────────────────────────────┘
+
+DLQProcessor (Pekko Actor)
+    │
+    ├─ SELECT * FROM aggregate_results
+    │  WHERE aggregate_id = 'ORDER-123'
+    │    AND success = true
+    │    AND event_type = 'OrderCreated'  -- Not ':REVERT'
+    │
+    │  Returns: [inventory ✅, shipping ✅]
+    │
+    ├─ Reverse order: [shipping, inventory]  ← LIFO!
+    │
+    ├─→ POST /api/shipping/{id}/cancel ✅ → UPSERT aggregate_results
+    │                                         (aggregate_id, "shipping", "OrderCreated:REVERT")
+    │
+    └─→ DELETE /api/inventory/{id}     ✅ → UPSERT aggregate_results
+                                             (aggregate_id, "inventory", "OrderCreated:REVERT")
+```
+
+**Key points:**
+
+1. **Transactional Outbox** guarantees the event exists in the database (even if app crashes)
+2. **Result Table** tracks every HTTP call's outcome (success/failure + response data)
+3. **Saga Compensation** queries the result table and undoes successful steps in LIFO order
+4. **The `:REVERT` suffix** ensures compensation results don't overwrite forward results
+
+---
+
+## The Fix: Outbox + Result Table + LIFO Compensation
+
+Now the pieces fit together:
+
+If the third call fails, we can't "roll back" the first two — those systems **do not support rollback**. So we design for **compensation**, not atomicity.
+
+This means we intentionally track:
+
+| What We Track              | Stored In                   | Why                                   |
+|----------------------------|-----------------------------|---------------------------------------|
+| Which API calls succeeded  | **Result Table**            | So we know what needs to be undone    |
+| What each call returned    | **Result Table**            | So we know *which IDs* to undo with   |
+| When retries are exhausted | **Dead Letter Queue (DLQ)** | So we know when to start compensation |
+
+### The Recovery Sequence
+
+When something fails:
+
+1. Move the event to the **DLQ**
+2. Look up all **successful** calls from the **Result Table**
+3. **Undo them in reverse order** (LIFO), because dependencies matter
+4. Mark the DLQ event **processed** once compensation succeeds
+
+Example:
+
+```
+Forward direction:
+1. reserveInventory → reservationId = "RES-456"
+2. scheduleShipping  → shippingId    = "SHIP-789"
+3. chargePayment     → ❌ fails
+
+Compensating direction:
+1. cancelShipping("SHIP-789")
+2. releaseInventory("RES-456")
+```
+
+This guarantees:
+
+- No stuck shipments
+- No dangling inventory holds
+- No orphan state that needs a human to fix it later
+
+---
+
+### Implementation Sketch (Simplified from Actual Code)
+
+```scala
+// 1) Inside the DB transaction: persist order + outbox event atomically
+// Using the OutboxHelper.withEventFactory pattern
+class OrderRepository extends OutboxHelper {
+
+  def createWithEvent(order: Order): DBIO[Long] =
+    withEventFactory((orders returning orders.map(_.id)) += order) { orderId =>
+      OrderCreatedEvent(
+        orderId = orderId,
+        customerId = order.customerId,
+        totalAmount = order.totalAmount,
+        shippingType = order.shippingType
+      )
+    }
+}
+
+// The domain event expands to multiple destination payloads:
+case class OrderCreatedEvent(
+...) extends DomainEvent {
+  def toOutboxEvent: OutboxEvent = OutboxEvent(
+    aggregateId = orderId.toString,
+    eventType = "OrderCreated",
+    payloads = Map(
+      "inventory" -> DestinationConfig(
+        payload = Some(Json.obj("orderId" -> orderId, "items" ->...))
+  ),
+  "shipping" -> DestinationConfig(...),
+  "billing" -> DestinationConfig(...)
+  )
+  )
+}
+
+// 2) Outside the transaction: Pekko OutboxProcessor + EventPublisher
+// Process each destination, record results in aggregate_results table
+for {
+  inv <- publishTo("inventory", invPayload).recordResult
+  ship <- publishTo("shipping", shipPayload).recordResult
+  bill <- publishTo("billing", billPayload).recordResult
+} yield {
+  if (bill.success == false) {
+    // ❌ Billing failed → move to DLQ for compensation
+    dlqRepo.moveFromOutbox(event)
+  } else {
+    outboxRepo.markAsProcessed(event.id)
+  }
+}
+
+// 3) DLQProcessor queries aggregate_results for successful calls
+val successfulResults = resultRepo.findByAggregateId(
+  aggregateId = orderId.toString,
+  filter = Result.Success,
+  includeReverts = false // Only forward flow
+)
+
+// 4) Compensate in LIFO order with ":REVERT" suffix
+successfulResults.reverse.foreach { result =>
+  val revertEndpoint = buildRevertEndpoint(result)
+  publishTo(s"${result.destination}:REVERT", revertEndpoint)
+}
+```
+
+**Why this works:**
+
+- **Outbox**: never blocks on HTTP while the transaction is open
+- **Result Table**: you know *exactly* which calls succeeded and the IDs needed to undo
+- **Saga (LIFO)**: undo in reverse so dependencies are safe (cancel shipment → release inventory)
+
+---
+
+## Configuration-Driven Compensation
+
+Here's where things get interesting. Automatic compensation is great, but how do you actually *build* those revert API calls? You need to extract IDs from previous responses, construct URLs with path parameters, and build payloads with the right data.
+
+This section shows how the system does this entirely through configuration - no code changes needed when APIs change their endpoints or payloads. It's long, but worth it: you'll see how a single config file handles complex scenarios like conditional routing based on fraud scores and automatic retry header parsing.
+
+### The Problem: How Do You Cancel a Shipment?
+
+When billing fails, you need to call:
+
+```
+POST /api/shipping/{shippingId}/cancel
+```
+
+But where does `{shippingId}` come from? **The response from the original shipping API call!**
+
+```json
+// Original request:
+POST /api/shipping
+{
+  "orderId": 123,
+  "address": "..."
+}
+
+// Response stored in aggregate_results.response_payload:
+{
+  "shippingId": "SHIP-789",
+  "trackingNumber": "1Z999AA1234567890",
+  "estimatedDelivery": "2025-01-10"
+}
+```
+
+### Configuration-Driven Extraction
+
+In `application.conf`, you define **where to extract values** and **how to use them**:
+
+```hocon
+shipping {
+  method = "POST"
+  url = "http://localhost:9000/api/domestic-shipping"
+
+  revert {
+    url = "http://localhost:9000/api/domestic-shipping/{shipmentId}/cancel"
+    method = "POST"
+
+    # Extract variables from request/response
+    extract {
+      shipmentId = "response:$.shipmentId"    # From API response
+      orderId = "response:$.orderId"          # From API response
+      customerId = "request:$.customerId"     # From original request
+    }
+
+    # Template with placeholders
+    payload = """
+      {
+        "reason": "payment_failed",
+        "shipmentId": "{shipmentId}",
+        "orderId": "{orderId}",
+        "customerId": "{customerId}"
+      }
+    """
+  }
+}
+```
+
+### The Full Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 1: Forward Flow - Call Shipping API                        │
+└─────────────────────────────────────────────────────────────────┘
+
+OutboxProcessor sends:
+  POST /api/domestic-shipping
+  Body: {
+    "orderId": 123,
+    "customerId": "customer-123",
+    "totalAmount": 99.99,
+    "shippingType": "domestic",
+    "timestamp": "2025-01-07T10:30:00Z"
+  }
+
+Shipping API responds:
+  200 OK
+  Body: {
+    "shipmentId": "SHIP-DOM-123-1704623400000",
+    "orderId": 123,
+    "customerId": "customer-123",
+    "carrier": {
+      "code": "YAMATO",
+      "name": "Yamato Transport",
+      "service": "Express"
+    },
+    "trackingNumber": "9400123456789",
+    "status": "confirmed",
+    "estimatedDelivery": 1704796200000,
+    "createdAt": 1704623400000
+  }
+
+Stored in aggregate_results:
+  aggregate_id: "123"
+  destination: "shipping"
+  event_type: "OrderCreated"
+  request_payload: {"orderId": 123, "customerId": "customer-123", "totalAmount": 99.99, ...}
+  response_payload: {"shipmentId": "SHIP-DOM-123-1704623400000", "orderId": 123, ...}
+  success: true
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 2: Compensation - Build Revert Endpoint                    │
+└─────────────────────────────────────────────────────────────────┘
+
+DLQProcessor queries aggregate_results for successful calls:
+  SELECT * FROM aggregate_results
+  WHERE aggregate_id = '123'
+    AND success = true
+    AND event_type = 'OrderCreated'
+
+For each result, extract values using JSONPath:
+  shipmentId = "response:$.shipmentId"       → "SHIP-DOM-123-1704623400000"
+  orderId = "response:$.orderId"             → "123"
+  customerId = "request:$.customerId"        → "customer-123"
+
+Replace placeholders in URL template:
+  "/api/domestic-shipping/{shipmentId}/cancel" → "/api/domestic-shipping/SHIP-DOM-123-1704623400000/cancel"
+
+Replace placeholders in payload template:
+  {
+    "reason": "payment_failed",
+    "shipmentId": "{shipmentId}",   → "SHIP-DOM-123-1704623400000"
+    "orderId": "{orderId}",         → "123"
+    "customerId": "{customerId}"    → "customer-123"
+  }
+
+Send revert request:
+  POST /api/domestic-shipping/SHIP-DOM-123-1704623400000/cancel
+  Body: {"reason": "payment_failed", "shipmentId": "SHIP-DOM-123-1704623400000", "orderId": "123", "customerId": "customer-123"}
+
+Store compensation result:
+  event_type: "OrderCreated:REVERT"  ← Note the :REVERT suffix
+  success: true
+```
+
+### Path Parameters in Action
+
+The framework automatically replaces `{placeholders}` in URLs:
+
+```hocon
+inventory {
+  url = "http://localhost:9000/api/inventory/reserve"
+
+  revert {
+    url = "http://localhost:9000/api/inventory/{reservationId}/release"
+    method = "DELETE"
+
+    extract {
+      reservationId = "response:$.reservationId"   # From API response
+    }
+  }
+}
+```
+
+**What happens:**
+
+1. **Forward call response:**
+   ```json
+   {
+     "reservationId": "RES-456",
+     "orderId": 123,
+     "warehouseId": "WH-NYC-01",
+     "warehouse": {
+       "id": "WH-NYC-01",
+       "name": "NYC Distribution Center",
+       "location": {"city": "New York", "state": "NY", "country": "US"}
+     },
+     "items": [{"sku": "PROD-001", "quantity": 2, "reserved": true, "binLocation": "A5-12"}],
+     "shippingType": "domestic",
+     "status": "reserved",
+     "expiresAt": 1704671400000,
+     "reservedAt": 1704670500000
+   }
+   ```
+
+2. **DLQProcessor extracts:**
+    - `reservationId` → `"RES-456"`
+
+3. **URL template becomes:**
+   ```
+   http://localhost:9000/api/inventory/RES-456/release
+   ```
+
+4. **Compensation call:**
+   ```
+   DELETE /api/inventory/RES-456/release
+   ```
+
+### Conditional Routing: Dynamic Destination Selection
+
+**Routes can be selected dynamically** based on request data or previous API responses.
+
+**Example 1:** Shipping based on original request (no `previousDestination`):
+
+```hocon
+shipping {
+  method = "POST"
+  routes = [
+    {
+      url = "http://localhost:9000/api/domestic-shipping"
+      condition {
+        jsonPath = "$.shippingType"
+        operator = "eq"
+        value = "domestic"
+      }
+    },
+    {
+      url = "http://localhost:9000/api/international-shipping"
+      condition {
+        jsonPath = "$.shippingType"
+        operator = "eq"
+        value = "international"
+      }
+    }
+  ]
+}
+```
+
+**Example 2:** Billing based on fraud check (using `previousDestination`):
+
+```hocon
+# Sequence: inventory → fraudCheck → shipping → billing
+fanout {
+  OrderCreated = ["inventory", "fraudCheck", "shipping", "billing"]
+}
+
+# Fraud check returns risk score
+fraudCheck {
+  url = "http://localhost:9000/api/fraud/check"
+  method = "POST"
+  # Response: {"riskScore": 75, "riskLevel": "high", ...}
+}
+
+# Billing routes based on fraudCheck response
+billing {
+  method = "POST"
+  routes = [
+    {
+      # Low-risk: standard billing
+      url = "http://localhost:9000/api/billing"
+      condition {
+        jsonPath = "$.riskScore"
+        operator = "lt"
+        value = "50"
+        previousDestination = "fraudCheck"  # ← Check fraudCheck API response!
+      }
+      revert {
+        url = "http://localhost:9000/api/billing/{transactionId}/refund"
+        method = "POST"
+        extract {
+          transactionId = "response:$.transaction.id"
+          amount = "request:$.amount"
+          currency = "request:$.currency"
+        }
+        payload = """{"transactionId": "{transactionId}", "amount": "{amount}", "currency": "{currency}", "reason": "order_failed"}"""
+      }
+    },
+    {
+      # High-risk: high-value processor with additional verification
+      url = "http://localhost:9000/api/high-value-processing"
+      condition {
+        jsonPath = "$.riskScore"
+        operator = "gte"
+        value = "50"
+        previousDestination = "fraudCheck"  # ← Check fraudCheck API response!
+      }
+      revert {
+        url = "http://localhost:9000/api/high-value-processing/{processingId}/cancel"
+        method = "POST"
+        extract {
+          processingId = "response:$.processingId"
+          amount = "request:$.amount"
+          currency = "request:$.currency"
+        }
+        payload = """{"processingId": "{processingId}", "amount": "{amount}", "currency": "{currency}", "reason": "order_failed"}"""
+      }
+    }
+  ]
+}
+```
+
+**What happens:**
+
+1. **Fraud check API responds:**
+   ```json
+   {
+     "status": "success",
+     "riskScore": 75,
+     "riskLevel": "high",
+     "checks": {
+       "addressVerification": "passed",
+       "cvvCheck": "passed",
+       "velocityCheck": "flagged"
+     },
+     "timestamp": 1704670500000
+   }
+   ```
+
+2. **Billing evaluates conditions:**
+    - **Without `previousDestination`**: Checks `$.riskScore` in **original request** → Not found!
+    - **With `previousDestination="fraudCheck"`**: Checks `$.riskScore` in **fraudCheck response** → 75
+    - Evaluates: `75 >= 50` → TRUE
+    - Selects: `high-value-processing` route
+
+3. **Records which route was taken:**
+   ```
+   aggregate_results.endpoint_url = "http://localhost:9000/api/high-value-processing"
+   ```
+
+4. **During compensation:**
+    - Queries `aggregate_results` for the exact URL used
+    - Calls high-value processor's cancel endpoint (not standard billing refund)
+
+**Key insight:** `previousDestination` enables **decision chaining** - one API's response influences the next API's route. Essential for risk-based routing, feature flags, and context-dependent decisions.
+
+---
+
+### Respecting Rate Limits: Retry-After Header Support
+
+Real-world APIs impose rate limits and experience temporary outages. The system automatically respects server-specified retry delays using the `Retry-After` header.
+
+**The Problem:**
+
+```
+Your system: Makes 100 requests/second to billing API
+Billing API: Rate limit is 10 requests/second
+Result: 90% of your requests get 429 Too Many Requests
+```
+
+**Without Retry-After handling:** You keep retrying immediately, making the problem worse (retry storm).
+
+**With Retry-After handling:** You wait exactly as long as the server tells you to.
+
+#### Example 1: Fraud Check API with Auto-Detection
+
+Real-world fraud check APIs (Stripe Radar, Sift, etc.) often impose rate limits:
+
+```hocon
+fraudCheck {
+  url = "http://localhost:9000/api/fraud/check"
+  method = "POST"
+
+  retryAfter {
+    headerName = "Retry-After"  # Standard HTTP header
+    format = "auto"              # Auto-detect format (seconds, unix, ISO 8601, etc.)
+    fallbackSeconds = 30         # If header missing, wait 30 seconds
+  }
+}
+```
+
+**What happens:**
+
+```
+Request → POST /api/fraud/check
+Response → 429 Too Many Requests
+           Retry-After: 15
+
+System schedules retry for 15 seconds from now (not immediately!)
+```
+
+#### Example 2: Custom Header with Unix Timestamp (GitHub-Style)
+
+GitHub uses `X-RateLimit-Reset` with Unix epoch timestamp:
+
+```hocon
+github {
+  url = "https://api.github.com/repos/user/repo"
+  method = "GET"
+
+  retryAfter {
+    headerName = "X-RateLimit-Reset"  # Custom header name
+    format = "unix"                    # Unix epoch seconds
+    fallbackSeconds = 3600             # Wait 1 hour if header missing
+  }
+}
+```
+
+**Response headers:**
+
+```
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1704585600  # Unix timestamp
+```
+
+The system parses the timestamp and schedules retry at that exact time.
+
+#### Example 3: Retry Info in JSON Body
+
+Some APIs return retry timing in the response body:
+
+```hocon
+customApi {
+  url = "https://api.example.com/process"
+  method = "POST"
+
+  retryAfter {
+    fromBody = true                        # Look in response body, not headers
+    jsonPath = "$.rateLimit.retryAfter"   # JSONPath to retry delay
+    format = "seconds"
+    fallbackSeconds = 30
+  }
+}
+```
+
+**Response:**
+
+```json
+{
+  "status": "unavailable",
+  "message": "Service temporarily unavailable",
+  "rateLimit": {
+    "retryAfter": 20,
+    "reason": "maintenance_window"
+  }
+}
+```
+
+System extracts `20` from `$.rateLimit.retryAfter` and waits 20 seconds.
+
+#### Supported Formats
+
+The system automatically detects and parses multiple formats:
+
+| Format         | Example                         | Description                      |
+|----------------|---------------------------------|----------------------------------|
+| `auto`         | Tries all formats below         | Default - smartly detects format |
+| `seconds`      | `15`                            | Delay in seconds from now        |
+| `milliseconds` | `15000`                         | Delay in milliseconds from now   |
+| `unix`         | `1704585600`                    | Absolute Unix epoch seconds      |
+| `httpDate`     | `Wed, 21 Oct 2025 07:28:00 GMT` | RFC 1123 HTTP date format        |
+| `iso8601`      | `2025-10-21T07:28:00Z`          | ISO 8601 timestamp               |
+
+#### What Happens When Rate Limited
+
+```
+1. OutboxProcessor tries to publish event
+   ↓
+2. API responds: 429 Too Many Requests
+   Retry-After: 30
+   ↓
+3. System parses header: "Wait 30 seconds"
+   ↓
+4. UPDATE outbox_events SET
+   status = 'PENDING',
+   next_retry_at = NOW() + INTERVAL '30 seconds',
+   retry_count = retry_count + 1
+   ↓
+5. PostgreSQL trigger fires when next_retry_at <= NOW()
+   ↓
+6. OutboxProcessor wakes up at exact time and retries
+```
+
+---
+
+### What's Config-Driven vs What's Not
+
+Let's be clear about what still requires code changes:
+
+#### ❌ NOT Config-Driven: Forward Flow
+
+**You still need Scala code** to add a new destination to the forward flow:
+
+```scala
+// Must update domain event to include new destination
+case class OrderCreatedEvent(...) extends DomainEvent {
+  def toOutboxEvent: OutboxEvent = OutboxEvent(
+    aggregateId = orderId.toString,
+    eventType = "OrderCreated",
+    payloads = Map(
+      "inventory" -> DestinationConfig(payload = ...),
+  "shipping" -> DestinationConfig(payload = ...),
+  "billing" -> DestinationConfig(payload = ...),
+  "email" -> DestinationConfig(payload = ...) // ← New: requires code change
+  )
+  )
+}
+```
+
+#### ✅ Config-Driven: Compensation + Routing
+
+**No code changes needed** for:
+
+- Revert endpoint URLs and placeholders
+- JSONPath extraction from request/response
+- Conditional routing
+- Payload templates for compensation
+
+```hocon
+# Just add this to application.conf - no Scala code needed
+inventory {
+  method = "POST"
+  url = "http://localhost:9000/api/inventory/reserve"
+
+  revert {
+    url = "http://localhost:9000/api/inventory/{reservationId}/release"
+    method = "DELETE"
+    extract {
+      reservationId = "response:$.reservationId"
+    }
+  }
+}
+```
+
+## Manual Cancellation: User-Initiated Compensation
+
+So far we've discussed **automatic compensation** triggered by the DLQ when APIs fail after retries. But what about **user-initiated cancellations**?
+
+Real-world scenarios:
+
+- Customer cancels their order within 5 minutes
+- Support agent needs to refund a transaction
+- User clicks "Cancel Subscription" button
+- Admin manually reverses a failed operation
+
+**The insight:** We can reuse the exact same compensation machinery by inserting a **revert event** into the outbox.
+
+### The `!EventType` Notation
+
+When a user cancels, the system creates a domain event with the `!` prefix:
+
+```scala
+// User clicks "Cancel Order" button
+POST /api/orders/{orderId}/cancel
+```
+
+```scala
+// Domain event with ! prefix (models/DomainEvent.scala)
+case class OrderCancelledEvent(
+                                orderId: Long,
+                                reason: String,
+                                timestamp: Instant = Instant.now()
+                              ) extends DomainEvent {
+  override def aggregateId: String = orderId.toString
+
+  override def eventType: String = "!OrderCreated" // ← ! prefix triggers compensation
+
+  override def toPayload: JsValue = Json.obj(
+    "orderId" -> orderId,
+    "reason" -> reason,
+    "timestamp" -> timestamp.toString
+  )
+}
+
+// Repository uses OutboxHelper to transactionally insert event (repositories/OrderRepository.scala)
+def cancelWithEvent(orderId: Long, reason: String): DBIO[Int] =
+  for {
+    orderOpt <- findById(orderId)
+    _ <- orderOpt match {
+      case Some(_) => DBIO.successful(())
+      case None => DBIO.failed(new NoSuchElementException(s"Order $orderId not found"))
+    }
+    // Both DB update AND outbox event happen atomically
+    updated <- withEvent(
+      OrderCancelledEvent(
+        orderId = orderId,
+        reason = reason
+      )
+    ) {
+      orders
+        .filter(_.id === orderId)
+        .map(o => (o.orderStatus, o.updatedAt))
+        .update(("CANCELLED", Instant.now()))
+    }
+  } yield updated
+```
+
+**The magic:** `withEvent()` from `OutboxHelper` transactionally:
+
+1. Updates the order status to `CANCELLED`
+2. Inserts `!OrderCreated` event into `outbox_events`
+3. Both succeed or both fail (atomicity guaranteed)
+
+### What Happens Next
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 1: User Action → Outbox Event                              │
+└─────────────────────────────────────────────────────────────────┘
+
+User clicks "Cancel Order" (orderId: 123)
+    ↓
+Controller inserts into outbox_events:
+  aggregate_id: "123"
+  event_type: "!OrderCreated"  ← Revert event
+  payloads: {}
+  status: PENDING
+    ↓
+pg_notify('outbox_events_channel')
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 2: HttpEventPublisher Detects Revert Event                 │
+└─────────────────────────────────────────────────────────────────┘
+
+OutboxProcessor picks up event:
+  eventType.startsWith("!") → true
+    ↓
+Strip prefix: "!OrderCreated" → "OrderCreated"
+    ↓
+Lookup fanout config: OrderCreated → ["billing", "shipping", "inventory"]
+    ↓
+Reverse order (LIFO): ["inventory", "shipping", "billing"]
+    ↓
+Convert to Revert destinations: [Revert("inventory"), Revert("shipping"), Revert("billing")]
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 3: Query Successful Forward Calls                          │
+└─────────────────────────────────────────────────────────────────┘
+
+For each Revert destination, query aggregate_results:
+  SELECT * FROM aggregate_results
+  WHERE aggregate_id = '123'
+    AND destination = 'billing'        ← Check each destination
+    AND event_type = 'OrderCreated'    ← Forward flow only
+    AND success = true                 ← Only successful calls
+
+Results:
+  - billing: ✅ Success (transactionId: "TX-456")
+  - shipping: ✅ Success (shippingId: "SHIP-789")
+  - inventory: ✅ Success (reservationId: "RES-123")
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 4: Build Revert Endpoints from Forward Results             │
+└─────────────────────────────────────────────────────────────────┘
+
+For billing (from aggregate_results):
+  request_payload: {"amount": 99.99, "currency": "USD", "timestamp": "2025-01-07T10:30:00Z"}
+  response_payload: {
+    "status": "success",
+    "message": "Payment processed successfully",
+    "transaction": {
+      "id": "TXN-123-1704623400000",
+      "amount": 99.99,
+      "currency": "USD",
+      "status": "completed",
+      "processedAt": 1704623400000
+    },
+    "aggregateId": "123",
+    "timestamp": 1704623400000
+  }
+
+Extract using config:
+  billing.revert.extract {
+    transactionId = "response:$.transaction.id" → "TXN-123-1704623400000"
+    amount = "request:$.amount" → 99.99
+    currency = "request:$.currency" → "USD"
+  }
+
+Build revert URL:
+  Template: "/api/billing/{transactionId}/refund"
+  Result: "/api/billing/TXN-123-1704623400000/refund"
+
+Build revert payload:
+  Template: {"transactionId": "{transactionId}", "amount": "{amount}", "currency": "{currency}", "reason": "order_failed"}
+  Result: {"transactionId": "TXN-123-1704623400000", "amount": 99.99, "currency": "USD", "reason": "order_failed"}
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Step 5: Execute Compensation in LIFO Order                      │
+└─────────────────────────────────────────────────────────────────┘
+
+Call revert APIs:
+  1. DELETE /api/inventory/RES-123        ✅ → UPSERT aggregate_results
+                                                (aggregate_id: "123",
+                                                 destination: "inventory",
+                                                 event_type: "OrderCreated:REVERT")
+
+  2. POST /api/shipping/SHIP-789/cancel   ✅ → UPSERT aggregate_results
+                                                (aggregate_id: "123",
+                                                 destination: "shipping",
+                                                 event_type: "OrderCreated:REVERT")
+
+  3. POST /api/billing/TX-456/refund      ✅ → UPSERT aggregate_results
+                                                (aggregate_id: "123",
+                                                 destination: "billing",
+                                                 event_type: "OrderCreated:REVERT")
+
+Mark outbox event as PROCESSED
+```
+
+### Key Differences: Manual vs Automatic Compensation
+
+| Aspect             | Manual (`!OrderCreated` in outbox) | Automatic (DLQ)                     |
+|--------------------|------------------------------------|-------------------------------------|
+| **Trigger**        | User action (cancel button)        | Forward API fails after max retries |
+| **Table**          | `outbox_events`                    | `dead_letter_events`                |
+| **Payloads**       | Empty (queries DB)                 | Copied from original event          |
+| **Timing**         | Immediate (user-initiated)         | After retry exhaustion              |
+| **Use Case**       | Cancellations, refunds             | Failure recovery                    |
+| **Retry Behavior** | Standard outbox retries            | Separate DLQ retry count            |
+
+### What If Compensation Fails?
+
+**For manual cancellations:**
+
+```scala
+// In OutboxProcessor.scala (lines 324-333)
+val isRevertEvent = event.eventType.startsWith("!")
+
+if (isRevertEvent) {
+  // Revert events don't go to DLQ - they're already compensation!
+  // Mark as failed and require manual intervention
+  log.error(
+    s"Revert event ${event.id} (${event.eventType}) exceeded retries - " +
+      s"marking as FAILED, requires manual intervention"
+  )
+  db.run(outboxRepo.markProcessed(event.id)).map(_ => false)
+}
+```
+
+**Critical insight:** Revert events **never go to DLQ** because:
+
+- They're already compensation operations
+- "Reverting the revert" would create infinite loops
+- Failed compensation requires human judgment
+
+If `!OrderCreated` fails after retries:
+
+1. ❌ Mark as `PROCESSED` with error
+2. ⚠️ Alert operations team
+3. 👤 Manual intervention required (retry via admin UI, contact vendor, etc.)
+
+### Example: Idempotent Compensation
+
+What if the user clicks "Cancel" twice?
+
+```
+First cancellation:
+  INSERT INTO outbox_events (aggregate_id: "123", event_type: "!OrderCreated")
+    ↓
+  Query aggregate_results for successful forward calls
+    ↓
+  Found: billing ✅, shipping ✅, inventory ✅
+    ↓
+  Execute compensation: DELETE inventory, cancel shipping, refund billing
+    ↓
+  Store results: "OrderCreated:REVERT" for each destination
+
+Second cancellation (5 seconds later):
+  INSERT INTO outbox_events (aggregate_id: "123", event_type: "!OrderCreated")
+    ↓
+  Query aggregate_results for successful forward calls
+    ↓
+  Check: Already compensated? (event_type = "OrderCreated:REVERT" exists)
+    ↓
+  Skip: No compensation needed
+    ↓
+  Mark outbox event as PROCESSED (no-op)
+```
+
+The system is **naturally idempotent** because:
+
+- `aggregate_results` tracks both forward and revert calls
+- Before compensating, it checks if `OrderCreated:REVERT` already exists
+- If already compensated, gracefully skips (no duplicate refunds!)
+
+### Real-World Use Cases
+
+**1. Subscription Cancellation:**
+
+```scala
+// User cancels subscription
+db.run {
+  outboxEvents += OutboxEvent(
+    aggregateId = subscriptionId.toString,
+    eventType = "!SubscriptionActivated",
+    payloads = Map.empty
+  )
+}
+// → Reverts: payment gateway, email service, analytics tracking
+```
+
+**2. Refund Request:**
+
+```scala
+// Support agent initiates refund
+db.run {
+  outboxEvents += OutboxEvent(
+    aggregateId = orderId.toString,
+    eventType = "!OrderCreated",
+    payloads = Map.empty
+  )
+}
+// → Reverts: billing (refund), shipping (cancel), inventory (release)
+```
+
+**3. Feature Flag Rollback:**
+
+```scala
+// Admin disables feature for specific user
+db.run {
+  outboxEvents += OutboxEvent(
+    aggregateId = userId.toString,
+    eventType = "!FeatureEnabled",
+    payloads = Map.empty
+  )
+}
+// → Reverts: license server, usage tracking, notification service
+```
+
+### The Power of Reusing Compensation Logic
+
+By using the `!` prefix convention:
+
+- ✅ Same configuration (revert URLs, extract rules)
+- ✅ Same compensation code path (LIFO, idempotency)
+- ✅ Same audit trail (`aggregate_results` with `:REVERT` suffix)
+- ✅ Same monitoring and alerting
+- ✅ Unified operational runbooks
+
+**One compensation engine, two triggers:**
+
+1. Automatic: DLQ when forward APIs fail
+2. Manual: `!EventType` when users/admins cancel
+
+---
+
+## The Three Tables (Why Each Exists)
+
+### 1. `outbox_events` — The Work Queue
+
+```sql
+CREATE TABLE outbox_events
+(
+    id              BIGSERIAL PRIMARY KEY,
+    aggregate_id    VARCHAR(255) NOT NULL,         -- "ORDER-123"
+    event_type      VARCHAR(255) NOT NULL,         -- "OrderCreated"
+    payloads        JSONB        NOT NULL,         -- {"inventory": {...}, "shipping": {...}}
+    status          VARCHAR(20) DEFAULT 'PENDING', -- PENDING → PROCESSING → PROCESSED
+    retry_count     INT         DEFAULT 0,
+    next_retry_at   TIMESTAMP,                     -- NULL = ready now
+    idempotency_key VARCHAR(512) NOT NULL          -- Prevent duplicates
+);
+
+-- Unique constraint: prevent duplicate events
+CREATE UNIQUE INDEX idx_outbox_idempotency ON outbox_events (idempotency_key)
+    WHERE status != 'PROCESSED';
+```
+
+**Purpose**: One row = one business event that fans out to N destinations.
+
+### 2. `aggregate_results` — The Audit Log (Enables Compensation)
+
+```sql
+CREATE TABLE aggregate_results
+(
+    id               BIGSERIAL PRIMARY KEY,
+    aggregate_id     VARCHAR(255)  NOT NULL, -- "ORDER-123"
+    event_type       VARCHAR(255)  NOT NULL, -- "OrderCreated" or "OrderCreated:REVERT"
+    destination      VARCHAR(255)  NOT NULL, -- "inventory", "shipping", etc.
+    endpoint_url     VARCHAR(1024) NOT NULL, -- Actual URL called
+    request_payload  JSONB,                  -- What we sent
+    response_payload JSONB,                  -- What they returned (contains IDs!)
+    success          BOOLEAN       NOT NULL, -- Did it work?
+    published_at     TIMESTAMP DEFAULT NOW()
+);
+
+-- Unique constraint: one result per aggregate+destination+event_type
+CREATE UNIQUE INDEX idx_aggregate_results_unique
+    ON aggregate_results (aggregate_id, destination, event_type);
+```
+
+**Purpose**: One row = one HTTP call to one destination. Tracks:
+
+- Which calls succeeded (for compensation)
+- Response IDs needed for revert (e.g., `shippingId` to cancel)
+- Complete audit trail
+
+**The `:REVERT` suffix** ensures forward and revert results coexist:
+
+- `event_type = "OrderCreated"` → forward flow
+- `event_type = "OrderCreated:REVERT"` → compensation flow
+
+### 3. `dead_letter_events` — The Compensation Queue
+
+```sql
+CREATE TABLE dead_letter_events
+(
+    id                 BIGSERIAL PRIMARY KEY,
+    original_event_id  BIGINT        NOT NULL,
+    aggregate_id       VARCHAR(255)  NOT NULL,
+    event_type         VARCHAR(255)  NOT NULL,
+    payloads           JSONB         NOT NULL,
+    status             VARCHAR(20) DEFAULT 'PENDING', -- Compensation status
+    revert_retry_count INT         DEFAULT 0,         -- Retry compensation
+    failed_at          TIMESTAMP   DEFAULT NOW(),
+    reason             VARCHAR(1024) NOT NULL
+);
+```
+
+**Purpose**: Events that exhausted retries. Triggers compensation.
+
+---
+
+## PostgreSQL LISTEN/NOTIFY: Instant Event Processing
+
+Instead of polling every N seconds, we use database triggers:
+
+```sql
+CREATE OR REPLACE FUNCTION notify_new_outbox_event()
+    RETURNS trigger AS
+$$
+BEGIN
+    IF NEW.status = 'PENDING' AND (
+        TG_OP = 'INSERT' OR
+        (OLD.status IS DISTINCT FROM 'PENDING' AND
+         (NEW.next_retry_at IS NULL OR NEW.next_retry_at <= NOW()))
+        ) THEN
+        PERFORM pg_notify('outbox_events_channel', NEW.id::text);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER outbox_event_inserted
+    AFTER INSERT OR UPDATE OF status
+    ON outbox_events
+    FOR EACH ROW
+EXECUTE FUNCTION notify_new_outbox_event();
+```
+
+The Pekko actor subscribes to `outbox_events_channel` and wakes up **instantly** when:
+
+- New events are inserted
+- Events become ready for retry (`next_retry_at <= NOW()`)
+
+---
+
+## The Pekko Actors Architecture
+
+```
+┌─────────────────┐
+│ OrderService    │ ← Writes order + outbox event transactionally
+└────────┬────────┘
+         │
+         ▼ pg_notify('outbox_events_channel')
+┌──────────────────────────────────────────────┐
+│ OutboxProcessor (Pekko Actor)                │
+│ - Listens to NOTIFY                          │
+│ - Claims events (UPDATE status='PROCESSING') │
+│ - Publishes to each destination              │
+│ - Records results in aggregate_results       │
+└────────┬─────────────────────────────────────┘
+         │
+         ├─ Success → markAsProcessed()
+         └─ Failure (max retries) → moveFromOutbox()
+                                       │
+                                       ▼
+                      ┌────────────────────────────┐
+                      │ dead_letter_events         │
+                      └────────┬───────────────────┘
+                               │ pg_notify('dlq_events_channel')
+                               ▼
+           ┌────────────────────────────────────────┐
+           │ DLQProcessor (Pekko Actor)             │
+           │ 1. Query aggregate_results for SUCCESS │
+           │ 2. Reverse order (LIFO)                │
+           │ 3. Build revert endpoints              │
+           │ 4. Publish with ":REVERT" suffix       │
+           └────────────────────────────────────────┘
+```
+
+---
+
+## Running the Example
+
+Want to see it in action? The [GitHub repository](https://github.com/hanishi/never-call-apis-inside-database-transactions) includes a complete working example.
+
+```bash
+# Clone and run
+git clone https://github.com/hanishi/never-call-apis-inside-database-transactions
+cd never-call-apis-inside-database-transactions
+docker-compose up -d postgres
+sbt run
+
+# Open http://localhost:9000
+```
+
+The repository includes:
+- Interactive UI for creating orders and triggering failures
+- Configurable failure rates to test compensation
+- Complete database schema with sample queries
+- Detailed README with step-by-step walkthrough
+
+Try it yourself to see the patterns in action:
+- **Happy path**: All API calls succeed
+- **Automatic compensation**: Billing fails, system reverts in LIFO order
+- **Manual cancellation**: User cancels, all APIs compensated
+- **Audit trail**: Query `aggregate_results` to see every API call
+
+### Testing Compensation
+
+Want to see compensation in action? Edit `conf/application.conf` to make billing always fail:
+
+```hocon
+service.failure.rates {
+  billing.charge = 1.0  # Change from 0.3 to 1.0 (100% failure rate)
+  # ... other settings ...
+}
+```
+
+Restart the application and create an order - you'll see automatic LIFO compensation as the system reverts shipping and inventory reservations.
+
+---
+
+## Let Me Be Honest With You
+
+### This Isn't a Silver Bullet
+
+The patterns in this blog post don't make distributed systems "easy."
+They make them **survivable**.
+
+- You'll still get paged at 3 AM
+- You'll still have to write runbooks for edge cases
+- You'll still need monitoring, alerting, and operational discipline
+- You'll still encounter failure modes you never imagined
+
+### But Here's What You Gain
+
+Instead of debugging:
+
+- "Why was the customer charged, but there's no order in the database?"
+- "Why is inventory reserved for orders that don't exist?"
+- "How do I find all the orphaned shipments from last week's outage?"
+
+You'll be debugging:
+
+- "Why is this DLQ retry taking longer than expected?"
+- "Should we increase the retry backoff for this destination?"
+- "Can we optimize this compensation query?"
+
+**The failure modes become manageable.**
+The 3 AM pages become fixable. The data inconsistencies become **impossible by design**.
+
+### If You Remember Nothing Else
+
+**Never call external APIs inside a database transaction.**
+
+That one rule - enforced by these patterns - prevents an entire class of distributed systems bugs that have haunted production systems since the dawn of microservices.
+
+Distributed systems are hard. But they don't have to be **that** hard.
+
+---
+
+:::tip[Working Implementation]
+Check out the complete working project on GitHub: [**never-call-apis-inside-database-transactions**](https://github.com/hanishi/never-call-apis-inside-database-transactions)
+:::
