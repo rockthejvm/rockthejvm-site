@@ -1,9 +1,9 @@
 ---
 category: explanation
 difficulty: intermediate
-excerpt: "Explore Scala effect systems from monadic approaches (Cats Effect, ZIO, Kyo) to novel direct-style handlers using context functions"
+excerpt: "Explore Scala effect systems from monadic approaches (Cats Effect, ZIO, Kyo) to novel direct-style handlers using context functions, including Ox and YAES"
 publishedDate: 2026-01-09
-tags: [scala, scala-3, fp, effects, monads, context-functions, cats-effect, zio, kyo]
+tags: [scala, scala-3, fp, effects, monads, context-functions, cats-effect, zio, kyo, ox, yaes]
 title: "The Effect Pattern and the Effect Systems"
 author: riccardo-cardin
 ---
@@ -522,5 +522,7 @@ We've explored two approaches to the Effect Pattern in Scala. Monadic systems li
 When should we use monadic approaches? When we're working on Scala 2 projects that can't upgrade to Scala 3. When our team is already comfortable with functional patterns and monadic reasoning. When we need maximum type safety and are willing to pay the learning curve cost. When we need the rich combinators and ecosystem that mature effect libraries provide. These are all good reasons to choose the monadic path.
 
 When should we use direct-style? On Scala 3 projects where context functions are available. When our team is new to functional programming and the monadic learning curve would slow down development. When we prioritize code readability and want effects to look like imperative code. When we're building a new system and can choose our abstractions freely. When we believe that 80% of our use cases don't need the full power of monadic effects.
+
+We've built our own minimal effect system to understand the principles. But we don't have to roll our own in production. The Scala ecosystem has direct-style libraries that provide implementations. Let's look at two notable ones: [Ox](https://ox.softwaremill.com/latest/) and [YAES](https://blog.rcard.in/yaes/).
 
 **The Effect Pattern is the real insight here.** Whether we express it with monads or context functions, we're separating description from execution. **That separation is what makes side effects manageable, testable, and composable.** The implementation details are secondary to understanding that core principle. Once we understand the Effect Pattern, we can choose the implementation that fits our context. Both paths lead to safer, more maintainable code. The journey matters less than the destination.
