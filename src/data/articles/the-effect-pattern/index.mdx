@@ -61,9 +61,9 @@ The solution is the **Effect Pattern**, a technique for tracking and controlling
 
 ## The Effect Pattern Foundation
 
-The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what it does without reading the implementation. If we use the `IO` type, we're saying "this function might do side effects when executed". If we use `ZIO[Database, Exception, User]`, we're saying "this function needs a Database capability, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier. (Don't worry, you don't need to know what Cats Effect `IO` or ZIO `ZIO` are to understand the concepts we'll explore).
+The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what kind of effects it uses without reading the implementation. If we use the `IO` type, we're saying "this function might do side effects when executed". If we use `ZIO[Database, Exception, User]`, we're saying "this function needs a the capability to access to a Database, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier. (Don't worry, you don't need to know what Cats Effect `IO` or ZIO `ZIO` are to understand the concepts we'll explore).
 
-The type system becomes documentation that never lies.
+The type system becomes documentation.
 
 Second, **deferred execution** means we separate description from execution. Think of it like a recipe versus cooking. A recipe describes steps: mix flour and eggs, bake at 350 degrees, and frost when cool. But the recipe doesn't bake anything. It's just information on paper. Cooking is when you actually perform those steps and produce food. **Similarly, an effect is a description: read this file, parse this JSON, query this database.** But nothing happens when you create the effect. Execution happens later, when you explicitly run it at the boundaries of your system.
 
@@ -93,7 +93,7 @@ val same2 = effect
 
 **Testability improves dramatically.** We can swap in mock implementations instead of running real effects. Need to test code that queries a database? Provide a test handler that returns predictable values. No actual database required. No HTTP calls to external services. No waiting for file I/O. Tests run fast and deterministically.
 
-Composition becomes natural and safe. We chain effects together using combinators. Build complex workflows from simple pieces. Retry on failure, run operations in parallel, and add timeouts. All without changing the core logic:
+Composition becomes natural and safe. We chain effects together using combinators. **Build complex workflows from simple pieces**. Retry on failure, run operations in parallel, and add timeouts. All without changing the core logic:
 
 ```scala 3
 // Effect composition with retry policy
@@ -107,7 +107,7 @@ val resilientUser: IO[User] =
     }
 ```
 
-It's not important which specific effect system we use. The above code wrapped the `getUser` effectful operation with retries, timeouts, and error handling, and we still have an `IO[User]` back.
+It's not important which specific library we use. The above code wrapped the `getUser` effectful operation with retries, timeouts, and error handling, and we still have an `IO[User]` back.
 
 Now that we understand what the Effect Pattern gives us, how do we actually implement it? The implementation of the Effect Pattern is called an **Effect System**. As we said, we need two key features: type tracking and deferred execution. Then, we need structures to manage and execute effects.
 
@@ -119,9 +119,9 @@ The most established approach to effect systems uses **monads** (if you need a r
 
 ### Cats Effect: The Über Effect
 
-Cats Effect's `IO` monad is what we call an 'über effect'. **One type handles all effects.** Every operation that might have side effects gets wrapped in `IO`. Reading files? `IO`. Making HTTP requests? `IO`. Generating random numbers? `IO`. The benefit is uniformity. We don't need to learn different types for different effects. The cost is that we miss some precision. An `IO[A]` tells us "this might do effects and produces an A or might fail with an exception", but it doesn't tell us what kind of effects or how it might fail (we have full courses on Cats Effect: the [Cats Effect](https://rockthejvm.com/courses/cats-effect) course and the [Typelevel Rite of Passage](https://rockthejvm.com/courses/typelevel-rite-of-passage). Check them out!).
+Cats Effect's `IO` monad is what we call an 'über effect'. **One type tracks and handles all effects.** Every operation that might have side effects gets wrapped in `IO`. Reading files? `IO`. Making HTTP requests? `IO`. Generating random numbers? `IO`. The benefit is uniformity. We don't need to learn different types for different effects. The cost is that we miss some precision. An `IO[A]` tells us "this might do effects and produces an A or might fail with an exception", but it doesn't tell us what kind of effects or how it might fail (we have full courses on Cats Effect: the [Cats Effect](https://rockthejvm.com/courses/cats-effect) course and the [Typelevel Rite of Passage](https://rockthejvm.com/courses/typelevel-rite-of-passage). Check them out!).
 
-Here's our drunk flip using Cats Effect:
+We can write our drunk flip function using Cats Effect:
 
 ```scala 3
 import cats.effect.IO
@@ -151,7 +151,7 @@ val resultF: Future[String] = drunkFlip.unsafeToFuture()
 
 Notice we've achieved the Effect Pattern. Type tracking works: the signature `IO[String]` tells us this performs effects and produces a `String`. Deferred execution works: building the effect doesn't run anything. Execution happens when we explicitly trigger it.
 
-If we want to have the exact list of the effects used, we can use a different approach, using tagless final style with type classes to represent capabilities:
+If we want to have the exact list of the effects used, we can use a different approach, using tagless final style with type classes to represent capabilities (don't know tagless final? Check out the article [Tagless Final in Scala Quickly Explained](https://rockthejvm.com/articles/tagless-final-in-scala)):
 
 ```scala 3
 def drunkFlipF[F[_]: Monad](using R: Raise[F, String], A: Random[F]): F[String] =
@@ -216,19 +216,19 @@ The power is undeniable, but so is the learning curve for newcomers to functiona
 
 [Kyo](https://getkyo.io/#/) takes a different approach that introduces **algebraic effects** to Scala. Instead of one über effect type, **you list effects separately and can handle them independently.** This is more modular than the über effect approach. Want randomness and error handling? Compose `Random` and `Abort`. Need different effects elsewhere? Use a different composition.
 
-Here's drunk flip in Kyo:
+The drunk flip function in Kyo becomes:
 
 ```scala 3
 import kyo.*
 
-def drunkFlip: String < (Abort[Exception] & Sync) =
+def drunkFlip: String < (Abort[String] & Sync) =
   for {
     caught <- Random.nextBoolean
     heads  <- if (caught) Random.nextBoolean else Abort.fail("We dropped the coin")
   } yield if (heads) "Heads" else "Tails"
 ```
 
-The type `String < (Abort[Exception] & Sync)` means "a `String` computation with `Abort` and `Sync` effects". The `Random` operations in Kyo return values with the `Sync` effect pending. The `Sync` effect defers any computations that can perform side effects.
+The type `String < (Abort[String] & Sync)` means "a `String` computation with `Abort` and `Sync` effects". The `Random` operations in Kyo return values with the `Sync` effect pending. The `Sync` effect defers any computations that can perform side effects.
 
 The nice part is that we can handle effects separately. It's one of the appealing properties of algebraic effect systems. Want to run just the error handling? Use `Abort.run`:
 
