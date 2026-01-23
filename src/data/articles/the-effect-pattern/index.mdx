@@ -12,6 +12,22 @@ author: riccardo-cardin
 
 We love functional programming for good reasons. Pure functions are predictable. The substitution model makes reasoning easy. Referential transparency means we can replace expressions with their values without changing program behavior. But here's the tension that every functional programmer faces: the real world is messy. We need randomness, database queries, HTTP requests, file I/O. How do we reconcile functional purity with the side effects that make our programs useful?
 
+Let's explore the different approaches to managing side effects in Scala, from the established monadic effect systems like Cats Effect and ZIO to the novel direct-style effect handlers enabled by Scala 3's context functions.
+
+## Setup
+
+The code in this article will use many different libraries to illustrate the different approaches. To follow along, ensure you have Scala 3 set up in your development environment. Moreover, let's add the following dependencies to our `build.sbt` file:
+
+```sbt
+libraryDependencies ++= Seq(
+  "org.typelevel" %% "cats-effect" % "3.6.3",
+  "dev.zio".      %% "zio"         % "2.1.24",
+  "io.getkyo"     %% "kyo-core"    % "1.0-RC1"
+)
+```
+
+## The Problem: Side Effects Break Purity
+
 Let's take an example. Imagine a drunk gambler at a casino who wants to flip a coin. Because they're drunk, the flip might go wrong. They might drop the coin, flip it into their drink, or miss the catch entirely. In code, this might look like:
 
 ```scala 3
@@ -37,30 +53,15 @@ val result2 = drunkFlip()  // Different result each time!
 
 If the substitution model held, we could replace `drunkFlip()` with `result1` anywhere in our code. But we can't. Each call to `drunkFlip()` can yield different results or throw an exception. The behavior isn't consistent.
 
-Side effects have invaded our pure functional world. We can't apply the substitution model.
-
-
-We say that **the function is impure, and impurity spreads like a virus through our codebase.**
+Side effects have invaded our pure functional world. We can't apply the substitution model. We say that **the function is impure, and impurity spreads like a virus through our codebase.**
 
 Is it all doom and gloom? Not at all. Functional programming has a solution for managing side effects while preserving purity.
 
 The solution is the **Effect Pattern**, a technique for tracking and controlling side effects. The pattern has two core principles. First, **type tracking** means effects are encoded in types so we can see what a function does just by looking at its signature. Second, **deferred execution** means building the effect description is separate from running it. But how do we implement this pattern? The Scala ecosystem offers several approaches, each with different trade-offs. Some use the traditional monadic style with `flatMap` and `map`. Others leverage Scala 3's context functions to make effects look almost like imperative code. We'll explore both paths and understand when each makes sense.
 
-## Setup
-
-The code in this article will use many different libraries to illustrate the different approaches. To follow along, ensure you have Scala 3 set up in your development environment. Moreover, let's add the following dependencies to our `build.sbt` file:
-
-```sbt
-libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-effect" % "3.6.3",
-  "dev.zio".      %% "zio"         % "2.1.24",
-  "io.getkyo"     %% "kyo-core"    % "1.0-RC1"
-)
-```
-
 ## The Effect Pattern Foundation
 
-The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what it does without reading the implementation. In case we we use the `IO` type, we're saying "this function might do side effects when executed". In case we use `ZIO[Database, Exception, User]`, we're saying "this function needs a Database capability, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier.
+The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what it does without reading the implementation. In case we use the `IO` type, we're saying "this function might do side effects when executed". In case we use `ZIO[Database, Exception, User]`, we're saying "this function needs a Database capability, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier. (Don't worry, you don't need to know what Cats Effect `IO` or Zio `ZIO` to understand the concepts that we'll explore).
 
 The type system becomes documentation that never lies.
 
@@ -114,11 +115,11 @@ The Scala ecosystem has explored several approaches, each with different trade-o
 
 ## Monadic Effect Systems
 
-The most established approach to effect systems uses **monads**. If we've worked with Scala's `Option`, `Try`, or `Future`, we've already used monads. The pattern is consistent across all of them: wrap computations in a type, chain them with `flatMap` and `map`, run them when ready. Monadic effect systems apply this familiar pattern to side effects. Let's explore three major implementations, each solving the Effect Pattern in slightly different ways.
+The most established approach to effect systems uses **monads** (if you need a refresher on monads, check out the article [An Introduction to Monads in Scala](https://rockthejvm.com/articles/an-introduction-to-monads-in-scala)). If we've worked with Scala's `Option`, `Try`, or `Future`, we've already used monads. The pattern is consistent across all of them: wrap computations in a type, chain them with `flatMap` and `map`, run them when ready. Monadic effect systems apply this familiar pattern to side effects. Let's explore three major implementations, each solving the Effect Pattern in slightly different ways.
 
 ### Cats Effect: The Über Effect
 
-Cats Effect's `IO` monad is what we call an 'über effect'. **One type handles all effects.** Every operation that might have side effects gets wrapped in `IO`. Reading files? `IO`. Making HTTP requests? `IO`. Generating random numbers? `IO`. The benefit is uniformity. We don't need to learn different types for different effects. The cost is that we miss some precision. An `IO[A]` tells us "this might do effects and produces an A or might fail with and exception", but it doesn't tell us what kind of effects or how it might fail.
+Cats Effect's `IO` monad is what we call an 'über effect'. **One type handles all effects.** Every operation that might have side effects gets wrapped in `IO`. Reading files? `IO`. Making HTTP requests? `IO`. Generating random numbers? `IO`. The benefit is uniformity. We don't need to learn different types for different effects. The cost is that we miss some precision. An `IO[A]` tells us "this might do effects and produces an A or might fail with and exception", but it doesn't tell us what kind of effects or how it might fail (we have full courses on Cats Effect, the [Cats Effect](https://rockthejvm.com/courses/cats-effect) course and the [Typelevel Rite of Passage](https://rockthejvm.com/courses/typelevel-rite-of-passage). Check them out!).
 
 Here's our drunk flip using Cats Effect:
 
@@ -168,7 +169,7 @@ Notice the cognitive overhead. We need to understand `flatMap` and for-comprehen
 
 ### ZIO: Adding Precision
 
-ZIO goes further than Cats Effect. Instead of just `IO[A]`, we get `ZIO[R, E, A]` where `R` represents requirements or dependencies, `E` represents the error type, and `A` represents the success type. **This is more precise than a simple IO wrapper.** The type signature tells us everything about the computation: what dependencies does this function need? How can it fail? What does it produce on success?
+ZIO goes further than Cats Effect. Instead of just `IO[A]`, we get `ZIO[R, E, A]` where `R` represents requirements or dependencies, `E` represents the error type, and `A` represents the success type. **This is more precise than a simple IO wrapper.** The type signature tells us everything about the computation: what dependencies does this function need? How can it fail? What does it produce on success? (Again, we're plenty of courese even on ZIO. Check out the [ZIO course](https://rockthejvm.com/courses/zio), and the [ZIO Rite of Passage](https://rockthejvm.com/courses/zio-rite-of-passage))
 
 Here's drunk flip in ZIO:
 
