@@ -46,6 +46,18 @@ Is it all doom and gloom? Not at all. Functional programming has a solution for 
 
 The solution is the **Effect Pattern**, a technique for tracking and controlling side effects. The pattern has two core principles. First, **type tracking** means effects are encoded in types so we can see what a function does just by looking at its signature. Second, **deferred execution** means building the effect description is separate from running it. But how do we implement this pattern? The Scala ecosystem offers several approaches, each with different trade-offs. Some use the traditional monadic style with `flatMap` and `map`. Others leverage Scala 3's context functions to make effects look almost like imperative code. We'll explore both paths and understand when each makes sense.
 
+## Setup
+
+The code in this article will use many different libraries to illustrate the different approaches. To follow along, ensure you have Scala 3 set up in your development environment. Moreover, let's add the following dependencies to our `build.sbt` file:
+
+```sbt
+libraryDependencies ++= Seq(
+  "org.typelevel" %% "cats-effect" % "3.6.3",
+  "dev.zio" %% "zio" % "2.1.24",
+  "io.getkyo" %% "kyo-core" % "1.0-RC1"
+)
+```
+
 ## The Effect Pattern Foundation
 
 The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what it does without reading the implementation. In case we we use the `IO` type, we're saying "this function might do side effects when executed". In case we use `ZIO[Database, Exception, User]`, we're saying "this function needs a Database capability, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier.
