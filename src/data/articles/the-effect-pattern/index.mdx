@@ -10,18 +10,18 @@ author: riccardo-cardin
 
 ## Introduction
 
-We love functional programming for good reasons. Pure functions are predictable. The substitution model makes reasoning easy. Referential transparency means we can replace expressions with their values without changing program behavior. But here's the tension that every functional programmer faces: the real world is messy. We need randomness, database queries, HTTP requests, file I/O. How do we reconcile functional purity with the side effects that make our programs useful?
+We love functional programming for good reasons. Pure functions are predictable. The substitution model makes reasoning easy. Referential transparency means we can replace expressions with their values without changing program behavior. But here's the tension that every functional programmer faces: the real world is messy. We need randomness, database queries, HTTP requests, and file I/O. How do we reconcile functional purity with the side effects that make our programs useful?
 
 Let's explore the different approaches to managing side effects in Scala, from the established monadic effect systems like Cats Effect and ZIO to the novel direct-style effect handlers enabled by Scala 3's context functions.
 
 ## Setup
 
-The code in this article will use many different libraries to illustrate the different approaches. To follow along, ensure you have Scala 3 set up in your development environment. Moreover, let's add the following dependencies to our `build.sbt` file:
+The code in this article uses several libraries to illustrate different approaches. To follow along, ensure you have Scala 3 set up in your development environment. Moreover, let's add the following dependencies to our `build.sbt` file:
 
 ```sbt
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-effect" % "3.6.3",
-  "dev.zio".      %% "zio"         % "2.1.24",
+  "dev.zio"       %% "zio"         % "2.1.24",
   "io.getkyo"     %% "kyo-core"    % "1.0-RC1"
 )
 ```
@@ -42,7 +42,7 @@ def drunkFlip(): String = {
 }
 ```
 
-This code has problems that go beyond the gambler's alcohol consumption. It uses randomness, which means calling it twice might give different results. It throws exceptions, which can break our program in unexpected ways. We can't test it without actual randomness. We can't compose it safely with other operations because it might explode at any moment.
+This code has problems that go beyond the gambler's alcohol consumption. It uses randomness, so calling it twice might yield different results. It throws exceptions, which can break our program in unexpected ways. We can't test it without actual randomness. We can't compose it safely with other operations because it might explode at any moment.
 
 Let's try to apply the substitution model:
 
@@ -51,21 +51,21 @@ val result1 = drunkFlip()  // Might throw, might return "Heads" or "Tails"
 val result2 = drunkFlip()  // Different result each time!
 ```
 
-If the substitution model held, we could replace `drunkFlip()` with `result1` anywhere in our code. But we can't. Each call to `drunkFlip()` can yield different results or throw an exception. The behavior isn't consistent.
+If the substitution model held, we could replace `drunkFlip()` with `result1` anywhere in our code. But we can’t. Each call to `drunkFlip()` can yield different results or throw an exception. The behavior isn’t consistent.
 
-Side effects have invaded our pure functional world. We can't apply the substitution model. We say that **the function is impure, and impurity spreads like a virus through our codebase.**
+Side effects have invaded our pure functional world. We can’t apply the substitution model. We say that **the function is impure, and impurity spreads like a virus through our codebase**.
 
 Is it all doom and gloom? Not at all. Functional programming has a solution for managing side effects while preserving purity.
 
-The solution is the **Effect Pattern**, a technique for tracking and controlling side effects. The pattern has two core principles. First, **type tracking** means effects are encoded in types so we can see what a function does just by looking at its signature. Second, **deferred execution** means building the effect description is separate from running it. But how do we implement this pattern? The Scala ecosystem offers several approaches, each with different trade-offs. Some use the traditional monadic style with `flatMap` and `map`. Others leverage Scala 3's context functions to make effects look almost like imperative code. We'll explore both paths and understand when each makes sense.
+The solution is the **Effect Pattern**, a technique for tracking and controlling side effects. The pattern has two core principles. First, **type tracking** means effects are encoded in types, so we can see what a function does just by looking at its signature. Second, **deferred execution** means building the effect description separately from running it. But how do we implement this pattern? The Scala ecosystem offers several approaches, each with different trade-offs. Some use the traditional monadic style with `flatMap` and `map`. Others leverage Scala 3’s context functions to make effects look almost like imperative code. We’ll explore both paths and understand when each makes sense.
 
 ## The Effect Pattern Foundation
 
-The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what it does without reading the implementation. In case we use the `IO` type, we're saying "this function might do side effects when executed". In case we use `ZIO[Database, Exception, User]`, we're saying "this function needs a Database capability, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier. (Don't worry, you don't need to know what Cats Effect `IO` or Zio `ZIO` to understand the concepts that we'll explore).
+The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what it does without reading the implementation. If we use the `IO` type, we're saying "this function might do side effects when executed". If we use `ZIO[Database, Exception, User]`, we're saying "this function needs a Database capability, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier. (Don't worry, you don't need to know what Cats Effect `IO` or ZIO `ZIO` are to understand the concepts we'll explore).
 
 The type system becomes documentation that never lies.
 
-Second, **deferred execution** means we separate description from execution. Think of it like a recipe versus cooking. A recipe describes steps: mix flour and eggs, bake at 350 degrees, frost when cool. But the recipe doesn't bake anything. It's just information on paper. Cooking is when you actually perform those steps and produce food. **Similarly, an effect is a description: read this file, parse this JSON, query this database.** But nothing happens when you create the effect. Execution happens later, when you explicitly run it at the boundaries of your system.
+Second, **deferred execution** means we separate description from execution. Think of it like a recipe versus cooking. A recipe describes steps: mix flour and eggs, bake at 350 degrees, and frost when cool. But the recipe doesn't bake anything. It's just information on paper. Cooking is when you actually perform those steps and produce food. **Similarly, an effect is a description: read this file, parse this JSON, query this database.** But nothing happens when you create the effect. Execution happens later, when you explicitly run it at the boundaries of your system.
 
 So, if we call the `getUser` function we defined earlier, we get back an effect description. Nothing happens yet:
 
@@ -93,7 +93,7 @@ val same2 = effect
 
 **Testability improves dramatically.** We can swap in mock implementations instead of running real effects. Need to test code that queries a database? Provide a test handler that returns predictable values. No actual database required. No HTTP calls to external services. No waiting for file I/O. Tests run fast and deterministically.
 
-Composition becomes natural and safe. We chain effects together using combinators. Build complex workflows from simple pieces. Retry on failure, run operations in parallel, add timeouts. All without changing the core logic:
+Composition becomes natural and safe. We chain effects together using combinators. Build complex workflows from simple pieces. Retry on failure, run operations in parallel, and add timeouts. All without changing the core logic:
 
 ```scala 3
 // Effect composition with retry policy
@@ -107,7 +107,7 @@ val resilientUser: IO[User] =
     }
 ```
 
-It's not important which specific effect system we use. The above code took the getUser effect and added retries, timeouts, and error handling, and we still have an `IO[User]` back.
+It's not important which specific effect system we use. The above code wrapped the `getUser` effectful operation with retries, timeouts, and error handling, and we still have an `IO[User]` back.
 
 Now that we understand what the Effect Pattern gives us, how do we actually implement it? The implementation of the Effect Pattern is called an **Effect System**. As we said, we need two key features: type tracking and deferred execution. Then, we need structures to manage and execute effects.
 
@@ -115,11 +115,11 @@ The Scala ecosystem has explored several approaches, each with different trade-o
 
 ## Monadic Effect Systems
 
-The most established approach to effect systems uses **monads** (if you need a refresher on monads, check out the article [An Introduction to Monads in Scala](https://rockthejvm.com/articles/an-introduction-to-monads-in-scala)). If we've worked with Scala's `Option`, `Try`, or `Future`, we've already used monads. The pattern is consistent across all of them: wrap computations in a type, chain them with `flatMap` and `map`, run them when ready. Monadic effect systems apply this familiar pattern to side effects. Let's explore three major implementations, each solving the Effect Pattern in slightly different ways.
+The most established approach to effect systems uses **monads** (if you need a refresher on monads, check out the article [An Introduction to Monads in Scala](https://rockthejvm.com/articles/an-introduction-to-monads-in-scala)). If we've worked with Scala's `Option`, `Try`, or `Future`, we've already used monads. The pattern is consistent across all of them: wrap computations in a type, chain them with `flatMap` and `map`, and run them when ready. Monadic effect systems apply this familiar pattern to side effects. Let's explore three major implementations that each solve the Effect Pattern in slightly different ways.
 
 ### Cats Effect: The Über Effect
 
-Cats Effect's `IO` monad is what we call an 'über effect'. **One type handles all effects.** Every operation that might have side effects gets wrapped in `IO`. Reading files? `IO`. Making HTTP requests? `IO`. Generating random numbers? `IO`. The benefit is uniformity. We don't need to learn different types for different effects. The cost is that we miss some precision. An `IO[A]` tells us "this might do effects and produces an A or might fail with and exception", but it doesn't tell us what kind of effects or how it might fail (we have full courses on Cats Effect, the [Cats Effect](https://rockthejvm.com/courses/cats-effect) course and the [Typelevel Rite of Passage](https://rockthejvm.com/courses/typelevel-rite-of-passage). Check them out!).
+Cats Effect's `IO` monad is what we call an 'über effect'. **One type handles all effects.** Every operation that might have side effects gets wrapped in `IO`. Reading files? `IO`. Making HTTP requests? `IO`. Generating random numbers? `IO`. The benefit is uniformity. We don't need to learn different types for different effects. The cost is that we miss some precision. An `IO[A]` tells us "this might do effects and produces an A or might fail with an exception", but it doesn't tell us what kind of effects or how it might fail (we have full courses on Cats Effect: the [Cats Effect](https://rockthejvm.com/courses/cats-effect) course and the [Typelevel Rite of Passage](https://rockthejvm.com/courses/typelevel-rite-of-passage). Check them out!).
 
 Here's our drunk flip using Cats Effect:
 
@@ -136,7 +136,7 @@ def drunkFlip: IO[String] =
   } yield if (heads) "Heads" else "Tails"
 ```
 
-Here's what's happening. Each side effect is wrapped in `IO`. The for-comprehension, which is syntactic sugar for `flatMap` chains, sequences operations. First, get a random generator. Then check if we caught the coin. Then either fail with an error or flip again. Nothing executes until we call `unsafeRunSync()` or provide an `IOApp` that runs the effect for us:
+Here's what's happening: each side effect is wrapped in `IO`. The for-comprehension, which is syntactic sugar for `flatMap` chains, sequences operations. First, get a random generator. Then, check if we caught the coin. Then, either fail with an error or flip again. Nothing executes until we call `unsafeRunSync()` or provide an `IOApp` that runs the effect for us:
 
 ```scala 3
 object Main extends IOApp.Simple {
@@ -151,7 +151,7 @@ val resultF: Future[String] = drunkFlip.unsafeToFuture()
 
 Notice we've achieved the Effect Pattern. Type tracking works: the signature `IO[String]` tells us this performs effects and produces a `String`. Deferred execution works: building the effect doesn't run anything. Execution happens when we explicitly trigger it.
 
-If we want to have the exact list of the effect used, we can use a different approach, using tagless final style with type classes to represent capabilities:
+If we want to have the exact list of the effects used, we can use a different approach, using tagless final style with type classes to represent capabilities:
 
 ```scala 3
 def drunkFlipF[F[_]: Monad](using R: Raise[F, String], A: Random[F]): F[String] =
@@ -163,13 +163,13 @@ def drunkFlipF[F[_]: Monad](using R: Raise[F, String], A: Random[F]): F[String] 
   } yield if (heads) "Heads" else "Tails"
 ```
 
-The `Raise` and the `Random` type classes represent the capabilities needed. They are included in the Cats MTL library. This approach gives us more precision about the effects used, but it adds even more complexity with type classes.
+The `Raise` and `Random` type classes represent the required effects. They are included in the Cats MTL library. This approach gives us more precision about the effects used, but it adds even more complexity with type classes.
 
 Notice the cognitive overhead. We need to understand `flatMap` and for-comprehensions. We need to remember which operations need `IO` wrappers. **For developers new to functional programming, this is not intuitive.** Each operation requires thinking about monadic context. The learning curve is real.
 
 ### ZIO: Adding Precision
 
-ZIO goes further than Cats Effect. Instead of just `IO[A]`, we get `ZIO[R, E, A]` where `R` represents requirements or dependencies, `E` represents the error type, and `A` represents the success type. **This is more precise than a simple IO wrapper.** The type signature tells us everything about the computation: what dependencies does this function need? How can it fail? What does it produce on success? (Again, we're plenty of courese even on ZIO. Check out the [ZIO course](https://rockthejvm.com/courses/zio), and the [ZIO Rite of Passage](https://rockthejvm.com/courses/zio-rite-of-passage))
+ZIO goes further than Cats Effect. Instead of just `IO[A]`, we get `ZIO[R, E, A]` where `R` represents requirements or dependencies, `E` represents the error type, and `A` represents the success type. **This is more precise than a simple IO wrapper.** The type signature tells us everything about the computation: what dependencies does this function need? How can it fail? What does it produce on success? (Again, we have plenty of courses on ZIO too. Check out the [ZIO course](https://rockthejvm.com/courses/zio) and the [ZIO Rite of Passage](https://rockthejvm.com/courses/zio-rite-of-passage))
 
 Here's drunk flip in ZIO:
 
@@ -185,7 +185,7 @@ def drunkFlip: ZIO[Random, String, String] =
   } yield if (heads) "Heads" else "Tails"
 ```
 
-The signature `ZIO[Random, String, String]` is remarkably expressive. This operation needs to generate random numbers, the `Random` dependency , might fail with an `String`, and produces a `String` on success. We get more type-level information than Cats Effect's `IO`. The trade-off is that the type is more complex to understand initially.
+The signature `ZIO[Random, String, String]` is remarkably expressive. This operation needs to generate random numbers (the `Random` dependency), might fail with a `String`, and produces a `String` on success. We get more type-level information than Cats Effect's `IO`. The trade-off is that the type is more complex to understand initially.
 
 Dependencies compose using Scala 3 union types. If we need both randomness and access to the console for logging, we can express that:
 
@@ -206,15 +206,15 @@ object Main extends ZIOAppDefault {
 }
 ```
 
-But we're still in monad-land. The `ZIO` type is a monad defined on the type `A`. It's still a über monad, in the sense we still need to execute everything in one step.
+But we're still in monad-land. The `ZIO` type is a monad defined on the type `A`. It's still an über-monad in the sense that we still need to execute everything in a single step.
 
 The for-comprehension is still there. The cognitive load of `flatMap` chains remains. ZIO provides a richer algebra for working with effects than Cats Effect, avoiding some of the monad transformer problems, but the fundamental monadic style persists.
 
 The power is undeniable, but so is the learning curve for newcomers to functional programming.
 
-### Kyo: Algebraic Effects (Still Monadic)
+### Kyo: Monadic Algebraic Effects
 
-Kyo takes a different approach that introduces **algebraic effects** to Scala. Instead of one über effect type, **you list effects separately and can handle them separately.** This is more modular than the über effect approach. Want randomness and error handling? Compose `Random` and `Abort`. Need different effects elsewhere? Use a different composition.
+[Kyo](https://getkyo.io/#/) takes a different approach that introduces **algebraic effects** to Scala. Instead of one über effect type, **you list effects separately and can handle them independently.** This is more modular than the über effect approach. Want randomness and error handling? Compose `Random` and `Abort`. Need different effects elsewhere? Use a different composition.
 
 Here's drunk flip in Kyo:
 
@@ -230,7 +230,7 @@ def drunkFlip: String < (Abort[Exception] & Sync) =
 
 The type `String < (Abort[Exception] & Sync)` means "a `String` computation with `Abort` and `Sync` effects". The `Random` operations in Kyo return values with the `Sync` effect pending. The `Sync` effect defers any computations that can perform side effects.
 
-The nice part is that we can handle effects separately. It's one of the nice properties of algebraic effects systems. Want to run just the error handling? Use `Abort.run`:
+The nice part is that we can handle effects separately. It's one of the appealing properties of algebraic effect systems. Want to run just the error handling? Use `Abort.run`:
 
 ```scala 3
 val partialResult: Result[String, String] < Sync = Abort.run { drunkFlip }
@@ -238,7 +238,7 @@ val partialResult: Result[String, String] < Sync = Abort.run { drunkFlip }
 
 As we can see, the result is a `Result[String, String] < Sync`, meaning we have handled the `Abort` effect, but the `Sync` effect is still pending.
 
-Why Kyo is still a monadic approach? Because under the hood, Kyo uses monadic composition. The `<` (append) operator is a type alias for a monadic context that combines effects. Each effect is still represented as a monadic context. The difference is that effects are modular and can be handled independently.
+Why is Kyo still a monadic approach? Because under the hood, Kyo uses monadic composition. The `<` (append) operator is a type alias for a monadic context that combines effects. Each effect is still represented as a monadic context. The difference is that effects are modular and can be handled independently.
 
 This is more modular than Cats Effect `IO` and more compositional than ZIO's three-parameter type.
 
@@ -246,11 +246,11 @@ But look at the code carefully. We're still using for-comprehensions. Under the 
 
 ### The Common Challenge
 
-All three approaches are an elegant implementation of the Effect Pattern. They track effects in types, giving us compile-time safety. They defer execution until we're ready, separating description from action. They provide rich algebras for composing effects. They're used in production systems around the world and have proven their worth. **But they share a challenge that we can't ignore: monadic composition has a steep learning curve.**
+All three approaches are an elegant implementation of the Effect Pattern. They track effects in types, giving us compile-time safety. They defer execution until we're ready, separating description from action. They provide rich algebras for composing effects. They're used in production systems worldwide and have proven their worth. **But they share a challenge that we can't ignore: monadic composition has a steep learning curve.**
 
-Understanding `flatMap`, knowing when to use `map` versus `flatMap`, reasoning about nested monadic contexts, understanding what for-comprehensions desugar to. These are barriers for developers new to functional programming. They're barriers for teams trying to adopt functional effect management. They're barriers that slow down development and make code reviews harder when not everyone has the same monadic intuition.
+Understanding `flatMap`, knowing when to use `map` versus `flatMap`, reasoning about nested monadic contexts, and understanding what for-comprehensions desugar to—these are barriers for developers new to functional programming. There are barriers for teams trying to adopt functional effect management. There are barriers that slow down development and make code reviews harder when not everyone has the same monadic intuition.
 
-This raises a question. Can we keep the benefits of the Effect Pattern, type tracking and deferred execution, while reducing the cognitive load? What if our code could look almost like imperative code but still be safe and composable? What if we didn't need `flatMap` at all? Enter direct-style effect handlers.
+This raises a question. Can we keep the benefits of the Effect Pattern, type tracking, and deferred execution, while reducing the cognitive load? What if our code could look almost like imperative code but still be safe and composable? What if we didn't need `flatMap` at all? Enter direct-style effect handlers.
 
 ## Direct-Style Effect Handlers
 
@@ -270,7 +270,7 @@ No `IO`. No for-comprehension. No `flatMap`. Just normal-looking sequential code
 
 ### The Key Insight: Context Functions
 
-The magic behind direct-style effects is **context functions**, a Scala 3 feature that fundamentally changes how we think about deferred computation. To understand how they enable effect systems, we first need to understand what context functions actually are and how they differ from regular functions.
+The magic behind direct-style effects is **context functions**, a Scala 3 feature that fundamentally changes how we think about deferred computation. To understand how they enable the implementation of the Effect Pattern, we first need to understand what context functions actually are and how they differ from regular functions.
 
 In Scala 3, we have two ways to pass parameters implicitly. The first is **context parameters** in functions and methods, which we declare with the `using` keyword:
 
@@ -281,14 +281,14 @@ def greet(name: String)(using logger: Logger): Unit =
 
 When we call `greet("Alice")`, the compiler looks for a `Logger` instance in scope and passes it automatically. This is familiar from Scala 2's implicits, just with cleaner syntax.
 
-The second mechanism is **context functions**, and this is where things get interesting. A context function is a function type where some of its parameters are passed implicitly, as if it were a context parameter. The syntax uses `?=>` instead of `=>`. We can
+The second mechanism is **context functions**, and this is where things get interesting. A context function is a function type where some of its parameters are passed implicitly, as if they were context parameters. The syntax uses `?=>` instead of `=>`:
 
 ```scala 3
 def greet(name: String): (logger: Logger) ?=> Unit =
   logger.log(s"Hello, $name")
 ```
 
-This reads as "given an `Logger` implicitly, produce an `Unit`". The `?=>` arrow indicates that the `Logger` will be provided through Scala's context mechanism, not passed explicitly. We can even summon the instance of the `Logger` inside the function body using `summon[Logger]` instead of having a named parameter:
+This reads as "given a `Logger` implicitly, produce an `Unit`". The `?=>` arrow indicates that the `Logger` will be provided through Scala's context mechanism, not passed explicitly. We can even summon the instance of the `Logger` inside the function body using `summon[Logger]` instead of having a named parameter:
 
 
 ```scala 3
@@ -306,7 +306,7 @@ greet("Alice")  // Now prints "Hello, Alice"
 greet("Bob")(using new Logger)  // Prints "Hello, Bob"
 ```
 
-As you can see, it's the same idea as context parameters, but now the entire function is a context function. It is crucial for deferred execution. **This is deferred execution without wrapping in a monad.** The deferral comes from requiring a context that hasn't been provided yet. The function body describes what to do, but it literally cannot execute until we supply what it needs.
+As you can see, it's the same idea as context parameters, but now the entire function is a context function. This is crucial for deferred execution. **This is deferred execution without wrapping in a monad.** The deferral comes from requiring a context that hasn't been provided yet. The function body describes what to do, but it cannot execute until we supply the necessary inputs.
 
 Now here's where context functions become powerful for effect systems. **The Scala compiler automatically threads context parameters through nested calls.** When a function needs an effect through a `using` parameter, and we call that function inside another context that also requires the same effect, the compiler passes it along invisibly:
 
@@ -321,9 +321,9 @@ def outerOperation(using logger: Logger): Unit = {
 }
 ```
 
-When we write `innerOperation` inside `outerOperation`, the compiler sees that `innerOperation` needs a `Logger` context parameter. It also sees that `outerOperation` has a `Logger` in scope. So it passes it along automatically. We don't write `innerOperation(using logger)` explicitly. **The context parameter flows through our code invisibly, threaded by the compiler.**
+When we write `innerOperation` inside `outerOperation`, the compiler sees that `innerOperation` needs a `Logger` context parameter. It also sees that `outerOperation` has a `Logger` in scope. So it passes it along automatically. We don't explicitly write `innerOperation(using logger)`. **The context parameter flows through our code invisibly, threaded by the compiler.**
 
-This automatic threading is the foundation of direct-style effects. **Instead of wrapping effects in a monad, we write functions that require an effect to run.** That effect is passed implicitly as a context parameter. Think of it like this: monadic style says "here's a wrapped effect, run it by calling methods on it". Direct-style says "here's code that looks normal, but it can't run without some context". The context is the effect, and the compiler ensures you can't execute effectful code without it.
+This automatic threading is the foundation of direct-style effects. **Instead of wrapping effects in a monad, we write functions that require an effect to run.** That effect is passed implicitly as a context parameter. Think of it like this: monadic style says "here's a wrapped effect, run it by calling methods on it". Direct-style says, "Here's code that looks normal, but it can't run without some context." The context is the effect, and the compiler ensures you can't execute effectful code without it.
 
 ### Building a Direct-Style Effect System
 
@@ -341,7 +341,7 @@ trait Raise[E] {
 }
 ```
 
-These are just interfaces. Given to a context function, **they represent "the permission to perform the effect".** Functions that need these effect declare them with `using` parameters. Without the a concrete instance of the effect type in scope, the function can't compile. The type system enforces that effects can only happen when we have permission.
+These are just interfaces. Given to a context function, **they represent "the permission to perform the effect".** Functions that need these effects declare them with `using` parameters. Without a concrete instance of the effect type in scope, the function can't compile. The type system enforces that effects can only happen when we have permission.
 
 Now we can write our drunk flip using direct-style effects:
 
@@ -355,7 +355,7 @@ def drunkFlip(using Random, Raise[String]): String = {
   }
 ```
 
-Look at that code. It reads like imperative code: check a condition, abort if needed, otherwise flip the coin. But notice the `using` parameters in the signature. **This function requires instances of the Random and Raise effect to run.** Without them in scope, calling this function is a compile error. This is how we achieve deferred execution. The function body describes what to do, but it can't do anything until someone provides the effects.
+Look at that code. It reads like imperative code: check a condition, abort if needed, otherwise flip the coin. But notice the `using` parameters in the signature. **This function requires instances of the Random and Raise effects to run.** Without them in scope, calling this function is a compile error. This is how we achieve deferred execution. The function body describes what to do, but it can't do anything until someone provides the effects.
 
 To run the effect, we provide implementations called **handlers**. Handlers are where the rubber meets the road, where description becomes execution:
 
@@ -382,9 +382,9 @@ object Raise {
 }
 ```
 
-The `Raise.either` handler uses Scala 3's `boundary` and `break` for control flow. Think of `boundary` as defining a labeled scope and `break` as a way to exit that scope early with a value. When `raise.raise` is called, `break(Left(error))` immediately exits the boundary block and returns `Left(error)`. This is how we convert an abortion into an `Either` without using exceptions. If the program succeeds, we wrap the result in `Right`.
+The `Raise.either` handler uses Scala 3's `boundary` and `break` for control flow. Think of `boundary` as defining a labeled scope and `break` as a way to exit that scope early with a value. When `raise` is called, `break(Left(error))` immediately exits the boundary block and returns `Left(error)`. This is how we convert an abortion into an `Either` without using exceptions. If the program succeeds, we wrap the result in `Right`.
 
-These handlers "run" effects by providing actual implementations. The `Random.run` handler provides a real random capability that uses Scala's `Random` under the hood. The `Raise.either` handler provides an abort capability that uses Scala 3's boundary/break control flow to implement early return on failure. **When we call the program function with an instance of the effect in scope, the effect executes. This is where deferred execution ends and real execution begins.**:
+These handlers "run" effects by providing actual implementations. The `Random.run` handler provides a real random capability that uses Scala's `Random` under the hood. The `Raise.either` handler provides an abort capability that uses Scala 3's boundary/break control flow to implement early return on failure. **When we call the program function with an instance of the effect in scope, the effect executes. This is where deferred execution ends and real execution begins:**
 
 ```scala 3
 val result: Either[String, String] = Random.run {
@@ -394,7 +394,7 @@ val result: Either[String, String] = Random.run {
 }
 ```
 
-The order of handlers matters. It's not the case in our simple example, but in more complex scenarios, the order in which we handle effects can change behavior.
+The order of handlers matters. That's not the case in our simple example, but in more complex scenarios, the order in which we handle effects can change behavior.
 
 As in Kyo, we can handle effects separately:
 
@@ -406,7 +406,7 @@ val partialResult: Raise[String] ?=> String = Random.run {
 
 The `partialResult` still needs a `Raise[String]` effect to run, but the `Random` effect has been handled. It's something like algebraic effects, but without monadic composition.
 
-Notice each handler can interpret effects differently. The `Random` handler uses real randomness, but we could write a test handler that returns fixed values:
+Notice that each handler can interpret effects differently. The `Random` handler uses real randomness, but we could write a test handler that returns fixed values:
 
 ```scala 3
 def test(fixed: Boolean)(program: Random ?=> Boolean) = {
@@ -448,11 +448,11 @@ def drunkFlip(using Random, Raise[String]): String = {
 
 As we said earlier, the goal was to make effects look like imperative code while maintaining safety. The monadic approach achieves safety through explicit wrapping and sequencing. The direct-style approach achieves safety through required effect handlers.
 
-Both work. Both are (almost) safe. The difference is in how much conceptual overhead they impose on the developer.
+Both work. Both are (almost) safe. The difference lies in the amount of conceptual overhead they impose on the developer.
 
 ### How Composition Works
 
-Here's where direct-style gets really elegant. Composition is automatic and feels like normal function calls. If function A calls function B, and both need the same effect, it just works:
+Here's where direct style gets really elegant. Composition is automatic and feels like normal function calls. If function A calls function B, and both need the same effect, it just works:
 
 ```scala 3
 def flipTwice(using Random): Int = {
@@ -474,13 +474,13 @@ def analyze(using Random): String = {
 
 **The Scala compiler threads the `using` parameters through automatically.** When `analyze` calls `flipTwice`, the compiler sees that `flipTwice` needs the `Random` effect. It also sees that `analyze` has a `Random` effect in scope. So it passes it along. No explicit `flatMap` needed. No for-comprehension to chain things. Just normal function calls that compose naturally.
 
-**This is the magic of context functions.** Composition looks like imperative code, but the compiler is doing sophisticated work behind the scenes. It's tracking effects, ensuring type safety, and threading context through your program. The complexity is there, but it's hidden from the developer. We write simple code and the compiler handles the bookkeeping.
+**This is the magic of context functions.** Composition looks like imperative code, but the compiler is doing sophisticated work behind the scenes. It's tracking effects, ensuring type safety, and threading context through your program. The complexity is there, but it's hidden from the developer. We write simple code, and the compiler handles the bookkeeping.
 
 ## Trade-offs and Honest Assessment
 
-Let's be honest. Direct-style isn't perfect. It makes trade-offs that might matter for some applications. The question is whether those trade-offs are worth it for your specific situation.
+Let's be honest. Direct style isn't perfect. It makes trade-offs that might matter for some applications. The question is whether those trade-offs are worth it for your specific situation.
 
-Fair enough, let's examine what we lose and what we gain.
+Let's examine what we lose and what we gain.
 
 What we lose is strict **referential transparency at the value level**. Consider this code:
 
@@ -495,7 +495,7 @@ def drunkFlip(using Random, Raise[String]): String = {
 }
 ```
 
-When the handler for `Random` is provided, the `genRand` value is evaluated eagerly. Each time we reference `genRand`, we get the same value. This breaks referential transparency at the value level. We can't replace `genRand` with `Random.nextBoolean` without changing behavior, because it only gets evaluated once.
+When the handler for `Random` is provided, the `genRand` value is evaluated eagerly. Each time we reference `genRand`, we get the same value. This breaks referential transparency at the value level. We can't replace `genRand` with `Random.nextBoolean` without changing behavior, because `genRand' is only evaluated once.
 
 To regain referential transparency, we need to define `genRand` as a function:
 
@@ -510,31 +510,31 @@ def drunkFlip(using Random, Raise[String]): String = {
 }
 ```
 
-As you can see, now `genRand` is a `def` and not a `val`, so each time we call it, we get a fresh random value. This restores referential transparency at the cost of some verbosity. We have to remember to use `def` for computations that need to be re-evaluated.
+As you can see, `genRand` is now a `def` rather than a `val`, so each time we call it, we get a fresh random value. This restores referential transparency at the cost of some verbosity. We have to remember to use `def` for computations that need re-evaluation.
 
 **So we haven't completely lost referential transparency. We've moved it from the value level to the function level.** If we need a computation to be referentially transparent, we define it with `def` instead of `val`.
 
-However, do we really need referential transparency? Referential transparency is a core concept in models of programming where we can express programs as values. In this setup, we need to be able to substitute values freely without changing program behavior. This is crucial for reasoning about code, composing it, and ensuring correctness. In particular, it's crucial to manage the control flow of effects safely.
+However, do we really need referential transparency? Referential transparency is a core concept in programming models where we can express programs as values. In this setup, we need to be able to substitute values freely without changing program behavior. This is crucial for reasoning about code, composing it, and ensuring correctness. In particular, it's crucial for managing the effects' control flow safely.
 
-If we return to a set up where we use an imperative style, we lose the ability to treat our programs as values, and so to have the full power to manipulate the control flow of a program. In fact, the direct-style approach we presented can't express all the possible effects (i.e., the [`Choice` effect](https://getkyo.io/#/?id=choice-exploratory-branching)). It's due to the fact that we can't express all the type of continuations with context functions. (Yes, it's all a matter of continuations). Context functions can express a subset of continuations, called one-shot continuation. However, this is far beyond the scope of this article.
+If we return to a setup where we use an imperative style, we lose the ability to treat our programs as values and thus the full power to manipulate their control flow. In fact, the direct-style approach we presented can't express all possible effects (e.g., the [`Choice` effect](https://getkyo.io/#/?id=choice-exploratory-branching)). This is because we can't express all types of continuations with context functions. (Yes, it's all a matter of continuations). Context functions can express a subset of continuations called one-shot continuations. However, this is far beyond the scope of this article.
 
-In many practical applications, the effect that we can express with direct-style handlers are sufficient. Most applications don't need the full power of continuations or advanced control flow. They just need to manage side effects like randomness, I/O, and error handling in a safe and composable way. For these common cases, direct-style handlers provide a simpler and more approachable way to achieve the Effect Pattern.
+In many practical applications, the effects that we can express with direct-style handlers are sufficient. Most applications don't need the full power of continuations or advanced control flow. They just need to manage side effects such as randomness, I/O, and error handling in a safe, composable way. In these common cases, direct-style handlers provide a simpler, more approachable way to implement the Effect Pattern.
 
-The other limitation is that context functions are **Scala 3 only**. Teams still on Scala 2 can't use this approach. There's no backporting context functions to Scala 2. Also, understanding `using` parameters and how context functions work requires learning Scala 3 features. That said, arguably understanding context functions is easier than understanding monads and `flatMap`. The barrier to entry is lower, but it's still a barrier for teams without Scala 3 experience.
+The other limitation is that context functions are **Scala 3 only**. Teams still on Scala 2 can't use this approach. There's no way to backport context functions to Scala 2. Also, understanding `using` parameters and how context functions work requires learning Scala 3 features. That said, understanding context functions is arguably easier than understanding monads and `flatMap`. The barrier to entry is lower, but it's still a barrier for teams without Scala 3 experience.
 
 What we gain is **readability**. **Code looks imperative and familiar.** A developer who has never seen functional programming can read direct-style effects and understand what's happening. They might not immediately understand how `using` parameters work, but the sequential flow is obvious. There's no mental overhead of tracking monadic contexts or figuring out what a for-comprehension desugars to.
 
-We also gain **approachability**. **The cognitive load is dramatically lower compared to monadic approaches.** No need to understand `flatMap` chains. No confusion about when to use `map` versus `flatMap`. No nested for-comprehensions to mentally parse. Just write sequential code that looks like what you mean, and let the compiler thread capabilities for you. This lowers the barrier for teams adopting functional effect management significantly.
+We also gain **approachability**. **The cognitive load is dramatically lower compared to monadic approaches.** No need to understand `flatMap` chains. No confusion about when to use `map` versus `flatMap`. No nested for-comprehensions to mentally parse. Just write sequential code that looks like what you mean, and let the compiler thread capabilities for you. This significantly lowers the barrier to teams adopting functional effect management.
 
-Direct-style isn't best for every problem. Some use cases benefit from explicit monadic structure, especially when you need the additional operations that monads provide or when you're already deeply invested in a monadic ecosystem. But it's a valid alternative in many cases. The choice depends on team experience, project constraints, and personal preference. Both approaches implement the Effect Pattern correctly.
+Direct style isn't the best for every problem. Some use cases benefit from explicit monadic structure, especially when you need the additional operations that monads provide or when you're already deeply invested in a monadic ecosystem. But it's a valid alternative in many cases. The choice depends on team experience, project constraints, and personal preference. Both approaches implement the Effect Pattern correctly.
 
 ## Conclusion
 
-We've explored two approaches to the Effect Pattern in Scala. Monadic systems like Cats Effect, ZIO, and Kyo use explicit effect types and `flatMap` composition. They're powerful, battle-tested, and widely used in production systems around the world. The learning curve is steep, but the payoff is robust effect management with rich combinators for composition, error handling, and concurrency. Direct-style systems use context functions to achieve the same goals with different syntax. They're more readable, more approachable, but they trade away some referential transparency at the value level. Both achieve the same fundamental goals: type tracking and deferred execution. Despite this, the difference is in syntax and cognitive load. In other words, both let us manage side effects safely. They just express that safety differently.
+We've explored two approaches to the Effect Pattern in Scala. Monadic systems like Cats Effect, ZIO, and Kyo use explicit effect types and `flatMap` composition. They're powerful, battle-tested, and widely used in production systems worldwide. The learning curve is steep, but the payoff is robust effect management with rich combinators for composition, error handling, and concurrency. Direct-style systems use context functions to achieve the same goals with different syntax. They're more readable and approachable, but they trade some referential transparency at the value level. Both achieve the same fundamental goals: type tracking and deferred execution. The difference is in syntax and cognitive load. In other words, both let us manage side effects safely. They just express that safety differently.
 
 When should we use monadic approaches? When we're working on Scala 2 projects that can't upgrade to Scala 3. When our team is already comfortable with functional patterns and monadic reasoning. When we need maximum type safety and are willing to pay the learning curve cost. When we need the rich combinators and ecosystem that mature effect libraries provide. These are all good reasons to choose the monadic path.
 
-When should we use direct-style? On Scala 3 projects where context functions are available. When our team is new to functional programming and the monadic learning curve would slow down development. When we prioritize code readability and want effects to look like imperative code. When we're building a new system and can choose our abstractions freely. When we believe that 80% of our use cases don't need the full power of monadic effects.
+When should we use direct style? On Scala 3 projects where context functions are available. When our team is new to functional programming, the monadic learning curve would slow down development. When we prioritize code readability and want effects to look like imperative code. When we're building a new system, we can choose our abstractions freely. When we believe that 80% of our use cases don't need the full power of monadic effects.
 
 We've built our own minimal effect system to understand the principles. But we don't have to roll our own in production. The Scala ecosystem has direct-style libraries that provide implementations. Let's look at two notable ones: [Ox](https://ox.softwaremill.com/latest/) and [YAES](https://blog.rcard.in/yaes/).
 
