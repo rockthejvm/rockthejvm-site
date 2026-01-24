@@ -279,7 +279,7 @@ def greet(name: String)(using logger: Logger): Unit =
   logger.log(s"Hello, $name")
 ```
 
-When we call `greet("Alice")`, the compiler looks for a `Logger` instance in scope and passes it automatically. This is familiar from Scala 2's implicits, just with cleaner syntax.
+When we call `greet("Alice")`, the compiler looks for a `Logger` instance in scope and passes it automatically. This is familiar from Scala 2's implicits, just with cleaner syntax (see [Scala 3: Givens and Implicits Quickly Explained](https://rockthejvm.com/articles/scala-3-givens-and-implicits) for further details).
 
 The second mechanism is **context functions**, and this is where things get interesting. A context function is a function type where some of its parameters are passed implicitly, as if they were context parameters. The syntax uses `?=>` instead of `=>`:
 
@@ -288,7 +288,7 @@ def greet(name: String): (logger: Logger) ?=> Unit =
   logger.log(s"Hello, $name")
 ```
 
-This reads as "given a `Logger` implicitly, produce an `Unit`". The `?=>` arrow indicates that the `Logger` will be provided through Scala's context mechanism, not passed explicitly. We can even summon the instance of the `Logger` inside the function body using `summon[Logger]` instead of having a named parameter:
+This reads as "given a `Logger` implicitly, and a `String`, produce an `Unit`". The `?=>` arrow indicates that the `Logger` will be provided through Scala's context mechanism, not passed explicitly. We can even summon the instance of the `Logger` inside the function body using `summon[Logger]` instead of having a named parameter:
 
 
 ```scala 3
@@ -323,7 +323,7 @@ def outerOperation(using logger: Logger): Unit = {
 
 When we write `innerOperation` inside `outerOperation`, the compiler sees that `innerOperation` needs a `Logger` context parameter. It also sees that `outerOperation` has a `Logger` in scope. So it passes it along automatically. We don't explicitly write `innerOperation(using logger)`. **The context parameter flows through our code invisibly, threaded by the compiler.**
 
-This automatic threading is the foundation of direct-style effects. **Instead of wrapping effects in a monad, we write functions that require an effect to run.** That effect is passed implicitly as a context parameter. Think of it like this: monadic style says "here's a wrapped effect, run it by calling methods on it". Direct-style says, "Here's code that looks normal, but it can't run without some context." The context is the effect, and the compiler ensures you can't execute effectful code without it.
+This automatic threading is the foundation of direct-style effects. **Instead of wrapping effects in a monad, we write functions that require an instance of an effect to run.** That effect is passed implicitly as a context parameter. Think of it like this: monadic style says "here's a wrapped effect, run it by calling methods on it". Direct-style says, "Here's code that looks normal, but it can't run without some context." The context is the effect, and the compiler ensures you can't execute effectful code without it.
 
 ### Building a Direct-Style Effect System
 
@@ -355,7 +355,7 @@ def drunkFlip(using Random, Raise[String]): String = {
   }
 ```
 
-Look at that code. It reads like imperative code: check a condition, abort if needed, otherwise flip the coin. But notice the `using` parameters in the signature. **This function requires instances of the Random and Raise effects to run.** Without them in scope, calling this function is a compile error. This is how we achieve deferred execution. The function body describes what to do, but it can't do anything until someone provides the effects.
+Look at that code. It reads like imperative code: check a condition, abort if needed, otherwise flip the coin. But notice the `using` parameters in the signature. **This function requires instances of the `Random` and `Raise` effects to run.** Without them in scope, calling this function is a compile error. This is how we achieve deferred execution. The function body describes what to do, but it can't do anything until someone provides the effects.
 
 To run the effect, we provide implementations called **handlers**. Handlers are where the rubber meets the road, where description becomes execution:
 
@@ -382,9 +382,9 @@ object Raise {
 }
 ```
 
-The `Raise.either` handler uses Scala 3's `boundary` and `break` for control flow. Think of `boundary` as defining a labeled scope and `break` as a way to exit that scope early with a value. When `raise` is called, `break(Left(error))` immediately exits the boundary block and returns `Left(error)`. This is how we convert an abortion into an `Either` without using exceptions. If the program succeeds, we wrap the result in `Right`.
+As we can see, handlers are where the context function syntax comes into play. The effectful program a handler receives is a context function that requires the effect instance. The handler creates a concrete implementation of the effect and provides it to the program using `program(using effectInstance)`.
 
-These handlers "run" effects by providing actual implementations. The `Random.run` handler provides a real random capability that uses Scala's `Random` under the hood. The `Raise.either` handler provides an abort capability that uses Scala 3's boundary/break control flow to implement early return on failure. **When we call the program function with an instance of the effect in scope, the effect executes. This is where deferred execution ends and real execution begins:**
+These handlers "run" effects by providing actual implementations. The `Random.run` handler provides a real random effect instance that uses Scala's `Random` under the hood. The `Raise.either` handler provides an abort effect instance that uses Scala 3's boundary/break control flow to implement early return on failure. **When we call the program function with an instance of the effect in scope, the effect executes. This is where deferred execution ends and real execution begins:**
 
 ```scala 3
 val result: Either[String, String] = Random.run {
@@ -394,9 +394,11 @@ val result: Either[String, String] = Random.run {
 }
 ```
 
-The order of handlers matters. That's not the case in our simple example, but in more complex scenarios, the order in which we handle effects can change behavior.
+The `Raise.either` handler uses Scala 3's `boundary` and `break` for control flow. Think of `boundary` as defining a labeled scope and `break` as a way to exit that scope early with a value. When `raise` is called, `break(Left(error))` immediately exits the boundary block and returns `Left(error)`. This is how we convert an abortion into an `Either` without using exceptions. If the program succeeds, we wrap the result in `Right`.
 
-As in Kyo, we can handle effects separately:
+**The order of handlers matters**. That's not the case in our simple example, but in more complex scenarios, the order in which we handle effects can change behavior.
+
+As in Kyo, **we can handle effects separately**:
 
 ```scala 3
 val partialResult: Raise[String] ?=> String = Random.run {
@@ -404,7 +406,7 @@ val partialResult: Raise[String] ?=> String = Random.run {
 }
 ```
 
-The `partialResult` still needs a `Raise[String]` effect to run, but the `Random` effect has been handled. It's something like algebraic effects, but without monadic composition.
+The `partialResult` still needs a `Raise[String]` effect to run, but the `Random` effect has been handled. It's something like algebraic effects, but without monadic composition Again, it would not to be possible without context functions.
 
 Notice that each handler can interpret effects differently. The `Random` handler uses real randomness, but we could write a test handler that returns fixed values:
 
