@@ -18,6 +18,7 @@ export default {
       files: ["*.md", "*.mdx"],
       options: {
         embeddedLanguageFormatting: "off",
+        proseWrap: "preserve",
       },
     },
     // Astro
