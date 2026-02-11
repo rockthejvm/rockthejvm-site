@@ -61,7 +61,7 @@ The solution is the **Effect Pattern**, a technique for tracking and controlling
 
 ## The Effect Pattern Foundation
 
-The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what kind of effects it uses without reading the implementation. If we use the `IO` type, we're saying "this function might do side effects when executed". If we use `ZIO[Database, Exception, User]`, we're saying "this function needs a the capability to access to a Database, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier. (Don't worry, you don't need to know what Cats Effect `IO` or ZIO `ZIO` are to understand the concepts we'll explore).
+The Effect Pattern rests on two fundamental principles that transform how we handle side effects. First, **type tracking** means we encode effects in types. Instead of `def getUser(): User`, we write `def getUser(name: String): IO[User]` or `def getUser(name: String): ZIO[Database, Exception, User]`. **The type signature tells us this function performs effects.** We can see what kind of effects it uses without reading the implementation. If we use the `IO` type, we're saying "this function might do side effects when executed". If we use `ZIO[Database, Exception, User]`, we're saying "this function needs the capability to access to a Database, might fail with an Exception, and produces a User on success". **This explicitness is powerful.** It makes reasoning about code easier. (Don't worry, you don't need to know what Cats Effect `IO` or ZIO `ZIO` are to understand the concepts we'll explore).
 
 The type system becomes documentation.
 
@@ -238,15 +238,19 @@ val partialResult: Result[String, String] < Sync = Abort.run { drunkFlip }
 
 As we can see, the result is a `Result[String, String] < Sync`, meaning we have handled the `Abort` effect, but the `Sync` effect is still pending.
 
-Why is Kyo still a monadic approach? Because under the hood, Kyo uses monadic composition. The `<` (append) operator is a type alias for a monadic context that combines effects. Each effect is still represented as a monadic context. The difference is that effects are modular and can be handled independently.
+Why is Kyo still a monadic approach? Because under the hood, Kyo uses monadic composition. The `<` (pending) operator is a type alias for a monadic context that combines effects:
 
-This is more modular than Cats Effect `IO` and more compositional than ZIO's three-parameter type.
+```scala 3
+opaque type <[+A, -S]
+```
+
+The type `A` is the result type, and `S` is the stack of effects. The composition of effects is still monadic, In this sense, the `<` is still an uber-type. The difference is that effects are modular and can be handled independently. This is more modular than Cats Effect `IO` and more compositional than ZIO's three-parameter type.
 
 But look at the code carefully. We're still using for-comprehensions. Under the hood, Kyo uses monadic composition. The algebraic approach is elegant and solves real composition problems, but the monadic cognitive load persists. We're still thinking in terms of `flatMap` chains, even if Kyo makes those chains more flexible and modular.
 
 ### The Common Challenge
 
-All three approaches are an elegant implementation of the Effect Pattern. They track effects in types, giving us compile-time safety. They defer execution until we're ready, separating description from action. They provide rich algebras for composing effects. They're used in production systems worldwide and have proven their worth. **But they share a challenge that we can't ignore: monadic composition has a steep learning curve.**
+All three approaches are an elegant implementation of the Effect Pattern. They track effects in types, giving us compile-time safety. They defer execution until we're ready, separating description from action. They provide rich algebras for composing effects. Cats Effect and ZIO are used in production systems worldwide and have proven their worth. **But they share a challenge that we can't ignore: monadic composition has a steep learning curve.**
 
 Understanding `flatMap`, knowing when to use `map` versus `flatMap`, reasoning about nested monadic contexts, and understanding what for-comprehensions desugar to—these are barriers for developers new to functional programming. There are barriers for teams trying to adopt functional effect management. There are barriers that slow down development and make code reviews harder when not everyone has the same monadic intuition.
 
@@ -514,7 +518,27 @@ As you can see, `genRand` is now a `def` rather than a `val`, so each time we ca
 
 However, do we really need referential transparency? Referential transparency is a core concept in programming models where we can express programs as values. In this setup, we need to be able to substitute values freely without changing program behavior. This is crucial for reasoning about code, composing it, and ensuring correctness. In particular, **it's crucial for managing the effects' control flow safely**.
 
-If we return to a setup where we use an imperative style, we lose the ability to treat our programs as values and thus the full power to manipulate their control flow. In fact, **the direct-style approach we presented can't express all possible effectsthe direct-style approach we presented can't express all possible effects** (e.g., the [`Choice` effect](https://getkyo.io/#/?id=choice-exploratory-branching)). This is because we can't express all types of continuations with context functions. (Yes, it's all a matter of continuations). Context functions can express a subset of continuations called one-shot continuations. However, this is far beyond the scope of this article.
+If we return to a setup where we use an imperative style, we lose the ability to treat our programs as values and thus the full power to manipulate their control flow. In fact, **the direct-style approach we presented can't express all possible effects** (e.g., the [`Choice` effect](https://getkyo.io/#/?id=choice-exploratory-branching)). This is because we can't express all types of continuations with context functions. (Yes, it's all a matter of continuations). Context functions can express a subset of continuations called one-shot continuations.
+
+To make this concrete, consider a realistic example: we're building a configuration validator that needs to find **all valid combinations** of database and cache settings. With Kyo's `Choice` effect, we can express this naturally in monadic style:
+
+```scala 3
+def compatible(db: String, cache: String): Boolean =
+  !(db == "sqlite" && cache == "redis-cluster")
+
+def validConfigs: (String, String) < Choice =
+  for {
+    db    <- Choice.eval("postgres", "mysql", "sqlite")
+    cache <- Choice.eval("redis", "redis-cluster", "memcached")
+    _     <- Choice.dropIf(!compatible(db, cache))
+  } yield (db, cache)
+// Produces ALL valid combinations at once
+val allValid: Seq[(String, String)] < Any = Choice.run(validConfigs)
+```
+
+Each call to `Choice.eval` invokes the continuation, everything after it in the for-comprehension, once **per element** in the sequence. For three databases and three caches, the continuation after the first `Choice.eval` runs three times, each spawning three more runs. The filter then prunes incompatible pairs. This requires **multi-shot continuations**: the ability to run the same continuation multiple times with different inputs. In monadic style, `flatMap` receives the continuation as a function `A => F[B]`, and the `Choice` monad can call that function as many times as it needs.
+
+**Direct-style context functions can't express this.** When a handler provides an effect instance and calls `program(using effectInstance)`, the program body runs exactly once. There's no mechanism for the handler to "replay" or "restart" the computation from a certain point with a different value. This is a fundamental limitation of one-shot continuations: each continuation is invoked at most once. So while we could write a `Choice` trait with a `eval` method, there's no way to implement a handler that explores all branches.
 
 In many practical applications, **the effects that we can express with direct-style handlers are sufficient**. Most applications don't need the full power of continuations or advanced control flow. They just need to manage side effects such as randomness, I/O, and error handling in a safe, composable way. In these common cases, direct-style handlers provide a simpler, more approachable way to implement the Effect Pattern.
 
@@ -536,4 +560,4 @@ When should we use direct style? On Scala 3 projects where context functions are
 
 **The Effect Pattern is the real insight here.** Whether we express it with monads or context functions, we're separating description from execution. **That separation is what makes side effects manageable, testable, and composable.** The implementation details are secondary to understanding that core principle. Once we understand the Effect Pattern, we can choose the implementation that fits our context. Both paths lead to safer, more maintainable code. The journey matters less than the destination.
 
-We've built our own minimal effect system to understand the principles. But we don't have to roll our own in production. The Scala ecosystem has direct-style libraries that provide implementations. Let's look at two notable ones: [Ox](https://ox.softwaremill.com/latest/) and [YAES](https://blog.rcard.in/yaes/).
+We've built our own minimal effect system to understand the principles. But we don't have to roll our own in production. The Scala ecosystem has direct-style libraries that provide implementations. Two notable ones are: [Ox](https://ox.softwaremill.com/latest/) and [YAES](https://blog.rcard.in/yaes/).
