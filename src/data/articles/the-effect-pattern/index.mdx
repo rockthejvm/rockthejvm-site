@@ -191,10 +191,12 @@ def drunkFlip: ZIO[Random, String, String] =
 
 The signature `ZIO[Random, String, String]` is remarkably expressive. This operation needs to generate random numbers (the `Random` dependency), might fail with a `String`, and produces a `String` on success. We get more type-level information than Cats Effect's `IO`. The trade-off is that the type is more complex to understand initially.
 
-Dependencies compose using Scala 3 union types. If we need both randomness and access to the console for logging, we can express that:
+In ZIO 2, the `Random` service is actually provided by default in the ZIO runtime, so we don't strictly need to declare it in the environment. We could write `ZIO[Any, String, String]` and call `Random.nextBoolean` just fine. However, we explicitly include `Random` in the environment here to make the dependency visible in the type signature, so we can compare it more directly with the other approaches.
+
+Dependencies compose using Scala 3 intersection types. If we need both randomness and access to the console for logging, we can express that:
 
 ```scala 3
-val drukFlipOnConsole: ZIO[Random & Console, String, Unit] =
+val drunkFlipOnConsole: ZIO[Random & Console, String, Unit] =
   drunkFlip.flatMap { result =>
     Console.printLine(result)
   }
@@ -203,10 +205,9 @@ val drukFlipOnConsole: ZIO[Random & Console, String, Unit] =
 Running the effect requires providing the necessary environment inside a ZIO app:
 
 ```scala 3
-// The Console capability is provided by default in ZIOApp
 object Main extends ZIOAppDefault {
   override def run =
-    drukFlipOnConsole.provideLayer(ZLayer.succeed(RandomLive))
+    drunkFlipOnConsole.provide(Random.live, Console.live)
 }
 ```
 
@@ -278,7 +279,7 @@ We abandoned for a moment the functional programming world. No `IO`. No for-comp
 
 ### The Key Insight: Context Functions
 
-The magic behind direct-style effects are **context parameters and functions**. The last is a Scala 3 feature that fundamentally changes how we think about deferred computation. To understand how they enable the implementation of the Effect Pattern, we first need to understand what context functions actually are and how they differ from regular functions.
+The magic behind direct-style effects is **context parameters and functions**. The latter is a Scala 3 feature that fundamentally changes how we think about deferred computation. To understand how they enable the implementation of the Effect Pattern, we first need to understand what context functions actually are and how they differ from regular functions.
 
 In Scala 3, we have two ways to pass parameters implicitly. The first is **context parameters** in functions and methods, which we declare with the `using` keyword:
 
@@ -337,7 +338,7 @@ So, in direct-style, **we identify the effect as `C ?=> A`, where `C` is the cap
 
 In the previous section, we saw how context functions enable deferred execution. Context parameters in context functions allow us to track the effects a function needs to run. It seems we can build an effect system using these concepts.
 
-So, let's build our own minimal effect system to understand how this works. First, we need to define the types that represent capabilities. An capability in this scenario is just a trait describing what effectful operations we can perform:
+So, let's build our own minimal effect system to understand how this works. First, we need to define the types that represent capabilities. A capability in this scenario is just a trait describing what effectful operations we can perform:
 
 ```scala 3
 trait Random {
@@ -499,7 +500,7 @@ def drunkFlip(using Random, Raise[String]): String = {
 }
 ```
 
-When the handler for `Random` is provided, the `genRand` value is **evaluated eagerly**. Each time we reference `genRand`, we get the same value. This breaks referential transparency at the value level. We can't replace `genRand` with `Random.nextBoolean` without changing behavior, because `genRand' is only evaluated once.
+When the handler for `Random` is provided, the `genRand` value is **evaluated eagerly**. Each time we reference `genRand`, we get the same value. This breaks referential transparency at the value level. We can't replace `genRand` with `Random.nextBoolean` without changing behavior, because `genRand` is only evaluated once.
 
 To regain something similar to referential transparency, we need to define `genRand` as a function:
 
@@ -514,7 +515,7 @@ def drunkFlip(using Random, Raise[String]): String = {
 }
 ```
 
-As you can see, `genRand` is now a `def` rather than a `val`, so each time we call it, we get a fresh random value. it's not referential transparency, since we're not representing programs through values, but we're just calling functions. Moreover, we have to remember to use `def` for computations that need re-evaluation.
+As you can see, `genRand` is now a `def` rather than a `val`, so each time we call it, we get a fresh random value. It's not referential transparency, since we're not representing programs through values, but we're just calling functions. Moreover, we have to remember to use `def` for computations that need re-evaluation.
 
 This has consequences beyond a single function. As we discussed earlier, referential transparency enables **equational reasoning** and **local reasoning**. Without it, we lose the ability to refactor code by freely substituting equals for equals. In monadic style, if we see `val x = someEffect` and `val y = someEffect`, we know they are two independent descriptions of the same computation, and we can extract them into a shared value without changing behavior. In direct style, the same refactoring might silently change our program because `val` binds eagerly. **Extracting a common subexpression into a `val` or inlining a `val` back into its usage sites are everyday refactoring moves, and in direct style they can introduce subtle bugs.** We need to be careful about whether we're dealing with a value or a computation, and that distinction is no longer visible in the code itself.
 
