@@ -299,7 +299,6 @@ def greet(name: String): (logger: Logger) ?=> Unit =
 
 This reads as "given a `Logger` implicitly, and a `String`, produce an `Unit`". The `?=>` arrow indicates that the `Logger` will be provided through Scala's context mechanism, not passed explicitly. We can even summon the instance of the `Logger` inside the function body using `summon[Logger]` instead of having a named parameter:
 
-
 ```scala 3
 def greet(name: String): Logger ?=> Unit =
   summon[Logger].log(s"Hello, $name")
