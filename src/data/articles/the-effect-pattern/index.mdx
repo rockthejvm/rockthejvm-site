@@ -456,13 +456,13 @@ def analyze(using Random): String = {
 
 ### What Kind of Deferral Is This?
 
-Now that we've seen how direct-style effects work, we need to be honest about what kind of deferral we're actually getting. As we said earlier, the Effect Pattern rests on deferred execution. But not all deferral is created equal, and the difference matters.
+Now that we've seen how direct-style effects work, let's be honest about what kind of deferral we're getting. As we said, the Effect Pattern needs deferred execution. But there are different kinds of deferral.
 
-In monadic systems, `IO[A]` is an **inert data structure** — a description of a program that a runtime interprets. The program itself is a value we can store, retry, race, and compose. We can pass it around, inspect it, and run it multiple times. This is the strongest form of deferred execution: **programs as data**.
+In monadic systems, `IO[A]` is a **data structure** that describes a program. A runtime interprets it. We can store the program, retry it, race it, compose it, and run it multiple times. This is the strongest form of deferred execution: **programs as data**.
 
-In direct-style, the effectful program is a **context function** (`C ?=> A`). It genuinely won't execute until a handler supplies the capability. We can store it, pass it around, and choose when to execute it. This is real deferral — but it's not the same as programs-as-data.
+In direct-style, the effectful program is a **context function** (`C ?=> A`). It won't execute until a handler provides the capability. We can store it, pass it around, and choose when to run it. This is real deferral, but it's not the same as programs-as-data.
 
-The key difference: **once we provide the context and the function body executes, effects fire eagerly.** There's no intermediate data structure a runtime can inspect, optimize, or re-execute. Let's see an example to make this concrete:
+The key difference: **once we provide the context and the function body runs, effects happen eagerly.** There's no data structure that a runtime can inspect, optimize, or re-execute. Let's see an example:
 
 ```scala 3
 // Monadic: program is a reusable data structure (pseudocode)
@@ -475,7 +475,7 @@ val program: Random ?=> Int = Random.nextInt
 // Can't retry or race without wrapping in explicit lambdas
 ```
 
-In the monadic version, `program` is a value that describes what to do. The runtime can execute that description as many times as it wants. In the direct-style version, `program` is a function waiting for its context. Once we provide that context, the body runs once and produces a result. If we want to retry or race, we need to explicitly wrap the computation in lambdas or reconstruct it. For example, we can achieve retries in direct-style, but we need to be explicit about it:
+In the monadic version, `program` is a value describing what to do. The runtime can run that description as many times as it wants. In the direct-style version, `program` is a function waiting for its context. Once we provide the context, the body runs once and gives us a result. If we want to retry or race, we need to wrap the computation in lambdas or rebuild it. For example, we can do retries in direct-style, but we have to be explicit:
 
 ```scala 3
 // Direct-style: retries require an explicit loop
@@ -490,13 +490,13 @@ retry(3) {
 }
 ```
 
-Notice that the caller must pass the computation as a **by-name parameter** (`=> A`) so that each retry re-executes the body. In monadic style, this comes for free because `IO[A]` is already a description we can re-run. In direct-style, we have to reconstruct the deferral manually.
+Notice that the caller must pass the computation as a **by-name parameter** (`=> A`) so that each retry runs the body again. In monadic style, this comes for free because `IO[A]` is already a description we can re-run. In direct-style, we have to build the deferral ourselves.
 
 ### But Isn't This Just `Future`?
 
-At this point, a reasonable objection arises: if direct-style effects lose referential transparency and don't give us programs-as-data, aren't we just reinventing `Future` with an implicit `ExecutionContext`? The surface similarity is real: both approaches thread an implicit parameter through our code. But the comparison breaks down under closer inspection.
+A fair question at this point: if direct-style effects lose referential transparency and don't give us programs-as-data, aren't we just reinventing `Future` with an implicit `ExecutionContext`? Both approaches use an implicit parameter, so the similarity is there. But the comparison doesn't hold.
 
-The critical difference is **eagerness**. `Future` is eager on construction. The moment we create a `Future`, its body starts executing immediately:
+The first difference is **eagerness**. `Future` is eager: the moment we create one, its body starts running immediately:
 
 ```scala 3
 import scala.concurrent.Future
@@ -506,7 +506,7 @@ val f: Future[Int] = Future(expensiveComputation()) // Already running!
 val g: Future[Int] = f // g shares f's result, not the computation
 ```
 
-A context function, by contrast, **does nothing until a handler provides the capability**. The computation is genuinely deferred:
+A context function, instead, **does nothing until a handler provides the capability**:
 
 ```scala 3
 val program: Random ?=> Int = Random.nextInt // Nothing happens yet
@@ -514,13 +514,13 @@ val program: Random ?=> Int = Random.nextInt // Nothing happens yet
 Random.run { program } // Now it runs
 ```
 
-The second difference is **accidental concurrency**. With `Future`, composing two independent operations with `flatMap` might run them in parallel depending on where they're created. This leads to subtle, hard-to-reproduce bugs. Direct-style sequential code runs sequentially. If we want parallelism, we must explicitly request it.
+The second difference is **accidental concurrency**. With `Future`, two independent operations might run in parallel depending on where we create them. This leads to subtle bugs that are hard to reproduce. Direct-style sequential code runs sequentially, period. If we want parallelism, we have to ask for it.
 
-The third difference is **memoization**. `Future` memoizes its result: once it completes, it caches the value. Calling `.map` on the same `Future` twice gives the same result. Context functions re-execute every time we provide the context, each invocation is a fresh computation.
+The third difference is **memoization**. `Future` caches its result: once it completes, calling `.map` on the same `Future` twice gives the same value. Context functions re-execute every time we provide the context. Each call is a fresh computation.
 
-In short, `Future` is eager, accidentally concurrent, and memoized. Direct-style is deferred, sequential, and re-executable. They share only the surface syntax of implicit parameters.
+In short, `Future` is eager, accidentally concurrent, and memoized. Direct-style is deferred, sequential, and re-executable. They only share the surface syntax of implicit parameters.
 
-In other words, **direct-style sits between `Future` (no deferral at all) and `IO` (full programs-as-data).** It fixes `Future`'s worst problems while trading away `IO`'s strongest guarantees. As we'll see in the trade-offs section, this positioning has concrete consequences for what we can and can't do.
+In other words, **direct-style sits between `Future` (no deferral at all) and `IO` (full programs-as-data).** It fixes `Future`'s worst problems while giving up `IO`'s strongest guarantees. As we'll see in the trade-offs section, this has real consequences for what we can and can't do.
 
 ## Direct-Style versus Monadic: Trade-offs and Honest Assessment
 
@@ -586,7 +586,7 @@ As you can see, `genRand` is now a `def` rather than a `val`, so each time we ca
 
 This has consequences beyond a single function. As we discussed earlier, referential transparency enables **equational reasoning** and **local reasoning**. Without it, we lose the ability to refactor code by freely substituting equals for equals. In monadic style, if we see `val x = someEffect` and `val y = someEffect`, we know they are two independent descriptions of the same computation, and we can extract them into a shared value without changing behavior. In direct style, the same refactoring might silently change our program because `val` binds eagerly. **Extracting a common subexpression into a `val` or inlining a `val` back into its usage sites are everyday refactoring moves, and in direct style they can introduce subtle bugs.** We need to be careful about whether we're dealing with a value or a computation, and that distinction is no longer visible in the code itself.
 
-This connects to a deeper point. As we discussed in the "What Kind of Deferral Is This?" section, monadic `IO` gives us **programs as data**: we can retry, race, and compose program descriptions freely. In direct-style, the computation is a function, not data. In terms of continuations, monadic `IO` gives us effectively _multi-shot continuations_ (the runtime can invoke the same program description multiple times), while direct-style with context functions gives us _one-shot continuations_ (each computation runs exactly once). As we'll see shortly, this distinction determines which effects we can express.
+This connects to a deeper point. As we saw in the "What Kind of Deferral Is This?" section, monadic `IO` gives us **programs as data**: we can retry, race, and compose program descriptions freely. In direct-style, the computation is a function, not data. In terms of continuations, monadic `IO` gives us _multi-shot continuations_ (the runtime can run the same program description multiple times), while direct-style gives us _one-shot continuations_ (each computation runs exactly once). As we'll see shortly, this tells us which effects we can express and which we can't.
 
 However, do we really need referential transparency? Referential transparency is a core concept in programming models where we can express programs as values. In this setup, we need to be able to substitute values freely without changing program behavior. This is crucial for reasoning about code, composing it, and ensuring correctness. In particular, **it's crucial for managing the effects' control flow safely**.
 
@@ -618,7 +618,7 @@ The other limitation is that **context functions are Scala 3 only**. Teams still
 
 What we gain is **readability**. **Code looks imperative and familiar.** A developer who has never seen functional programming can read direct-style effects and understand what's happening. They might not immediately understand how `using` parameters work, but the sequential flow is obvious. There's no mental overhead of tracking monadic contexts or figuring out what a for-comprehension desugars to.
 
-We also gain **freedom from accidental concurrency**. This was arguably the biggest practical problem with `Future`-based designs: two `Future` values created independently could run in parallel without the developer intending it. In direct-style, sequential code runs sequentially. Parallelism must be explicitly requested through constructs like structured concurrency. **What we write is what we get** and we should not expect hidden concurrency surprises.
+We also gain **freedom from accidental concurrency**. This was probably the biggest practical problem with `Future`-based code: two `Future` values created independently could run in parallel without us intending it. In direct-style, sequential code runs sequentially. If we want parallelism, we have to use constructs like structured concurrency. **What we write is what we get**, no hidden concurrency surprises.
 
 We also gain **approachability**. **The cognitive load is dramatically lower compared to monadic approaches.** No need to understand `flatMap` chains. No confusion about when to use `map` versus `flatMap`. No nested for-comprehensions to mentally parse. Just write sequential code that looks like what you mean, and let the compiler thread capabilities for you. This significantly lowers the barrier to teams adopting functional effect management.
 
@@ -632,7 +632,7 @@ To summarize the trade-offs across all three approaches, here's a quick comparis
 | Programs as data         | No         | No                  | Yes                 |
 | Type-tracked effects     | No         | Yes                 | Yes                 |
 
-As we can see, direct-style occupies a middle ground. It avoids the pitfalls of `Future` while being more approachable than full monadic `IO`, at the cost of some guarantees that monadic systems provide.
+As we can see, direct-style sits in the middle. It avoids `Future`'s pitfalls while being more approachable than full monadic `IO`, at the cost of some guarantees that monadic systems give us.
 
 **Direct style isn't the best for every problem**. Some use cases benefit from explicit monadic structure, especially when you need the additional operations that monads provide or when you're already deeply invested in a monadic ecosystem. But it's a valid alternative in many cases. The choice depends on team experience, project constraints, and personal preference. Both approaches implement the Effect Pattern correctly.
 
