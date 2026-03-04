@@ -475,9 +475,22 @@ val program: Random ?=> Int = Random.nextInt
 // Can't retry or race without wrapping in explicit lambdas
 ```
 
-In the monadic version, `program` is a value that describes what to do. The runtime can execute that description as many times as it wants. In the direct-style version, `program` is a function waiting for its context. Once we provide that context, the body runs once and produces a result. If we want to retry or race, we need to explicitly wrap the computation in lambdas or reconstruct it.
+In the monadic version, `program` is a value that describes what to do. The runtime can execute that description as many times as it wants. In the direct-style version, `program` is a function waiting for its context. Once we provide that context, the body runs once and produces a result. If we want to retry or race, we need to explicitly wrap the computation in lambdas or reconstruct it. For example, we can achieve retries in direct-style, but we need to be explicit about it:
 
-In other words, **direct-style sits between `Future` (no deferral at all) and `IO` (full programs-as-data).** It fixes `Future`'s worst problems while trading away `IO`'s strongest guarantees. As we'll see in the trade-offs section, this positioning has concrete consequences for what we can and can't do.
+```scala 3
+// Direct-style: retries require an explicit loop
+def retry[A](n: Int)(program: => A): A =
+  try program
+  catch
+    case e: Exception if n > 0 => retry(n - 1)(program)
+
+// Usage
+retry(3) {
+  Random.run { Random.nextInt }
+}
+```
+
+Notice that the caller must pass the computation as a **by-name parameter** (`=> A`) so that each retry re-executes the body. In monadic style, this comes for free because `IO[A]` is already a description we can re-run. In direct-style, we have to reconstruct the deferral manually.
 
 ### But Isn't This Just `Future`?
 
@@ -506,6 +519,8 @@ The second difference is **accidental concurrency**. With `Future`, composing tw
 The third difference is **memoization**. `Future` memoizes its result: once it completes, it caches the value. Calling `.map` on the same `Future` twice gives the same result. Context functions re-execute every time we provide the context, each invocation is a fresh computation.
 
 In short, `Future` is eager, accidentally concurrent, and memoized. Direct-style is deferred, sequential, and re-executable. They share only the surface syntax of implicit parameters.
+
+In other words, **direct-style sits between `Future` (no deferral at all) and `IO` (full programs-as-data).** It fixes `Future`'s worst problems while trading away `IO`'s strongest guarantees. As we'll see in the trade-offs section, this positioning has concrete consequences for what we can and can't do.
 
 ## Direct-Style versus Monadic: Trade-offs and Honest Assessment
 
