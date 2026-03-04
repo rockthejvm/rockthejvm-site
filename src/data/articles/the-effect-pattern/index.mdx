@@ -624,13 +624,13 @@ We also gain **approachability**. **The cognitive load is dramatically lower com
 
 To summarize the trade-offs across all three approaches, here's a quick comparison:
 
-| Property | `Future` | Direct-style | `IO` (ZIO/CE) |
-|---|---|---|---|
-| Deferred until run | No (eager) | Yes (until handler) | Yes (until runtime) |
-| Referential transparency | No | No | Yes |
-| Accidental concurrency | Yes | No | No |
-| Programs as data | No | No | Yes |
-| Type-tracked effects | No | Yes | Yes |
+| Property                 | `Future`   | Direct-style        | `IO` (ZIO/CE)       |
+| ------------------------ | ---------- | ------------------- | ------------------- |
+| Deferred until run       | No (eager) | Yes (until handler) | Yes (until runtime) |
+| Referential transparency | No         | No                  | Yes                 |
+| Accidental concurrency   | Yes        | No                  | No                  |
+| Programs as data         | No         | No                  | Yes                 |
+| Type-tracked effects     | No         | Yes                 | Yes                 |
 
 As we can see, direct-style occupies a middle ground. It avoids the pitfalls of `Future` while being more approachable than full monadic `IO`, at the cost of some guarantees that monadic systems provide.
 
