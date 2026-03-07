@@ -4,6 +4,10 @@
 
 This repository contains the front pages of the Rock the JVM website, including every blog post. This document describes how the blog is built and how you can contribute with articles.
 
+PRs are welcome for both content (most common) and features/bugs.
+
+⚠️ **All PRs should come from the original repo, not from forks.** We currently have live build previews (Cloudflare) that do not work for branches from forks, without which PRs cannot be accepted.
+
 ## Setup
 
 This repository is built on [Astro](https://astro.build/) with JavaScript/TypeScript. It requires an NPM or PNPM installation on your machine. Here's how to run it locally:
