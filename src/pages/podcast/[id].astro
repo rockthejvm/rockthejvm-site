@@ -1,0 +1,104 @@
+---
+import BackgroundGradient from "@/components/BackgroundGradient.astro";
+import Prose from "@/components/Prose.astro";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { fetchPodcastFeed } from "@/utils/fetchPodcastFeed";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+
+export const getStaticPaths = (async () => {
+  const episodes = await fetchPodcastFeed();
+  return episodes.map((episode) => ({
+    params: { id: episode.guid },
+    props: { episode },
+  }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { episode } = Astro.props;
+
+function formatDate(isoString: string): string {
+  return new Date(isoString).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function formatDuration(duration: string): string {
+  const parts = duration.split(":");
+  if (parts.length === 3) {
+    const h = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    return h > 0 ? `${h}h ${m}m` : `${m} min`;
+  }
+  if (parts.length === 2) {
+    return `${parseInt(parts[0], 10)} min`;
+  }
+  return duration;
+}
+
+const plainDescription = episode.description
+  .replace(/<[^>]+>/g, "")
+  .slice(0, 200)
+  .trimEnd();
+---
+
+<BaseLayout
+  title={`${episode.title} | Rock the Code Podcast`}
+  description={plainDescription}
+>
+  <BackgroundGradient />
+  <div class="container z-10 mx-auto px-4 sm:px-6 lg:px-4">
+    <article class="mx-auto max-w-3xl pb-16 pt-16 md:pt-8">
+      <header class="mb-8">
+        <p class="mb-4">
+          <a href="/podcast" class="text-sm text-accent-1 hover:text-accent-2"
+            >← All episodes</a
+          >
+        </p>
+        <h1 class="text-3xl font-bold text-content-1 md:text-4xl">
+          {episode.title}
+        </h1>
+        <p class="mt-3 text-content-2">
+          {formatDate(episode.publishedDate)}&nbsp;•&nbsp;{
+            formatDuration(episode.duration)
+          }
+        </p>
+      </header>
+
+      {
+        episode.videoUrl && (
+          <section class="mb-6">
+            <h2 class="mb-3 text-lg font-semibold text-content-1">Video</h2>
+            {/* Videos from this RSS feed are mp4 — the browser streams them via range requests */}
+            <video controls class="w-full rounded-xl" preload="metadata">
+              <source src={episode.videoUrl} type="video/mp4" />
+            </video>
+          </section>
+        )
+      }
+
+      <section class="mb-10">
+        <h2 class="mb-3 text-lg font-semibold text-content-1">Audio</h2>
+        <audio controls class="w-full" preload="metadata">
+          <source src={episode.audioUrl} type="audio/mpeg" />
+        </audio>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-lg font-semibold text-content-1">
+          About this episode
+        </h2>
+        <!--
+          The HTML here is produced at build time by `marked` from the plain-text RSS
+          description, which is controlled by Rock the JVM's own podcast platform.
+        -->
+        <Prose>
+          <Fragment set:html={episode.description} />
+        </Prose>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
