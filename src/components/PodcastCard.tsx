@@ -42,6 +42,7 @@ export default function PodcastCard({ episode }: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
+  const [playError, setPlayError] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -60,15 +61,21 @@ export default function PodcastCard({ episode }: Props) {
     };
   }, []);
 
-  const handlePlayPause = () => {
+  const handlePlayPause = async () => {
     const audio = audioRef.current;
     if (!audio) return;
+    setPlayError(false);
     if (isPlaying) {
       audio.pause();
+      setIsPlaying(false);
     } else {
-      audio.play();
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch {
+        setPlayError(true);
+      }
     }
-    setIsPlaying((prev) => !prev);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,6 +144,11 @@ export default function PodcastCard({ episode }: Props) {
           </div>
           {/* preload="none" so we don't download audio until the user presses play */}
           <audio ref={audioRef} src={episode.audioUrl} preload="none" />
+          {playError && (
+            <p className="mt-1 text-xs text-red-500" role="alert">
+              Unable to play audio. Please try again.
+            </p>
+          )}
         </div>
       </div>
     </article>
