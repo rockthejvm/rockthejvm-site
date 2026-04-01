@@ -4,7 +4,8 @@ import {
   PODCAST_VIDEO_FEED_URL,
 } from "astro:env/server";
 import { XMLParser } from "fast-xml-parser";
-import { marked } from "marked";
+import { micromark } from "micromark";
+import { gfm, gfmHtml } from "micromark-extension-gfm";
 import sanitizeHtml from "sanitize-html";
 
 interface RssGuid {
@@ -81,12 +82,14 @@ export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
     if (uuid && videoUrl) videoMap.set(uuid, videoUrl);
   }
 
-  const episodes: PodcastEpisode[] = await Promise.all(
-    audioItems.map(async (item) => {
+  const episodes: PodcastEpisode[] = audioItems.map((item) => {
       const uuid = extractGuidText(item.guid).replace(/-audio$/, "");
       const rawDescription = item.description ?? "";
       const htmlDescription = sanitizeHtml(
-        String(await marked(rawDescription, { breaks: true })),
+        micromark(rawDescription, {
+          extensions: [gfm()],
+          htmlExtensions: [gfmHtml()],
+        }),
         {
           allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
           allowedAttributes: {
@@ -108,8 +111,7 @@ export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
         thumbnailUrl: thumbnailHref || null,
         duration: item["itunes:duration"] ?? "",
       };
-    }),
-  );
+    });
 
   // Newest first
   return episodes.sort(
