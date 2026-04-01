@@ -5,6 +5,7 @@ import {
 } from "astro:env/server";
 import { XMLParser } from "fast-xml-parser";
 import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
 
 interface RssGuid {
   "#text": string;
@@ -84,8 +85,15 @@ export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
     audioItems.map(async (item) => {
       const uuid = extractGuidText(item.guid).replace(/-audio$/, "");
       const rawDescription = item.description ?? "";
-      const htmlDescription = String(
-        await marked(rawDescription, { breaks: true }),
+      const htmlDescription = sanitizeHtml(
+        String(await marked(rawDescription, { breaks: true })),
+        {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+          allowedAttributes: {
+            ...sanitizeHtml.defaults.allowedAttributes,
+            img: ["src", "alt", "width", "height", "loading"],
+          },
+        },
       );
       const thumbnailHref = item["itunes:image"]?.href ?? "";
 
