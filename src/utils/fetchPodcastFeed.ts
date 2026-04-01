@@ -83,35 +83,35 @@ export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
   }
 
   const episodes: PodcastEpisode[] = audioItems.map((item) => {
-      const uuid = extractGuidText(item.guid).replace(/-audio$/, "");
-      const rawDescription = item.description ?? "";
-      const htmlDescription = sanitizeHtml(
-        micromark(rawDescription, {
-          extensions: [gfm()],
-          htmlExtensions: [gfmHtml()],
-        }),
-        {
-          allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-          allowedAttributes: {
-            ...sanitizeHtml.defaults.allowedAttributes,
-            img: ["src", "alt", "width", "height", "loading"],
-          },
+    const uuid = extractGuidText(item.guid).replace(/-audio$/, "");
+    const rawDescription = item.description ?? "";
+    const htmlDescription = sanitizeHtml(
+      micromark(rawDescription, {
+        extensions: [gfm()],
+        htmlExtensions: [gfmHtml()],
+      }),
+      {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+        allowedAttributes: {
+          ...sanitizeHtml.defaults.allowedAttributes,
+          img: ["src", "alt", "width", "height", "loading"],
         },
-      );
-      const thumbnailHref = item["itunes:image"]?.href ?? "";
+      },
+    );
+    const thumbnailHref = item["itunes:image"]?.href ?? "";
 
-      return {
-        guid: uuid,
-        episodeNumber: Number(item["itunes:episode"] ?? 0),
-        title: item.title ?? "",
-        description: htmlDescription,
-        publishedDate: new Date(item.pubDate ?? "").toISOString(),
-        audioUrl: item.enclosure?.url ?? "",
-        videoUrl: videoMap.get(uuid) ?? null,
-        thumbnailUrl: thumbnailHref || null,
-        duration: item["itunes:duration"] ?? "",
-      };
-    });
+    return {
+      guid: uuid,
+      episodeNumber: Number(item["itunes:episode"] ?? 0),
+      title: item.title ?? "",
+      description: htmlDescription,
+      publishedDate: new Date(item.pubDate ?? "").toISOString(),
+      audioUrl: item.enclosure?.url ?? "",
+      videoUrl: videoMap.get(uuid) ?? null,
+      thumbnailUrl: thumbnailHref || null,
+      duration: item["itunes:duration"] ?? "",
+    };
+  });
 
   // Newest first
   return episodes.sort(
