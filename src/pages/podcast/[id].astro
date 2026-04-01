@@ -3,6 +3,7 @@ import BackgroundGradient from "@/components/BackgroundGradient.astro";
 import Prose from "@/components/Prose.astro";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import { fetchPodcastFeed } from "@/utils/fetchPodcastFeed";
+import { formatDate, formatDuration } from "@/utils/podcastFormatter";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 
 export const getStaticPaths = (async () => {
@@ -16,28 +17,6 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { episode } = Astro.props;
-
-function formatDate(isoString: string): string {
-  return new Date(isoString).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function formatDuration(duration: string): string {
-  const parts = duration.split(":");
-  if (parts.length === 3) {
-    const h = parseInt(parts[0], 10);
-    const m = parseInt(parts[1], 10);
-    return h > 0 ? `${h}h ${m}m` : `${m} min`;
-  }
-  if (parts.length === 2) {
-    return `${parseInt(parts[0], 10)} min`;
-  }
-  return duration;
-}
 
 const plainDescription = episode.description
   .replace(/<[^>]+>/g, "")

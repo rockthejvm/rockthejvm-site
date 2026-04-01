@@ -1,4 +1,5 @@
 import type { PodcastEpisode } from "@/types/PodcastEpisode";
+import { formatDate, formatDuration } from "@/utils/podcastFormatter";
 import { PauseIcon, PlayIcon } from "@heroicons/react/24/solid";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,28 +11,6 @@ function formatTime(seconds: number): string {
   if (h > 0)
     return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   return `${m}:${String(s).padStart(2, "0")}`;
-}
-
-function formatDate(isoString: string): string {
-  return new Date(isoString).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function formatDuration(duration: string): string {
-  const parts = duration.split(":");
-  if (parts.length === 3) {
-    const h = parseInt(parts[0], 10);
-    const m = parseInt(parts[1], 10);
-    return h > 0 ? `${h}h ${m}m` : `${m} min`;
-  }
-  if (parts.length === 2) {
-    return `${parseInt(parts[0], 10)} min`;
-  }
-  return duration;
 }
 
 interface Props {
