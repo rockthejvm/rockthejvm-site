@@ -83,8 +83,6 @@
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0"
   },
-  "devDependencies": {
-    "@types/marked": "^6.0.0"
-  },
+  "devDependencies": {},
   "packageManager": "pnpm@10.14.0"
 }
