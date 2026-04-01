@@ -6,9 +6,9 @@ export interface PodcastEpisode {
   description: string;
   /** ISO 8601 date string */
   publishedDate: string;
-  audioUrl: string;
+  audioUrl: string | null;
   videoUrl: string | null;
   thumbnailUrl: string | null;
-  /** HH:MM:SS or MM:SS, as provided by itunes:duration */
-  duration: string;
+  /** Duration in seconds, parsed from itunes:duration at build time. */
+  duration: number;
 }

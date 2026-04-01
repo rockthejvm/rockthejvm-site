@@ -7,15 +7,9 @@ export function formatDate(isoString: string): string {
   });
 }
 
-export function formatDuration(duration: string): string {
-  const parts = duration.split(":");
-  if (parts.length === 3) {
-    const h = parseInt(parts[0], 10);
-    const m = parseInt(parts[1], 10);
-    return h > 0 ? `${h}h ${m}m` : `${m} min`;
-  }
-  if (parts.length === 2) {
-    return `${parseInt(parts[0], 10)} min`;
-  }
-  return duration;
+export function formatDuration(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  if (h > 0) return `${h}h ${m}m`;
+  return `${m} min`;
 }

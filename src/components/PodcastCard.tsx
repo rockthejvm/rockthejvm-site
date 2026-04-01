@@ -90,43 +90,47 @@ export default function PodcastCard({ episode }: Props) {
           {formatDuration(episode.duration)}
         </p>
         <div className="mt-auto pt-4">
-          {/* Full-width inline audio player */}
-          <div className="flex w-full items-center gap-2">
-            <button
-              type="button"
-              onClick={handlePlayPause}
-              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-1 text-white transition-colors hover:bg-accent-2"
-              aria-label={isPlaying ? "Pause episode" : "Play episode"}
-            >
-              {isPlaying ? (
-                <PauseIcon className="size-4" />
-              ) : (
-                <PlayIcon className="size-4" />
+          {episode.audioUrl && (
+            <>
+              {/* Full-width inline audio player */}
+              <div className="flex w-full items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handlePlayPause}
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-1 text-white transition-colors hover:bg-accent-2"
+                  aria-label={isPlaying ? "Pause episode" : "Play episode"}
+                >
+                  {isPlaying ? (
+                    <PauseIcon className="size-4" />
+                  ) : (
+                    <PlayIcon className="size-4" />
+                  )}
+                </button>
+                <span className="w-10 shrink-0 text-right text-xs tabular-nums text-content-2">
+                  {formatTime(currentTime)}
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  value={progress}
+                  onChange={handleSeek}
+                  className="h-1 flex-1 cursor-pointer accent-accent-1"
+                  aria-label="Seek audio"
+                />
+                <span className="w-10 shrink-0 text-xs tabular-nums text-content-2">
+                  {formatTime(audioDuration)}
+                </span>
+              </div>
+              {/* preload="none" so we don't download audio until the user presses play */}
+              <audio ref={audioRef} src={episode.audioUrl} preload="none" />
+              {playError && (
+                <p className="mt-1 text-xs text-red-500" role="alert">
+                  Unable to play audio. Please try again.
+                </p>
               )}
-            </button>
-            <span className="w-10 shrink-0 text-right text-xs tabular-nums text-content-2">
-              {formatTime(currentTime)}
-            </span>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              step="0.1"
-              value={progress}
-              onChange={handleSeek}
-              className="h-1 flex-1 cursor-pointer accent-accent-1"
-              aria-label="Seek audio"
-            />
-            <span className="w-10 shrink-0 text-xs tabular-nums text-content-2">
-              {formatTime(audioDuration)}
-            </span>
-          </div>
-          {/* preload="none" so we don't download audio until the user presses play */}
-          <audio ref={audioRef} src={episode.audioUrl} preload="none" />
-          {playError && (
-            <p className="mt-1 text-xs text-red-500" role="alert">
-              Unable to play audio. Please try again.
-            </p>
+            </>
           )}
         </div>
       </div>

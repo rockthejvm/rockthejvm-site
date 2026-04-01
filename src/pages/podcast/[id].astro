@@ -59,12 +59,16 @@ const plainDescription = episode.description
         )
       }
 
-      <section class="mb-10">
-        <h2 class="mb-3 text-lg font-semibold text-content-1">Audio</h2>
-        <audio controls class="w-full" preload="metadata">
-          <source src={episode.audioUrl} type="audio/mpeg" />
-        </audio>
-      </section>
+      {
+        episode.audioUrl && (
+          <section class="mb-10">
+            <h2 class="mb-3 text-lg font-semibold text-content-1">Audio</h2>
+            <audio controls class="w-full" preload="metadata">
+              <source src={episode.audioUrl} type="audio/mpeg" />
+            </audio>
+          </section>
+        )
+      }
 
       <section>
         <h2 class="mb-4 text-lg font-semibold text-content-1">

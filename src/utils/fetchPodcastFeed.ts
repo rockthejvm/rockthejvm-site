@@ -44,6 +44,13 @@ function extractGuidText(raw: string | RssGuid | undefined): string {
   return "";
 }
 
+function parseDuration(raw: string): number {
+  const parts = raw.split(":").map(Number);
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  if (parts.length === 2) return parts[0] * 60 + parts[1];
+  return Number(raw) || 0;
+}
+
 export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
   const parser = new XMLParser({
     ignoreAttributes: false,
@@ -106,10 +113,10 @@ export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
       title: item.title ?? "",
       description: htmlDescription,
       publishedDate: new Date(item.pubDate ?? "").toISOString(),
-      audioUrl: item.enclosure?.url ?? "",
+      audioUrl: item.enclosure?.url || null,
       videoUrl: videoMap.get(uuid) ?? null,
       thumbnailUrl: thumbnailHref || null,
-      duration: item["itunes:duration"] ?? "",
+      duration: parseDuration(item["itunes:duration"] ?? ""),
     };
   });
 
