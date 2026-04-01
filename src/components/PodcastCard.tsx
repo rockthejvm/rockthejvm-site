@@ -7,7 +7,8 @@ function formatTime(seconds: number): string {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = Math.floor(seconds % 60);
-  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  if (h > 0)
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
@@ -81,18 +82,18 @@ export default function PodcastCard({ episode }: Props) {
   const progress = audioDuration > 0 ? (currentTime / audioDuration) * 100 : 0;
 
   return (
-    <article className="card-shadow card-shadow-color rounded-2xl bg-secondary overflow-hidden flex flex-col">
+    <article className="card-shadow card-shadow-color flex flex-col overflow-hidden rounded-2xl bg-secondary">
       {episode.thumbnailUrl && (
         <div className="aspect-video w-full overflow-hidden">
           <img
             src={episode.thumbnailUrl}
             alt={episode.title}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             loading="lazy"
           />
         </div>
       )}
-      <div className="flex flex-col flex-1 p-5">
+      <div className="flex flex-1 flex-col p-5">
         <h2 className="mt-2 line-clamp-3 text-xl font-semibold leading-6 md:text-2xl lg:min-h-28 lg:text-3xl">
           <a href={`/podcast/${episode.guid}`} className="text-content-2">
             {episode.title}
@@ -104,11 +105,11 @@ export default function PodcastCard({ episode }: Props) {
         </p>
         <div className="mt-auto pt-4">
           {/* Full-width inline audio player */}
-          <div className="flex items-center gap-2 w-full">
+          <div className="flex w-full items-center gap-2">
             <button
               type="button"
               onClick={handlePlayPause}
-              className="shrink-0 flex items-center justify-center size-8 rounded-full bg-accent-1 text-white hover:bg-accent-2 transition-colors"
+              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-1 text-white transition-colors hover:bg-accent-2"
               aria-label={isPlaying ? "Pause episode" : "Play episode"}
             >
               {isPlaying ? (
@@ -117,7 +118,7 @@ export default function PodcastCard({ episode }: Props) {
                 <PlayIcon className="size-4" />
               )}
             </button>
-            <span className="shrink-0 text-xs tabular-nums text-content-2 w-10 text-right">
+            <span className="w-10 shrink-0 text-right text-xs tabular-nums text-content-2">
               {formatTime(currentTime)}
             </span>
             <input
@@ -127,10 +128,10 @@ export default function PodcastCard({ episode }: Props) {
               step="0.1"
               value={progress}
               onChange={handleSeek}
-              className="flex-1 h-1 cursor-pointer accent-accent-1"
+              className="h-1 flex-1 cursor-pointer accent-accent-1"
               aria-label="Seek audio"
             />
-            <span className="shrink-0 text-xs tabular-nums text-content-2 w-10">
+            <span className="w-10 shrink-0 text-xs tabular-nums text-content-2">
               {formatTime(audioDuration)}
             </span>
           </div>
