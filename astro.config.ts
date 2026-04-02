@@ -116,6 +116,14 @@ export default defineConfig({
         context: "server",
         optional: true,
       }),
+      PODCAST_AUDIO_FEED_URL: envField.string({
+        access: "public",
+        context: "server",
+      }),
+      PODCAST_VIDEO_FEED_URL: envField.string({
+        access: "public",
+        context: "server",
+      }),
     },
   },
   redirects: {
