@@ -281,17 +281,13 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
       aria-hidden="true"
     >
     </div>
-    <div
-      class="w-xl fixed inset-0 z-10 my-8 h-3/4 overflow-x-hidden overflow-y-hidden rounded-lg bg-secondary"
-    >
-      <h2 class="my-4 w-full text-center text-content-1">Course Roadmap</h2>
+    <div class="fixed inset-0 z-10 flex items-center justify-center p-6 sm:p-10">
       <div
-        class="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0 lg:items-start"
+        class="relative h-3/4 w-full max-w-5xl translate-y-4 overflow-hidden rounded-xl bg-secondary opacity-0 shadow-xl transition-all sm:scale-95"
+        id="modal-roadmap-panel"
       >
-        <div
-          class="relative min-w-full translate-y-4 overflow-hidden bg-search pb-4 text-left text-content-1 opacity-0 shadow-xl transition-all sm:max-w-md sm:translate-y-0 sm:scale-95"
-          id="modal-roadmap-panel"
-        >
+        <h2 class="my-4 w-full text-center text-content-1">Course Roadmap</h2>
+        <div class="h-[calc(100%-3.5rem)] w-full overflow-hidden">
           <slot name="roadmap" />
         </div>
       </div>

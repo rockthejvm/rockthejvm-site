@@ -9,9 +9,9 @@ interface Props {
 const { color } = Astro.props;
 ---
 
-<Section gradientOption={2} {color} title="Skills You'll Learn">
+<Section {color} title="Skills You'll Learn">
   <div
-    class="mx-auto max-w-4xl py-8 [&_li]:flex [&_li]:items-start [&_li]:gap-x-3 [&_li]:rounded-xl [&_li]:bg-secondary/60 [&_li]:p-4 [&_li]:ring-1 [&_li]:ring-content/10 [&_li]:transition-colors [&_li]:hover:bg-secondary [&_ul]:grid [&_ul]:list-none [&_ul]:grid-cols-1 [&_ul]:gap-3 [&_ul]:pl-0 [&_ul]:sm:grid-cols-2"
+    class="mx-auto max-w-4xl py-8 [&_li]:flex [&_li]:items-start [&_li]:gap-x-3 [&_li]:py-2 [&_ul]:grid [&_ul]:list-none [&_ul]:grid-cols-1 [&_ul]:gap-1 [&_ul]:pl-0 [&_ul]:sm:grid-cols-2"
   >
     <!-- Check icon is injected via CSS ::before on each li -->
     <style>
