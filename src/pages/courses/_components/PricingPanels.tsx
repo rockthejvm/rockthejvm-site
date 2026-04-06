@@ -49,24 +49,39 @@ export default function PricingPanels(props: Props) {
     title,
   } = props;
 
-  const singleSectionClassNames = showMembership && "grid grid-cols-1";
-  const singleCardClassNames =
-    showMembership && "sm:rounded-b-none lg:rounded-tr-none";
+  const membershipPriceInCents =
+    membership.value === "Monthly" ? monthlyPriceInCents : yearlyPriceInCents;
+
+  // Estimate how many months until membership pays off vs buying this course
+  const monthsToBreakeven =
+    monthlyPriceInCents > 0
+      ? Math.ceil(priceInCents / monthlyPriceInCents)
+      : null;
 
   return (
     <>
       <div
-        className={`mx-auto mt-16 max-w-lg items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2 ${singleSectionClassNames}`}
+        className={`mx-auto mt-16 sm:mt-20 ${
+          showMembership
+            ? "grid max-w-lg gap-y-6 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2"
+            : "max-w-lg"
+        }`}
       >
+        {/* Single course card */}
         <div
-          className={`card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:p-10 lg:mx-0 lg:rounded-bl-3xl ${singleCardClassNames}`}
+          className={`card-shadow card-shadow-color rounded-3xl bg-secondary/60 p-8 ring-1 ring-content-2/10 sm:mx-8 sm:p-10 lg:mx-0 ${
+            showMembership ? "lg:rounded-r-none" : ""
+          }`}
         >
           <h3
             id="tier-hobby"
             className="text-base font-semibold leading-7 text-accent-1"
           >
-            {title} - Lifetime License
+            {title}
           </h3>
+          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-content-1/60">
+            Lifetime License
+          </p>
           <CoursePrice
             currency={currency}
             priceInCents={priceInCents}
@@ -79,14 +94,16 @@ export default function PricingPanels(props: Props) {
               Loading...
             </div>
           </CoursePrice>
-          <p className="mt-6 text-base leading-7 text-content">
-            {isCourse ? "Just the course" : `All of the courses in this bundle`}{" "}
+          <p className="mt-6 text-sm leading-7 text-content-1">
+            {isCourse
+              ? "Just this course"
+              : "All courses in this bundle"}{" "}
             with a one-time payment
           </p>
           <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
             {[
               `${hours} hours of 4K content`,
-              `${linesOfCode} lines of code written`,
+              `${linesOfCode.toLocaleString()} lines of code written`,
               "All PDF slides",
               "Access to the private Rock the JVM community",
               "Free updates",
@@ -112,33 +129,42 @@ export default function PricingPanels(props: Props) {
           <PurchaseLink
             pricingPlanId={pricingPlanId}
             ariaDescribedBy="tier-hobby"
-            className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-content ring-1 ring-inset ring-cta hover:ring-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+            className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
           >
-            Get Now
+            Enroll Now
           </PurchaseLink>
         </div>
+
+        {/* Membership card */}
         {showMembership && (
-          <div className="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
-            <div className="mb-4 flex justify-center">
+          <div className="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-2 ring-cta sm:p-10 lg:rounded-l-none">
+            {/* Best Value badge */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <span className="rounded-full bg-cta px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-ctatext shadow-sm">
+                Best Value
+              </span>
+            </div>
+
+            <div className="mb-5 flex justify-center">
               <fieldset aria-label="Payment frequency">
                 <RadioGroup
                   value={membership}
                   onChange={setMembership}
-                  className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+                  className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-content/20"
                 >
                   <Radio
-                    key={membershipTypes[0].value}
+                    key={membershipTypes[0]!.value}
                     value={membershipTypes[0]}
-                    className="cursor-pointer rounded-full px-2.5 py-1 text-gray-500 data-[checked]:bg-indigo-600 data-[checked]:text-white"
+                    className="cursor-pointer rounded-full px-2.5 py-1 text-content-1 data-[checked]:bg-cta data-[checked]:text-ctatext"
                   >
-                    {membershipTypes[0].label}
+                    {membershipTypes[0]!.label}
                   </Radio>
                   <Radio
-                    key={membershipTypes[1].value}
+                    key={membershipTypes[1]!.value}
                     value={membershipTypes[1]}
-                    className="cursor-pointer rounded-full px-2.5 py-1 text-gray-500 data-[checked]:bg-indigo-600 data-[checked]:text-white"
+                    className="cursor-pointer rounded-full px-2.5 py-1 text-content-1 data-[checked]:bg-cta data-[checked]:text-ctatext"
                   >
-                    {membershipTypes[1].label}
+                    {membershipTypes[1]!.label}
                   </Radio>
                 </RadioGroup>
               </fieldset>
@@ -149,13 +175,12 @@ export default function PricingPanels(props: Props) {
             >
               All-Access Membership
             </h3>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wide text-content-1/60">
+              Every Rock the JVM course
+            </p>
             <div className="mt-4 flex items-baseline gap-x-2">
               <CoursePrice
-                priceInCents={
-                  membership.value === "Monthly"
-                    ? monthlyPriceInCents
-                    : yearlyPriceInCents
-                }
+                priceInCents={membershipPriceInCents}
                 currency={currency}
                 recurring={
                   membership.value === "Monthly" ? "monthly" : "yearly"
@@ -169,13 +194,19 @@ export default function PricingPanels(props: Props) {
                 </div>
               </CoursePrice>
             </div>
-            <p className="mt-6 text-base leading-7 text-content">
-              All of the Rock the JVM courses
+            {monthsToBreakeven !== null && membership.value === "Monthly" && (
+              <p className="mt-2 text-xs text-accent-2">
+                Access all courses for less than the price of {monthsToBreakeven}{" "}
+                month{monthsToBreakeven !== 1 ? "s" : ""} of membership
+              </p>
+            )}
+            <p className="mt-4 text-sm leading-7 text-content-1">
+              Unlimited access to all Rock the JVM courses
             </p>
             <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
               {[
                 `${membershipHours} hours of 4K content`,
-                `${membershipLinesOfCode} lines of code written`,
+                `${membershipLinesOfCode.toLocaleString()} lines of code written`,
                 ...categories.map(
                   ({ data }: { data: { name: string } }) =>
                     `All ${data.name} courses`,
@@ -205,7 +236,7 @@ export default function PricingPanels(props: Props) {
                   : yearlyMembership.pricingPlanId
               }
               ariaDescribedBy="tier-enterprise"
-              className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-content-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+              className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
             >
               Join Now
             </PurchaseLink>

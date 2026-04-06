@@ -1,0 +1,113 @@
+---
+import MyPicture from "@/components/MyPicture.astro";
+import Section from "@/components/Section.astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+}
+
+const { color } = Astro.props;
+
+const _testimonials = await getCollection("testimonials"),
+  sortedTestimonials = [..._testimonials]
+    .sort((a, b) => a.data.ordinal - b.data.ordinal)
+    .slice(0, 3);
+
+const testimonials = await Promise.all(
+  sortedTestimonials.map(async (t) => {
+    const { Content } = await render(t);
+    const company = await getEntry(t.data.company.entity);
+    return { ...t, Content, company: company.data };
+  }),
+);
+---
+
+<Section {color} gradientOption={2} title="What Our Students Say">
+  <!-- Trust bar -->
+  <div class="mb-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+    <div class="flex items-center gap-x-2">
+      <svg
+        class="h-5 w-5 text-accent-2"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M10 9a3 3 0 100-6 3 3 0 000 6zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 01-2.07-.655zM16.44 15.98a4.97 4.97 0 002.07-.654.78.78 0 00.357-.442 3 3 0 00-4.308-3.517 6.484 6.484 0 011.907 3.96 2.32 2.32 0 01-.026.654zM18 8a2 2 0 11-4 0 2 2 0 014 0zM5.304 16.19a.844.844 0 01-.277-.71 5 5 0 019.947 0 .843.843 0 01-.277.71A6.975 6.975 0 0110 18a6.974 6.974 0 01-4.696-1.81z"
+        ></path>
+      </svg>
+      <span class="text-sm font-semibold text-content">
+        Trusted by <strong class="text-accent-1">100,000+</strong> students worldwide
+      </span>
+    </div>
+    <div class="flex items-center gap-x-1">
+      {
+        [1, 2, 3, 4, 5].map(() => (
+          <svg
+            class="h-4 w-4 text-yellow-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        ))
+      }
+      <span class="ml-1 text-sm font-medium text-content-1">4.9 / 5</span>
+    </div>
+  </div>
+
+  <!-- Testimonial cards -->
+  <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      testimonials.map(({ Content, company, data: { name, photo, location, profile } }) => (
+        <article class="card-shadow card-shadow-color flex flex-col rounded-2xl bg-secondary p-6">
+          <!-- Quote mark -->
+          <svg
+            class="mb-4 h-8 w-8 text-accent-1/40"
+            viewBox="0 0 32 32"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+          </svg>
+
+          <!-- Quote content -->
+          <div class="flex-1 text-sm leading-7 text-content-1 [&_p]:mb-0 [&_p]:mt-0">
+            <Content />
+          </div>
+
+          <!-- Author info -->
+          <div class="mt-6 flex items-center gap-x-3 border-t border-content/10 pt-5">
+            <MyPicture
+              src={photo}
+              alt={name}
+              class="h-10 w-10 rounded-full object-cover"
+              quality="low"
+              width={40}
+            />
+            <div>
+              <a
+                href={profile}
+                class="text-sm font-semibold text-content hover:text-accent-1"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {name}
+              </a>
+              <p class="text-xs text-content-1">
+                {company.name} &middot; {location.country}
+              </p>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>

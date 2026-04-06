@@ -1,5 +1,4 @@
 ---
-import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
@@ -11,7 +10,29 @@ const { color } = Astro.props;
 ---
 
 <Section gradientOption={2} {color} title="Skills You'll Learn">
-  <Prose class="mx-auto max-w-3xl py-16 prose-ul:leading-6">
-    <slot />
-  </Prose>
+  <div
+    class="mx-auto max-w-4xl py-8 [&_li]:flex [&_li]:items-start [&_li]:gap-x-3 [&_li]:rounded-xl [&_li]:bg-secondary/60 [&_li]:p-4 [&_li]:ring-1 [&_li]:ring-content/10 [&_li]:transition-colors [&_li]:hover:bg-secondary [&_ul]:grid [&_ul]:list-none [&_ul]:grid-cols-1 [&_ul]:gap-3 [&_ul]:pl-0 [&_ul]:sm:grid-cols-2"
+  >
+    <!-- Check icon is injected via CSS ::before on each li -->
+    <style>
+      .skills-grid li::before {
+        content: "";
+        display: block;
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-top: 0.125rem;
+        background-color: hsl(var(--accent-2));
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+      }
+    </style>
+    <div class="skills-grid text-sm text-content sm:text-base">
+      <slot />
+    </div>
+  </div>
 </Section>

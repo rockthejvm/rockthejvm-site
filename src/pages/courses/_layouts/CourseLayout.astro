@@ -11,8 +11,10 @@ import {
   getEntry,
 } from "astro:content";
 import Roadmap from "../_components/Roadmap";
+import StickyCTA from "../_components/StickyCTA";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
+import CourseTestimonials from "../_sections/CourseTestimonials.astro";
 import CourseVideo from "../_sections/CourseVideo.astro";
 import Curriculum from "../_sections/Curriculum.astro";
 import Features from "../_sections/Features.astro";
@@ -230,12 +232,20 @@ const _prerequisitess = await getCollection("prerequisites"),
   {tags.map((tag) => <div data-pagefind-filter={`Tags:${tag.id}`} />)}
   <article>
     <Hero
+      {benefits}
+      bundledCoursesCount={bundledCourses.length}
+      currency={pricingPlan?.currency}
       {description}
+      {difficulty}
       {heroImage}
       inRoadmap={prerequisites !== undefined}
+      isFree={_frontmatter.isFree}
+      {isBundle}
+      {isPreview}
+      {instructors}
+      priceInCents={pricingPlan?.price}
       {pricingPlanId}
       {title}
-      {isPreview}
     >
       <div
         slot="roadmap"
@@ -268,10 +278,10 @@ const _prerequisitess = await getCollection("prerequisites"),
       )
     }
     {
-      question && (
-        <Question color={categoryColor} {question}>
-          <slot name="question" />
-        </Question>
+      hasSkills && (
+        <Skills color={categoryColor}>
+          <slot name="skills" />
+        </Skills>
       )
     }
     {
@@ -289,18 +299,6 @@ const _prerequisitess = await getCollection("prerequisites"),
     }
     {technologies && <TechStack {technologies} color={categoryColor} />}
     {
-      hasSkills && (
-        <Skills color={categoryColor}>
-          <slot name="skills" />
-        </Skills>
-      )
-    }
-    {
-      instructorEnabled && (
-        <Profile color={categoryColor} {collaborators} {thanks} />
-      )
-    }
-    {
       isBundle ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
       ) : (
@@ -311,6 +309,19 @@ const _prerequisitess = await getCollection("prerequisites"),
             {pricingPlanId}
           />
         )
+      )
+    }
+    {
+      instructorEnabled && (
+        <Profile color={categoryColor} {collaborators} {thanks} />
+      )
+    }
+    <CourseTestimonials color={categoryColor} />
+    {
+      question && (
+        <Question color={categoryColor} {question}>
+          <slot name="question" />
+        </Question>
       )
     }
     {
@@ -338,6 +349,20 @@ const _prerequisitess = await getCollection("prerequisites"),
       courseFaqs={faqs}
       color={categoryColor}
       {isBundle}
+    />
+  </article>
+  {
+    !isPreview && pricingPlan !== null && (
+      <StickyCTA
+        currency={pricingPlan!.currency}
+        isFree={_frontmatter.isFree}
+        priceInCents={pricingPlan!.price}
+        {pricingPlanId}
+        {title}
+        client:load
+      />
+    )
+  }
     />
   </article>
 </BaseLayout>

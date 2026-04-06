@@ -12,14 +12,26 @@ const { color, technologies } = Astro.props;
 ---
 
 <Section {color} title="The Tech Stack">
-  {
-    technologies.map((technology) => (
-      <TechStackCard
-        title={technology.title}
-        description={technology.description}
-        image={technology.image}
-        alt={technology.title}
-      />
-    ))
-  }
+  <div
+    class={`grid gap-6 ${
+      technologies.length === 1
+        ? "grid-cols-1 max-w-2xl mx-auto"
+        : technologies.length === 2
+          ? "grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto"
+          : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+    }`}
+  >
+    {
+      technologies.map((technology) => (
+        <div class="card-shadow card-shadow-color overflow-hidden rounded-2xl bg-secondary/60 ring-1 ring-content/10 transition-all hover:bg-secondary hover:ring-accent-1/30">
+          <TechStackCard
+            title={technology.title}
+            description={technology.description}
+            image={technology.image}
+            alt={technology.title}
+          />
+        </div>
+      ))
+    }
+  </div>
 </Section>
