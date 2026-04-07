@@ -10,12 +10,12 @@ import {
   getEntries,
   getEntry,
 } from "astro:content";
+import CoursePageNav from "../_components/CoursePageNav.astro";
 import Roadmap from "../_components/Roadmap";
 import StickyCTA from "../_components/StickyCTA";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
 import CourseTestimonials from "../_sections/CourseTestimonials.astro";
-import CourseVideo from "../_sections/CourseVideo.astro";
 import Curriculum from "../_sections/Curriculum.astro";
 import Features from "../_sections/Features.astro";
 import Goal from "../_sections/Goal.astro";
@@ -288,6 +288,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       monthlyMembershipPricingPlanId={_monthlyPackage.pricingPlanId}
       totalLessons={heroTotalLessons}
       {title}
+      {videoId}
     >
       <div
         slot="roadmap"
@@ -304,21 +305,17 @@ const _prerequisitess = await getCollection("prerequisites"),
         </div>
       </div>
     </Hero>
-    {
-      videoId && (
-        <CourseVideo color={categoryColor} {videoId}>
-          <slot />
-        </CourseVideo>
-      )
-    }
+    <CoursePageNav
+      hasGoal={hasGoal}
+      hasSkills={hasSkills}
+      hasFeatures={!!features}
+      hasTechStack={!!technologies}
+      {isBundle}
+      {isCourse}
+      {isPreview}
+      hasPricing={!isPreview && pricingPlan !== null}
+    />
     <slot name="description" />
-    {
-      hasSkills && (
-        <Skills color={categoryColor}>
-          <slot name="skills" />
-        </Skills>
-      )
-    }
     {
       hasGoal && (
         <Goal color={categoryColor}>
@@ -331,6 +328,13 @@ const _prerequisitess = await getCollection("prerequisites"),
         <Question color={categoryColor} {question}>
           <slot name="question" />
         </Question>
+      )
+    }
+    {
+      hasSkills && (
+        <Skills color={categoryColor}>
+          <slot name="skills" />
+        </Skills>
       )
     }
     {
