@@ -12,6 +12,6 @@ interface Props {
 const { color, courseId, pricingPlanId } = Astro.props;
 ---
 
-<Section {color} title="What's Included">
+<Section id="curriculum" {color} title="What's Included">
   <CurriculumHelper {pricingPlanId} {courseId} {color} />
 </Section>

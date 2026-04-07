@@ -11,7 +11,7 @@ interface Props {
 const { color, technologies } = Astro.props;
 ---
 
-<Section {color} title="The Tech Stack">
+<Section id="tech-stack" {color} title="The Tech Stack">
   <div
     class={`grid gap-6 ${
       technologies.length === 1

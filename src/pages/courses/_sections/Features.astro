@@ -12,8 +12,8 @@ interface Props {
 const { color, features } = Astro.props;
 ---
 
-<Section {color} title="How This Course Works">
-  <Prose class="mx-auto max-w-6xl">
+<Section id="features" {color} title="How This Course Works">
+  <Prose class="mx-auto max-w-5xl">
     <slot name="verticalSection" />
   </Prose>
   <Feature image={features.one} imagePosition="right">

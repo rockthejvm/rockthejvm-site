@@ -10,8 +10,8 @@ interface Props {
 const { color } = Astro.props;
 ---
 
-<Section title="Goal" {color}>
-  <Prose class="mx-auto max-w-3xl py-16">
+<Section id="goal" title="Goal" {color}>
+  <Prose class="mx-auto max-w-5xl py-16">
     <slot />
   </Prose>
 </Section>
