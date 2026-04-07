@@ -313,6 +313,13 @@ const _prerequisitess = await getCollection("prerequisites"),
     }
     <slot name="description" />
     {
+      hasSkills && (
+        <Skills color={categoryColor}>
+          <slot name="skills" />
+        </Skills>
+      )
+    }
+    {
       hasGoal && (
         <Goal color={categoryColor}>
           <slot name="goal" />
@@ -320,10 +327,10 @@ const _prerequisitess = await getCollection("prerequisites"),
       )
     }
     {
-      hasSkills && (
-        <Skills color={categoryColor}>
-          <slot name="skills" />
-        </Skills>
+      question && (
+        <Question color={categoryColor} {question}>
+          <slot name="question" />
+        </Question>
       )
     }
     {
@@ -340,6 +347,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       )
     }
     {technologies && <TechStack {technologies} color={categoryColor} />}
+    <CourseTestimonials color={categoryColor} />
     {
       isBundle ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
@@ -356,14 +364,6 @@ const _prerequisitess = await getCollection("prerequisites"),
     {
       instructorEnabled && (
         <Profile color={categoryColor} {collaborators} {thanks} />
-      )
-    }
-    <CourseTestimonials color={categoryColor} />
-    {
-      question && (
-        <Question color={categoryColor} {question}>
-          <slot name="question" />
-        </Question>
       )
     }
     {
