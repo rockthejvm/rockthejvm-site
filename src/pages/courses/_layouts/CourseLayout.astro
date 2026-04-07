@@ -87,6 +87,42 @@ const course = await getEntry(
   isBundle = benefits === undefined,
   pricingPlan = await getTeachablePricingPlan(pricingPlanId);
 
+const _personalMembership = await getEntry("memberships", "personal")!,
+  _monthlyPackage = _personalMembership.data.packages[0],
+  monthlyMembershipPlan = showMembership
+    ? await getTeachablePricingPlan(_monthlyPackage.pricingPlanId)
+    : null;
+
+const fetchLessonCount = async (planId: number): Promise<number> => {
+  try {
+    const res = await fetch(`${site.workers.teachable}/curriculum/${planId}`);
+    if (!res.ok) return 0;
+    const sections: { lectures: unknown[] }[] = await res.json();
+    return sections.reduce((sum, s) => sum + s.lectures.length, 0);
+  } catch {
+    return 0;
+  }
+};
+
+const [_courseLessons, _bundledLessons] = await Promise.all([
+  isCourse && !isPreview ? fetchLessonCount(pricingPlanId) : Promise.resolve(0),
+  isBundle && !isPreview
+    ? Promise.all(
+        bundledCourses.map((c) => fetchLessonCount(c.data.pricingPlanId)),
+      )
+    : Promise.resolve([] as number[]),
+]);
+const heroTotalLessons = isCourse && !isPreview ? _courseLessons : undefined;
+const bundleHours = isBundle
+  ? bundledCourses
+      .map(({ data: { benefits: b } }) => b?.hours ?? 0)
+      .reduce((a, b) => a + b, 0)
+  : undefined;
+const bundleLessons =
+  isBundle && !isPreview
+    ? _bundledLessons.reduce((a, b) => a + b, 0)
+    : undefined;
+
 const difficultyLevelToEducationalLevel = (level: number) => {
   switch (level) {
     case 1:
@@ -234,6 +270,8 @@ const _prerequisitess = await getCollection("prerequisites"),
     <Hero
       {benefits}
       bundledCoursesCount={bundledCourses.length}
+      {bundleHours}
+      {bundleLessons}
       currency={pricingPlan?.currency}
       {description}
       {difficulty}
@@ -245,6 +283,10 @@ const _prerequisitess = await getCollection("prerequisites"),
       {instructors}
       priceInCents={pricingPlan?.price}
       {pricingPlanId}
+      {showMembership}
+      monthlyMembershipPriceInCents={monthlyMembershipPlan?.price}
+      monthlyMembershipPricingPlanId={_monthlyPackage.pricingPlanId}
+      totalLessons={heroTotalLessons}
       {title}
     >
       <div
