@@ -356,69 +356,71 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
     </div>
   </div>
 
-  <!-- Video modal -->
-  {videoId && (
-    <div
-      id="video-modal"
-      class="relative z-50 hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Course preview video"
-    >
-      <div
-        id="video-modal-backdrop"
-        class="fixed inset-0 bg-black/80 opacity-0 transition-opacity"
-        aria-hidden="true"
-      ></div>
-      <div class="fixed inset-0 z-10 flex items-center justify-center p-4 sm:p-8">
-        <div
-          id="video-modal-panel"
-          class="relative w-full max-w-4xl scale-95 opacity-0 transition-all"
-        >
-          <button
-            id="close-video-modal"
-            class="absolute -top-10 right-0 text-white/70 hover:text-white focus:outline-none"
-            aria-label="Close video"
-          >
-            <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <div class="aspect-video w-full overflow-hidden rounded-xl shadow-2xl">
-            <div id="video-modal-player" class="h-full w-full"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )}
+  </div>
+</header>
 
-  <!-- Roadmap modal -->
+<!-- Video modal (outside <header> so fixed positioning isn't clipped by overflow-hidden) -->
+{videoId && (
   <div
-    id="roadmap-modal"
-    class="relative z-50 hidden"
-    aria-labelledby="modal-title"
+    id="video-modal"
+    class="hidden"
     role="dialog"
     aria-modal="true"
+    aria-label="Course preview video"
   >
     <div
-      id="modal-roadmap-backdrop"
-      class="fixed inset-0 bg-gray-500/75 opacity-0 transition-opacity"
+      id="video-modal-backdrop"
+      class="fixed inset-0 z-50 bg-black/80 opacity-0 transition-opacity"
       aria-hidden="true"
-    >
-    </div>
-    <div class="fixed inset-0 z-10 flex items-center justify-center p-6 sm:p-10">
+    ></div>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        class="relative h-3/4 w-full max-w-5xl translate-y-4 overflow-hidden rounded-xl bg-secondary opacity-0 shadow-xl transition-all sm:scale-95"
-        id="modal-roadmap-panel"
+        id="video-modal-panel"
+        class="relative w-full max-w-6xl scale-95 opacity-0 transition-all duration-200"
       >
-        <h2 class="my-4 w-full text-center text-content-1">Course Roadmap</h2>
-        <div class="h-[calc(100%-3.5rem)] w-full overflow-hidden">
-          <slot name="roadmap" />
+        <button
+          id="close-video-modal"
+          class="absolute right-0 -top-10 text-white/70 hover:text-white focus:outline-none"
+          aria-label="Close video"
+        >
+          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-xl shadow-2xl">
+          <div id="video-modal-player" class="absolute inset-0"></div>
         </div>
       </div>
     </div>
   </div>
-</header>
+)}
+
+<!-- Roadmap modal (outside <header> so fixed positioning isn't clipped by overflow-hidden) -->
+<div
+  id="roadmap-modal"
+  class="hidden"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    id="modal-roadmap-backdrop"
+    class="fixed inset-0 z-50 bg-gray-500/75 opacity-0 transition-opacity"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-10">
+    <div
+      class="relative h-3/4 w-full max-w-5xl translate-y-4 overflow-hidden rounded-xl bg-secondary opacity-0 shadow-xl transition-all sm:scale-95"
+      id="modal-roadmap-panel"
+    >
+      <h2 class="my-4 w-full text-center text-content-1">Course Roadmap</h2>
+      <div class="h-[calc(100%-3.5rem)] w-full overflow-hidden">
+        <slot name="roadmap" />
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
   /* Lighten the blurred background on the light theme */
@@ -511,7 +513,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
           title="Course preview"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
-          class="h-full w-full border-0"
+          style="position:absolute;inset:0;width:100%;height:100%;border:0"
         ></iframe>`;
       }
     }
