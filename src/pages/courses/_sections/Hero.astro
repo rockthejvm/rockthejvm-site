@@ -79,12 +79,12 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
   <MyPicture
     alt=""
     src={heroImage}
-    class="absolute inset-0 size-full scale-110 object-cover brightness-[0.2]"
+    class="absolute inset-0 size-full scale-110 object-cover brightness-[0.2] hero-bg-image"
     loading="eager"
     quality="low"
   />
-  <!-- Dark overlay -->
-  <div class="absolute inset-0 bg-black/50"></div>
+  <!-- Theme-aware overlay -->
+  <div class="absolute inset-0 bg-bkg/80"></div>
 
   <!-- Main content grid -->
   <div
@@ -127,12 +127,12 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
       </div>
 
       <!-- Title -->
-      <h1 class="text-4xl font-bold tracking-tight text-gray-50 sm:text-5xl">
+      <h1 class="text-4xl font-bold tracking-tight text-content sm:text-5xl">
         {title}
       </h1>
 
       <!-- Description -->
-      <p class="mt-5 text-lg leading-8 text-gray-300">
+      <p class="mt-5 text-lg leading-8 text-content-1">
         {description}
       </p>
 
@@ -167,7 +167,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
                   </svg>
                   <span class="sr-only">Duration</span>
                 </dt>
-                <dd class="text-sm font-medium text-gray-200">
+                <dd class="text-sm font-medium text-content-1">
                   {benefits.hours}h of 4K content
                 </dd>
               </div>
@@ -184,7 +184,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
                     </svg>
                     <span class="sr-only">Lessons</span>
                   </dt>
-                  <dd class="text-sm font-medium text-gray-200">
+                  <dd class="text-sm font-medium text-content-1">
                     {totalLessons} lessons
                   </dd>
                 </div>
@@ -207,7 +207,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
                   </svg>
                   <span class="sr-only">Courses included</span>
                 </dt>
-                <dd class="text-sm font-medium text-gray-200">
+                <dd class="text-sm font-medium text-content-1">
                   {bundledCoursesCount} courses included
                 </dd>
               </div>
@@ -228,7 +228,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
                     </svg>
                     <span class="sr-only">Total duration</span>
                   </dt>
-                  <dd class="text-sm font-medium text-gray-200">
+                  <dd class="text-sm font-medium text-content-1">
                     {bundleHours}h of 4K content
                   </dd>
                 </div>
@@ -246,7 +246,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
                     </svg>
                     <span class="sr-only">Total lessons</span>
                   </dt>
-                  <dd class="text-sm font-medium text-gray-200">
+                  <dd class="text-sm font-medium text-content-1">
                     {bundleLessons} lessons
                   </dd>
                 </div>
@@ -264,15 +264,15 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
               <MyPicture
                 src={instructor.data.photo}
                 alt={instructor.data.name}
-                class="h-10 w-10 rounded-full object-cover ring-2 ring-gray-900"
+                class="h-10 w-10 rounded-full object-cover ring-2 ring-content/30"
                 quality="low"
                 width={40}
               />
             ))
           }
         </div>
-        <p class="text-sm text-gray-300">
-          By <span class="font-semibold text-gray-100">{instructorNames}</span>
+        <p class="text-sm text-content-1">
+          By <span class="font-semibold text-content">{instructorNames}</span>
         </p>
       </div>
 
@@ -315,12 +315,12 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
       </div>
 
       {!isPreview && (
-        <div class="mt-6 rounded-2xl bg-white/5 px-6 py-5 ring-1 ring-white/10 backdrop-blur-sm">
+        <div class="mt-6 rounded-2xl bg-content/5 px-6 py-5 ring-1 ring-content/10 backdrop-blur-sm">
           <div class="flex flex-col gap-3">
             {showMembership && formattedMembershipPrice && monthlyMembershipPricingPlanId && (
               <>
-                <p class="text-center text-lg font-medium text-gray-400">
-                  Join <span class="text-gray-200 font-semibold">100,000+ students</span> enrolled in Rock the JVM courses
+                <p class="text-center text-lg font-medium text-content-1">
+                  Join <span class="font-semibold text-content">100,000+ students</span> enrolled in Rock the JVM courses
                 </p>
                 <PurchaseLink
                   pricingPlanId={monthlyMembershipPricingPlanId}
@@ -330,9 +330,9 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
                   {isFree ? "Access for Free" : `Access for ${formattedMembershipPrice}/mo`}
                 </PurchaseLink>
                 <div class="flex items-center gap-3">
-                  <div class="h-px flex-1 bg-white/15"></div>
-                  <span class="text-xs text-gray-500">or</span>
-                  <div class="h-px flex-1 bg-white/15"></div>
+                  <div class="h-px flex-1 bg-content/15"></div>
+                  <span class="text-xs text-content-1">or</span>
+                  <div class="h-px flex-1 bg-content/15"></div>
                 </div>
               </>
             )}
@@ -340,7 +340,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
               {pricingPlanId}
               className={`block rounded-md px-4 py-2 text-center text-sm font-medium shadow-sm hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
                 showMembership && formattedMembershipPrice
-                  ? "bg-white/10 text-gray-300 ring-1 ring-inset ring-white/20 hover:bg-white/20 focus-visible:outline-white"
+                  ? "bg-content/10 text-content-1 ring-1 ring-inset ring-content/20 hover:bg-content/20 focus-visible:outline-content/50"
                   : "bg-cta text-ctatext hover:bg-accent-1 hover:text-gray-50 focus-visible:outline-cta"
               }`}
               client:load
@@ -348,7 +348,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
               {isFree ? "Enroll for Free" : `Buy ${isBundle ? "bundle" : "course"}${formattedPrice ? ` — ${formattedPrice}` : ""}`}
             </PurchaseLink>
           </div>
-          <p class="mt-3 text-sm text-center text-gray-400">
+          <p class="mt-3 text-sm text-center text-content-1">
             Money-back guarantee &middot; Unlimited access &middot; Free updates
           </p>
         </div>
@@ -419,6 +419,13 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
     </div>
   </div>
 </header>
+
+<style>
+  /* Lighten the blurred background on the light theme */
+  :global([data-theme="light"]) .hero-bg-image {
+    filter: brightness(0.45);
+  }
+</style>
 
 <script>
   // ── Roadmap modal ──────────────────────────────────────────────────

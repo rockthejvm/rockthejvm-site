@@ -29,13 +29,13 @@ const { color, collaborators, thanks } = Astro.props,
           quality="mid"
           width={80}
         />
-        <div class="text-center sm:text-left">
+        <div class="flex-1 text-center sm:text-left">
           <h3 class="text-lg font-bold text-content">{author.data.name}</h3>
           <p class="text-sm text-content-1">Founder, Rock the JVM</p>
         </div>
       </div>
       <div class="px-8 py-6">
-        <Prose class="text-sm leading-7 text-content-1">
+        <Prose class="max-w-none text-sm leading-7 text-content-1 text-justify">
           <p>I'm a software engineer and the founder of Rock the JVM.</p>
           <p>
             I started the Rock the JVM project out of love for Scala and the technologies it
@@ -72,13 +72,13 @@ const { color, collaborators, thanks } = Astro.props,
               quality="mid"
               width={80}
             />
-            <div class="text-center sm:text-left">
+            <div class="flex-1 text-center sm:text-left">
               <p class="text-xs font-medium uppercase tracking-wide text-accent-2">In collaboration with</p>
               <h3 class="text-lg font-bold text-content">{collaborator.frontmatter.name}</h3>
             </div>
           </div>
           <div class="px-8 py-6">
-            <Prose class="text-sm leading-7 text-content-1">
+            <Prose class="max-w-none text-sm leading-7 text-content-1 text-justify">
               <Fragment set:html={collaborator.biography} />
             </Prose>
           </div>

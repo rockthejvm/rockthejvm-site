@@ -39,11 +39,11 @@
     --color-advanced: 230deg 60% 80%;
 
     .card-shadow {
-      @apply shadow-[0_10px_20px_#000000];
+      @apply shadow-[0_1px_6px_rgba(0,0,0,0.08)];
     }
 
     .card-shadow-color {
-      @apply shadow-opposite/40;
+      @apply shadow-opposite/10;
     }
 
     .body-gradient {
@@ -84,11 +84,11 @@
     --color-advanced: 230deg 55% 50%;
 
     .card-shadow {
-      @apply shadow-[0px_4px_50px_0px_#000000];
+      @apply shadow-[0_4px_14px_rgba(0,0,0,0.35)];
     }
 
     .card-shadow-color {
-      @apply shadow-indigo-600/15;
+      @apply shadow-indigo-600/10;
     }
 
     .astro-code,

@@ -12,15 +12,7 @@ const { color, technologies } = Astro.props;
 ---
 
 <Section id="tech-stack" {color} title="The Tech Stack">
-  <div
-    class={`grid gap-6 ${
-      technologies.length === 1
-        ? "grid-cols-1 max-w-2xl mx-auto"
-        : technologies.length === 2
-          ? "grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto"
-          : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-    }`}
-  >
+  <div class="mx-auto grid max-w-4xl grid-cols-1 gap-4">
     {
       technologies.map((technology) => (
         <div class="card-shadow card-shadow-color overflow-hidden rounded-2xl bg-secondary/60 ring-1 ring-content/10 transition-all hover:bg-secondary hover:ring-accent-1/30">
