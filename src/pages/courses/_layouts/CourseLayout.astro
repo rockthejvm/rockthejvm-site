@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import Profile from "@/components/Profile.astro";
 import site from "@/data/site.json";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
@@ -240,6 +241,9 @@ const _prerequisitess = await getCollection("prerequisites"),
       url: Astro.site,
     },
   });
+
+const _heroBg = await getImage({ src: heroImage, format: "webp", quality: "low", width: 1920 });
+const heroImageBgSrc = _heroBg.src;
 ---
 
 <BaseLayout
@@ -276,6 +280,7 @@ const _prerequisitess = await getCollection("prerequisites"),
       {description}
       {difficulty}
       {heroImage}
+      {heroImageBgSrc}
       inRoadmap={prerequisites !== undefined}
       isFree={_frontmatter.isFree}
       {isBundle}
@@ -306,30 +311,16 @@ const _prerequisitess = await getCollection("prerequisites"),
       </div>
     </Hero>
     <CoursePageNav
-      hasGoal={hasGoal}
       hasSkills={hasSkills}
-      hasFeatures={!!features}
-      hasTechStack={!!technologies}
+      hasCourseDetails={hasGoal || !!question || !!features || !!technologies}
       {isBundle}
       {isCourse}
       {isPreview}
       hasPricing={!isPreview && pricingPlan !== null}
     />
     <slot name="description" />
-    {
-      hasGoal && (
-        <Goal color={categoryColor}>
-          <slot name="goal" />
-        </Goal>
-      )
-    }
-    {
-      question && (
-        <Question color={categoryColor} {question}>
-          <slot name="question" />
-        </Question>
-      )
-    }
+
+    {/* 1. Skills — scannable checklist, first content after the nav */}
     {
       hasSkills && (
         <Skills color={categoryColor}>
@@ -337,21 +328,88 @@ const _prerequisitess = await getCollection("prerequisites"),
         </Skills>
       )
     }
+
+    {/* 2. Collapsible details: Goal + Question + Features + Tech Stack */}
     {
-      features && (
-        <Features color={categoryColor} {features}>
-          <slot name="verticalSection" slot="verticalSection" />
-          <slot name="feature1" slot="feature1" />
-          <slot name="feature2" slot="feature2" />
-          <slot name="feature3" slot="feature3" />
-          <slot name="feature4" slot="feature4" />
-          <slot name="feature5" slot="feature5" />
-          <slot name="feature6" slot="feature6" />
-        </Features>
+      (hasGoal || !!question || !!features || !!technologies) && (
+        <div id="course-details" class="scroll-mt-20">
+          <details class="group">
+            <summary class="cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <div class="mx-auto max-w-5xl px-8 py-4">
+                <div class="flex items-center justify-between gap-4 rounded-2xl bg-secondary/40 px-6 py-5 ring-1 ring-content/10 transition-colors hover:bg-secondary/60">
+                  <div>
+                    <p class="text-xs font-semibold uppercase tracking-widest text-content-1/50">Course Details</p>
+                    <p class="mt-1 text-base font-bold text-content sm:text-lg">
+                      {[hasGoal && "Goal", !!question && "Question", !!features && "How It Works", !!technologies && "Tech Stack"].filter(Boolean).join(" · ")}
+                    </p>
+                  </div>
+                  <div class="flex shrink-0 items-center gap-2 rounded-full bg-cta px-5 py-2.5 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1">
+                    <span class="group-open:hidden">Read More</span>
+                    <span class="hidden group-open:inline">Close</span>
+                    <svg
+                      class="h-4 w-4 transition-transform duration-300 group-open:rotate-180"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </summary>
+            {
+              hasGoal && (
+                <Goal color={categoryColor}>
+                  <slot name="goal" />
+                </Goal>
+              )
+            }
+            {
+              question && (
+                <Question color={categoryColor} {question}>
+                  <slot name="question" />
+                </Question>
+              )
+            }
+            {
+              features && (
+                <Features color={categoryColor} {features}>
+                  <slot name="verticalSection" slot="verticalSection" />
+                  <slot name="feature1" slot="feature1" />
+                  <slot name="feature2" slot="feature2" />
+                  <slot name="feature3" slot="feature3" />
+                  <slot name="feature4" slot="feature4" />
+                  <slot name="feature5" slot="feature5" />
+                  <slot name="feature6" slot="feature6" />
+                </Features>
+              )
+            }
+            {technologies && <TechStack {technologies} color={categoryColor} />}
+          </details>
+        </div>
       )
     }
-    {technologies && <TechStack {technologies} color={categoryColor} />}
-    <CourseTestimonials color={categoryColor} />
+
+    {/* 3. Testimonials — parallax backdrop */}
+    <div class="relative isolate overflow-hidden">
+      <img
+        src={heroImageBgSrc}
+        alt=""
+        aria-hidden="true"
+        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.25] [[data-theme=light]_&]:brightness-[0.4]"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-bkg/80 [[data-theme=light]_&]:bg-bkg/90" aria-hidden="true" />
+      <CourseTestimonials color={categoryColor} />
+    </div>
+
+    {/* 4. Curriculum / Bundled courses */}
     {
       isBundle ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
@@ -365,31 +423,48 @@ const _prerequisitess = await getCollection("prerequisites"),
         )
       )
     }
+
+    {/* 5. Instructor profile */}
     {
       instructorEnabled && (
         <Profile color={categoryColor} {collaborators} {thanks} />
       )
     }
+
+    {/* 6. Pricing — parallax backdrop */}
     {
       isPreview ? null : pricingPlan !== null ? (
-        <Pricing
-          {isCourse}
-          {benefits}
-          {bundledCourses}
-          color={categoryColor}
-          courseId={course.id}
-          {pricingPlanId}
-          priceInCents={pricingPlan.price}
-          currency={pricingPlan.currency}
-          {title}
-          {showMembership}
-        />
+        <div class="relative isolate overflow-hidden">
+          <img
+            src={heroImageBgSrc}
+            alt=""
+            aria-hidden="true"
+            class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.25] [[data-theme=light]_&]:brightness-[0.4]"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="absolute inset-0 bg-bkg/75 [[data-theme=light]_&]:bg-bkg/[0.88]" aria-hidden="true" />
+          <Pricing
+            {isCourse}
+            {benefits}
+            {bundledCourses}
+            color={categoryColor}
+            courseId={course.id}
+            {pricingPlanId}
+            priceInCents={pricingPlan.price}
+            currency={pricingPlan.currency}
+            {title}
+            {showMembership}
+          />
+        </div>
       ) : (
         <p class="my-8 text-center text-2xl text-red-600">
           No pricing plan available. Check if TEACHABLE_API_KEY is missing.
         </p>
       )
     }
+
+    {/* 7. FAQ */}
     <CourseFAQ
       {categoryFaqs}
       courseFaqs={faqs}
@@ -410,9 +485,53 @@ const _prerequisitess = await getCollection("prerequisites"),
       />
     )
   }
-    />
-  </article>
 </BaseLayout>
+
+<script>
+  // Auto-expand collapsible details block on hash nav or nav link click
+  const detailsEl = document.querySelector<HTMLDetailsElement>("#course-details details");
+  if (detailsEl) {
+    if (window.location.hash === "#course-details") {
+      detailsEl.open = true;
+    }
+    document.querySelectorAll('a[href="#course-details"]').forEach((link) => {
+      link.addEventListener("click", () => {
+        detailsEl.open = true;
+      });
+    });
+  }
+
+  // Parallax: shift .parallax-bg images relative to their scroll position
+  (function () {
+    const imgs = document.querySelectorAll<HTMLImageElement>(".parallax-bg");
+    if (!imgs.length) return;
+    let ticking = false;
+    function update() {
+      for (const img of imgs) {
+        const section = img.parentElement;
+        if (!section) continue;
+        const rect = section.getBoundingClientRect();
+        const progress =
+          (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        const clamped = Math.max(0, Math.min(1, progress));
+        // Image overflows ±15% (top-[-15%] h-[130%]); shift within that range
+        img.style.transform = `translateY(${(clamped - 0.5) * 30}%)`;
+      }
+      ticking = false;
+    }
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true },
+    );
+    update();
+  })();
+</script>
 <style is:global>
   #app {
     width: 100%;

@@ -1,9 +1,7 @@
 ---
 interface Props {
-  hasGoal: boolean;
   hasSkills: boolean;
-  hasFeatures: boolean;
-  hasTechStack: boolean;
+  hasCourseDetails: boolean;
   isBundle: boolean;
   isCourse: boolean;
   isPreview: boolean;
@@ -11,10 +9,8 @@ interface Props {
 }
 
 const {
-  hasGoal,
   hasSkills,
-  hasFeatures,
-  hasTechStack,
+  hasCourseDetails,
   isBundle,
   isCourse,
   isPreview,
@@ -23,10 +19,8 @@ const {
 
 const items = (
   [
-    hasGoal && { href: "#goal", label: "Overview" },
     hasSkills && { href: "#skills", label: "What You'll Learn" },
-    hasFeatures && { href: "#features", label: "How It Works" },
-    hasTechStack && { href: "#tech-stack", label: "Tech Stack" },
+    hasCourseDetails && { href: "#course-details", label: "Details" },
     isBundle && { href: "#courses", label: "Included Courses" },
     isCourse && !isPreview && { href: "#curriculum", label: "Curriculum" },
     { href: "#testimonials", label: "Testimonials" },

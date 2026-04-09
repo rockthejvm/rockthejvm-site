@@ -17,6 +17,7 @@ interface Props {
   description: CourseFrontmatter["description"];
   difficulty?: CollectionEntry<"difficulties">;
   heroImage: CourseFrontmatter["heroImage"];
+  heroImageBgSrc: string;
   inRoadmap: boolean;
   isFree: boolean;
   isBundle: boolean;
@@ -41,6 +42,7 @@ const {
   description,
   difficulty,
   heroImage,
+  heroImageBgSrc,
   inRoadmap,
   isFree,
   isBundle,
@@ -75,16 +77,17 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
 ---
 
 <header id="course-hero" class="relative overflow-hidden">
-  <!-- Blurred, dimmed background version of the hero image -->
-  <MyPicture
+  <!-- Parallax background image -->
+  <img
+    src={heroImageBgSrc}
     alt=""
-    src={heroImage}
-    class="absolute inset-0 size-full scale-110 object-cover brightness-[0.2] hero-bg-image"
+    aria-hidden="true"
+    class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.15] [[data-theme=light]_&]:brightness-[0.35]"
     loading="eager"
-    quality="low"
+    decoding="async"
   />
   <!-- Theme-aware overlay -->
-  <div class="absolute inset-0 bg-bkg/80"></div>
+  <div class="absolute inset-0 bg-bkg/60 [[data-theme=light]_&]:bg-bkg/85"></div>
 
   <!-- Main content grid -->
   <div

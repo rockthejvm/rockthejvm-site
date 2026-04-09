@@ -10,42 +10,33 @@ const { color } = Astro.props;
 ---
 
 <Section id="skills" {color} title="Skills You'll Learn">
-  <div class="mx-auto max-w-5xl text-sm text-content sm:text-base [&_ul]:list-none [&_ul]:pl-0">
+  <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
     <style is:global>
       .skills-list > ul {
         list-style: none;
         padding-left: 0;
         margin: 1rem 0;
+        column-count: 2;
+        column-gap: 2rem;
       }
-      /* Top-level items: 2-col grid so text and nested ul stack in column 2 */
+      @media (max-width: 640px) {
+        .skills-list > ul {
+          column-count: 1;
+        }
+      }
       .skills-list > ul > li {
         display: grid;
         grid-template-columns: 1.25rem 1fr;
         column-gap: 0.5rem;
         padding: 0.5rem 0;
         align-items: start;
+        break-inside: avoid;
       }
       .skills-list > ul > li::before {
         content: "✓";
         color: hsl(var(--accent-2));
         font-weight: 700;
         margin-top: 0.05rem;
-      }
-      /* Place nested ul in the content column, not the checkmark column */
-      .skills-list > ul > li > ul {
-        grid-column: 2;
-        list-style: none;
-        padding-left: 1rem;
-        margin-top: 0.25rem;
-      }
-      .skills-list > ul > li > ul > li {
-        display: block;
-        padding: 0.15rem 0;
-      }
-      .skills-list > ul > li > ul > li::before {
-        content: "–";
-        margin-right: 0.4rem;
-        color: hsl(var(--content-2, 0deg 0% 60%));
       }
     </style>
     <div class="skills-list">
