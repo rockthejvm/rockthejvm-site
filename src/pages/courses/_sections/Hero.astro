@@ -66,9 +66,9 @@ const formattedMembershipPrice =
     : null;
 
 const difficultyColorClass: Record<string, string> = {
-  beginner: "bg-difficulty-beginner",
-  intermediate: "bg-difficulty-intermediate",
-  advanced: "bg-difficulty-advanced",
+  beginner: "bg-blue-500/20 text-blue-400 ring-1 ring-inset ring-blue-400/40 [[data-theme=light]_&]:text-blue-700 [[data-theme=light]_&]:ring-blue-700/40",
+  intermediate: "bg-amber-500/20 text-amber-400 ring-1 ring-inset ring-amber-400/40 [[data-theme=light]_&]:text-amber-700 [[data-theme=light]_&]:ring-amber-700/40",
+  advanced: "bg-red-500/20 text-red-400 ring-1 ring-inset ring-red-400/40 [[data-theme=light]_&]:text-red-700 [[data-theme=light]_&]:ring-red-700/40",
 };
 
 const instructorNames = instructors.map((i) => i.data.name).join(" & ");
@@ -97,7 +97,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
         {
           difficulty && (
             <span
-              class={`${difficultyColorClass[difficulty.data.id] ?? "bg-accent-2"} rounded-full px-3 py-1 text-sm font-semibold text-content`}
+              class={`${difficultyColorClass[difficulty.data.id] ?? "bg-accent-2/20 text-accent-2 ring-1 ring-inset ring-accent-2/40"} rounded-full px-3 py-1 text-sm font-semibold`}
             >
               {difficulty.data.name}
             </span>

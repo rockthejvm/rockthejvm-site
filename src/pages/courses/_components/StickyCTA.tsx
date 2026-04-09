@@ -6,6 +6,7 @@ interface Props {
   isFree: boolean;
   priceInCents: number;
   pricingPlanId: number;
+  showMembership: boolean;
   title: string;
 }
 
@@ -14,6 +15,7 @@ export default function StickyCTA({
   isFree,
   priceInCents,
   pricingPlanId,
+  showMembership,
   title,
 }: Props) {
   const [visible, setVisible] = useState(false);
@@ -54,12 +56,22 @@ export default function StickyCTA({
               <p className="text-sm font-bold text-accent-1">{formattedPrice}</p>
             )}
           </div>
-          <PurchaseLink
-            pricingPlanId={pricingPlanId}
-            className="shrink-0 rounded-md bg-cta px-5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta"
-          >
-            {isFree ? "Enroll for Free" : "Enroll Now"}
-          </PurchaseLink>
+          <div className="flex shrink-0 items-center gap-4">
+            {showMembership && (
+              <a
+                href="/memberships"
+                className="hidden text-xs text-content-1/60 hover:text-content-1 hover:no-underline sm:block"
+              >
+                or get membership &rarr;
+              </a>
+            )}
+            <PurchaseLink
+              pricingPlanId={pricingPlanId}
+              className="shrink-0 rounded-md bg-cta px-5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta"
+            >
+              {isFree ? "Enroll for Free" : "Enroll Now"}
+            </PurchaseLink>
+          </div>
         </div>
       </div>
     </div>
