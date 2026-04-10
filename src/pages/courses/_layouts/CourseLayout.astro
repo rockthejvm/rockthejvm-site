@@ -333,35 +333,8 @@ const heroImageBgSrc = _heroBg.src;
     {
       (hasGoal || !!question || !!features || !!technologies) && (
         <div id="course-details" class="scroll-mt-20">
-          <details class="group">
-            <summary class="cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
-              <div class="mx-auto max-w-5xl px-8 py-4">
-                <div class="flex items-center justify-between gap-4 rounded-2xl bg-secondary/40 px-6 py-5 ring-1 ring-content/10 transition-colors hover:bg-secondary/60">
-                  <div>
-                    <p class="text-xs font-semibold uppercase tracking-widest text-content-1/50">Course Details</p>
-                    <p class="mt-1 text-base font-bold text-content sm:text-lg">
-                      {[hasGoal && "Goal", !!question && "Question", !!features && "How It Works", !!technologies && "Tech Stack"].filter(Boolean).join(" · ")}
-                    </p>
-                  </div>
-                  <div class="flex shrink-0 items-center gap-2 rounded-full bg-cta px-5 py-2.5 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1">
-                    <span class="group-open:hidden">Read More</span>
-                    <span class="hidden group-open:inline">Close</span>
-                    <svg
-                      class="h-4 w-4 transition-transform duration-300 group-open:rotate-180"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </summary>
+          {/* Preview: fixed-height truncated Goal with gradient fade */}
+          <div id="course-details-preview" class="relative max-h-80 overflow-hidden">
             {
               hasGoal && (
                 <Goal color={categoryColor}>
@@ -369,6 +342,12 @@ const heroImageBgSrc = _heroBg.src;
                 </Goal>
               )
             }
+            {/* Gradient fade — fades to --bkg which switches automatically per theme */}
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bkg to-transparent" />
+          </div>
+
+          {/* Expanded content (hidden by default) */}
+          <div id="course-details-expanded" class="hidden">
             {
               question && (
                 <Question color={categoryColor} {question}>
@@ -390,7 +369,30 @@ const heroImageBgSrc = _heroBg.src;
               )
             }
             {technologies && <TechStack {technologies} color={categoryColor} />}
-          </details>
+          </div>
+          {/* Read More / Close toggle */}
+          <div class="flex justify-center py-6">
+            <button
+              id="course-details-toggle"
+              type="button"
+              class="flex items-center gap-2 rounded-full bg-cta px-6 py-2.5 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1"
+            >
+              <span data-label-more>Read more</span>
+              <span data-label-close class="hidden">Close overview</span>
+              <svg
+                class="h-4 w-4 transition-transform duration-300"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       )
     }
@@ -401,11 +403,11 @@ const heroImageBgSrc = _heroBg.src;
         src={heroImageBgSrc}
         alt=""
         aria-hidden="true"
-        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.25] [[data-theme=light]_&]:brightness-[0.4]"
+        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.2] blur-sm [[data-theme=light]_&]:brightness-[0.35]"
         loading="lazy"
         decoding="async"
       />
-      <div class="absolute inset-0 bg-bkg/80 [[data-theme=light]_&]:bg-bkg/90" aria-hidden="true" />
+      <div class="absolute inset-0 bg-bkg/20" aria-hidden="true" />
       <CourseTestimonials color={categoryColor} />
     </div>
 
@@ -439,11 +441,11 @@ const heroImageBgSrc = _heroBg.src;
             src={heroImageBgSrc}
             alt=""
             aria-hidden="true"
-            class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.25] [[data-theme=light]_&]:brightness-[0.4]"
+            class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.2] blur-sm [[data-theme=light]_&]:brightness-[0.35]"
             loading="lazy"
             decoding="async"
           />
-          <div class="absolute inset-0 bg-bkg/75 [[data-theme=light]_&]:bg-bkg/[0.88]" aria-hidden="true" />
+          <div class="absolute inset-0 bg-bkg/20" aria-hidden="true" />
           <Pricing
             {isCourse}
             {benefits}
@@ -488,18 +490,46 @@ const heroImageBgSrc = _heroBg.src;
 </BaseLayout>
 
 <script>
-  // Auto-expand collapsible details block on hash nav or nav link click
-  const detailsEl = document.querySelector<HTMLDetailsElement>("#course-details details");
-  if (detailsEl) {
-    if (window.location.hash === "#course-details") {
-      detailsEl.open = true;
+  // Course details: truncated preview with expand/collapse toggle
+  (function () {
+    const preview = document.getElementById("course-details-preview");
+    const expanded = document.getElementById("course-details-expanded");
+    const btn = document.getElementById("course-details-toggle");
+    if (!preview || !expanded || !btn) return;
+
+    const labelMore = btn.querySelector("[data-label-more]") as HTMLElement;
+    const labelClose = btn.querySelector("[data-label-close]") as HTMLElement;
+    const chevron = btn.querySelector("svg") as SVGElement;
+    let isOpen = false;
+
+    function open() {
+      isOpen = true;
+      preview.style.maxHeight = "none";
+      preview.querySelector<HTMLElement>(".bg-gradient-to-t")?.classList.add("hidden");
+      expanded.classList.remove("hidden");
+      labelMore.classList.add("hidden");
+      labelClose.classList.remove("hidden");
+      chevron.style.transform = "rotate(180deg)";
     }
+
+    function close() {
+      isOpen = false;
+      preview.style.maxHeight = "";
+      preview.querySelector<HTMLElement>(".bg-gradient-to-t")?.classList.remove("hidden");
+      expanded.classList.add("hidden");
+      labelMore.classList.remove("hidden");
+      labelClose.classList.add("hidden");
+      chevron.style.transform = "";
+    }
+
+    btn.addEventListener("click", () => (isOpen ? close() : open()));
+
+    // Auto-expand on hash or nav link click
+    if (window.location.hash === "#course-details") open();
     document.querySelectorAll('a[href="#course-details"]').forEach((link) => {
-      link.addEventListener("click", () => {
-        detailsEl.open = true;
-      });
+      link.addEventListener("click", () => open());
     });
-  }
+  })();
 
   // Parallax: shift .parallax-bg images relative to their scroll position
   (function () {
