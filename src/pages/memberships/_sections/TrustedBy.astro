@@ -35,11 +35,11 @@ const logos = [
 ];
 ---
 
-<section class="overflow-hidden py-10">
+<section class="overflow-hidden pb-10">
   <p
-    class="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-content-1/40"
+    class="pb-8 mb-6 text-center text-xs font-semibold uppercase tracking-widest text-content-1/40"
   >
-    Trusted by engineers at
+    Trusted by
   </p>
 
   <div class="relative">
@@ -57,13 +57,13 @@ const logos = [
       <!-- Duplicate the list for seamless looping -->
       {
         [...logos, ...logos].map(({ id, name }) => (
-          <div class="flex w-28 shrink-0 items-center justify-center opacity-40 grayscale transition-opacity duration-200 hover:opacity-70">
+          <div class="flex pb-10 w-44 shrink-0 items-center justify-center opacity-40 grayscale transition-opacity duration-200 hover:opacity-70">
             <Icon
               name={`companies/${id}`}
               title={name}
               width={112}
               height={36}
-              class="max-h-9 w-full fill-content object-contain"
+              class="max-h-16 w-full fill-content object-contain"
             />
           </div>
         ))
