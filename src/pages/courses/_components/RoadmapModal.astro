@@ -1,0 +1,28 @@
+---
+---
+
+<div
+  id="roadmap-modal"
+  class="hidden"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    id="modal-roadmap-backdrop"
+    class="fixed inset-0 z-50 bg-gray-500/75 opacity-0 transition-opacity"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-10">
+    <div
+      class="relative h-3/4 w-full max-w-5xl translate-y-4 overflow-hidden rounded-xl bg-secondary opacity-0 shadow-xl transition-all sm:scale-95"
+      id="modal-roadmap-panel"
+    >
+      <h2 class="my-4 w-full text-center text-content-1">Course Roadmap</h2>
+      <div class="h-[calc(100%-3.5rem)] w-full overflow-hidden">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>

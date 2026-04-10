@@ -11,34 +11,6 @@ const { color } = Astro.props;
 
 <Section id="skills" {color} title="Skills You'll Learn">
   <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
-    <style is:global>
-      .skills-list > ul {
-        list-style: none;
-        padding-left: 0;
-        margin: 1rem 0;
-        column-count: 2;
-        column-gap: 2rem;
-      }
-      @media (max-width: 640px) {
-        .skills-list > ul {
-          column-count: 1;
-        }
-      }
-      .skills-list > ul > li {
-        display: grid;
-        grid-template-columns: 1.25rem 1fr;
-        column-gap: 0.5rem;
-        padding: 0.5rem 0;
-        align-items: start;
-        break-inside: avoid;
-      }
-      .skills-list > ul > li::before {
-        content: "✓";
-        color: hsl(var(--accent-2));
-        font-weight: 700;
-        margin-top: 0.05rem;
-      }
-    </style>
     <div class="skills-list">
       <slot />
     </div>

@@ -1,33 +1,15 @@
 ---
-import { workers } from "@/data/site.json";
 import durationToMinutes from "@/utils/durationToMinutes";
-import { z } from "astro/zod";
+import type { CurriculumSection } from "@/types/Curriculum";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
   courseId: CollectionEntry<"courses">["id"];
+  lectureSections: CurriculumSection[];
 }
 
-const ResponseSchema = z.array(
-  z.object({
-    id: z.number().int().nonnegative(),
-    name: z.string(),
-    lectures: z.array(
-      z.object({
-        id: z.number().int().nonnegative(),
-        name: z.string().optional(),
-        media_duration: z.number().int().nonnegative(),
-      }),
-    ),
-  }),
-);
-
-const { color, courseId, pricingPlanId } = Astro.props,
-  response = await fetch(`${workers.teachable}/curriculum/${pricingPlanId}`),
-  responseData = await response.json(),
-  lectureSections = ResponseSchema.parse(responseData);
+const { color, courseId, lectureSections } = Astro.props;
 
 const totalLectures = lectureSections.reduce(
   (sum, s) => sum + s.lectures.length,

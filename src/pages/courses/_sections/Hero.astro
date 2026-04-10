@@ -1,8 +1,9 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
 import NewsletterSection from "@/components/NewsletterSection.astro";
-import PurchaseLink from "@/components/PurchaseLink";
-import centsToPrice from "@/utils/centsToPrice";
+import HeroMediaCard from "../_components/HeroMediaCard.astro";
+import RoadmapModal from "../_components/RoadmapModal.astro";
+import VideoModal from "../_components/VideoModal.astro";
 import type { CollectionEntry } from "astro:content";
 
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
@@ -56,16 +57,6 @@ const {
   title,
   videoId,
 } = Astro.props;
-
-const formattedPrice =
-  priceInCents !== undefined && currency !== undefined
-    ? centsToPrice(priceInCents, currency)
-    : null;
-
-const formattedMembershipPrice =
-  monthlyMembershipPriceInCents !== undefined && currency !== undefined
-    ? centsToPrice(monthlyMembershipPriceInCents, currency)
-    : null;
 
 const difficultyColorClass: Record<string, string> = {
   beginner: "bg-blue-500/20 text-blue-400 ring-1 ring-inset ring-blue-400/40 [[data-theme=light]_&]:text-blue-700 [[data-theme=light]_&]:ring-blue-700/40",
@@ -291,139 +282,32 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
     </div>
 
     <!-- Right column: hero image + price/CTA -->
-    <div class="order-1 lg:order-2">
-      <div class="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
-        <MyPicture
-          alt={title}
-          src={heroImage}
-          class="w-full object-cover"
-          loading="eager"
-          quality="mid"
-          searchImage={true}
-        />
-        {videoId && (
-          <button
-            id="open-video-modal"
-            data-video-id={videoId}
-            aria-label="Play course preview"
-            class="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            <span class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-xl transition-transform hover:scale-110">
-              <svg class="ml-1 h-7 w-7 text-gray-900" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M6.3 2.84A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.27l9.344-5.891a1.5 1.5 0 000-2.538L6.3 2.84z" />
-              </svg>
-            </span>
-          </button>
-        )}
-      </div>
-
-      {!isPreview && (
-        <div class="mt-6 rounded-2xl bg-content/5 px-6 py-5 ring-1 ring-content/10 backdrop-blur-sm">
-          <div class="flex flex-col gap-3">
-            {showMembership && formattedMembershipPrice && monthlyMembershipPricingPlanId && (
-              <>
-                <p class="text-center text-lg font-medium text-content-1">
-                  Join <span class="font-semibold text-content">100,000+ students</span> enrolled in Rock the JVM courses
-                </p>
-                <PurchaseLink
-                  pricingPlanId={monthlyMembershipPricingPlanId}
-                  className="block rounded-md bg-cta px-6 py-3 text-center text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta"
-                  client:load
-                >
-                  {isFree ? "Access for Free" : `Access for ${formattedMembershipPrice}/mo`}
-                </PurchaseLink>
-                <div class="flex items-center gap-3">
-                  <div class="h-px flex-1 bg-content/15"></div>
-                  <span class="text-xs text-content-1">or</span>
-                  <div class="h-px flex-1 bg-content/15"></div>
-                </div>
-              </>
-            )}
-            <PurchaseLink
-              {pricingPlanId}
-              className={`block rounded-md px-4 py-2 text-center text-sm font-medium shadow-sm hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                showMembership && formattedMembershipPrice
-                  ? "bg-content/10 text-content-1 ring-1 ring-inset ring-content/20 hover:bg-content/20 focus-visible:outline-content/50"
-                  : "bg-cta text-ctatext hover:bg-accent-1 hover:text-gray-50 focus-visible:outline-cta"
-              }`}
-              client:load
-            >
-              {isFree ? "Enroll for Free" : `Buy ${isBundle ? "bundle" : "course"}${formattedPrice ? ` — ${formattedPrice}` : ""}`}
-            </PurchaseLink>
-          </div>
-          <p class="mt-3 text-sm text-center text-content-1">
-            Money-back guarantee &middot; Unlimited access &middot; Free updates
-          </p>
-        </div>
-      )}
-    </div>
+    <HeroMediaCard
+      {currency}
+      {heroImage}
+      {isBundle}
+      {isFree}
+      {isPreview}
+      monthlyMembershipPriceInCents={monthlyMembershipPriceInCents}
+      monthlyMembershipPricingPlanId={monthlyMembershipPricingPlanId}
+      priceInCents={priceInCents}
+      {pricingPlanId}
+      {showMembership}
+      {title}
+      {videoId}
+    />
   </div>
 
   </div>
 </header>
 
 <!-- Video modal (outside <header> so fixed positioning isn't clipped by overflow-hidden) -->
-{videoId && (
-  <div
-    id="video-modal"
-    class="hidden"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Course preview video"
-  >
-    <div
-      id="video-modal-backdrop"
-      class="fixed inset-0 z-50 bg-black/80 opacity-0 transition-opacity"
-      aria-hidden="true"
-    ></div>
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        id="video-modal-panel"
-        class="relative w-full max-w-6xl scale-95 opacity-0 transition-all duration-200"
-      >
-        <button
-          id="close-video-modal"
-          class="absolute right-0 -top-10 text-white/70 hover:text-white focus:outline-none"
-          aria-label="Close video"
-        >
-          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <div class="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-xl shadow-2xl">
-          <div id="video-modal-player" class="absolute inset-0"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+<VideoModal {videoId} />
 
 <!-- Roadmap modal (outside <header> so fixed positioning isn't clipped by overflow-hidden) -->
-<div
-  id="roadmap-modal"
-  class="hidden"
-  aria-labelledby="modal-title"
-  role="dialog"
-  aria-modal="true"
->
-  <div
-    id="modal-roadmap-backdrop"
-    class="fixed inset-0 z-50 bg-gray-500/75 opacity-0 transition-opacity"
-    aria-hidden="true"
-  >
-  </div>
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-10">
-    <div
-      class="relative h-3/4 w-full max-w-5xl translate-y-4 overflow-hidden rounded-xl bg-secondary opacity-0 shadow-xl transition-all sm:scale-95"
-      id="modal-roadmap-panel"
-    >
-      <h2 class="my-4 w-full text-center text-content-1">Course Roadmap</h2>
-      <div class="h-[calc(100%-3.5rem)] w-full overflow-hidden">
-        <slot name="roadmap" />
-      </div>
-    </div>
-  </div>
-</div>
+<RoadmapModal>
+  <slot name="roadmap" />
+</RoadmapModal>
 
 <style>
   /* Lighten the blurred background on the light theme */
@@ -433,115 +317,5 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
 </style>
 
 <script>
-  // ── Roadmap modal ──────────────────────────────────────────────────
-  const openModalButton = document.getElementById("open-roadmap-modal");
-  const modal = document.getElementById("roadmap-modal");
-  const modalBackdrop = document.getElementById("modal-roadmap-backdrop");
-  const modalPanel = document.getElementById("modal-roadmap-panel");
-
-  if (openModalButton && modal && modalBackdrop && modalPanel) {
-    function showModal() {
-      modal!.classList.remove("hidden");
-      modalBackdrop!.classList.add("opacity-100");
-      modalBackdrop!.classList.remove("opacity-0");
-      modalPanel!.classList.add("opacity-100", "translate-y-0", "sm:scale-100");
-      modalPanel!.classList.remove(
-        "opacity-0",
-        "translate-y-4",
-        "sm:translate-y-0",
-        "sm:scale-95",
-      );
-      const searchInput = document.querySelector(
-        '#search input[type="text"]',
-      ) as HTMLInputElement | null;
-      searchInput?.focus();
-    }
-
-    function hideModal() {
-      modal!.classList.add("hidden");
-      modalBackdrop!.classList.add("opacity-0");
-      modalBackdrop!.classList.remove("opacity-100");
-      modalPanel!.classList.add(
-        "opacity-0",
-        "translate-y-4",
-        "sm:translate-y-0",
-        "sm:scale-95",
-      );
-      modalPanel!.classList.remove(
-        "opacity-100",
-        "translate-y-0",
-        "sm:scale-100",
-      );
-    }
-
-    openModalButton.addEventListener("click", showModal);
-
-    document.addEventListener("keydown", (event) => {
-      const isMac = navigator.platform.toUpperCase().includes("MAC");
-      const ctrlOrCmdKey = isMac ? event.metaKey : event.ctrlKey;
-      if (ctrlOrCmdKey && event.key === "k") {
-        event.preventDefault();
-        showModal();
-      }
-      if (event.key === "Escape") hideModal();
-    });
-
-    modal.addEventListener("click", ({ target }) => {
-      if (!modalPanel!.contains(target as Node | null)) hideModal();
-    });
-  }
-
-  // ── Video modal ────────────────────────────────────────────────────
-  const openVideoButton = document.getElementById("open-video-modal");
-  const videoModal = document.getElementById("video-modal");
-  const videoBackdrop = document.getElementById("video-modal-backdrop");
-  const videoPanel = document.getElementById("video-modal-panel");
-  const closeVideoButton = document.getElementById("close-video-modal");
-  const videoPlayer = document.getElementById("video-modal-player");
-
-  if (openVideoButton && videoModal && videoBackdrop && videoPanel && videoPlayer) {
-    // Read videoId from data attribute set at render time
-    const videoId = openVideoButton.dataset.videoId;
-
-    function showVideoModal() {
-      videoModal!.classList.remove("hidden");
-      videoBackdrop!.classList.add("opacity-100");
-      videoBackdrop!.classList.remove("opacity-0");
-      videoPanel!.classList.add("opacity-100", "scale-100");
-      videoPanel!.classList.remove("opacity-0", "scale-95");
-      // Inject YouTube iframe on first open
-      if (videoPlayer!.childElementCount === 0 && videoId) {
-        videoPlayer!.innerHTML = `<iframe
-          src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0"
-          title="Course preview"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          style="position:absolute;inset:0;width:100%;height:100%;border:0"
-        ></iframe>`;
-      }
-    }
-
-    function hideVideoModal() {
-      videoModal!.classList.add("hidden");
-      videoBackdrop!.classList.add("opacity-0");
-      videoBackdrop!.classList.remove("opacity-100");
-      videoPanel!.classList.add("opacity-0", "scale-95");
-      videoPanel!.classList.remove("opacity-100", "scale-100");
-      // Stop video by clearing src
-      videoPlayer!.innerHTML = "";
-    }
-
-    openVideoButton.addEventListener("click", showVideoModal);
-    closeVideoButton?.addEventListener("click", hideVideoModal);
-
-    videoModal.addEventListener("click", ({ target }) => {
-      if (!videoPanel!.contains(target as Node | null)) hideVideoModal();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !videoModal!.classList.contains("hidden")) {
-        hideVideoModal();
-      }
-    });
-  }
+  import "../_scripts/courseHero";
 </script>

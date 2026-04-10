@@ -1,17 +1,18 @@
 ---
 import Section from "@/components/Section.astro";
+import type { CurriculumSection } from "@/types/Curriculum";
 import type { CollectionEntry } from "astro:content";
 import CurriculumHelper from "../_components/CurriculumHelper.astro";
 
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
-  pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
   courseId: CollectionEntry<"courses">["id"];
+  lectureSections: CurriculumSection[];
 }
 
-const { color, courseId, pricingPlanId } = Astro.props;
+const { color, courseId, lectureSections } = Astro.props;
 ---
 
 <Section id="curriculum" {color} title="What's Included">
-  <CurriculumHelper {pricingPlanId} {courseId} {color} />
+  <CurriculumHelper {courseId} {color} {lectureSections} />
 </Section>

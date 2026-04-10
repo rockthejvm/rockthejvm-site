@@ -2,7 +2,7 @@
 import Section from "@/components/Section.astro";
 import { getTeachablePricingPlan } from "@/utils/teachable";
 import type { CollectionEntry } from "astro:content";
-import { getCollection, getEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import MoneyBackGuarantee from "../_components/MoneyBackGuarantee.astro";
 import PricingPanels from "../_components/PricingPanels";
 
@@ -13,10 +13,14 @@ interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   currency: string;
   isCourse: boolean;
+  monthlyMembershipPricingPlanId: number;
+  monthlyPriceInCents: number;
   priceInCents: number;
   pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
   showMembership: boolean;
   title: CollectionEntry<"courses">["data"]["title"];
+  yearlyMembershipPricingPlanId: number;
+  yearlyPriceInCents: number;
 }
 
 const {
@@ -26,20 +30,15 @@ const {
     courseId,
     currency,
     isCourse,
+    monthlyMembershipPricingPlanId,
+    monthlyPriceInCents,
     priceInCents,
     pricingPlanId,
     showMembership,
     title,
+    yearlyMembershipPricingPlanId,
+    yearlyPriceInCents,
   } = Astro.props,
-  _personalMembership = await getEntry("memberships", "personal")!,
-  monthlyMembership = _personalMembership.data.packages[0],
-  monthlyPricingPlan = await getTeachablePricingPlan(
-    monthlyMembership.pricingPlanId,
-  ),
-  yearlyMembership = _personalMembership.data.packages[1],
-  yearlyPricingPlan = await getTeachablePricingPlan(
-    yearlyMembership.pricingPlanId,
-  ),
   hours = isCourse
     ? benefits!.hours
     : bundledCourses
@@ -141,7 +140,7 @@ if (isCourse && featuredBundles.length > 0) {
   <div class="relative isolate w-full px-2 py-1 sm:px-6 sm:py-2 lg:px-8">
     <div class="mx-auto max-w-2xl text-center lg:max-w-4xl"></div>
     {
-      monthlyPricingPlan !== null ? (
+      monthlyPriceInCents > 0 ? (
         <PricingPanels
           {categories}
           {currency}
@@ -150,10 +149,10 @@ if (isCourse && featuredBundles.length > 0) {
           {isCourse}
           {membershipHours}
           {membershipLinesOfCode}
-          {monthlyMembership}
-          {yearlyMembership}
-          monthlyPriceInCents={monthlyPricingPlan!.price}
-          yearlyPriceInCents={yearlyPricingPlan!.price}
+          {monthlyMembershipPricingPlanId}
+          {yearlyMembershipPricingPlanId}
+          {monthlyPriceInCents}
+          {yearlyPriceInCents}
           {priceInCents}
           {pricingPlanId}
           {showMembership}

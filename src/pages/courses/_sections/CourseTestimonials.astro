@@ -1,6 +1,7 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
 import Section from "@/components/Section.astro";
+import site from "@/data/site.json";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, getEntry, render } from "astro:content";
 
@@ -39,7 +40,7 @@ const testimonials = await Promise.all(
         ></path>
       </svg>
       <span class="text-sm font-semibold text-content">
-        Trusted by <strong class="text-accent-1">100,000+</strong> students worldwide
+        Trusted by <strong class="text-accent-1">{site.stats.studentsLabel}</strong> students worldwide
       </span>
     </div>
 
@@ -137,49 +138,5 @@ const testimonials = await Promise.all(
 </Section>
 
 <script>
-  const track = document.getElementById("testimonial-track");
-  const prevBtn = document.getElementById("testimonial-prev");
-  const nextBtn = document.getElementById("testimonial-next");
-  const dotsContainer = document.getElementById("testimonial-dots");
-
-  if (track && prevBtn && nextBtn && dotsContainer) {
-    const slides = track.querySelectorAll("li");
-    const total = slides.length;
-    let current = 0;
-
-    function goTo(idx: number) {
-      current = (idx + total) % total;
-      (track as HTMLElement).style.transform = `translateX(-${current * 100}%)`;
-
-      // Update dots
-      const dots = dotsContainer!.querySelectorAll("button");
-      dots.forEach((dot, i) => {
-        if (i === current) {
-          dot.classList.add("w-6", "bg-accent-1");
-          dot.classList.remove("w-2", "bg-content/20");
-        } else {
-          dot.classList.remove("w-6", "bg-accent-1");
-          dot.classList.add("w-2", "bg-content/20");
-        }
-      });
-    }
-
-    prevBtn.addEventListener("click", () => goTo(current - 1));
-    nextBtn.addEventListener("click", () => goTo(current + 1));
-
-    dotsContainer.querySelectorAll("button").forEach((dot) => {
-      dot.addEventListener("click", () => {
-        const idx = Number((dot as HTMLElement).dataset.idx);
-        goTo(idx);
-      });
-    });
-
-    // Auto-advance every 8 seconds
-    let timer = setInterval(() => goTo(current + 1), 8000);
-    const carousel = document.getElementById("testimonial-carousel");
-    carousel?.addEventListener("mouseenter", () => clearInterval(timer));
-    carousel?.addEventListener("mouseleave", () => {
-      timer = setInterval(() => goTo(current + 1), 8000);
-    });
-  }
+  import "../_scripts/courseTestimonials";
 </script>

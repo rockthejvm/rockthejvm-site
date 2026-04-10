@@ -1,6 +1,7 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
 import Prose from "@/components/Prose.astro";
+import site from "@/data/site.json";
 import { type CollectionEntry, getEntry } from "astro:content";
 import Section from "./Section.astro";
 
@@ -15,6 +16,13 @@ interface Props {
 
 const { color, collaborators, thanks } = Astro.props,
   author = await getEntry("authors", "daniel-ciocirlan")!;
+
+const authorProfileBio =
+  author.data.profileBio?.map((paragraph) =>
+    paragraph
+      .replace("{{studentsLabel}}", site.stats.studentsLabel)
+      .replace("{{kidsLabel}}", site.stats.kidsLabel),
+  ) ?? [author.data.biography].filter(Boolean);
 ---
 
 <Section {color} title="Meet Rock the JVM">
@@ -36,26 +44,11 @@ const { color, collaborators, thanks } = Astro.props,
       </div>
       <div class="px-8 py-6">
         <Prose class="max-w-none text-sm leading-7 text-content-1 text-justify">
-          <p>I'm a software engineer and the founder of Rock the JVM.</p>
-          <p>
-            I started the Rock the JVM project out of love for Scala and the technologies it
-            powers — they are all amazing tools and I want to share as much of my
-            experience with them as I can.
-          </p>
-          <p>
-            As of February 2024, I've taught Java, Scala, Kotlin and related tech
-            (e.g. Cats, ZIO, Spark) to 100,000+ students at various levels and I've
-            held live training sessions for some of the best companies in the
-            industry, including Adobe and Apple. I've also taught university
-            students who now work at Google and Facebook (among others), I've held
-            Hour of Code for 7-year-olds and I've taught more than 35,000 kids to
-            code.
-          </p>
-          <p>
-            I have a Master's Degree in Computer Science and I wrote my Bachelor and
-            Master thesis on Quantum Computation. Before starting to learn
-            programming, I won medals at international Physics competitions.
-          </p>
+          {
+            authorProfileBio.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))
+          }
         </Prose>
       </div>
     </article>

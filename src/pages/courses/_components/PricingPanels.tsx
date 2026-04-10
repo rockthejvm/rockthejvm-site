@@ -27,13 +27,9 @@ interface Props {
   isCourse: boolean;
   membershipHours: number;
   membershipLinesOfCode: number;
-  monthlyMembership: {
-    pricingPlanId: number;
-  };
+  monthlyMembershipPricingPlanId: number;
   monthlyPriceInCents: number;
-  yearlyMembership: {
-    pricingPlanId: number;
-  };
+  yearlyMembershipPricingPlanId: number;
   yearlyPriceInCents: number;
   pricingPlanId: CourseFrontmatter["pricingPlanId"];
   priceInCents: number;
@@ -146,9 +142,9 @@ export default function PricingPanels(props: Props) {
     isCourse,
     membershipHours,
     membershipLinesOfCode,
-    monthlyMembership,
+    monthlyMembershipPricingPlanId,
     monthlyPriceInCents,
-    yearlyMembership,
+    yearlyMembershipPricingPlanId,
     yearlyPriceInCents,
     pricingPlanId,
     priceInCents,
@@ -248,8 +244,8 @@ export default function PricingPanels(props: Props) {
           <PurchaseLink
             pricingPlanId={
               isYearly
-                ? yearlyMembership.pricingPlanId
-                : monthlyMembership.pricingPlanId
+                ? yearlyMembershipPricingPlanId
+                : monthlyMembershipPricingPlanId
             }
             ariaDescribedBy="tier-membership"
             className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
