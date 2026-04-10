@@ -1,0 +1,209 @@
+---
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import MembershipImage from "@/images/logos/personal.png";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import MoneyBackGuarantee from "@/pages/courses/_components/MoneyBackGuarantee.astro";
+import StickyCTA from "@/pages/courses/_components/StickyCTA";
+import CourseTestimonials from "@/pages/courses/_sections/CourseTestimonials.astro";
+import { countCurriculumLectures, fetchCurriculumSections } from "@/utils/fetchCurriculum";
+import { getTeachablePricingPlan } from "@/utils/teachable";
+import { getCollection, getEntry } from "astro:content";
+import MembershipPageNav from "../_components/MembershipPageNav.astro";
+import Courses from "../_sections/Courses.astro";
+import MembershipFAQ from "../_sections/MembershipFAQ.astro";
+import MembershipHero from "../_sections/MembershipHero.astro";
+import MembershipPricingSection from "../_sections/MembershipPricingSection.astro";
+
+interface MembershipFaq {
+  answer: string;
+  question: string;
+}
+
+interface MembershipHeroCopy {
+  bullets: string[];
+  cardSupportText: string;
+  coursesLabel: string;
+  description: string;
+  hoursLabel: string;
+  lessonsLabel: string;
+  linesOfCodeLabel: string;
+  monthlyCtaLabel: string;
+  monthlyFallbackLabel: string;
+  monthlySupportText: string;
+  pricingSeparatorLabel: string;
+  savingsLabel: string;
+  thumbnailAlt: string;
+  yearlyCtaLabel: string;
+  yearlyFallbackLabel: string;
+  yearlySupportText: string;
+}
+
+interface Props {
+  description: string;
+  faqs?: MembershipFaq[];
+  hero: MembershipHeroCopy;
+  headline: string;
+  title: string;
+}
+
+const { description, faqs = [], hero, headline, title } = Astro.props;
+
+const personalMembership = await getEntry("memberships", "personal");
+
+if (!personalMembership) {
+  throw new Error("Membership entry 'personal' was not found.");
+}
+
+const monthlyMembership = personalMembership.data.packages[0];
+const yearlyMembership = personalMembership.data.packages[1];
+
+const allCourses = await getCollection("courses");
+const includedCourses = allCourses.filter(
+  ({ data }) => data.benefits !== undefined && data.archived !== true,
+);
+
+const totalHours = includedCourses.reduce(
+  (sum, { data: { benefits } }) => sum + (benefits?.hours ?? 0),
+  0,
+);
+const totalLinesOfCode = includedCourses.reduce(
+  (sum, { data: { benefits } }) => sum + (benefits?.linesOfCode ?? 0),
+  0,
+);
+const courseCount = includedCourses.length;
+
+const [monthlyPriceInformation, yearlyPriceInformation, courseCurricula] =
+  await Promise.all([
+    getTeachablePricingPlan(monthlyMembership.pricingPlanId),
+    getTeachablePricingPlan(yearlyMembership.pricingPlanId),
+    Promise.all(
+      includedCourses.map((course) =>
+        fetchCurriculumSections(course.data.pricingPlanId),
+      ),
+    ),
+  ]);
+
+const totalLessons = courseCurricula.reduce(
+  (sum, sections) => sum + countCurriculumLectures(sections),
+  0,
+);
+---
+
+<BaseLayout
+  {description}
+  title={title}
+  image={{ alt: title, src: MembershipImage.src }}
+>
+  <article>
+    <MembershipHero
+      {courseCount}
+      currency={monthlyPriceInformation?.currency}
+      {hero}
+      monthlyPriceInCents={monthlyPriceInformation?.price}
+      monthlyPricingPlanId={monthlyMembership.pricingPlanId}
+      totalHours={totalHours}
+      totalLessons={totalLessons}
+      totalLinesOfCode={totalLinesOfCode}
+      yearlyPricingPlanId={yearlyMembership.pricingPlanId}
+      yearlyPriceInCents={yearlyPriceInformation?.price}
+    >
+      <Fragment slot="headline">{headline}</Fragment>
+    </MembershipHero>
+
+    <MembershipPageNav />
+
+    <Section id="whats-included" color="bg-secondary" title="What's Included">
+      <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
+        <div class="skills-list">
+          <slot name="skills" />
+        </div>
+      </div>
+    </Section>
+
+    <Section color="bg-secondary" title="Why This Membership Works">
+      <div class="mx-auto max-w-3xl">
+        <div id="membership-overview-preview" class="relative max-h-72 overflow-hidden">
+          <Prose>
+            <slot name="description" />
+          </Prose>
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bkg to-transparent"></div>
+        </div>
+        <div class="flex justify-center py-6">
+          <button
+            id="membership-overview-toggle"
+            type="button"
+            class="flex items-center gap-2 rounded-full bg-cta px-6 py-2.5 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1"
+          >
+            <span data-label-more>Read more</span>
+            <span data-label-close class="hidden">Close overview</span>
+            <svg
+              class="h-4 w-4 transition-transform duration-300"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Section>
+
+    <div class="relative isolate overflow-hidden">
+      <img
+        src={MembershipImage.src}
+        alt=""
+        aria-hidden="true"
+        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-contain opacity-20 blur-3xl [[data-theme=light]_&]:opacity-10"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-bkg/20" aria-hidden="true"></div>
+      <CourseTestimonials color="bg-secondary" />
+    </div>
+
+    <Courses />
+
+    <div class="relative isolate overflow-hidden">
+      <img
+        src={MembershipImage.src}
+        alt=""
+        aria-hidden="true"
+        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-contain opacity-20 blur-3xl [[data-theme=light]_&]:opacity-10"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-bkg/20" aria-hidden="true"></div>
+      <MembershipPricingSection />
+      <MoneyBackGuarantee />
+    </div>
+
+    <MembershipFAQ {faqs} />
+  </article>
+
+  {
+    monthlyPriceInformation !== null && (
+      <StickyCTA
+        currency={monthlyPriceInformation.currency}
+        ctaLabel="Start Your Membership"
+        heroElementId="membership-hero"
+        isFree={false}
+        priceInCents={monthlyPriceInformation.price}
+        pricingPlanId={monthlyMembership.pricingPlanId}
+        altLink={{ href: "/courses", label: "or browse individual courses →" }}
+        showMembership={false}
+        title={title}
+        client:load
+      />
+    )
+  }
+</BaseLayout>
+
+<script>
+  import "../_scripts/membershipLayout";
+</script>

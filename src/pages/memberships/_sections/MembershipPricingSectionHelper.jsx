@@ -17,19 +17,19 @@ export default function Example(props) {
           <RadioGroup
             value={membership}
             onChange={setMembership}
-            className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+            className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-content/20"
           >
             <Radio
               key={membershipTypes[0].value}
               value={membershipTypes[0]}
-              className="cursor-pointer rounded-full px-2.5 py-1 text-gray-500 data-[checked]:bg-indigo-600 data-[checked]:text-white"
+              className="cursor-pointer rounded-full px-2.5 py-1 text-content-1 data-[checked]:bg-cta data-[checked]:text-ctatext"
             >
               {membershipTypes[0].label}
             </Radio>
             <Radio
               key={membershipTypes[1].value}
               value={membershipTypes[1]}
-              className="cursor-pointer rounded-full px-2.5 py-1 text-gray-500 data-[checked]:bg-indigo-600 data-[checked]:text-white"
+              className="cursor-pointer rounded-full px-2.5 py-1 text-content-1 data-[checked]:bg-cta data-[checked]:text-ctatext"
             >
               {membershipTypes[1].label}
             </Radio>

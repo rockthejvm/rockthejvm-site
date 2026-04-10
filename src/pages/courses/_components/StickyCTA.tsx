@@ -1,27 +1,38 @@
 import PurchaseLink from "@/components/PurchaseLink";
 import { useEffect, useState } from "react";
 
+interface AltLink {
+  href: string;
+  label: string;
+}
+
 interface Props {
   currency: string;
+  ctaLabel?: string;
+  heroElementId?: string;
   isFree: boolean;
   priceInCents: number;
   pricingPlanId: number;
+  altLink?: AltLink;
   showMembership: boolean;
   title: string;
 }
 
 export default function StickyCTA({
   currency,
+  ctaLabel,
+  heroElementId = "course-hero",
   isFree,
   priceInCents,
   pricingPlanId,
+  altLink,
   showMembership,
   title,
 }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const hero = document.getElementById("course-hero");
+    const hero = document.getElementById(heroElementId);
     if (!hero) return;
 
     const observer = new IntersectionObserver(
@@ -30,7 +41,7 @@ export default function StickyCTA({
     );
     observer.observe(hero);
     return () => observer.disconnect();
-  }, []);
+  }, [heroElementId]);
 
   const formattedPrice = (priceInCents / 100).toLocaleString("en-US", {
     style: "currency",
@@ -38,6 +49,14 @@ export default function StickyCTA({
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
+
+  const secondaryLink = altLink ?? {
+    href: "/memberships",
+    label: "or get membership →",
+  };
+
+  const shouldShowSecondaryLink = altLink !== undefined || showMembership;
+  const buttonLabel = ctaLabel ?? (isFree ? "Enroll for Free" : "Enroll Now");
 
   return (
     <div
@@ -57,19 +76,19 @@ export default function StickyCTA({
             )}
           </div>
           <div className="flex shrink-0 items-center gap-4">
-            {showMembership && (
+            {shouldShowSecondaryLink && (
               <a
-                href="/memberships"
+                href={secondaryLink.href}
                 className="hidden text-xs text-content-1/60 hover:text-content-1 hover:no-underline sm:block"
               >
-                or get membership &rarr;
+                {secondaryLink.label}
               </a>
             )}
             <PurchaseLink
               pricingPlanId={pricingPlanId}
               className="shrink-0 rounded-md bg-cta px-5 py-2.5 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta"
             >
-              {isFree ? "Enroll for Free" : "Enroll Now"}
+              {buttonLabel}
             </PurchaseLink>
           </div>
         </div>

@@ -29,7 +29,7 @@ const _personalMembership = await getEntry("memberships", "personal")!,
   );
 ---
 
-<Section color="bg-secondary" title="Get started now!">
+<Section id="pricing" color="bg-secondary" title="Choose Your Plan">
   <div class="relative isolate px-6 lg:px-8">
     <div
       class={"isolate mx-auto mt-8 grid max-w-md grid-cols-1 gap-16 lg:mx-0 lg:max-w-none lg:grid-cols-2"}
@@ -118,10 +118,6 @@ const _personalMembership = await getEntry("memberships", "personal")!,
               Send their names and emails to me and I will enroll your team
               instantly.
             </a>
-          </p>
-          <p class="mt-8 text-sm text-content-1">
-            This is a subscription product billed on a yearly basis until you
-            cancel. Cancel anytime from the account management page.
           </p>
           <a
             href="/contact"

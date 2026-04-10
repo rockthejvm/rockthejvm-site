@@ -1,11 +1,10 @@
 import { initParallaxBackgrounds } from "@/utils/parallax";
 
-const initCourseDetailsToggle = () => {
-  const preview = document.getElementById("course-details-preview") as HTMLElement | null;
-  const expanded = document.getElementById("course-details-expanded") as HTMLElement | null;
-  const button = document.getElementById("course-details-toggle") as HTMLElement | null;
+const initMembershipOverviewToggle = () => {
+  const preview = document.getElementById("membership-overview-preview") as HTMLElement | null;
+  const button = document.getElementById("membership-overview-toggle") as HTMLElement | null;
 
-  if (!preview || !expanded || !button || button.dataset.initialized === "true") {
+  if (!preview || !button || button.dataset.initialized === "true") {
     return;
   }
 
@@ -21,7 +20,6 @@ const initCourseDetailsToggle = () => {
     isOpen = true;
     preview.style.maxHeight = "none";
     gradient?.classList.add("hidden");
-    expanded.classList.remove("hidden");
     labelMore?.classList.add("hidden");
     labelClose?.classList.remove("hidden");
     if (chevron) {
@@ -33,7 +31,6 @@ const initCourseDetailsToggle = () => {
     isOpen = false;
     preview.style.maxHeight = "";
     gradient?.classList.remove("hidden");
-    expanded.classList.add("hidden");
     labelMore?.classList.remove("hidden");
     labelClose?.classList.add("hidden");
     if (chevron) {
@@ -49,15 +46,7 @@ const initCourseDetailsToggle = () => {
 
     open();
   });
-
-  if (window.location.hash === "#course-details") {
-    open();
-  }
-
-  document.querySelectorAll('a[href="#course-details"]').forEach((link) => {
-    link.addEventListener("click", open);
-  });
 };
 
-initCourseDetailsToggle();
-initParallaxBackgrounds();
+initMembershipOverviewToggle();
+initParallaxBackgrounds({ datasetKey: "membershipParallaxInitialized" });
