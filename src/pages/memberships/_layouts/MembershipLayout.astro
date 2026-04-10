@@ -14,6 +14,7 @@ import Courses from "../_sections/Courses.astro";
 import MembershipFAQ from "../_sections/MembershipFAQ.astro";
 import MembershipHero from "../_sections/MembershipHero.astro";
 import MembershipPricingSection from "../_sections/MembershipPricingSection.astro";
+import TrustedBy from "../_sections/TrustedBy.astro";
 
 interface MembershipFaq {
   answer: string;
@@ -110,6 +111,7 @@ const totalLessons = courseCurricula.reduce(
     >
       <Fragment slot="headline">{headline}</Fragment>
     </MembershipHero>
+    <TrustedBy />
 
     <MembershipPageNav />
 
@@ -180,7 +182,6 @@ const totalLessons = courseCurricula.reduce(
       />
       <div class="absolute inset-0 bg-bkg/20" aria-hidden="true"></div>
       <MembershipPricingSection />
-      <MoneyBackGuarantee />
     </div>
 
     <MembershipFAQ {faqs} />

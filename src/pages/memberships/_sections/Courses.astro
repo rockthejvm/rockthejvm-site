@@ -4,20 +4,35 @@ import Section from "@/components/Section.astro";
 import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
 import { getCollection } from "astro:content";
 
-const _courses = await getCollection("courses"),
-  sortedCourses = [..._courses].sort((a, b) =>
-    compareByNaturalOrder(a.data.title, b.data.title),
-  );
+const _courses = await getCollection("courses", ({ data }) => data.category.id !== "bundle"),
+  _categories = await getCollection("courseCategories", ({ data }) => data.id !== "bundle"),
+  coursesByCategory = _categories
+    .map((cat) => ({
+      category: cat,
+      courses: [..._courses]
+        .filter((c) => c.data.category.id === cat.id)
+        .sort((a, b) => compareByNaturalOrder(a.data.title, b.data.title)),
+    }))
+    .filter(({ courses }) => courses.length > 0);
 ---
 
 <Section id="courses" color="bg-secondary" title="Courses Included">
-  <ul class="mx-auto grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="space-y-12 px-8">
     {
-      sortedCourses.map((course) => (
-        <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
-          <CourseCardVertical {course} />
-        </li>
+      coursesByCategory.map(({ category, courses }) => (
+        <div>
+          <h3 class="mb-6 text-2xl font-bold text-content">
+            {category.data.name} Courses
+          </h3>
+          <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {courses.map((course) => (
+              <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
+                <CourseCardVertical {course} />
+              </li>
+            ))}
+          </ul>
+        </div>
       ))
     }
-  </ul>
+  </div>
 </Section>
