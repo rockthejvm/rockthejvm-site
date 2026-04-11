@@ -1,0 +1,50 @@
+---
+import FAQ from "@/components/FAQ";
+
+const faqs = [
+  {
+    question: "Who is this for?",
+    answer:
+      "Rock the JVM is built for developers who already know how to write software and want to level up to senior and beyond. If you've been in the industry for a few years and want to go deeper — not just broader — you're in the right place. Complete beginners may find the pace too fast in places, but intermediate developers are the sweet spot.",
+  },
+  {
+    question: "What technologies do you cover?",
+    answer:
+      "The catalog covers Scala (from practical foundations to advanced type-level patterns), Kotlin, functional programming with Cats and Cats Effect, ZIO, distributed systems with Akka/Pekko, big data processing with Apache Spark, and real-time streaming with Apache Flink. These are the tools serious JVM teams use at scale.",
+  },
+  {
+    question: "How is this different from other programming courses?",
+    answer:
+      "Most courses teach you to do something. Rock the JVM teaches you to understand why it works. The depth is genuinely different: we go into type systems, concurrency models, effect theory, and distributed system design. You'll write more code in a single Rock the JVM course than many engineers write in a year of side projects.",
+  },
+  {
+    question: "Should I buy individual courses or get the membership?",
+    answer:
+      "The membership is the best fit if you want broad access to the catalog or expect to move through multiple topics over time. Individual courses make sense if you have a single very specific need and genuinely won't go further. When in doubt, the membership wins on value.",
+  },
+  {
+    question: "Is there a team or company option?",
+    answer:
+      "Yes. We offer team packs for companies that want multiple engineers on the platform at once. Team members get individual accounts, individual progress tracking, and the full library. Visit the Teams page or get in touch to discuss pricing for your team size.",
+  },
+  {
+    question: "Is this worth it for already-experienced engineers?",
+    answer:
+      "Especially for experienced engineers. Many of our students are mid-to-senior engineers who understood the basics but wanted to reason at a deeper level — about type safety, concurrency, functional design, or distributed systems. The catalog is built to bridge that exact gap.",
+  },
+  {
+    question: "What if it's not for me?",
+    answer:
+      "Get in touch. Rock the JVM has a flexible approach to satisfaction — if you work through a course or membership and feel it wasn't worth it, reach out directly and Daniel will sort it out.",
+  },
+];
+---
+
+<section class="mb-8 md:mb-16">
+  <h2 class="mb-12 text-center font-bold text-content">
+    Frequently Asked Questions
+  </h2>
+  <div class="mx-auto max-w-4xl">
+    <FAQ {faqs} client:visible />
+  </div>
+</section>

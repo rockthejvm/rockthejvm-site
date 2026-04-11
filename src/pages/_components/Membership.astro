@@ -1,18 +1,88 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
 import MembershipImage from "@/images/logos/personal.png";
-import MembershipHelper from "./MembershipHelper";
+
+const bullets = [
+  "Full access to the premium Rock the JVM catalog",
+  "New courses included automatically as the library grows",
+  "Private community access — kept even if you cancel",
+  "Cancel any time",
+];
 ---
 
 <section class="mb-8 md:mb-16">
-  <h2 class="mb-12 text-center font-bold text-content">The Membership</h2>
-  <MembershipHelper>
-    <MyPicture
-      src={MembershipImage}
-      alt="Personal membership"
-      class="w-full flex-none rounded-2xl lg:max-w-xl"
-      quality="mid"
-      slot="image"
-    />
-  </MembershipHelper>
+  <h2 class="mb-12 text-center font-bold text-content">
+    One membership. The whole library.
+  </h2>
+
+  <div class="mx-auto max-w-7xl">
+    <div class="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+      <!-- Image -->
+      <div class="w-full lg:w-1/2">
+        <MyPicture
+          src={MembershipImage}
+          alt="Rock the JVM personal membership"
+          class="w-full rounded-2xl"
+          quality="mid"
+        />
+      </div>
+
+      <!-- Copy -->
+      <div class="w-full lg:w-1/2">
+        <p
+          class="mb-4 text-sm font-semibold uppercase tracking-widest text-accent-1"
+        >
+          Your path to senior engineer
+        </p>
+        <h3
+          class="mb-6 text-3xl font-bold tracking-tight text-content sm:text-4xl"
+        >
+          All of Rock the JVM, at your fingertips.
+        </h3>
+        <p class="mb-8 text-lg leading-8 text-content-1">
+          Get full access to 250+ hours of premium content across Scala, Kotlin,
+          functional programming, distributed systems, and big data. New courses
+          are added automatically — your subscription only ever gets more
+          valuable.
+        </p>
+
+        <ul class="mb-10 space-y-3">
+          {
+            bullets.map((item) => (
+              <li class="flex items-start gap-x-3 text-content">
+                <svg
+                  class="mt-0.5 h-5 w-5 flex-none text-accent-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="flex flex-col gap-y-3 sm:flex-row sm:gap-x-4">
+          <a
+            href="/memberships"
+            class="rounded-md bg-cta px-5 py-3 text-center text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-1"
+          >
+            Start Your Membership
+          </a>
+          <a
+            href="/teams"
+            class="rounded-md px-5 py-3 text-center text-sm font-semibold text-content ring-1 ring-inset ring-content/30 transition-colors hover:ring-content/60"
+          >
+            Team Packs &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

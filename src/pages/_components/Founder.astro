@@ -1,0 +1,21 @@
+---
+import AuthorExpanded from "@/components/AuthorExpanded.astro";
+import { getEntry } from "astro:content";
+
+const author = await getEntry("authors", "daniel-ciocirlan")!;
+---
+
+<section class="mx-auto max-w-4xl py-16 md:py-24">
+  <h2 class="mb-4 text-center font-bold tracking-tight text-content">
+    A message from the founder
+  </h2>
+  <p
+    class="mx-auto mb-12 max-w-2xl text-center text-lg italic leading-8 text-content-1"
+  >
+    "I built Rock the JVM because I couldn't find the kind of content I needed
+    when I was leveling up — content that went deep, respected my intelligence,
+    and showed working code from first principles. That's still the standard
+    everything here is held to."
+  </p>
+  <AuthorExpanded {author} />
+</section>

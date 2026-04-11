@@ -1,0 +1,225 @@
+---
+import FAQ from "@/components/FAQ";
+import Contact from "@/components/Contact.astro";
+import BackgroundGradient2 from "@/components/BackgroundGradient2.astro";
+import site from "@/data/site.json";
+import Logo from "@/images/logos/rock-the-jvm.svg";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+
+const benefits = [
+  {
+    title: "Full Library Access for Every Seat",
+    description:
+      "Every engineer on your team gets individual access to 250+ hours of content across Scala, Kotlin, ZIO, Cats Effect, Apache Spark, Apache Flink, and Akka/Pekko. New courses are included automatically.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>`,
+  },
+  {
+    title: "Individual Progress, Shared Direction",
+    description:
+      "Each team member gets their own account with individual progress tracking. Learn at your own pace while the whole team aligns on the same technologies and mental models.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>`,
+  },
+  {
+    title: "Consistent Technical Upskilling",
+    description:
+      "Stop relying on scattered blog posts and conference talks for team learning. Give your engineers a structured, high-quality path that maps to the technologies you actually ship with.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>`,
+  },
+  {
+    title: "Flexible Team Pricing",
+    description:
+      "Team packs are priced per seat — the more seats, the better the rate. There's no rigid tier system. Get in touch with your team size and we'll put together a quote within 24 hours.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>`,
+  },
+  {
+    title: "Tax-Compliant Invoicing",
+    description:
+      "You receive a full tax-compliant invoice for the team pack purchase, making it straightforward to expense through your company or book as a training budget line.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>`,
+  },
+  {
+    title: "Direct Support from the Founder",
+    description:
+      "Team packs come with direct contact access to Daniel. Questions about the curriculum, onboarding your team, or getting the most out of the content — ask directly.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" /></svg>`,
+  },
+];
+
+const steps = [
+  {
+    step: "01",
+    title: "Get in touch",
+    description:
+      "Send a message below with your team size and which topics your team is focused on. We'll get back to you within one business day.",
+  },
+  {
+    step: "02",
+    title: "Receive a custom quote",
+    description:
+      "We'll send a tailored quote based on your team size and preferred billing period (monthly or annual). No hidden fees.",
+  },
+  {
+    step: "03",
+    title: "Set up individual accounts",
+    description:
+      "Once agreed, each team member gets their own account set up. The whole process typically takes less than an hour.",
+  },
+  {
+    step: "04",
+    title: "Start learning",
+    description:
+      "Your team has immediate access to the full Rock the JVM library. Everyone learns at their own pace, all going deeper together.",
+  },
+];
+
+const faqs = [
+  {
+    question: "How many seats can I buy?",
+    answer:
+      "Any number — we don't impose a maximum. We typically start from 2-seat packs. Contact us and we'll give you a quote for your exact team size.",
+  },
+  {
+    question: "Do team members get individual accounts?",
+    answer:
+      "Yes. Each team member gets their own login with individual progress tracking, bookmarks, and course history. All under one invoice.",
+  },
+  {
+    question: "Can we add more seats later?",
+    answer:
+      "Yes. You can add seats at any time and pricing adjusts accordingly. Just get in touch and we'll sort it out quickly.",
+  },
+  {
+    question: "Is there a minimum team size?",
+    answer:
+      "We start from 2-seat packs. For an individual membership, head to the Memberships page instead.",
+  },
+  {
+    question: "Can we get a free trial for our team?",
+    answer:
+      "Get in touch and we can discuss a short evaluation period before committing. We want the fit to be right.",
+  },
+  {
+    question: "Do you offer annual billing for teams?",
+    answer:
+      "Yes: monthly and annual billing are both available. Annual billing is typically better value. We can discuss either option.",
+  },
+];
+---
+
+<BaseLayout
+  description={`Rock the JVM for Teams — give your entire engineering team access to 250+ hours of deep, practical JVM training. ${site.stats.studentsLabel} students and counting.`}
+  image={{ src: Logo.src, alt: site.logo.alt }}
+  title="Rock the JVM for Teams"
+>
+  <BackgroundGradient2 />
+
+  <!-- ── Hero ──────────────────────────────────────────────────── -->
+  <div class="container z-10 mx-auto px-4 sm:px-6 lg:px-4">
+    <header class="py-20 text-center md:py-28">
+      <p
+        class="mb-4 text-sm font-semibold uppercase tracking-widest text-accent-1"
+      >
+        Team packs
+      </p>
+      <h1
+        class="mx-auto mb-6 max-w-3xl text-4xl font-extrabold tracking-tight text-content sm:text-5xl lg:text-6xl"
+      >
+        Level up your entire<br />
+        <span class="text-accent-1">engineering team.</span>
+      </h1>
+      <p class="mx-auto mb-10 max-w-2xl text-lg leading-8 text-content-1">
+        Give every engineer on your team access to the same deep, hands-on
+        training that {site.stats.studentsLabel} developers use to reach senior and
+        beyond. One invoice, individual accounts, the full Rock the JVM library.
+      </p>
+      <a
+        href="#contact"
+        class="inline-block rounded-md bg-cta px-6 py-3 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-1"
+      >
+        Get a Team Quote
+      </a>
+      <p class="mt-3 text-sm text-content-1">
+        Response within one business day · No commitment required
+      </p>
+    </header>
+
+    <!-- ── Benefits grid ──────────────────────────────────────── -->
+    <section class="mb-16 md:mb-24">
+      <h2 class="mb-12 text-center font-bold tracking-tight text-content">
+        Everything included in every seat
+      </h2>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          benefits.map(({ icon, title, description }) => (
+            <div class="card-shadow card-shadow-color rounded-2xl bg-secondary p-7">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent-1/10 text-accent-1">
+                <Fragment set:html={icon} />
+              </div>
+              <h3 class="mb-2 text-lg font-bold text-content">{title}</h3>
+              <p class="text-sm leading-7 text-content-1">{description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ── How it works ───────────────────────────────────────── -->
+    <section class="mb-16 md:mb-24">
+      <h2 class="mb-12 text-center font-bold tracking-tight text-content">
+        How it works
+      </h2>
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          steps.map(({ step, title, description }) => (
+            <div class="flex flex-col">
+              <span class="mb-4 text-4xl font-extrabold text-accent-1/30">
+                {step}
+              </span>
+              <h3 class="mb-2 text-lg font-bold text-content">{title}</h3>
+              <p class="text-sm leading-7 text-content-1">{description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ── Also available: individual membership ─────────────── -->
+    <section
+      class="mb-16 rounded-2xl bg-secondary px-8 py-10 text-center md:mb-24"
+    >
+      <h2 class="mb-4 font-bold text-content">Just need it for yourself?</h2>
+      <p class="mx-auto mb-6 max-w-xl text-content-1">
+        The personal membership gives you full access to the Rock the JVM
+        library for a flat monthly or annual fee. Cancel any time.
+      </p>
+      <a
+        href="/memberships"
+        class="inline-block rounded-md px-5 py-2.5 text-sm font-semibold text-content ring-1 ring-inset ring-content/30 transition-colors hover:ring-content/60"
+      >
+        See Personal Membership →
+      </a>
+    </section>
+
+    <!-- ── FAQ ────────────────────────────────────────────────── -->
+    <section class="mb-16 md:mb-24">
+      <h2 class="mb-12 text-center font-bold tracking-tight text-content">
+        FAQ
+      </h2>
+      <div class="mx-auto max-w-4xl">
+        <FAQ {faqs} client:visible />
+      </div>
+    </section>
+
+    <!-- ── Contact ────────────────────────────────────────────── -->
+    <div id="contact" class="scroll-mt-24">
+      <h2 class="mb-4 text-center font-bold tracking-tight text-content">
+        Get a Team Quote
+      </h2>
+      <p class="mb-12 text-center text-content-1">
+        Tell us your team size and what you're working on. We'll get back to you
+        within one business day.
+      </p>
+      <Contact />
+    </div>
+  </div>
+</BaseLayout>
