@@ -1,10 +1,12 @@
 ---
 import FAQ from "@/components/FAQ";
-import Contact from "@/components/Contact.astro";
 import BackgroundGradient2 from "@/components/BackgroundGradient2.astro";
 import site from "@/data/site.json";
 import Logo from "@/images/logos/rock-the-jvm.svg";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import TeamQuoteCTA from "./_components/TeamQuoteCTA";
+import { frontmatter as faqsFrontmatter } from "./_data/faqs.mdx";
 
 const benefits = [
   {
@@ -72,37 +74,23 @@ const steps = [
   },
 ];
 
-const faqs = [
-  {
-    question: "How many seats can I buy?",
-    answer:
-      "Any number — we don't impose a maximum. We typically start from 2-seat packs. Contact us and we'll give you a quote for your exact team size.",
-  },
-  {
-    question: "Do team members get individual accounts?",
-    answer:
-      "Yes. Each team member gets their own login with individual progress tracking, bookmarks, and course history. All under one invoice.",
-  },
-  {
-    question: "Can we add more seats later?",
-    answer:
-      "Yes. You can add seats at any time and pricing adjusts accordingly. Just get in touch and we'll sort it out quickly.",
-  },
-  {
-    question: "Is there a minimum team size?",
-    answer:
-      "We start from 2-seat packs. For an individual membership, head to the Memberships page instead.",
-  },
-  {
-    question: "Can we get a free trial for our team?",
-    answer:
-      "Get in touch and we can discuss a short evaluation period before committing. We want the fit to be right.",
-  },
-  {
-    question: "Do you offer annual billing for teams?",
-    answer:
-      "Yes: monthly and annual billing are both available. Annual billing is typically better value. We can discuss either option.",
-  },
+const allCourses = await getCollection("courses");
+const allMemberships = await getCollection("memberships");
+
+const products = [
+  ...allCourses
+    .filter((c) => !c.data.archived)
+    .map((c) => ({
+      id: c.id,
+      name: c.data.title,
+      type: c.data.bundledCourses ? "bundle" : "course",
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name)),
+  ...allMemberships.map((m) => ({
+    id: m.id,
+    name: m.data.name,
+    type: "membership",
+  })),
 ];
 ---
 
@@ -132,12 +120,7 @@ const faqs = [
         training that {site.stats.studentsLabel} developers use to reach senior and
         beyond. One invoice, individual accounts, the full Rock the JVM library.
       </p>
-      <a
-        href="#contact"
-        class="inline-block rounded-md bg-cta px-6 py-3 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-1"
-      >
-        Get a Team Quote
-      </a>
+      <TeamQuoteCTA products={products} client:visible />
       <p class="mt-3 text-sm text-content-1">
         Response within one business day · No commitment required
       </p>
@@ -206,20 +189,21 @@ const faqs = [
         FAQ
       </h2>
       <div class="mx-auto max-w-4xl">
-        <FAQ {faqs} client:visible />
+        <FAQ faqs={faqsFrontmatter.faqs} client:visible />
       </div>
     </section>
 
-    <!-- ── Contact ────────────────────────────────────────────── -->
-    <div id="contact" class="scroll-mt-24">
-      <h2 class="mb-4 text-center font-bold tracking-tight text-content">
-        Get a Team Quote
-      </h2>
-      <p class="mb-12 text-center text-content-1">
+    <!-- ── Bottom CTA ─────────────────────────────────────────── -->
+    <section class="mb-16 rounded-2xl bg-secondary px-8 py-10 text-center md:mb-24">
+      <h2 class="mb-4 font-bold text-content">Ready to level up your team?</h2>
+      <p class="mx-auto mb-6 max-w-xl text-content-1">
         Tell us your team size and what you're working on. We'll get back to you
         within one business day.
       </p>
-      <Contact />
-    </div>
+      <TeamQuoteCTA products={products} client:visible />
+      <p class="mt-3 text-sm text-content-1">
+        No commitment required · Response within one business day
+      </p>
+    </section>
   </div>
 </BaseLayout>
