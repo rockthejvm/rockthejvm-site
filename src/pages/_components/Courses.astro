@@ -22,7 +22,7 @@ const displayCategories = await getCollection("courseCategories");
       displayCategories.map((cat, i) => (
         <li class="cat-wrapper" style={`--stagger: ${i};`}>
           <a
-            href="/courses"
+            href={`/courses/categories/${cat.id}`}
             class="cat-card block h-full no-underline hover:no-underline"
             style={`--accent: ${cat.data.color};`}
             aria-label={`${cat.data.name} courses`}

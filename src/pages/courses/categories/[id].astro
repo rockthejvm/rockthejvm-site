@@ -1,0 +1,76 @@
+---
+import BackgroundGradient from "@/components/BackgroundGradient.astro";
+import CourseCardVertical from "@/components/CourseCardVertical.astro";
+import MyPicture from "@/components/MyPicture.astro";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import { getCollection, getEntries } from "astro:content";
+
+export async function getStaticPaths() {
+  const categories = await getCollection("courseCategories");
+  return categories.map((category) => ({
+    params: { id: category.id },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const members = await getEntries(category.data.members);
+const { logo, name, description, longDescription } = category.data;
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: members.map((course, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    url: `${Astro.site!}/courses/${course.id}`,
+  })),
+});
+---
+
+<BaseLayout
+  description={description ?? `All Rock the JVM ${name} courses in one place.`}
+  {structuredData}
+  title={`${name} Courses — Rock the JVM`}
+>
+  <BackgroundGradient />
+  <article>
+    <header class="pt-8 md:pt-16">
+      <div class="flex flex-col items-center">
+        <div class="flex flex-row gap-x-4 align-middle">
+          <div
+            class="ml-8 flex size-16 items-center justify-center rounded-full bg-white p-4 align-middle ring-1 ring-content-2 md:size-20 lg:size-28 lg:p-5"
+          >
+            <MyPicture
+              src={logo}
+              alt={name}
+              quality="low"
+              class="my-auto w-full"
+            />
+          </div>
+          <h1 class="my-auto text-content-1">{name}</h1>
+        </div>
+        {
+          longDescription && (
+            <p class="mx-auto mt-8 max-w-3xl px-8 text-justify text-lg text-content-2">
+              {longDescription}
+            </p>
+          )
+        }
+      </div>
+    </header>
+    <section class="pt-8 md:pt-12">
+      <ul
+        class="mx-auto my-8 grid max-w-7xl grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:my-16 lg:grid-cols-3"
+      >
+        {
+          members.map((course) => (
+            <li class="col-span-1 flex justify-center divide-y rounded-lg bg-none">
+              <CourseCardVertical {course} />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </article>
+</BaseLayout>

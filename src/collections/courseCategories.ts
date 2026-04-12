@@ -9,6 +9,7 @@ export default defineCollection({
         id: z.string(),
         color: z.string(),
         description: z.string().optional(),
+        longDescription: z.string().optional(),
         members: z
           .array(reference("courses"))
           .min(1, "At least 1 member is required for a series"),
