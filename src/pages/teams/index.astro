@@ -75,7 +75,6 @@ const steps = [
 ];
 
 const allCourses = await getCollection("courses");
-const allMemberships = await getCollection("memberships");
 
 const products = [
   ...allCourses
@@ -86,11 +85,12 @@ const products = [
       type: c.data.bundledCourses ? "bundle" : "course",
     }))
     .sort((a, b) => a.name.localeCompare(b.name)),
-  ...allMemberships.map((m) => ({
-    id: m.id,
-    name: m.data.name,
-    type: "membership",
-  })),
+    // include membership in the product list
+    {
+      id: "membership",
+      name: "Membership",
+      type: "membership",
+    }
 ];
 ---
 

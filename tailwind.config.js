@@ -34,6 +34,7 @@ export default {
           foreground: "hsl(var(--accent-foreground))",
         },
         bkg: "hsl(var(--color-bkg) / <alpha-value>)",
+        "link-hover": "hsl(var(--color-link-hover) / <alpha-value>)",
         content: {
           1: "hsl(var(--color-content1) / <alpha-value>)",
           2: "hsl(var(--color-content2) / <alpha-value>)",

@@ -48,7 +48,9 @@ export default function TeamQuoteCTA({
     const q = search.trim().toLowerCase();
     if (!q) return [];
     return products.filter(
-      (p) => !selectedIds.has(p.id) && p.name.toLowerCase().includes(q),
+      (p) =>
+        !selectedIds.has(p.id) &&
+        (p.name.toLowerCase().includes(q) || p.type.toLowerCase().includes(q)),
     );
   }, [products, search, selectedIds]);
 

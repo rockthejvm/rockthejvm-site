@@ -45,30 +45,31 @@
   }
 
   a:hover {
-    @apply text-accent-2 underline;
+    @apply text-link-hover underline;
   }
 
   :root[data-theme="light"] {
     color-scheme: light;
 
-    --color-bkg: 54deg 33.3% 94.1%;
-    --color-content1: 217deg 32.6% 17.5%;
-    --color-content2: 217deg 32.6% 25%;
-    --color-accent1: 197deg 100% 30%;
-    --color-accent2: 168deg 84% 30%;
+    --color-bkg: 45deg 28% 95%;
+    --color-content1: 220deg 25% 16%;
+    --color-content2: 220deg 20% 35%;
+    --color-accent1: 190deg 65% 28%;
+    --color-accent2: 168deg 75% 28%;
+    --color-link-hover: 190deg 80% 20%;
 
-    --color-primary: 221deg 90% 74%;
-    --color-secondary: 0deg 50% 98%;
+    --color-primary: 190deg 35% 76%;
+    --color-secondary: 45deg 25% 99%;
     --color-base: 360deg 100% 100%;
     --color-shadow: 360deg 100% 0%;
-    --color-cta: 221deg 90% 50%;
-    --color-text-cta: 217deg 17% 98%;
+    --color-cta: 20deg 88% 50%;
+    --color-text-cta: 0deg 0% 100%;
     --color-tag: 226deg 100% 94%;
     --color-search: 173deg 12% 88%;
 
-    --color-beginner: 155deg 45% 75%;
-    --color-intermediate: 40deg 95% 75%;
-    --color-advanced: 230deg 60% 80%;
+    --color-beginner: 155deg 45% 72%;
+    --color-intermediate: 40deg 90% 72%;
+    --color-advanced: 230deg 55% 78%;
 
     .card-shadow {
       @apply shadow-[0_1px_6px_rgba(0,0,0,0.08)];
@@ -95,32 +96,33 @@
   :root[data-theme="dark"] {
     color-scheme: dark;
 
-    --color-bkg: 210deg 40% 10%;
+    --color-bkg: 220deg 30% 10%;
 
-    --color-content1: 217deg 17% 98%;
-    --color-content2: 217deg 17% 87%;
-    --color-accent1: 30deg 70% 75%;
-    --color-accent2: 168deg 83.8% 48.2%;
+    --color-content1: 217deg 15% 96%;
+    --color-content2: 220deg 12% 72%;
+    --color-accent1: 25deg 80% 67%;
+    --color-accent2: 168deg 65% 42%;
+    --color-link-hover: 25deg 92% 79%;
 
-    --color-primary: 221deg 90% 43%;
-    --color-secondary: 221deg 70% 30%;
+    --color-primary: 221deg 50% 38%;
+    --color-secondary: 221deg 38% 19%;
 
     --color-base: 360deg 100% 0%;
-    --color-text-cta: 217deg 17% 98%;
-    --color-cta: 221deg 90% 50%;
+    --color-text-cta: 0deg 0% 100%;
+    --color-cta: 25deg 88% 57%;
     --color-tag: 226deg 100% 94%;
-    --color-search: 217deg 32.6% 18%;
+    --color-search: 220deg 25% 16%;
 
-    --color-beginner: 155deg 25% 35%;
-    --color-intermediate: 40deg 70% 45%;
-    --color-advanced: 230deg 55% 50%;
+    --color-beginner: 155deg 30% 38%;
+    --color-intermediate: 40deg 70% 48%;
+    --color-advanced: 230deg 50% 52%;
 
     .card-shadow {
       @apply shadow-[0_4px_14px_rgba(0,0,0,0.35)];
     }
 
     .card-shadow-color {
-      @apply shadow-indigo-600/10;
+      @apply shadow-primary/10;
     }
 
     .astro-code,
