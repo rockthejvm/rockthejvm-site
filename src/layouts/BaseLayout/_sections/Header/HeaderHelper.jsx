@@ -4,11 +4,10 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
 const navigation = [
-  { name: "Articles", href: "/articles/1" },
   { name: "Courses", href: "/courses" },
+  { name: "Articles", href: "/articles/1" },
   { name: "Podcast", href: "/podcast" },
   { name: "Videos", href: site.socials.youtube.url },
-  { name: "About", href: "/about" },
 ];
 
 export default function Example(props) {
@@ -20,12 +19,17 @@ export default function Example(props) {
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
-        <a href="/" className="-m-1.5 p-1.5">
+        <a href="/" className="-m-1.5 p-1.5 flex items-center gap-x-3 hover:no-underline">
           <span className="sr-only">{site.name}</span>
           {props.logo}
+          <div className={`flex flex-col text-xs font-bold uppercase leading-tight tracking-wider ${props.holiday ? "text-holiday-content-1 hover:text-holiday-content-1" : "text-content hover:text-content"}`}>
+            <span>ROCK</span>
+            <span>THE</span>
+            <span>JVM</span>
+          </div>
         </a>
-        <div className="flex items-center gap-x-4 lg:gap-x-12">
-          <div className="hidden items-center lg:flex lg:gap-x-12">
+        <div className="flex items-center gap-x-3 lg:gap-x-4">
+          <div className="hidden items-center lg:flex lg:gap-x-6">
             {navigation.map((item) => (
               <a
                 key={item.name}
@@ -41,13 +45,15 @@ export default function Example(props) {
             ))}
             <a
               href="https://sso.teachable.com/secure/256201/identity/login/password"
-              className="text-sm font-semibold leading-6"
+              className={`rounded-md px-3.5 py-2 text-sm font-semibold ring-1 ring-inset transition-colors hover:no-underline ${props.holiday ? "text-holiday-content-1 ring-holiday-content-1/30 hover:ring-holiday-content-1/60" : "text-content ring-content/30 hover:ring-content/60"}`}
             >
-              <span
-                className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
-              >
-                Log in <span aria-hidden="true">&rarr;</span>
-              </span>
+              Sign In
+            </a>
+            <a
+              href="/memberships"
+              className="rounded-md bg-cta px-3.5 py-2 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-1"
+            >
+              Join Rock the JVM
             </a>
           </div>
           {props.search}
@@ -76,9 +82,14 @@ export default function Example(props) {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-bkg p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="/" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5 flex items-center gap-x-3 hover:no-underline">
               <span className="sr-only">{site.name}</span>
               {props.logo}
+              <div className={`flex flex-col text-xs font-bold uppercase leading-tight tracking-wider ${props.holiday ? "text-holiday-content-1 hover:text-holiday-content-1" : "text-content hover:text-content"}`}>
+                <span>ROCK</span>
+                <span>THE</span>
+                <span>JVM</span>
+              </div>
             </a>
             <button
               type="button"
@@ -106,7 +117,7 @@ export default function Example(props) {
                   </a>
                 ))}
               </div>
-              <div className="py-6">
+              <div className="space-y-2 py-6">
                 <a
                   href="https://sso.teachable.com/secure/256201/identity/login/password"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-secondary"
@@ -114,8 +125,14 @@ export default function Example(props) {
                   <span
                     className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                   >
-                    Log in
+                    Sign In
                   </span>
+                </a>
+                <a
+                  href="/memberships"
+                  className="-mx-3 block rounded-lg bg-cta px-3 py-2.5 text-center text-base font-semibold leading-7 text-ctatext hover:opacity-90"
+                >
+                  Join Rock the JVM
                 </a>
               </div>
               {/* {props.themeToggle} */}

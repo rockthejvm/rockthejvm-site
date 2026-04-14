@@ -23,7 +23,7 @@ const displayCategories = await getCollection("courseCategories");
         <li class="cat-wrapper" style={`--stagger: ${i};`}>
           <a
             href={`/courses/categories/${cat.id}`}
-            class="cat-card block h-full no-underline hover:no-underline"
+            class="cat-card group block h-full no-underline hover:no-underline"
             style={`--accent: ${cat.data.color};`}
             aria-label={`${cat.data.name} courses`}
           >
@@ -37,7 +37,7 @@ const displayCategories = await getCollection("courseCategories");
                   height={56}
                 />
               </figure>
-              <h4 class="cat-label text-sm font-semibold">{cat.data.name}</h4>
+              <h4 class="text-sm font-semibold text-content-1 transition-colors group-hover:text-accent-1">{cat.data.name}</h4>
             </div>
           </a>
         </li>
@@ -125,21 +125,6 @@ const displayCategories = await getCollection("courseCategories");
       0 4px 20px color-mix(in srgb, var(--accent) 45%, transparent),
       0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent);
     transform: scale(1.12) translateY(-3px);
-  }
-
-  /* ── Label color (uses color-mix) ───────────────────────────── */
-  .cat-label {
-    color: white;
-    transition: color 0.3s ease;
-  }
-  .cat-card:hover .cat-label,
-  .cat-card:focus-visible .cat-label {
-    color: white;
-    text-decoration: none;
-  }
-  .cat-card:hover,
-  .cat-card:focus-visible {
-    text-decoration: none;
   }
 </style>
 
