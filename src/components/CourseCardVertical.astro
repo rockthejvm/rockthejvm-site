@@ -14,7 +14,7 @@ interface Props {
 const { course } = Astro.props;
 ---
 
-<div class="card-shadow card-shadow-color h-full max-w-sm rounded-xl">
+<div class="card-shadow card-shadow-color h-full max-w-sm rounded-xl ring-1 ring-content/10">
   <div class="relative size-full overflow-hidden rounded-xl bg-secondary">
     <a
       href={`/courses/${course.id}`}
@@ -36,7 +36,7 @@ const { course } = Astro.props;
           class="h-full max-w-sm hover:no-underline"
         >
           <h3
-            class="my-4 text-center text-xl font-bold tracking-tight text-content-1 hover:text-accent-1 sm:text-2xl lg:text-3xl"
+            class="my-4 text-center text-xl font-semibold leading-6 text-content-1 hover:text-accent-1 md:text-2xl lg:text-3xl"
           >
             {course.data.title}
           </h3>

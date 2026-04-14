@@ -134,7 +134,7 @@ const products = [
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {
           benefits.map(({ icon, title, description }) => (
-            <div class="card-shadow card-shadow-color rounded-2xl bg-secondary p-7">
+            <div class="card-shadow card-shadow-color rounded-2xl bg-secondary p-7 ring-1 ring-content/10">
               <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent-1/10 text-accent-1">
                 <Fragment set:html={icon} />
               </div>

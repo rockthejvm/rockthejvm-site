@@ -136,7 +136,7 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a href={item.href} className="text-sm leading-6">
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
                         </span>
@@ -156,10 +156,10 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-content hover:text-accent-1"
+                        className="text-sm leading-6 text-content hover:text-link-hover"
                       >
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
                         </span>
@@ -181,10 +181,10 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 hover:text-accent-1"
+                        className="text-sm leading-6 hover:text-link-hover"
                       >
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
                         </span>
@@ -204,10 +204,10 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 hover:text-accent-1"
+                        className="text-sm leading-6 hover:text-link-hover"
                       >
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
                         </span>
