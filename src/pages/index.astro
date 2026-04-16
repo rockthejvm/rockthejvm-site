@@ -12,7 +12,9 @@ import HomeFAQ from "./_components/HomeFAQ.astro";
 import HomeTestimonials from "./_components/HomeTestimonials.astro";
 import LatestContent from "./_components/LatestContent.astro";
 import Membership from "./_components/Membership.astro";
+import PlatformComparison from "./_components/PlatformComparison.astro";
 import ValueProp from "./_components/ValueProp.astro";
+import WhoIsItFor from "./_components/WhoIsItFor.astro";
 ---
 
 <BaseLayout
@@ -24,19 +26,17 @@ import ValueProp from "./_components/ValueProp.astro";
   <BackgroundGradient />
 
   <div class="text-white">
-    <!-- Hero — full-width internally, contains its own max-w -->
     <Hero />
-
-    <!-- TrustedBy — needs overflow-hidden across full viewport width -->
     <TrustedBy />
-
     <!-- Main content sections — narrow container -->
     <div class="container z-10 mx-auto px-4 sm:px-6 lg:px-4">
       <ValueProp />
-      <Membership />
       <Courses />
-      <LatestContent />
+      <Membership />
       <HomeTestimonials />
+      <WhoIsItFor />
+      <PlatformComparison />
+      <LatestContent />
       <Founder />
       <HomeFAQ />
       <Contact />

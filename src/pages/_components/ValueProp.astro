@@ -1,23 +1,23 @@
 ---
 const pillars = [
   {
-    title: "Deep, Not Shallow",
+    title: "100% Hands-on",
     description:
-      "We go further than tutorials. Every course is built around real code, real problems, and engineering decisions you'll face at seniority. No hand-waving, no magic.",
+      "Every course is built around writing code, solving real problems, and discussing engineering decisions you'll likely face as you grow in your career.",
     // Magnifying-glass / search icon
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0015.803 15.803z" /></svg>`,
   },
   {
-    title: "Powerful Technologies",
+    title: "Niche Technologies",
     description:
-      "Scala, Kotlin, ZIO, Cats Effect, Apache Spark, Apache Flink, Akka/Pekko — the stack that powers serious JVM work at scale. Not the usual suspects.",
+      "We teach non-mainstream topics, languages and mental models. This makes our content harder than you'll find elsewhere, but we made sure you're in optimal challenge mode.",
     // Bolt / lightning icon
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>`,
   },
   {
-    title: "Senior-Level Thinking",
+    title: "Breadth or Depth? Yes",
     description:
-      "Courses are designed to change how you reason about software — type systems, concurrency, effect theory, distributed design. That shift in thinking is what separates senior from mid-level.",
+      "Senior engineers know many different topics and have at least one deep knowledge spike. Here, you can learn both broad and deep, on any topic.",
     // Target / bullseye icon
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
   },
@@ -25,26 +25,29 @@ const pillars = [
 ---
 
 <section class="py-16 md:py-24">
-  <div class="mx-auto max-w-3xl text-center">
+  <div class="mx-auto text-center">
     <h2 class="mb-6 text-3xl font-extrabold tracking-tight text-content sm:text-4xl">
       Why Rock the JVM?
     </h2>
-    <p class="text-lg leading-8 text-content-1">
-      Most programming content teaches you to get things done. We teach you to
-      understand <em>why</em> they work — at the language level, the runtime
-      level, the system design level. That depth is what separates senior
-      engineers from everyone else.
-    </p>
+    <!-- <p class="text-lg leading-8 text-content-1">
+      Most programming content teaches you <i>how to use</i> a language or API. <br />
+      We teach you <i>why</i> they exist, the design decisions behind them, and how to apply them to real projects.<br />
+      You'll write performant, clean, robust and (for the lack of a better word) <i>tasteful</i> code.<br />
+      And you'll transfer these ideas to any language, framework or project for the rest of your career.<br />
+      In the age of AI, you'll be hard to replace.<br />
+    </p> -->
   </div>
 
-  <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-3">
+  <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
     {
       pillars.map(({ icon, title, description }) => (
         <div class="card-shadow card-shadow-color rounded-2xl bg-secondary p-8 ring-1 ring-content/10">
-          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent-1/10 text-accent-1">
-            <Fragment set:html={icon} />
+          <div class="flex items-center mb-4">
+            <div class="mr-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent-1/10 text-accent-1">
+              <Fragment set:html={icon} />
+            </div>
+            <h3 class="mb-3 text-xl font-bold text-content">{title}</h3>
           </div>
-          <h3 class="mb-3 text-xl font-bold text-content">{title}</h3>
           <p class="leading-7 text-content-1">{description}</p>
         </div>
       ))

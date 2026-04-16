@@ -1,0 +1,237 @@
+---
+type Indicator = "yes" | "no" | string;
+
+interface Row {
+  feature: string;
+  rockthejvm: Indicator;
+  coursera: Indicator;
+  udemy: Indicator;
+  educative: Indicator;
+  exercism: Indicator;
+  others: Indicator;
+}
+
+const rows: Row[] = [
+  {
+    feature: "Advanced JVM content (Scala, Kotlin, ZIO, Spark, Flink)",
+    rockthejvm: "yes",
+    coursera: "some courses",
+    udemy: "limited",
+    educative: "limited",
+    exercism: "no",
+    others: "hit & miss",
+  },
+  {
+    feature: "Taught by a working engineer, not academics or slide-readers",
+    rockthejvm: "yes",
+    coursera: "no",
+    udemy: "varies",
+    educative: "varies",
+    exercism: "yes",
+    others: "hit & miss",
+  },
+  {
+    feature: "Code-first — every concept shown in real, running code",
+    rockthejvm: "yes",
+    coursera: "no",
+    udemy: "varies",
+    educative: "yes",
+    exercism: "yes",
+    others: "hit & miss",
+  },
+  {
+    feature: "Courses that build real, non-trivial projects",
+    rockthejvm: "yes",
+    coursera: "rarely",
+    udemy: "rarely",
+    educative: "no",
+    exercism: "no",
+    others: "rarely",
+  },
+  {
+    feature: "Senior-level depth — not beginner intros",
+    rockthejvm: "yes",
+    coursera: "no",
+    udemy: "no",
+    educative: "some tracks",
+    exercism: "some tracks",
+    others: "hit & miss",
+  },
+  {
+    feature: "New content added automatically to your subscription",
+    rockthejvm: "yes",
+    coursera: "no",
+    udemy: "no",
+    educative: "yes",
+    exercism: "yes",
+    others: "hit & miss",
+  },
+  {
+    feature: "Affordable flat-rate membership (no per-course fees)",
+    rockthejvm: "yes",
+    coursera: "no",
+    udemy: "sales only",
+    educative: "yes",
+    exercism: "yes",
+    others: "hit & miss",
+  },
+  {
+    feature: "Private community included with membership",
+    rockthejvm: "yes",
+    coursera: "no",
+    udemy: "no",
+    educative: "no",
+    exercism: "yes",
+    others: "rarely",
+  },
+];
+
+const platforms = [
+  { key: "rockthejvm", label: "Rock the JVM", highlight: true },
+  { key: "coursera", label: "Coursera", highlight: false },
+  { key: "udemy", label: "Udemy", highlight: false },
+  { key: "educative", label: "Educative", highlight: false },
+  { key: "exercism", label: "Exercism", highlight: false },
+] as const;
+
+type PlatformKey = (typeof platforms)[number]["key"];
+---
+
+<section class="mb-8 md:mb-16">
+  <div class="mx-auto mb-12 max-w-3xl text-center">
+    <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-1">
+      How we stack up
+    </p>
+    <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-content sm:text-4xl">
+      Rock the JVM vs. the alternatives
+    </h2>
+    <p class="text-lg leading-8 text-content-1">
+      There are a lot of places to learn online. Here's how Rock the JVM
+      compares for the engineer who wants to level up seriously.
+    </p>
+  </div>
+
+  <div class="overflow-x-auto">
+
+    <!-- Mobile: 3-column table -->
+    <table class="w-full text-sm md:hidden">
+      <thead>
+        <tr class="border-b border-content/10">
+          <th class="py-4 pl-4 pr-3 text-left font-medium text-content-1 w-1/2">Feature</th>
+          <th class="px-3 py-4 text-center font-semibold text-accent-1 bg-cta/10 border-t-2 border-cta">Rock the JVM</th>
+          <th class="px-3 py-4 text-center font-semibold text-content-1">Others</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row, i) => (
+            <tr
+              class:list={[
+                "border-b border-content/10 last:border-0",
+                i % 2 === 1 ? "bg-white/[0.02] [[data-theme=light]_&]:bg-black/5" : "",
+              ]}
+            >
+              <td class="py-4 pl-4 pr-3 leading-6 text-content text-xs">{row.feature}</td>
+              <td class="px-3 py-4 text-center bg-cta/10">
+                <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
+                  <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="Yes">
+                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+              </td>
+              <td class="px-3 py-4 text-center">
+                {row.others === "no" && (
+                  <span class="inline-flex items-center justify-center text-red-300 [[data-theme=light]_&]:text-red-700">
+                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="No">
+                      <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                  </span>
+                )}
+                {row.others !== "yes" && row.others !== "no" && (
+                  <span class="text-yellow-300 text-xs font-medium [[data-theme=light]_&]:text-amber-700">{row.others}</span>
+                )}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <!-- Desktop: full 5-platform table -->
+    <table class="hidden w-full min-w-[640px] text-sm md:table">
+        <thead>
+          <tr class="border-b border-content/10">
+            <th class="py-4 pl-6 pr-4 text-left font-medium text-content-1 w-1/2">
+              Feature
+            </th>
+            {
+              platforms.map(({ label, highlight }) => (
+                <th
+                  class:list={[
+                    "px-4 py-4 text-center font-semibold",
+                    highlight ? "text-accent-1 bg-cta/10 border-t-2 border-cta" : "text-content-1",
+                  ]}
+                >
+                  {label}
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            rows.map((row, i) => (
+              <tr
+                class:list={[
+                  "border-b border-content/10 last:border-0",
+                  i % 2 === 1 ? "bg-white/[0.02] [[data-theme=light]_&]:bg-black/5" : "",
+                ]}
+              >
+                <td class="py-4 pl-6 pr-4 leading-6 text-content">{row.feature}</td>
+                {platforms.map(({ key, highlight }) => {
+                  const val = row[key as PlatformKey];
+                  return (
+                    <td class:list={["px-4 py-4 text-center", highlight ? "bg-cta/10" : ""]}>
+                      {val === "yes" && (
+                        <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
+                          <svg
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            class="h-5 w-5"
+                            aria-label="Yes"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                      )}
+                      {val === "no" && (
+                        <span class="inline-flex items-center justify-center text-red-300 [[data-theme=light]_&]:text-red-700">
+                          <svg
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            class="h-5 w-5"
+                            aria-label="No"
+                          >
+                            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                          </svg>
+                        </span>
+                      )}
+                      {val !== "yes" && val !== "no" && (
+                        <span class="text-yellow-300 text-xs font-medium [[data-theme=light]_&]:text-amber-700">{val}</span>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    <!-- /Desktop table -->
+
+  </div>
+</section>
