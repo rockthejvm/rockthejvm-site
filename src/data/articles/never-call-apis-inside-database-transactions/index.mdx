@@ -54,7 +54,7 @@ If your system does any of the following, you have the dual-write problem:
 Without these patterns, you'll eventually hit scenarios where money is charged but no order exists, inventory is reserved for ghost orders, or shipments are scheduled for cancelled transactions. The outbox pattern eliminates these inconsistencies by design.
 
 :::note[Before You Begin]
-This article uses [**Scala 3**](https://www.scala-lang.org/) with three key libraries. You don't need deep expertise in any of them to follow along, but a basic familiarity helps:
+This article uses [**Scala 3**](https://www.scala-lang.org/) with three major libraries. Here's a quick overview:
 
 - **Slick**: a database library for Scala that provides type-safe queries. You'll see a type called `DBIO[T]` throughout this article. This is a _description_ of a database operation that returns a `T`, similar to how `Future[T]` describes an async computation. A `DBIO` doesn't run until you pass it to `db.run(...)`, and you can chain multiple `DBIO` actions together with `for` comprehensions and wrap them in `.transactionally` to execute them as a single database transaction. → [Getting Started with Scala Slick](/articles/getting-started-with-scala-slick)
 - **Apache Pekko**: an actor-based concurrency framework (the open-source successor to Akka). Actors are lightweight concurrent entities that process messages one at a time, making them ideal for reliable background processing. → [Akka/Apache Pekko Essentials with Scala](/courses/akka-apache-pekko-essentials-with-scala) | [A Distributed Code Execution Engine in Pekko](/articles/a-distributed-code-execution-engine-in-pekko-with-scala)
@@ -911,14 +911,14 @@ With `poolSize = 3`, three `OutboxProcessor` actors run concurrently behind a [p
 
 Let's trace the complete flow for creating an order where billing fails.
 
-**Step 1: User creates an order**
+### Step 1: User creates an order
 
 ```
 POST /api/orders
 Body: {"customerId": "C-123", "totalAmount": 99.99, "shippingType": "domestic"}
 ```
 
-**Step 2: Atomic write**
+### Step 2: Atomic write
 
 ```sql
 BEGIN;
@@ -930,7 +930,7 @@ COMMIT;
 -- PostgreSQL trigger: pg_notify('outbox_events_channel', '456')
 ```
 
-**Step 3: OutboxProcessor claims and publishes**
+### Step 3: OutboxProcessor claims and publishes
 
 ```
 SELECT ... FROM outbox_events WHERE status='PENDING' ... FOR UPDATE SKIP LOCKED;
@@ -942,7 +942,7 @@ POST /api/domestic-shipping       → 200 OK (shipmentId: SHIP-789)     → UPSE
 POST /api/billing                 → 503 Service Unavailable           → UPSERT aggregate_results
 ```
 
-**Step 4: Retry with exponential backoff**
+### Step 4: Retry with exponential backoff
 
 ```
 Attempt 1: wait 2s  → 503
@@ -950,7 +950,7 @@ Attempt 2: wait 4s  → 503
 Attempt 3: wait 8s  → 503
 ```
 
-**Step 5: Move to DLQ**
+### Step 5: Move to DLQ
 
 ```sql
 INSERT INTO dead_letter_events (original_event_id=456, aggregate_id='123',
@@ -958,7 +958,7 @@ INSERT INTO dead_letter_events (original_event_id=456, aggregate_id='123',
 UPDATE outbox_events SET status='PROCESSED', moved_to_dlq=true WHERE id=456;
 ```
 
-**Step 6: DLQProcessor compensates in LIFO order**
+### Step 6: DLQProcessor compensates in LIFO order
 
 ```
 Query: SELECT * FROM aggregate_results WHERE aggregate_id='123' AND success=true
@@ -972,7 +972,7 @@ DELETE /api/inventory/RES-456/release        → 200 OK  → UPSERT (inventory.r
 UPDATE dead_letter_events SET status='PROCESSED' WHERE id=...;
 ```
 
-**Result**
+### Step 7: Profit
 
 The order exists in the database, but all external operations have been cleanly compensated. The `aggregate_results` table contains a complete audit trail of every API call, forward and revert.
 
