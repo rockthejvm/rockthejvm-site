@@ -5,17 +5,26 @@ title: Never Call APIs Inside Database Transactions
 excerpt: Learn why calling external APIs inside database transactions leads to inconsistent state and how to fix it with Transactional Outbox, Result Tables, and Saga Compensation patterns, with a complete working implementation in Scala
 tags: [pekko, postgresql, microservices, backend, distributed-systems, play, slick]
 difficulty: intermediate
-publishedDate: 2026-03-09
-updatedDate: 2026-03-09
+repositoryUrl: https://github.com/hanishi/never-call-apis-inside-database-transactions
+publishedDate: 2026-04-20
+updatedDate: 2026-04-20
 ---
 
-:::note[TL;DR]
-Never call external APIs inside a database transaction. If the external call succeeds but the DB commit fails, you end up with an inconsistent state you cannot roll back. This article walks you through a working implementation of **Transactional Outbox + Result Table + Saga Compensation** in Scala with Play Framework, Slick, and Pekko.
-:::
+## Introduction
 
-## The Companion Project
+The title says it: if the external call succeeds but the DB commit fails, you end up with an inconsistent state you cannot roll back. Read this article for a walkthrough of a working implementation of **Transactional Outbox + Result Table + Saga Compensation** in Scala with Play Framework, Slick, and Pekko.
 
-This article follows a complete, working project. I'd encourage you to clone it and have it open as you read. Every code snippet comes directly from this codebase:
+If your application saves to a database and calls external APIs, you have a consistency problem. The [Transactional Outbox pattern](https://microservices.io/patterns/data/transactional-outbox.html) and the [Saga pattern](https://microservices.io/patterns/data/saga.html) are well-documented solutions, but most explanations stop at the theory. This article doesn't.
+
+We'll build a **complete, working implementation** you can clone, run, and adapt, covering three patterns that work together:
+
+1. **Transactional Outbox**: guarantee that every event gets processed, even if the app crashes mid-request
+2. **Result Table**: record every API call, its response, and the IDs you'll need to undo it
+3. **Saga Compensation**: when step 4 of 4 fails, automatically undo steps 1-3 in the right order
+
+The implementation uses [Play Framework](https://www.playframework.com/), Scala 3, PostgreSQL, Slick, and Pekko actors, but the patterns are **language-agnostic and framework-agnostic**. You can swap libraries, but the concepts are the same.
+
+This article follows a complete, working project. I'd encourage you to clone it and have it open as you read. Every code snippet comes directly from the repo (see link):
 
 ```bash
 git clone https://github.com/hanishi/never-call-apis-inside-database-transactions
@@ -30,19 +39,9 @@ sbt run
 # Open http://localhost:9000
 ```
 
-The project includes simulated external services (inventory, billing, shipping, fraud check) with configurable failure rates, an interactive UI for creating orders and triggering failures, and a complete audit trail of every API call. We'll come back to running specific scenarios in the *Try It Yourself* section at the end.
+The project includes simulated external services (inventory, billing, shipping, fraud check) with configurable failure rates, an interactive UI for creating orders and triggering failures, and a complete audit trail of every API call. We'll come back to running specific scenarios in the _Try It Yourself_ section at the end.
 
-## What This Article Is
-
-If your application saves to a database and calls external APIs, you have a consistency problem, whether you know it yet or not. The [Transactional Outbox pattern](https://microservices.io/patterns/data/transactional-outbox.html) and the [Saga pattern](https://microservices.io/patterns/data/saga.html) are well-documented solutions, but most explanations stop at the theory. This article doesn't.
-
-We'll build a **complete, working implementation** you can clone, run, and adapt, covering three patterns that work together:
-
-1. **Transactional Outbox**: guarantee that every event gets processed, even if the app crashes mid-request
-2. **Result Table**: record every API call, its response, and the IDs you'll need to undo it
-3. **Saga Compensation**: when step 4 of 4 fails, automatically undo steps 1-3 in the right order
-
-The implementation uses [Play Framework](https://www.playframework.com/), Scala 3, PostgreSQL, Slick, and Pekko actors, but the patterns are **language-agnostic and framework-agnostic**. Swap Slick for JPA, Pekko for a background job framework, Play for whatever you use. The database schema, the event lifecycle, the LIFO compensation logic: all of it translates directly.
+Let's go.
 
 ## Why You Might Want This
 
@@ -52,17 +51,17 @@ If your system does any of the following, you have the dual-write problem:
 - **Coordinates multiple services** for a single business operation (e.g., reserve inventory → check fraud → schedule shipping → charge payment)
 - **Needs to undo partial work** when one step in a multi-step process fails
 
-Without these patterns, you'll eventually hit scenarios where money is charged but no order exists, inventory is reserved for ghost orders, or shipments are scheduled for cancelled transactions. The outbox pattern eliminates these inconsistencies by design, not by hoping your network stays up.
+Without these patterns, you'll eventually hit scenarios where money is charged but no order exists, inventory is reserved for ghost orders, or shipments are scheduled for cancelled transactions. The outbox pattern eliminates these inconsistencies by design.
 
-:::info[Before You Begin]
-This article uses [**Scala 3**](https://www.scala-lang.org/) with three key libraries. You don't need deep expertise in any of them to follow along, but a basic familiarity helps:
+:::note[Before You Begin]
+This article uses [**Scala 3**](https://www.scala-lang.org/) with three major libraries. Here's a quick overview:
 
-- **Slick**: a database library for Scala that provides type-safe queries. You'll see a type called `DBIO[T]` throughout this article. Think of it as a *description* of a database operation that returns a `T`, similar to how `Future[T]` describes an async computation. A `DBIO` doesn't run until you pass it to `db.run(...)`, and you can chain multiple `DBIO` actions together with `for` comprehensions and wrap them in `.transactionally` to execute them as a single database transaction. → [Getting Started with Scala Slick](/articles/getting-started-with-scala-slick)
+- **Slick**: a database library for Scala that provides type-safe queries. You'll see a type called `DBIO[T]` throughout this article. This is a _description_ of a database operation that returns a `T`, similar to how `Future[T]` describes an async computation. A `DBIO` doesn't run until you pass it to `db.run(...)`, and you can chain multiple `DBIO` actions together with `for` comprehensions and wrap them in `.transactionally` to execute them as a single database transaction. → [Getting Started with Scala Slick](/articles/getting-started-with-scala-slick)
 - **Apache Pekko**: an actor-based concurrency framework (the open-source successor to Akka). Actors are lightweight concurrent entities that process messages one at a time, making them ideal for reliable background processing. → [Akka/Apache Pekko Essentials with Scala](/courses/akka-apache-pekko-essentials-with-scala) | [A Distributed Code Execution Engine in Pekko](/articles/a-distributed-code-execution-engine-in-pekko-with-scala)
 - **Play Framework**: a web framework for Scala that uses HOCON (`application.conf`) for configuration. → [REST APIs with Play Framework and Scala](/articles/rest-apis-with-play-framework-and-scala)
-:::
+  :::
 
-## The Problem: Why This Breaks
+## The Problem
 
 Imagine you're building an e-commerce system. When a customer places an order, you need to:
 
@@ -71,7 +70,7 @@ Imagine you're building an e-commerce system. When a customer places an order, y
 3. Schedule shipping
 4. Charge the customer
 
-Slick provides a convenient escape hatch: `DBIO.from()` lifts any `Future` into a `DBIO`, so it can be chained alongside database operations in a `for` comprehension. This is useful for composing async work, but it creates a dangerous trap. External API calls in Scala typically return `Future[T]` (whether you're using Play's `WSClient`, `sttp`, or any other HTTP library), and since `DBIO.from()` accepts *any* `Future`, it's tempting to wrap those HTTP calls and include them inside a `.transactionally` block. The code compiles, the types line up, and it *looks* like everything is safely transactional:
+Slick provides a convenient escape hatch: `DBIO.from()` lifts any `Future` into a `DBIO`, so it can be chained alongside database operations in a `for` comprehension. This is useful for composing async work, but it creates a dangerous trap. External API calls in Scala typically return `Future[T]` (whether you're using Play's `WSClient`, `sttp`, or any other HTTP library), and since `DBIO.from()` accepts _any_ `Future`, it's tempting to wrap those HTTP calls and include them inside a `.transactionally` block. The code compiles, the types line up, and it _looks_ like everything is safely transactional:
 
 ```scala
 db.run {
@@ -85,7 +84,7 @@ db.run {
 }
 ```
 
-But it isn't. The database transaction only controls *database* operations. The HTTP calls inside `DBIO.from()` are fire-and-forget from the transaction's perspective: they execute, their side effects happen immediately, and the database has no way to roll them back. Here's what happens when that last DB write fails:
+But not quite: the database transaction only controls _database_ operations. The HTTP calls inside `DBIO.from()` are fire-and-forget from the transaction's perspective: they execute, their side effects happen immediately, and the database has no way to roll them back. Here's what happens when that last DB write fails:
 
 1. Insert order → succeeds
 2. Call inventory API → 200 OK (inventory reserved)
@@ -100,23 +99,23 @@ Separating the calls doesn't fix it either:
 
 ```scala
 // Step 1: Save to database
-val orderId = db.run(orders += order).transactionally  // ✅ Succeeds
+val orderId = db.run(orders += order).transactionally  // Succeeds
 
 // Step 2: Call external services
-inventoryApi.reserve(orderId)   // ✅ Succeeds
-shippingApi.schedule(orderId)   // ❌ App crashes here; shipping never called
-billingApi.charge(orderId)      // ❌ Never executed
+inventoryApi.reserve(orderId)   // Succeeds
+shippingApi.schedule(orderId)   // App crashes here; shipping never called
+billingApi.charge(orderId)      // Never executed
 ```
 
 If the app crashes between step 1 and step 2, the order is saved but nothing else happens. No retry will ever fire because the `orderId` was lost from memory.
 
-**The fundamental problem:** There is no transaction that spans distributed systems. Your database can guarantee atomicity for its own rows, but it has no authority over an HTTP API, a Kafka broker, or a third-party payment gateway. Each system commits independently, fails independently, and has no idea what the others are doing.
+There is no transaction that spans distributed systems. Your database can guarantee atomicity for its own rows, but it has no authority over an HTTP API, a Kafka broker, or a third-party payment gateway. Each system commits independently, fails independently, and has no idea what the others are doing.
 
 ## The Solution: The Transactional Outbox Pattern
 
 The fix is surprisingly simple: **don't call external APIs during the request. Instead, record what needs to happen in your database, and let a background worker make the calls later.**
 
-Instead of calling the inventory API, the shipping API, and the billing API directly, you insert a row into an `outbox_events` table, *in the same database transaction* as the order itself:
+Instead of calling the inventory API, the shipping API, and the billing API directly, you insert a row into an `outbox_events` table, _in the same database transaction_ as the order itself:
 
 ```sql
 BEGIN;
@@ -125,13 +124,13 @@ BEGIN;
 COMMIT;
 ```
 
-Either both rows are saved, or neither is. No API calls are made during this transaction, just database writes.
+No API calls are made during this transaction, just database writes.
 
 A **background worker** (in our case, a [Pekko actor](/courses/akka-apache-pekko-essentials-with-scala) called the `OutboxProcessor`) continuously watches this table. When it finds a `PENDING` event, it claims it, makes the actual HTTP calls, and marks it as `PROCESSED`. If the app crashes before the worker gets to it, the event is still sitting in the database. The worker picks it up when it restarts.
 
-This eliminates the "API succeeds but DB rolls back" scenario, because the API calls happen *after* the transaction has already committed.
+This eliminates the "API succeeds but DB rolls back" scenario, because the API calls happen _after_ the transaction has already committed.
 
-### But what about partial failures?
+### What about partial failures?
 
 The outbox ensures every event gets processed. But what happens when the worker calls 3 APIs and the third one fails?
 
@@ -141,21 +140,21 @@ The outbox ensures every event gets processed. But what happens when the worker 
 3. Charge payment     → fails after 3 retries
 ```
 
-Inventory is reserved. A shipment is scheduled. But the payment never went through. You need to undo steps 1 and 2, and in reverse order, because shipping depends on inventory being reserved.
+Inventory is reserved, a shipment is scheduled, but the payment never went through. You need to undo steps 1 and 2, and in reverse order, because shipping depends on inventory being reserved.
 
 This is the **Saga Compensation** pattern: when a step fails, undo all previous steps in **LIFO order** (Last In, First Out). Cancel the shipment first, then release the inventory.
 
-But to undo those steps, you need to know *what* succeeded and *what IDs they returned*. The shipping cancel endpoint needs the `shipmentId` that the shipping API generated. That's why we also need a **Result Table**, an audit log that records every API call, its outcome, and its full response.
+But to undo those steps, you need to know _what_ succeeded and _what IDs they returned_. The shipping cancel endpoint needs the `shipmentId` that the shipping API generated. That's why we also need a **Result Table**, an audit log that records every API call, its outcome, and its full response.
 
 These three patterns work together:
 
-| Pattern                  | Problem it solves     | How                                            |
-|--------------------------|-----------------------|------------------------------------------------|
-| **Transactional Outbox** | Dual-write problem    | Write order + event to DB atomically           |
-| **Result Table**         | "What do I undo?"     | Track every API call and its response           |
-| **Saga Compensation**    | Partial failures      | Undo successful calls in LIFO order            |
+| Pattern                  | Problem it solves  | How                                   |
+| ------------------------ | ------------------ | ------------------------------------- |
+| **Transactional Outbox** | Dual-write problem | Write order + event to DB atomically  |
+| **Result Table**         | "What do I undo?"  | Track every API call and its response |
+| **Saga Compensation**    | Partial failures   | Undo successful calls in LIFO order   |
 
-Let's build all three, step by step.
+We'll build all three, step by step.
 
 ## The Database Schema
 
@@ -205,9 +204,9 @@ The `payloads` JSONB column stores a map where each key is a destination name (e
 
 These are the only two tables needed for the outbox pattern itself. We'll introduce two more tables later as we build out the result tracking and compensation layers.
 
-## Writing Events Atomically (The OutboxHelper)
+## Writing Events Atomically
 
-Now that you know the tables, let's write the code that populates them. The goal is simple: **every business operation that needs to trigger API calls must write both the business data and the outbox event in a single transaction.**
+Now that you know the tables, let's write the code that populates them. The goal is: every business operation that needs to trigger API calls must write both the business data and the outbox event in a single transaction.
 
 ### Domain events
 
@@ -281,9 +280,9 @@ trait OutboxHelper {
 There are two variants:
 
 - **`withEvent`** takes a pre-built event and an action. Use this when you already have all the information needed for the event before the action runs (e.g., cancelling an order where you already know the order ID).
-- **`withEventFactory`** takes an action and a *factory function* `T => DomainEvent`. The action runs first, its result is passed to the factory, and the factory builds the event. This is essential when the event depends on a value produced by the action, like a database-generated auto-increment ID. You can't construct an `OrderCreatedEvent` without the `orderId`, and you don't know the `orderId` until the `INSERT` runs. `withEventFactory` solves this by deferring event construction until the ID is available, while still wrapping both operations in a single transaction.
+- **`withEventFactory`** takes an action and a _factory function_ `T => DomainEvent`. The action runs first, its result is passed to the factory, and the factory builds the event. This is essential when the event depends on a value produced by the action, like a database-generated auto-increment ID. You can't construct an `OrderCreatedEvent` without the `orderId`, and you don't know the `orderId` until the `INSERT` runs. `withEventFactory` solves this by deferring event construction until the ID is available, while still wrapping both operations in a single transaction.
 
-This code is Slick-specific: `DBIO`, `TableQuery`, `.transactionally` are all Slick concepts. But the idea is framework-agnostic: wrap your business write and your event insert in the same database transaction. In JPA that's `@Transactional`, in JOOQ it's `dsl.transaction(...)`, in raw JDBC it's `connection.setAutoCommit(false)`. The mechanism changes; the guarantee is the same.
+This code is Slick-specific: `DBIO`, `TableQuery`, `.transactionally` are all Slick concepts. But the idea is framework-agnostic: wrap your business write and your event insert in the same database transaction. In JPA that's `@Transactional`, in JOOQ it's `dsl.transaction(...)`, in raw JDBC it's `connection.setAutoCommit(false)`.
 
 ### Putting it together in the repository
 
@@ -337,7 +336,7 @@ We now have a `PENDING` event sitting in `outbox_events`. Something needs to pic
 
 ### Claiming events without duplicates
 
-In production, you'll want multiple workers processing events in parallel. The problem: how do you prevent two workers from grabbing the same event? PostgreSQL's `FOR UPDATE SKIP LOCKED` solves this in a single query:
+In production, you'll want multiple workers processing events in parallel. But how do you prevent two workers from grabbing the same event? PostgreSQL's `FOR UPDATE SKIP LOCKED` solves this in a single query:
 
 ```scala
 def findAndClaimUnprocessed(limit: Int = 100): DBIO[Seq[OutboxEvent]] = {
@@ -387,7 +386,7 @@ private def publishEvent(event: OutboxEvent): Future[Boolean] =
 - **Retryable failure** (e.g., 503 Service Unavailable): Schedule a retry with exponential backoff (2s, 4s, 8s). If a `Retry-After` header is present, use that instead.
 - **Non-retryable failure** (e.g., 400 Bad Request): Move directly to the dead letter queue.
 
-If retries are exhausted (default: 3 attempts), the event moves to the dead letter queue for automatic compensation (covered in *Automatic Compensation* below).
+If retries are exhausted (default: 3 attempts), the event moves to the dead letter queue for automatic compensation (covered in _Automatic Compensation_ below).
 
 ### Near-instant processing with LISTEN/NOTIFY
 
@@ -410,22 +409,22 @@ CREATE TRIGGER outbox_event_inserted
 
 This is PostgreSQL-specific, but PostgreSQL has an unusually rich set of features (`LISTEN/NOTIFY`, `FOR UPDATE SKIP LOCKED`, JSONB, partial indexes) that make it a natural fit for the outbox pattern. The companion project takes full advantage of them.
 
-The bridge between PostgreSQL notifications and the `OutboxProcessor` is a [Pekko Streams](/courses/akka-apache-pekko-streams-with-scala) source (`PostgresListenNotifyStream`) that listens on the notification channel, groups incoming event IDs, and sends a `ProcessUnhandledEvent` message to the actor. This gives us backpressure, automatic reconnection with exponential backoff, and clean shutdown, all handled by the stream runtime. When the order and outbox event are committed (as shown in *Writing Events Atomically*), the trigger fires, the stream picks up the notification, and the processor wakes up within milliseconds. If LISTEN/NOTIFY isn't available, the system falls back to periodic polling.
+The bridge between PostgreSQL notifications and the `OutboxProcessor` is a [Pekko Streams](/courses/akka-apache-pekko-streams-with-scala) source (`PostgresListenNotifyStream`) that listens on the notification channel, groups incoming event IDs, and sends a `ProcessUnhandledEvent` message to the actor. This gives us backpressure, automatic reconnection with exponential backoff, and clean shutdown, all handled by the stream runtime. When the order and outbox event are committed (as shown in _Writing Events Atomically_), the trigger fires, the stream picks up the notification, and the processor wakes up within milliseconds. If LISTEN/NOTIFY isn't available, the system falls back to periodic polling.
 
 ## Fan-Out and Conditional Routing
 
-So far, we've seen how a single event is written and picked up. But an `OrderCreated` event needs to reach *multiple* APIs in a *specific order*. A design choice in this implementation is that **all of this routing is configuration-driven**, defined in `application.conf`, not in code. This means you can add new destinations, change URLs, or rewire the entire fan-out without recompiling. Here's the mapping:
+So far, we've seen how a single event is written and picked up. But an `OrderCreated` event needs to reach _multiple_ APIs in a _specific order_. A design choice in this implementation is that **all of this routing is configuration-driven**, defined in `application.conf`, not in code. This means you can add new destinations, change URLs, or rewire the entire fan-out without recompiling:
 
-```hocon
+```txt
 outbox.http.fanout {
   OrderCreated       = ["inventory", "fraudCheck", "shipping", "billing"]
   OrderStatusUpdated = ["notifications"]
 }
 ```
 
-"Fan-out" here simply means one event triggers calls to multiple destinations. These calls are made **sequentially**, because later destinations can route based on earlier responses (e.g., billing uses the fraud check's risk score to decide which endpoint to call). The request body for each call comes from the `toPayloads` map we defined in the domain event (see *Writing Events Atomically*), where each key matches a destination name. Each destination maps to an HTTP endpoint:
+"Fan-out" here simply means one event triggers calls to multiple destinations. These calls are made **sequentially**, because later destinations can route based on earlier responses (e.g., billing uses the fraud check's risk score to decide which endpoint to call). The request body for each call comes from the `toPayloads` map we defined in the domain event (see _Writing Events Atomically_), where each key matches a destination name. Each destination maps to an HTTP endpoint:
 
-```hocon
+```txt
 outbox.http.routes {
   inventory {
     url = "http://localhost:9000/api/inventory/reserve"
@@ -462,9 +461,9 @@ Why save the full response? Because when billing fails and you need to cancel th
 
 So far, each destination maps to a single URL. But what if the URL depends on the data? For example, an order with `"shippingType": "domestic"` should go to the domestic shipping API, while `"international"` goes to a different one.
 
-Instead of putting this `if/else` logic in code, the routing is declared in configuration using `routes`: a list of URL + condition pairs. The publisher evaluates each condition in order and picks the first one that matches:
+We can declare the routing in configuration using `routes`: a list of URL + condition pairs. The publisher evaluates each condition in order and picks the first one that matches:
 
-```hocon
+```txt
 shipping {
   method = "POST"
   routes = [{
@@ -491,13 +490,13 @@ The condition block supports several operators: `eq`, `ne`, `gt`, `gte`, `lt`, `
 
 ### Decision chaining: routing based on a previous API's response
 
-Conditional routing gets more powerful when you need to route based on information that *doesn't exist in the original request*, information that comes from a previous API call.
+Conditional routing gets more powerful when you need to route based on information that _doesn't exist in the original request_, information that comes from a previous API call.
 
-Consider billing. The order request doesn't contain a risk score; that comes from the fraud check API. But we want to route low-risk orders to standard billing and high-risk orders to a high-value processor. The fraud check runs *before* billing (it's earlier in the fanout list), so by the time billing runs, we already have the fraud check response.
+Consider billing. The order request doesn't contain a risk score; that comes from the fraud check API. But we want to route low-risk orders to standard billing and high-risk orders to a high-value processor. The fraud check runs _before_ billing (it's earlier in the fanout list), so by the time billing runs, we already have the fraud check response.
 
-The `previousDestination` field makes this work. It tells the publisher: "don't evaluate this condition against the request payload; evaluate it against the *response* from this other destination":
+The `previousDestination` field makes this work. It tells the publisher: "don't evaluate this condition against the request payload; evaluate it against the _response_ from this other destination":
 
-```hocon
+```txt
 billing {
   method = "POST"
   routes = [{
@@ -573,7 +572,7 @@ And the shipping API responded:
 {"shipmentId": "SHIP-789", "orderId": "123", "carrier": "FedEx"}
 ```
 
-Both the request and the response were saved in `aggregate_results` (as described in *Fan-Out and Conditional Routing*). Now, to cancel this shipment, we need to call:
+Both the request and the response were saved in `aggregate_results` (as described in _Fan-Out and Conditional Routing_). Now, to cancel this shipment, we need to call:
 
 ```
 POST /api/domestic-shipping/SHIP-789/cancel
@@ -585,7 +584,7 @@ The shipment ID `SHIP-789` is not something we knew at design time. It was gener
 
 Each destination can include a `revert` block in its configuration. Let's start with the simplest possible example, inventory:
 
-```hocon
+```txt
 inventory {
   url = "http://localhost:9000/api/inventory/reserve"
   method = "POST"
@@ -618,9 +617,9 @@ Destinations that don't have a `revert` block (like `fraudCheck`) are simply ski
 
 ### A more complex example: shipping
 
-Shipping needs a request body for the cancellation, and it needs values from *both* the original request and the response:
+Shipping needs a request body for the cancellation, and it needs values from _both_ the original request and the response:
 
-```hocon
+```txt
 shipping {
   routes = [{
     url = "http://localhost:9000/api/domestic-shipping"
@@ -654,8 +653,6 @@ Payload: {"reason": "payment_failed", "shipmentId": "{shipmentId}", ...}
           "orderId": "123", "customerId": "C-123"}
 ```
 
-### The code that does this
-
 The `RevertEndpointBuilder` takes a revert config, the saved request/response from `aggregate_results`, and produces a ready-to-call HTTP endpoint:
 
 ```scala
@@ -685,11 +682,11 @@ object RevertEndpointBuilder {
 }
 ```
 
-The key insight: when API endpoints or payloads change, you update the configuration, not the code. The `RevertEndpointBuilder` doesn't know anything about shipping or inventory. It just follows the extract-and-replace rules from the config.
+When API endpoints or payloads change, you update the configuration, not the code. The `RevertEndpointBuilder` doesn't know anything about shipping or inventory. It just follows the extract-and-replace rules from the config.
 
 ## Automatic Compensation (The DLQ Processor)
 
-Now that we know how revert endpoints are built, let's see what triggers them. As we saw in *Processing Events*, the `OutboxProcessor` retries failed calls with exponential backoff (2s, 4s, 8s). If all retries are exhausted, the event needs to be compensated: the successful calls that already went through need to be undone.
+Now that we know how revert endpoints are built, let's see what triggers them. As we saw in _Processing Events_, the `OutboxProcessor` retries failed calls with exponential backoff (2s, 4s, 8s). If all retries are exhausted, the event needs to be compensated: the successful calls that already went through need to be undone.
 
 Let's say billing fails after 3 retries. The `aggregate_results` table now looks like this:
 
@@ -702,7 +699,7 @@ shipping      | true    | 2            | {"shipmentId": "SHIP-789", ...}
 billing       | false   | 3            | null
 ```
 
-Three API calls succeeded. One failed. The customer has inventory reserved and a shipment scheduled, but billing never went through. We need to undo steps 0-2 in reverse order. This is where the Saga Compensation pattern takes over.
+Three API calls succeeded, one failed. The customer has inventory reserved and a shipment scheduled, but billing never went through. We need to undo steps 0-2 in reverse order. This is where the Saga Compensation pattern takes over.
 
 Rather than attempting compensation inline (which could itself fail and leave things in a worse state), the `OutboxProcessor` moves the failed event to a separate table, `dead_letter_events`, dedicated to tracking events that need compensation:
 
@@ -723,10 +720,10 @@ The `DLQProcessor` picks up pending rows from this table and takes over. Like th
 
 ### What the DLQ processor does
 
-The compensation logic is straightforward:
+The compensation logic is:
 
 1. **Query** `aggregate_results` for all successful forward calls, ordered by `fanout_order DESC` (that's the LIFO/reverse order)
-2. **For each result**, check if the destination has a `revert` config (as we saw in *Configuration-Driven Revert Endpoints*). Destinations without one (like `fraudCheck`) are skipped
+2. **For each result**, check if the destination has a `revert` config (as we saw in _Configuration-Driven Revert Endpoints_). Destinations without one (like `fraudCheck`) are skipped
 3. **Build and call the revert endpoint** using the `RevertEndpointBuilder`, but first check if it's already been compensated (to prevent double refunds)
 4. **Mark the DLQ event as `PROCESSED`**
 
@@ -756,7 +753,7 @@ private def revertDLQEvent(dlqEvent: DeadLetterEvent): Future[Boolean] = {
 
 ### Preventing double compensation
 
-Before calling each revert endpoint, the DLQ processor checks whether that destination has *already* been compensated. Every API call, including revert calls, gets recorded in `aggregate_results`. To distinguish forward calls from compensation calls, the system appends a `.revert` suffix to the destination name: the forward call is saved as `"shipping"`, the compensation call as `"shipping.revert"`. So the check is simple: query `aggregate_results` for a successful `"shipping.revert"` row. If one exists, skip it.
+Before calling each revert endpoint, the DLQ processor checks whether that destination has _already_ been compensated. Every API call, including revert calls, gets recorded in `aggregate_results`. To distinguish forward calls from compensation calls, the system appends a `.revert` suffix to the destination name: the forward call is saved as `"shipping"`, the compensation call as `"shipping.revert"`. So the check is simple: query `aggregate_results` for a successful `"shipping.revert"` row. If one exists, skip it.
 
 The method below performs this check for all destinations at once. It queries each destination's revert status in parallel and returns the set of destination names that have already been compensated:
 
@@ -776,7 +773,7 @@ This idempotency check is essential because the DLQ processor can be interrupted
 
 ## Manual Cancellation: Reusing the Compensation Engine
 
-So far, compensation is triggered automatically when APIs fail. But what about when a *user* cancels their order? The same compensation engine handles both cases. The trick is a naming convention: prefixing the event type with `!` tells the `OutboxProcessor` to treat it as a compensation request rather than a forward operation.
+So far, compensation is triggered automatically when APIs fail. But what about when a _user_ cancels their order? The same compensation engine handles both cases. The trick is a naming convention: prefixing the event type with `!` tells the `OutboxProcessor` to treat it as a compensation request rather than a forward operation.
 
 The `OrderCancelledEvent` uses this `!` prefix convention:
 
@@ -835,18 +832,16 @@ if (isRevertEvent) {
 }
 ```
 
-| Aspect         | Manual (`!OrderCreated`)     | Automatic (DLQ)                     |
-|----------------|------------------------------|-------------------------------------|
-| **Trigger**    | User action (cancel button)  | Forward API fails after max retries |
-| **Table**      | `outbox_events`              | `dead_letter_events`                |
-| **Timing**     | Immediate (user-initiated)   | After retry exhaustion              |
-| **If it fails**| Requires manual intervention | Also requires manual intervention   |
-
-One compensation engine, two triggers.
+| Component    | Manual (`!OrderCreated`)     | Automatic (DLQ)                     |
+| ------------ | ---------------------------- | ----------------------------------- |
+| **Trigger**  | User action (cancel button)  | Forward API fails after max retries |
+| **Table**    | `outbox_events`              | `dead_letter_events`                |
+| **Timing**   | Immediate (user-initiated)   | After retry exhaustion              |
+| **Failure**. | Requires manual intervention | Also requires manual intervention   |
 
 ## Bootstrapping: The EventProcessingService
 
-We've now covered all the moving parts: the outbox writer, the event processor, fan-out routing, revert configuration, and the DLQ compensation engine. But how do these pieces get wired together and started? In Play Framework, eagerly-loaded singletons run at application boot. The `EventProcessingService` is one such singleton. It creates the actor pool, sends the first "go process" message, and registers a shutdown hook for graceful termination:
+We've now covered all the moving parts: the outbox writer, the event processor, fan-out routing, revert configuration, and the DLQ compensation engine. Let's see how the pieces fit together. In Play Framework, eagerly-loaded singletons run at application boot. The `EventProcessingService` is one such singleton. It creates the actor pool, sends the first "go process" message, and registers a shutdown hook for graceful termination:
 
 ```scala
 @Singleton
@@ -889,9 +884,9 @@ class EventProcessingService @Inject() (
 }
 ```
 
-Configuration drives everything:
+Configuration:
 
-```hocon
+```txt
 outbox {
   pollInterval = 2 seconds
   batchSize    = 100
@@ -977,7 +972,9 @@ DELETE /api/inventory/RES-456/release        → 200 OK  → UPSERT (inventory.r
 UPDATE dead_letter_events SET status='PROCESSED' WHERE id=...;
 ```
 
-**Result:** The order exists in the database, but all external operations have been cleanly compensated. The `aggregate_results` table contains a complete audit trail of every API call, forward and revert.
+### Step 7: Profit
+
+The order exists in the database, but all external operations have been cleanly compensated. The `aggregate_results` table contains a complete audit trail of every API call, forward and revert.
 
 ## Try It Yourself
 
@@ -990,7 +987,7 @@ If you cloned the project at the beginning of the article, you should already be
 
 To force billing failures:
 
-```hocon
+```txt
 service.failure.rates {
   billing.charge = 1.0  # 100% failure rate
 }
@@ -998,38 +995,37 @@ service.failure.rates {
 
 ## What This Doesn't Solve
 
-The Transactional Outbox, Result Table, and Saga Compensation patterns don't make distributed systems simple. Nothing does. You'll still need monitoring to catch stuck events, alerting when the DLQ starts filling up, and operational runbooks for the rare cases where automatic compensation fails and someone needs to step in manually.
+The Transactional Outbox, Result Table, and Saga Compensation patterns are not a panacea. You'll still need monitoring to catch stuck events, alerting when the DLQ starts filling up, and operational runbooks for the rare cases where automatic compensation fails and someone needs to step in manually.
 
-What these patterns *do* is change the nature of your failures. Without them, you get **data inconsistencies**: money charged with no order in the database, inventory reserved for ghost orders, shipments scheduled for cancelled transactions. These are the kind of bugs that wake you up at 3 AM and require manual database surgery to fix.
+These patterns change the nature of your failures. Without them, you get **data inconsistencies**: money charged with no order in the database, inventory reserved for ghost orders, shipments scheduled for cancelled transactions. These are the kind of bugs that require manual database surgery to fix (besides waking you up at 3am).
 
-With these patterns, those inconsistencies become structurally impossible. The failures you'll encounter instead (a DLQ event stuck in retry, a revert endpoint timing out, a stale event that needs manual reprocessing) are all **observable, traceable, and recoverable**. The `aggregate_results` table gives you a complete audit trail of every API call. The `dead_letter_events` table tells you exactly what failed and why. You're never guessing.
-
-**If you take one thing from this article:** never call external APIs inside a database transaction. Record the intent in your database, let a background worker make the calls, and let the compensation engine clean up when things go wrong, because in distributed systems, they will.
-
-## A Note on the Actor Model Usage
-
-This project uses Pekko Typed actors for the OutboxProcessor and DLQProcessor. Before treating this as a reference for how to use actors in Play, it is worth being direct about a design problem.
-
-The OutboxProcessor does not need to be an actor. Its responsibilities are polling a database, making HTTP calls, and writing results back. A simple scheduler with Future handles this cleanly. The actor adds nothing here: there is no meaningful state to encapsulate, no supervision hierarchy being leveraged, and no location transparency needed. The self-sent ProcessUnhandledEvent message is just a while loop in disguise.
-
-The Play integration compounds this. Because Play exposes only `ActorSystem[Nothing]`, there is no access to the user guardian. The standard option is `systemActorOf`, an API intended for infrastructure-level actors, not business logic. This is a structural workaround for Play's constraints, not idiomatic Pekko Typed usage.
-
-This pattern, reaching for actors because the framework happens to include an ActorSystem, is widespread in Play codebases, and it consistently creates bottlenecks. Placing an actor in the request path and waiting on it with `ask` serializes work through a single mailbox that Future-based code would handle in parallel. Under load, that mailbox becomes the bottleneck.
-
-The right question before using an actor is always: does this problem actually require the Actor model? Actors earn their place when you need to encapsulate long-lived mutable state, when you need location transparency across a cluster, or when the supervision hierarchy gives you something a try/catch cannot. A background worker that polls a database and calls HTTP endpoints does not clear that bar.
-
-The Outbox, Result Table, and Saga Compensation patterns in this project are sound. The actor usage is not something to copy.
+The failures you'll encounter instead (a DLQ event stuck in retry, a revert endpoint timing out, a stale event that needs manual reprocessing) are all **observable, traceable, and recoverable**. The `aggregate_results` table gives you a complete audit trail of every API call. The `dead_letter_events` table tells you exactly what failed and why.
 
 ## Conclusion
 
+So never call external APIs inside a database transaction. Record the intent in your database, let a background worker make the calls, and let the compensation engine clean up when things go wrong.
+
 In this article, we tackled the dual-write problem that arises whenever an application writes to a database and calls external APIs as part of the same business operation. We covered three patterns that work together to solve it:
 
-- **Transactional Outbox** ensures that business data and the intent to call external APIs are written atomically in a single database transaction. A background worker picks up pending events and makes the actual HTTP calls after the transaction has committed, eliminating the scenario where an API call succeeds but the database commit fails.
-- **Result Table** records every API call, its request, its response, and the IDs needed to undo it. This audit trail is both an operational debugging tool and the data source that powers compensation.
+- **Transactional Outbox** ensures that business data and the intent to call external APIs are written atomically in a single database transaction. A background worker picks up pending events and makes the actual HTTP calls after the transaction has committed.
+- **Result Table** records every API call, its request, its response, and the IDs needed to undo it. In this way you have an audit trail for both debugging and compensation.
 - **Saga Compensation** undoes successful API calls in LIFO order when a later step fails. Revert endpoints are built entirely from configuration, extracting values from saved responses and constructing the undo calls without any destination-specific code.
 
 Together, these patterns transform unpredictable data inconsistencies into observable, traceable, and recoverable failures. The companion project provides a complete, runnable implementation you can clone and adapt to your own stack.
 
 :::tip[Full Source Code]
 All code in this article comes from the companion project: [**never-call-apis-inside-database-transactions**](https://github.com/hanishi/never-call-apis-inside-database-transactions)
+:::
+
+## Appendix: A Note on the Actor Model Usage
+
+This project uses Pekko Typed actors for the OutboxProcessor and DLQProcessor.
+
+The OutboxProcessor doesn't need to be an actor. Its responsibilities are polling a database, making HTTP calls, and writing results back. A simple scheduler with Future can do the same.
+
+Then, because Play exposes only `ActorSystem[Nothing]`, there is no access to the user guardian. The standard option is `systemActorOf`, an API intended for infrastructure-level actors. Accessing our actor is not really idiomatic Pekko, but just a workaround for this limitation.
+
+In addition, because this is common in Play codebases, `ask`ing the actor serializes all work through a single mailbox, which can quickly become a bottleneck.
+
+For our little project, this will work fine. For another scenario, using actors may not be worth it.
 :::
