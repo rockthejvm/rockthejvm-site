@@ -51,7 +51,7 @@
   :root[data-theme="light"] {
     color-scheme: light;
 
-    --color-bkg: 45deg 28% 95%;
+    --color-bkg: 200deg 15% 96%;
     --color-content1: 220deg 25% 16%;
     --color-content2: 220deg 20% 35%;
     --color-accent1: 190deg 65% 28%;

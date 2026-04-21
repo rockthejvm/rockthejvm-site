@@ -16,6 +16,7 @@ import HomeTeams from "./_components/HomeTeams.astro";
 import PlatformComparison from "./_components/PlatformComparison.astro";
 import ValueProp from "./_components/ValueProp.astro";
 import WhoIsItFor from "./_components/WhoIsItFor.astro";
+import HomeBackgroundBlobs from "./_components/HomeBackgroundBlobs.astro";
 ---
 
 <BaseLayout
@@ -26,7 +27,8 @@ import WhoIsItFor from "./_components/WhoIsItFor.astro";
 >
   <BackgroundGradient />
 
-  <div class="text-white">
+  <div class="relative overflow-hidden text-white">
+    <HomeBackgroundBlobs />
     <Hero />
     <TrustedBy />
     <!-- Main content sections — narrow container -->
