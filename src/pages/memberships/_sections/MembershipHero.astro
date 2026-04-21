@@ -125,26 +125,6 @@ const {
             {totalLessons}+ {hero.lessonsLabel}
           </dd>
         </div>
-        <div class="flex items-center gap-x-2">
-          <dt>
-            <svg
-              class="h-5 w-5 text-accent-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3.5 4A1.5 1.5 0 0 0 2 5.5v9A1.5 1.5 0 0 0 3.5 16h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 16.5 4h-13zm1.75 2.25a.75.75 0 0 1 .75.75v.5h1.5V7a.75.75 0 0 1 1.5 0v.5h1V7a.75.75 0 0 1 1.5 0v.5H13V7a.75.75 0 0 1 1.5 0v.5h.5a.75.75 0 0 1 0 1.5h-.5v.5a.75.75 0 0 1-1.5 0V9h-1v.5a.75.75 0 0 1-1.5 0V9h-1v.5a.75.75 0 0 1-1.5 0V9H6v.5a.75.75 0 0 1-1.5 0V9H4a.75.75 0 0 1 0-1.5h.5V7a.75.75 0 0 1 .75-.75z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">{hero.linesOfCodeLabel}</span>
-          </dt>
-          <dd class="text-sm font-medium text-content-1">
-            {(totalLinesOfCode / 1000).toFixed(totalLinesOfCode >= 10000 ? 0 : 1)}k+ {hero.linesOfCodeLabel}
-          </dd>
-        </div>
       </dl>
 
       <ul class="mt-8 space-y-3 text-sm leading-6 text-content-1 sm:text-base">

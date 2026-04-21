@@ -101,8 +101,6 @@ export default function MembershipPricingSectionHelper({
   monthlyPriceInCents,
   yearlyPriceInCents,
   membershipHours,
-  membershipLinesOfCode,
-  categories,
 }) {
   const [membership, setMembership] = useState(membershipTypes[1]);
 
@@ -114,8 +112,6 @@ export default function MembershipPricingSectionHelper({
 
   const features = [
     `${membershipHours} hours of 4K content`,
-    `${membershipLinesOfCode.toLocaleString()} lines of code written`,
-    ...categories.map(({ data }) => `All ${data.name} courses`),
     "Access to the private Rock the JVM community",
     "New courses included automatically",
   ];
@@ -156,9 +152,6 @@ export default function MembershipPricingSectionHelper({
         >
           All-Access Membership
         </h3>
-        <p className="mt-1 text-xs font-medium uppercase tracking-wide text-content-1/60">
-          Everything, always up to date
-        </p>
         <MembershipPriceDisplay
           currency={currency}
           isYearly={isYearly}
@@ -208,9 +201,6 @@ export default function MembershipPricingSectionHelper({
           </svg>
           Team Pack
         </h3>
-        <p className="mt-1 text-xs font-medium uppercase tracking-wide text-content-1/60">
-          For your whole team
-        </p>
         <div className="mt-6 text-sm leading-7 text-content">
           <p>A single yearly membership for your entire team.</p>
           <p className="mt-4">
@@ -232,17 +222,12 @@ export default function MembershipPricingSectionHelper({
           ))}
         </ul>
         <a
-          href="/contact"
+          href="/teams"
           aria-describedby="tier-team"
           className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-cta ring-1 ring-inset ring-cta hover:bg-cta hover:text-ctatext hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
         >
-          Contact Me
+          Learn More
         </a>
-        <small className="mt-6 block text-xs text-content-1/60">
-          <i>
-            Send your team's names and emails and I'll enroll them instantly.
-          </i>
-        </small>
       </div>
     </div>
   );

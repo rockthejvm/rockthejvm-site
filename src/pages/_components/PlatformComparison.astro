@@ -94,7 +94,7 @@ type CompetitorKey = (typeof competitors)[number]["key"];
             Feature
           </th>
           <!-- Sticky: Rock the JVM column -->
-          <th class="sticky left-[180px] z-20 min-w-[120px] border-t-2 border-cta bg-cta/10 px-4 py-4 text-center font-semibold text-accent-1 sm:left-[220px]">
+          <th class="rtjvm-col sticky left-[180px] z-20 min-w-[120px] bg-bkg px-4 py-4 text-center font-semibold text-accent-1 sm:left-[220px]">
             Rock the JVM
           </th>
           <!-- Scrollable: competitors -->
@@ -121,7 +121,7 @@ type CompetitorKey = (typeof competitors)[number]["key"];
                 {row.feature}
               </td>
               <!-- Sticky: Rock the JVM value -->
-              <td class="sticky left-[180px] z-10 min-w-[120px] bg-cta/10 px-4 py-4 text-center sm:left-[220px]">
+              <td class="rtjvm-col sticky left-[180px] z-10 min-w-[120px] bg-bkg px-4 py-4 text-center sm:left-[220px]">
                 <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
                   <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="Yes">
                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
@@ -159,5 +159,29 @@ type CompetitorKey = (typeof competitors)[number]["key"];
       </tbody>
     </table>
   </div>
-
 </section>
+
+<style>
+  /* Opaque tint overlay on Rock the JVM column */
+  .rtjvm-col {
+    position: relative;
+  }
+  .rtjvm-col::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--color-cta) / 0.10);
+    pointer-events: none;
+  }
+
+  /* Accent top marker on header cell only */
+  thead .rtjvm-col::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: hsl(var(--color-cta));
+  }
+</style>

@@ -93,9 +93,6 @@ export default function MembershipHeroPricingCard({
       <h3 className="text-center text-sm font-semibold text-accent-1">
         All-Access Membership
       </h3>
-      <p className="mt-0.5 text-center text-xs text-content-1/60">
-        Everything, always included
-      </p>
 
       {/* Monthly / Yearly toggle */}
       <div className="mt-4 flex justify-center">
