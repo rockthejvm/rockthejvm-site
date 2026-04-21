@@ -61,18 +61,17 @@ const rows: Row[] = [
   },
 ];
 
-const platforms = [
-  { key: "rockthejvm", label: "Rock the JVM", highlight: true },
-  { key: "frontendmasters", label: "Frontend Masters", highlight: false },
-  { key: "udemy", label: "Udemy", highlight: false },
-  { key: "coursera", label: "Coursera", highlight: false },
-  { key: "oreilly", label: "O'Reilly", highlight: false },
+const competitors = [
+  { key: "frontendmasters", label: "Frontend Masters" },
+  { key: "udemy", label: "Udemy" },
+  { key: "coursera", label: "Coursera" },
+  { key: "oreilly", label: "O'Reilly" },
 ] as const;
 
-type PlatformKey = (typeof platforms)[number]["key"];
+type CompetitorKey = (typeof competitors)[number]["key"];
 ---
 
-<section class="mb-8 md:mb-16">
+<section class="mb-12 md:mb-20">
   <div class="mx-auto mb-12 max-w-3xl text-center">
     <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-1">
       How we stack up
@@ -86,21 +85,22 @@ type PlatformKey = (typeof platforms)[number]["key"];
     </p>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="w-full min-w-[640px] text-sm">
+  <div class="comparison-table overflow-x-auto">
+    <table class="w-full text-sm">
       <thead>
         <tr class="border-b border-content/10">
-          <th class="sticky left-0 z-10 bg-bkg py-4 pl-6 pr-4 text-left font-medium text-content-1 w-[30%]">
+          <!-- Sticky: Feature column -->
+          <th class="sticky left-0 z-20 min-w-[180px] w-[30%] bg-bkg py-4 pl-6 pr-4 text-left font-medium text-content-1 sm:min-w-[220px]">
             Feature
           </th>
+          <!-- Sticky: Rock the JVM column -->
+          <th class="sticky left-[180px] z-20 min-w-[120px] border-t-2 border-cta bg-cta/10 px-4 py-4 text-center font-semibold text-accent-1 sm:left-[220px]">
+            Rock the JVM
+          </th>
+          <!-- Scrollable: competitors -->
           {
-            platforms.map(({ label, highlight }) => (
-              <th
-                class:list={[
-                  "px-4 py-4 text-center font-semibold",
-                  highlight ? "text-accent-1 bg-cta/10 border-t-2 border-cta" : "text-content-1",
-                ]}
-              >
+            competitors.map(({ label }) => (
+              <th class="px-4 py-4 text-center font-semibold text-content-1 whitespace-nowrap">
                 {label}
               </th>
             ))
@@ -116,37 +116,33 @@ type PlatformKey = (typeof platforms)[number]["key"];
                 i % 2 === 1 ? "bg-white/[0.02] [[data-theme=light]_&]:bg-black/5" : "",
               ]}
             >
-              <td class="sticky left-0 z-10 bg-bkg py-4 pl-6 pr-4 leading-6 text-content whitespace-pre-line">
+              <!-- Sticky: Feature -->
+              <td class="sticky left-0 z-10 min-w-[180px] w-[30%] bg-bkg py-4 pl-6 pr-4 leading-6 text-content whitespace-pre-line sm:min-w-[220px]">
                 {row.feature}
               </td>
-              {platforms.map(({ key, highlight }) => {
-                const val = row[key as PlatformKey];
+              <!-- Sticky: Rock the JVM value -->
+              <td class="sticky left-[180px] z-10 min-w-[120px] bg-cta/10 px-4 py-4 text-center sm:left-[220px]">
+                <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
+                  <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="Yes">
+                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+              </td>
+              <!-- Scrollable: competitor values -->
+              {competitors.map(({ key }) => {
+                const val = row[key as CompetitorKey];
                 return (
-                  <td class:list={["px-4 py-4 text-center", highlight ? "bg-cta/10" : ""]}>
+                  <td class="px-4 py-4 text-center">
                     {val === "yes" && (
                       <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
-                        <svg
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          class="h-5 w-5"
-                          aria-label="Yes"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
+                        <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="Yes">
+                          <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                          </svg>
                       </span>
                     )}
                     {val === "no" && (
                       <span class="inline-flex items-center justify-center text-red-300 [[data-theme=light]_&]:text-red-700">
-                        <svg
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          class="h-5 w-5"
-                          aria-label="No"
-                        >
+                        <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="No">
                           <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
                         </svg>
                       </span>
@@ -163,4 +159,5 @@ type PlatformKey = (typeof platforms)[number]["key"];
       </tbody>
     </table>
   </div>
+
 </section>
