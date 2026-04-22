@@ -110,6 +110,7 @@ const navigation = {
 };
 
 export default function Example(props) {
+  const courseCategories = props.courseCategories ?? [];
   return (
     <footer
       aria-labelledby="footer-heading"
@@ -139,6 +140,17 @@ export default function Example(props) {
                           className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                  {courseCategories.map((cat) => (
+                    <li key={cat.id}>
+                      <a href={`/courses/categories/${cat.id}`} className="text-sm leading-6">
+                        <span
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
+                        >
+                          {`${cat.name} Courses`}
                         </span>
                       </a>
                     </li>

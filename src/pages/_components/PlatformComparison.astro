@@ -69,6 +69,14 @@ const competitors = [
 ] as const;
 
 type CompetitorKey = (typeof competitors)[number]["key"];
+
+const featureColumnWidthClass = "w-44 sm:w-52";
+const featureStickyClass =
+  "left-0 min-w-44 max-w-44 sm:min-w-52 sm:max-w-52";
+const rockColumnWidthClass = "w-28 sm:w-32";
+const rockStickyClass =
+  "left-44 min-w-28 max-w-28 sm:left-52 sm:min-w-32 sm:max-w-32";
+const competitorColumnWidthClass = "w-32 sm:w-36";
 ---
 
 <section class="mb-12 md:mb-20">
@@ -86,21 +94,37 @@ type CompetitorKey = (typeof competitors)[number]["key"];
   </div>
 
   <div class="comparison-table overflow-x-auto">
-    <table class="w-full text-sm">
+    <table class="mx-auto w-max min-w-full table-fixed border-separate border-spacing-0 text-sm">
+      <colgroup>
+        <col class={featureColumnWidthClass} />
+        <col class={rockColumnWidthClass} />
+        {competitors.map(() => <col class={competitorColumnWidthClass} />)}
+      </colgroup>
       <thead>
         <tr class="border-b border-content/10">
           <!-- Sticky: Feature column -->
-          <th class="sticky left-0 z-20 w-[180px] min-w-[180px] max-w-[180px] bg-bkg py-4 pl-6 pr-4 text-left font-medium text-content-1 sm:w-[220px] sm:min-w-[220px] sm:max-w-[220px]">
+          <th class:list={[
+            "sticky z-20 bg-bkg py-3 pl-4 pr-3 text-left font-medium text-content-1 sm:py-4 sm:pl-6 sm:pr-4",
+            featureColumnWidthClass,
+            featureStickyClass,
+          ]}>
             Feature
           </th>
           <!-- Sticky: Rock the JVM column -->
-          <th class="rtjvm-col sticky left-[180px] z-20 min-w-[120px] bg-bkg px-4 py-4 text-center font-semibold text-accent-1 sm:left-[220px]">
+          <th class:list={[
+            "comparison-table__sticky-rtjvm sticky z-20 px-3 py-3 text-center font-semibold text-accent-1 sm:px-4 sm:py-4",
+            rockColumnWidthClass,
+            rockStickyClass,
+          ]}>
             Rock the JVM
           </th>
           <!-- Scrollable: competitors -->
           {
             competitors.map(({ label }) => (
-              <th class="px-4 py-4 text-center font-semibold text-content-1 whitespace-nowrap">
+              <th class:list={[
+                "px-3 py-3 text-center font-semibold text-content-1 whitespace-nowrap sm:px-4 sm:py-4",
+                competitorColumnWidthClass,
+              ]}>
                 {label}
               </th>
             ))
@@ -117,11 +141,19 @@ type CompetitorKey = (typeof competitors)[number]["key"];
               ]}
             >
               <!-- Sticky: Feature -->
-              <td class="sticky left-0 z-10 w-[180px] min-w-[180px] max-w-[180px] bg-bkg py-4 pl-6 pr-4 leading-6 text-content whitespace-pre-line sm:w-[220px] sm:min-w-[220px] sm:max-w-[220px]">
+              <td class:list={[
+                "sticky z-10 bg-bkg py-3 pl-4 pr-3 leading-6 text-content whitespace-pre-line sm:py-4 sm:pl-6 sm:pr-4",
+                featureColumnWidthClass,
+                featureStickyClass,
+              ]}>
                 {row.feature}
               </td>
               <!-- Sticky: Rock the JVM value -->
-              <td class="rtjvm-col sticky left-[180px] z-10 min-w-[120px] bg-bkg px-4 py-4 text-center sm:left-[220px]">
+              <td class:list={[
+                "comparison-table__sticky-rtjvm sticky z-10 px-3 py-3 text-center sm:px-4 sm:py-4",
+                rockColumnWidthClass,
+                rockStickyClass,
+              ]}>
                 <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
                   <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="Yes">
                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
@@ -132,7 +164,10 @@ type CompetitorKey = (typeof competitors)[number]["key"];
               {competitors.map(({ key }) => {
                 const val = row[key as CompetitorKey];
                 return (
-                  <td class="px-4 py-4 text-center">
+                  <td class:list={[
+                    "px-3 py-3 text-center sm:px-4 sm:py-4",
+                    competitorColumnWidthClass,
+                  ]}>
                     {val === "yes" && (
                       <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
                         <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-label="Yes">
@@ -162,26 +197,15 @@ type CompetitorKey = (typeof competitors)[number]["key"];
 </section>
 
 <style>
-  /* Opaque tint overlay on Rock the JVM column */
-  .rtjvm-col {
-    position: relative;
-  }
-  .rtjvm-col::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: hsl(var(--color-cta) / 0.10);
-    pointer-events: none;
+  .comparison-table__sticky-rtjvm {
+    background-color: hsl(var(--color-bkg));
+    background-image: linear-gradient(
+      hsl(var(--color-cta) / 0.1),
+      hsl(var(--color-cta) / 0.1)
+    );
   }
 
-  /* Accent top marker on header cell only */
-  thead .rtjvm-col::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: hsl(var(--color-cta));
+  thead .comparison-table__sticky-rtjvm {
+    box-shadow: inset 0 2px 0 0 hsl(var(--color-cta));
   }
 </style>

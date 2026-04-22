@@ -13,35 +13,8 @@ interface Props {
 
 const { faqs = [] } = Astro.props;
 
-const generalMembershipFaqs: MembershipFaq[] = [
-  {
-    question: "Can I cancel my membership any time?",
-    answer:
-      "Yes. The membership is a recurring subscription, and you can cancel it from your account settings whenever you want.",
-  },
-  {
-    question: "Do I get access to new courses?",
-    answer:
-      "Yes. New premium courses are included automatically while your membership is active, so the library keeps getting more valuable over time.",
-  },
-  {
-    question: "Do I keep access to the private community if I cancel?",
-    answer:
-      "Yes. Community access stays with you even if you later cancel the membership.",
-  },
-  {
-    question: "Can I expense this through my company?",
-    answer:
-      "Absolutely. After purchase you receive a tax-compliant receipt you can use for reimbursement with your employer.",
-  },
-  {
-    question: "What if the membership is not for me?",
-    answer:
-      "If it is not a fit, contact Daniel through the site and he will sort it out. The same money-back guarantee philosophy applies here as on the course pages.",
-  },
-];
 ---
 
 <Section id="faq" color="bg-secondary" title="FAQ">
-  <FAQ faqs={[...faqs, ...generalMembershipFaqs]} client:visible />
+  <FAQ faqs={faqs} client:visible />
 </Section>
