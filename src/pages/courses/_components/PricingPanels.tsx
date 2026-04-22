@@ -14,7 +14,6 @@ interface BundleData {
   priceInCents: number;
   courseCount: number;
   hours: number;
-  linesOfCode: number;
   savingsPercent?: number;
 }
 
@@ -23,10 +22,8 @@ interface Props {
   categories: CollectionEntry<"courseCategories">[];
   currency: string;
   hours: number;
-  linesOfCode: number;
   isCourse: boolean;
   membershipHours: number;
-  membershipLinesOfCode: number;
   monthlyMembershipPricingPlanId: number;
   monthlyPriceInCents: number;
   yearlyMembershipPricingPlanId: number;
@@ -39,7 +36,7 @@ interface Props {
 
 function SavingsBadge({ percent }: { percent: number }) {
   return (
-    <span className="inline-flex items-center rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-semibold text-emerald-400 ring-1 ring-inset ring-emerald-500/25">
+    <span className="inline-flex items-center rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-semibold text-emerald-500 ring-1 ring-inset ring-emerald-500/25">
       Save {percent}%
     </span>
   );
@@ -138,10 +135,8 @@ export default function PricingPanels(props: Props) {
     categories,
     currency,
     hours,
-    linesOfCode,
     isCourse,
     membershipHours,
-    membershipLinesOfCode,
     monthlyMembershipPricingPlanId,
     monthlyPriceInCents,
     yearlyMembershipPricingPlanId,
@@ -212,7 +207,7 @@ export default function PricingPanels(props: Props) {
             All-Access Membership
           </h3>
           <p className="mt-1 text-xs font-medium uppercase tracking-wide text-content-1/60">
-            Everything, always up to date
+            Full (and growing) catalog
           </p>
           <MembershipPriceDisplay
             currency={currency}
@@ -227,7 +222,6 @@ export default function PricingPanels(props: Props) {
           <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
             {[
               `${membershipHours} hours of 4K content`,
-              `${membershipLinesOfCode.toLocaleString()} lines of code written`,
               ...categories.map(
                 ({ data }: { data: { name: string } }) =>
                   `All ${data.name} courses`,
@@ -293,12 +287,12 @@ export default function PricingPanels(props: Props) {
           </p>
           <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
             {[
-              `${bundle.hours} hours of 4K content`,
-              `${bundle.linesOfCode.toLocaleString()} lines of code written`,
               `${bundle.courseCount} courses included`,
+              `${bundle.hours} hours of 4K content`,
               "All PDF slides",
               "Free updates",
               "Lifetime access",
+              "Access to the private Rock the JVM community",
             ].map((line, idx) => (
               <li className="flex gap-x-3" key={idx}>
                 <CheckIcon />
@@ -343,11 +337,10 @@ export default function PricingPanels(props: Props) {
         <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
           {[
             `${hours} hours of 4K content`,
-            `${linesOfCode.toLocaleString()} lines of code written`,
             "All PDF slides",
-            "Access to the private Rock the JVM community",
             "Free updates",
             "Lifetime access",
+            "Access to the private Rock the JVM community",
           ].map((line, idx) => (
             <li className="flex gap-x-3" key={idx}>
               <CheckIcon />
