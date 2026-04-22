@@ -70,7 +70,6 @@ const testimonials = await Promise.all(
                 aria-label={`Testimonial ${idx + 1} of ${testimonials.length}`}
               >
                 <article class="card-shadow card-shadow-color mx-auto flex max-w-3xl flex-col rounded-2xl bg-secondary p-8 ring-1 ring-content/10 sm:p-10">
-                  <!-- Stars -->
                   <div class="mb-4 flex gap-x-1">
                     {[1, 2, 3, 4, 5].map(() => (
                       <svg
@@ -87,11 +86,11 @@ const testimonials = await Promise.all(
                       </svg>
                     ))}
                   </div>
-                  <!-- Quote -->
+                  {/* Quote */}
                   <blockquote class="flex-1 text-base leading-8 text-content-1 [&_p]:mb-0 [&_p]:mt-0">
                     <Content />
                   </blockquote>
-                  <!-- Author -->
+                  {/* Author */}
                   <div class="mt-8 flex items-center gap-x-4 border-t border-content/10 pt-6">
                     <MyPicture
                       src={photo}

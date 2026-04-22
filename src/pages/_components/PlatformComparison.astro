@@ -143,7 +143,6 @@ const competitorColumnWidthClass = "w-32 sm:w-36";
                 i % 2 === 1 ? "bg-white/[0.02] [[data-theme=light]_&]:bg-black/5" : "",
               ]}
             >
-              <!-- Sticky: Feature -->
               <td class:list={[
                 "sticky z-10 bg-bkg py-3 pl-4 pr-3 leading-6 text-content whitespace-pre-line sm:py-4 sm:pl-6 sm:pr-4",
                 featureColumnWidthClass,
@@ -151,7 +150,6 @@ const competitorColumnWidthClass = "w-32 sm:w-36";
               ]}>
                 {row.feature}
               </td>
-              <!-- Sticky: Rock the JVM value -->
               <td class:list={[
                 "comparison-table__sticky-rtjvm sticky z-10 px-3 py-3 text-center sm:px-4 sm:py-4",
                 rockColumnWidthClass,
@@ -161,7 +159,6 @@ const competitorColumnWidthClass = "w-32 sm:w-36";
                   <Check />
                 </span>
               </td>
-              <!-- Scrollable: competitor values -->
               {competitors.map(({ key }) => {
                 const val = row[key as CompetitorKey];
                 return (
