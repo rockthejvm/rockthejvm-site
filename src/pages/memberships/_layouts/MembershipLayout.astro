@@ -113,16 +113,6 @@ const totalLessons = courseCurricula.reduce(
 
     <MembershipPageNav />
 
-    <Section id="whats-included" color="bg-secondary" title="What's Included">
-      <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
-        <div class="skills-list">
-          <slot name="skills" />
-        </div>
-      </div>
-    </Section>
-
-    <Courses />
-
     <div class="relative isolate overflow-hidden">
       <img
         src={MembershipImage.src}
@@ -133,8 +123,18 @@ const totalLessons = courseCurricula.reduce(
         decoding="async"
       />
       <div class="absolute inset-0 bg-bkg/20" aria-hidden="true"></div>
-      <CourseTestimonials color="bg-secondary" />
+      <Section id="whats-included" color="bg-secondary" title="What's Included">
+        <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
+          <div class="skills-list">
+            <slot name="skills" />
+          </div>
+        </div>
+      </Section>
+      <Courses />
     </div>
+
+
+    <CourseTestimonials color="bg-secondary" />
 
     <div class="relative isolate overflow-hidden">
       <img
