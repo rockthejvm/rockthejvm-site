@@ -81,7 +81,10 @@ export default function PodcastCard({ episode }: Props) {
       )}
       <div className="flex flex-1 flex-col p-5">
         <h2 className="mt-2 line-clamp-3 text-xl font-semibold leading-6 md:text-2xl lg:min-h-28 lg:text-3xl">
-          <a href={`/podcast/${episode.guid}`} className="text-content-1 hover:text-accent-1 hover:no-underline">
+          <a
+            href={`/podcast/${episode.guid}`}
+            className="text-content-1 hover:text-accent-1 hover:no-underline"
+          >
             {episode.title}
           </a>
         </h2>

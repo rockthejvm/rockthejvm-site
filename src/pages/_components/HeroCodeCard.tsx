@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Tab {
   id: string;
@@ -18,7 +18,7 @@ export default function HeroCodeCard({ tabs }: Props) {
     const html: Record<string, string> = {};
     for (const tab of tabs) {
       const tpl = document.querySelector<HTMLTemplateElement>(
-        `template[data-hero-code-tab="${tab.id}"]`
+        `template[data-hero-code-tab="${tab.id}"]`,
       );
       if (tpl) html[tab.id] = tpl.innerHTML;
     }
@@ -26,9 +26,7 @@ export default function HeroCodeCard({ tabs }: Props) {
   }, []);
 
   return (
-    <div
-      className="group rounded-2xl shadow-2xl ring-1 ring-content/10 transition-transform duration-500 ease-out [transform:perspective(1200px)_rotateY(-6deg)_rotateX(2deg)] hover:[transform:perspective(1200px)_rotateY(0deg)_rotateX(0deg)]"
-    >
+    <div className="group rounded-2xl shadow-2xl ring-1 ring-content/10 transition-transform duration-500 ease-out [transform:perspective(1200px)_rotateY(-6deg)_rotateX(2deg)] hover:[transform:perspective(1200px)_rotateY(0deg)_rotateX(0deg)]">
       {/* Tab bar */}
       <div className="flex items-center gap-1 rounded-t-2xl border-b border-content/10 bg-content/5 px-4 py-2">
         {/* Window dots */}

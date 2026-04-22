@@ -1,6 +1,6 @@
 export default function Example(props) {
   return (
-    <div className="my-auto py-4 px-8 sm:flex">
+    <div className="my-auto px-8 py-4 sm:flex">
       <div className="mb-4 shrink-0 sm:mb-0 sm:mr-4">{props.photo}</div>
       <div className="my-auto">
         <a href={`/authors/${props.authorId}`}>

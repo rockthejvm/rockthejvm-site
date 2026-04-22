@@ -117,7 +117,7 @@ export default function MembershipPricingSectionHelper({
   ];
 
   return (
-    <div className="mx-auto mt-16 sm:mt-20 grid max-w-4xl gap-8 lg:grid-cols-2">
+    <div className="mx-auto mt-16 grid max-w-4xl gap-8 sm:mt-20 lg:grid-cols-2">
       {/* Personal Membership */}
       <div className="card-shadow card-shadow-color relative rounded-3xl bg-secondary p-8 shadow-2xl ring-2 ring-cta sm:p-10">
         {/* Best Value badge */}

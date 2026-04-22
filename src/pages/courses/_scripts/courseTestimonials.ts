@@ -1,10 +1,16 @@
 const AUTO_ADVANCE_INTERVAL_MS = 8000;
 
-const carousel = document.getElementById("testimonial-carousel") as HTMLElement | null;
-const track = document.getElementById("testimonial-track") as HTMLElement | null;
+const carousel = document.getElementById(
+  "testimonial-carousel",
+) as HTMLElement | null;
+const track = document.getElementById(
+  "testimonial-track",
+) as HTMLElement | null;
 const prevButton = document.getElementById("testimonial-prev");
 const nextButton = document.getElementById("testimonial-next");
-const dotsContainer = document.getElementById("testimonial-dots") as HTMLElement | null;
+const dotsContainer = document.getElementById(
+  "testimonial-dots",
+) as HTMLElement | null;
 
 if (
   carousel &&

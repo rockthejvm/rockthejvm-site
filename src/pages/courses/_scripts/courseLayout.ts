@@ -1,18 +1,33 @@
 import { initParallaxBackgrounds } from "@/utils/parallax";
 
 const initCourseDetailsToggle = () => {
-  const preview = document.getElementById("course-details-preview") as HTMLElement | null;
-  const expanded = document.getElementById("course-details-expanded") as HTMLElement | null;
-  const button = document.getElementById("course-details-toggle") as HTMLElement | null;
+  const preview = document.getElementById(
+    "course-details-preview",
+  ) as HTMLElement | null;
+  const expanded = document.getElementById(
+    "course-details-expanded",
+  ) as HTMLElement | null;
+  const button = document.getElementById(
+    "course-details-toggle",
+  ) as HTMLElement | null;
 
-  if (!preview || !expanded || !button || button.dataset.initialized === "true") {
+  if (
+    !preview ||
+    !expanded ||
+    !button ||
+    button.dataset.initialized === "true"
+  ) {
     return;
   }
 
   button.dataset.initialized = "true";
 
-  const labelMore = button.querySelector("[data-label-more]") as HTMLElement | null;
-  const labelClose = button.querySelector("[data-label-close]") as HTMLElement | null;
+  const labelMore = button.querySelector(
+    "[data-label-more]",
+  ) as HTMLElement | null;
+  const labelClose = button.querySelector(
+    "[data-label-close]",
+  ) as HTMLElement | null;
   const chevron = button.querySelector("svg") as SVGElement | null;
   const gradient = preview.querySelector<HTMLElement>(".bg-gradient-to-t");
   let isOpen = false;

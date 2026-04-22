@@ -3,8 +3,8 @@ import MyPicture from "@/components/MyPicture.astro";
 import site from "@/data/site.json";
 import { getCollection, getEntry, render } from "astro:content";
 
-const _testimonials = await getCollection("testimonials"),
-  sortedTestimonials = [..._testimonials].sort(
+const _testimonials = await getCollection("testimonials");
+const sortedTestimonials = [..._testimonials].sort(
     (a, b) => a.data.ordinal - b.data.ordinal,
   );
 

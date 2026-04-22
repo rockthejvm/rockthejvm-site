@@ -146,7 +146,10 @@ export default function Example(props) {
                   ))}
                   {courseCategories.map((cat) => (
                     <li key={cat.id}>
-                      <a href={`/courses/categories/${cat.id}`} className="text-sm leading-6">
+                      <a
+                        href={`/courses/categories/${cat.id}`}
+                        className="text-sm leading-6"
+                      >
                         <span
                           className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >

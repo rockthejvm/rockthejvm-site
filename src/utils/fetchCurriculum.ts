@@ -36,4 +36,5 @@ export const fetchCurriculumSections = async (
 
 export const countCurriculumLectures = (
   sections: CurriculumSection[],
-): number => sections.reduce((sum, section) => sum + section.lectures.length, 0);
+): number =>
+  sections.reduce((sum, section) => sum + section.lectures.length, 0);

@@ -32,7 +32,10 @@ const renderIndicator = (val: string) => {
       );
     default:
       return (
-        <span class="inline-flex items-center justify-center text-yellow-300" aria-label="Partial">
+        <span
+          class="inline-flex items-center justify-center text-yellow-300"
+          aria-label="Partial"
+        >
           {val}
           {/* <svg
             viewBox="0 0 20 20"
@@ -44,4 +47,4 @@ const renderIndicator = (val: string) => {
         </span>
       );
   }
-}
+};

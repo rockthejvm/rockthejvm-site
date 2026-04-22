@@ -148,7 +148,9 @@ export default function PricingPanels(props: Props) {
   } = props;
 
   const isYearly = membership.value === "Yearly";
-  const membershipPriceInCents = isYearly ? yearlyPriceInCents : monthlyPriceInCents;
+  const membershipPriceInCents = isYearly
+    ? yearlyPriceInCents
+    : monthlyPriceInCents;
   const yearlySavingsPct =
     monthlyPriceInCents > 0
       ? Math.round((1 - yearlyPriceInCents / (12 * monthlyPriceInCents)) * 100)
@@ -331,8 +333,8 @@ export default function PricingPanels(props: Props) {
           recurring="nonrecurring"
         />
         <p className="mt-6 text-sm leading-7 text-content-1">
-          {isCourse ? "Just this course" : "All courses in this bundle"}{" "}
-          with a one-time payment
+          {isCourse ? "Just this course" : "All courses in this bundle"} with a
+          one-time payment
         </p>
         <ul className="mt-8 space-y-3 text-sm leading-6 text-content sm:mt-10">
           {[

@@ -72,7 +72,9 @@ export default function StickyCTA({
               {title}
             </p>
             {!isFree && (
-              <p className="text-sm font-bold text-accent-1">{formattedPrice}</p>
+              <p className="text-sm font-bold text-accent-1">
+                {formattedPrice}
+              </p>
             )}
           </div>
           <div className="flex shrink-0 items-center gap-4">

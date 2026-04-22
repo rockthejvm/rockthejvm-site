@@ -44,9 +44,7 @@ export default function MembershipHeroPricingCard({
     monthlyPriceInCents !== undefined &&
     yearlyPriceInCents !== undefined &&
     monthlyPriceInCents > 0
-      ? Math.round(
-          (1 - yearlyPriceInCents / (12 * monthlyPriceInCents)) * 100,
-        )
+      ? Math.round((1 - yearlyPriceInCents / (12 * monthlyPriceInCents)) * 100)
       : null;
 
   const formatPrice = (cents: number, cur: string, fractions = 2) =>

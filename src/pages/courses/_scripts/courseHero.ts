@@ -34,9 +34,17 @@ const initRoadmapModal = () => {
   const backdrop = document.getElementById(
     "modal-roadmap-backdrop",
   ) as HTMLElement | null;
-  const panel = document.getElementById("modal-roadmap-panel") as HTMLElement | null;
+  const panel = document.getElementById(
+    "modal-roadmap-panel",
+  ) as HTMLElement | null;
 
-  if (!openButton || !modal || !backdrop || !panel || modal.dataset.initialized === "true") {
+  if (
+    !openButton ||
+    !modal ||
+    !backdrop ||
+    !panel ||
+    modal.dataset.initialized === "true"
+  ) {
     return;
   }
 
@@ -47,7 +55,12 @@ const initRoadmapModal = () => {
     backdrop.classList.add("opacity-100");
     backdrop.classList.remove("opacity-0");
     panel.classList.add("opacity-100", "translate-y-0", "sm:scale-100");
-    panel.classList.remove("opacity-0", "translate-y-4", "sm:translate-y-0", "sm:scale-95");
+    panel.classList.remove(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
     const searchInput = document.querySelector(
       '#search input[type="text"]',
     ) as HTMLInputElement | null;
@@ -58,7 +71,12 @@ const initRoadmapModal = () => {
     modal.classList.add("hidden");
     backdrop.classList.add("opacity-0");
     backdrop.classList.remove("opacity-100");
-    panel.classList.add("opacity-0", "translate-y-4", "sm:translate-y-0", "sm:scale-95");
+    panel.classList.add(
+      "opacity-0",
+      "translate-y-4",
+      "sm:translate-y-0",
+      "sm:scale-95",
+    );
     panel.classList.remove("opacity-100", "translate-y-0", "sm:scale-100");
   };
 
@@ -86,12 +104,20 @@ const initRoadmapModal = () => {
 };
 
 const initVideoModal = () => {
-  const openButton = document.getElementById("open-video-modal") as HTMLElement | null;
+  const openButton = document.getElementById(
+    "open-video-modal",
+  ) as HTMLElement | null;
   const modal = document.getElementById("video-modal") as HTMLElement | null;
-  const backdrop = document.getElementById("video-modal-backdrop") as HTMLElement | null;
-  const panel = document.getElementById("video-modal-panel") as HTMLElement | null;
+  const backdrop = document.getElementById(
+    "video-modal-backdrop",
+  ) as HTMLElement | null;
+  const panel = document.getElementById(
+    "video-modal-panel",
+  ) as HTMLElement | null;
   const closeButton = document.getElementById("close-video-modal");
-  const player = document.getElementById("video-modal-player") as HTMLElement | null;
+  const player = document.getElementById(
+    "video-modal-player",
+  ) as HTMLElement | null;
 
   if (
     !openButton ||

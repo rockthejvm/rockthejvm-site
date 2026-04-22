@@ -78,7 +78,6 @@
     .card-shadow-color {
       @apply shadow-opposite/10;
     }
-
   }
 
   :root[data-theme="dark"] {

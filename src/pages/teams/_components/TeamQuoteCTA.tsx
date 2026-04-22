@@ -125,9 +125,16 @@ export default function TeamQuoteCTA({
         {label}
       </button>
 
-      <Dialog open={open} onClose={() => setOpen(false)} className="relative z-50">
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        className="relative z-50"
+      >
         {/* Backdrop */}
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true" />
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+          aria-hidden="true"
+        />
 
         {/* Scroll container */}
         <div className="fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-8">
@@ -144,7 +151,9 @@ export default function TeamQuoteCTA({
 
             {status === "success" ? (
               <div className="px-6 py-16 text-center sm:px-12">
-                <p className="text-3xl font-bold text-content">You're all set!</p>
+                <p className="text-3xl font-bold text-content">
+                  You're all set!
+                </p>
                 <p className="mt-3 text-content-1">
                   We'll get back to you within one business day.
                 </p>
@@ -330,7 +339,7 @@ export default function TeamQuoteCTA({
                                       <span className="text-content">
                                         {product.name}
                                       </span>
-                                      <span className="ml-2 shrink-0 capitalize text-xs text-content-2">
+                                      <span className="ml-2 shrink-0 text-xs capitalize text-content-2">
                                         {product.type}
                                       </span>
                                     </button>
