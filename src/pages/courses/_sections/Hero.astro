@@ -1,4 +1,6 @@
 ---
+import Book from "@/components/icons/Book.astro";
+import Clock from "@/components/icons/Clock.astro";
 import MyPicture from "@/components/MyPicture.astro";
 import NewsletterSection from "@/components/NewsletterSection.astro";
 import HeroMediaCard from "../_components/HeroMediaCard.astro";
@@ -147,18 +149,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
             <>
               <div class="flex items-center gap-x-2">
                 <dt>
-                  <svg
-                    class="h-5 w-5 text-accent-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <Clock class="h-5 w-5 text-accent-1" />
                   <span class="sr-only">Duration</span>
                 </dt>
                 <dd class="text-sm font-medium text-content-1">
@@ -168,14 +159,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
               {totalLessons !== undefined && totalLessons > 0 && (
                 <div class="flex items-center gap-x-2">
                   <dt>
-                    <svg
-                      class="h-5 w-5 text-accent-1"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path d="M10.75 16.82A7.462 7.462 0 0115 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0018 15.06v-11a.75.75 0 00-.546-.721A9.006 9.006 0 0015 3a8.963 8.963 0 00-4.25 1.065V16.82zM9.25 4.065A8.963 8.963 0 005 3c-.85 0-1.673.118-2.454.339A.75.75 0 002 4.06v11a.75.75 0 00.954.721A7.506 7.506 0 015 15.5c1.579 0 3.042.487 4.25 1.32V4.065z" />
-                    </svg>
+                    <Book class="h-5 w-5 text-accent-1" />
                     <span class="sr-only">Lessons</span>
                   </dt>
                   <dd class="text-sm font-medium text-content-1">
@@ -208,18 +192,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
               {bundleHours !== undefined && bundleHours > 0 && (
                 <div class="flex items-center gap-x-2">
                   <dt>
-                    <svg
-                      class="h-5 w-5 text-accent-1"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    <Clock class="h-5 w-5 text-accent-1" />
                     <span class="sr-only">Total duration</span>
                   </dt>
                   <dd class="text-sm font-medium text-content-1">
@@ -230,14 +203,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
               {bundleLessons !== undefined && bundleLessons > 0 && (
                 <div class="flex items-center gap-x-2">
                   <dt>
-                    <svg
-                      class="h-5 w-5 text-accent-1"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path d="M10.75 16.82A7.462 7.462 0 0115 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0018 15.06v-11a.75.75 0 00-.546-.721A9.006 9.006 0 0015 3a8.963 8.963 0 00-4.25 1.065V16.82zM9.25 4.065A8.963 8.963 0 005 3c-.85 0-1.673.118-2.454.339A.75.75 0 002 4.06v11a.75.75 0 00.954.721A7.506 7.506 0 015 15.5c1.579 0 3.042.487 4.25 1.32V4.065z" />
-                    </svg>
+                    <Book class="h-5 w-5 text-accent-1" />
                     <span class="sr-only">Total lessons</span>
                   </dt>
                   <dd class="text-sm font-medium text-content-1">
@@ -309,12 +275,6 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
   <slot name="roadmap" />
 </RoadmapModal>
 
-<style>
-  /* Lighten the blurred background on the light theme */
-  :global([data-theme="light"]) .hero-bg-image {
-    filter: brightness(0.45);
-  }
-</style>
 
 <script>
   import "../_scripts/courseHero";

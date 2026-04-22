@@ -20,7 +20,6 @@ const _personalMembership = await getEntry("memberships", "personal")!,
 
 <Section id="pricing" color="bg-secondary" title="Choose Your Plan">
   <div class="relative isolate w-full px-2 py-1 sm:px-6 sm:py-2 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center lg:max-w-4xl"></div>
     {
       monthlyPriceInformation !== null && yearlyPriceInformation !== null ? (
         <MembershipPricingSectionHelper

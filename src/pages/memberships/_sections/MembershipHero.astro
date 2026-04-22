@@ -7,7 +7,6 @@ interface HeroCopy {
   bullets: string[];
   cardSupportText: string;
   description: string;
-  linesOfCodeLabel: string;
   coursesLabel: string;
   hoursLabel: string;
   lessonsLabel: string;
@@ -30,7 +29,6 @@ interface Props {
   monthlyPricingPlanId?: number;
   totalHours: number;
   totalLessons: number;
-  totalLinesOfCode: number;
   yearlyPricingPlanId?: number;
   yearlyPriceInCents?: number;
 }
@@ -43,7 +41,6 @@ const {
   monthlyPricingPlanId,
   totalHours,
   totalLessons,
-  totalLinesOfCode,
   yearlyPricingPlanId,
   yearlyPriceInCents,
 } = Astro.props;

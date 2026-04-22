@@ -1,4 +1,5 @@
 import PurchaseLink from "@/components/PurchaseLink";
+import centsToPrice, { splitPrice } from "@/utils/centsToPrice";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useState } from "react";
 
@@ -26,23 +27,9 @@ function MembershipPriceDisplay({
     ? Math.round(yearlyPriceInCents / 12)
     : monthlyPriceInCents;
 
-  const formatted = (displayCents / 100).toLocaleString("en-US", {
-    style: "currency",
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
-  const dotIdx = formatted.indexOf(".");
-  const wholePart = dotIdx >= 0 ? formatted.slice(0, dotIdx) : formatted;
-  const fracPart = dotIdx >= 0 ? formatted.slice(dotIdx) : "";
-
-  const yearlyFormatted = (yearlyPriceInCents / 100).toLocaleString("en-US", {
-    style: "currency",
-    currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  });
+  const formatted = centsToPrice(displayCents, currency, 2);
+  const { whole: wholePart, frac: fracPart } = splitPrice(formatted);
+  const yearlyFormatted = centsToPrice(yearlyPriceInCents, currency);
 
   return (
     <div className="mt-4">
@@ -173,7 +160,7 @@ export default function MembershipPricingSectionHelper({
         <PurchaseLink
           pricingPlanId={isYearly ? yearlyPricingPlanId : monthlyPricingPlanId}
           ariaDescribedBy="tier-membership"
-          className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
+          className="mt-8 block rounded-md bg-cta px-3.5 py-2.5 text-center text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-ctatext hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta sm:mt-10"
         >
           Start Membership
         </PurchaseLink>

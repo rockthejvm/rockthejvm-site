@@ -1,4 +1,5 @@
 import PurchaseLink from "@/components/PurchaseLink";
+import centsToPrice, { splitPrice } from "@/utils/centsToPrice";
 import { membershipTypes } from "@/pages/memberships/_sections/MembershipPricingSectionHelper";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useState } from "react";
@@ -47,14 +48,6 @@ export default function MembershipHeroPricingCard({
       ? Math.round((1 - yearlyPriceInCents / (12 * monthlyPriceInCents)) * 100)
       : null;
 
-  const formatPrice = (cents: number, cur: string, fractions = 2) =>
-    (cents / 100).toLocaleString("en-US", {
-      style: "currency",
-      currency: cur,
-      minimumFractionDigits: fractions,
-      maximumFractionDigits: fractions,
-    });
-
   const displayCents =
     currency !== undefined
       ? isYearly && yearlyPriceInCents !== undefined
@@ -64,20 +57,16 @@ export default function MembershipHeroPricingCard({
 
   const formattedDisplay =
     currency !== undefined && displayCents !== undefined
-      ? formatPrice(displayCents, currency)
+      ? centsToPrice(displayCents, currency, 2)
       : undefined;
 
-  const dotIdx = formattedDisplay ? formattedDisplay.indexOf(".") : -1;
-  const wholePart =
-    formattedDisplay && dotIdx >= 0
-      ? formattedDisplay.slice(0, dotIdx)
-      : formattedDisplay;
-  const fracPart =
-    formattedDisplay && dotIdx >= 0 ? formattedDisplay.slice(dotIdx) : "";
+  const { whole: wholePart, frac: fracPart } = formattedDisplay
+    ? splitPrice(formattedDisplay)
+    : { whole: formattedDisplay, frac: "" };
 
   const yearlyFormatted =
     currency !== undefined && yearlyPriceInCents !== undefined
-      ? formatPrice(yearlyPriceInCents, currency, 0)
+      ? centsToPrice(yearlyPriceInCents, currency)
       : undefined;
 
   const activePlanId = isYearly ? yearlyPricingPlanId : monthlyPricingPlanId;
@@ -164,7 +153,7 @@ export default function MembershipHeroPricingCard({
             pricingPlanId={activePlanId}
             className={`block rounded-md px-6 py-3 text-center text-sm font-semibold shadow-sm hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
               isYearly
-                ? "bg-cta text-ctatext hover:bg-accent-1 hover:text-gray-50 focus-visible:outline-cta"
+                ? "bg-cta text-ctatext hover:bg-accent-1 hover:text-ctatext focus-visible:outline-cta"
                 : "bg-content/10 text-content-1 ring-1 ring-inset ring-content/20 hover:bg-content/20 focus-visible:outline-content/50"
             }`}
           >
@@ -175,7 +164,7 @@ export default function MembershipHeroPricingCard({
             href="#pricing"
             className={`block rounded-md px-6 py-3 text-center text-sm font-semibold shadow-sm hover:no-underline ${
               isYearly
-                ? "bg-cta text-ctatext hover:bg-accent-1 hover:text-gray-50"
+                ? "bg-cta text-ctatext hover:bg-accent-1 hover:text-ctatext"
                 : "bg-content/10 text-content-1 ring-1 ring-inset ring-content/20 hover:bg-content/20"
             }`}
           >

@@ -54,11 +54,6 @@ const { articles, courses, author } = Astro.props,
 
 <BaseLayout {title} {description} {structuredData}>
   <FullContainer>
-    <!-- <div class="pt-8 md:pt-16">
-      <h1 class="mx-6 text-center text-content-1 lg:mx-8">
-        {title}
-      </h1>
-    </div> -->
     <div class="my-8">
       <AuthorWide {author} loading="eager" />
     </div>

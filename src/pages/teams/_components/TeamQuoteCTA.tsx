@@ -7,6 +7,7 @@ import {
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useMemo, useState } from "react";
+import site from "@/data/site.json";
 
 interface Product {
   id: string;
@@ -180,7 +181,7 @@ export default function TeamQuoteCTA({
                   <input
                     type="hidden"
                     name="access_key"
-                    value="16c01467-967d-411c-a15c-e5e9e4a936f3"
+                    value={site.web3formsKey}
                   />
                   <input
                     type="hidden"
@@ -191,7 +192,6 @@ export default function TeamQuoteCTA({
                     type="checkbox"
                     name="botcheck"
                     className="hidden"
-                    style={{ display: "none" }}
                   />
                   <input type="hidden" name="from_name" value="Rock The JVM" />
 

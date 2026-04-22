@@ -1,5 +1,6 @@
 import { Field, Switch } from "@headlessui/react";
 import { useState } from "react";
+import site from "@/data/site.json";
 
 export default function Example() {
   const [agreed, setAgreed] = useState(false);
@@ -22,7 +23,7 @@ export default function Example() {
         <input
           type="hidden"
           name="access_key"
-          value="16c01467-967d-411c-a15c-e5e9e4a936f3"
+          value={site.web3formsKey}
         />
         <input
           type="hidden"

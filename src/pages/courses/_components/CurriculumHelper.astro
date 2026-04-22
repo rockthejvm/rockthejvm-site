@@ -1,4 +1,5 @@
 ---
+import PlayCircle from "@/components/icons/PlayCircle.astro";
 import durationToMinutes from "@/utils/durationToMinutes";
 import type { CurriculumSection } from "@/types/Curriculum";
 import type { CollectionEntry } from "astro:content";
@@ -45,18 +46,7 @@ const durationLabel =
     <span><strong class="text-content">{lectureSections.length}</strong> sections</span>
   </div>
   <div class="flex items-center gap-x-2 text-sm text-content-1">
-    <svg
-      class="h-4 w-4 text-accent-2"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm6.39-2.908a.75.75 0 01.766.027l3.5 2.25a.75.75 0 010 1.262l-3.5 2.25A.75.75 0 018 12.25v-4.5a.75.75 0 01.39-.658z"
-        clip-rule="evenodd"
-      ></path>
-    </svg>
+    <PlayCircle class="h-4 w-4 text-accent-2" />
     <span><strong class="text-content">{totalLectures}</strong> lessons</span>
   </div>
   <div class="flex items-center gap-x-2 text-sm text-content-1">
@@ -95,18 +85,7 @@ const durationLabel =
             <div class="flex items-center justify-between gap-x-4 rounded-lg px-4 py-2.5 transition-colors hover:bg-secondary/60">
               <div class="flex min-w-0 flex-1 items-center gap-x-3">
                 <!-- Play icon -->
-                <svg
-                  class="h-4 w-4 shrink-0 text-content-1/50"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm6.39-2.908a.75.75 0 01.766.027l3.5 2.25a.75.75 0 010 1.262l-3.5 2.25A.75.75 0 018 12.25v-4.5a.75.75 0 01.39-.658z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <PlayCircle class="h-4 w-4 shrink-0 text-content-1/50" />
                 <a
                   href={`https://courses.rockthejvm.com/courses/${courseId}/lectures/${id}`}
                   target="_blank"

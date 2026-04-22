@@ -34,26 +34,22 @@ const initCourseDetailsToggle = () => {
 
   const open = () => {
     isOpen = true;
-    preview.style.maxHeight = "none";
+    preview.classList.add("max-h-none");
     gradient?.classList.add("hidden");
     expanded.classList.remove("hidden");
     labelMore?.classList.add("hidden");
     labelClose?.classList.remove("hidden");
-    if (chevron) {
-      chevron.style.transform = "rotate(180deg)";
-    }
+    chevron?.classList.add("rotate-180");
   };
 
   const close = () => {
     isOpen = false;
-    preview.style.maxHeight = "";
+    preview.classList.remove("max-h-none");
     gradient?.classList.remove("hidden");
     expanded.classList.add("hidden");
     labelMore?.classList.remove("hidden");
     labelClose?.classList.add("hidden");
-    if (chevron) {
-      chevron.style.transform = "";
-    }
+    chevron?.classList.remove("rotate-180");
   };
 
   button.addEventListener("click", () => {

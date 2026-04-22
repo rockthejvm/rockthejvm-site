@@ -85,7 +85,7 @@ export default function Example(props) {
         className="lg:hidden"
       >
         <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-bkg p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-bkg p-6 sm:max-w-sm sm:ring-1 sm:ring-content/10">
           <div className="flex items-center justify-between">
             <a
               href="/"
@@ -111,7 +111,7 @@ export default function Example(props) {
             </button>
           </div>
           <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
+            <div className="-my-6 divide-y divide-content/10">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
                   <a

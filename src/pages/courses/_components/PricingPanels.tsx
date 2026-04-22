@@ -148,9 +148,6 @@ export default function PricingPanels(props: Props) {
   } = props;
 
   const isYearly = membership.value === "Yearly";
-  const membershipPriceInCents = isYearly
-    ? yearlyPriceInCents
-    : monthlyPriceInCents;
   const yearlySavingsPct =
     monthlyPriceInCents > 0
       ? Math.round((1 - yearlyPriceInCents / (12 * monthlyPriceInCents)) * 100)

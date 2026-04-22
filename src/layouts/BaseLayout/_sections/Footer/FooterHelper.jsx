@@ -247,7 +247,7 @@ export default function Example(props) {
                 href={site.socials.facebook.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                className="text-content hover:text-link-hover"
               >
                 {props.facebook}
               </a>
@@ -258,7 +258,7 @@ export default function Example(props) {
                 href={site.socials.github.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                className="text-content hover:text-link-hover"
               >
                 {props.github}
               </a>
@@ -269,7 +269,7 @@ export default function Example(props) {
                 href={site.socials.linkedin.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                className="text-content hover:text-link-hover"
               >
                 {props.linkedin}
               </a>
@@ -280,7 +280,7 @@ export default function Example(props) {
                 href={site.socials.twitter.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                className="text-content hover:text-link-hover"
               >
                 {props.twitter}
               </a>
@@ -291,7 +291,7 @@ export default function Example(props) {
                 href={site.socials.youtube.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                className="text-content hover:text-link-hover"
               >
                 {props.youtube}
               </a>
@@ -301,7 +301,7 @@ export default function Example(props) {
                 key="RSS"
                 href={site.socials.feed.url}
                 target="_blank"
-                className="text-content hover:text-accent-1"
+                className="text-content hover:text-link-hover"
                 rel="noreferrer"
               >
                 {props.rss}

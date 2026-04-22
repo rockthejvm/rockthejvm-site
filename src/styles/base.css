@@ -28,7 +28,7 @@
 
   .skills-list > ul > li::before {
     content: "✓";
-    color: hsl(var(--accent-2));
+    color: hsl(var(--color-accent2));
     font-weight: 700;
     margin-top: 0.05rem;
   }
@@ -221,15 +221,9 @@
     scrollbar-width: none; /* Firefox */
   }
 
-  .article-home-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
   .article-home-link::after {
     content: "";
-    background: #999;
+    background: hsl(var(--color-content2));
     width: 80%;
     height: 1px;
     position: absolute;

@@ -19,7 +19,7 @@ const {
 ---
 
 <div class="mx-auto grid max-w-5xl grid-cols-1 items-center gap-8 py-8 sm:grid-cols-2 sm:gap-10">
-  <div class={imagePosition === "right" ? "order-2 sm:order-2" : "order-2 sm:order-1"}>
+  <div class={imagePosition === "right" ? "order-2" : "order-2 sm:order-1"}>
     <MyPicture
       class={`${imageRounded ? "rounded-full mx-auto w-3/4" : "rounded-xl w-full"} ${imageClassName}`}
       src={image}
@@ -27,7 +27,7 @@ const {
       quality="mid"
     />
   </div>
-  <div class={imagePosition === "right" ? "order-1 sm:order-1" : "order-1 sm:order-2"}>
+  <div class={imagePosition === "right" ? "order-1" : "order-1 sm:order-2"}>
     <Prose>
       <slot />
     </Prose>

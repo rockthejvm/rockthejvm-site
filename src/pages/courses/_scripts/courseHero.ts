@@ -20,11 +20,7 @@ const createVideoFrame = (videoId: string): HTMLIFrameElement => {
   iframe.allow =
     "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
   iframe.allowFullscreen = true;
-  iframe.style.position = "absolute";
-  iframe.style.inset = "0";
-  iframe.style.width = "100%";
-  iframe.style.height = "100%";
-  iframe.style.border = "0";
+  iframe.className = "absolute inset-0 w-full h-full border-0";
   return iframe;
 };
 

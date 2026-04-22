@@ -1,4 +1,7 @@
 ---
+import Check from "@/components/icons/Check.astro";
+import XMark from "@/components/icons/XMark.astro";
+
 const forYou = [
   "You're a working software engineer with at least a year of experience",
   "You learn best by writing code",
@@ -36,9 +39,7 @@ const notForYou = [
     <div class="w-full card-shadow card-shadow-color rounded-2xl bg-secondary p-8 ring-2 ring-cta lg:w-1/2">
       <div class="mb-6 flex items-center gap-x-3">
         <div class="flex h-10 w-10 flex-none items-center justify-center rounded-xl text-emerald-400 bg-emerald-500/15">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-hidden="true">
-            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-          </svg>
+          <Check />
         </div>
         <h3 class="text-xl font-bold text-content">This is for you if…</h3>
       </div>
@@ -46,18 +47,7 @@ const notForYou = [
         {
           forYou.map((item) => (
             <li class="flex items-start gap-x-3">
-              <svg
-                class="mt-0.5 h-6 w-6 p-1 flex-none text-emerald-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <Check class="mt-0.5 h-6 w-6 p-1 flex-none text-emerald-400" />
               <span class="leading-6 text-content-1">{item}</span>
             </li>
           ))
@@ -69,9 +59,7 @@ const notForYou = [
     <div class="w-full card-shadow card-shadow-color rounded-2xl bg-secondary p-8 ring-1 ring-content/10 lg:w-1/2">
       <div class="mb-6 flex items-center gap-x-3">
         <div class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-red-500/10 text-red-300">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-hidden="true">
-            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-          </svg>
+          <XMark />
         </div>
         <h3 class="text-xl font-bold text-content">This is NOT for you if…</h3>
       </div>
@@ -79,14 +67,7 @@ const notForYou = [
         {
           notForYou.map((item) => (
             <li class="flex items-start gap-x-3">
-              <svg
-                class="mt-0.5 h-5 w-5 flex-none text-red-300"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-              </svg>
+              <XMark class="mt-0.5 h-5 w-5 flex-none text-red-300" />
               <span class="leading-6 text-content-1">{item}</span>
             </li>
           ))
