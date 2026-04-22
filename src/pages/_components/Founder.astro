@@ -13,9 +13,12 @@ const { name, photo, socials } = author.data;
 ---
 
 <section class="mx-auto max-w-6xl py-16 md:py-24">
-  <div class="card-shadow card-shadow-color rounded-3xl bg-secondary px-6 py-10 sm:px-10 sm:py-12">
-    <div class="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-12">
-
+  <div
+    class="card-shadow card-shadow-color rounded-3xl bg-secondary px-6 py-10 sm:px-10 sm:py-12"
+  >
+    <div
+      class="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-12"
+    >
       <!-- Left: photo, CTA, socials -->
       <div class="flex shrink-0 flex-col items-center">
         <a href={`/authors/${author.id}`}>
@@ -40,42 +43,72 @@ const { name, photo, socials } = author.data;
             <ul class="mt-4 flex gap-x-4">
               {socials.website && (
                 <li>
-                  <a href={socials.website} class="text-content hover:text-link-hover" target="_blank" rel="noreferrer">
+                  <a
+                    href={socials.website}
+                    class="text-content hover:text-link-hover"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <Website />
                   </a>
                 </li>
               )}
               {socials.facebook && (
                 <li>
-                  <a href={`https://www.facebook.com/${socials.facebook}`} class="text-content hover:text-link-hover" target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://www.facebook.com/${socials.facebook}`}
+                    class="text-content hover:text-link-hover"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <Facebook />
                   </a>
                 </li>
               )}
               {socials.github && (
                 <li>
-                  <a href={`https://www.github.com/${socials.github}`} class="text-content hover:text-link-hover" target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://www.github.com/${socials.github}`}
+                    class="text-content hover:text-link-hover"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <GitHub />
                   </a>
                 </li>
               )}
               {socials.linkedin && (
                 <li>
-                  <a href={`https://www.linkedin.com/in/${socials.linkedin}`} class="text-content hover:text-link-hover" target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://www.linkedin.com/in/${socials.linkedin}`}
+                    class="text-content hover:text-link-hover"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <LinkedIn />
                   </a>
                 </li>
               )}
               {socials.twitter && (
                 <li>
-                  <a href={`https://www.x.com/${socials.twitter}`} class="text-content hover:text-link-hover" target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://www.x.com/${socials.twitter}`}
+                    class="text-content hover:text-link-hover"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <Twitter />
                   </a>
                 </li>
               )}
               {socials.youtube && (
                 <li>
-                  <a href={`https://www.youtube.com/${socials.youtube}`} class="text-content hover:text-link-hover" target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://www.youtube.com/${socials.youtube}`}
+                    class="text-content hover:text-link-hover"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <YouTube />
                   </a>
                 </li>
@@ -89,35 +122,46 @@ const { name, photo, socials } = author.data;
       <div class="flex flex-col gap-4 text-base leading-7 text-content-1">
         <h2 class="text-lg font-semibold text-content">👋 from the founder</h2>
         <p>
-          I'm Daniel Cioc&icirc;rlan, and I'm a software engineer like you. Over 15+ years, I've read books and blogs, taken online courses, watched a zillion tutorials, and maxxed out my AI tokens as I've learned the (hard!) things I needed for my projects.
+          I'm Daniel Cioc&icirc;rlan, and I'm a software engineer like you. Over
+          15+ years, I've read books and blogs, taken online courses, watched a
+          zillion tutorials, and maxxed out my AI tokens as I've learned the
+          (hard!) things I needed for my projects.
         </p>
         <p>
-          I found two underrated questions to ask if you want to learn hard technical topics:
+          I found two underrated questions to ask if you want to learn hard
+          technical topics:
         </p>
         <ol class="list-decimal space-y-1 pl-6">
           <li>What to search for (or what questions to ask, in case of AI)</li>
           <li>In what order to study them</li>
         </ol>
         <p>
-          If only someone could give you those answers. Without them, I've tried and failed many times, as I spent literally thousands of hours studying and practicing.
+          If only someone could give you those answers. Without them, I've tried
+          and failed many times, as I spent literally thousands of hours
+          studying and practicing.
         </p>
         <p>
-          I made Rock the JVM because there's a smarter path to the same skills. We've deconstructed and sequenced the major ideas, tools, and mental models, so that you can get the same lessons 10x faster than I did.
+          I made Rock the JVM because there's a smarter path to the same skills.
+          We've deconstructed and sequenced the major ideas, tools, and mental
+          models, so that you can get the same lessons 10x faster than I did.
         </p>
         <p>
-          There's no instant shortcut and we write a LOT of code, but this is the learning path I wish I had.
+          There's no instant shortcut and we write a LOT of code, but this is
+          the learning path I wish I had.
         </p>
         <p>
-          Since 2017, over 100,000 students around the world have taken our courses, and major companies like Google, Apple and Adobe have reached out to me to run private training sessions for their teams.
+          Since 2017, over 100,000 students around the world have taken our
+          courses, and major companies like Google, Apple and Adobe have reached
+          out to me to run private training sessions for their teams.
         </p>
         <p>
-          Join Rock the JVM and put in the work with us, and you'll build the senior engineer profile you want.
+          Join Rock the JVM and put in the work with us, and you'll build the
+          senior engineer profile you want.
         </p>
         <p>
           See you inside,<br />Daniel
         </p>
       </div>
-
     </div>
   </div>
 </section>

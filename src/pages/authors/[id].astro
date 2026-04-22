@@ -71,11 +71,13 @@ const { articles, courses, author } = Astro.props,
         </section>
       )
     }
-    {articles.length > 0 && (
-      <section>
-        <H2>Articles</H2>
-        <Articles {articles} />
-      </section>
-    )}
+    {
+      articles.length > 0 && (
+        <section>
+          <H2>Articles</H2>
+          <Articles {articles} />
+        </section>
+      )
+    }
   </FullContainer>
 </BaseLayout>

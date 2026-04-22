@@ -1,11 +1,14 @@
 ---
-import { getImage } from "astro:assets";
 import Profile from "@/components/Profile.astro";
 import site from "@/data/site.json";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import type { ReactFlowEdge, ReactFlowNode } from "@/types/ReactFlow";
-import { countCurriculumLectures, fetchCurriculumSections } from "@/utils/fetchCurriculum";
+import {
+  countCurriculumLectures,
+  fetchCurriculumSections,
+} from "@/utils/fetchCurriculum";
 import { getTeachablePricingPlan } from "@/utils/teachable";
+import { getImage } from "astro:assets";
 import {
   type CollectionEntry,
   getCollection,
@@ -92,7 +95,12 @@ const course = await getEntry(
 const _personalMembership = await getEntry("memberships", "personal")!,
   _monthlyPackage = _personalMembership.data.packages[0],
   _yearlyPackage = _personalMembership.data.packages[1],
-  [monthlyMembershipPlan, yearlyMembershipPlan, courseCurriculum, bundledCurricula] = await Promise.all([
+  [
+    monthlyMembershipPlan,
+    yearlyMembershipPlan,
+    courseCurriculum,
+    bundledCurricula,
+  ] = await Promise.all([
     showMembership
       ? getTeachablePricingPlan(_monthlyPackage.pricingPlanId)
       : Promise.resolve(null),
@@ -102,16 +110,18 @@ const _personalMembership = await getEntry("memberships", "personal")!,
     isCourse && !isPreview
       ? fetchCurriculumSections(pricingPlanId)
       : Promise.resolve([]),
-  isBundle && !isPreview
-    ? Promise.all(
-        bundledCourses.map((course) =>
-          fetchCurriculumSections(course.data.pricingPlanId),
-        ),
-      )
-    : Promise.resolve([]),
-]);
+    isBundle && !isPreview
+      ? Promise.all(
+          bundledCourses.map((course) =>
+            fetchCurriculumSections(course.data.pricingPlanId),
+          ),
+        )
+      : Promise.resolve([]),
+  ]);
 const heroTotalLessons =
-  isCourse && !isPreview ? countCurriculumLectures(courseCurriculum) : undefined;
+  isCourse && !isPreview
+    ? countCurriculumLectures(courseCurriculum)
+    : undefined;
 const bundleHours = isBundle
   ? bundledCourses
       .map(({ data: { benefits: b } }) => b?.hours ?? 0)
@@ -243,7 +253,12 @@ const _prerequisitess = await getCollection("prerequisites"),
     },
   });
 
-const _heroBg = await getImage({ src: heroImage, format: "webp", quality: "low", width: 1920 });
+const _heroBg = await getImage({
+  src: heroImage,
+  format: "webp",
+  quality: "low",
+  width: 1920,
+});
 const heroImageBgSrc = _heroBg.src;
 ---
 
@@ -312,7 +327,7 @@ const heroImageBgSrc = _heroBg.src;
       </div>
     </Hero>
     <CoursePageNav
-      hasSkills={hasSkills}
+      {hasSkills}
       hasCourseDetails={hasGoal || !!question || !!features || !!technologies}
       {isBundle}
       {isCourse}
@@ -335,40 +350,37 @@ const heroImageBgSrc = _heroBg.src;
       (hasGoal || !!question || !!features || !!technologies) && (
         <div id="course-details" class="scroll-mt-20">
           {/* Preview: fixed-height truncated Goal with gradient fade */}
-          <div id="course-details-preview" class="relative max-h-80 overflow-hidden">
-            {
-              hasGoal && (
-                <Goal color={categoryColor}>
-                  <slot name="goal" />
-                </Goal>
-              )
-            }
+          <div
+            id="course-details-preview"
+            class="relative max-h-80 overflow-hidden"
+          >
+            {hasGoal && (
+              <Goal color={categoryColor}>
+                <slot name="goal" />
+              </Goal>
+            )}
             {/* Gradient fade — fades to --bkg which switches automatically per theme */}
             <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bkg to-transparent" />
           </div>
 
           {/* Expanded content (hidden by default) */}
           <div id="course-details-expanded" class="hidden">
-            {
-              question && (
-                <Question color={categoryColor} {question}>
-                  <slot name="question" />
-                </Question>
-              )
-            }
-            {
-              features && (
-                <Features color={categoryColor} {features}>
-                  <slot name="verticalSection" slot="verticalSection" />
-                  <slot name="feature1" slot="feature1" />
-                  <slot name="feature2" slot="feature2" />
-                  <slot name="feature3" slot="feature3" />
-                  <slot name="feature4" slot="feature4" />
-                  <slot name="feature5" slot="feature5" />
-                  <slot name="feature6" slot="feature6" />
-                </Features>
-              )
-            }
+            {question && (
+              <Question color={categoryColor} {question}>
+                <slot name="question" />
+              </Question>
+            )}
+            {features && (
+              <Features color={categoryColor} {features}>
+                <slot name="verticalSection" slot="verticalSection" />
+                <slot name="feature1" slot="feature1" />
+                <slot name="feature2" slot="feature2" />
+                <slot name="feature3" slot="feature3" />
+                <slot name="feature4" slot="feature4" />
+                <slot name="feature5" slot="feature5" />
+                <slot name="feature6" slot="feature6" />
+              </Features>
+            )}
             {technologies && <TechStack {technologies} color={categoryColor} />}
           </div>
           {/* Read More / Close toggle */}
@@ -379,7 +391,9 @@ const heroImageBgSrc = _heroBg.src;
               class="flex items-center gap-2 rounded-full bg-cta px-6 py-2.5 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1"
             >
               <span data-label-more>Read more</span>
-              <span data-label-close class="hidden">Close overview</span>
+              <span data-label-close class="hidden">
+                Close overview
+              </span>
               <svg
                 class="h-4 w-4 transition-transform duration-300"
                 viewBox="0 0 20 20"
@@ -404,11 +418,12 @@ const heroImageBgSrc = _heroBg.src;
         src={heroImageBgSrc}
         alt=""
         aria-hidden="true"
-        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.2] blur-sm [[data-theme=light]_&]:brightness-[0.35]"
+        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover blur-sm brightness-[0.2] [[data-theme=light]_&]:brightness-[0.35]"
         loading="lazy"
         decoding="async"
       />
-      <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80"></div>
+      <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80">
+      </div>
       <CourseTestimonials color={categoryColor} />
     </div>
 
@@ -442,11 +457,11 @@ const heroImageBgSrc = _heroBg.src;
             src={heroImageBgSrc}
             alt=""
             aria-hidden="true"
-            class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.2] blur-sm [[data-theme=light]_&]:brightness-[0.35]"
+            class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover blur-sm brightness-[0.2] [[data-theme=light]_&]:brightness-[0.35]"
             loading="lazy"
             decoding="async"
           />
-          <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80"></div>
+          <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80" />
           <Pricing
             {isCourse}
             {benefits}

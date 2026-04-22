@@ -55,8 +55,7 @@ program.provide(
 ];
 ---
 
-<!-- Render each code block at build time, hidden. React picks up the HTML. -->
-{
+<!-- Render each code block at build time, hidden. React picks up the HTML. -->{
   tabs.map((tab) => (
     <template data-hero-code-tab={tab.id}>
       <Code
@@ -68,7 +67,10 @@ program.provide(
   ))
 }
 
-<HeroCodeCard tabs={tabs.map((t) => ({ id: t.id, label: t.label }))} client:load />
+<HeroCodeCard
+  tabs={tabs.map((t) => ({ id: t.id, label: t.label }))}
+  client:load
+/>
 
 <style is:global>
   :root[data-theme="light"] .hero-code-panel .shiki,
@@ -93,7 +95,8 @@ program.provide(
   }
 
   .hero-code-panel code {
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    font-family:
+      ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
       "Liberation Mono", monospace;
   }
 </style>

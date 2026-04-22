@@ -2,8 +2,8 @@
 import CourseCardVertical from "@/components/CourseCardVertical.astro";
 import XMark from "@/components/icons/XMark.astro";
 import Section from "@/components/Section.astro";
-import { Image } from "astro:assets";
 import compareByNaturalOrder from "@/utils/compareByNaturalOrder";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 
 const categories = await getCollection(
@@ -71,7 +71,9 @@ const coursesByCategory = categories
       >
         <div class="mx-auto mt-8 max-w-5xl">
           <div class="mb-6 flex items-center justify-between">
-            <h3 class="text-2xl font-bold text-content">{cat.data.name} Courses</h3>
+            <h3 class="text-2xl font-bold text-content">
+              {cat.data.name} Courses
+            </h3>
             <button
               type="button"
               class="cat-close rounded-md p-1.5 text-content-2 transition-colors hover:text-content"
@@ -120,7 +122,11 @@ const coursesByCategory = categories
   }
   :root[data-theme="dark"] .cat-inner {
     --cat-card-bg: color-mix(in srgb, var(--accent) 14%, hsl(210deg 40% 16%));
-    --cat-card-bg-hover: color-mix(in srgb, var(--accent) 22%, hsl(210deg 40% 20%));
+    --cat-card-bg-hover: color-mix(
+      in srgb,
+      var(--accent) 22%,
+      hsl(210deg 40% 20%)
+    );
   }
 
   .cat-inner {

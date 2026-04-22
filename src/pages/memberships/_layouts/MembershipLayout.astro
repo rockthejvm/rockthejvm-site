@@ -1,10 +1,14 @@
 ---
 import Section from "@/components/Section.astro";
+import TrustedBy from "@/components/TrustedBy.astro";
 import MembershipImage from "@/images/logos/personal.png";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import StickyCTA from "@/pages/courses/_components/StickyCTA";
 import CourseTestimonials from "@/pages/courses/_sections/CourseTestimonials.astro";
-import { countCurriculumLectures, fetchCurriculumSections } from "@/utils/fetchCurriculum";
+import {
+  countCurriculumLectures,
+  fetchCurriculumSections,
+} from "@/utils/fetchCurriculum";
 import { getTeachablePricingPlan } from "@/utils/teachable";
 import { getCollection, getEntry } from "astro:content";
 import MembershipPageNav from "../_components/MembershipPageNav.astro";
@@ -12,7 +16,6 @@ import Courses from "../_sections/Courses.astro";
 import MembershipFAQ from "../_sections/MembershipFAQ.astro";
 import MembershipHero from "../_sections/MembershipHero.astro";
 import MembershipPricingSection from "../_sections/MembershipPricingSection.astro";
-import TrustedBy from "@/components/TrustedBy.astro";
 
 interface MembershipFaq {
   answer: string;
@@ -86,7 +89,7 @@ const totalLessons = courseCurricula.reduce(
 
 <BaseLayout
   {description}
-  title={title}
+  {title}
   image={{ alt: title, src: MembershipImage.src }}
 >
   <article>
@@ -96,8 +99,8 @@ const totalLessons = courseCurricula.reduce(
       {hero}
       monthlyPriceInCents={monthlyPriceInformation?.price}
       monthlyPricingPlanId={monthlyMembership.pricingPlanId}
-      totalHours={totalHours}
-      totalLessons={totalLessons}
+      {totalHours}
+      {totalLessons}
       yearlyPricingPlanId={yearlyMembership.pricingPlanId}
       yearlyPriceInCents={yearlyPriceInformation?.price}
     >
@@ -108,7 +111,11 @@ const totalLessons = courseCurricula.reduce(
     <MembershipPageNav />
 
     <div class="relative isolate overflow-hidden">
-      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(217,119,6,0.14),_transparent_38%),radial-gradient(circle_at_15%_70%,_rgba(56,189,248,0.13),_transparent_30%)] [[data-theme=light]_&]:bg-[radial-gradient(circle_at_bottom_right,_rgba(245,158,11,0.16),_transparent_38%),radial-gradient(circle_at_15%_70%,_rgba(14,165,233,0.12),_transparent_30%)]" aria-hidden="true"></div>
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(217,119,6,0.14),_transparent_38%),radial-gradient(circle_at_15%_70%,_rgba(56,189,248,0.13),_transparent_30%)] [[data-theme=light]_&]:bg-[radial-gradient(circle_at_bottom_right,_rgba(245,158,11,0.16),_transparent_38%),radial-gradient(circle_at_15%_70%,_rgba(14,165,233,0.12),_transparent_30%)]"
+        aria-hidden="true"
+      >
+      </div>
       <Section id="whats-included" color="bg-secondary" title="What's Included">
         <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
           <div class="skills-list">
@@ -119,11 +126,14 @@ const totalLessons = courseCurricula.reduce(
       <Courses />
     </div>
 
-
     <CourseTestimonials color="bg-secondary" />
 
     <div class="relative isolate overflow-hidden">
-      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.16),_transparent_38%),radial-gradient(circle_at_20%_80%,_rgba(56,189,248,0.14),_transparent_28%)] [[data-theme=light]_&]:bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.18),_transparent_38%),radial-gradient(circle_at_20%_80%,_rgba(14,165,233,0.14),_transparent_28%)]" aria-hidden="true"></div>
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.16),_transparent_38%),radial-gradient(circle_at_20%_80%,_rgba(56,189,248,0.14),_transparent_28%)] [[data-theme=light]_&]:bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.18),_transparent_38%),radial-gradient(circle_at_20%_80%,_rgba(14,165,233,0.14),_transparent_28%)]"
+        aria-hidden="true"
+      >
+      </div>
       <MembershipPricingSection />
     </div>
 

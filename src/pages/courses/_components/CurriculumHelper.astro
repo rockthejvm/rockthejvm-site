@@ -1,7 +1,7 @@
 ---
 import PlayCircle from "@/components/icons/PlayCircle.astro";
-import durationToMinutes from "@/utils/durationToMinutes";
 import type { CurriculumSection } from "@/types/Curriculum";
+import durationToMinutes from "@/utils/durationToMinutes";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -16,8 +16,7 @@ const totalLectures = lectureSections.reduce(
   0,
 );
 const totalSeconds = lectureSections.reduce(
-  (sum, s) =>
-    sum + s.lectures.reduce((ls, l) => ls + l.media_duration, 0),
+  (sum, s) => sum + s.lectures.reduce((ls, l) => ls + l.media_duration, 0),
   0,
 );
 const totalHours = Math.floor(totalSeconds / 3600);
@@ -29,7 +28,9 @@ const durationLabel =
 ---
 
 <!-- Summary stats bar -->
-<div class="mx-auto mb-6 max-w-5xl flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-xl bg-secondary/60 px-6 py-4 ring-1 ring-content/10">
+<div
+  class="mx-auto mb-6 flex max-w-5xl flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-xl bg-secondary/60 px-6 py-4 ring-1 ring-content/10"
+>
   <div class="flex items-center gap-x-2 text-sm text-content-1">
     <svg
       class="h-4 w-4 text-accent-2"
@@ -40,10 +41,11 @@ const durationLabel =
       <path
         fill-rule="evenodd"
         d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-        clip-rule="evenodd"
-      ></path>
+        clip-rule="evenodd"></path>
     </svg>
-    <span><strong class="text-content">{lectureSections.length}</strong> sections</span>
+    <span
+      ><strong class="text-content">{lectureSections.length}</strong> sections</span
+    >
   </div>
   <div class="flex items-center gap-x-2 text-sm text-content-1">
     <PlayCircle class="h-4 w-4 text-accent-2" />
@@ -59,10 +61,11 @@ const durationLabel =
       <path
         fill-rule="evenodd"
         d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
-        clip-rule="evenodd"
-      ></path>
+        clip-rule="evenodd"></path>
     </svg>
-    <span><strong class="text-content">{durationLabel}</strong> total length</span>
+    <span
+      ><strong class="text-content">{durationLabel}</strong> total length</span
+    >
   </div>
 </div>
 
@@ -72,10 +75,7 @@ const durationLabel =
     {
       lectureSections.map((lectureSection) => (
         <div class="mx-auto mb-6 max-w-5xl">
-          <!-- Section header -->
-          <div
-            class="sticky top-0 z-10 mb-2 rounded-lg bg-cta px-5 py-3 shadow-sm"
-          >
+          <div class="sticky top-0 z-10 mb-2 rounded-lg bg-cta px-5 py-3 shadow-sm">
             <h3 class="text-base font-semibold text-content">
               {lectureSection.name}
             </h3>
@@ -84,7 +84,6 @@ const durationLabel =
           {lectureSection.lectures.map(({ id, media_duration, name }) => (
             <div class="flex items-center justify-between gap-x-4 rounded-lg px-4 py-2.5 transition-colors hover:bg-secondary/60">
               <div class="flex min-w-0 flex-1 items-center gap-x-3">
-                <!-- Play icon -->
                 <PlayCircle class="h-4 w-4 shrink-0 text-content-1/50" />
                 <a
                   href={`https://courses.rockthejvm.com/courses/${courseId}/lectures/${id}`}

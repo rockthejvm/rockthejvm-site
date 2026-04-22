@@ -23,7 +23,7 @@ const {
 } = Astro.props;
 ---
 
-<section id={id} class:list={[additionalClasses]}>
+<section {id} class:list={[additionalClasses]}>
   {
     title && (
       <header class="mx-auto">

@@ -49,7 +49,9 @@ const formattedMembershipPrice =
 ---
 
 <div class="order-1 lg:order-2">
-  <div class="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
+  <div
+    class="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10"
+  >
     <MyPicture
       alt={title}
       src={heroImage}
@@ -67,7 +69,12 @@ const formattedMembershipPrice =
           class="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
           <span class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-xl transition-transform hover:scale-110">
-            <svg class="ml-1 h-7 w-7 text-gray-900" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg
+              class="ml-1 h-7 w-7 text-gray-900"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path d="M6.3 2.84A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.27l9.344-5.891a1.5 1.5 0 000-2.538L6.3 2.84z" />
             </svg>
           </span>
@@ -80,27 +87,33 @@ const formattedMembershipPrice =
     !isPreview && (
       <div class="mt-6 rounded-2xl bg-content/5 px-6 py-5 ring-1 ring-content/10 backdrop-blur-sm">
         <div class="flex flex-col gap-3">
-          {
-            showMembership && formattedMembershipPrice && monthlyMembershipPricingPlanId && (
+          {showMembership &&
+            formattedMembershipPrice &&
+            monthlyMembershipPricingPlanId && (
               <>
                 <p class="text-center text-lg font-medium text-content-1">
-                  Join <span class="font-semibold text-content">{site.stats.studentsLabel} students</span> enrolled in Rock the JVM courses
+                  Join{" "}
+                  <span class="font-semibold text-content">
+                    {site.stats.studentsLabel} students
+                  </span>{" "}
+                  enrolled in Rock the JVM courses
                 </p>
                 <PurchaseLink
                   pricingPlanId={monthlyMembershipPricingPlanId}
                   className="block rounded-md bg-cta px-6 py-3 text-center text-base font-semibold text-ctatext shadow-sm hover:bg-accent-1 hover:text-gray-50 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta"
                   client:load
                 >
-                  {isFree ? "Access for Free" : `Access for ${formattedMembershipPrice}/mo`}
+                  {isFree
+                    ? "Access for Free"
+                    : `Access for ${formattedMembershipPrice}/mo`}
                 </PurchaseLink>
                 <div class="flex items-center gap-3">
-                  <div class="h-px flex-1 bg-content/15"></div>
+                  <div class="h-px flex-1 bg-content/15" />
                   <span class="text-xs text-content-1">or</span>
-                  <div class="h-px flex-1 bg-content/15"></div>
+                  <div class="h-px flex-1 bg-content/15" />
                 </div>
               </>
-            )
-          }
+            )}
           <PurchaseLink
             {pricingPlanId}
             className={`block rounded-md px-4 py-2 text-center text-sm font-medium shadow-sm hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${

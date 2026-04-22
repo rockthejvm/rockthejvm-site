@@ -3,10 +3,10 @@ import Book from "@/components/icons/Book.astro";
 import Clock from "@/components/icons/Clock.astro";
 import MyPicture from "@/components/MyPicture.astro";
 import NewsletterSection from "@/components/NewsletterSection.astro";
+import type { CollectionEntry } from "astro:content";
 import HeroMediaCard from "../_components/HeroMediaCard.astro";
 import RoadmapModal from "../_components/RoadmapModal.astro";
 import VideoModal from "../_components/VideoModal.astro";
-import type { CollectionEntry } from "astro:content";
 
 type CourseFrontmatter = CollectionEntry<"courses">["data"];
 
@@ -61,9 +61,12 @@ const {
 } = Astro.props;
 
 const difficultyColorClass: Record<string, string> = {
-  beginner: "bg-blue-500/20 text-blue-400 ring-1 ring-inset ring-blue-400/40 [[data-theme=light]_&]:text-blue-700 [[data-theme=light]_&]:ring-blue-700/40",
-  intermediate: "bg-amber-500/20 text-amber-400 ring-1 ring-inset ring-amber-400/40 [[data-theme=light]_&]:text-amber-700 [[data-theme=light]_&]:ring-amber-700/40",
-  advanced: "bg-red-500/20 text-red-400 ring-1 ring-inset ring-red-400/40 [[data-theme=light]_&]:text-red-700 [[data-theme=light]_&]:ring-red-700/40",
+  beginner:
+    "bg-blue-500/20 text-blue-400 ring-1 ring-inset ring-blue-400/40 [[data-theme=light]_&]:text-blue-700 [[data-theme=light]_&]:ring-blue-700/40",
+  intermediate:
+    "bg-amber-500/20 text-amber-400 ring-1 ring-inset ring-amber-400/40 [[data-theme=light]_&]:text-amber-700 [[data-theme=light]_&]:ring-amber-700/40",
+  advanced:
+    "bg-red-500/20 text-red-400 ring-1 ring-inset ring-red-400/40 [[data-theme=light]_&]:text-red-700 [[data-theme=light]_&]:ring-red-700/40",
 };
 
 const instructorNames = instructors.map((i) => i.data.name).join(" & ");
@@ -80,7 +83,8 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
     decoding="async"
   />
   <!-- Theme-aware overlay -->
-  <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80"></div>
+  <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80">
+  </div>
 
   <!-- Main content grid -->
   <div
@@ -133,14 +137,16 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
       </p>
 
       <!-- Roadmap link -->
-      {inRoadmap && (
-        <button
-          id="open-roadmap-modal"
-          class="mt-2 text-sm text-accent-1 hover:text-link-hover hover:underline focus:outline-none"
-        >
-          Check roadmap &rarr;
-        </button>
-      )}
+      {
+        inRoadmap && (
+          <button
+            id="open-roadmap-modal"
+            class="mt-2 text-sm text-accent-1 hover:text-link-hover hover:underline focus:outline-none"
+          >
+            Check roadmap &rarr;
+          </button>
+        )
+      }
 
       <!-- Stats row -->
       <dl class="mt-8 flex flex-wrap gap-x-8 gap-y-3">
@@ -220,15 +226,17 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
       <div class="mt-8 flex items-center gap-x-3">
         <div class="flex -space-x-2">
           {
-            instructors.slice(0, 3).map((instructor) => (
-              <MyPicture
-                src={instructor.data.photo}
-                alt={instructor.data.name}
-                class="h-10 w-10 rounded-full object-cover ring-2 ring-content/30"
-                quality="low"
-                width={40}
-              />
-            ))
+            instructors
+              .slice(0, 3)
+              .map((instructor) => (
+                <MyPicture
+                  src={instructor.data.photo}
+                  alt={instructor.data.name}
+                  class="h-10 w-10 rounded-full object-cover ring-2 ring-content/30"
+                  quality="low"
+                  width={40}
+                />
+              ))
           }
         </div>
         <p class="text-sm text-content-1">
@@ -236,15 +244,17 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
         </p>
       </div>
 
-      {isPreview && (
-        <div class="mt-10">
-          <NewsletterSection
-            stacked={true}
-            {isPreview}
-            title="Get notified when this course launches!"
-          />
-        </div>
-      )}
+      {
+        isPreview && (
+          <div class="mt-10">
+            <NewsletterSection
+              stacked={true}
+              {isPreview}
+              title="Get notified when this course launches!"
+            />
+          </div>
+        )
+      }
     </div>
 
     <!-- Right column: hero image + price/CTA -->
@@ -254,16 +264,14 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
       {isBundle}
       {isFree}
       {isPreview}
-      monthlyMembershipPriceInCents={monthlyMembershipPriceInCents}
-      monthlyMembershipPricingPlanId={monthlyMembershipPricingPlanId}
-      priceInCents={priceInCents}
+      {monthlyMembershipPriceInCents}
+      {monthlyMembershipPricingPlanId}
+      {priceInCents}
       {pricingPlanId}
       {showMembership}
       {title}
       {videoId}
     />
-  </div>
-
   </div>
 </header>
 
@@ -274,7 +282,6 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
 <RoadmapModal>
   <slot name="roadmap" />
 </RoadmapModal>
-
 
 <script>
   import "../_scripts/courseHero";

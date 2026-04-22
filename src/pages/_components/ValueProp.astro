@@ -26,17 +26,18 @@ const pillars = [
 
 <section class="py-16 md:py-24">
   <div class="mx-auto text-center">
-    <h2 class="mb-6 text-3xl font-extrabold tracking-tight text-content sm:text-4xl">
+    <h2
+      class="mb-6 text-3xl font-extrabold tracking-tight text-content sm:text-4xl"
+    >
       Why Rock the JVM?
     </h2>
-
   </div>
 
   <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
     {
       pillars.map(({ icon, title, description }) => (
         <div class="card-shadow card-shadow-color rounded-2xl bg-secondary p-8 ring-1 ring-content/10">
-          <div class="flex items-center mb-4">
+          <div class="mb-4 flex items-center">
             <div class="mr-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent-1/10 text-accent-1">
               <Fragment set:html={icon} />
             </div>

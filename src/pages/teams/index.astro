@@ -1,11 +1,11 @@
 ---
-import FAQ from "@/components/FAQ";
 import BackgroundGradient2 from "@/components/BackgroundGradient2.astro";
+import FAQ from "@/components/FAQ";
 import TrustedBy from "@/components/TrustedBy.astro";
-import HomeTestimonials from "@/pages/_components/HomeTestimonials.astro";
 import site from "@/data/site.json";
 import Logo from "@/images/logos/rock-the-jvm.svg";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import HomeTestimonials from "@/pages/_components/HomeTestimonials.astro";
 import { getCollection } from "astro:content";
 import TeamQuoteCTA from "./_components/TeamQuoteCTA";
 import { frontmatter as faqsFrontmatter } from "./_data/faqs.mdx";
@@ -87,12 +87,12 @@ const products = [
       type: c.data.bundledCourses ? "bundle" : "course",
     }))
     .sort((a, b) => a.name.localeCompare(b.name)),
-    // include membership in the product list
-    {
-      id: "membership",
-      name: "Membership",
-      type: "membership",
-    }
+  // include membership in the product list
+  {
+    id: "membership",
+    name: "Membership",
+    type: "membership",
+  },
 ];
 ---
 
@@ -119,10 +119,10 @@ const products = [
       </h1>
       <p class="mx-auto mb-10 max-w-2xl text-lg leading-8 text-content-1">
         Give every engineer on your team access to the same deep, hands-on
-        training used by engineering teams at Google, Apple, and Adobe.
-        One invoice, individual accounts, full (or custom) Rock the JVM library.
+        training used by engineering teams at Google, Apple, and Adobe. One
+        invoice, individual accounts, full (or custom) Rock the JVM library.
       </p>
-      <TeamQuoteCTA products={products} client:visible />
+      <TeamQuoteCTA {products} client:visible />
       <p class="mt-3 text-sm text-content-1">
         Response within one business day · No commitment required
       </p>
@@ -200,13 +200,15 @@ const products = [
     </section>
 
     <!-- ── Bottom CTA ─────────────────────────────────────────── -->
-    <section class="mb-16 rounded-2xl bg-secondary px-8 py-10 text-center md:mb-24">
+    <section
+      class="mb-16 rounded-2xl bg-secondary px-8 py-10 text-center md:mb-24"
+    >
       <h2 class="mb-4 font-bold text-content">Ready to level up your team?</h2>
       <p class="mx-auto mb-6 max-w-xl text-content-1">
         Tell us your team size and what you're working on. We'll get back to you
         within one business day.
       </p>
-      <TeamQuoteCTA products={products} client:visible />
+      <TeamQuoteCTA {products} client:visible />
       <p class="mt-3 text-sm text-content-1">
         No commitment required · Response within one business day
       </p>

@@ -9,8 +9,8 @@ const displayCategories = await getCollection("courseCategories");
   <div class="mb-12 text-center">
     <h2 class="mb-4 font-bold text-content">What You'll Master</h2>
     <p class="mx-auto max-w-xl text-content-2">
-      Deep dives into powerful technologies &mdash;
-      from language fundamentals to production-grade distributed systems.
+      Deep dives into powerful technologies &mdash; from language fundamentals
+      to production-grade distributed systems.
     </p>
   </div>
 
@@ -37,7 +37,9 @@ const displayCategories = await getCollection("courseCategories");
                   height={56}
                 />
               </figure>
-              <h4 class="text-sm font-semibold text-content-1 transition-colors group-hover:text-accent-1">{cat.data.name}</h4>
+              <h4 class="text-sm font-semibold text-content-1 transition-colors group-hover:text-accent-1">
+                {cat.data.name}
+              </h4>
             </div>
           </a>
         </li>
@@ -83,7 +85,11 @@ const displayCategories = await getCollection("courseCategories");
   }
   :root[data-theme="dark"] .cat-inner {
     --cat-card-bg: color-mix(in srgb, var(--accent) 14%, hsl(210deg 40% 16%));
-    --cat-card-bg-hover: color-mix(in srgb, var(--accent) 22%, hsl(210deg 40% 20%));
+    --cat-card-bg-hover: color-mix(
+      in srgb,
+      var(--accent) 22%,
+      hsl(210deg 40% 20%)
+    );
   }
 
   /* ── Tiltable card face ──────────────────────────────────────── */
@@ -93,7 +99,8 @@ const displayCategories = await getCollection("courseCategories");
     border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
     background: var(--cat-card-bg);
     transform-style: preserve-3d;
-    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transform: perspective(900px) rotateX(var(--rx, 0deg))
+      rotateY(var(--ry, 0deg));
     transition:
       transform 0.12s ease,
       border-color 0.3s ease,

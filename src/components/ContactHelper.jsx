@@ -1,6 +1,6 @@
+import site from "@/data/site.json";
 import { Field, Switch } from "@headlessui/react";
 import { useState } from "react";
-import site from "@/data/site.json";
 
 export default function Example() {
   const [agreed, setAgreed] = useState(false);
@@ -20,11 +20,7 @@ export default function Example() {
         method="POST"
         className="mx-auto max-w-xl"
       >
-        <input
-          type="hidden"
-          name="access_key"
-          value={site.web3formsKey}
-        />
+        <input type="hidden" name="access_key" value={site.web3formsKey} />
         <input
           type="hidden"
           name="subject"

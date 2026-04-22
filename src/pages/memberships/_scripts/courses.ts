@@ -19,7 +19,9 @@ function toggleCategory(catId: string) {
   const wasOpen = openCatId === catId;
 
   if (openCatId) {
-    const prevBtn = document.querySelector<HTMLButtonElement>(`.cat-card[data-cat-id="${openCatId}"]`);
+    const prevBtn = document.querySelector<HTMLButtonElement>(
+      `.cat-card[data-cat-id="${openCatId}"]`,
+    );
     const prevPanel = document.getElementById(`cat-panel-${openCatId}`);
     prevBtn?.setAttribute("aria-expanded", "false");
     prevPanel?.classList.remove("is-open");
@@ -31,7 +33,9 @@ function toggleCategory(catId: string) {
   }
 
   if (!wasOpen) {
-    const btn = document.querySelector<HTMLButtonElement>(`.cat-card[data-cat-id="${catId}"]`);
+    const btn = document.querySelector<HTMLButtonElement>(
+      `.cat-card[data-cat-id="${catId}"]`,
+    );
     const panel = document.getElementById(`cat-panel-${catId}`);
     btn?.setAttribute("aria-expanded", "true");
     panel?.classList.remove("hidden");
@@ -47,16 +51,20 @@ function toggleCategory(catId: string) {
   }
 }
 
-document.querySelectorAll<HTMLButtonElement>(".cat-card[data-cat-id]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const catId = btn.dataset.catId!;
-    toggleCategory(catId);
+document
+  .querySelectorAll<HTMLButtonElement>(".cat-card[data-cat-id]")
+  .forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const catId = btn.dataset.catId!;
+      toggleCategory(catId);
+    });
   });
-});
 
-document.querySelectorAll<HTMLButtonElement>(".cat-close[data-cat-id]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const catId = btn.dataset.catId!;
-    toggleCategory(catId);
+document
+  .querySelectorAll<HTMLButtonElement>(".cat-close[data-cat-id]")
+  .forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const catId = btn.dataset.catId!;
+      toggleCategory(catId);
+    });
   });
-});

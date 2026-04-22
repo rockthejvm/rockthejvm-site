@@ -1,6 +1,6 @@
 import PurchaseLink from "@/components/PurchaseLink";
-import centsToPrice, { splitPrice } from "@/utils/centsToPrice";
 import { membershipTypes } from "@/pages/memberships/_sections/MembershipPricingSectionHelper";
+import centsToPrice, { splitPrice } from "@/utils/centsToPrice";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useState } from "react";
 

@@ -14,7 +14,9 @@ interface Props {
 const { course } = Astro.props;
 ---
 
-<div class="card-shadow card-shadow-color h-full max-w-sm rounded-xl ring-1 ring-content/10">
+<div
+  class="card-shadow card-shadow-color h-full max-w-sm rounded-xl ring-1 ring-content/10"
+>
   <div class="relative size-full overflow-hidden rounded-xl bg-secondary">
     <a
       href={`/courses/${course.id}`}

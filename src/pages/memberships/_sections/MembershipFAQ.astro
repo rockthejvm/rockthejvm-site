@@ -12,9 +12,8 @@ interface Props {
 }
 
 const { faqs = [] } = Astro.props;
-
 ---
 
 <Section id="faq" color="bg-secondary" title="FAQ">
-  <FAQ faqs={faqs} client:visible />
+  <FAQ {faqs} client:visible />
 </Section>

@@ -12,15 +12,26 @@ interface Props {
 const { title, description, image, alt } = Astro.props;
 ---
 
-<div class="flex flex-col items-center gap-4 p-6 text-center sm:flex-row sm:items-start sm:text-left sm:gap-6">
-  <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary/60">
-    <MyPicture class="max-h-full max-w-full object-contain" src={image} {alt} quality="mid" />
+<div
+  class="flex flex-col items-center gap-4 p-6 text-center sm:flex-row sm:items-start sm:gap-6 sm:text-left"
+>
+  <div
+    class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary/60"
+  >
+    <MyPicture
+      class="max-h-full max-w-full object-contain"
+      src={image}
+      {alt}
+      quality="mid"
+    />
   </div>
   <div>
     <h3 class="text-base font-bold text-content">
       {title}
     </h3>
-    <div class="mt-1 text-sm leading-6 text-content-1 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mt-1">
+    <div
+      class="mt-1 text-sm leading-6 text-content-1 [&_li]:mt-1 [&_ul]:list-disc [&_ul]:pl-5"
+    >
       <Fragment set:html={description} />
     </div>
   </div>
