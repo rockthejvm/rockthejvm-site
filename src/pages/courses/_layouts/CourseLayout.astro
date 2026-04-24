@@ -15,6 +15,7 @@ import {
   getEntries,
   getEntry,
 } from "astro:content";
+import { Match } from "effect";
 import CoursePageNav from "../_components/CoursePageNav.astro";
 import Roadmap from "../_components/Roadmap";
 import StickyCTA from "../_components/StickyCTA";
@@ -135,16 +136,12 @@ const bundleLessons =
       )
     : undefined;
 
-const difficultyLevelToEducationalLevel = (level: number) => {
-  switch (level) {
-    case 1:
-      return "Beginner";
-    case 2:
-      return "Intermediate";
-    default:
-      return "Advanced";
-  }
-};
+const difficultyLevelToEducationalLevel = (level: number) =>
+  Match.value(level).pipe(
+    Match.when(1, () => "Beginner"),
+    Match.when(2, () => "Intermediate"),
+    Match.orElse(() => "Advanced"),
+  );
 
 const _prerequisitess = await getCollection("prerequisites"),
   prerequisites = _prerequisitess.find(({ data: { nodes } }) =>

@@ -17,6 +17,7 @@ import type { MarkdownHeading } from "astro";
 import "astro-starlight-remark-asides/styles.css";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
+import { Match } from "effect";
 import Byline from "../_components/Byline.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import RelatedArticlesSection from "../_components/RelatedArticlesSection.astro";
@@ -133,25 +134,15 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
     <div data-pagefind-filter={`Difficulties: ${difficulty.id}`}></div>
     <div data-pagefind-filter="Categories:Articles (All)"></div>
     <div
-      data-pagefind-filter={`Categories:Articles (${(() => {
-        switch (category.data.name) {
-          case "Explanation": {
-            return "Explanations";
-          }
-          case "Guide": {
-            return "Guides";
-          }
-          case "Opinion": {
-            return "Opinions";
-          }
-          case "Retrospective": {
-            return "Retrospectives";
-          }
-          default: {
-            return "";
-          }
-        }
-      })()})`}
+      data-pagefind-filter={`Categories:Articles (${Match.value(
+        category.data.name,
+      ).pipe(
+        Match.when("Explanation", () => "Explanations"),
+        Match.when("Guide", () => "Guides"),
+        Match.when("Opinion", () => "Opinions"),
+        Match.when("Retrospective", () => "Retrospectives"),
+        Match.orElse(() => ""),
+      )})`}
     >
     </div>
     <div data-pagefind-filter={`Authors:${author.data.name}`}></div>
