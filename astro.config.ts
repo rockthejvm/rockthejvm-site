@@ -119,10 +119,12 @@ export default defineConfig({
       PODCAST_AUDIO_FEED_URL: envField.string({
         access: "public",
         context: "server",
+        optional: true,
       }),
       PODCAST_VIDEO_FEED_URL: envField.string({
         access: "public",
         context: "server",
+        optional: true,
       }),
     },
   },

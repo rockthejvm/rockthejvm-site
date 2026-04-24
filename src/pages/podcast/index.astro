@@ -3,8 +3,10 @@ import BackgroundGradient from "@/components/BackgroundGradient.astro";
 import Podcasts from "@/components/Podcasts.astro";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import { fetchPodcastFeed } from "@/utils/fetchPodcastFeed";
+import { PODCAST_AUDIO_FEED_URL, PODCAST_VIDEO_FEED_URL } from "astro:env/server";
 
 const episodes = await fetchPodcastFeed();
+const missingConfig = !PODCAST_AUDIO_FEED_URL || !PODCAST_VIDEO_FEED_URL;
 ---
 
 <BaseLayout
@@ -17,5 +19,12 @@ const episodes = await fetchPodcastFeed();
     </h1>
   </header>
   <BackgroundGradient />
-  <Podcasts {episodes} />
+  {missingConfig ? (
+    <!-- Podcast unavailable: PODCAST_AUDIO_FEED_URL / PODCAST_VIDEO_FEED_URL not set -->
+    <p class="mx-auto max-w-lg py-16 text-center text-content-2">
+      Podcast episodes are not available right now. Check back soon!
+    </p>
+  ) : (
+    <Podcasts {episodes} />
+  )}
 </BaseLayout>
