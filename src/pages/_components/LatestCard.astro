@@ -20,7 +20,7 @@ const { contents, link, type } = Astro.props;
       <div class="mx-auto w-full">
         <a href={link} class="no-underline hover:no-underline">
           <h3
-            class="my-4 text-center text-3xl font-semibold text-content-1 hover:text-accent-1 sm:text-4xl"
+            class="my-4 text-center text-3xl font-semibold text-content hover:text-link-hover sm:text-4xl"
           >
             Latest {type}
           </h3>
@@ -32,7 +32,7 @@ const { contents, link, type } = Astro.props;
                 <ul class="group relative mx-auto flex w-full items-center justify-center px-8">
                   <a
                     href={url}
-                    class="block w-full text-content-1 no-underline hover:text-accent-1 hover:no-underline"
+                    class="block w-full text-content no-underline hover:text-link-hover hover:no-underline"
                     title={title}
                   >
                     <li class="article-home-link text-md mx-auto my-1 flex flex-col items-center justify-center py-2 leading-5 no-underline">

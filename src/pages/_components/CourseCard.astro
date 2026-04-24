@@ -63,7 +63,7 @@ const isUpdated = course.data.updatedDate
   >
     <span class="flex gap-x-2">
       <h3
-        class={`text-center text-xl font-bold ${holiday ? "text-holiday-card-content-2" : "text-content-2"} hover:text-accent-2 md:text-left`}
+        class={`text-center text-xl font-bold ${holiday ? "text-holiday-card-content-2 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"} md:text-left`}
       >
         {course.data.isFree && <BadgeLarge {holiday}> Free! </BadgeLarge>}
         {

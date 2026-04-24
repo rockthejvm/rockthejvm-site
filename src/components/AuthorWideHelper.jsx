@@ -4,7 +4,7 @@ export default function Example(props) {
       <div className="mb-4 shrink-0 sm:mb-0 sm:mr-4">{props.photo}</div>
       <div className="my-auto">
         <a href={`/authors/${props.authorId}`}>
-          <h1 className="text-2xl font-bold text-content-2 hover:text-accent-2 sm:text-xl md:text-2xl lg:text-3xl">
+          <h1 className="text-2xl font-bold text-content hover:text-link-hover sm:text-xl md:text-2xl lg:text-3xl">
             {props.name}
           </h1>
         </a>

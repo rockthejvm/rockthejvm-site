@@ -6,7 +6,7 @@ export default function Example(props) {
       {/* </a> */}
       <div className="text-content-1">
         <a href={`/authors/${props.authorId}`} className="mt-auto">
-          <p className="text-lg font-bold text-content-1 hover:text-accent-2 sm:text-xl">
+          <p className="text-lg font-bold text-content hover:text-link-hover sm:text-xl">
             {props.authorName}
           </p>
         </a>
