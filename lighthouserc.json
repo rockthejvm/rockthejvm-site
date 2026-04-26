@@ -70,7 +70,7 @@
         ],
         "color-contrast": "warn",
         "uses-text-compression": "error",
-        "uses-responsive-images": "warn",
+        "uses-responsive-images": "error",
         "modern-image-formats": "warn",
         "prioritize-lcp-image": "warn",
         "render-blocking-resources": "warn",

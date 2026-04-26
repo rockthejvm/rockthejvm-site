@@ -42,6 +42,8 @@ const mediaClass = `${imageRounded ? "rounded-full mx-auto w-3/4" : "rounded-xl 
           src={image}
           alt=""
           quality="mid"
+          widths={[400, 512, 1024]}
+          sizes="(min-width: 640px) 512px, 100vw"
         />
       )
     }

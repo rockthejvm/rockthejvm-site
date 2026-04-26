@@ -28,6 +28,8 @@ const { course } = Astro.props;
           alt={course.data.title}
           quality="mid"
           class="min-h-full min-w-full object-cover object-center"
+          widths={[400, 768]}
+          sizes="(min-width: 640px) 384px, 100vw"
         />
       </div>
     </a>
