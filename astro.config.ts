@@ -53,6 +53,12 @@ export default defineConfig({
     prefetchAll: true,
   },
   output: "static",
+  // In dev, skip image optimization entirely (`noop` service). Production
+  // builds still use sharp via the default service. Dramatically faster
+  // `astro dev` startup; no effect on the published site.
+  image: process.argv.includes("dev")
+    ? { service: { entrypoint: "astro/assets/services/noop" } }
+    : undefined,
   // adapter: cloudflare({
   //   imageService: "passthrough",
   // }),

@@ -1,5 +1,6 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
+import MyVideo from "@/components/MyVideo.astro";
 import Prose from "@/components/Prose.astro";
 import type { ImageMetadata } from "astro";
 
@@ -8,6 +9,8 @@ interface Props {
   imagePosition: "left" | "right";
   imageRounded?: boolean;
   imageClassName?: string;
+  /** Optional video sources. When provided, renders an autoplaying video using `image` as the poster. */
+  video?: { mp4: string; webm: string };
 }
 
 const {
@@ -15,19 +18,33 @@ const {
   imagePosition,
   imageRounded = false,
   imageClassName = "w-full",
+  video,
 } = Astro.props;
+
+const mediaClass = `${imageRounded ? "rounded-full mx-auto w-3/4" : "rounded-xl w-full"} ${imageClassName}`;
 ---
 
 <div
   class="mx-auto grid max-w-5xl grid-cols-1 items-center gap-8 py-8 sm:grid-cols-2 sm:gap-10"
 >
   <div class={imagePosition === "right" ? "order-2" : "order-2 sm:order-1"}>
-    <MyPicture
-      class={`${imageRounded ? "rounded-full mx-auto w-3/4" : "rounded-xl w-full"} ${imageClassName}`}
-      src={image}
-      alt=""
-      quality="mid"
-    />
+    {
+      video ? (
+        <MyVideo
+          class={mediaClass}
+          poster={image}
+          mp4={video.mp4}
+          webm={video.webm}
+        />
+      ) : (
+        <MyPicture
+          class={mediaClass}
+          src={image}
+          alt=""
+          quality="mid"
+        />
+      )
+    }
   </div>
   <div class={imagePosition === "right" ? "order-1" : "order-1 sm:order-2"}>
     <Prose>

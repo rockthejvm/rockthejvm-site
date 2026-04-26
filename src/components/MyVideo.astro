@@ -1,0 +1,45 @@
+---
+import MyPicture from "@/components/MyPicture.astro";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  class?: string;
+  poster: ImageMetadata;
+  /** Public-relative URL to the .mp4 source (e.g. "/videos/courses/zio/feature-1.mp4") */
+  mp4: string;
+  /** Public-relative URL to the .webm source (e.g. "/videos/courses/zio/feature-1.webm") */
+  webm: string;
+  /** Decorative video; alt text is empty by default. Set to "false" only when the video conveys non-decorative content. */
+  decorative?: boolean;
+  /** Alt text for the poster image when not decorative. */
+  alt?: string;
+}
+
+const {
+  class: additionalClasses,
+  poster,
+  mp4,
+  webm,
+  decorative = true,
+  alt = "",
+} = Astro.props;
+---
+
+{/* Behaves like an animated GIF: autoplay, loop, muted (required for autoplay), playsinline (required on iOS). */}
+{/* `aria-hidden` when decorative so screen readers ignore it; the surrounding text is the real content. */}
+<video
+  class:list={[additionalClasses]}
+  autoplay
+  loop
+  muted
+  playsinline
+  preload="metadata"
+  width={poster.width}
+  height={poster.height}
+  aria-hidden={decorative ? "true" : undefined}
+>
+  <source src={webm} type="video/webm" />
+  <source src={mp4} type="video/mp4" />
+  {/* Fallback for browsers that can't play either codec — shows the poster image. */}
+  <MyPicture src={poster} alt={alt} quality="mid" loading="lazy" />
+</video>

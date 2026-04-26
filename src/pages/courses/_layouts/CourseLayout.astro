@@ -66,6 +66,7 @@ const course = await getEntry(
     description,
     faqs,
     features,
+    featureVideos,
     hasGoal,
     hasSkills,
     heroImage,
@@ -372,7 +373,7 @@ const heroImageBgSrc = _heroBg.src;
               </Question>
             )}
             {features && (
-              <Features color={categoryColor} {features}>
+              <Features color={categoryColor} {features} {featureVideos}>
                 <slot name="verticalSection" slot="verticalSection" />
                 <slot name="feature1" slot="feature1" />
                 <slot name="feature2" slot="feature2" />
