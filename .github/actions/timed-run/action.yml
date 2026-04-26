@@ -1,0 +1,42 @@
+name: Timed run
+description: Run a shell command, record its wall-clock time to the GitHub Actions job summary, and fail if it exceeds a threshold.
+inputs:
+  name:
+    description: Human-readable label shown in the job summary.
+    required: true
+  max-seconds:
+    description: Fail if elapsed wall-clock time exceeds this value.
+    required: true
+  run:
+    description: Shell command to execute.
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: ${{ inputs.name }}
+      shell: bash
+      env:
+        TIMED_RUN_NAME: ${{ inputs.name }}
+        TIMED_RUN_MAX_SECONDS: ${{ inputs.max-seconds }}
+        TIMED_RUN_CMD: ${{ inputs.run }}
+      run: |
+        start=$(date +%s)
+        # shellcheck disable=SC2086
+        bash -c "$TIMED_RUN_CMD"
+        status=$?
+        end=$(date +%s)
+        elapsed=$((end - start))
+        echo "${TIMED_RUN_NAME} took ${elapsed}s (threshold: ${TIMED_RUN_MAX_SECONDS}s)"
+        {
+          echo "### ${TIMED_RUN_NAME} time"
+          echo ""
+          echo "- Elapsed: **${elapsed}s**"
+          echo "- Threshold: ${TIMED_RUN_MAX_SECONDS}s"
+        } >> "$GITHUB_STEP_SUMMARY"
+        if [ "$status" -ne 0 ]; then
+          exit "$status"
+        fi
+        if [ "$elapsed" -gt "$TIMED_RUN_MAX_SECONDS" ]; then
+          echo "::error::${TIMED_RUN_NAME} took ${elapsed}s, exceeding threshold ${TIMED_RUN_MAX_SECONDS}s"
+          exit 1
+        fi

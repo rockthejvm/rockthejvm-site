@@ -98,10 +98,24 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile && npx astro sync
       - name: Build
+        uses: ./.github/actions/timed-run
         env:
           # Skip the related-articles network call in CI; not needed for the
           # 5 routes Lighthouse audits and avoids flakiness when the worker is slow.
           SKIP_RELATED_ARTICLES: "1"
-        run: pnpm build
+        with:
+          name: Build
+          # Measured locally: ~105s warm cache, ~157s cold cache. Threshold
+          # set ~70% above cold-cache to absorb GH runner variance. Lower
+          # over time as a regression gate.
+          max-seconds: "270"
+          run: pnpm build
       - name: Run Lighthouse CI
-        run: pnpm lhci
+        uses: ./.github/actions/timed-run
+        with:
+          name: Lighthouse CI
+          # Estimate: 5 URLs × 3 runs ≈ 15 audits × ~20s under mobile CPU/network
+          # throttling + Chrome boot + assertions ≈ 300-390s on GH runners.
+          # Threshold ~25% above estimated max; recalibrate after a few CI runs.
+          max-seconds: "480"
+          run: pnpm lhci
