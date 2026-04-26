@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "numberOfRuns": 3,
+      "numberOfRuns": 1,
       "url": [
         "http://localhost/index.html",
         "http://localhost/articles/1.html",

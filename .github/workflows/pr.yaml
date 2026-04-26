@@ -26,6 +26,15 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - name: Cache Astro generated assets
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.astro
+            .astro
+          key: astro-${{ runner.os }}-${{ hashFiles('astro.config.ts', 'pnpm-lock.yaml', 'src/images/**', 'src/assets/images/**', 'src/data/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
+          restore-keys: |
+            astro-${{ runner.os }}-
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile && npx astro sync
       - name: Trunk Code Quality
@@ -40,13 +49,23 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10.14.0
+          run_install: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+      - name: Cache Astro generated assets
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.astro
+            .astro
+          key: astro-${{ runner.os }}-${{ hashFiles('astro.config.ts', 'pnpm-lock.yaml', 'src/images/**', 'src/assets/images/**', 'src/data/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
+          restore-keys: |
+            astro-${{ runner.os }}-
       - name: Install Dependencies
-        run: pnpm install astro @astrojs/check typescript
+        run: pnpm install --frozen-lockfile && npx astro sync
       - name: Astro Check
         run: npx astro check --minimumFailingSeverity error
   lighthouse:
@@ -67,9 +86,22 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - name: Cache Astro generated assets
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.astro
+            .astro
+          key: astro-${{ runner.os }}-${{ hashFiles('astro.config.ts', 'pnpm-lock.yaml', 'src/images/**', 'src/assets/images/**', 'src/data/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
+          restore-keys: |
+            astro-${{ runner.os }}-
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile && npx astro sync
       - name: Build
+        env:
+          # Skip the related-articles network call in CI; not needed for the
+          # 5 routes Lighthouse audits and avoids flakiness when the worker is slow.
+          SKIP_RELATED_ARTICLES: "1"
         run: pnpm build
       - name: Run Lighthouse CI
         run: pnpm lhci

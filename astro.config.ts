@@ -22,6 +22,13 @@ function buildStart() {
     name: "my-build-start",
     hooks: {
       "astro:build:start": async () => {
+        // Allow local/dev builds to skip the network roundtrip to the
+        // related-articles worker. Production (Cloudflare Pages) leaves it
+        // unset so matchedArticles.json is regenerated on every deploy.
+        if (process.env.SKIP_RELATED_ARTICLES) {
+          return;
+        }
+
         const branch = process.env.CF_PAGES_BRANCH || "unknown";
         if (branch === "main") {
           await addEmbeddedArticles();
