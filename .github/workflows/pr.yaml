@@ -49,3 +49,27 @@ jobs:
         run: pnpm install astro @astrojs/check typescript
       - name: Astro Check
         run: npx astro check --minimumFailingSeverity error
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+          run_install: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile && npx astro sync
+      - name: Build
+        run: pnpm build
+      - name: Run Lighthouse CI
+        run: pnpm lhci
