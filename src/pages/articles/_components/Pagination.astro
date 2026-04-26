@@ -41,13 +41,12 @@ const { prevUrl, nextUrl, page } = Astro.props;
   <div class="hidden md:-mt-px md:flex">
     {
       page.currentPage === 1 ? (
-        <a
-          href={page.url.first}
+        <span
           class="inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600"
           aria-current="page"
         >
           1
-        </a>
+        </span>
       ) : (
         <a
           href={page.url.first}
@@ -70,13 +69,12 @@ const { prevUrl, nextUrl, page } = Astro.props;
         .filter((pageNumber) => pageNumber > 1 && pageNumber < page.lastPage)
         .map((pageNumber) =>
           page.currentPage === pageNumber ? (
-            <a
-              href={`/articles/${pageNumber.toString()}`}
+            <span
               class="inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600"
               aria-current="page"
             >
               {pageNumber}
-            </a>
+            </span>
           ) : (
             <a
               href={`/articles/${pageNumber.toString()}`}
@@ -96,13 +94,12 @@ const { prevUrl, nextUrl, page } = Astro.props;
     }
     {
       page.currentPage === page.lastPage ? (
-        <a
-          href={page.url.last}
+        <span
           class="inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600"
           aria-current="page"
         >
           {page.lastPage}
-        </a>
+        </span>
       ) : (
         <a
           href={page.url.last}

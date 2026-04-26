@@ -22,6 +22,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="Personal website"
                 >
                   {props.website}
                 </a>
@@ -34,6 +35,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="Facebook profile"
                 >
                   {props.facebook}
                 </a>
@@ -46,6 +48,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="GitHub profile"
                 >
                   {props.github}
                 </a>
@@ -58,6 +61,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="LinkedIn profile"
                 >
                   {props.linkedin}
                 </a>
@@ -70,6 +74,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="X (Twitter) profile"
                 >
                   {props.twitter}
                 </a>
@@ -82,6 +87,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="YouTube channel"
                 >
                   {props.youtube}
                 </a>

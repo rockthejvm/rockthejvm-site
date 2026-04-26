@@ -31,15 +31,15 @@ const displayCategories = await getCollection("courseCategories");
               <figure class="cat-icon mx-auto mb-4 flex size-[72px] items-center justify-center rounded-full bg-white">
                 <Image
                   src={cat.data.logo}
-                  alt={cat.data.name}
+                  alt=""
                   class="h-11 w-11 object-contain"
                   width={56}
                   height={56}
                 />
               </figure>
-              <h4 class="text-sm font-semibold text-content-1 transition-colors group-hover:text-link-hover">
+              <h3 class="text-sm font-semibold text-content-1 transition-colors group-hover:text-link-hover">
                 {cat.data.name}
-              </h4>
+              </h3>
             </div>
           </a>
         </li>

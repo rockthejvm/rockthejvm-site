@@ -26,25 +26,23 @@ const { contents, link, type } = Astro.props;
           </h3>
         </a>
         <div class="w-full py-4 sm:py-4">
-          {
-            contents.map(async ({ title, url }) => (
-              <article class="w-full hover:bg-content/5">
-                <ul class="group relative mx-auto flex w-full items-center justify-center px-8">
+          <ul class="m-0 list-none p-0">
+            {
+              contents.map(async ({ title, url }) => (
+                <li class="group relative mx-auto flex w-full items-center justify-center px-8 hover:bg-content/5">
                   <a
                     href={url}
-                    class="block w-full text-content no-underline hover:text-link-hover hover:no-underline"
+                    class="article-home-link text-md mx-auto my-1 flex w-full flex-col items-center justify-center py-2 leading-5 text-content no-underline hover:text-link-hover hover:no-underline"
                     title={title}
                   >
-                    <li class="article-home-link text-md mx-auto my-1 flex flex-col items-center justify-center py-2 leading-5 no-underline">
-                      <p class="w-full overflow-hidden text-ellipsis text-nowrap text-center">
-                        {title}
-                      </p>
-                    </li>
+                    <p class="w-full overflow-hidden text-ellipsis text-nowrap text-center">
+                      {title}
+                    </p>
                   </a>
-                </ul>
-              </article>
-            ))
-          }
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     </div>

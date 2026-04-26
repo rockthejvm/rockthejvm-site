@@ -247,6 +247,7 @@ export default function Example(props) {
                 href={site.socials.facebook.url}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="Facebook"
                 className="text-content hover:text-link-hover"
               >
                 {props.facebook}
@@ -258,6 +259,7 @@ export default function Example(props) {
                 href={site.socials.github.url}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="GitHub"
                 className="text-content hover:text-link-hover"
               >
                 {props.github}
@@ -269,6 +271,7 @@ export default function Example(props) {
                 href={site.socials.linkedin.url}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="LinkedIn"
                 className="text-content hover:text-link-hover"
               >
                 {props.linkedin}
@@ -280,6 +283,7 @@ export default function Example(props) {
                 href={site.socials.twitter.url}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="X (Twitter)"
                 className="text-content hover:text-link-hover"
               >
                 {props.twitter}
@@ -291,6 +295,7 @@ export default function Example(props) {
                 href={site.socials.youtube.url}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="YouTube"
                 className="text-content hover:text-link-hover"
               >
                 {props.youtube}
@@ -301,6 +306,7 @@ export default function Example(props) {
                 key="RSS"
                 href={site.socials.feed.url}
                 target="_blank"
+                aria-label="RSS feed"
                 className="text-content hover:text-link-hover"
                 rel="noreferrer"
               >

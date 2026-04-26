@@ -35,20 +35,30 @@ export default function HeroCodeCard({ tabs }: Props) {
           <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
           <span className="h-3 w-3 rounded-full bg-green-400/80" />
         </div>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActive(tab.id)}
-            aria-selected={active === tab.id}
-            className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
-              active === tab.id
-                ? "bg-accent-1/15 text-accent-1"
-                : "text-content-2 hover:text-content-1"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+        <div
+          role="tablist"
+          aria-label="Code examples"
+          className="flex items-center gap-1"
+        >
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              role="tab"
+              id={`hero-code-tab-${tab.id}`}
+              aria-controls={`hero-code-panel-${tab.id}`}
+              onClick={() => setActive(tab.id)}
+              aria-selected={active === tab.id}
+              tabIndex={active === tab.id ? 0 : -1}
+              className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
+                active === tab.id
+                  ? "bg-accent-1/15 text-accent-1"
+                  : "text-content-2 hover:text-content-1"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Code panels */}
@@ -56,6 +66,10 @@ export default function HeroCodeCard({ tabs }: Props) {
         {tabs.map((tab) => (
           <div
             key={tab.id}
+            role="tabpanel"
+            id={`hero-code-panel-${tab.id}`}
+            aria-labelledby={`hero-code-tab-${tab.id}`}
+            hidden={active !== tab.id}
             className={`hero-code-panel ${active === tab.id ? "block" : "hidden"}`}
             dangerouslySetInnerHTML={{ __html: codeHtml[tab.id] ?? "" }}
           />
