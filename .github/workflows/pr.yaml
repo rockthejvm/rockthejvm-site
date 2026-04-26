@@ -120,3 +120,11 @@ jobs:
           # Threshold ~25% above estimated max; recalibrate after a few CI runs.
           max-seconds: "480"
           run: pnpm lhci
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 14
