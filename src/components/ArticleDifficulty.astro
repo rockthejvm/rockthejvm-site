@@ -15,16 +15,16 @@ const colorClass = Match.value(id).pipe(
   Match.when(
     "beginner",
     () =>
-      "bg-blue-500/20 text-blue-400 ring-1 ring-inset ring-blue-400/40 [[data-theme=light]_&]:text-blue-700 [[data-theme=light]_&]:ring-blue-700/40",
+      "bg-blue-500/20 text-blue-400 ring-1 ring-inset ring-blue-400/40 [[data-theme=light]_&]:text-blue-800 [[data-theme=light]_&]:ring-blue-800/50",
   ),
   Match.when(
     "intermediate",
     () =>
-      "bg-amber-500/20 text-amber-400 ring-1 ring-inset ring-amber-400/40 [[data-theme=light]_&]:text-amber-700 [[data-theme=light]_&]:ring-amber-700/40",
+      "bg-amber-500/20 text-amber-400 ring-1 ring-inset ring-amber-400/40 [[data-theme=light]_&]:text-amber-800 [[data-theme=light]_&]:ring-amber-800/50",
   ),
   Match.orElse(
     () =>
-      "bg-red-500/20 text-red-400 ring-1 ring-inset ring-red-400/40 [[data-theme=light]_&]:text-red-700 [[data-theme=light]_&]:ring-red-700/40",
+      "bg-red-500/20 text-red-400 ring-1 ring-inset ring-red-400/40 [[data-theme=light]_&]:text-red-800 [[data-theme=light]_&]:ring-red-800/50",
   ),
 );
 ---

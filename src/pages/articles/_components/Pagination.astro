@@ -19,7 +19,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
       prevUrl ? (
         <a
           href={prevUrl}
-          class="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+          class="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-600 hover:border-gray-400 hover:text-gray-800"
         >
           <svg
             class="mr-3 size-5 text-gray-400"
@@ -50,7 +50,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
       ) : (
         <a
           href={page.url.first}
-          class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+          class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-600 hover:border-gray-400 hover:text-gray-800"
         >
           1
         </a>
@@ -58,7 +58,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
     }
     {
       page.currentPage > 1 + 2 && (
-        <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">
+        <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-600">
           ...
         </span>
       )
@@ -78,7 +78,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
           ) : (
             <a
               href={`/articles/${pageNumber.toString()}`}
-              class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+              class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-600 hover:border-gray-400 hover:text-gray-800"
             >
               {pageNumber}
             </a>
@@ -87,7 +87,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
     }
     {
       page.currentPage < page.lastPage - 2 && (
-        <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">
+        <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-600">
           ...
         </span>
       )
@@ -103,7 +103,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
       ) : (
         <a
           href={page.url.last}
-          class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+          class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-600 hover:border-gray-400 hover:text-gray-800"
         >
           {page.lastPage}
         </a>
@@ -115,7 +115,7 @@ const { prevUrl, nextUrl, page } = Astro.props;
       nextUrl ? (
         <a
           href={nextUrl}
-          class="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+          class="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-600 hover:border-gray-400 hover:text-gray-800"
         >
           Next
           <svg

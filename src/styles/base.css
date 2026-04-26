@@ -62,7 +62,10 @@
     --color-secondary: 45deg 25% 99%;
     --color-base: 360deg 100% 100%;
     --color-shadow: 360deg 100% 0%;
-    --color-cta: 20deg 88% 50%;
+    /* Darkened from 50% L (≈#f05a0f, 3.4:1 with white) to 42% L
+       (≈#cb4308, ≥4.5:1) so CTA buttons satisfy WCAG AA contrast.
+       Audited via Lighthouse color-contrast on /, /articles, /about, etc. */
+    --color-cta: 20deg 88% 38%;
     --color-text-cta: 0deg 0% 100%;
     --color-tag: 226deg 100% 94%;
     --color-search: 173deg 12% 88%;

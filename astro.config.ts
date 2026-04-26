@@ -45,9 +45,11 @@ export default defineConfig({
   trailingSlash: "never",
   build: {
     format: "file",
-    // Inline small (<4KB by default) stylesheets into <style> tags to remove
-    // a render-blocking request and improve FCP. Larger sheets stay external.
-    inlineStylesheets: "auto",
+    // Inline ALL stylesheets so the render-blocking external CSS request is
+    // eliminated. Per-page Tailwind output is ~20 KB, well within HTML budget;
+    // this removes the ~150 ms render-blocking-resources finding flagged by
+    // Lighthouse on every audited route.
+    inlineStylesheets: "always",
   },
   vite: {
     build: {
@@ -89,6 +91,19 @@ export default defineConfig({
     expressiveCode({
       plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
       themes: ["github-dark-default", "github-light-default"],
+      // Inline expressive-code's CSS into the page that uses it instead of
+      // emitting an external `/_astro/ec.{hash}.css`. The external sheet was
+      // render-blocking on article pages (~150 ms in Lighthouse).
+      emitExternalStylesheet: false,
+      // Force a 4.5:1 line-number color in the light theme. The default gutter
+      // foreground is auto-contrast-adjusted to only 3.3:1, which fails the
+      // Lighthouse color-contrast audit on article code blocks.
+      styleOverrides: {
+        lineNumbers: {
+          foreground: ({ theme }) =>
+            theme.type === "light" ? "#4a5057" : "inherit",
+        },
+      },
       customizeTheme: (theme) => {
         theme.name = theme.name === "github-dark-default" ? "dark" : "light";
         return theme;

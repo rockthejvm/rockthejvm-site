@@ -11,7 +11,7 @@ interface Props {
 const { showThemeToggle } = Astro.props;
 ---
 
-<HeaderHelper client:media="(width < 1024px)" holiday={!showThemeToggle}>
+<HeaderHelper client:idle holiday={!showThemeToggle}>
   <RockTheJVM class="h-10 w-auto sm:h-11 md:h-12 lg:h-14" slot="logo" />
   {showThemeToggle && <ThemeToggle id="themeToggle" slot="themeToggle" />}
   <MySearch slot="search" />
