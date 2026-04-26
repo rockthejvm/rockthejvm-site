@@ -81,6 +81,7 @@ const instructorNames = instructors.map((i) => i.data.name).join(" & ");
     class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover brightness-[0.15] [[data-theme=light]_&]:brightness-[0.35]"
     loading="eager"
     decoding="async"
+    fetchpriority="low"
   />
   <!-- Theme-aware overlay -->
   <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80">

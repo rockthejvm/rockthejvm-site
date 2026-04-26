@@ -45,6 +45,9 @@ export default defineConfig({
   trailingSlash: "never",
   build: {
     format: "file",
+    // Inline small (<4KB by default) stylesheets into <style> tags to remove
+    // a render-blocking request and improve FCP. Larger sheets stay external.
+    inlineStylesheets: "auto",
   },
   prefetch: {
     prefetchAll: true,

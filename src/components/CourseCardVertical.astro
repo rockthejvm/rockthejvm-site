@@ -54,7 +54,7 @@ const { course } = Astro.props;
     <!-- {
         showPrice && (
           <div class="bottom-2 absolute h-10 w-full flex items-end justify-end text-content-2 font-extrabold pr-4 pt-4">
-            <CoursePrice pricingPlanId={course.data.pricingPlanId} client:load />
+            <CoursePrice pricingPlanId={course.data.pricingPlanId} client:visible />
           </div>
         )
       } -->

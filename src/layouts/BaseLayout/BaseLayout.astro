@@ -73,7 +73,7 @@ const {
     <Header showThemeToggle={!forcedTheme} />
     <main {...searchIndexable ? { "data-pagefind-body": true } : {}}>
       <slot />
-      <CookieBanner client:load />
+      <CookieBanner client:idle />
     </main>
     <Footer
       hideNewsletter={hideFooterNewsletter}

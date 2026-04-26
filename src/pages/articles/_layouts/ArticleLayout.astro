@@ -223,7 +223,7 @@ const _matchedArticlesData: z.infer<typeof ArticleMatchSchema> =
       </footer>
     </article>
   </NarrowContainer>
-  <FloatingActionMenuHelper client:load>
+  <FloatingActionMenuHelper client:idle>
     <Prose class="prose-h2:mt-2" slot="toc">
       <TableOfContents
         {headings}
