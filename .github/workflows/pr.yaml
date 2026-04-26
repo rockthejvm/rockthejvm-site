@@ -105,9 +105,9 @@ jobs:
           SKIP_RELATED_ARTICLES: "1"
         with:
           name: Build
-          # Measured locally: ~119s warm cache, ~209s cold cache (after the
+          # Measured locally: ~120s warm cache, ~185s cold cache (after the
           # responsive-images audit, which generates ~2x the image variants).
-          # Threshold ~45% above cold-cache to absorb GH runner variance.
+          # Threshold ~60% above cold-cache to absorb GH runner variance.
           # Lower over time as a regression gate.
           max-seconds: "300"
           run: pnpm build
