@@ -68,7 +68,6 @@ const testimonials = await Promise.all(
             ) => (
               <li
                 class="w-full shrink-0 px-1 sm:px-4"
-                role="group"
                 aria-roledescription="slide"
                 aria-label={`Testimonial ${idx + 1} of ${testimonials.length}`}
               >
@@ -167,10 +166,15 @@ const testimonials = await Promise.all(
       {
         testimonials.map((_, idx) => (
           <button
-            class={`h-2 rounded-full transition-all duration-300 ${idx === 0 ? "w-6 bg-accent-1" : "w-2 bg-content/20 hover:bg-content/40"}`}
+            class="flex h-6 w-6 items-center justify-center rounded-full"
             aria-label={`Go to testimonial ${idx + 1}`}
             data-idx={idx}
-          />
+          >
+            <span
+              aria-hidden="true"
+              class={`block h-2 rounded-full transition-all duration-300 ${idx === 0 ? "w-6 bg-accent-1" : "w-2 bg-content/20 hover:bg-content/40"}`}
+            />
+          </button>
         ))
       }
     </div>

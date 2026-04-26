@@ -24,12 +24,17 @@ if (
 
   const slides = Array.from(track.querySelectorAll("li"));
   const dots = Array.from(dotsContainer.querySelectorAll("button"));
+  // Toggle visual classes on the inner indicator span when present, so the button
+  // itself can keep a constant 24x24 hit area for `target-size` accessibility.
+  const dotIndicators = dots.map(
+    (dot) => (dot.querySelector("span") as HTMLElement | null) ?? dot,
+  );
   const total = slides.length;
   let current = 0;
   let timerId: number | undefined;
 
   const updateDots = () => {
-    dots.forEach((dot, index) => {
+    dotIndicators.forEach((dot, index) => {
       dot.classList.toggle("w-6", index === current);
       dot.classList.toggle("bg-accent-1", index === current);
       dot.classList.toggle("w-2", index !== current);

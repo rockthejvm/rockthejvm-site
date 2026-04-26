@@ -8,7 +8,6 @@ import Prose from "@/components/Prose.astro";
 import SocialShare from "@/components/SocialShare.astro";
 import TagList from "@/components/TagList.astro";
 import NarrowContainer from "@/containers/NarrowContainer";
-import matchedArticles from "@/data/matchedArticles.json";
 import site from "@/data/site.json";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import capitalizeFirstChar from "@/utils/capitalizeFirstChar";
@@ -18,6 +17,8 @@ import "astro-starlight-remark-asides/styles.css";
 import type { CollectionEntry } from "astro:content";
 import { getEntries, getEntry, z } from "astro:content";
 import { Match } from "effect";
+import fs from "node:fs";
+import path from "node:path";
 import Byline from "../_components/Byline.astro";
 import FloatingActionMenuHelper from "../_components/FloatingActionMenuHelper";
 import RelatedArticlesSection from "../_components/RelatedArticlesSection.astro";
@@ -82,10 +83,22 @@ const { article, allArticles, headings, minutesRead } = Astro.props,
         source_slug: z.string(),
       }),
     ),
-  }),
-  // _matchedArticlesResponse = await fetch("/api/v1/matchedArticles.json"),
-  // matchedArticles = await _matchedArticlesResponse.json(),
-  _matchedArticlesResult = ArticleMatchSchema.safeParse(matchedArticles);
+  });
+
+// `matchedArticles.json` is regenerated on every build by `getArticleMatches()`
+// in `astro.config.ts` (astro:build:start hook) and is gitignored. During
+// `astro dev` / `astro check` on a fresh clone the file may not exist yet;
+// fall back to an empty match set in that case.
+let matchedArticles: unknown = { all_matches: [] };
+try {
+  matchedArticles = JSON.parse(
+    fs.readFileSync(path.resolve("src/data/matchedArticles.json"), "utf8"),
+  );
+} catch {
+  // file not yet generated; relatedArticles will be empty
+}
+
+const _matchedArticlesResult = ArticleMatchSchema.safeParse(matchedArticles);
 
 if (!_matchedArticlesResult.success) {
   throw new Error("Failed to parse matched articles data");
