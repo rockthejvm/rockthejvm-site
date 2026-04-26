@@ -49,6 +49,13 @@ export default defineConfig({
     // a render-blocking request and improve FCP. Larger sheets stay external.
     inlineStylesheets: "auto",
   },
+  vite: {
+    build: {
+      // Target modern browsers so esbuild/Vite stop emitting ES5
+      // class transforms (flagged by Lighthouse `legacy-javascript`).
+      target: "esnext",
+    },
+  },
   prefetch: {
     prefetchAll: true,
   },

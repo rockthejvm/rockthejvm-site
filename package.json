@@ -89,7 +89,7 @@
     "typescript-eslint": "^8.28.0"
   },
   "devDependencies": {
-    "@lhci/cli": "^0.14.0"
+    "@lhci/cli": "^0.15.1"
   },
   "packageManager": "pnpm@10.14.0"
 }

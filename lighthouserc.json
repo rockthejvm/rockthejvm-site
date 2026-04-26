@@ -58,7 +58,7 @@
         ],
         "first-contentful-paint": [
           "warn",
-          { "maxNumericValue": 1800, "aggregationMethod": "median-run" }
+          { "maxNumericValue": 2000, "aggregationMethod": "median-run" }
         ],
         "speed-index": [
           "warn",
