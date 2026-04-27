@@ -25,8 +25,12 @@ const {
 } = Astro.props;
 ---
 
-{/* Behaves like an animated GIF: autoplay, loop, muted (required for autoplay), playsinline (required on iOS). */}
-{/* `aria-hidden` when decorative so screen readers ignore it; the surrounding text is the real content. */}
+{
+  /* Behaves like an animated GIF: autoplay, loop, muted (required for autoplay), playsinline (required on iOS). */
+}
+{
+  /* `aria-hidden` when decorative so screen readers ignore it; the surrounding text is the real content. */
+}
 <video
   class:list={[additionalClasses]}
   autoplay
@@ -40,6 +44,8 @@ const {
 >
   <source src={webm} type="video/webm" />
   <source src={mp4} type="video/mp4" />
-  {/* Fallback for browsers that can't play either codec — shows the poster image. */}
-  <MyPicture src={poster} alt={alt} quality="mid" loading="lazy" />
+  {
+    /* Fallback for browsers that can't play either codec — shows the poster image. */
+  }
+  <MyPicture src={poster} {alt} quality="mid" loading="lazy" />
 </video>

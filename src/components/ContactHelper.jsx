@@ -104,7 +104,13 @@ export default function Example() {
             </div>
             <div className="text-sm leading-6 text-content">
               By selecting this, you agree to our{" "}
-              <a href="/policies/privacy" className="underline underline-offset-2">privacy policy</a>.
+              <a
+                href="/policies/privacy"
+                className="underline underline-offset-2"
+              >
+                privacy policy
+              </a>
+              .
             </div>
           </Field>
         </div>
