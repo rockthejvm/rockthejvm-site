@@ -15,6 +15,8 @@ jobs:
       contents: write # For trunk to create PRs
       pull-requests: write # For trunk to create PRs
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup
         uses: ./.github/actions/setup
       - name: Trunk Upgrade
@@ -26,6 +28,8 @@ jobs:
       checks: write # trunk PR annotations
       contents: read # code checkout and dependency installation
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup
         uses: ./.github/actions/setup
       - name: Trunk Code Quality

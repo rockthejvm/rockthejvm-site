@@ -1,14 +1,14 @@
 name: Setup
 description: |
-  Common setup shared by all PR/weekly jobs: checkout (optionally with LFS),
-  pnpm + Node toolchain, dependency install with multi-layer caching
-  (pnpm store, node_modules, Astro generated assets, sharp variants), and
-  `astro sync`. Skips reinstall/sync when the node_modules cache is hot.
+  Common setup shared by all PR/weekly jobs: pnpm + Node toolchain, dependency
+  install with multi-layer caching (pnpm store, node_modules, Astro generated
+  assets, sharp variants), and `astro sync`. Skips reinstall/sync when the
+  node_modules cache is hot.
+
+  NOTE: The caller must run `actions/checkout` BEFORE invoking this action.
+  Local composite actions cannot be resolved until the repository has been
+  checked out, so the checkout step cannot live inside the action itself.
 inputs:
-  lfs:
-    description: Whether to fetch Git LFS objects during checkout.
-    required: false
-    default: "false"
   node-version:
     description: Node.js version to install.
     required: false
@@ -20,11 +20,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        lfs: ${{ inputs.lfs }}
-
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:

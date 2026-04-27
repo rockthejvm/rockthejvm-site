@@ -13,6 +13,8 @@ jobs:
       contents: read # code checkout and dependency installation
     steps:
       # Trunk only sees LFS pointer files, not image bytes, so skip LFS download.
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup
         uses: ./.github/actions/setup
       - name: Trunk Code Quality
@@ -21,6 +23,8 @@ jobs:
     name: Astro Check
     runs-on: ubuntu-24.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup
         uses: ./.github/actions/setup
       - name: Astro Check
@@ -30,10 +34,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       # Real image bytes required for the Astro build / sharp pipeline.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
       - name: Setup
         uses: ./.github/actions/setup
-        with:
-          lfs: "true"
       - name: Build
         uses: ./.github/actions/timed-run
         env:
