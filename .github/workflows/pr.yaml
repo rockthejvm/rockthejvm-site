@@ -55,7 +55,11 @@ jobs:
           # Threshold ~65% above observed cold-cache to absorb runner variance
           # and modest image-set growth. Lower over time as a regression gate.
           max-seconds: "600"
-          run: pnpm build
+          # --logLevel warn drops Astro's per-route and per-image info lines
+          # (~1700 lines for 351 pages + 1199 image variants) while preserving
+          # warnings, errors, and the final build summary. Local `pnpm build`
+          # stays verbose for dev feedback.
+          run: pnpm exec astro build --logLevel warn
       - name: Run Lighthouse CI
         uses: ./.github/actions/timed-run
         with:
