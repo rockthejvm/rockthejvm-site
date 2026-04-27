@@ -3,17 +3,25 @@ import Profile from "@/components/Profile.astro";
 import site from "@/data/site.json";
 import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
 import type { ReactFlowEdge, ReactFlowNode } from "@/types/ReactFlow";
+import {
+  countCurriculumLectures,
+  fetchCurriculumSections,
+} from "@/utils/fetchCurriculum";
 import { getTeachablePricingPlan } from "@/utils/teachable";
+import { getImage } from "astro:assets";
 import {
   type CollectionEntry,
   getCollection,
   getEntries,
   getEntry,
 } from "astro:content";
+import { Match } from "effect";
+import CoursePageNav from "../_components/CoursePageNav.astro";
 import Roadmap from "../_components/Roadmap";
+import StickyCTA from "../_components/StickyCTA";
 import BundledCourses from "../_sections/BundledCourses.astro";
 import CourseFAQ from "../_sections/CourseFAQ.astro";
-import CourseVideo from "../_sections/CourseVideo.astro";
+import CourseTestimonials from "../_sections/CourseTestimonials.astro";
 import Curriculum from "../_sections/Curriculum.astro";
 import Features from "../_sections/Features.astro";
 import Goal from "../_sections/Goal.astro";
@@ -58,6 +66,7 @@ const course = await getEntry(
     description,
     faqs,
     features,
+    featureVideos,
     hasGoal,
     hasSkills,
     heroImage,
@@ -85,16 +94,55 @@ const course = await getEntry(
   isBundle = benefits === undefined,
   pricingPlan = await getTeachablePricingPlan(pricingPlanId);
 
-const difficultyLevelToEducationalLevel = (level: number) => {
-  switch (level) {
-    case 1:
-      return "Beginner";
-    case 2:
-      return "Intermediate";
-    default:
-      return "Advanced";
-  }
-};
+const _personalMembership = await getEntry("memberships", "personal")!,
+  _monthlyPackage = _personalMembership.data.packages[0],
+  _yearlyPackage = _personalMembership.data.packages[1],
+  [
+    monthlyMembershipPlan,
+    yearlyMembershipPlan,
+    courseCurriculum,
+    bundledCurricula,
+  ] = await Promise.all([
+    showMembership
+      ? getTeachablePricingPlan(_monthlyPackage.pricingPlanId)
+      : Promise.resolve(null),
+    showMembership
+      ? getTeachablePricingPlan(_yearlyPackage.pricingPlanId)
+      : Promise.resolve(null),
+    isCourse && !isPreview
+      ? fetchCurriculumSections(pricingPlanId)
+      : Promise.resolve([]),
+    isBundle && !isPreview
+      ? Promise.all(
+          bundledCourses.map((course) =>
+            fetchCurriculumSections(course.data.pricingPlanId),
+          ),
+        )
+      : Promise.resolve([]),
+  ]);
+const heroTotalLessons =
+  isCourse && !isPreview
+    ? countCurriculumLectures(courseCurriculum)
+    : undefined;
+const bundleHours = isBundle
+  ? bundledCourses
+      .map(({ data: { benefits: b } }) => b?.hours ?? 0)
+      .reduce((a, b) => a + b, 0)
+  : undefined;
+const bundleLessons =
+  isBundle && !isPreview
+    ? bundledCurricula.reduce(
+        (sum, sections) => sum + countCurriculumLectures(sections),
+        0,
+      )
+    : undefined;
+
+const difficultyLevelToEducationalLevel = (level: number) =>
+  Match.value(level).pipe(
+    Match.when(1, () => "Beginner"),
+    Match.when(2, () => "Intermediate"),
+    Match.orElse(() => "Advanced"),
+  );
 
 const _prerequisitess = await getCollection("prerequisites"),
   prerequisites = _prerequisitess.find(({ data: { nodes } }) =>
@@ -202,6 +250,14 @@ const _prerequisitess = await getCollection("prerequisites"),
       url: Astro.site,
     },
   });
+
+const _heroBg = await getImage({
+  src: heroImage,
+  format: "webp",
+  quality: "low",
+  width: 1920,
+});
+const heroImageBgSrc = _heroBg.src;
 ---
 
 <BaseLayout
@@ -230,64 +286,59 @@ const _prerequisitess = await getCollection("prerequisites"),
   {tags.map((tag) => <div data-pagefind-filter={`Tags:${tag.id}`} />)}
   <article>
     <Hero
+      {benefits}
+      bundledCoursesCount={bundledCourses.length}
+      {bundleHours}
+      {bundleLessons}
+      currency={pricingPlan?.currency}
       {description}
+      {difficulty}
       {heroImage}
+      {heroImageBgSrc}
       inRoadmap={prerequisites !== undefined}
-      {pricingPlanId}
-      {title}
+      isFree={_frontmatter.isFree}
+      {isBundle}
       {isPreview}
+      {instructors}
+      priceInCents={pricingPlan?.price}
+      {pricingPlanId}
+      {showMembership}
+      monthlyMembershipPriceInCents={monthlyMembershipPlan?.price}
+      monthlyMembershipPricingPlanId={_monthlyPackage.pricingPlanId}
+      totalLessons={heroTotalLessons}
+      {title}
+      {videoId}
     >
       <div
         slot="roadmap"
         class="relative mx-auto w-full overflow-y-hidden overflow-x-visible"
       >
-        <div class="z-10 mx-auto w-full overflow-hidden">
-          <div id="app" class="w-full overflow-hidden">
-            <Roadmap
-              client:load
-              initialNodes={reactFlowNodes}
-              initialEdges={reactFlowEdges}
-            />
-          </div>
-        </div>
+        {
+          prerequisites !== undefined && (
+            <div class="z-10 mx-auto w-full overflow-hidden">
+              <div id="app" class="w-full overflow-hidden">
+                <Roadmap
+                  client:visible
+                  initialNodes={reactFlowNodes}
+                  initialEdges={reactFlowEdges}
+                />
+              </div>
+            </div>
+          )
+        }
       </div>
     </Hero>
-    {
-      videoId && (
-        <CourseVideo color={categoryColor} {videoId}>
-          <slot />
-        </CourseVideo>
-      )
-    }
+    <CoursePageNav
+      {hasSkills}
+      hasCourseDetails={hasGoal || !!question || !!features || !!technologies}
+      {isBundle}
+      {isCourse}
+      {isPreview}
+      hasPricing={!isPreview && pricingPlan !== null}
+    />
     <slot name="description" />
-    {
-      hasGoal && (
-        <Goal color={categoryColor}>
-          <slot name="goal" />
-        </Goal>
-      )
-    }
-    {
-      question && (
-        <Question color={categoryColor} {question}>
-          <slot name="question" />
-        </Question>
-      )
-    }
-    {
-      features && (
-        <Features color={categoryColor} {features}>
-          <slot name="verticalSection" slot="verticalSection" />
-          <slot name="feature1" slot="feature1" />
-          <slot name="feature2" slot="feature2" />
-          <slot name="feature3" slot="feature3" />
-          <slot name="feature4" slot="feature4" />
-          <slot name="feature5" slot="feature5" />
-          <slot name="feature6" slot="feature6" />
-        </Features>
-      )
-    }
-    {technologies && <TechStack {technologies} color={categoryColor} />}
+
+    {/* 1. Skills — scannable checklist, first content after the nav */}
     {
       hasSkills && (
         <Skills color={categoryColor}>
@@ -295,11 +346,90 @@ const _prerequisitess = await getCollection("prerequisites"),
         </Skills>
       )
     }
+
+    {/* 2. Collapsible details: Goal + Question + Features + Tech Stack */}
     {
-      instructorEnabled && (
-        <Profile color={categoryColor} {collaborators} {thanks} />
+      (hasGoal || !!question || !!features || !!technologies) && (
+        <div id="course-details" class="scroll-mt-20">
+          {/* Preview: fixed-height truncated Goal with gradient fade */}
+          <div
+            id="course-details-preview"
+            class="relative max-h-80 overflow-hidden"
+          >
+            {hasGoal && (
+              <Goal color={categoryColor}>
+                <slot name="goal" />
+              </Goal>
+            )}
+            {/* Gradient fade — fades to --bkg which switches automatically per theme */}
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bkg to-transparent" />
+          </div>
+
+          {/* Expanded content (hidden by default) */}
+          <div id="course-details-expanded" class="hidden">
+            {question && (
+              <Question color={categoryColor} {question}>
+                <slot name="question" />
+              </Question>
+            )}
+            {features && (
+              <Features color={categoryColor} {features} {featureVideos}>
+                <slot name="verticalSection" slot="verticalSection" />
+                <slot name="feature1" slot="feature1" />
+                <slot name="feature2" slot="feature2" />
+                <slot name="feature3" slot="feature3" />
+                <slot name="feature4" slot="feature4" />
+                <slot name="feature5" slot="feature5" />
+                <slot name="feature6" slot="feature6" />
+              </Features>
+            )}
+            {technologies && <TechStack {technologies} color={categoryColor} />}
+          </div>
+          {/* Read More / Close toggle */}
+          <div class="flex justify-center py-6">
+            <button
+              id="course-details-toggle"
+              type="button"
+              class="flex items-center gap-2 rounded-full bg-cta px-6 py-2.5 text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1"
+            >
+              <span data-label-more>Read more</span>
+              <span data-label-close class="hidden">
+                Close overview
+              </span>
+              <svg
+                class="h-4 w-4 transition-transform duration-300"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       )
     }
+
+    {/* 3. Testimonials — parallax backdrop */}
+    <div class="relative isolate overflow-hidden">
+      <img
+        src={heroImageBgSrc}
+        alt=""
+        aria-hidden="true"
+        class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover blur-sm brightness-[0.2] [[data-theme=light]_&]:brightness-[0.35]"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80">
+      </div>
+      <CourseTestimonials color={categoryColor} />
+    </div>
+
+    {/* 4. Curriculum / Bundled courses */}
     {
       isBundle ? (
         <BundledCourses color={categoryColor} {bundledCourses} />
@@ -308,31 +438,57 @@ const _prerequisitess = await getCollection("prerequisites"),
           <Curriculum
             color={categoryColor}
             courseId={course.id}
-            {pricingPlanId}
+            lectureSections={courseCurriculum}
           />
         )
       )
     }
+
+    {/* 5. Instructor profile */}
+    {
+      instructorEnabled && (
+        <Profile color={categoryColor} {collaborators} {thanks} />
+      )
+    }
+
+    {/* 6. Pricing — parallax backdrop */}
     {
       isPreview ? null : pricingPlan !== null ? (
-        <Pricing
-          {isCourse}
-          {benefits}
-          {bundledCourses}
-          color={categoryColor}
-          courseId={course.id}
-          {pricingPlanId}
-          priceInCents={pricingPlan.price}
-          currency={pricingPlan.currency}
-          {title}
-          {showMembership}
-        />
+        <div class="relative isolate overflow-hidden">
+          <img
+            src={heroImageBgSrc}
+            alt=""
+            aria-hidden="true"
+            class="parallax-bg pointer-events-none absolute left-0 top-[-15%] h-[130%] w-full object-cover blur-sm brightness-[0.2] [[data-theme=light]_&]:brightness-[0.35]"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="absolute inset-0 bg-bkg/20 [[data-theme=light]_&]:bg-bkg/80" />
+          <Pricing
+            {isCourse}
+            {benefits}
+            {bundledCourses}
+            color={categoryColor}
+            courseId={course.id}
+            monthlyMembershipPricingPlanId={_monthlyPackage.pricingPlanId}
+            monthlyPriceInCents={monthlyMembershipPlan?.price ?? 0}
+            {pricingPlanId}
+            priceInCents={pricingPlan.price}
+            currency={pricingPlan.currency}
+            {title}
+            {showMembership}
+            yearlyMembershipPricingPlanId={_yearlyPackage.pricingPlanId}
+            yearlyPriceInCents={yearlyMembershipPlan?.price ?? 0}
+          />
+        </div>
       ) : (
         <p class="my-8 text-center text-2xl text-red-600">
           No pricing plan available. Check if TEACHABLE_API_KEY is missing.
         </p>
       )
     }
+
+    {/* 7. FAQ */}
     <CourseFAQ
       {categoryFaqs}
       courseFaqs={faqs}
@@ -340,11 +496,28 @@ const _prerequisitess = await getCollection("prerequisites"),
       {isBundle}
     />
   </article>
+  {
+    !isPreview && pricingPlan !== null && (
+      <StickyCTA
+        currency={pricingPlan!.currency}
+        isFree={_frontmatter.isFree}
+        priceInCents={pricingPlan!.price}
+        {pricingPlanId}
+        {showMembership}
+        {title}
+        client:idle
+      />
+    )
+  }
 </BaseLayout>
+
+<script>
+  import "../_scripts/courseLayout";
+</script>
 <style is:global>
   #app {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 60vh;
   }
   .react-flow__handle {
     opacity: 0;
@@ -367,13 +540,13 @@ const _prerequisitess = await getCollection("prerequisites"),
     height: 20px;
     display: inline-block;
     margin-right: 0.5em;
-    border: 1px solid #333;
+    border: 1px solid hsl(var(--color-content));
   }
 
   .legend-line {
     width: 40px;
     height: 0;
-    border-top: 2px solid black;
+    border-top: 2px solid hsl(var(--color-content));
     margin-right: 0.5em;
   }
 

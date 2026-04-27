@@ -41,7 +41,7 @@ const { categoryFaqs = [], color, courseFaqs = [], isBundle } = Astro.props,
 const generalBundleFaqs: { question: string; answer: string }[] = [];
 ---
 
-<Section {color} title="FAQ">
+<Section id="faq" {color} title="FAQ">
   {
     (
       <FAQ

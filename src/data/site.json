@@ -13,6 +13,10 @@
     "alt": "Rock the JVM"
   },
   "name": "Rock the JVM",
+  "stats": {
+    "studentsLabel": "100,000+",
+    "kidsLabel": "50,000+"
+  },
   "socials": {
     "email": {
       "url": "mailto:daniel@rockthejvm.com"
@@ -38,6 +42,7 @@
       "url": "/articles/feed.xml"
     }
   },
+  "web3formsKey": "16c01467-967d-411c-a15c-e5e9e4a936f3",
   "workers": {
     "teachable": "https://teachable-worker.daniel-ciocirlan.workers.dev",
     "mailerlite": "https://mailerlite-worker.daniel-ciocirlan.workers.dev"

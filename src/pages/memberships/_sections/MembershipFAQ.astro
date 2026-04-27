@@ -1,0 +1,19 @@
+---
+import FAQ from "@/components/FAQ";
+import Section from "@/components/Section.astro";
+
+interface MembershipFaq {
+  answer: string;
+  question: string;
+}
+
+interface Props {
+  faqs?: MembershipFaq[];
+}
+
+const { faqs = [] } = Astro.props;
+---
+
+<Section id="faq" color="bg-secondary" title="FAQ">
+  <FAQ {faqs} client:visible />
+</Section>

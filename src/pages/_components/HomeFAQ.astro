@@ -1,0 +1,49 @@
+---
+import FAQ from "@/components/FAQ";
+
+const faqs = [
+  {
+    question: "Who is this for?",
+    answer:
+      "Rock the JVM is for developers who already know how to write software and want to level up to senior and beyond. If you've been in the industry for a 1+ years and want to go deeper, you're in the right place. ",
+  },
+  {
+    question: "What technologies do you cover?",
+    answer:
+      "The catalog covers Scala, Kotlin (backend), functional programming and effect systems with Cats and Cats Effect, ZIO, distributed systems with Akka/Pekko, big data processing with Apache Spark, and real-time streaming with Apache Flink. These are the tools serious engineering teams use at scale. We'll add more topics over time.",
+  },
+  {
+    question: "How is this different from other programming courses?",
+    answer:
+      "How much time do you have? A: most courses are lectures you just watch, while our courses are all code we write on camera, with exercises and projects for you. B: most other courses teach mainstream topics, while we teach niche and powerful tools and programming languages. C: almost every other platform teaches beginner to intermediate levels, while our materials are specifically made to help you get to senior level. D: almost all other courses teach you how to use APIs or syntax, but we focus on the reasons why these tools exist, with mental models you can transfer to other tech.",
+  },
+  {
+    question: "Should I buy individual courses or get the membership?",
+    answer:
+      "The membership is best value, because it gives you access to the whole catalog at a lower cost per month. If you just need a specific course, you can take just that and use it for life.",
+  },
+  {
+    question: "Is there a team or company option?",
+    answer: "Yep, check out the Teams page!",
+  },
+  {
+    question: "Is this worth it for already-experienced engineers?",
+    answer:
+      "Especially for experienced engineers. We don't spend time teaching you how to declare a variable.",
+  },
+  {
+    question: "What if it's not for me?",
+    answer:
+      "No stress. You have a full money back guarantee for individual courses, and you can cancel memberships anytime.",
+  },
+];
+---
+
+<section class="mb-12 md:mb-20">
+  <h2 class="mb-12 text-center font-bold text-content">
+    Frequently Asked Questions
+  </h2>
+  <div class="mx-auto max-w-4xl">
+    <FAQ {faqs} client:visible />
+  </div>
+</section>

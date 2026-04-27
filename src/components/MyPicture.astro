@@ -9,8 +9,13 @@ interface Props {
   src: ImageMetadata;
   width?: number;
   height?: number;
+  /** Optional explicit list of widths to generate for the srcset (in px). Use for responsive images displayed at different sizes across breakpoints. */
+  widths?: number[];
+  /** Optional `sizes` attribute matching the layout. E.g. "(min-width: 1024px) 50vw, 100vw". Required by the browser to pick the correct srcset entry. */
+  sizes?: string;
   quality: ImageQuality;
   searchImage?: boolean;
+  fetchpriority?: "high" | "low" | "auto";
   attrs?: Record<string, unknown>;
 }
 
@@ -21,21 +26,34 @@ const {
     src,
     width,
     height,
+    widths,
+    sizes,
     quality,
     searchImage = false,
     ...attrs
   } = Astro.props,
-  defaultFormats = ["webp", src.format];
+  // Generate AVIF + WebP only. Together these cover >97% of browsers
+  // (caniuse). Skipping the original-format fallback (PNG/JPG) cuts ~33%
+  // of generated image variants and ~30% of build-time image processing.
+  // GIFs keep their original format because <Picture> can't animate AVIF/WebP
+  // here without extra tooling.
+  defaultFormats = src.format === "gif" ? [src.format] : ["avif", "webp"],
+  // Cap requested widths at the source's natural width to avoid upscaling
+  // (Astro errors if any width exceeds the source).
+  cappedWidths = widths?.filter((w) => w <= src.width);
 ---
 
 <Picture
   {alt}
   class:list={[additionalClasses]}
-  formats={(src.format === "gif" ? [] : ["avif"]).concat(defaultFormats)}
+  formats={defaultFormats}
+  fallbackFormat={src.format === "gif" ? "gif" : "webp"}
   {loading}
   {src}
   {width}
   {height}
+  {...cappedWidths && cappedWidths.length > 0 && { widths: cappedWidths }}
+  {...sizes && { sizes }}
   {quality}
   {...searchImage && { "data-pagefind-meta": "image[src], image_alt[alt]" }}
   {...attrs}

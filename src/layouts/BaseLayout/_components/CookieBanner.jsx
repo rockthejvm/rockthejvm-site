@@ -41,7 +41,7 @@ export default function Example() {
         <a
           href="/policies/cookie"
           target="_blank"
-          className="font-semibold text-accent-1"
+          className="font-semibold text-content-1 underline underline-offset-2"
           rel="noreferrer"
         >
           cookie policy
@@ -52,7 +52,7 @@ export default function Example() {
         <button
           type="button"
           onClick={accept}
-          className="rounded-md bg-cta px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+          className="rounded-md bg-cta px-3 py-2 text-sm font-semibold text-ctatext shadow-sm hover:bg-accent-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-1"
         >
           Accept all
         </button>

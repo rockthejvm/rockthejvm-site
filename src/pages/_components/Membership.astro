@@ -1,18 +1,85 @@
 ---
+import Check from "@/components/icons/Check.astro";
 import MyPicture from "@/components/MyPicture.astro";
 import MembershipImage from "@/images/logos/personal.png";
-import MembershipHelper from "./MembershipHelper";
+
+const bullets = [
+  "Full access to the premium Rock the JVM catalog",
+  "New courses included automatically as the library grows",
+  "Private community access — kept even if you cancel",
+  "Cancel any time",
+];
 ---
 
-<section class="mb-8 md:mb-16">
-  <h2 class="mb-12 text-center font-bold text-content">The Membership</h2>
-  <MembershipHelper>
-    <MyPicture
-      src={MembershipImage}
-      alt="Personal membership"
-      class="w-full flex-none rounded-2xl lg:max-w-xl"
-      quality="mid"
-      slot="image"
-    />
-  </MembershipHelper>
+<section class="relative mb-12 md:mb-20">
+  <!-- Full-bleed backdrop -->
+  <div
+    class="absolute inset-0 left-1/2 right-1/2 -mx-[50vw] ml-[-50vw] mr-[-50vw] bg-[radial-gradient(ellipse_at_top_left,_rgba(217,119,6,0.12),_transparent_50%),radial-gradient(ellipse_at_bottom_right,_rgba(56,189,248,0.10),_transparent_50%)] [[data-theme=light]_&]:bg-[radial-gradient(ellipse_at_top_left,_rgba(245,158,11,0.14),_transparent_50%),radial-gradient(ellipse_at_bottom_right,_rgba(14,165,233,0.10),_transparent_50%)]"
+  >
+    <div
+      class="absolute inset-0 bg-secondary/80 [[data-theme=light]_&]:bg-secondary/90"
+    >
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative py-16 md:py-24">
+    <h2 class="mb-12 text-center font-bold text-content">
+      One membership. The whole library.
+    </h2>
+
+    <div class="mx-auto max-w-7xl">
+      <div class="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+        <!-- Image -->
+        <div class="w-full lg:w-1/2">
+          <MyPicture
+            src={MembershipImage}
+            alt="Rock the JVM personal membership"
+            class="w-full rounded-2xl"
+            quality="mid"
+            widths={[400, 640, 800, 1280]}
+            sizes="(min-width: 1024px) 640px, 100vw"
+          />
+        </div>
+
+        <!-- Copy -->
+        <div class="w-full lg:w-1/2">
+          <p
+            class="mb-4 text-sm font-semibold uppercase tracking-widest text-accent-1"
+          >
+            Your path to senior engineer
+          </p>
+          <h3
+            class="mb-6 text-3xl font-bold tracking-tight text-content sm:text-4xl"
+          >
+            All of Rock the JVM, at your fingertips.
+          </h3>
+          <p class="mb-8 text-lg leading-8 text-content-1">
+            Get full access to 250+ hours of premium content across Scala,
+            Kotlin, functional programming, distributed systems, and big data.
+          </p>
+
+          <ul class="mb-10 space-y-3">
+            {
+              bullets.map((item) => (
+                <li class="flex items-start gap-x-3 text-content">
+                  <Check class="mt-0.5 h-5 w-5 flex-none text-accent-1" />
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="flex flex-col gap-y-3 sm:flex-row sm:gap-x-4">
+            <a
+              href="/memberships"
+              class="rounded-md bg-cta px-5 py-3 text-center text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-1"
+            >
+              Start your membership &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

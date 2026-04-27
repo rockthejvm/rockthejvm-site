@@ -1,0 +1,55 @@
+---
+interface Props {
+  videoId?: string;
+}
+
+const { videoId } = Astro.props;
+---
+
+{
+  videoId && (
+    <div
+      id="video-modal"
+      class="hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Course preview video"
+    >
+      <div
+        id="video-modal-backdrop"
+        class="fixed inset-0 z-50 bg-black/80 opacity-0 transition-opacity"
+        aria-hidden="true"
+      />
+      <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+          id="video-modal-panel"
+          class="relative w-full max-w-6xl scale-95 opacity-0 transition-all duration-200"
+        >
+          <button
+            id="close-video-modal"
+            class="absolute -top-10 right-0 text-white/70 hover:text-white focus:outline-none"
+            aria-label="Close video"
+          >
+            <svg
+              class="h-8 w-8"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <div class="aspect-h-9 aspect-w-16 w-full overflow-hidden rounded-xl shadow-2xl">
+            <div id="video-modal-player" class="absolute inset-0" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

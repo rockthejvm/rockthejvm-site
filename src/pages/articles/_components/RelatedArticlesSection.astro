@@ -11,7 +11,7 @@ const { relatedArticles } = Astro.props;
 
 {
   relatedArticles.length > 0 && (
-    <RelatedArticles length={relatedArticles.length} client:load>
+    <RelatedArticles length={relatedArticles.length} client:visible>
       {relatedArticles.length >= 1 && (
         <ArticlePreview slot="firstArticle" article={relatedArticles[0]!} />
       )}

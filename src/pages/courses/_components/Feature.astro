@@ -1,5 +1,6 @@
 ---
 import MyPicture from "@/components/MyPicture.astro";
+import MyVideo from "@/components/MyVideo.astro";
 import Prose from "@/components/Prose.astro";
 import type { ImageMetadata } from "astro";
 
@@ -8,42 +9,48 @@ interface Props {
   imagePosition: "left" | "right";
   imageRounded?: boolean;
   imageClassName?: string;
+  /** Optional video sources. When provided, renders an autoplaying video using `image` as the poster. */
+  video?: { mp4: string; webm: string };
 }
 
 const {
   image,
   imagePosition,
   imageRounded = false,
-  imageClassName = "size-full",
+  imageClassName = "w-full",
+  video,
 } = Astro.props;
+
+const mediaClass = `${imageRounded ? "rounded-full mx-auto w-3/4" : "rounded-xl w-full"} ${imageClassName}`;
 ---
 
 <div
-  class="relative isolate overflow-hidden px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0"
+  class="mx-auto grid max-w-5xl grid-cols-1 items-center gap-8 py-8 sm:grid-cols-2 sm:gap-10"
 >
-  <div
-    class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10"
-  >
-    <div
-      class={`${imagePosition === "left" ? "lg:col-start-2" : "lg:col-start-1 lg:grid-cols-2"} lg:col-span-2 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:gap-x-8 lg:px-8`}
-    >
-      <div class="lg:pr-4">
-        <div class="lg:max-w-lg">
-          <Prose class="mt-1">
-            <slot />
-          </Prose>
-        </div>
-      </div>
-    </div>
-    <div
-      class={`${imagePosition === "left" ? "lg:col-start-1" : "lg:col-start-2"} -ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:row-span-2 lg:row-start-1 lg:overflow-hidden`}
-    >
-      <MyPicture
-        class={`${imageRounded ? "rounded-full" : "rounded-xl"} ${imageClassName}`}
-        src={image}
-        alt=""
-        quality="mid"
-      />
-    </div>
+  <div class={imagePosition === "right" ? "order-2" : "order-2 sm:order-1"}>
+    {
+      video ? (
+        <MyVideo
+          class={mediaClass}
+          poster={image}
+          mp4={video.mp4}
+          webm={video.webm}
+        />
+      ) : (
+        <MyPicture
+          class={mediaClass}
+          src={image}
+          alt=""
+          quality="mid"
+          widths={[400, 512, 1024]}
+          sizes="(min-width: 640px) 512px, 100vw"
+        />
+      )
+    }
+  </div>
+  <div class={imagePosition === "right" ? "order-1" : "order-1 sm:order-2"}>
+    <Prose>
+      <slot />
+    </Prose>
   </div>
 </div>

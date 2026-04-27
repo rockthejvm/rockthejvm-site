@@ -262,12 +262,12 @@ Current date and time is 2024-02-20T17:29:21.058790Z.
 
 `Session.single` and `Session.pooled` are two distinct methods for establishing database connections, each with its own approach for managing connections. The following comparison can assist you in selecting the method that is most suitable for your application's needs and scalability requirements. For simplicity, we will use `Session.single` throughout, but feel free to experiment with `Session.pooled` to understand its benefits.
 
-| Feature | Session.single | Session.pooled |
-| --- | --- | --- |
-| Connection Management | Creates a single connection per session. | Manages a pool of connections. |
-| Suitable For | Low database load or manual connection management. | High database load or automatic connection pooling. |
-| Connection Reuse | Each call establishes a new connection. | Reuses existing connections from the pool. |
-| Performance | May have higher overhead due to frequent connection establishment. | Generally more efficient due to connection pooling. |
+| Feature               | Session.single                                                     | Session.pooled                                      |
+| --------------------- | ------------------------------------------------------------------ | --------------------------------------------------- |
+| Connection Management | Creates a single connection per session.                           | Manages a pool of connections.                      |
+| Suitable For          | Low database load or manual connection management.                 | High database load or automatic connection pooling. |
+| Connection Reuse      | Each call establishes a new connection.                            | Reuses existing connections from the pool.          |
+| Performance           | May have higher overhead due to frequent connection establishment. | Generally more efficient due to connection pooling. |
 
 ## Type Mapping in Skunk
 

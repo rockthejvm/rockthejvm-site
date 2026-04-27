@@ -1,0 +1,163 @@
+---
+import Section from "@/components/Section.astro";
+import TrustedBy from "@/components/TrustedBy.astro";
+import MembershipImage from "@/images/logos/personal.png";
+import BaseLayout from "@/layouts/BaseLayout/BaseLayout.astro";
+import StickyCTA from "@/pages/courses/_components/StickyCTA";
+import CourseTestimonials from "@/pages/courses/_sections/CourseTestimonials.astro";
+import {
+  countCurriculumLectures,
+  fetchCurriculumSections,
+} from "@/utils/fetchCurriculum";
+import { getTeachablePricingPlan } from "@/utils/teachable";
+import { getCollection, getEntry } from "astro:content";
+import MembershipPageNav from "../_components/MembershipPageNav.astro";
+import Courses from "../_sections/Courses.astro";
+import MembershipFAQ from "../_sections/MembershipFAQ.astro";
+import MembershipHero from "../_sections/MembershipHero.astro";
+import MembershipPricingSection from "../_sections/MembershipPricingSection.astro";
+
+interface MembershipFaq {
+  answer: string;
+  question: string;
+}
+
+interface MembershipHeroCopy {
+  bullets: string[];
+  cardSupportText: string;
+  coursesLabel: string;
+  description: string;
+  hoursLabel: string;
+  lessonsLabel: string;
+  monthlyCtaLabel: string;
+  monthlyFallbackLabel: string;
+  monthlySupportText: string;
+  pricingSeparatorLabel: string;
+  savingsLabel: string;
+  thumbnailAlt: string;
+  yearlyCtaLabel: string;
+  yearlyFallbackLabel: string;
+  yearlySupportText: string;
+}
+
+interface Props {
+  description: string;
+  faqs?: MembershipFaq[];
+  hero: MembershipHeroCopy;
+  headline: string;
+  title: string;
+}
+
+const { description, faqs = [], hero, headline, title } = Astro.props;
+
+const personalMembership = await getEntry("memberships", "personal");
+
+if (!personalMembership) {
+  throw new Error("Membership entry 'personal' was not found.");
+}
+
+const monthlyMembership = personalMembership.data.packages[0];
+const yearlyMembership = personalMembership.data.packages[1];
+
+const allCourses = await getCollection("courses");
+const includedCourses = allCourses.filter(
+  ({ data }) => data.benefits !== undefined && data.archived !== true,
+);
+
+const totalHours = includedCourses.reduce(
+  (sum, { data: { benefits } }) => sum + (benefits?.hours ?? 0),
+  0,
+);
+const courseCount = includedCourses.length;
+
+const [monthlyPriceInformation, yearlyPriceInformation, courseCurricula] =
+  await Promise.all([
+    getTeachablePricingPlan(monthlyMembership.pricingPlanId),
+    getTeachablePricingPlan(yearlyMembership.pricingPlanId),
+    Promise.all(
+      includedCourses.map((course) =>
+        fetchCurriculumSections(course.data.pricingPlanId),
+      ),
+    ),
+  ]);
+
+const totalLessons = courseCurricula.reduce(
+  (sum, sections) => sum + countCurriculumLectures(sections),
+  0,
+);
+---
+
+<BaseLayout
+  {description}
+  {title}
+  image={{ alt: title, src: MembershipImage.src }}
+>
+  <article>
+    <MembershipHero
+      {courseCount}
+      currency={monthlyPriceInformation?.currency}
+      {hero}
+      monthlyPriceInCents={monthlyPriceInformation?.price}
+      monthlyPricingPlanId={monthlyMembership.pricingPlanId}
+      {totalHours}
+      {totalLessons}
+      yearlyPricingPlanId={yearlyMembership.pricingPlanId}
+      yearlyPriceInCents={yearlyPriceInformation?.price}
+    >
+      <Fragment slot="headline">{headline}</Fragment>
+    </MembershipHero>
+    <TrustedBy />
+
+    <MembershipPageNav />
+
+    <div class="relative isolate overflow-hidden">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(217,119,6,0.14),_transparent_38%),radial-gradient(circle_at_15%_70%,_rgba(56,189,248,0.13),_transparent_30%)] [[data-theme=light]_&]:bg-[radial-gradient(circle_at_bottom_right,_rgba(245,158,11,0.16),_transparent_38%),radial-gradient(circle_at_15%_70%,_rgba(14,165,233,0.12),_transparent_30%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <Section id="whats-included" color="bg-secondary" title="What's Included">
+        <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
+          <div class="skills-list">
+            <slot name="skills" />
+          </div>
+        </div>
+      </Section>
+      <Courses />
+    </div>
+
+    <CourseTestimonials color="bg-secondary" />
+
+    <div class="relative isolate overflow-hidden">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.16),_transparent_38%),radial-gradient(circle_at_20%_80%,_rgba(56,189,248,0.14),_transparent_28%)] [[data-theme=light]_&]:bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.18),_transparent_38%),radial-gradient(circle_at_20%_80%,_rgba(14,165,233,0.14),_transparent_28%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <MembershipPricingSection />
+    </div>
+
+    <MembershipFAQ {faqs} />
+  </article>
+
+  {
+    monthlyPriceInformation !== null && (
+      <StickyCTA
+        currency={monthlyPriceInformation.currency}
+        ctaLabel="Start Your Membership"
+        heroElementId="membership-hero"
+        isFree={false}
+        priceInCents={monthlyPriceInformation.price}
+        pricingPlanId={monthlyMembership.pricingPlanId}
+        altLink={{ href: "/courses", label: "or browse individual courses →" }}
+        showMembership={false}
+        title={title}
+        client:idle
+      />
+    )
+  }
+</BaseLayout>
+
+<script>
+  import "../_scripts/membershipLayout";
+</script>

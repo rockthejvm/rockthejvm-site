@@ -4,6 +4,7 @@
   "scripts": {
     "build": "astro build",
     "dev": "astro dev",
+    "lhci": "lhci autorun",
     "preview": "astro preview",
     "start": "astro dev"
   },
@@ -49,6 +50,7 @@
     "astro-starlight-remark-asides": "^0.0.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "effect": "^3.21.2",
     "elkjs": "^0.9.3",
     "embla-carousel-react": "^8.5.2",
     "eslint-import-resolver-typescript": "^3.10.0",
@@ -85,6 +87,9 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1"
   },
   "packageManager": "pnpm@10.14.0"
 }

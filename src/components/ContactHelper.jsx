@@ -1,3 +1,4 @@
+import site from "@/data/site.json";
 import { Field, Switch } from "@headlessui/react";
 import { useState } from "react";
 
@@ -19,11 +20,7 @@ export default function Example() {
         method="POST"
         className="mx-auto max-w-xl"
       >
-        <input
-          type="hidden"
-          name="access_key"
-          value="16c01467-967d-411c-a15c-e5e9e4a936f3"
-        />
+        <input type="hidden" name="access_key" value={site.web3formsKey} />
         <input
           type="hidden"
           name="subject"
@@ -107,7 +104,13 @@ export default function Example() {
             </div>
             <div className="text-sm leading-6 text-content">
               By selecting this, you agree to our{" "}
-              <a href="/policies/privacy">privacy policy</a>.
+              <a
+                href="/policies/privacy"
+                className="underline underline-offset-2"
+              >
+                privacy policy
+              </a>
+              .
             </div>
           </Field>
         </div>

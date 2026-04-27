@@ -12,22 +12,11 @@ jobs:
       checks: write # trunk PR annotations
       contents: read # code checkout and dependency installation
     steps:
+      # Trunk only sees LFS pointer files, not image bytes, so skip LFS download.
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.14.0
-          run_install: false
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile && npx astro sync
+      - name: Setup
+        uses: ./.github/actions/setup
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
   astro_check:
@@ -36,16 +25,56 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.14.0
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - name: Install Dependencies
-        run: pnpm install astro @astrojs/check typescript
+      - name: Setup
+        uses: ./.github/actions/setup
       - name: Astro Check
         run: npx astro check --minimumFailingSeverity error
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-24.04
+    steps:
+      # Real image bytes required for the Astro build / sharp pipeline.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Build
+        uses: ./.github/actions/timed-run
+        env:
+          # Skip the related-articles network call in CI; not needed for the
+          # 5 routes Lighthouse audits and avoids flakiness when the worker is slow.
+          SKIP_RELATED_ARTICLES: "1"
+        with:
+          name: Build
+          # Cold cache on GH runners: ~365s (image optimization alone is ~230s
+          # for ~1200 generated variants on a 2-core runner; sharp is much
+          # slower here than on local dev hardware). Warm cache (sharp +
+          # node_modules + .astro restored) should be substantially faster.
+          # Threshold ~65% above observed cold-cache to absorb runner variance
+          # and modest image-set growth. Lower over time as a regression gate.
+          max-seconds: "600"
+          # --logLevel warn drops Astro's per-route and per-image info lines
+          # (~1700 lines for 351 pages + 1199 image variants) while preserving
+          # warnings, errors, and the final build summary. Local `pnpm build`
+          # stays verbose for dev feedback.
+          run: pnpm exec astro build --logLevel warn
+      - name: Run Lighthouse CI
+        uses: ./.github/actions/timed-run
+        with:
+          name: Lighthouse CI
+          # Estimate: 5 URLs × 3 runs ≈ 15 audits × ~20s under mobile CPU/network
+          # throttling + Chrome boot + assertions ≈ 300-390s on GH runners.
+          # Threshold ~25% above estimated max; recalibrate after a few CI runs.
+          max-seconds: "480"
+          run: pnpm lhci
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 14
+          include-hidden-files: true

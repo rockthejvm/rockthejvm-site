@@ -1,0 +1,55 @@
+---
+interface Props {
+  hasSkills: boolean;
+  hasCourseDetails: boolean;
+  isBundle: boolean;
+  isCourse: boolean;
+  isPreview: boolean;
+  hasPricing: boolean;
+}
+
+const {
+  hasSkills,
+  hasCourseDetails,
+  isBundle,
+  isCourse,
+  isPreview,
+  hasPricing,
+} = Astro.props;
+
+const items = (
+  [
+    hasSkills && { href: "#skills", label: "What You'll Learn" },
+    hasCourseDetails && { href: "#course-details", label: "Details" },
+    isBundle && { href: "#courses", label: "Included Courses" },
+    isCourse && !isPreview && { href: "#curriculum", label: "Curriculum" },
+    { href: "#testimonials", label: "Testimonials" },
+    hasPricing && { href: "#pricing", label: "Enroll" },
+    { href: "#faq", label: "FAQ" },
+  ] as (false | { href: string; label: string })[]
+).filter((x): x is { href: string; label: string } => Boolean(x));
+---
+
+<nav
+  aria-label="Page sections"
+  class="sticky top-0 z-30 border-b border-content/10 bg-bkg/90 backdrop-blur-sm"
+>
+  <div class="mx-auto max-w-5xl px-6 lg:px-8">
+    <ul
+      class="no-scrollbar flex items-center justify-center gap-x-1 overflow-x-auto py-2"
+    >
+      {
+        items.map(({ href, label }) => (
+          <li class="shrink-0">
+            <a
+              href={href}
+              class="rounded-md px-3 py-1.5 text-sm font-medium text-content-1 no-underline transition hover:bg-secondary hover:text-content hover:no-underline"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>

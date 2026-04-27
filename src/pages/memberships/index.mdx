@@ -1,0 +1,67 @@
+---
+title: The Rock the JVM Membership
+description: "Full access to the Rock the JVM premium catalog: Scala, Cats Effect, ZIO, Akka, Spark, Flink, exercises, cheat sheets, and the private community."
+headline: Your Path to Senior Engineer
+hero:
+  coursesLabel: courses
+  description: A wide catalog of niche, powerful topics that senior engineers use at scale. Get full access to all of it, and pick what you need.
+  hoursLabel: hours of 4K content
+  lessonsLabel: lessons
+  linesOfCodeLabel: lines of code
+  savingsLabel: Save
+  pricingSeparatorLabel: or
+  thumbnailAlt: Rock the JVM Membership
+  cardSupportText: Cancel any time. New courses included automatically.
+  yearlyCtaLabel: Get yearly access
+  yearlyFallbackLabel: See yearly pricing
+  yearlySupportText: Best value
+  monthlyCtaLabel: Start monthly access
+  monthlyFallbackLabel: See monthly pricing
+  monthlySupportText: Flexible monthly access
+  bullets:
+    - New premium courses are included automatically as the catalog grows.
+    - Keep forever access to the private community even if you later cancel.
+faqs:
+  - question: Should I choose the membership or buy courses individually?
+    answer: The membership is best value, because it gives you access to the whole catalog at a lower cost per month. If you just need a specific course, you can take just that and use it for life.
+  - question: Is this good for experienced engineers too?
+    answer: Especially for experienced engineers.
+  - question: Will I get exercises and downloadable materials?
+    answer: Every bonus material on the platform (exercises, downloadables, slides, etc) is included.
+  - question: Can I cancel my membership any time?
+    answer: Of course! The membership is a recurring subscription, and you can cancel it from your account settings whenever you want.
+  - question: Do I get access to new courses?
+    answer: Yep! New premium courses are included automatically while your membership is active, so your library keeps getting more valuable over time.
+  - question: Do I keep access to the private community if I cancel?
+    answer: Yes! It would be sad to see you cancel, but we'll still be friends in the community.
+  - question: Can I expense this through my company?
+    answer: You bet. After purchase you receive a tax-compliant receipt you can use for reimbursement with your employer.
+  - question: What if the membership is not for me?
+    answer: It's easy to cancel whenever it stops being useful for you, no questions asked.
+  - question: Can I get a refund if I don't like it?
+    answer: For individual courses, we have a full money back guarantee. For memberships, you can cancel anytime to avoid future charges, but we don't do refunds for past payments.
+
+---
+
+import MembershipLayout from "./_layouts/MembershipLayout.astro";
+
+<MembershipLayout
+  description={frontmatter.description}
+  faqs={frontmatter.faqs}
+  hero={frontmatter.hero}
+  headline={frontmatter.headline}
+  title={frontmatter.title}
+>
+  <Fragment slot="skills">
+    - Full access to the premium Rock the JVM catalog
+    - Scala from practical foundations to advanced patterns
+    - Functional programming with Cats and Cats Effect
+    - Production-focused ZIO training
+    - Distributed systems with Akka
+    - Big data with Apache Spark
+    - Streaming with Apache Flink
+    - Hundreds of examples, exercises, and live-coded applications
+    - Cheat sheets, takeaway slides, and private community access
+  </Fragment>
+
+</MembershipLayout>

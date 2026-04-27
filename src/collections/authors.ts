@@ -39,6 +39,7 @@ export default defineCollection({
           .optional(),
         name: z.string(),
         photo: image(),
+        profileBio: z.array(z.string()).optional(),
         // .refine(
         // 	(image) => image.width >= 460 && image.height >= 460,
         // 	{

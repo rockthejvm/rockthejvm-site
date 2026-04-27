@@ -1,12 +1,12 @@
 export default function Example(props) {
   return (
-    <div className="my-auto py-4 sm:flex">
+    <div className="my-auto px-8 py-4 sm:flex">
       <div className="mb-4 shrink-0 sm:mb-0 sm:mr-4">{props.photo}</div>
       <div className="my-auto">
         <a href={`/authors/${props.authorId}`}>
-          <p className="text-2xl font-bold text-content-2 hover:text-accent-2 sm:text-xl md:text-2xl lg:text-3xl">
+          <h1 className="text-2xl font-bold text-content hover:text-link-hover sm:text-xl md:text-2xl lg:text-3xl">
             {props.name}
-          </p>
+          </h1>
         </a>
         {props.biography && (
           <p className="mt-1 text-lg text-content-2 sm:text-base md:text-lg lg:text-xl">
@@ -22,6 +22,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="Personal website"
                 >
                   {props.website}
                 </a>
@@ -34,6 +35,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="Facebook profile"
                 >
                   {props.facebook}
                 </a>
@@ -46,6 +48,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="GitHub profile"
                 >
                   {props.github}
                 </a>
@@ -58,6 +61,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="LinkedIn profile"
                 >
                   {props.linkedin}
                 </a>
@@ -70,6 +74,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="X (Twitter) profile"
                 >
                   {props.twitter}
                 </a>
@@ -82,6 +87,7 @@ export default function Example(props) {
                   className="text-gray-400 hover:text-gray-500"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="YouTube channel"
                 >
                   {props.youtube}
                 </a>

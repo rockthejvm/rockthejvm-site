@@ -7,7 +7,14 @@ import Logo from "@/images/logos/rtjvm-red.png";
 <nav>
   <div>
     <a href="/">
-      <MyPicture src={Logo} alt={site.logo.alt} width={50} quality="low" />
+      <MyPicture
+        src={Logo}
+        alt={site.logo.alt}
+        width={50}
+        widths={[50, 100]}
+        sizes="50px"
+        quality="low"
+      />
     </a>
   </div>
   <div>

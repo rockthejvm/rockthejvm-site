@@ -1,0 +1,188 @@
+---
+import MyPicture from "@/components/MyPicture.astro";
+import Section from "@/components/Section.astro";
+import site from "@/data/site.json";
+import type { CollectionEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
+
+interface Props {
+  color: CollectionEntry<"courseCategories">["data"]["color"];
+}
+
+const { color } = Astro.props;
+
+const _testimonials = await getCollection("testimonials"),
+  sortedTestimonials = [..._testimonials].sort(
+    (a, b) => a.data.ordinal - b.data.ordinal,
+  );
+
+const testimonials = await Promise.all(
+  sortedTestimonials.map(async (t) => {
+    const { Content } = await render(t);
+    const company = await getEntry(t.data.company.entity);
+    return { ...t, Content, company: company.data };
+  }),
+);
+---
+
+<Section id="testimonials" {color} title="What Our Students Say">
+  <!-- Trust bar -->
+  <div class="mb-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+    <div class="flex items-center gap-x-2">
+      <svg
+        class="h-5 w-5 text-accent-2"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M10 9a3 3 0 100-6 3 3 0 000 6zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 01-2.07-.655zM16.44 15.98a4.97 4.97 0 002.07-.654.78.78 0 00.357-.442 3 3 0 00-4.308-3.517 6.484 6.484 0 011.907 3.96 2.32 2.32 0 01-.026.654zM18 8a2 2 0 11-4 0 2 2 0 014 0zM5.304 16.19a.844.844 0 01-.277-.71 5 5 0 019.947 0 .843.843 0 01-.277.71A6.975 6.975 0 0110 18a6.974 6.974 0 01-4.696-1.81z"
+        ></path>
+      </svg>
+      <span class="text-sm font-semibold text-content">
+        Trusted by <strong class="text-accent-1"
+          >{site.stats.studentsLabel}</strong
+        > students worldwide
+      </span>
+    </div>
+  </div>
+
+  <!-- Carousel -->
+  <div
+    class="relative"
+    id="testimonial-carousel"
+    aria-roledescription="carousel"
+    aria-label="Student testimonials"
+  >
+    <!-- Slides -->
+    <div class="overflow-hidden">
+      <ul
+        class="flex transition-transform duration-500 ease-in-out"
+        id="testimonial-track"
+      >
+        {
+          testimonials.map(
+            (
+              { Content, company, data: { name, photo, location, profile } },
+              idx,
+            ) => (
+              <li
+                class="w-full shrink-0 px-1 sm:px-4"
+                aria-roledescription="slide"
+                aria-label={`Testimonial ${idx + 1} of ${testimonials.length}`}
+              >
+                <article class="card-shadow card-shadow-color mx-auto flex max-w-3xl flex-col rounded-2xl bg-secondary p-8 sm:p-10">
+                  <div class="mb-4 flex gap-x-1">
+                    {[1, 2, 3, 4, 5].map(() => (
+                      <svg
+                        class="h-4 w-4 text-yellow-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    ))}
+                  </div>
+                  <blockquote class="flex-1 text-base leading-8 text-content-1 [&_p]:mb-0 [&_p]:mt-0">
+                    <Content />
+                  </blockquote>
+                  <div class="mt-8 flex items-center gap-x-4 border-t border-content/10 pt-6">
+                    <MyPicture
+                      src={photo}
+                      alt={name}
+                      class="h-12 w-12 rounded-full object-cover ring-2 ring-accent-1/20"
+                      quality="low"
+                      width={48}
+                      widths={[48, 96]}
+                      sizes="48px"
+                    />
+                    <div>
+                      <a
+                        href={profile}
+                        class="text-sm font-semibold text-content hover:text-link-hover"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {name}
+                      </a>
+                      <p class="text-xs text-content-1">
+                        {company.name} &middot; {location.country}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ),
+          )
+        }
+      </ul>
+    </div>
+
+    <!-- Prev / Next buttons -->
+    <button
+      id="testimonial-prev"
+      aria-label="Previous testimonial"
+      class="absolute -left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-secondary shadow-md ring-1 ring-content/10 transition hover:bg-secondary/80 hover:ring-accent-1/40 sm:-left-5"
+    >
+      <svg
+        class="h-5 w-5 text-content"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </button>
+    <button
+      id="testimonial-next"
+      aria-label="Next testimonial"
+      class="absolute -right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-secondary shadow-md ring-1 ring-content/10 transition hover:bg-secondary/80 hover:ring-accent-1/40 sm:-right-5"
+    >
+      <svg
+        class="h-5 w-5 text-content"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </button>
+
+    <!-- Dot indicators -->
+    <div
+      class="mt-8 flex justify-center gap-x-2"
+      id="testimonial-dots"
+      aria-label="Testimonial navigation dots"
+    >
+      {
+        testimonials.map((_, idx) => (
+          <button
+            class="flex h-6 w-6 items-center justify-center rounded-full"
+            aria-label={`Go to testimonial ${idx + 1}`}
+            data-idx={idx}
+          >
+            <span
+              aria-hidden="true"
+              class={`block h-2 rounded-full transition-all duration-300 ${idx === 0 ? "w-6 bg-accent-1" : "w-2 bg-content/20 hover:bg-content/40"}`}
+            />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</Section>
+
+<script>
+  import "../_scripts/courseTestimonials";
+</script>
