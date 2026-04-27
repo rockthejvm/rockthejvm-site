@@ -2,3 +2,11 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
   - workerd
+
+# Force secure transitive versions to address advisories from @lhci/cli and
+# @googleapis/youtube dependency trees:
+#   - tmp <0.2.4 -> GHSA-52f5-9888-hmc6 (arbitrary tmp file/dir write via symlink)
+#   - uuid <9.0.0 -> GHSA-w5hq-g745-h8pq (missing buffer bounds check)
+overrides:
+  tmp: ^0.2.4
+  uuid: ^9.0.1
