@@ -1,0 +1,74 @@
+name: Setup
+description: |
+  Common setup shared by all PR/weekly jobs: checkout (optionally with LFS),
+  pnpm + Node toolchain, dependency install with multi-layer caching
+  (pnpm store, node_modules, Astro generated assets, sharp variants), and
+  `astro sync`. Skips reinstall/sync when the node_modules cache is hot.
+inputs:
+  lfs:
+    description: Whether to fetch Git LFS objects during checkout.
+    required: false
+    default: "false"
+  node-version:
+    description: Node.js version to install.
+    required: false
+    default: "22"
+  pnpm-version:
+    description: pnpm version to install.
+    required: false
+    default: 10.14.0
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        lfs: ${{ inputs.lfs }}
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: ${{ inputs.pnpm-version }}
+        run_install: false
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+
+    # Cache the materialized node_modules tree (symlinks + .pnpm) so we can
+    # skip `pnpm install` entirely on cache hits. Keyed on lockfile + Node
+    # major version + pnpm version so any drift invalidates the cache.
+    - name: Cache node_modules
+      id: cache-node-modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+        key: node-modules-${{ runner.os }}-node${{ inputs.node-version }}-pnpm${{ inputs.pnpm-version }}-${{ hashFiles('pnpm-lock.yaml', 'pnpm-workspace.yaml', 'package.json', 'patches/**') }}
+
+    # Astro's generated content collections / image transforms.
+    - name: Cache Astro generated assets
+      id: cache-astro
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules/.astro
+          .astro
+          node_modules/.cache/sharp
+        key: astro-${{ runner.os }}-${{ hashFiles('astro.config.ts', 'pnpm-lock.yaml', 'src/images/**', 'src/assets/images/**', 'src/data/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
+        restore-keys: |
+          astro-${{ runner.os }}-
+
+    - name: Install Dependencies
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    # Astro sync is fast but not free; only run it when node_modules was
+    # rebuilt or when the Astro asset cache missed.
+    - name: Astro Sync
+      if: steps.cache-node-modules.outputs.cache-hit != 'true' || steps.cache-astro.outputs.cache-hit != 'true'
+      shell: bash
+      run: npx astro sync

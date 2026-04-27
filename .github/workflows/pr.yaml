@@ -12,91 +12,28 @@ jobs:
       checks: write # trunk PR annotations
       contents: read # code checkout and dependency installation
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.14.0
-          run_install: false
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - name: Cache Astro generated assets
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules/.astro
-            .astro
-          key: astro-${{ runner.os }}-${{ hashFiles('astro.config.ts', 'pnpm-lock.yaml', 'src/images/**', 'src/assets/images/**', 'src/data/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
-          restore-keys: |
-            astro-${{ runner.os }}-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile && npx astro sync
+      # Trunk only sees LFS pointer files, not image bytes, so skip LFS download.
+      - name: Setup
+        uses: ./.github/actions/setup
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
   astro_check:
     name: Astro Check
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.14.0
-          run_install: false
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - name: Cache Astro generated assets
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules/.astro
-            .astro
-          key: astro-${{ runner.os }}-${{ hashFiles('astro.config.ts', 'pnpm-lock.yaml', 'src/images/**', 'src/assets/images/**', 'src/data/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
-          restore-keys: |
-            astro-${{ runner.os }}-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile && npx astro sync
+      - name: Setup
+        uses: ./.github/actions/setup
       - name: Astro Check
         run: npx astro check --minimumFailingSeverity error
   lighthouse:
     name: Lighthouse CI
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      # Real image bytes required for the Astro build / sharp pipeline.
+      - name: Setup
+        uses: ./.github/actions/setup
         with:
-          lfs: true
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.14.0
-          run_install: false
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - name: Cache Astro generated assets
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules/.astro
-            .astro
-          key: astro-${{ runner.os }}-${{ hashFiles('astro.config.ts', 'pnpm-lock.yaml', 'src/images/**', 'src/assets/images/**', 'src/data/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
-          restore-keys: |
-            astro-${{ runner.os }}-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile && npx astro sync
+          lfs: "true"
       - name: Build
         uses: ./.github/actions/timed-run
         env:
