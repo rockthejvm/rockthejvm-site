@@ -9,4 +9,4 @@ onlyBuiltDependencies:
 #   - uuid <9.0.0 -> GHSA-w5hq-g745-h8pq (missing buffer bounds check)
 overrides:
   tmp: ^0.2.4
-  uuid: ^9.0.1
+  uuid: ^14.0.0
