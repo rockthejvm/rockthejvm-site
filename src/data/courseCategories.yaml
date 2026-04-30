@@ -1,7 +1,7 @@
 - id: bundle
   color: "#003366"
   description: All of Rock the JVM's bundles in one place.
-  longDescription: Rock the JVM bundles bring together complete learning paths at a significant discount, giving you everything you need to go from beginner to expert in a technology stack. Each bundle is carefully curated to take you through the fundamentals, advanced patterns, and real-world projects, so you can master the full ecosystem without hunting for individual courses. Whether you're investing in Scala, Kotlin, Apache Spark, or Akka/Pekko, a bundle is the most efficient and cost-effective way to build deep, production-ready expertise.
+  longDescription: Get packs of courses on the same ecosystem at a discount compared to buying courses individually. Each bundle is a complete learning path. By the time you finish a bundle, you'll have all the sskills of a working professional using these tools every day.
   members:
     - the-scala-bundle
     - the-kotlin-bundle
@@ -16,8 +16,8 @@
   logo: src/images/logos/bundles.png
 - id: scala
   color: "#dd3431"
-  description: Learn everything there is to know about Scala, from zero to master.
-  longDescription: Scala is a powerful, expressive language that combines object-oriented and functional programming on the JVM, and Rock the JVM's Scala track takes you from your very first "Hello, World" all the way through advanced type systems, macros, and metaprogramming. You'll build real intuition for functional design, immutable data, and type-level programming, along with the practical skills to tackle complex codebases and technical interviews. Whether you're a Java developer looking to level up or a dedicated Scala engineer aiming for mastery, this track has a course for every stage of your journey.
+  description: Learn everything there is to know about Scala, and mental models you can take elsewhere.
+  longDescription: Scala is a powerful OO + functional language with many features that later inspired Rust, Kotlin, modern Java and others. Learn Scala and you’ll get many transferable skills: domain modeling with algebraic data types, functional programming, type safety, concurrency, implicit resolution, higher kinds, and others. Scala paves the way to actor concurrency and effect systems, if you’re interested.
   members:
     - scala-at-light-speed
     - scala-essentials
@@ -28,13 +28,13 @@
     - scala-3-new-features
   faqs:
     - question: I'm just learning to code. Should I start with Scala?
-      answer: Probably not directly. While some have learned to code in Scala through Rock the JVM, we don't cover the fundamental computer science topics needed to understand Scala's design and functionality. However, if you want to dive in, go for it! You'll have my support and that of the community whenever you need help.
+      answer: Probably not directly. Though some have learned to code in Scala through Rock the JVM, we don't cover the fundamental computer science topics needed to understand Scala's design and functionality. However, if you want to dive in, go for it! You'll have my support and that of the community whenever you need help.
   name: Scala
   logo: src/images/logos/scala-3.svg
 - id: kotlin
   color: "#6b47d2"
   description: Learn everything there is to know about Kotlin, from zero to master.
-  longDescription: Kotlin has become one of the most loved languages on the JVM, blending concise syntax, null safety, and powerful abstractions that make writing correct and expressive code a pleasure. Rock the JVM's Kotlin track covers the language from the ground up through advanced coroutines and concurrency, equipping you with the skills to build reliable, high-performance applications on any Kotlin platform. Each course in this track is entirely platform-agnostic, focusing on the language itself so the knowledge you gain applies equally whether you're building backend services, desktop tools, or anything else powered by Kotlin.
+  longDescription: Kotlin is the “better Java” that many people have been waiting for. By learning Kotlin, you’ll get a good middle ground between the classic principles of Java and the conciseness and power of Scala, plus some idiomatic Kotlin ideas: receivers, coroutines and more. 
   members:
     - kotlin-at-light-speed
     - kotlin-essentials
@@ -49,8 +49,8 @@
   logo: src/images/logos/kotlin.svg
 - id: typelevel
   color: "#fe4559"
-  description: Learn everything there is to know about Typelevel, from zero to master.
-  longDescription: The Typelevel ecosystem represents the cutting edge of purely functional programming in Scala, offering battle-tested libraries like Cats and Cats Effect that power some of the most demanding production systems in the world. Rock the JVM's Typelevel track guides you through the mathematical foundations of functional abstractions, the principled design of concurrent and effectful programs, and the construction of a complete, real-world application from scratch. By the end of this track you'll be fluent in the vocabulary of functional effects, type classes, and resource safety that defines modern Typelevel engineering.
+  description: Learn the functional programming tools used in production at scale.
+  longDescription: Typelevel is a set of functional programming libraries for Scala. Cats and Cats Effect are the two most important libraries in this ecosystem: Cats offers practical implementations of popular monads and other type classes, while Cats Effect is one of the major effect systems in the Scala ecosystem used at scale in critical systems.
   members:
     - cats
     - cats-effect
@@ -59,8 +59,8 @@
   logo: src/images/logos/typelevel.svg
 - id: zio
   color: "#b80000"
-  description: Learn everything there is to know about ZIO, from zero to master.
-  longDescription: ZIO is a modern, highly ergonomic Scala library for building type-safe, composable, and highly concurrent applications, and its ecosystem has rapidly grown into one of the most productive ways to write functional Scala in production. Rock the JVM's ZIO track takes you from the core concepts of the ZIO runtime—fibers, effects, layers, and dependency injection—through a full-stack, real-world application that demonstrates how all the pieces fit together. Whether you're new to functional effects or migrating an existing codebase, this track will give you the confidence and skills to build resilient, maintainable software with ZIO.
+  description: Learn everything there is to know about ZIO, and the mindset of an effect system.
+  longDescription: ZIO is one of the major effect systems in the Scala ecosystem, battle tested in production. It’s ergonomic, in the sense that all ZIO code follows similar structure and API shapes, and it’s easy to “lift regular Scala code to ZIO effects. If you learn ZIO, you’ll get a new mental model on effects (computation as values), concurrency and code organization.
   members:
     - zio
     - zio-rite-of-passage
@@ -69,8 +69,8 @@
 - id: apache-spark
   color: "#e25a1c"
   name: Apache Spark
-  description: Learn everything there is to know about Spark, from zero to master.
-  longDescription: Apache Spark is the industry-standard distributed computing engine for processing massive datasets with speed and elegance, and proficiency in Spark is one of the most sought-after skills in the data engineering job market. Rock the JVM's Apache Spark track covers everything from the core DataFrame and Dataset APIs through streaming, performance tuning, and advanced optimization techniques that will make your jobs run faster and cost less. Each course is taught in Scala—the language Spark itself is written in—so you'll gain both deep Spark knowledge and the idiomatic practices that experienced data engineers rely on every day.
+  description: Learn everything there is to know about Spark, and become a data engineer.
+  longDescription: Apache Spark is the standard tool in distributed big data processing, and improving every day. If you want to become a data engineer, Spark is a must. You will learn how data is processed at scale, how distribution works, how to think and organize your data crunching jobs, and how to optimize them for best performance. Since Spark is foundational to data engineering, the concepts you learn here are easily transferable to other tools.
   members:
     - apache-spark-essentials-with-scala
     - apache-spark-streaming-with-scala
@@ -79,8 +79,8 @@
   logo: src/images/logos/spark.png
 - id: apache-flink
   color: "#e6526f"
-  description: Learn everything there is to know about Flink, from zero to master.
-  longDescription: Apache Flink is the leading framework for stateful, real-time stream processing, capable of handling billions of events per day with exactly-once guarantees and millisecond latency. Rock the JVM's Apache Flink track gives you a thorough grounding in Flink's DataStream and Table APIs, windowing and event-time semantics, stateful computations, and best practices for deploying reliable streaming pipelines. While the course is taught in Scala, the concepts and APIs are nearly identical in Java, making everything you learn directly applicable regardless of which JVM language your team prefers.
+  description: Learn everything there is to know about Flink, with foundational skills in stream processing.
+  longDescription: Apache Flink is one of the most popular stateful data stream processing tools, used at scale at major companies. By learning Flink, you’ll learn evergreen concepts in stream processing: event time, processing time, windowing, watermarking etc, with practical examples and projects.
   members:
     - apache-flink-with-scala
   faqs:
@@ -90,8 +90,8 @@
   logo: src/images/logos/flink.png
 - id: akka-apache-pekko
   color: "#15a9ce"
-  description: Learn everything there is to know about Akka Pekko, from zero to master.
-  longDescription: Akka and its open-source fork Apache Pekko are the gold standard for building highly concurrent, distributed, and fault-tolerant systems on the JVM, used by companies processing trillions of events every day. Rock the JVM's Akka/Pekko track walks you through the actor model from first principles, then builds up to reactive streams, HTTP microservices, and production-grade distributed system patterns. Because both Akka and Pekko share an identical API, every skill you develop in this track transfers seamlessly between the two, letting you work confidently in any organization regardless of which library they've chosen.
+  description: Learn everything there is to know about Akka (or its open source version Apache Pekko), with the skills of distributed systems.
+  longDescription: Akka (and its open-source Pekko variant) is the most complete actor model implementation on the JVM. Learning this toolkit gives you a completely different mental model on concurrency, code organization, error handling and fault tolerance, event sourcing, clusters and distributed systems along with the many problems and solutions (sharding, singletons, migrations etc).
   members:
     - akka-apache-pekko-essentials-with-scala
     - akka-apache-pekko-streams-with-scala
