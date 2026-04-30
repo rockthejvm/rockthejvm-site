@@ -2,7 +2,7 @@
 import { Code } from "astro:components";
 import HeroCodeCard from "./HeroCodeCard";
 
-const tabs = [
+const tabs: { id: string; label: string; lang: "scala" | "kotlin"; code: string }[] = [
   {
     id: "cats-effect",
     label: "Cats Effect",
