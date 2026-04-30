@@ -1,7 +1,7 @@
 - id: bundle
   color: "#003366"
   description: All of Rock the JVM's bundles in one place.
-  longDescription: Get packs of courses on the same ecosystem at a discount compared to buying courses individually. Each bundle is a complete learning path. By the time you finish a bundle, you'll have all the sskills of a working professional using these tools every day.
+  longDescription: Get packs of courses on the same ecosystem at a discount compared to buying courses individually. Each bundle is a complete learning path. By the time you finish a bundle, you'll have all the skills of a working professional using these tools every day.
   members:
     - the-scala-bundle
     - the-kotlin-bundle
@@ -17,7 +17,7 @@
 - id: scala
   color: "#dd3431"
   description: Learn everything there is to know about Scala, and mental models you can take elsewhere.
-  longDescription: Scala is a powerful OO + functional language with many features that later inspired Rust, Kotlin, modern Java and others. Learn Scala and you’ll get many transferable skills: domain modeling with algebraic data types, functional programming, type safety, concurrency, implicit resolution, higher kinds, and others. Scala paves the way to actor concurrency and effect systems, if you’re interested.
+  longDescription: "Scala is a powerful OO + functional language with many features that later inspired Rust, Kotlin, modern Java and others. Learn Scala and you’ll get many transferable skills: domain modeling with algebraic data types, functional programming, type safety, concurrency, implicit resolution, higher kinds, and others. Scala paves the way to actor concurrency and effect systems, if you’re interested."
   members:
     - scala-at-light-speed
     - scala-essentials
@@ -34,7 +34,7 @@
 - id: kotlin
   color: "#6b47d2"
   description: Learn everything there is to know about Kotlin, from zero to master.
-  longDescription: Kotlin is the “better Java” that many people have been waiting for. By learning Kotlin, you’ll get a good middle ground between the classic principles of Java and the conciseness and power of Scala, plus some idiomatic Kotlin ideas: receivers, coroutines and more. 
+  longDescription: "Kotlin is the “better Java” that many people have been waiting for. By learning Kotlin, you’ll get a good middle ground between the classic principles of Java and the conciseness and power of Scala, plus some idiomatic Kotlin ideas: receivers, coroutines and more."
   members:
     - kotlin-at-light-speed
     - kotlin-essentials
@@ -50,7 +50,7 @@
 - id: typelevel
   color: "#fe4559"
   description: Learn the functional programming tools used in production at scale.
-  longDescription: Typelevel is a set of functional programming libraries for Scala. Cats and Cats Effect are the two most important libraries in this ecosystem: Cats offers practical implementations of popular monads and other type classes, while Cats Effect is one of the major effect systems in the Scala ecosystem used at scale in critical systems.
+  longDescription: "Typelevel is a set of functional programming libraries for Scala. Cats and Cats Effect are the two most important libraries in this ecosystem: Cats offers practical implementations of popular monads and other type classes, while Cats Effect is one of the major effect systems in the Scala ecosystem used at scale in critical systems."
   members:
     - cats
     - cats-effect
@@ -60,7 +60,7 @@
 - id: zio
   color: "#b80000"
   description: Learn everything there is to know about ZIO, and the mindset of an effect system.
-  longDescription: ZIO is one of the major effect systems in the Scala ecosystem, battle tested in production. It’s ergonomic, in the sense that all ZIO code follows similar structure and API shapes, and it’s easy to “lift regular Scala code to ZIO effects. If you learn ZIO, you’ll get a new mental model on effects (computation as values), concurrency and code organization.
+  longDescription: ZIO is one of the major effect systems in the Scala ecosystem, battle tested in production. It’s ergonomic, in the sense that all ZIO code follows similar structure and API shapes, and it’s easy to “lift” regular Scala code to ZIO effects. If you learn ZIO, you’ll get a new mental model on effects (computation as values), concurrency and code organization.
   members:
     - zio
     - zio-rite-of-passage
@@ -80,7 +80,7 @@
 - id: apache-flink
   color: "#e6526f"
   description: Learn everything there is to know about Flink, with foundational skills in stream processing.
-  longDescription: Apache Flink is one of the most popular stateful data stream processing tools, used at scale at major companies. By learning Flink, you’ll learn evergreen concepts in stream processing: event time, processing time, windowing, watermarking etc, with practical examples and projects.
+  longDescription: "Apache Flink is one of the most popular stateful data stream processing tools, used at scale at major companies. By learning Flink, you’ll learn evergreen concepts in stream processing: event time, processing time, windowing, watermarking etc, with practical examples and projects."
   members:
     - apache-flink-with-scala
   faqs:
