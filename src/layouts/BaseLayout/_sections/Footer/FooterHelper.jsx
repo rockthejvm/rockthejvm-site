@@ -110,6 +110,7 @@ const navigation = {
 };
 
 export default function Example(props) {
+  const courseCategories = props.courseCategories ?? [];
   return (
     <footer
       aria-labelledby="footer-heading"
@@ -136,9 +137,23 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a href={item.href} className="text-sm leading-6">
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                  {courseCategories.map((cat) => (
+                    <li key={cat.id}>
+                      <a
+                        href={`/courses/categories/${cat.id}`}
+                        className="text-sm leading-6"
+                      >
+                        <span
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
+                        >
+                          {`${cat.name} Courses`}
                         </span>
                       </a>
                     </li>
@@ -156,10 +171,10 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-content hover:text-accent-1"
+                        className="text-sm leading-6 text-content hover:text-link-hover"
                       >
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
                         </span>
@@ -181,10 +196,10 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 hover:text-accent-1"
+                        className="text-sm leading-6 hover:text-link-hover"
                       >
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
                         </span>
@@ -204,10 +219,10 @@ export default function Example(props) {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 hover:text-accent-1"
+                        className="text-sm leading-6 hover:text-link-hover"
                       >
                         <span
-                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-accent-2"}`}
+                          className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
                         >
                           {item.name}
                         </span>
@@ -232,7 +247,8 @@ export default function Example(props) {
                 href={site.socials.facebook.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                aria-label="Facebook"
+                className="text-content hover:text-link-hover"
               >
                 {props.facebook}
               </a>
@@ -243,7 +259,8 @@ export default function Example(props) {
                 href={site.socials.github.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                aria-label="GitHub"
+                className="text-content hover:text-link-hover"
               >
                 {props.github}
               </a>
@@ -254,7 +271,8 @@ export default function Example(props) {
                 href={site.socials.linkedin.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                aria-label="LinkedIn"
+                className="text-content hover:text-link-hover"
               >
                 {props.linkedin}
               </a>
@@ -265,7 +283,8 @@ export default function Example(props) {
                 href={site.socials.twitter.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                aria-label="X (Twitter)"
+                className="text-content hover:text-link-hover"
               >
                 {props.twitter}
               </a>
@@ -276,7 +295,8 @@ export default function Example(props) {
                 href={site.socials.youtube.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-content hover:text-accent-1"
+                aria-label="YouTube"
+                className="text-content hover:text-link-hover"
               >
                 {props.youtube}
               </a>
@@ -286,7 +306,8 @@ export default function Example(props) {
                 key="RSS"
                 href={site.socials.feed.url}
                 target="_blank"
-                className="text-content hover:text-accent-1"
+                aria-label="RSS feed"
+                className="text-content hover:text-link-hover"
                 rel="noreferrer"
               >
                 {props.rss}

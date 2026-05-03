@@ -1,9 +1,16 @@
 ---
 import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
+
+interface Props {
+  id?: string;
+  title?: string;
+}
+
+const { id, title = "Learn Scala and everything else" } = Astro.props;
 ---
 
-<Section color="bg-secondary" title="Learn Scala and everything else">
+<Section {id} color="bg-secondary" {title}>
   <div class="mx-auto max-w-3xl">
     <Prose>
       <slot />

@@ -34,7 +34,7 @@ const { article, label, open = false } = Astro.props,
         {articleSeriesMembers}
         {open}
         label={label}
-        client:load
+        client:visible
       />
     </section>
   )

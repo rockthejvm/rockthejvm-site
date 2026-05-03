@@ -9,6 +9,7 @@ interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   gradientFlipped?: boolean;
   gradientOption?: GradientOption;
+  id?: string;
   title?: string;
 }
 
@@ -17,14 +18,15 @@ const {
   color,
   gradientFlipped = false,
   gradientOption,
+  id,
   title,
 } = Astro.props;
 ---
 
-<section class:list={["", additionalClasses]}>
+<section {id} class:list={[additionalClasses]}>
   {
     title && (
-      <header class="mx-auto" style={`background: ${color}`}>
+      <header class="mx-auto">
         <H2 {color} class="mx-auto text-center">
           {title}
         </H2>
@@ -32,10 +34,10 @@ const {
     )
   }
   <div
-    class="relative mx-auto w-full overflow-y-hidden overflow-x-visible p-16 sm:px-8"
+    class="relative mx-auto w-full overflow-y-hidden overflow-x-visible px-8 py-8"
   >
     {gradientOption && <GradientSelect {gradientOption} {gradientFlipped} />}
-    <div class="z-10 mx-auto max-w-7xl">
+    <div class="z-10 mx-auto max-w-5xl">
       <slot />
     </div>
   </div>

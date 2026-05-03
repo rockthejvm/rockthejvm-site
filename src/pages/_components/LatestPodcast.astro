@@ -1,0 +1,15 @@
+---
+import PodcastCard from "@/components/PodcastCard";
+import { fetchPodcastFeed } from "@/utils/fetchPodcastFeed";
+
+const episodes = await fetchPodcastFeed();
+const latestEpisode = episodes[0];
+---
+
+{
+  latestEpisode && (
+    <div class="w-full rounded-3xl lg:col-span-1">
+      <PodcastCard episode={latestEpisode} client:visible />
+    </div>
+  )
+}

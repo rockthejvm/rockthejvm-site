@@ -52,6 +52,10 @@ function parseDuration(raw: string): number {
 }
 
 export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
+  if (!PODCAST_AUDIO_FEED_URL || !PODCAST_VIDEO_FEED_URL) {
+    return [];
+  }
+
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: "",
@@ -59,15 +63,18 @@ export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
     isArray: (_name, jPath) => jPath === "rss.channel.item",
   });
 
-  const [audioRes, videoRes] = await Promise.all([
-    fetch(PODCAST_AUDIO_FEED_URL),
-    fetch(PODCAST_VIDEO_FEED_URL),
-  ]);
+  let audioRes: Response, videoRes: Response;
+  try {
+    [audioRes, videoRes] = await Promise.all([
+      fetch(PODCAST_AUDIO_FEED_URL),
+      fetch(PODCAST_VIDEO_FEED_URL),
+    ]);
+  } catch {
+    return [];
+  }
 
   if (!audioRes.ok || !videoRes.ok) {
-    throw new Error(
-      `Failed to fetch podcast feeds (audio: ${audioRes.status}, video: ${videoRes.status})`,
-    );
+    return [];
   }
 
   const [audioXml, videoXml] = await Promise.all([

@@ -1,5 +1,4 @@
 ---
-import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
 import type { CollectionEntry } from "astro:content";
 
@@ -10,8 +9,10 @@ interface Props {
 const { color } = Astro.props;
 ---
 
-<Section gradientOption={2} {color} title="Skills You'll Learn">
-  <Prose class="mx-auto max-w-3xl py-16 prose-ul:leading-6">
-    <slot />
-  </Prose>
+<Section id="skills" {color} title="Skills You'll Learn">
+  <div class="mx-auto max-w-5xl text-sm text-content sm:text-base">
+    <div class="skills-list">
+      <slot />
+    </div>
+  </div>
 </Section>

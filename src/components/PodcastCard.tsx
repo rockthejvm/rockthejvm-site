@@ -68,7 +68,7 @@ export default function PodcastCard({ episode }: Props) {
   const progress = audioDuration > 0 ? (currentTime / audioDuration) * 100 : 0;
 
   return (
-    <article className="card-shadow card-shadow-color flex flex-col overflow-hidden rounded-2xl bg-secondary">
+    <article className="card-shadow card-shadow-color flex flex-col overflow-hidden rounded-2xl bg-secondary ring-1 ring-content/10">
       {episode.thumbnailUrl && (
         <div className="aspect-video w-full overflow-hidden">
           <img
@@ -81,7 +81,10 @@ export default function PodcastCard({ episode }: Props) {
       )}
       <div className="flex flex-1 flex-col p-5">
         <h2 className="mt-2 line-clamp-3 text-xl font-semibold leading-6 md:text-2xl lg:min-h-28 lg:text-3xl">
-          <a href={`/podcast/${episode.guid}`} className="text-content-2">
+          <a
+            href={`/podcast/${episode.guid}`}
+            className="text-content hover:text-link-hover hover:no-underline"
+          >
             {episode.title}
           </a>
         </h2>
@@ -97,7 +100,7 @@ export default function PodcastCard({ episode }: Props) {
                 <button
                   type="button"
                   onClick={handlePlayPause}
-                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-1 text-white transition-colors hover:bg-accent-2"
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-1 text-white transition-colors hover:bg-accent-1/80"
                   aria-label={isPlaying ? "Pause episode" : "Play episode"}
                 >
                   {isPlaying ? (

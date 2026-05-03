@@ -66,6 +66,39 @@ export default defineCollection({
           })
           .strict()
           .optional(),
+        // Optional video for any feature slot. When present, the feature
+        // renders an autoplaying loop instead of the static `features.{slot}`
+        // image, which becomes the video poster/fallback. Paths are resolved
+        // from `public/`, e.g. "/videos/courses/zio/feature-1.mp4".
+        featureVideos: z
+          .object({
+            one: z
+              .object({ mp4: z.string(), webm: z.string() })
+              .strict()
+              .optional(),
+            two: z
+              .object({ mp4: z.string(), webm: z.string() })
+              .strict()
+              .optional(),
+            three: z
+              .object({ mp4: z.string(), webm: z.string() })
+              .strict()
+              .optional(),
+            four: z
+              .object({ mp4: z.string(), webm: z.string() })
+              .strict()
+              .optional(),
+            five: z
+              .object({ mp4: z.string(), webm: z.string() })
+              .strict()
+              .optional(),
+            six: z
+              .object({ mp4: z.string(), webm: z.string() })
+              .strict()
+              .optional(),
+          })
+          .strict()
+          .optional(),
         hasGoal: z.boolean().default(true),
         hasSkills: z.boolean().default(true),
         heroImage: image(),

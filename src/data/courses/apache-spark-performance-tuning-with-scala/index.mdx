@@ -47,51 +47,19 @@ In this course, we cut the weeds at the root. We dive deep into Spark and unders
 
 </Fragment>
 <Fragment slot="skills">
-### What's in for you:
-- You'll understand Spark internals to explain how Spark is already pretty darn fast
-- You'll be able to predict in advance if a job will take a long time
-- You'll diagnose hanging jobs, stages and tasks
-- You'll spot and fix data skews
-- You'll make the right performance tradeoffs between speed, memory usage and fault-tolerance
-- You'll be able to configure your cluster with the optimal resources
-- You'll save hours of computation time in this course alone (let alone in prod!)
-- You'll control the parallelism of your jobs with the right partitioning
-
-And some extra perks:
-
-- You'll have access to the entire code I write on camera (~1400 LOC)
-- You'll be invited to our private Slack room where I'll share latest updates, discounts, talks,
-- (Soon) You'll have access to the takeaway slides
-- (Soon) You'll be able to download the videos for your offline view
-
-### Skills you'll get:
-
-- Deep understanding of Spark internals so you can predict job performance
-    - stage & task decomposition
-    - reading query plans before jobs will run
-    - reading DAGs while jobs are running
-    - performance differences between the different Spark APIs
-    - packaging and deploying a Spark app
-    - configuring Spark in 3 different ways
-    - understanding the state of the art in Spark internals
-    - leveraging Catalyst and Tungsten for massive perf
-- Understanding Spark Memory, Caching and Checkpointing
-    - Tuning Spark executor memory zones
-    - caching for speedy data reuse
-    - making the right tradeoffs between speed, memory usage and fault tolerance
-    - using checkpoints when jobs are failing or you can't afford a recomputation
-- Partitioning
-    - leveraging repartitions
-    - using coalesce to avoid shuffles
-    - picking the right number of partitions at a shuffle to match cluster capability
-    - using custom partitioners for custom jobs
-- Cluster tuning, fixing problems
-    - allocating the right resources in a cluster
-    - fixing data skews and straggling tasks with salting
-    - fixing serialization problems
-    - using the right serializers for free perf improvements
-
-**This course is for Scala and Spark programmers who need to improve the run time and memory footprint of their jobs. If you've never done Scala or Spark, this course is not for you.** I'll generally recommend that you take the Spark Optimization course first, but it's not a requirement.
-
+- Understand Spark internals and predict job performance
+- Read query plans and DAGs to diagnose performance problems
+- Diagnose hanging jobs, stages, and tasks
+- Tune Spark executor memory zones
+- Use caching for fast data reuse
+- Make tradeoffs between speed, memory usage, and fault tolerance
+- Use checkpoints when jobs fail or are expensive to recompute
+- Leverage Catalyst and Tungsten for massive performance gains
+- Use repartitions and coalesce effectively
+- Pick the right partition count at shuffles
+- Use custom partitioners for specialized jobs
+- Allocate the right cluster resources for optimal throughput
+- Fix data skews and straggling tasks with salting
+- Fix serialization problems and pick the right serializers
 </Fragment>
 </CourseLayout>

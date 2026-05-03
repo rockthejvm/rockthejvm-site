@@ -1,0 +1,77 @@
+---
+/**
+ * "Trusted By" logo marquee — shared component.
+ *
+ * Used on the home page and membership page.
+ * If you add a logo, also update the memberships copy at
+ * src/pages/memberships/_sections/TrustedBy.astro.
+ */
+import { Icon } from "astro-icon/components";
+
+const logos = [
+  { id: "adobe", name: "Adobe" },
+  { id: "apple", name: "Apple" },
+  { id: "google", name: "Google" },
+  { id: "microsoft", name: "Microsoft" },
+  { id: "intuit", name: "Intuit" },
+  { id: "orange", name: "Orange" },
+  { id: "swiss-re", name: "Swiss Re" },
+  { id: "ververica", name: "Ververica" },
+  { id: "hapag-lloyd", name: "Hapag-Lloyd" },
+  { id: "datto", name: "Datto" },
+  { id: "hm-revenue-and-customs", name: "HM Revenue & Customs" },
+];
+---
+
+<section class="overflow-hidden py-10">
+  <p
+    class="mb-6 pb-2 text-center text-xs font-semibold uppercase tracking-widest text-content-1/40"
+  >
+    Trusted by engineers at
+  </p>
+
+  <div class="relative">
+    <!-- Fade masks at edges -->
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-bkg to-transparent"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-bkg to-transparent"
+    >
+    </div>
+
+    <div class="marquee-track flex w-max items-center gap-x-14 py-8">
+      {
+        [...logos, ...logos].map(({ id, name }) => (
+          <div class="flex w-44 shrink-0 items-center justify-center opacity-40 grayscale transition-opacity duration-200 hover:opacity-70">
+            <Icon
+              name={`companies/${id}`}
+              title={name}
+              width={112}
+              height={48}
+              class="max-h-16 w-full fill-content object-contain"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee-track {
+    animation: marquee 35s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+</style>

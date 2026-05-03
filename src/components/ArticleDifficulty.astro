@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Match } from "effect";
 
 interface Props {
   difficulty: CollectionEntry<"difficulties">;
@@ -9,11 +10,28 @@ const {
     data: { id, name },
   },
 } = Astro.props;
+
+const colorClass = Match.value(id).pipe(
+  Match.when(
+    "beginner",
+    () =>
+      "bg-blue-500/20 text-blue-400 ring-1 ring-inset ring-blue-400/40 [[data-theme=light]_&]:text-blue-800 [[data-theme=light]_&]:ring-blue-800/50",
+  ),
+  Match.when(
+    "intermediate",
+    () =>
+      "bg-amber-500/20 text-amber-400 ring-1 ring-inset ring-amber-400/40 [[data-theme=light]_&]:text-amber-800 [[data-theme=light]_&]:ring-amber-800/50",
+  ),
+  Match.orElse(
+    () =>
+      "bg-red-500/20 text-red-400 ring-1 ring-inset ring-red-400/40 [[data-theme=light]_&]:text-red-800 [[data-theme=light]_&]:ring-red-800/50",
+  ),
+);
 ---
 
 <a
   href={`/difficulties/${id}`}
-  class="left-0 top-0 z-10 rounded-full text-center font-medium"
+  class={`left-0 top-0 z-10 rounded-full px-3 py-1 text-center text-sm font-semibold ${colorClass}`}
 >
   {name}
 </a>

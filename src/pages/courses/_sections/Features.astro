@@ -7,49 +7,74 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   features: NonNullable<CollectionEntry<"courses">["data"]["features"]>;
+  featureVideos?: CollectionEntry<"courses">["data"]["featureVideos"];
 }
 
-const { color, features } = Astro.props;
+const { color, features, featureVideos } = Astro.props;
 ---
 
-<Section {color} title="How This Course Works">
-  <Prose class="mx-auto max-w-6xl">
+<Section id="features" {color} title="How This Course Works">
+  <Prose class="mx-auto max-w-5xl">
     <slot name="verticalSection" />
   </Prose>
-  <Feature image={features.one} imagePosition="right">
+  <Feature
+    image={features.one}
+    video={featureVideos?.one}
+    imagePosition="right"
+  >
     <slot name="feature1" />
   </Feature>
   {
     features.two && (
-      <Feature image={features.two} imagePosition="left">
+      <Feature
+        image={features.two}
+        video={featureVideos?.two}
+        imagePosition="left"
+      >
         <slot name="feature2" />
       </Feature>
     )
   }
   {
     features.three && (
-      <Feature image={features.three} imagePosition="right">
+      <Feature
+        image={features.three}
+        video={featureVideos?.three}
+        imagePosition="right"
+      >
         <slot name="feature3" />
       </Feature>
     )
   }
   {
     features.four && (
-      <Feature image={features.four} imagePosition="left">
+      <Feature
+        image={features.four}
+        video={featureVideos?.four}
+        imagePosition="left"
+      >
         <slot name="feature4" />
       </Feature>
     )
   }
   {
     features.five && (
-      <Feature image={features.five} imagePosition="right">
+      <Feature
+        image={features.five}
+        video={featureVideos?.five}
+        imagePosition="right"
+      >
         <slot name="feature5" />
       </Feature>
     )
   }
   {
     features.six && (
-      <Feature image={features.six} imagePosition="left">
+      <Feature
+        image={features.six}
+        video={featureVideos?.six}
+        imagePosition="left"
+      >
         <slot name="feature6" />
       </Feature>
     )

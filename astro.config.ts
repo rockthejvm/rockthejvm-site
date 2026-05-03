@@ -22,6 +22,13 @@ function buildStart() {
     name: "my-build-start",
     hooks: {
       "astro:build:start": async () => {
+        // Allow local/dev builds to skip the network roundtrip to the
+        // related-articles worker. Production (Cloudflare Pages) leaves it
+        // unset so matchedArticles.json is regenerated on every deploy.
+        if (process.env.SKIP_RELATED_ARTICLES) {
+          return;
+        }
+
         const branch = process.env.CF_PAGES_BRANCH || "unknown";
         if (branch === "main") {
           await addEmbeddedArticles();
@@ -38,11 +45,29 @@ export default defineConfig({
   trailingSlash: "never",
   build: {
     format: "file",
+    // Inline ALL stylesheets so the render-blocking external CSS request is
+    // eliminated. Per-page Tailwind output is ~20 KB, well within HTML budget;
+    // this removes the ~150 ms render-blocking-resources finding flagged by
+    // Lighthouse on every audited route.
+    inlineStylesheets: "always",
+  },
+  vite: {
+    build: {
+      // Target modern browsers so esbuild/Vite stop emitting ES5
+      // class transforms (flagged by Lighthouse `legacy-javascript`).
+      target: "esnext",
+    },
   },
   prefetch: {
     prefetchAll: true,
   },
   output: "static",
+  // In dev, skip image optimization entirely (`noop` service). Production
+  // builds still use sharp via the default service. Dramatically faster
+  // `astro dev` startup; no effect on the published site.
+  image: process.argv.includes("dev")
+    ? { service: { entrypoint: "astro/assets/services/noop" } }
+    : undefined,
   // adapter: cloudflare({
   //   imageService: "passthrough",
   // }),
@@ -66,6 +91,19 @@ export default defineConfig({
     expressiveCode({
       plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
       themes: ["github-dark-default", "github-light-default"],
+      // Inline expressive-code's CSS into the page that uses it instead of
+      // emitting an external `/_astro/ec.{hash}.css`. The external sheet was
+      // render-blocking on article pages (~150 ms in Lighthouse).
+      emitExternalStylesheet: false,
+      // Force a 4.5:1 line-number color in the light theme. The default gutter
+      // foreground is auto-contrast-adjusted to only 3.3:1, which fails the
+      // Lighthouse color-contrast audit on article code blocks.
+      styleOverrides: {
+        lineNumbers: {
+          foreground: ({ theme }) =>
+            theme.type === "light" ? "#4a5057" : "inherit",
+        },
+      },
       customizeTheme: (theme) => {
         theme.name = theme.name === "github-dark-default" ? "dark" : "light";
         return theme;
@@ -119,10 +157,12 @@ export default defineConfig({
       PODCAST_AUDIO_FEED_URL: envField.string({
         access: "public",
         context: "server",
+        optional: true,
       }),
       PODCAST_VIDEO_FEED_URL: envField.string({
         access: "public",
         context: "server",
+        optional: true,
       }),
     },
   },

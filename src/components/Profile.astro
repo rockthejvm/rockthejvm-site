@@ -1,5 +1,7 @@
 ---
-import Feature from "@/pages/courses/_components/Feature.astro";
+import MyPicture from "@/components/MyPicture.astro";
+import Prose from "@/components/Prose.astro";
+import site from "@/data/site.json";
 import { type CollectionEntry, getEntry } from "astro:content";
 import Section from "./Section.astro";
 
@@ -14,61 +16,89 @@ interface Props {
 
 const { color, collaborators, thanks } = Astro.props,
   author = await getEntry("authors", "daniel-ciocirlan")!;
+
+const authorProfileBio =
+  author.data.profileBio?.map((paragraph) =>
+    paragraph
+      .replace("{{studentsLabel}}", site.stats.studentsLabel)
+      .replace("{{kidsLabel}}", site.stats.kidsLabel),
+  ) ?? [author.data.biography].filter(Boolean);
 ---
 
 <Section {color} title="Meet Rock the JVM">
-  <Feature
-    image={author.data.photo}
-    imagePosition="left"
-    imageRounded={true}
-    imageClassName="w-3/4"
-  >
-    <h3>Daniel Ciocîrlan</h3>
-    <article>
-      <p>I'm a software engineer and the founder of Rock the JVM.</p>
-      <p>
-        I'm a software engineer and the founder of Rock the JVM. I started the
-        Rock the JVM project out of love for Scala and the technologies it
-        powers - they are all amazing tools and I want to share as much of my
-        experience with them as I can.
-      </p>
-      <p>
-        As of February 2024, I've taught Java, Scala, Kotlin and related tech
-        (e.g. Cats, ZIO, Spark) to 100000+ students at various levels and I've
-        held live training sessions for some of the best companies in the
-        industry, including Adobe and Apple. I've also taught university
-        students who now work at Google and Facebook (among others), I've held
-        Hour of Code for 7-year-olds and I've taught more than 35000 kids to
-        code.
-      </p>
-      <p>
-        I have a Master's Degree in Computer Science and I wrote my Bachelor and
-        Master thesis on Quantum Computation. Before starting to learn
-        programming, I won medals at international Physics competitions.
-      </p>
-    </article>
-  </Feature>
-  {
-    collaborators?.map((collaborator) => (
-      <Feature
-        image={collaborator.frontmatter.photo}
-        imagePosition="right"
-        imageRounded={true}
-        imageClassName="w-3/4"
+  <div class="mx-auto flex max-w-5xl flex-col gap-8">
+    <!-- Daniel's card -->
+    <article
+      class="card-shadow card-shadow-color overflow-hidden rounded-2xl bg-secondary ring-1 ring-content/10"
+    >
+      <div
+        class="flex flex-col items-center gap-4 border-b border-content/10 px-8 py-6 sm:flex-row sm:gap-6"
       >
-        <h3>In Collaboration with {collaborator.frontmatter.name}</h3>
-        <div>
-          <Fragment set:html={collaborator.biography} />
+        <MyPicture
+          src={author.data.photo}
+          alt={author.data.name}
+          class="h-20 w-20 shrink-0 rounded-full object-cover ring-2 ring-accent-1/30"
+          quality="mid"
+          width={80}
+          widths={[80, 160]}
+          sizes="80px"
+        />
+        <div class="flex-1 text-center sm:text-left">
+          <h3 class="text-lg font-bold text-content">{author.data.name}</h3>
+          <p class="text-sm text-content-1">Founder, Rock the JVM</p>
         </div>
-      </Feature>
-    ))
-  }
-  {
-    thanks && (
-      <div class="mx-auto mb-8 max-w-[40rem] px-8 md:mb-16">
-        <h3 class="my-4">With Special Thanks To</h3>
-        <Fragment set:html={thanks} />
       </div>
-    )
-  }
+      <div class="px-8 py-6">
+        <Prose class="max-w-none text-justify text-sm leading-7 text-content-1">
+          {authorProfileBio.map((paragraph) => <p>{paragraph}</p>)}
+        </Prose>
+      </div>
+    </article>
+
+    <!-- Collaborator cards -->
+    {
+      collaborators?.map((collaborator) => (
+        <article class="card-shadow card-shadow-color overflow-hidden rounded-2xl bg-secondary ring-1 ring-content/10">
+          <div class="flex flex-col items-center gap-4 border-b border-content/10 px-8 py-6 sm:flex-row sm:gap-6">
+            <MyPicture
+              src={collaborator.frontmatter.photo}
+              alt={collaborator.frontmatter.name}
+              class="h-20 w-20 shrink-0 rounded-full object-cover ring-2 ring-accent-1/30"
+              quality="mid"
+              width={80}
+              widths={[80, 160]}
+              sizes="80px"
+            />
+            <div class="flex-1 text-center sm:text-left">
+              <p class="text-xs font-medium uppercase tracking-wide text-accent-2">
+                In collaboration with
+              </p>
+              <h3 class="text-lg font-bold text-content">
+                {collaborator.frontmatter.name}
+              </h3>
+            </div>
+          </div>
+          <div class="px-8 py-6">
+            <Prose class="max-w-none text-justify text-sm leading-7 text-content-1">
+              <Fragment set:html={collaborator.biography} />
+            </Prose>
+          </div>
+        </article>
+      ))
+    }
+
+    <!-- Thanks -->
+    {
+      thanks && (
+        <div class="rounded-2xl border border-content/10 bg-secondary/40 px-8 py-6">
+          <h3 class="mb-3 text-base font-semibold text-content">
+            With Special Thanks To
+          </h3>
+          <Prose class="text-sm leading-7 text-content-1">
+            <Fragment set:html={thanks} />
+          </Prose>
+        </div>
+      )
+    }
+  </div>
 </Section>

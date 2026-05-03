@@ -1,0 +1,146 @@
+---
+import { Code } from "astro:components";
+import HeroCodeCard from "./HeroCodeCard";
+
+const tabs: {
+  id: string;
+  label: string;
+  lang: "scala" | "kotlin";
+  code: string;
+}[] = [
+  {
+    id: "cats-effect",
+    label: "Cats Effect",
+    lang: "scala",
+    code: `trait UserService[F[_]] {
+  def find(id: UserId): F[Option[User]]
+  def create(user: User): F[UserId]
+}
+
+def program[F[_]: Async: Logger](
+  users: UserService[F],
+  events: EventService[F]
+): F[Unit] = for {
+  id   <- users.create(User("Alice", "alice@example.com"))
+  _    <- Logger[F].info(s"Created user \${id}")
+  _    <- events.publish(UserCreated(id))
+} yield ()`,
+  },
+  {
+    id: "zio",
+    label: "ZIO",
+    lang: "scala",
+    code: `val program = for {
+  config <- ZIO.service[AppConfig]
+  _      <- ZIO.logInfo(s"Connecting to \${config.dbUrl}")
+  pool   <- ConnectionPool.make(config)
+  users  <- pool.query("SELECT * FROM users")
+  _      <- ZIO.foreachPar(users)(user => sendEmail(user))
+} yield ()
+
+program.provide(
+  AppConfig.live,
+  ConnectionPool.live,
+  EmailService.live
+)`,
+  },
+  {
+    id: "kotlin",
+    label: "Kotlin",
+    lang: "kotlin",
+    code: `suspend fun fetchDashboard(userId: String): Dashboard =
+  coroutineScope {
+    val profile  = async { userService.getProfile(userId) }
+    val orders   = async { orderService.getRecent(userId) }
+    val activity = async { analyticsService.getActivity(userId) }
+    Dashboard(
+      profile  = profile.await(),
+      orders   = orders.await(),
+      activity = activity.await()
+    )
+  }`,
+  },
+  {
+    id: "spark",
+    label: "Spark",
+    lang: "scala",
+    code: `spark.read
+  .parquet("s3://data-lake/events/")
+  .filter($"timestamp" > daysAgo(30))
+  .groupBy($"userId", window($"timestamp", "1 hour"))
+  .agg(
+    count("*").as("events"),
+    approxCountDistinct("sessionId").as("sessions")
+  )
+  .writeStream
+  .outputMode("update")
+  .start("s3://analytics/hourly/")`,
+  },
+  {
+    id: "akka",
+    label: "Akka",
+    lang: "scala",
+    code: `object BankAccount {
+  sealed trait Command
+  case class Deposit(amount: BigDecimal, replyTo: ActorRef[Response])  extends Command
+  case class Withdraw(amount: BigDecimal, replyTo: ActorRef[Response]) extends Command
+
+  def apply(balance: BigDecimal = 0): Behavior[Command] =
+    Behaviors.receiveMessage {
+      case Deposit(amount, replyTo) =>
+        replyTo ! Success(balance + amount)
+        apply(balance + amount)
+      case Withdraw(amount, replyTo) if amount <= balance =>
+        replyTo ! Success(balance - amount)
+        apply(balance - amount)
+    }
+}`,
+  },
+];
+---
+
+<!-- Render each code block at build time, hidden. React picks up the HTML. -->{
+  tabs.map((tab) => (
+    <template data-hero-code-tab={tab.id}>
+      <Code
+        code={tab.code}
+        lang={tab.lang}
+        themes={{ dark: "github-dark-default", light: "github-light-default" }}
+      />
+    </template>
+  ))
+}
+
+<HeroCodeCard
+  tabs={tabs.map((t) => ({ id: t.id, label: t.label }))}
+  client:load
+/>
+
+<style is:global>
+  :root[data-theme="light"] .hero-code-panel .shiki,
+  :root[data-theme="light"] .hero-code-panel .shiki span {
+    color: var(--shiki-light) !important;
+    background-color: var(--shiki-light-bg) !important;
+  }
+
+  :root[data-theme="dark"] .hero-code-panel .shiki,
+  :root[data-theme="dark"] .hero-code-panel .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+
+  .hero-code-panel pre {
+    margin: 0;
+    border-radius: 0;
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  .hero-code-panel code {
+    font-family:
+      ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+      "Liberation Mono", monospace;
+  }
+</style>

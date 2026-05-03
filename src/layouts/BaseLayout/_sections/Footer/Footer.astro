@@ -6,6 +6,7 @@ import RSS from "@/components/icons/RSS.astro";
 import Twitter from "@/components/icons/Twitter.astro";
 import YouTube from "@/components/icons/YouTube.astro";
 import NewsletterSection from "@/components/NewsletterSection.astro";
+import { getCollection } from "astro:content";
 import FooterHelper from "./FooterHelper";
 
 interface Props {
@@ -14,9 +15,14 @@ interface Props {
 }
 
 const { hideNewsletter = false, holiday } = Astro.props;
+
+const allCategories = await getCollection("courseCategories");
+const courseCategories = allCategories
+  .filter((c) => c.id !== "bundle")
+  .map((c) => ({ id: c.id, name: c.data.name }));
 ---
 
-<FooterHelper client:visible {holiday}>
+<FooterHelper client:visible {holiday} {courseCategories}>
   <Facebook slot="facebook" />
   <GitHub slot="github" />
   <LinkedIn slot="linkedin" />

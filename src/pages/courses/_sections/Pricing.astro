@@ -2,8 +2,7 @@
 import Section from "@/components/Section.astro";
 import { getTeachablePricingPlan } from "@/utils/teachable";
 import type { CollectionEntry } from "astro:content";
-import { getCollection, getEntry } from "astro:content";
-import FeaturedBundles from "../_components/FeaturedBundles.astro";
+import { getCollection } from "astro:content";
 import MoneyBackGuarantee from "../_components/MoneyBackGuarantee.astro";
 import PricingPanels from "../_components/PricingPanels";
 
@@ -14,10 +13,14 @@ interface Props {
   color: CollectionEntry<"courseCategories">["data"]["color"];
   currency: string;
   isCourse: boolean;
+  monthlyMembershipPricingPlanId: number;
+  monthlyPriceInCents: number;
   priceInCents: number;
   pricingPlanId: CollectionEntry<"courses">["data"]["pricingPlanId"];
   showMembership: boolean;
   title: CollectionEntry<"courses">["data"]["title"];
+  yearlyMembershipPricingPlanId: number;
+  yearlyPriceInCents: number;
 }
 
 const {
@@ -27,20 +30,15 @@ const {
     courseId,
     currency,
     isCourse,
+    monthlyMembershipPricingPlanId,
+    monthlyPriceInCents,
     priceInCents,
     pricingPlanId,
     showMembership,
     title,
+    yearlyMembershipPricingPlanId,
+    yearlyPriceInCents,
   } = Astro.props,
-  _personalMembership = await getEntry("memberships", "personal")!,
-  monthlyMembership = _personalMembership.data.packages[0],
-  monthlyPricingPlan = await getTeachablePricingPlan(
-    monthlyMembership.pricingPlanId,
-  ),
-  yearlyMembership = _personalMembership.data.packages[1],
-  yearlyPricingPlan = await getTeachablePricingPlan(
-    yearlyMembership.pricingPlanId,
-  ),
   hours = isCourse
     ? benefits!.hours
     : bundledCourses
@@ -65,36 +63,104 @@ const {
   featuredBundles = _courses.filter((course) =>
     course.data.bundledCourses?.some(({ id }) => id === courseId),
   );
+
+// Bundle panel data: only shown on individual course pages that belong to a bundle
+let bundleData:
+  | {
+      id: string;
+      title: string;
+      pricingPlanId: number;
+      priceInCents: number;
+      courseCount: number;
+      hours: number;
+      linesOfCode: number;
+      savingsPercent?: number;
+    }
+  | undefined = undefined;
+
+if (isCourse && featuredBundles.length > 0) {
+  // Fetch all featured bundle prices and pick the cheapest
+  const bundlePlans = await Promise.all(
+    featuredBundles.map((b) => getTeachablePricingPlan(b.data.pricingPlanId)),
+  );
+  let cheapestIdx = 0;
+  for (let i = 1; i < bundlePlans.length; i++) {
+    const curr = bundlePlans[i]?.price ?? Infinity;
+    const best = bundlePlans[cheapestIdx]?.price ?? Infinity;
+    if (curr < best) cheapestIdx = i;
+  }
+  const cheapestBundle = featuredBundles[cheapestIdx];
+  const cheapestPlan = bundlePlans[cheapestIdx];
+
+  if (cheapestBundle && cheapestPlan) {
+    const bundledCourseIds =
+      cheapestBundle.data.bundledCourses?.map((ref) => ref.id) ?? [];
+    const bundledCourseEntries = _courses.filter((c) =>
+      bundledCourseIds.includes(c.id),
+    );
+
+    const bundleHours = bundledCourseEntries.reduce(
+      (sum, c) => sum + (c.data.benefits?.hours ?? 0),
+      0,
+    );
+    const bundleLoC = bundledCourseEntries.reduce(
+      (sum, c) => sum + (c.data.benefits?.linesOfCode ?? 0),
+      0,
+    );
+
+    // Fetch individual prices to compute bundle savings vs buying separately
+    const individualPlans = await Promise.all(
+      bundledCourseEntries.map((c) =>
+        getTeachablePricingPlan(c.data.pricingPlanId),
+      ),
+    );
+    const sumIndividual = individualPlans
+      .filter((p): p is NonNullable<typeof p> => p !== null)
+      .reduce((sum, p) => sum + p.price, 0);
+    const savingsPercent =
+      sumIndividual > 0
+        ? Math.round((1 - cheapestPlan.price / sumIndividual) * 100)
+        : undefined;
+
+    bundleData = {
+      id: cheapestBundle.id,
+      title: cheapestBundle.data.title,
+      pricingPlanId: cheapestBundle.data.pricingPlanId,
+      priceInCents: cheapestPlan.price,
+      courseCount: bundledCourseIds.length,
+      hours: bundleHours,
+      linesOfCode: bundleLoC,
+      savingsPercent,
+    };
+  }
+}
 ---
 
-<Section {color} gradientOption={1} gradientFlipped={false} title="Enroll now!">
+<Section id="pricing" {color} title="Enroll now!">
   <div class="relative isolate w-full px-2 py-1 sm:px-6 sm:py-2 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center lg:max-w-4xl"></div>
     {
-      monthlyPricingPlan !== null ? (
+      monthlyPriceInCents > 0 ? (
         <PricingPanels
           {categories}
           {currency}
           {hours}
-          {linesOfCode}
           {isCourse}
           {membershipHours}
-          {membershipLinesOfCode}
-          {monthlyMembership}
-          {yearlyMembership}
-          monthlyPriceInCents={monthlyPricingPlan!.price}
-          yearlyPriceInCents={yearlyPricingPlan!.price}
+          {monthlyMembershipPricingPlanId}
+          {yearlyMembershipPricingPlanId}
+          {monthlyPriceInCents}
+          {yearlyPriceInCents}
           {priceInCents}
           {pricingPlanId}
           {showMembership}
           {title}
+          bundle={bundleData}
           client:visible={{ rootMargin: "2160px" }}
         />
       ) : (
         <p>MISSING TEACHABLE_API_KEY</p>
       )
     }
-    <FeaturedBundles {featuredBundles} />
     <MoneyBackGuarantee />
   </div>
 </Section>

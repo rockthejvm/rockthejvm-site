@@ -1,0 +1,33 @@
+---
+const items = [
+  { href: "#whats-included", label: "What's Included" },
+  { href: "#courses", label: "Courses" },
+  { href: "#testimonials", label: "Testimonials" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#faq", label: "FAQ" },
+];
+---
+
+<nav
+  aria-label="Membership page sections"
+  class="sticky top-0 z-30 border-b border-content/10 bg-bkg/90 backdrop-blur-sm"
+>
+  <div class="mx-auto max-w-5xl px-6 lg:px-8">
+    <ul
+      class="no-scrollbar flex items-center justify-center gap-x-1 overflow-x-auto py-2"
+    >
+      {
+        items.map(({ href, label }) => (
+          <li class="shrink-0">
+            <a
+              href={href}
+              class="rounded-md px-3 py-1.5 text-sm font-medium text-content-1 no-underline transition hover:bg-secondary hover:text-content hover:no-underline"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>

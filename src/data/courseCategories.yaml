@@ -1,6 +1,7 @@
 - id: bundle
   color: "#003366"
   description: All of Rock the JVM's bundles in one place.
+  longDescription: Get packs of courses on the same ecosystem at a discount compared to buying courses individually. Each bundle is a complete learning path. By the time you finish a bundle, you'll have all the skills of a working professional using these tools every day.
   members:
     - the-scala-bundle
     - the-kotlin-bundle
@@ -15,7 +16,8 @@
   logo: src/images/logos/bundles.png
 - id: scala
   color: "#dd3431"
-  description: Learn everything there is to know about Scala, from zero to master.
+  description: Learn everything there is to know about Scala, and mental models you can take elsewhere.
+  longDescription: "Scala is a powerful OO + functional language with many features that later inspired Rust, Kotlin, modern Java and others. Learn Scala and you’ll get many transferable skills: domain modeling with algebraic data types, functional programming, type safety, concurrency, implicit resolution, higher kinds, and others. Scala paves the way to actor concurrency and effect systems, if you’re interested."
   members:
     - scala-at-light-speed
     - scala-essentials
@@ -26,12 +28,13 @@
     - scala-3-new-features
   faqs:
     - question: I'm just learning to code. Should I start with Scala?
-      answer: Probably not directly. While some have learned to code in Scala through Rock the JVM, we don't cover the fundamental computer science topics needed to understand Scala's design and functionality. However, if you want to dive in, go for it! You'll have my support and that of the community whenever you need help.
+      answer: Probably not directly. Though some have learned to code in Scala through Rock the JVM, we don't cover the fundamental computer science topics needed to understand Scala's design and functionality. However, if you want to dive in, go for it! You'll have my support and that of the community whenever you need help.
   name: Scala
   logo: src/images/logos/scala-3.svg
 - id: kotlin
   color: "#6b47d2"
   description: Learn everything there is to know about Kotlin, from zero to master.
+  longDescription: "Kotlin is the “better Java” that many people have been waiting for. By learning Kotlin, you’ll get a good middle ground between the classic principles of Java and the conciseness and power of Scala, plus some idiomatic Kotlin ideas: receivers, coroutines and more."
   members:
     - kotlin-at-light-speed
     - kotlin-essentials
@@ -46,7 +49,8 @@
   logo: src/images/logos/kotlin.svg
 - id: typelevel
   color: "#fe4559"
-  description: Learn everything there is to know about Typelevel, from zero to master.
+  description: Learn the functional programming tools used in production at scale.
+  longDescription: "Typelevel is a set of functional programming libraries for Scala. Cats and Cats Effect are the two most important libraries in this ecosystem: Cats offers practical implementations of popular monads and other type classes, while Cats Effect is one of the major effect systems in the Scala ecosystem used at scale in critical systems."
   members:
     - cats
     - cats-effect
@@ -55,7 +59,8 @@
   logo: src/images/logos/typelevel.svg
 - id: zio
   color: "#b80000"
-  description: Learn everything there is to know about ZIO, from zero to master.
+  description: Learn everything there is to know about ZIO, and the mindset of an effect system.
+  longDescription: ZIO is one of the major effect systems in the Scala ecosystem, battle tested in production. It’s ergonomic, in the sense that all ZIO code follows similar structure and API shapes, and it’s easy to “lift” regular Scala code to ZIO effects. If you learn ZIO, you’ll get a new mental model on effects (computation as values), concurrency and code organization.
   members:
     - zio
     - zio-rite-of-passage
@@ -64,7 +69,8 @@
 - id: apache-spark
   color: "#e25a1c"
   name: Apache Spark
-  description: Learn everything there is to know about Spark, from zero to master.
+  description: Learn everything there is to know about Spark, and become a data engineer.
+  longDescription: Apache Spark is the standard tool in distributed big data processing, and improving every day. If you want to become a data engineer, Spark is a must. You will learn how data is processed at scale, how distribution works, how to think and organize your data crunching jobs, and how to optimize them for best performance. Since Spark is foundational to data engineering, the concepts you learn here are easily transferable to other tools.
   members:
     - apache-spark-essentials-with-scala
     - apache-spark-streaming-with-scala
@@ -73,7 +79,8 @@
   logo: src/images/logos/spark.png
 - id: apache-flink
   color: "#e6526f"
-  description: Learn everything there is to know about Flink, from zero to master.
+  description: Learn everything there is to know about Flink, with foundational skills in stream processing.
+  longDescription: "Apache Flink is one of the most popular stateful data stream processing tools, used at scale at major companies. By learning Flink, you’ll learn evergreen concepts in stream processing: event time, processing time, windowing, watermarking etc, with practical examples and projects."
   members:
     - apache-flink-with-scala
   faqs:
@@ -83,7 +90,8 @@
   logo: src/images/logos/flink.png
 - id: akka-apache-pekko
   color: "#15a9ce"
-  description: Learn everything there is to know about Akka Pekko, from zero to master.
+  description: Learn everything there is to know about Akka (or its open source version Apache Pekko), with the skills of distributed systems.
+  longDescription: Akka (and its open-source Pekko variant) is the most complete actor model implementation on the JVM. Learning this toolkit gives you a completely different mental model on concurrency, code organization, error handling and fault tolerance, event sourcing, clusters and distributed systems along with the many problems and solutions (sharding, singletons, migrations etc).
   members:
     - akka-apache-pekko-essentials-with-scala
     - akka-apache-pekko-streams-with-scala

@@ -1,4 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
+import { Match } from "effect";
 import { memo } from "react";
 
 export default memo(({ data, isConnectable }) => {
@@ -6,31 +7,21 @@ export default memo(({ data, isConnectable }) => {
     window.open(data.href, "_blank");
   };
 
-  const getBackgroundColor = (difficulty) => {
-    switch (difficulty) {
-      case "beginner":
-        return "bg-difficulty-beginner";
-      case "intermediate":
-        return "bg-difficulty-intermediate";
-      case "advanced":
-        return "bg-difficulty-advanced";
-      default:
-        return "bg-white";
-    }
-  };
+  const getBackgroundColor = (difficulty) =>
+    Match.value(difficulty).pipe(
+      Match.when("beginner", () => "bg-difficulty-beginner"),
+      Match.when("intermediate", () => "bg-difficulty-intermediate"),
+      Match.when("advanced", () => "bg-difficulty-advanced"),
+      Match.orElse(() => "bg-white"),
+    );
 
-  const getShadowColor = (difficulty) => {
-    switch (difficulty) {
-      case "beginner":
-        return "shadow-difficulty-beginner";
-      case "intermediate":
-        return "shadow-difficulty-intermediate";
-      case "advanced":
-        return "shadow-difficulty-advanced";
-      default:
-        return "shadow-white";
-    }
-  };
+  const getShadowColor = (difficulty) =>
+    Match.value(difficulty).pipe(
+      Match.when("beginner", () => "shadow-difficulty-beginner"),
+      Match.when("intermediate", () => "shadow-difficulty-intermediate"),
+      Match.when("advanced", () => "shadow-difficulty-advanced"),
+      Match.orElse(() => "shadow-white"),
+    );
 
   return (
     <div className={`${data.isCurrent ? "roadmap-node-border card" : ""}`}>

@@ -1,0 +1,78 @@
+---
+import Check from "@/components/icons/Check.astro";
+
+const bullets = [
+  "Full library access for every seat",
+  "Individual accounts with personal progress tracking",
+  "Flexible pricing based on team size",
+  "Tax-compliant invoicing for easy expensing",
+  "Direct support from the founder",
+];
+---
+
+<section class="mb-12 md:mb-20">
+  <div
+    class="rounded-3xl bg-accent-1/5 px-6 py-16 ring-1 ring-accent-1/20 sm:px-12 md:py-20"
+  >
+    <div
+      class="mx-auto flex max-w-7xl flex-col items-center gap-12 lg:flex-row lg:gap-16"
+    >
+      <!-- Copy -->
+      <div class="w-full lg:w-1/2">
+        <p
+          class="mb-4 text-sm font-semibold uppercase tracking-widest text-accent-1"
+        >
+          For companies and teams
+        </p>
+        <h3
+          class="mb-6 text-3xl font-bold tracking-tight text-content sm:text-4xl"
+        >
+          Upskill your engineering team
+        </h3>
+        <p class="mb-8 text-lg leading-8 text-content-1">
+          Companies like Google, Apple and Adobe have used Rock the JVM to train
+          their engineering teams. Give your engineers structured, deep learning
+          on the technologies they ship with.
+        </p>
+
+        <ul class="mb-10 space-y-3">
+          {
+            bullets.map((item) => (
+              <li class="flex items-start gap-x-3 text-content">
+                <Check class="mt-0.5 h-5 w-5 flex-none text-accent-1" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="flex flex-col gap-y-3 sm:flex-row sm:gap-x-4">
+          <a
+            href="/teams"
+            class="rounded-md bg-cta px-5 py-3 text-center text-sm font-semibold text-ctatext shadow-sm transition-colors hover:bg-accent-1 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-1"
+          >
+            See the offer &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats / trust signals -->
+      <div class="flex w-full flex-col gap-6 lg:w-1/2">
+        <div class="rounded-2xl bg-secondary p-8 ring-1 ring-content/10">
+          <p class="text-4xl font-extrabold text-accent-1">100,000+</p>
+          <p class="mt-1 text-content-1">engineers trained worldwide</p>
+        </div>
+        <div class="rounded-2xl bg-secondary p-8 ring-1 ring-content/10">
+          <p class="text-4xl font-extrabold text-accent-1">250+</p>
+          <p class="mt-1 text-content-1">hours of hands-on content</p>
+        </div>
+        <div class="rounded-2xl bg-secondary p-8 ring-1 ring-content/10">
+          <p class="text-4xl font-extrabold text-accent-1">Since 2017</p>
+          <p class="mt-1 text-content-1">
+            trusted by teams at Google, Apple, Adobe and more
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

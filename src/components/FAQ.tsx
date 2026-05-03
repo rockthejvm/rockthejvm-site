@@ -18,9 +18,13 @@ export default function Example({ faqs }: Props) {
         {/* <h2 className="text-2xl font-bold leading-10 tracking-tight text-content-1">
             Frequently asked questions
           </h2> */}
-        <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
+        <dl className="mt-10 space-y-3">
           {faqs.map((faq) => (
-            <Disclosure key={faq.question} as="div" className="pt-6">
+            <Disclosure
+              key={faq.question}
+              as="div"
+              className="rounded-xl border border-content/20 px-5 py-4"
+            >
               <dt>
                 <DisclosureButton className="group flex w-full items-start justify-between text-left text-content-1">
                   <span className="text-base font-semibold leading-7">

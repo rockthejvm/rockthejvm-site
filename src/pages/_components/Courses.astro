@@ -1,50 +1,169 @@
 ---
-import MyPicture from "@/components/MyPicture.astro";
-import { getCollection, getEntries } from "astro:content";
-import CourseEntry from "./CourseEntry.astro";
-import CoursesHelper from "./CoursesHelper";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 
-const _categories = await getCollection("courseCategories"),
-  categories = await Promise.all(
-    _categories.map(async (category) => ({
-      ...category,
-      data: {
-        ...category.data,
-        members: await getEntries(category.data.members),
-      },
-    })),
-  );
+const displayCategories = await getCollection("courseCategories");
 ---
 
-<section class="mb-8 md:mb-16">
-  <h2 class="mb-12 text-center text-content">Available Courses</h2>
-  <div class="">
-    <div class="mx-auto max-w-7xl px-6 pb-12 sm:pb-16 lg:px-8 lg:pb-24">
-      <div class="mx-auto max-w-6xl divide-y divide-gray-900/10">
-        <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
-          {
-            categories.map((category) => (
-              <Fragment>
-                <CoursesHelper {category} client:visible>
-                  <Fragment slot="entries">
-                    {category.data.members.map((course) => (
-                      <CourseEntry {course} />
-                    ))}
-                  </Fragment>
-                  <Fragment slot="categoryImage">
-                    <MyPicture
-                      class="my-auto w-full"
-                      src={category.data.logo}
-                      alt={category.data.name}
-                      quality="low"
-                    />
-                  </Fragment>
-                </CoursesHelper>
-              </Fragment>
-            ))
-          }
-        </dl>
-      </div>
-    </div>
+<section class="mb-12 md:mb-20">
+  <div class="mb-12 text-center">
+    <h2 class="mb-4 font-bold text-content">What You'll Master</h2>
+    <p class="mx-auto max-w-xl text-content-2">
+      Deep dives into powerful technologies &mdash; from language fundamentals
+      to production-grade distributed systems.
+    </p>
+  </div>
+
+  <ul
+    id="course-categories"
+    class="mx-auto grid max-w-3xl list-none grid-cols-2 gap-4 p-0 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-6"
+  >
+    {
+      displayCategories.map((cat, i) => (
+        <li class="cat-wrapper" style={`--stagger: ${i};`}>
+          <a
+            href={`/courses/categories/${cat.id}`}
+            class="cat-card group block h-full no-underline hover:no-underline"
+            style={`--accent: ${cat.data.color};`}
+            aria-label={`${cat.data.name} courses`}
+          >
+            <div class="cat-inner h-full rounded-2xl px-5 pb-6 pt-8 text-center">
+              <figure class="cat-icon mx-auto mb-4 flex size-[72px] items-center justify-center rounded-full bg-white">
+                <Image
+                  src={cat.data.logo}
+                  alt=""
+                  class="h-11 w-11 object-contain"
+                  widths={[44, 88]}
+                  sizes="44px"
+                />
+              </figure>
+              <h3 class="text-sm font-semibold text-content-1 transition-colors group-hover:text-link-hover">
+                {cat.data.name}
+              </h3>
+            </div>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="mt-12 text-center">
+    <a
+      href="/courses"
+      class="rounded-md px-5 py-3 text-sm font-semibold text-content ring-1 ring-inset ring-content/30 transition-colors hover:ring-content/60"
+    >
+      View All Courses &rarr;
+    </a>
   </div>
 </section>
+
+<style>
+  /* ── Staggered entrance (uses --stagger CSS var) ── */
+  .cat-wrapper {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.5s ease calc(var(--stagger, 0) * 75ms),
+      transform 0.5s ease calc(var(--stagger, 0) * 75ms);
+  }
+  .cat-wrapper.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Card shell: perspective can't be expressed in Tailwind v3 ── */
+  .cat-card {
+    perspective: 900px;
+  }
+
+  /* ── Per-theme card background (uses color-mix + CSS vars) ──────
+     Light: near-white cards pop clearly off the warm cream page bg.
+     Dark:  slightly elevated surface pops off the very dark page bg. */
+  :root[data-theme="light"] .cat-inner {
+    --cat-card-bg: color-mix(in srgb, var(--accent) 7%, white);
+    --cat-card-bg-hover: color-mix(in srgb, var(--accent) 13%, white);
+  }
+  :root[data-theme="dark"] .cat-inner {
+    --cat-card-bg: color-mix(in srgb, var(--accent) 14%, hsl(210deg 40% 16%));
+    --cat-card-bg-hover: color-mix(
+      in srgb,
+      var(--accent) 22%,
+      hsl(210deg 40% 20%)
+    );
+  }
+
+  /* ── Tiltable card face ──────────────────────────────────────── */
+  .cat-inner {
+    --cat-card-bg: color-mix(in srgb, var(--accent) 7%, white);
+    --cat-card-bg-hover: color-mix(in srgb, var(--accent) 13%, white);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: var(--cat-card-bg);
+    transform-style: preserve-3d;
+    transform: perspective(900px) rotateX(var(--rx, 0deg))
+      rotateY(var(--ry, 0deg));
+    transition:
+      transform 0.12s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      background 0.3s ease;
+    will-change: transform;
+  }
+  .cat-card:hover .cat-inner,
+  .cat-card:focus-visible .cat-inner {
+    border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+    background: var(--cat-card-bg-hover);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent),
+      0 8px 32px -8px color-mix(in srgb, var(--accent) 40%, transparent),
+      0 24px 64px -16px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  /* ── Logo circle: box-shadow uses color-mix ─────────────────── */
+  .cat-icon {
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.12),
+      0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent);
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .cat-card:hover .cat-icon {
+    box-shadow:
+      0 4px 20px color-mix(in srgb, var(--accent) 45%, transparent),
+      0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent);
+    transform: scale(1.12) translateY(-3px);
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 },
+  );
+  document.querySelectorAll<HTMLElement>(".cat-wrapper").forEach((el) => {
+    observer.observe(el);
+  });
+
+  const MAX_TILT = 14;
+  document.querySelectorAll<HTMLAnchorElement>(".cat-card").forEach((card) => {
+    const inner = card.querySelector<HTMLDivElement>(".cat-inner")!;
+    card.addEventListener("mousemove", (e: MouseEvent) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      inner.style.setProperty("--rx", `${(-y * MAX_TILT).toFixed(2)}deg`);
+      inner.style.setProperty("--ry", `${(x * MAX_TILT).toFixed(2)}deg`);
+    });
+    card.addEventListener("mouseleave", () => {
+      inner.style.setProperty("--rx", "0deg");
+      inner.style.setProperty("--ry", "0deg");
+    });
+  });
+</script>

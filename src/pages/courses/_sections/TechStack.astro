@@ -11,15 +11,19 @@ interface Props {
 const { color, technologies } = Astro.props;
 ---
 
-<Section {color} title="The Tech Stack">
-  {
-    technologies.map((technology) => (
-      <TechStackCard
-        title={technology.title}
-        description={technology.description}
-        image={technology.image}
-        alt={technology.title}
-      />
-    ))
-  }
+<Section id="tech-stack" {color} title="The Tech Stack">
+  <div class="mx-auto grid max-w-4xl grid-cols-1 gap-4">
+    {
+      technologies.map((technology) => (
+        <div class="card-shadow card-shadow-color overflow-hidden rounded-2xl bg-secondary/60 ring-1 ring-content/10 transition-all hover:bg-secondary hover:ring-accent-1/30">
+          <TechStackCard
+            title={technology.title}
+            description={technology.description}
+            image={technology.image}
+            alt={technology.title}
+          />
+        </div>
+      ))
+    }
+  </div>
 </Section>

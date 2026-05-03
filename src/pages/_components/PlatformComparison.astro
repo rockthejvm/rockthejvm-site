@@ -1,0 +1,226 @@
+---
+import Check from "@/components/icons/Check.astro";
+import XMark from "@/components/icons/XMark.astro";
+
+type Indicator = "yes" | "no" | string;
+
+interface Row {
+  feature: string;
+  rockthejvm: Indicator;
+  frontendmasters: Indicator;
+  udemy: Indicator;
+  coursera: Indicator;
+  oreilly: Indicator;
+}
+
+const rows: Row[] = [
+  {
+    feature: "Deep content on niche tech\n(e.g. Scala, effect systems)",
+    rockthejvm: "yes",
+    frontendmasters: "no",
+    udemy: "no",
+    coursera: "limited",
+    oreilly: "limited",
+  },
+  {
+    feature: "Code-first teaching",
+    rockthejvm: "yes",
+    frontendmasters: "yes",
+    udemy: "some",
+    coursera: "some",
+    oreilly: "no",
+  },
+  {
+    feature: "Non-trivial projects",
+    rockthejvm: "yes",
+    frontendmasters: "yes",
+    udemy: "rarely",
+    coursera: "some (capstones)",
+    oreilly: "no",
+  },
+  {
+    feature: "Senior-level content",
+    rockthejvm: "yes",
+    frontendmasters: "yes",
+    udemy: "rarely",
+    coursera: "some",
+    oreilly: "yes",
+  },
+  {
+    feature: "All-access membership",
+    rockthejvm: "yes",
+    frontendmasters: "yes",
+    udemy: "limited",
+    coursera: "no",
+    oreilly: "yes",
+  },
+  {
+    feature: "Private community",
+    rockthejvm: "yes",
+    frontendmasters: "no",
+    udemy: "no",
+    coursera: "limited (forum)",
+    oreilly: "no",
+  },
+];
+
+const competitors = [
+  { key: "frontendmasters", label: "Frontend Masters" },
+  { key: "udemy", label: "Udemy" },
+  { key: "coursera", label: "Coursera" },
+  { key: "oreilly", label: "O'Reilly" },
+] as const;
+
+type CompetitorKey = (typeof competitors)[number]["key"];
+
+const featureColumnWidthClass = "w-44 sm:w-52";
+const featureStickyClass = "left-0 min-w-44 max-w-44 sm:min-w-52 sm:max-w-52";
+const rockColumnWidthClass = "w-28 sm:w-32";
+const rockStickyClass =
+  "left-44 min-w-28 max-w-28 sm:left-52 sm:min-w-32 sm:max-w-32";
+const competitorColumnWidthClass = "w-32 sm:w-36";
+---
+
+<section class="mb-12 md:mb-20">
+  <div class="mx-auto mb-12 max-w-3xl text-center">
+    <p
+      class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-1"
+    >
+      How we stack up
+    </p>
+    <h2
+      class="mb-4 text-3xl font-extrabold tracking-tight text-content sm:text-4xl"
+    >
+      Rock the JVM vs. the alternatives
+    </h2>
+    <p class="text-lg leading-8 text-content-1">
+      There are a lot of places to learn online. Here's how Rock the JVM
+      compares for the engineer who wants to level up seriously.
+    </p>
+  </div>
+
+  <div class="comparison-table overflow-x-auto">
+    <table
+      class="mx-auto w-max min-w-full table-fixed border-separate border-spacing-0 text-sm"
+    >
+      <colgroup>
+        <col class={featureColumnWidthClass} />
+        <col class={rockColumnWidthClass} />
+        {competitors.map(() => <col class={competitorColumnWidthClass} />)}
+      </colgroup>
+      <thead>
+        <tr class="border-b border-content/10">
+          <!-- Sticky: Feature column -->
+          <th
+            class:list={[
+              "sticky z-20 bg-bkg py-3 pl-4 pr-3 text-left font-medium text-content-1 sm:py-4 sm:pl-6 sm:pr-4",
+              featureColumnWidthClass,
+              featureStickyClass,
+            ]}
+          >
+            Feature
+          </th>
+          <!-- Sticky: Rock the JVM column -->
+          <th
+            class:list={[
+              "comparison-table__sticky-rtjvm sticky z-20 px-3 py-3 text-center font-semibold text-accent-1 sm:px-4 sm:py-4",
+              rockColumnWidthClass,
+              rockStickyClass,
+            ]}
+          >
+            Rock the JVM
+          </th>
+          <!-- Scrollable: competitors -->
+          {
+            competitors.map(({ label }) => (
+              <th
+                class:list={[
+                  "whitespace-nowrap px-3 py-3 text-center font-semibold text-content-1 sm:px-4 sm:py-4",
+                  competitorColumnWidthClass,
+                ]}
+              >
+                {label}
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row, i) => (
+            <tr
+              class:list={[
+                "border-b border-content/10 last:border-0",
+                i % 2 === 1
+                  ? "bg-white/[0.02] [[data-theme=light]_&]:bg-black/5"
+                  : "",
+              ]}
+            >
+              <td
+                class:list={[
+                  "sticky z-10 whitespace-pre-line bg-bkg py-3 pl-4 pr-3 leading-6 text-content sm:py-4 sm:pl-6 sm:pr-4",
+                  featureColumnWidthClass,
+                  featureStickyClass,
+                ]}
+              >
+                {row.feature}
+              </td>
+              <td
+                class:list={[
+                  "comparison-table__sticky-rtjvm sticky z-10 px-3 py-3 text-center sm:px-4 sm:py-4",
+                  rockColumnWidthClass,
+                  rockStickyClass,
+                ]}
+              >
+                <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
+                  <Check />
+                </span>
+              </td>
+              {competitors.map(({ key }) => {
+                const val = row[key as CompetitorKey];
+                return (
+                  <td
+                    class:list={[
+                      "px-3 py-3 text-center sm:px-4 sm:py-4",
+                      competitorColumnWidthClass,
+                    ]}
+                  >
+                    {val === "yes" && (
+                      <span class="inline-flex items-center justify-center text-green-300 [[data-theme=light]_&]:text-green-700">
+                        <Check />
+                      </span>
+                    )}
+                    {val === "no" && (
+                      <span class="inline-flex items-center justify-center text-red-300 [[data-theme=light]_&]:text-red-700">
+                        <XMark />
+                      </span>
+                    )}
+                    {val !== "yes" && val !== "no" && (
+                      <span class="text-xs font-medium text-yellow-300 [[data-theme=light]_&]:text-amber-700">
+                        {val}
+                      </span>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .comparison-table__sticky-rtjvm {
+    background-color: hsl(var(--color-bkg));
+    background-image: linear-gradient(
+      hsl(var(--color-cta) / 0.1),
+      hsl(var(--color-cta) / 0.1)
+    );
+  }
+
+  thead .comparison-table__sticky-rtjvm {
+    box-shadow: inset 0 2px 0 0 hsl(var(--color-cta));
+  }
+</style>

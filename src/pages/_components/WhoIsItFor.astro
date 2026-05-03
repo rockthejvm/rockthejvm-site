@@ -1,0 +1,91 @@
+---
+import Check from "@/components/icons/Check.astro";
+import XMark from "@/components/icons/XMark.astro";
+
+const forYou = [
+  "You're a working software engineer with at least a year of experience",
+  "You learn best by writing code",
+  "You want structured, deep learning instead of quick answers (e.g. from AI)",
+  "You need to understand non-mainstream languages, tools and ecosystems",
+  "You value robust code and good architecture",
+  "You don't want to spend $5000+ for training from $FAMOUS_COMPANY with slides",
+];
+
+const notForYou = [
+  "You're just starting to learn to code",
+  "You believe coding is dead",
+  "You are already comfortable with your preferred language or stack",
+  "You need answers and results quickly",
+  "You prefer passive watching (we write lots of code)",
+  "You take courses for certificates only",
+];
+---
+
+<section class="mb-12 md:mb-20">
+  <div class="mx-auto mb-12 max-w-3xl text-center">
+    <p
+      class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-1"
+    >
+      Before you join
+    </p>
+    <h2
+      class="mb-4 text-3xl font-extrabold tracking-tight text-content sm:text-4xl"
+    >
+      Is Rock the JVM for you?
+    </h2>
+    <p class="text-lg leading-8 text-content-1">
+      We're not for everyone. Rock the JVM is built for a specific kind of
+      engineer who wants to go deep.
+    </p>
+  </div>
+
+  <div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
+    <!-- For you -->
+    <div
+      class="card-shadow card-shadow-color w-full rounded-2xl bg-secondary p-8 ring-2 ring-cta lg:w-1/2"
+    >
+      <div class="mb-6 flex items-center gap-x-3">
+        <div
+          class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400"
+        >
+          <Check />
+        </div>
+        <h3 class="text-xl font-bold text-content">This is for you if…</h3>
+      </div>
+      <ul class="space-y-4">
+        {
+          forYou.map((item) => (
+            <li class="flex items-start gap-x-3">
+              <Check class="mt-0.5 h-6 w-6 flex-none p-1 text-emerald-400" />
+              <span class="leading-6 text-content-1">{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Not for you -->
+    <div
+      class="card-shadow card-shadow-color w-full rounded-2xl bg-secondary p-8 ring-1 ring-content/10 lg:w-1/2"
+    >
+      <div class="mb-6 flex items-center gap-x-3">
+        <div
+          class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-red-500/10 text-red-300"
+        >
+          <XMark />
+        </div>
+        <h3 class="text-xl font-bold text-content">This is NOT for you if…</h3>
+      </div>
+      <ul class="space-y-4">
+        {
+          notForYou.map((item) => (
+            <li class="flex items-start gap-x-3">
+              <XMark class="mt-0.5 h-5 w-5 flex-none text-red-300" />
+              <span class="leading-6 text-content-1">{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
