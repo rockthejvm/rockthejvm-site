@@ -306,7 +306,6 @@ export default defineConfig({
     "/articles/monads": "/articles/an-introduction-to-monads-in-scala",
     "/articles/monads-are-monoids-in-the-category-of-endofunctors":
       "/articles/a-monad-is-a-monoid-in-the-category-of-endofunctors-scala",
-    "/articles/mutability-in-scala": "/articles/mutability-in-scala",
     "/articles/n-queens": "/articles/n-queens-in-scala",
     "/articles/new-types-scala-3": "/articles/scala-3-new-types",
     "/articles/nice-ways-to-read-files-in-Scala":
