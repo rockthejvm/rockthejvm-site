@@ -120,11 +120,11 @@ record SearchQuery(String keyword) {}
 
 A single record declaration gives us all of the following automatically:
 
-* A canonical constructor that sets all fields
-* Immutable fields (declared `final` by the compiler)
-* `equals()` and `hashCode()` based on all components
-* `toString()` that includes every field
-* Accessor methods named after the fields (e.g., `keyword()`, not `getKeyword()`)
+- A canonical constructor that sets all fields
+- Immutable fields (declared `final` by the compiler)
+- `equals()` and `hashCode()` based on all components
+- `toString()` that includes every field
+- Accessor methods named after the fields (e.g., `keyword()`, not `getKeyword()`)
 
 No boilerplate, no mutable state.
 
@@ -448,8 +448,8 @@ For ADTs, the objects are the standard Java types, and the record and sealed-int
 
 We already used two operations:
 
-* Records are products. `Job` = `JobId` × `Company` × `Role` × `Salary`.
-* Sealed interfaces are sums (also called coproducts). `JobSearchOutcome` = `Found` + `NoMatches` + `QueryTooBroad`.
+- Records are products. `Job` = `JobId` × `Company` × `Role` × `Salary`.
+- Sealed interfaces are sums (also called coproducts). `JobSearchOutcome` = `Found` + `NoMatches` + `QueryTooBroad`.
 
 We can define the complexity of a type as the number of values it can represent. Well-designed types have the least complexity; they need to model the information they carry.
 
