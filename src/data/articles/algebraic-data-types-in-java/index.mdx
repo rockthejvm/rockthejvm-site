@@ -4,6 +4,7 @@ category: explanation
 difficulty: intermediate
 excerpt: "Discover ADTs (Algebraic Data Types) in modern Java: how records and sealed interfaces bring sum types and product types to Java 25"
 publishedDate: 2026-05-19
+updatedDate: 2026-05-19
 tags: [java, fp]
 title: ADTs (Algebraic Data Types) in Java
 ---
@@ -18,13 +19,17 @@ Before long, we have a data structure where only some fields are meaningful depe
 
 Algebraic Data Types, or ADTs, are the answer to this problem. They are a pattern for modeling data so that illegal states are not representable.
 
-They come from functional programming languages like Haskell and Scala, but Java 25 provides everything we need to use them directly through records and sealed interfaces.
+They come from functional programming languages like Haskell and Scala, but modern Java provides everything we need to use them directly through records and sealed interfaces.
 
 In this article, we will look at what ADTs are, how to express them in Java 25, and why they make our domain models more correct and easier to work with. All we need to follow along is Java 25 and a text editor.
 
+:::note
+All features used in this article were finalized between Java 14 and Java 21. Java 25, as the current LTS release, is the recommended target, but any Java 21+ project can follow along.
+:::
+
 ## The Problem With the Old Approach
 
-Let’s start with a concrete example. We are building a job search service.
+Let's start with a concrete example. We are building a job search service.
 
 The search can produce three different outcomes: it finds results, it finds nothing, or the query is so broad that we refuse to run it and return an estimate of how many results there would be.
 
@@ -46,7 +51,7 @@ This works, but it leaks. The `jobs` field is null when the status is `"NO_MATCH
 
 The compiler does not know any of this. It will happily let us call `result.getJobs().size()` without checking the status first, and we get a `NullPointerException` at runtime.
 
-The invariant “if status is X, then field Y is populated” lives only in a comment. The compiler cannot enforce it.
+The invariant "if status is X, then field Y is populated" lives only in a comment. The compiler cannot enforce it.
 
 ### The Open Hierarchy Trap
 
@@ -81,7 +86,7 @@ We need a way to tell the compiler: there are exactly three possible outcomes, a
 
 All examples in this article build on a simple job-search domain. We will introduce each type as it becomes relevant.
 
-Before we get to the full solution, let’s look at the building blocks. The first is the product type.
+Before we get to the full solution, let's look at the building blocks. The first is the product type.
 
 A product type is a type that bundles several fields into one value.
 
@@ -115,13 +120,17 @@ record SearchQuery(String keyword) {}
 
 A single record declaration gives us all of the following automatically:
 
-* A canonical constructor that sets all fields.
-* Immutable fields (declared `final` by the compiler).
-* `equals()` and `hashCode()` based on all components.
-* `toString()` that includes every field.
-* Accessor methods named after the fields (e.g., `keyword()`, not `getKeyword()`).
+* A canonical constructor that sets all fields
+* Immutable fields (declared `final` by the compiler)
+* `equals()` and `hashCode()` based on all components
+* `toString()` that includes every field
+* Accessor methods named after the fields (e.g., `keyword()`, not `getKeyword()`)
 
 No boilerplate, no mutable state.
+
+:::note
+Record immutability is reference immutability: the fields cannot be reassigned, but if a field holds a mutable object such as a `List`, the contents of that object can still be changed. To achieve deep immutability, use unmodifiable wrappers or immutable collection types.
+:::
 
 We can model a job posting with the same approach. The `Job` record is built on top of the types we defined in the domain setup:
 
@@ -153,7 +162,7 @@ record JobAvailable(Job job) implements JobLookupOutcome {}
 record JobMissing(JobId id) implements JobLookupOutcome {}
 ```
 
-The `sealed` keyword is the key ingredient. It tells the compiler that `JobLookupOutcome` can only be one of the types listed in `permits`. No other class can implement it from outside the same compilation unit.
+The `sealed` keyword is the key ingredient. It tells the compiler that `JobLookupOutcome` can only be one of the types listed in `permits`. No other class or interface outside the same package (or named module) may implement or extend it.
 
 :::note
 Sealed classes were finalized in Java 17 under [JEP 409](https://openjdk.org/jeps/409).
@@ -165,7 +174,7 @@ In type algebra:
 JobLookupOutcome = JobAvailable + JobMissing
 ```
 
-The number of possible `JobLookupOutcome` values is the number of possible `JobAvailable` values PLUS the number of possible `JobMissing` values. That is where the name “sum type” comes from.
+The number of possible `JobLookupOutcome` values is the number of possible `JobAvailable` values PLUS the number of possible `JobMissing` values. That is where the name "sum type" comes from.
 
 ### Sealed Hierarchies
 
@@ -181,7 +190,7 @@ sealed interface JobAlert permits MatchAlert, SystemAlert, CustomAlert {}
 record MatchAlert(Job job) implements JobAlert {}
 
 // sealed: controlled extension — only ExpiryAlert and QuotaAlert are permitted
-sealed interface SystemAlert implements JobAlert
+sealed interface SystemAlert extends JobAlert
     permits ExpiryAlert, QuotaAlert {}
 record ExpiryAlert(JobId id)  implements SystemAlert {}
 record QuotaAlert(int limit)  implements SystemAlert {}
@@ -200,7 +209,7 @@ These rules give the compiler a complete, verified picture of every shape the se
 
 ## Hybrid Types: Sealed Interfaces with Records
 
-Now we can put both building blocks together. Let’s model our original job search outcome properly:
+Now we can put both building blocks together. Let's model our original job search outcome properly:
 
 ```java
 sealed interface JobSearchOutcome
@@ -211,13 +220,13 @@ record NoMatches() implements JobSearchOutcome {}
 record QueryTooBroad(int estimatedCount) implements JobSearchOutcome {}
 ```
 
-This is what functional programming literature calls a hybrid type, or more precisely, a sum of products. The sealed interface is the sum (one of exactly three things). Each record is a product (a set of fields).
+This pattern is known in functional programming literature as a sum of products. The sealed interface is the sum (one of exactly three things). Each record is a product (a set of fields).
 
 Each variant carries exactly the fields that make sense for it. The `Found` type has a list of jobs. `NoMatches` has no fields at all. The absence of results is the whole message.
 
-`QueryTooBroad` has an estimate but no job list. There are no nullable fields. There is no “this field is only meaningful when the status is X” in a comment.
+`QueryTooBroad` has an estimate but no job list. There are no nullable fields. There is no "this field is only meaningful when the status is X" in a comment.
 
-Let’s see the service that produces this type:
+Let's see the service that produces this type:
 
 ```java
 class JobSearchService {
@@ -307,7 +316,7 @@ Pattern matching for switch was finalized in Java 21 under [JEP 441](https://ope
 
 ### Record Patterns
 
-Record patterns go one step further. Inside a switch case, we can destructure a record inline. The compiler automatically extracts the record’s components, eliminating the need to call the accessor methods explicitly.
+Record patterns go one step further. Inside a switch case, we can destructure a record inline. The compiler automatically extracts the record's components, eliminating the need to call the accessor methods explicitly.
 
 Here is the `JobLookupOutcome` switch written with record deconstruction:
 
@@ -386,7 +395,7 @@ Without `E` on `Success`, the expression `new Success<>(job)` has type `Success<
 The compiler cannot prove compatibility without the second parameter present on both records.
 :::
 
-Let’s define a concrete error type for job lookups as a sum type:
+Let's define a concrete error type for job lookups as a sum type:
 
 ```java
 sealed interface JobLookupError
@@ -429,9 +438,9 @@ String loadJobDescription(JobId id) {
 
 Exhaustiveness still works. The compiler still refuses to let us forget a branch. The only new thing is generics; the pattern itself is identical.
 
-Why “Algebraic”?
+## Why "Algebraic"?
 
-At this point, a fair question is: why are these types called “algebraic”?
+At this point, a fair question is: why are these types called "algebraic"?
 
 An algebra is a set of objects and one or more operations to combine them into new objects of the same set. In numeric algebra, the objects are numbers and the operations are +, -, ×, and /.
 
@@ -474,7 +483,7 @@ record Failure<T, E>(String reason) implements Result<T, E> {}
 
 We already did better than this. We defined `JobLookupError` as a sealed interface with exactly two variants: `JobNotFound` and `DatabaseUnavailable`.
 
-By using it as the type parameter `E`, we reduce the number of valid failure shapes to exactly two. There is no “what does this string mean?” question at runtime. The type itself tells us:
+By using it as the type parameter `E`, we reduce the number of valid failure shapes to exactly two. There is no "what does this string mean?" question at runtime. The type itself tells us:
 
 ```java
 Result<Job, JobLookupError> result = new Failure<>(new JobNotFound(id));
@@ -500,7 +509,7 @@ We covered switch expressions, pattern matching with instanceof and switch, and 
 
 We also explained what Java generics invariance means in practice and why both type parameters must appear on both Success and Failure.
 
-We saw why these types are called “algebraic”: records are products (AND), sealed interfaces are sums (OR), and we can compose the two to model any domain.
+We saw why these types are called "algebraic": records are products (AND), sealed interfaces are sums (OR), and we can compose the two to model any domain.
 
 We showed how replacing a raw String with a sum type removes invalid states from the design.
 
