@@ -182,6 +182,37 @@ JobLookupOutcome = JobAvailable + JobMissing
 
 The number of possible `JobLookupOutcome` values is the number of possible `JobAvailable` values PLUS the number of possible `JobMissing` values. That is where the name "sum type" comes from.
 
+### Sealed Hierarchies
+
+The `sealed` modifier closes a type hierarchy at compile time. Only the types in `permits` may implement the interface. Every permitted subtype must live in the same package, or in the same named module.
+
+Each permitted subtype must also carry one of three modifiers. `final` prevents further subclassing. `sealed` allows it via its own `permits` list. `non-sealed` reopens the hierarchy, removing the compiler guarantee for that branch.
+
+```java
+sealed interface JobAlert permits MatchAlert, SystemAlert, CustomAlert {}
+
+// final: closed leaf — no class may extend MatchAlert
+// Records are implicitly final, so the modifier is not written explicitly.
+record MatchAlert(Job job) implements JobAlert {}
+
+// sealed: controlled extension — only ExpiryAlert and QuotaAlert are permitted
+sealed interface SystemAlert implements JobAlert
+    permits ExpiryAlert, QuotaAlert {}
+record ExpiryAlert(JobId id)  implements SystemAlert {}
+record QuotaAlert(int limit)  implements SystemAlert {}
+
+// non-sealed: the hierarchy is reopened — any class may extend CustomAlert
+non-sealed abstract class CustomAlert implements JobAlert {
+    abstract String message();
+}
+```
+
+`MatchAlert` is a record, so `final` is implicit. `SystemAlert` is itself sealed, adding a second controlled layer to the hierarchy. `CustomAlert` is `non-sealed`, which is an escape hatch: downstream code may extend it freely, but the compiler no longer guarantees exhaustiveness for that branch.
+
+The `permits` clause is exhaustive in both directions. The compiler rejects a subtype that extends the sealed type but is not listed, and rejects a `permits` entry that does not extend the sealed type.
+
+These rules give the compiler a complete, verified picture of every shape the sealed type can take. That picture is what makes exhaustiveness checking in switch expressions work.
+
 ### Switch Expressions
 
 Before we show how to consume a `JobLookupOutcome`, we need to introduce switch expressions. A switch expression is a switch that returns a value, not just a control-flow statement.
@@ -394,11 +425,13 @@ And the caller that consumes the result:
 ```java
 String loadJobDescription(JobId id) {
     return switch (repository.findById(id)) {
-        case Success<Job, JobLookupError> s -> "Role: " + s.value().role().title();
-        case Failure<Job, JobLookupError> f -> switch (f.error()) {
-            case JobNotFound e         -> "No job found with id " + e.id().value();
-            case DatabaseUnavailable e -> "Service unavailable: " + e.reason();
-        };
+        case Success<Job, JobLookupError>(Job job) ->
+            "Role: " + job.role().title();
+        case Failure<Job, JobLookupError>(JobLookupError error) ->
+            switch (error) {
+                case JobNotFound(JobId jobId)           -> "No job found with id " + jobId.value();
+                case DatabaseUnavailable(String reason) -> "Service unavailable: " + reason;
+            };
     };
 }
 ```
