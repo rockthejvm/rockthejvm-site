@@ -114,7 +114,7 @@ class SearchQuery {
 }
 ```
 
-This approach has several problems. The field is mutable by default; nothing prevents reassigning `keyword` after construction.
+This approach has several problems. The field is mutable by default. Marking it `final` prevents reassignment, but that is something we must remember to do. Nothing in the language enforces it.
 
 We must also write `equals()`, `hashCode()`, and `toString()` by hand, or leave them incorrect. The class is verbose, and nothing prevents partial construction if we add more fields later.
 
