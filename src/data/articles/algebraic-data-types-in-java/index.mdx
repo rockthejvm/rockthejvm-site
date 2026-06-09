@@ -77,22 +77,9 @@ String describe(JobSearchResult result) {
 
 We need a way to tell the compiler: there are exactly three possible outcomes, and every consumer of a `JobSearchResult` must handle all three. Records and sealed interfaces give us exactly that.
 
-## Setting Up the Domain
-
-All examples in this article build on a simple job-search domain. The types below serve as vocabulary for the sections that follow.
-
-```java
-record JobId(String value) {}
-record Company(String name) {}
-record Role(String title) {}
-record Salary(int amount, String currency) {}
-record Job(JobId id, Company company, Role role, Salary salary) {}
-record SearchQuery(String keyword) {}
-```
-
-We will use `Job` as the core entity and `SearchQuery` as the input to a search operation.
-
 ## Product Types: Records
+
+All examples in this article build on a simple job-search domain. We will introduce each type as it becomes relevant.
 
 Before we get to the full solution, let's look at the building blocks. The first is the _product type_.
 
@@ -213,9 +200,57 @@ The `permits` clause is exhaustive in both directions. The compiler rejects a su
 
 These rules give the compiler a complete, verified picture of every shape the sealed type can take. That picture is what makes exhaustiveness checking in switch expressions work.
 
+## Hybrid Types: Sealed Interfaces with Records
+
+Now we can put both building blocks together. Let's model our original job search outcome properly:
+
+```java
+sealed interface JobSearchOutcome
+    permits Found, NoMatches, QueryTooBroad {}
+
+record Found(List<Job> jobs) implements JobSearchOutcome {}
+record NoMatches() implements JobSearchOutcome {}
+record QueryTooBroad(int estimatedCount) implements JobSearchOutcome {}
+```
+
+This is what functional programming literature calls a _hybrid type_, or more precisely, a _sum of products_. The sealed interface is the sum (one of exactly three things). Each record is a product (a set of fields).
+
+Each variant carries exactly the fields that make sense for it. `Found` has a list of jobs. `NoMatches` has no fields at all. The absence of results is the whole message.
+
+`QueryTooBroad` has an estimate but no job list. There are no nullable fields. There is no "this field is only meaningful when the status is X" in a comment.
+
+Let's see the service that produces this type:
+
+```java
+class JobSearchService {
+
+    private static final int MAX_RESULTS = 1_000;
+
+    JobSearchOutcome search(SearchQuery query) {
+        int estimated = repository.estimateMatches(query.keyword());
+        if (estimated > MAX_RESULTS) {
+            return new QueryTooBroad(estimated);
+        }
+        List<Job> results = repository.find(query.keyword());
+        if (results.isEmpty()) {
+            return new NoMatches();
+        }
+        return new Found(results);
+    }
+}
+```
+
+The return type tells the whole story. A caller looking at `search(...)` immediately knows there are exactly three things that can come back, and each one has a defined shape. No Javadoc needed to explain which fields are populated when.
+
+Now we have a well-defined hybrid type. The next step is to consume it safely.
+
+## Pattern Matching on ADTs
+
+Java gives us three tools for consuming ADTs: switch expressions, pattern matching, and record patterns. Each builds on the previous. Together, they let the compiler verify that every variant is handled.
+
 ### Switch Expressions
 
-Before we show how to consume a `JobLookupOutcome`, we need to introduce switch expressions. A switch expression is a switch that returns a value, not just a control-flow statement.
+A switch expression is a switch that returns a value, not just a control-flow statement.
 
 The arrow syntax (`->`) eliminates fall-through and makes each branch return directly. The compiler also requires that all possible values are covered.
 
@@ -295,59 +330,7 @@ Record patterns also work with nesting. A `JobAvailable` holds a `Job`, which it
 Record patterns were finalized in Java 21 under [JEP 440](https://openjdk.org/jeps/440).
 :::
 
-Because the set of variants is closed, the compiler verifies exhaustiveness. If we forget a branch, the compiler refuses:
-
-```text
-error: the switch expression does not cover all possible input values
-```
-
-This is the safety net we were missing with the open class hierarchy. When we add a new variant, the compiler walks us to every place in the codebase that needs updating.
-
-We stop relying on code review or tests to catch a forgotten case. The language enforces it for us.
-
-## Hybrid Types: Sealed Interfaces with Records
-
-Now we can put both building blocks together. Let's model our original job search outcome properly:
-
-```java
-sealed interface JobSearchOutcome
-    permits Found, NoMatches, QueryTooBroad {}
-
-record Found(List<Job> jobs) implements JobSearchOutcome {}
-record NoMatches() implements JobSearchOutcome {}
-record QueryTooBroad(int estimatedCount) implements JobSearchOutcome {}
-```
-
-This is what functional programming literature calls a _hybrid type_, or more precisely, a _sum of products_. The sealed interface is the sum (one of exactly three things). Each record is a product (a set of fields).
-
-Each variant carries exactly the fields that make sense for it. `Found` has a list of jobs. `NoMatches` has no fields at all. The absence of results is the whole message.
-
-`QueryTooBroad` has an estimate but no job list. There are no nullable fields. There is no "this field is only meaningful when the status is X" in a comment.
-
-Let's see the service that produces this type:
-
-```java
-class JobSearchService {
-
-    private static final int MAX_RESULTS = 1_000;
-
-    JobSearchOutcome search(SearchQuery query) {
-        int estimated = repository.estimateMatches(query.keyword());
-        if (estimated > MAX_RESULTS) {
-            return new QueryTooBroad(estimated);
-        }
-        List<Job> results = repository.find(query.keyword());
-        if (results.isEmpty()) {
-            return new NoMatches();
-        }
-        return new Found(results);
-    }
-}
-```
-
-The return type tells the whole story. A caller looking at `search(...)` immediately knows there are exactly three things that can come back, and each one has a defined shape. No Javadoc needed to explain which fields are populated when.
-
-And the consumer:
+The same tools work on hybrid types. Here is the consumer for `JobSearchOutcome`, the type we defined in the previous section:
 
 ```java
 String describe(JobSearchOutcome outcome) {
@@ -359,11 +342,21 @@ String describe(JobSearchOutcome outcome) {
 }
 ```
 
-Congratulations! We have just defined our first Algebraic Data Type in Java.
+Congratulations! We have just defined and consumed our first Algebraic Data Type in Java.
 
 The switch is an expression: it returns a value. The compiler checks that all three variants are handled. Inside each branch, we get a typed reference to the specific variant.
 
 In the `Found f` branch, `f.jobs()` is available. In the `QueryTooBroad q` branch, `q.estimatedCount()` is available. Fields that do not apply to a variant are simply not reachable from that branch. That is the whole point.
+
+Because the set of variants is closed, the compiler verifies exhaustiveness. If we forget a branch, the compiler refuses:
+
+```text
+error: the switch expression does not cover all possible input values
+```
+
+This is the safety net we were missing with the open class hierarchy. When we add a new variant, the compiler walks us to every place in the codebase that needs updating.
+
+We stop relying on code review or tests to catch a forgotten case. The language enforces it for us.
 
 ## The Pattern Generalizes: Result&lt;T, E&gt;
 
@@ -503,9 +496,9 @@ In this article, we introduced _Algebraic Data Types_ in Java. We started with t
 
 We then established a shared domain vocabulary and introduced the two building blocks. We used _records_ to express product types and _sealed interfaces_ to express sum types.
 
-We covered switch expressions, pattern matching for `instanceof` and for `switch`, and record patterns as the tools for consuming sum types safely.
-
 We combined the two building blocks to get hybrid types, and we saw how the same pattern lifts to a generic `Result<T, E>` type.
+
+We covered switch expressions, pattern matching for `instanceof` and for `switch`, and record patterns as the tools for consuming ADTs. Record patterns let us destructure records inline, and the compiler enforces exhaustiveness over the closed set of variants.
 
 We also explained what Java generics invariance means in practice and why both type parameters must appear on both `Success` and `Failure`.
 
