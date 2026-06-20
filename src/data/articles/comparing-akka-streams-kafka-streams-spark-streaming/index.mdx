@@ -203,7 +203,7 @@ The downside of Akka Streams are that Akka Streams is _very hard to learn and wr
 
 ## Spark Streaming
 
-Now let's move on to Spark Streaming, which is a natural streaming extension of the massively popular Spark distributed computing engine. The purpose of Spark streaming is to process endless big data at scale. You have a choice between _two API levels_: one low-level high-control API with Discretized Streams (DStreams) and the other very familiar DataFrame API, which is also called Structured Streaming and offers an identical API to the regular "static" big data. Spark is _naturally scalable and fault-tolerant_ from the get-go and functions in two output modes: micro-batch, in which at every interval Spark will add up all the data it gathered so far, and continuous mode which offers lower-latency (experimental at the moment of this writing).
+Now let's move on to Spark Streaming, which is a natural streaming extension of the massively popular Spark distributed computing engine. The purpose of Spark streaming is to process endless big data at scale. Spark is _naturally scalable and fault-tolerant_ from the get-go and functions in two output modes: micro-batch, in which at every interval Spark will add up all the data it gathered so far, and continuous mode which offers lower-latency (experimental at the moment of this writing).
 
 The big strengths of Spark are the capacity to deal with _massive data_, a familiar _DataFrame or SQL API_ and the rich _Spark UI_ which allows you to monitor and track the performance of your jobs in real time.
 
