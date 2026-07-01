@@ -17,11 +17,11 @@ We add a status field. Then a nullable `Integer` estimatedCount. Then someone ad
 
 Before long, we have a data structure where only some fields are meaningful depending on the value of some other field, and the compiler has nothing to say about it.
 
-Algebraic Data Types, or ADTs, are the answer to this problem. They are a pattern for modeling data so that illegal states are not representable.
+Fortunately, _Algebraic Data Types_, or ADTs, are the answer to this problem. They are a pattern for modeling data so that **illegal states are not representable**.
 
-They come from functional programming languages like Haskell and Scala, but modern Java provides everything we need to use them directly through records and sealed interfaces.
+They come from functional programming languages like Haskell and [Scala](/articles/algebraic-data-types-in-scala), but modern Java provides everything we need to use them directly through records and sealed interfaces.
 
-In this article, we will look at what ADTs are, how to express them in Java 25, and why they make our domain models more correct and easier to work with. All we need to follow along is Java 25 and a text editor.
+In this article, we will look at what ADTs are, how to express them in Java 25, and why they make our domain models more correct and a lot easier to work with. All we need to follow along is Java 25 and a text editor. So, without further ado, let's get started.
 
 :::note
 All features used in this article were finalized between Java 14 and Java 21. Java 25, as the current LTS release, is the recommended target, but any Java 21+ project can follow along.
@@ -49,7 +49,7 @@ class JobSearchResult {
 
 This works, but it leaks. The `jobs` field is null when the status is `"NO_MATCHES"`. The `estimatedCount` field is null when the status is `"FOUND"`.
 
-The compiler does not know any of this. It will happily let us call `result.getJobs().size()` without checking the status first, and we get a `NullPointerException` at runtime.
+The compiler does not know any of this. It will happily let us call `result.getJobs().size()` without checking the status first, and we get a `NullPointerException` at runtime (every Java developer's old friend).
 
 The invariant "if status is X, then field Y is populated" lives only in a comment. The compiler cannot enforce it.
 
@@ -64,7 +64,7 @@ class NoMatchesResult extends JobSearchResult   {}
 class QueryTooBroadResult extends JobSearchResult { private final int estimatedCount; /* ... */ }
 ```
 
-This is better because each subclass carries only the fields that make sense for it. But the hierarchy is open.
+This is better because each subclass carries only the fields that make sense for it. However, the hierarchy is open.
 
 Anyone can add a fourth subclass anywhere in the codebase. When we write a consumer, the compiler gives us no guarantee that we covered all the cases:
 
@@ -84,9 +84,7 @@ We need a way to tell the compiler: there are exactly three possible outcomes, a
 
 ## Product Types: Records
 
-All examples in this article build on a simple job-search domain. We will introduce each type as it becomes relevant.
-
-Before we get to the full solution, let's look at the building blocks. The first is the product type.
+With the domain types from the setup in hand, we can start building. As usual, we'll start with the building blocks before we get to the full solution. The first one is the _product type_.
 
 A product type is a type that bundles several fields into one value.
 
@@ -109,6 +107,8 @@ class SearchQuery {
 This approach has several problems. The field is mutable by default. Marking it `final` prevents reassignment, but we must remember to do so. Nothing in the language enforces it.
 
 We must also write `equals()`, `hashCode()`, and `toString()` by hand, or leave them incorrect. The class is verbose, and nothing prevents partial construction if we add more fields later.
+
+So, are we doomed to write all this boilerplate forever? Not at all.
 
 ### What Records Give You
 
@@ -150,7 +150,7 @@ Records were finalized in Java 16 under [JEP 395](https://openjdk.org/jeps/395).
 
 ## Sum Types: Sealed Interfaces
 
-The second building block is the sum type. Where a product type uses AND (a `Job` has an `id` AND a `company` AND a `role` AND a `salary`), a sum type uses OR.
+The second building block is the _sum type_. Where a product type uses AND (a `Job` has an `id` AND a `company` AND a `role` AND a `salary`), a sum type uses OR.
 
 Imagine we are modeling the outcome of looking up a single job by its id. There are exactly two outcomes: we either find the job, or we do not. A sum type expresses this:
 
@@ -220,7 +220,7 @@ record NoMatches() implements JobSearchOutcome {}
 record QueryTooBroad(int estimatedCount) implements JobSearchOutcome {}
 ```
 
-This pattern is known in functional programming literature as a sum of products. The sealed interface is the sum (one of exactly three things). Each record is a product (a set of fields).
+This pattern is known in functional programming literature as a _sum of products_. The sealed interface is the sum (one of exactly three things). Each record is a product (a set of fields).
 
 Each variant carries exactly the fields that make sense for it. The `Found` type has a list of jobs. `NoMatches` has no fields at all. The absence of results is the whole message.
 
@@ -247,7 +247,7 @@ class JobSearchService {
 }
 ```
 
-The return type tells the whole story. A caller looking at the `search(...)` function immediately knows that exactly three things can come back, and each has a defined shape. No Javadoc needed to explain which fields are populated when.
+So far, so good. The return type tells the whole story. A caller looking at the `search(...)` function immediately knows that exactly three things can come back, and each has a defined shape. No Javadoc needed to explain which fields are populated when.
 
 Now we have a well-defined hybrid type. The next step is to consume it safely.
 
@@ -351,7 +351,7 @@ String describe(JobSearchOutcome outcome) {
 
 Congratulations! We have just defined and consumed our first Algebraic Data Type in Java.
 
-The switch is an expression: it returns a value. The compiler checks that all three variants are handled. Inside each branch, we get a typed reference to the specific variant.
+As we can see, the switch is an expression: it returns a value. The compiler checks that all three variants are handled. Inside each branch, we get a typed reference to the specific variant.
 
 In the `Found f` branch, `f.jobs()` is available. In the `QueryTooBroad q` branch, `q.estimatedCount()` is available. Fields that do not apply to a variant are not reachable from that branch. That is the whole point.
 
@@ -377,7 +377,7 @@ record Success<T, E>(T value) implements Result<T, E> {}
 record Failure<T, E>(E error) implements Result<T, E> {}
 ```
 
-This is the same pattern as `JobSearchOutcome`, lifted to two type parameters. `Success` carries a `T`. `Failure` carries an `E`.
+This is the same pattern as `JobSearchOutcome`, lifted to two type parameters. `Success` carries a `T`. `Failure` carries an `E`. To tell the truth, Java makes us pay a small tax here, and the following note explains exactly why.
 
 :::note
 Both `Success<T, E>` and `Failure<T, E>` carry both type parameters, even though each record only uses one of them.
@@ -405,7 +405,7 @@ record JobNotFound(JobId id) implements JobLookupError {}
 record DatabaseUnavailable(String reason) implements JobLookupError {}
 ```
 
-A repository method that uses Result with this error type looks like this:
+Let's see a repository method that uses Result with this error type:
 
 ```java
 class JobRepository {
@@ -459,7 +459,7 @@ Here is a concrete example. Suppose we need to model a set of mutually exclusive
 record Config(boolean a, boolean b, boolean c) {}
 ```
 
-This type has 2 × 2 × 2 = 8 possible values. But only three of them are valid: `Config(true, false, false)`, `Config(false, true, false)`, and `Config(false, false, true)`.
+This type has 2 × 2 × 2 = 8 possible values. In fact, only three of them are valid: `Config(true, false, false)`, `Config(false, true, false)`, and `Config(false, false, true)`.
 
 The other five are invalid states that our code has to defend against.
 
@@ -513,7 +513,7 @@ We saw why these types are called "algebraic": records are products (AND), seale
 
 We showed how replacing a raw String with a sum type removes invalid states from the design.
 
-The pattern is the same one used in Haskell, Rust, and Scala under different names. In Java 25, we have all the tools to apply it directly. Illegal states should not be representable, and now they do not have to be.
+The pattern is the same one used in Haskell, Rust, and Scala under different names. In Java 25, we have all the tools to apply it directly. **Illegal states should not be representable, and now they do not have to be.**
 
 ## Appendix: Maven Setup
 
