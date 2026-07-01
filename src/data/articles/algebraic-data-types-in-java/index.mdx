@@ -84,7 +84,7 @@ We need a way to tell the compiler: there are exactly three possible outcomes, a
 
 ## Product Types: Records
 
-With the domain types from the setup in hand, we can start building. As usual, we'll start with the building blocks before we get to the full solution. The first one is the _product type_.
+As usual, we'll start with the building blocks before we get to the full solution. The first one is the _product type_.
 
 A product type is a type that bundles several fields into one value.
 
@@ -132,13 +132,22 @@ No boilerplate, no mutable state.
 Record immutability is reference immutability: the fields cannot be reassigned, but if a field holds a mutable object such as a `List`, the contents of that object can still be changed. To achieve deep immutability, use unmodifiable wrappers or immutable collection types.
 :::
 
-We can model a job posting with the same approach. The `Job` record is built on top of the types we defined in the domain setup:
+We can model a job posting with the same approach. First, let's define the small domain records we'll build on for the rest of the article:
+
+```java
+record JobId(long value) {}
+record Company(String name) {}
+record Role(String title) {}
+record Salary(double amount) {}
+```
+
+Now the `Job` record is a product of all four:
 
 ```java
 record Job(JobId id, Company company, Role role, Salary salary) {}
 ```
 
-The `Job` record is a product of `JobId`, `Company`, `Role`, and `Salary`. In type algebra, we write it as:
+In type algebra, we write it as:
 
 Job = JobId × Company × Role × Salary
 
@@ -178,7 +187,7 @@ The number of possible `JobLookupOutcome` values is the number of possible `JobA
 
 ### Sealed Hierarchies
 
-The `sealed` modifier closes a type hierarchy at compile time. Only the types in `permits` may implement the interface. Every permitted subtype must live in the same package or in the same-named module.
+Let's look at the rules in detail. The `sealed` modifier closes a type hierarchy at compile time. Only the types in `permits` may implement the interface. Every permitted subtype must live in the same package or in the same-named module.
 
 Each permitted subtype must also carry one of three modifiers. The `final` prevents further subclassing. `sealed` allows it via its own `permits` list. `non-sealed` reopens the hierarchy, removing the compiler guarantee for that branch.
 
