@@ -126,7 +126,6 @@ A single record declaration gives us all of the following automatically:
 - `toString()` that includes every field
 - Accessor methods named after the fields (e.g., `keyword()`, not `getKeyword()`)
 
-
 :::note
 Record immutability is reference immutability: the fields cannot be reassigned, but if a field holds a mutable object such as a `List`, the contents of that object can still be changed. To achieve deep immutability, use unmodifiable wrappers or immutable collection types.
 :::
