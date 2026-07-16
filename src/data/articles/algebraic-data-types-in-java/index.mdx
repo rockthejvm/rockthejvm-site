@@ -126,7 +126,6 @@ A single record declaration gives us all of the following automatically:
 - `toString()` that includes every field
 - Accessor methods named after the fields (e.g., `keyword()`, not `getKeyword()`)
 
-No boilerplate, no mutable state.
 
 :::note
 Record immutability is reference immutability: the fields cannot be reassigned, but if a field holds a mutable object such as a `List`, the contents of that object can still be changed. To achieve deep immutability, use unmodifiable wrappers or immutable collection types.
@@ -216,6 +215,41 @@ The `permits` clause is exhaustive in both directions. The compiler rejects a su
 
 These rules give the compiler a complete, verified picture of every shape the sealed type can take. That picture is what makes exhaustiveness checking in switch expressions work.
 
+### Sealed Interfaces vs Enums
+
+At this point, a reasonable question comes up. Java already has enums, and they also define a closed set of cases that the compiler can check exhaustively in a switch. So why reach for a sealed interface at all?
+
+The difference is what each case is allowed to carry. An enum is a fixed set of singleton constants. Each constant is exactly one value, and every constant shares the same field layout:
+
+```java
+enum JobCategory { ENGINEERING, DESIGN, SALES }
+```
+
+There is one `ENGINEERING` value, one `DESIGN` value, and one `SALES` value. We can attach fields through a constructor, but every constant has to fit the same shape. An enum is the right tool when the cases are plain labels with no data of their own.
+
+A sealed interface is a fixed set of subtypes. Each variant is a real type that we instantiate freely, and each one carries its own fields with its own shape:
+
+```java
+sealed interface JobSearchOutcome
+    permits Found, NoMatches, QueryTooBroad {}
+
+record Found(List<Job> jobs) implements JobSearchOutcome {} // holds a list
+record NoMatches() implements JobSearchOutcome {}           // holds nothing
+record QueryTooBroad(int estimatedCount) implements JobSearchOutcome {} // holds an int
+```
+
+`Found` and `QueryTooBroad` have different shapes, and there is an unbounded number of `Found` values, one for every possible list of jobs. **An enum fixes the set of values. A sealed interface fixes the set of types.**
+
+In the type algebra we already used, an enum is a sum of nullary cases:
+
+```text
+JobCategory = ENGINEERING + DESIGN + SALES
+```
+
+Each term counts as exactly one value. A sealed interface, instead, is a sum of products, where each variant can be a product of several fields. In fact, an enum is the special case of a sealed sum type where every variant carries no data.
+
+The rule of thumb is simple. If the cases are plain labels, use an enum. If the cases carry different data from one case to the next, reach for a sealed interface.
+
 ## Hybrid Types: Sealed Interfaces with Records
 
 Now we can put both building blocks together. Let's model our original job search outcome properly:
@@ -270,15 +304,18 @@ Java gives us three tools for consuming ADTs: switch expressions, pattern matchi
 
 The arrow syntax (`->`) eliminates fall-through and makes each branch return directly. The compiler also requires that all possible values are covered.
 
-Here is a self-contained example using a simple `enum`:
+Why we used an `enum` here? We reach it on purpose. A switch expression works on any closed set of values, and an enum is the simplest one to reason about. We can also switch over a sealed interface, but picking out each variant relies on pattern matching for switch, a separate feature we get to next. Introducing them one at a time keeps it clear which Java version gives us what.
+
+Here is a self-contained example using the `JobCategory` enum we saw earlier:
 
 ```java
-enum DayType { WEEKDAY, WEEKEND }
+enum JobCategory { ENGINEERING, DESIGN, SALES }
 
-String label(DayType day) {
-    return switch (day) {
-        case WEEKDAY -> "A regular working day.";
-        case WEEKEND -> "Time to relax.";
+String label(JobCategory category) {
+    return switch (category) {
+        case ENGINEERING -> "Building the product.";
+        case DESIGN      -> "Shaping the experience.";
+        case SALES       -> "Closing the deals.";
     };
 }
 ```
@@ -292,6 +329,19 @@ error: the switch expression does not cover all possible input values
 :::note
 Switch expressions were finalized in Java 14 under [JEP 361](https://openjdk.org/jeps/361).
 :::
+
+The same exhaustiveness guarantee applies to sealed interfaces. Here is the `JobLookupOutcome` type from earlier, consumed with a switch expression:
+
+```java
+String status(JobLookupOutcome outcome) {
+    return switch (outcome) {
+        case JobAvailable available -> "The job is available.";
+        case JobMissing missing     -> "The job is no longer listed.";
+    };
+}
+```
+
+There is no `default` branch, and none is needed. The `permits` clause already tells the compiler the list of variants is complete, so it checks exhaustiveness the same way it did for the enum. Each `case` names a variant type instead of a constant. That is pattern matching for switch, which we unpack in the next section.
 
 ### Pattern Matching
 
