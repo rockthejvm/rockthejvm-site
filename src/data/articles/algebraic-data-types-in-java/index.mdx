@@ -267,7 +267,7 @@ enum PayPeriod {
 
 **Every constant with a body is an anonymous subclass of the enum type**. The `HOURLY` constant holds a `workingHoursPerYear` field that `MONTHLY` and `YEARLY` know nothing about, and each constant implements `toYearly` in its own way.
 
-So, what has to stay the same across the constants? Only the API we can call from the outside. Every call on a `PayPeriod` value must resolve against a member declared on the `PayPeriod` type itself, which here means `toYearly` and nothing else. **An enum lets each constant keep its own internals, but it exposes a single API   to its callers**.
+So, what has to stay the same across the constants? Only the API we can call from the outside. Every call on a `PayPeriod` value must resolve against a member declared on the `PayPeriod` type itself, which here means `toYearly` and nothing else. **An enum lets each constant keep its own internals, but it exposes a single API to its callers**.
 
 The reason is that the anonymous subclass created for a constant has no name we can write down. Nothing stops us from declaring a method that only one constant owns:
 
