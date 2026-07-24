@@ -298,7 +298,7 @@ error: cannot find symbol
 ```
 
 :::note
-Unfortunetely, no cast rescues us here. At runtime, `PayPeriod.HOURLY.getClass()` returns `PayPeriod$1`, a class the language gives us no way to name. Since we cannot write the type, we cannot call anything the type adds.
+Unfortunately, no cast rescues us here. At runtime, `PayPeriod.HOURLY.getClass()` returns `PayPeriod$1`, a class the language gives us no way to name. Since we cannot write the type, we cannot call anything the type adds.
 :::
 
 **This is exactly where a sealed interface differs**. Its variants are types with names, so once we know which variant we hold, we can call whatever that variant adds.
