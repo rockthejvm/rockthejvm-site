@@ -4,7 +4,7 @@ category: explanation
 difficulty: intermediate
 excerpt: "Discover ADTs (Algebraic Data Types) in modern Java: how records and sealed interfaces bring sum types and product types to Java 25"
 publishedDate: 2026-07-17
-updatedDate: 2026-07-17
+updatedDate: 2026-07-23
 tags: [java, fp]
 title: ADTs (Algebraic Data Types) in Java
 ---
@@ -149,7 +149,7 @@ In type algebra, we write it as:
 
 Job = JobId × Company × Role × Salary
 
-If `JobId` has N possible string values and `Company` has M possible string values, then `Job` has N × M × (values of `Role`) × (values of `Salary`) possible values. The total grows by multiplication. That is why we call this a product type.
+If `JobId` has N possible values and `Company` has M possible values, then `Job` has N × M × (values of `Role`) × (values of `Salary`) possible values. The total grows by multiplication. That is why we call this a product type.
 
 :::note
 Records were finalized in Java 16 under [JEP 395](https://openjdk.org/jeps/395).
@@ -218,15 +218,92 @@ These rules give the compiler a complete, verified picture of every shape the se
 
 At this point, a reasonable question comes up. Java already has enums, and they also define a closed set of cases that the compiler can check exhaustively in a switch. So why reach for a sealed interface at all?
 
-The difference is what each case is allowed to carry. An enum is a fixed set of singleton constants. Each constant is exactly one value, and every constant shares the same field layout:
+The first answer that comes to mind is that an enum cannot carry data. **That answer is wrong**. An enum carries data just fine:
 
 ```java
-enum JobCategory { ENGINEERING, DESIGN, SALES }
+enum JobCategory {
+    ENGINEERING("Building the product."),
+    DESIGN("Shaping the experience."),
+    SALES("Closing the deals.");
+
+    private final String description;
+
+    JobCategory(String description) {
+        this.description = description;
+    }
+
+    String description() { return description; }
+}
 ```
 
-There is one `ENGINEERING` value, one `DESIGN` value, and one `SALES` value. We can attach fields through a constructor, but every constant has to fit the same shape. An enum is the right tool when the cases are plain labels with no data of their own.
+Enums can go a lot further than that. In fact, each constant may declare its own body, with its own fields and its own overrides. To see it, let's model how a job posting quotes its pay. Job ads express salaries per hour, per month, or per year, and we want a yearly figure so that we can compare them:
 
-A sealed interface is a fixed set of subtypes. Each variant is a real type that we instantiate freely, and each one carries its own fields with its own shape:
+```java
+enum PayPeriod {
+    HOURLY {
+        private final int workingHoursPerYear = 1_800;
+
+        @Override
+        Salary toYearly(Salary salary) {
+            return new Salary(salary.amount() * workingHoursPerYear);
+        }
+    },
+    MONTHLY {
+        @Override
+        Salary toYearly(Salary salary) {
+            return new Salary(salary.amount() * 12);
+        }
+    },
+    YEARLY {
+        @Override
+        Salary toYearly(Salary salary) {
+            return salary;
+        }
+    };
+
+    abstract Salary toYearly(Salary salary);
+}
+```
+
+**Every constant with a body is an anonymous subclass of the enum type**. The `HOURLY` constant holds a `workingHoursPerYear` field that `MONTHLY` and `YEARLY` know nothing about, and each constant implements `toYearly` in its own way.
+
+So, what has to stay the same across the constants? Only the API we can call from the outside. Every call on a `PayPeriod` value must resolve against a member declared on the `PayPeriod` type itself, which here means `toYearly` and nothing else. **An enum lets each constant keep its own internals, but it exposes a single API to its callers**.
+
+The reason is that the anonymous subclass created for a constant has no name we can write down. Nothing stops us from declaring a method that only one constant owns:
+
+```java
+enum PayPeriod {
+    HOURLY {
+        private final int workingHoursPerYear = 1_800;
+
+        int hoursPerYear() { return workingHoursPerYear; } // only HOURLY has it
+
+        @Override
+        Salary toYearly(Salary salary) {
+            return new Salary(salary.amount() * hoursPerYear()); // fine, we're inside the body
+        }
+    },
+    // Omissis
+}
+```
+
+The `hoursPerYear` method is real, and the body of `HOURLY` calls it without any problem. From the outside, though, the static type of `PayPeriod.HOURLY` is `PayPeriod`, and `hoursPerYear` is not a member of `PayPeriod`:
+
+```text
+error: cannot find symbol
+        System.out.println(PayPeriod.HOURLY.hoursPerYear());
+                                           ^
+  symbol:   method hoursPerYear()
+  location: variable HOURLY of type PayPeriod
+```
+
+:::note
+Unfortunately, no cast rescues us here. At runtime, `PayPeriod.HOURLY.getClass()` returns `PayPeriod$1`, a class the language gives us no way to name. Since we cannot write the type, we cannot call anything the type adds.
+:::
+
+**This is exactly where a sealed interface differs**. Its variants are types with names, so once we know which variant we hold, we can call whatever that variant adds.
+
+A sealed interface, then, is a fixed set of subtypes. Each variant is a real type that we instantiate freely, and each one exposes its own components:
 
 ```java
 sealed interface JobSearchOutcome
@@ -237,7 +314,7 @@ record NoMatches() implements JobSearchOutcome {}           // holds nothing
 record QueryTooBroad(int estimatedCount) implements JobSearchOutcome {} // holds an int
 ```
 
-`Found` and `QueryTooBroad` have different shapes, and there is an unbounded number of `Found` values, one for every possible list of jobs. **An enum fixes the set of values. A sealed interface fixes the set of types.**
+Here, `Found` exposes a `jobs()` accessor that `QueryTooBroad` does not have, and there is an unbounded number of `Found` values, one for every possible list of jobs. **An enum fixes the set of values. A sealed interface fixes the set of types.**
 
 In the type algebra we already used, an enum is a sum of nullary cases:
 
@@ -245,9 +322,15 @@ In the type algebra we already used, an enum is a sum of nullary cases:
 JobCategory = ENGINEERING + DESIGN + SALES
 ```
 
-Each term counts as exactly one value. A sealed interface, instead, is a sum of products, where each variant can be a product of several fields. In fact, an enum is the special case of a sealed sum type where every variant carries no data.
+Each term counts as exactly one value. We should be precise here, because this is a statement about _how many values the type has_, not about how much data hangs off each constant. The `description` we attached to every `JobCategory` adds no new value to the type. There are still exactly three of them. **That description is a function from a constant to a `String`**, which is how a language like Haskell would model it in the first place.
 
-The rule of thumb is simple. If the cases are plain labels, use an enum. If the cases carry different data from one case to the next, reach for a sealed interface.
+A sealed interface, instead, is a sum of products, where each variant is a product of several fields and can have unboundedly many values. Counting values alone, an enum is the degenerate case of a sum type: every variant contributes exactly one.
+
+So, how do we choose between the two? Let's ask ourselves two questions.
+
+The first one is how many values each case needs. If one fixed instance per case is enough, an enum is the natural fit. If a case must exist in many instances, such as one `Found` for every possible list of jobs, then we need a sealed interface.
+
+The second one is whether the cases need different shapes. If every case exposes the same API, an enum works, even when the cases carry data. If one case must expose a field or a method that the others do not, we reach for a sealed interface.
 
 ## Hybrid Types: Sealed Interfaces with Records
 
@@ -303,18 +386,16 @@ Java gives us three tools for consuming ADTs: switch expressions, pattern matchi
 
 The arrow syntax (`->`) eliminates fall-through and makes each branch return directly. The compiler also requires that all possible values are covered.
 
-Why we used an `enum` here? We reach it on purpose. A switch expression works on any closed set of values, and an enum is the simplest one to reason about. We can also switch over a sealed interface, but picking out each variant relies on pattern matching for switch, a separate feature we get to next. Introducing them one at a time keeps it clear which Java version gives us what.
+Why an `enum` here? We chose it on purpose. A switch expression works on any closed set of values, and an enum is the simplest one to reason about. We can also switch over a sealed interface, but picking out each variant relies on pattern matching for switch, a separate feature we get to next. Introducing them one at a time keeps it clear which Java version gives us what.
 
-Here is a self-contained example using the `JobCategory` enum we saw earlier:
+Here is an example that maps each `JobCategory` to the `PayPeriod` job ads usually quote for it. Both enums come from the previous section:
 
 ```java
-enum JobCategory { ENGINEERING, DESIGN, SALES }
-
-String label(JobCategory category) {
+PayPeriod defaultPayPeriod(JobCategory category) {
     return switch (category) {
-        case ENGINEERING -> "Building the product.";
-        case DESIGN      -> "Shaping the experience.";
-        case SALES       -> "Closing the deals.";
+        case ENGINEERING -> PayPeriod.YEARLY;
+        case DESIGN      -> PayPeriod.YEARLY;
+        case SALES       -> PayPeriod.MONTHLY;
     };
 }
 ```
@@ -509,7 +590,7 @@ We already used two operations:
 - Records are products. `Job` = `JobId` × `Company` × `Role` × `Salary`.
 - Sealed interfaces are sums (also called coproducts). `JobSearchOutcome` = `Found` + `NoMatches` + `QueryTooBroad`.
 
-We can define the complexity of a type as the number of values it can represent. **Well-designed types have the least complexity**; they need to model the information they carry.
+We can define the complexity of a type as the number of values it can represent. **Well-designed types have the least complexity they need** to model the information they carry.
 
 Here is a concrete example. Suppose we need to model a set of mutually exclusive configuration options, `A`, `B`, or `C`. A naive product type would be:
 
@@ -532,11 +613,11 @@ record C() implements Config {}
 
 This type has exactly three possible values. The five invalid states cannot be constructed. The compiler eliminates them at the type level. As we said, illegal states should not be representable at all.
 
-We can apply the same thinking to our `Failure` type. Imagine we had defined the error as a raw `String` instead of a typed sum type:
+We can apply the same thinking to our `Failure` type. Imagine we had used a raw `String` as the error type instead of a typed sum type:
 
 ```java
 // Too broad: any string is a valid reason, whether it makes sense or not
-record Failure<T, E>(String reason) implements Result<T, E> {}
+Result<Job, String> result = new Failure<>("the query went wrong, somehow");
 ```
 
 We already did better than this. We defined `JobLookupError` as a sealed interface with exactly two variants: `JobNotFound` and `DatabaseUnavailable`.
