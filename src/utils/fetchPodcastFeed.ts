@@ -51,6 +51,19 @@ function parseDuration(raw: string): number {
   return Number(raw) || 0;
 }
 
+// CommonMark treats a single "\n" inside a paragraph as a soft break, which
+// renders as plain whitespace in HTML rather than a visible line break.
+// Paragraph separators ("\n\n" or more) must stay untouched so constructs
+// like a "---" thematic break still work, so we split into paragraphs first
+// and only turn the *remaining* single newlines into CommonMark hard breaks
+// (two trailing spaces + newline), which micromark renders as <br>.
+function preserveSoftBreaks(markdown: string): string {
+  return markdown
+    .split(/\n{2,}/)
+    .map((paragraph) => paragraph.replace(/\n/g, "  \n"))
+    .join("\n\n");
+}
+
 export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
   if (!PODCAST_AUDIO_FEED_URL || !PODCAST_VIDEO_FEED_URL) {
     return [];
@@ -100,7 +113,7 @@ export async function fetchPodcastFeed(): Promise<PodcastEpisode[]> {
     const uuid = extractGuidText(item.guid).replace(/-audio$/, "");
     const rawDescription = item.description ?? "";
     const htmlDescription = sanitizeHtml(
-      micromark(rawDescription, {
+      micromark(preserveSoftBreaks(rawDescription), {
         extensions: [gfm()],
         htmlExtensions: [gfmHtml()],
       }),
