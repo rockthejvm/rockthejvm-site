@@ -1,0 +1,205 @@
+---
+author: riccardo-cardin
+category: guide
+difficulty: beginner
+excerpt: ""
+publishedDate: 2026-10-20
+updatedDate: 2026-10-20
+tags: [scala-3]
+title: Introducing Eezo: Next-gen Scala Web Framework
+---
+
+## Introduction
+
+Eezo is a modern web framework for Scala 3 that aims to simplify web development by leveraging the latest features of the language. Eezo takes advantage of Scala 3's powerful type system, concise syntax, and functional programming capabilities to provide a seamless development experience. We took inspiration from other popular web frameworks, like [Rails](https://rubyonrails.org/), [Phoenix](https://www.phoenixframework.org/), and [Django](https://www.djangoproject.com/), while ensuring that Eezo remains idiomatic to Scala and fully leverages its unique features.
+
+Let's use Eezo to build a simple web application and see how it simplifies common web development tasks.
+
+## Setting Up Eezo
+
+TODO Setup the Postgres database for the Eezo application.
+
+The best way to get started with Eezo is to install its command-line tool, which will help you create and manage Eezo projects efficiently. You can install it using the following command:
+
+```bash
+curl -fsSL https://eezo.io/install | bash
+```
+
+For the purpose of this guide, we'll create a small library application. Using the Eezo command-line tool, we can quickly set up a new project:
+
+```bash
+eezo new library
+```
+
+The command above will create a new directory called `library` with all the necessary files and folder structure for an Eezo project. The folder structure will appear as follows:
+
+```text
+library-1/
+├── build.sbt                      # sbt build: Scala 3.8.4, EezoPlugin, eezo 0.1.0, forked run on JDK 25
+├── .gitignore                     # ignores target/, .bsp/, .metals/, .bloop/
+├── project/
+│   ├── build.properties           # sbt 1.12.14
+│   └── plugins.sbt                # sbt-eezo 0.1.0 (route table generator, eezoDev/eezoStatus tasks)
+└── src/main/scala/
+    ├── Main.scala                 # entry point: object Main extends EezoApp
+    ├── app/
+    │   └── Index.scala            # mounts GET / and renders an "it works" page
+    └── models/                    # empty, meant for case classes deriving Form/Resource/Table
+```
+
+With this folder structure in place, we are ready to start building your web application using Eezo. If we execute `eezo routes`, we will see the list of routes currently defined in our application:
+
+```bash
+eezo routes
+1 route:
+  GET /
+```
+
+The file that defines this route is `src/main/scala/app/Index.scala`. This file mounts the GET `/` route and renders a simple "it works" page, providing a starting point for your web application. Everything we defined under the `app` directory will be automatically picked up by Eezo and used to configure the routes and behavior of our web application. The idea was taken from Next.js, where the file system is used to define routes automatically. On the other hand, the name of the file determines the HTTP verb used for the route it defines. Again, this idea was taken from Rails, and it maps the file names as follows:
+
+- `Index.scala` -> GET `/`
+- `Create.scala` -> POST `/`
+- `Update.scala` -> PUT `/`
+- `Delete.scala` -> DELETE `/`
+- `Show.scala` -> GET `/:id`
+- `Edit.scala` -> GET `/:id/edit`
+- `New.scala` -> GET `/new`
+
+Now, we can start our Eezo web application by running the following command:
+
+```bash
+eezo dev
+```
+
+The page will be available at `http://localhost:8080/` and should display the "it works" message:
+
+![It works page](./images/it-works-page.png)
+
+Now that our Eezo web application is up and running, we can start adding more routes and functionality. First, let's move on with the next feature of our library application: managing books.
+
+## Storing Books in the Database
+
+In our library application, we want to manage books. Each book will have a title, an author. To achieve this, we need to define a model for the `Book` resource and set up the corresponding database table.
+
+Models in Eezo find a home in the `src/main/scala/models` directory, and we represent each using a Scala case class. Let's define a `Book` model as follows:
+
+```scala
+package models
+
+case class Book(
+  title: String,
+  author: String
+)
+```
+
+Nothing new here. Now, we want to set up the corresponding database table for the `Book` model. A model that derives `Table` will have its table automatically created and managed by Eezo:
+
+```scala
+package models
+
+import eezo.db.Table
+
+case class Book(
+  title: String,
+  author: String
+) derives Table
+```
+
+If the `eezo dev` command is running, we should see an error message in the console:
+
+```bash
+[error] 8 |) derives Table
+[error]   |          ^
+[error]   |  Book has no `id` field. Every Eezo table needs one, e.g. `id: Id[Book]`.
+[error] one error found
+```
+
+Every Eezo model that derives `Table` must have an `id` field. Let's update our `Book` model accordingly:
+
+```scala
+package models
+
+import eezo.db.Table
+import io.eezo.core.Id
+
+case class Book(
+  id: Id[Book],
+  title: String,
+  author: String
+) derives Table
+```
+
+The `Id[T]` type represents the primary key for a table of type `T`. In our case, `Id[Book]` is the primary key for the `books` table. The default id generation strategy in Eezo will automatically create a UUID v4 for each new record.
+
+Now that we defined how our `Book` model maps to the database table, we need to make the framework aware of this table so that it can be created and managed properly. To do this, we need to define an object that extends the `io.eezo.db.Schema` type and declares the `books` table:
+
+```scala
+import io.eezo.db.Schema
+
+import models.Book
+
+object AppSchema extends Schema {
+  val books = table[Book]
+}
+```
+
+Usually we put the schema definition in a place that is visible to the `Main` class, since we need to override the empty schema definition of the application:
+
+```scala
+import io.eezo.EezoApp
+import io.eezo.db.Schema
+import io.eezo.generated.Routes
+import io.eezo.http.RouteTable
+
+import models.Book
+
+object AppSchema extends Schema {
+  val books = table[Book]
+}
+
+object Main extends EezoApp {
+  override def schema: Schema     = AppSchema
+  override def routes: RouteTable = Routes.table()
+}
+```
+
+Now we can look at the `eezo dev` logs again. We should notice a message coming from eezo:
+
+```bash
+[eezo] ⚠ the database does not match your models; additive only, serving anyway
+1 difference(s) between model and database:
+
+  create table book
+```
+
+Eezo connected to the database successfully and found that the schema it derived from our models does not fully match the existing database schema. In this case, it is not a destructive change, so it serves the application anyway, without the changes needed. To apply the changes, we need to explicitly tell Eezo to update the database schema, by running the following command:
+
+```bash
+sbt "run sync --apply" // TODO Change it
+```
+
+Let's split the above command into its components. The `sync` part tells Eezo to introspect the live Postgres database, diffs it against the snapshot derived from your Scala model, and renders the difference as DDL.  Without a flag it only prints the diff and changes nothing. The `--apply` flag tells Eezo to actually apply the changes to the database. If the changes would have been destructive, Eezo will refuse to apply them unless explicitly instructed with a `--force` flag.
+
+NNow that we have applied the changes to the database schema, our application should be fully in sync with the database. You can inspect the database and see that the schema was applied:
+
+```bash
+# \dt
+
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ public | book | table | postgres
+
+# \d book
+              Table "public.book"
+ Column | Type | Collation | Nullable | Default
+--------+------+-----------+----------+---------
+ author | text |           | not null |
+ id     | uuid |           | not null |
+ title  | text |           | not null |
+
+Indexes:
+    "book_pkey" PRIMARY KEY, btree (id)
+```
+
+Now that the database schema has been applied, our application is fully in sync with the database. We can proceed with the next step: implementing the CRUD operations for our `Book` model.
