@@ -47,6 +47,14 @@ library-1/
     └── models/                    # empty, meant for case classes deriving Form/Resource/Table
 ```
 
+The `build.sbt` file contains the dependencies required for our Eezo project:
+
+```scala
+libraryDependencies += "io.eezo" %% "eezo" % "0.2.0"
+```
+
+The `io.eezo.eezo` library is a short-hand for including all the core functionalities of the Eezo framework, which means the HTTP server, `io.eezo.eezo-http`, and the database integration, `io.eezo.eezo-db`. This allows us to quickly get started with building web applications without having to manually include each individual module.
+
 With this folder structure in place, we are ready to start building your web application using Eezo. If we execute `eezo routes`, we will see the list of routes currently defined in our application:
 
 ```bash
@@ -73,7 +81,7 @@ eezo dev
 
 The page will be available at `http://localhost:8080/` and should display the "it works" message:
 
-![It works page](./images/it-works-page.png)
+![It works page](./images/it-works.png)
 
 Now that our Eezo web application is up and running, we can start adding more routes and functionality. First, let's move on with the next feature of our library application: managing books.
 
@@ -203,3 +211,259 @@ Indexes:
 ```
 
 Now that the database schema has been applied, our application is fully in sync with the database. We can proceed with the next step: implementing the CRUD operations for our `Book` model.
+
+## Seven Routes for a Model
+
+Now that we have our database schema in place and our application is in sync with the database, we want to build a web application that allows to manage our books. Luckily, Eezo provides a convenient way to define routes for our models, which will help us implement the CRUD operations efficiently: Just let the a model derive `io.eezo.http.Resource` and `io.eezo.http.Form`:
+
+```scala
+import io.eezo.db.Table
+import io.eezo.core.Id
+import io.eezo.http.Resource
+import io.eezo.http.Form
+
+final case class Book(
+  id: Id[Book],
+  title: String,
+  author: String
+) derives Table, Resource, Form
+```
+
+If we run `eezo dev` again (or we look at the logs if the server is already running), we should see that Eezo has automatically picked up the new routes for our `Book` model, allowing us to perform CRUD operations through the generated HTTP endpoints. The log should show entries indicating that the routes for `Book` have been registered successfully:
+
+```bash
+10 routes:
+  GET /
+  GET /books
+  GET /books/new
+  GET /books/:id
+  GET /books/:id/edit
+  POST /books
+  PUT /books/:id
+  DELETE /books/:id
+```
+
+If we point the browser to `http://localhost:8080/books`, we should see the list of books. From there, we can navigate to create a new book, view the details of a specific book, edit a book, or delete a book, all through the automatically generated web interface provided by Eezo:
+
+![List of books](./images/get-books.png)
+
+Now the question is, what are `Resource` and `Form` in the context of Eezo, and why do we need to derive them for our model? They answer different questions, and that is why eezo keeps them apart.
+
+As the its name says, `Form` is all about rendering each field of the case class in one \<input\> HTML element, with the input type chosen by a `Field[X]` instance for the field's Scala type: an `Int` becomes a number input, a `LocalDate` a date input, a `Boolean` a checkbox. It renders the whole \<form\> element, and it reads a submission back into a value of the case class. If a field is missing or cannot be parsed, it reports field by field what was missing ("is required") or what would not parse ("is not a number"). However `Form` knows nothing about where the form posts, with which verb, what happens on success, or where the data ends up.
+
+```scala
+case class Login(email: String, password: Password) derives Form
+```
+
+A model like this has no `id`, will never be a row in a table, and mounts no route. A handwritten route will decide the rest: the path, the verb, and what a successful sign in does.
+
+`Resource` knows the routes. It takes a case class that already has a `Form`, requires a field named id typed `Id[Model]`, and mounts the seven CRUD routes over it.
+
+The path is the class name in snake case, pluralised. `Resource` owns everything `Form` does not: the redirect after a successful write, the 404 for a missing row, and the 422 that sends a rejected form back with the user's typing intact. It needs the `id` field because create has to use a key before it can insert anything. `Resource` does not depend on the database layer. A model that also derives `Table` gets a store over Postgres, a model without one gets a store in memory. A project with no database in the build still mounts seven working routes.
+
+Next stop, authentication.
+
+## Authentication: The `User` Model and How to Implement It
+
+To switch on authentication in your Eezo application, we need to add a new dependency for the authentication module. In your `build.sbt`, add:
+
+```scala
+libraryDependencies ++= Seq(
+  "io.eezo" %% "eezo" % "0.2.0",
+  "io.eezo" %% "eezo-auth" % "0.2.0"
+)
+```
+
+If we run `eezo dev` after adding the dependency, we should notice a new compilation error in the console for each hand-written route and every model that derives `Resource`:
+
+```bash
+[error] -- Error: /Users/rcardin/Documents/Repositories/scala-days-2026/library-1/target/scala-3.8.4/src_managed/main/io/eezo/generated/Routes.scala:9:28
+[error] 9 |    guardFor[app.Index.type]("app.Index").mounting(
+[error]   |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[error]   |no Guarded given for app.Index, and this application's build declares eezo-auth, so every mounted route has to say who may reach it. In its companion, one of:
+[error]   |  given io.eezo.http.Guarded[T] = <yourGuard>.required
+[error]   |  given io.eezo.http.Guarded[T] = io.eezo.http.Guarded.public
+...
+[error] 67 |        guardForModel[models.Book]("models.Book").identify,
+[error]    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[error]    |no Guarded given for models.Book, and this application's build declares eezo-auth, so every mounted route has to say who may reach it. In its companion, one of:
+[error]    |  given io.eezo.http.Guarded[T] = <yourGuard>.required
+[error]    |  given io.eezo.http.Guarded[T] = io.eezo.http.Guarded.public
+```
+
+Again, Eezo is reminding us that every route and resource needs to declare who is allowed to access it when authentication is enabled. This ensures that only authorized users can reach certain parts of the application. In Eezo terms, every route and resource must be guarded, which means specifying the access control rules explicitly for each one. To do this, we need to provide a `Guarded` instance for each route and resource, either marking it as public or requiring a specific guard.
+
+To keep things working for now, we can mark all routes and resources as public by providing a `io.eezo.http.Guarded` instance that uses `io.eezo.http.Guarded.public` as suggested by the error messages. This allows any user to access the routes and resources without requiring authentication, which is useful during initial development or for public parts of the application.
+
+So, for the default `Index` route, we can mark it as public by providing a `Guarded` instance using `Guarded.public`:
+
+```scala
+package app
+
+import io.eezo.http.Guarded
+
+object Index {
+
+  given Guarded[Index.type] = Guarded.public
+
+  def index(request: Request): Response = {
+    // Omissis
+  }
+}
+```
+
+For the `Book` resource, we can do the same:
+
+```scala
+package models
+
+import io.eezo.http.Guarded
+
+object Book {
+  given Guarded[Book] = Guarded.public
+}
+```
+
+A new compilation of our app should remove the previous errors and let the application run without authentication-related issues for the public routes and resources.
+
+Every web application needs a way to manage users and their authentication. In Eezo, this typically involves creating a `User` model that represents the users of your application. Users need to to be stored in the database, so first we define the `User` model with the necessary fields and derive the appropriate type classes:
+
+```scala
+package models
+
+import io.eezo.auth.Password
+import io.eezo.db.Table
+
+final case class User(
+  id: Id[User],
+  username: String,
+  password: Password
+) derives Table
+```
+
+The above is the bare minimum definition of a `User` model in Eezo. It includes an `id` field for uniquely identifying each user, a `username` for the user's login name, and a `password` field that uses Eezo's `Password` type for secure password handling. The `Password` type is an `opaque type` over `String` that holds a bcrypt hash and nothing else. It uses a bcrypt at a fixed cost of 12 with a `$2b` salt.
+
+If we try to run `eezo dev` at this point, Eezo will return an error:
+
+```bash
+[error] 11 |) derives Table
+[error]    |          ^
+[error]    |No database mapping for io.eezo.auth.Password$package.Password at field `password`.
+[error]    |
+[error]    |Provide one in scope:
+[error]    |  given Column[io.eezo.auth.Password$package.Password] = Column[String].imap(...)(...)
+```
+
+Fortunately, Eezo errors are quite descriptive and guide you towards the solution. In this case, it tells us that there is no database mapping for the `Password` type and even suggests how to provide one in scope. Eezo comes with many built-in mappings for common types, like `String`, `Int`, and `Boolean`, but for custom types like `Password`, you need to define your own mapping. The easiest way to define a new column mapping is to start from an already existing mapping for a similar type, such as `String`, and then use the `imap` method to convert between the database type and your custom type, and back. It's a good practice to place such mappings in a companion object or a dedicated file for database mappings.
+
+```scala
+import io.eezo.db.Column
+
+object User {
+  given Column[Password] = Column[String].imap(Password.stored)(_.value)
+}
+```
+
+Now that we solved the issues with the database mapping for the `Password` type, we need to let Eezo create the corresponding database table for the `User` model. First, we need to register the `User` model among the available schemas:
+
+```scala
+object AppSchema extends Schema {
+  val books = table[Book]
+  val users = table[User] // <== Added the User table to the schema
+}
+```
+
+Let's run the migration command once again:
+
+```bash
+sbt "run sync --apply" // TODO Change it
+```
+
+The above command should have created the necessary database table for the `User` model, applying the schema changes defined by the `Table` derivation. You can now verify that the table exists in your database:
+
+```bash
+eezo=# \dt
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ public | book | table | postgres
+ public | user | table | postgres
+(2 rows)
+
+eezo=# \d "user"
+               Table "public.user"
+  Column  | Type | Collation | Nullable | Default
+----------+------+-----------+----------+---------
+ id       | uuid |           | not null |
+ password | text |           | not null |
+ username | text |           | not null |
+Indexes:
+    "user_pkey" PRIMARY KEY, btree (id)
+```
+
+Now, let's add a user in the table, using an `INSERT` statement:
+
+```sql
+insert into public."user" ("id", "name", "password") values
+  ('b373da80-9b47-4326-9042-9b0175431235', 'admin',  '$2b$12$xx4SRIIHYVtV3dTH9tRLwe.a/cpgykhXlT9YzWiqtPvubfHKx/uZO');
+```
+
+The above statement inserts a new user called `admin` with the password equal to `qwerty`. Please, don't use it in production environments.
+
+With the user added to the database, it's time to add to our application the missing functions to retrieve and manage users. The best way is to attack this problem is to give the whole code now, and then explain it step by step. So, the code to add to the `User` object is as follows:
+
+```scala
+import io.eezo.auth.{Guard, Password}
+import io.eezo.core.Id
+import io.eezo.core.html.Url
+import io.eezo.db.*
+import io.eezo.db.Scopes.read
+
+object User {
+
+  given Column[Password] = Column[String].imap(Password.stored)(_.value)
+
+  def byUserName(username: String): Option[User] = {
+    read(Table[User].where(_.username === username).first())
+  }
+
+  given guard: Guard[User] = Guard[User](
+    find = id => read(Table[User].findById(id)),
+    credentials = username => byUserName(username).map(user => (user.id, user.password)),
+    home = Url.Mounted("/books")
+  )
+}
+```
+
+Let's break down the code added to the `User` object. First, the `byUserName` function. It is a helper function that retrieves a user from the database based on their username address. It uses the Eezo DSL for querying the database. As we can see, the `Table` type provides a convenient way to interact with the underlying database tables, allowing us to construct queries in a type-safe manner. The interesting part is the use of the `read` scope, which ensures that the database read operation is performed within the appropriate context. It uses Scala 3 capabilities under the hood. In detail, it open a read-only database scope, avoiding mixing read and write operations inappropriately. In fact, if we try to trasact a write operation within a read scope, the compiler will catch it, preventing potential runtime errors and maintaining the integrity of our database operations.
+
+The `Guard` type is the Eezo authentication module's way of handling user authentication. It provides a structured approach to define how users are signed in, authorized, and where they should be redirected upon successful login.
+
+In our code, we define a given instance of `Guard[User]` with three main components. The first if the `find` function. Its job is to turn the user key stored in the session cookie back into a full `User` row on every guarded request. The second is the `credentials` function. The guard calls it once, at login, with whatever the login form sent as the identifier. Lastly, the `home` function defines the URL to redirect the user to upon successful login, when the visitor did not arrive via a refused page. You might wonder why we didn't use a simple `String` for the home URL. The `Url.Mounted` type allows us to mount the endpoint within a prefix if needed, making it easier to manage routes and maintain consistency across the application. For example, we can decide to mount our routes under an `/admin` prefix and a `/v1` versioning prefix, as shown below:
+
+```scala
+val nested = Route.under("/admin")(Route.under("/v1")(myRoutes))
+```
+
+In this example, if the `myRoutes` contains also the `/books` route, it will be accessible under the `/admin/v1/books` path.
+
+Now that we defined our `Guard[User]` and understood how to mount routes, we can proceed to bind it to our application's routing system. For example, we want to protect the `/books`. The only thing we need to do is to change the `Guard` instance used by the `Book` model:
+
+```scala
+object Book {
+  given Guarded[Book] = User.guard.required
+}
+```
+
+If we run again the `eezo dev` command, we should now see three new routes appearing in the log:
+
+```bash
+13 routes:
+  GET /login
+  POST /login
+  POST /logout
+```
+
+The authentication routes appear because we used the `User.guard.required` instance in our `Book` model, which triggers the inclusion of the login and logout routes automatically. If we point our browser to `/login`, we should see the login page rendered by the framework.
+
+![The login page](./images/login.png)
