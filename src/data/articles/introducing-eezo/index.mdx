@@ -6,7 +6,7 @@ excerpt: "A tour of Eezo, the Scala 3 web framework we showed at Scala Days: fro
 publishedDate: 2026-10-20
 updatedDate: 2026-10-20
 tags: [scala-3]
-title: Introducing Eezo: Next-gen Scala Web Framework
+title: "Introducing Eezo: Next-gen Scala Web Framework"
 ---
 
 ## Introduction
@@ -41,7 +41,7 @@ eezo new library
 The command above will create a new directory called `library` with all the necessary files and folder structure for an Eezo project. The folder structure will appear as follows:
 
 ```text
-library-1/
+library/
 ├── build.sbt                      # sbt build: Scala 3.8.4, EezoPlugin, eezo 0.1.0, forked run on JDK 25
 ├── .gitignore                     # ignores target/, .bsp/, .metals/, .bloop/
 ├── project/
@@ -62,7 +62,7 @@ libraryDependencies += "io.eezo" %% "eezo" % "0.2.0"
 
 The `io.eezo.eezo` library is a shorthand for including all the core functionalities of the Eezo framework, which means the HTTP server, `io.eezo.eezo-http`, and the database integration, `io.eezo.eezo-db`. This lets us quickly start building web applications without manually including each module.
 
-With this folder structure in place, we are ready to start building your web application using Eezo. If we execute `eezo routes`, we will see the list of routes currently defined in our application:
+With this folder structure in place, we are ready to start building our web application using Eezo. If we execute `eezo routes`, we will see the list of routes currently defined:
 
 ```bash
 eezo routes
@@ -70,7 +70,7 @@ eezo routes
   GET /
 ```
 
-The file that defines this route is `src/main/scala/app/Index.scala`. This file mounts the GET `/` route and renders a simple "it works" page, providing a starting point for your web application. Eezo automatically picks up everything defined under the `app` directory and uses it to configure the routes and behavior of our web application. The idea was taken from Next.js, where the file system is used to define routes automatically. The file name also determines the HTTP verb for the route it defines. Again, this idea was taken from Rails, and it maps the file names as follows:
+The file that defines this route is `src/main/scala/app/Index.scala`. This file mounts the GET `/` route and renders a simple "it works" page, providing a starting point. Eezo automatically picks up everything defined under the `app` directory and uses it to configure the routes and behavior of our web application. The idea was taken from [Next.js](https://nextjs.org/docs/13/app/building-your-application/routing/defining-routes), where the file system is used to define routes automatically. The file name also determines the HTTP verb for the route it defines. Again, this idea was taken from [Rails](https://guides.rubyonrails.org/routing.html#crud-verbs-and-actions), and it maps the file names as follows:
 
 - `Index.scala` -> GET `/`
 - `Create.scala` -> POST `/`
@@ -146,9 +146,9 @@ case class Book(
 ) derives Table
 ```
 
-The `Id[T]` type represents the primary key for a table of type `T`. In our case, `Id[Book]` is the primary key for the `books` table. Eezo's default ID generation strategy automatically creates a UUID v4 for each new record. The rules that every derivation imposes on a case class, starting from the mandatory `id` field, are explained in [The case class is the source of truth](https://eezo.io/docs/explanation/the-case-class).
+The `Id[T]` type represents the primary key for a table of type `T`. In our case, `Id[Book]` is the primary key for the `book` table. Eezo's default ID generation strategy automatically creates a UUID v4 for each new record. The rules that every derivation imposes on a case class, starting from the mandatory `id` field, are explained in [The case class is the source of truth](https://eezo.io/docs/explanation/the-case-class).
 
-Now that we defined how our `Book` model maps to the database table, we need to make the framework aware of this table so that it can be created and managed properly. To do this, we need to define an object that extends the `io.eezo.db.Schema` type and declares the `books` table:
+Now that we defined how our `Book` model maps to the database table, we need to make the framework aware of this table so that it can be created and managed properly. To do this, we need to define an object that extends the `io.eezo.db.Schema` type and declares the `book` table:
 
 ```scala
 import io.eezo.db.Schema
@@ -200,14 +200,14 @@ Let’s break down the command into its components. The `db sync` part tells Eez
 Now that we have applied the changes to the database schema, our application should be fully in sync with the database. You can inspect the database and see that the schema was applied:
 
 ```bash
-# \dt
+\dt
 
         List of relations
  Schema | Name | Type  |  Owner
 --------+------+-------+----------
  public | book | table | postgres
 
-# \d book
+\d book
               Table "public.book"
  Column | Type | Collation | Nullable | Default
 --------+------+-----------+----------+---------
@@ -260,7 +260,7 @@ It's worth noticing what the browser received to show that list. There is no Jav
 
 Now the question is, what are `Resource` and `Form` in the context of Eezo, and why do we need to derive them for our model? They answer different questions, which is why Eezo keeps them separate.
 
-As its name says, `Form` is all about rendering each field of the case class in one \<input\> HTML element, with the input type chosen by a `Field[X]` instance for the field's Scala type: an `Int` becomes a number input, a `LocalDate` a date input, a `Boolean` a checkbox. The full table of supported types is in the [Type mappings](https://eezo.io/docs/reference/derivations) reference. It renders the whole \<form\> element, and it reads a submission back into a value of the case class. If a field is missing or cannot be parsed, it reports field by field what was missing ("is required") or what would not parse ("is not a number"). However, `Form` knows nothing about where the form posts, with which verb, what happens on success, or where the data ends up.
+As its name says, `Form` is all about rendering each field of the case class in one `<input>` HTML element, with the input type chosen by a `Field[X]` instance for the field's Scala type: an `Int` becomes a number input, a `LocalDate` a date input, a `Boolean` a checkbox. The full table of supported types is in the [Type mappings](https://eezo.io/docs/reference/derivations) reference. It renders the whole `<form>` element, and it reads a submission back into a value of the case class. If a field is missing or cannot be parsed, it reports field by field what was missing ("is required") or what would not parse ("is not a number"). However, `Form` knows nothing about where the form posts, with which verb, what happens on success, or where the data ends up.
 
 ```scala
 case class Login(email: String, password: Password) derives Form
@@ -268,7 +268,7 @@ case class Login(email: String, password: Password) derives Form
 
 A model like this has no `id`, will never be a row in a table, and mounts no route. A handwritten route will decide the rest: the path, the verb, and what a successful sign-in does. The [Write a handwritten route](https://eezo.io/docs/how-to/write-a-handwritten-route) guide shows how such a route looks.
 
-`Resource` knows the routes. It takes a case class that already has a `Form`, requires a field named id typed `Id[Model]`, and mounts the seven CRUD routes over it.
+`Resource` knows the routes. It takes a case class that already has a `Form`, requires a field named id typed `Id[M]`, and mounts the seven CRUD routes over it.
 
 The path is the class name in snake case, pluralized. `Resource` owns everything `Form` does not: the redirect after a successful write, the 404 for a missing row, and the 422 that sends a rejected form back with the user's typing intact. It needs the `id` field because create has to use a key before it can insert anything. `Resource` does not depend on the database layer. A model that also derives `Table` gets a store over Postgres; a model without one gets a store in memory. A project with no database in the build still mounts seven working routes. The [From a case class to seven routes](https://eezo.io/docs/tutorials/first-model) tutorial and the [Create a CRUD app](https://eezo.io/docs/how-to/create-a-crud-app) guide cover the same ground step by step, and if one of the seven routes does not do what you need, [Take over one of the seven derived routes](https://eezo.io/docs/how-to/take-over-a-derived-route) shows how to replace it with your own.
 
@@ -391,7 +391,7 @@ eezo db sync --apply
 The above command should have created the necessary database table for the `User` model, applying the schema changes defined by the `Table` derivation. You can now verify that the table exists in your database:
 
 ```bash
-eezo=# \dt
+\dt
         List of relations
  Schema | Name | Type  |  Owner
 --------+------+-------+----------
@@ -399,7 +399,7 @@ eezo=# \dt
  public | user | table | postgres
 (2 rows)
 
-eezo=# \d "user"
+\d "user"
                Table "public.user"
   Column  | Type | Collation | Nullable | Default
 ----------+------+-----------+----------+---------
@@ -444,7 +444,7 @@ object User {
 }
 ```
 
-Let's break down the code added to the `User` object. First, the `byUserName` function. It is a helper function that retrieves a user from the database by username. It uses the Eezo DSL for querying the database. As we can see, the `Table` type provides a convenient way to interact with the underlying database tables, allowing us to construct queries in a type-safe manner. The interesting part is the use of the `read` scope, which ensures that the database read operation is performed within the appropriate context. It uses Scala 3 capabilities under the hood. In detail, it opens a read-only database scope, preventing inappropriate mixing of read and write operations. In fact, if we try to run a write operation within a read scope, the compiler catches it, preventing potential runtime errors and maintaining the integrity of our database operations. The query DSL and the `read` and `transact` scopes are described in [The database layer](https://eezo.io/docs/explanation/the-database-layer).
+Let's break down the code added to the `User` object. First, the `byUserName` function. It is a helper function that retrieves a user from the database by `username`. It uses the Eezo DSL for querying the database. As we can see, the `Table` type provides a convenient way to interact with the underlying database tables, allowing us to construct queries in a type-safe manner. The interesting part is the use of the `read` scope, which ensures that the database read operation is performed within the appropriate context. It uses Scala 3 capabilities under the hood. In detail, it opens a read-only database scope, preventing inappropriate mixing of read and write operations. In fact, if we try to run a write operation within a read scope, the compiler catches it, preventing potential runtime errors and maintaining the integrity of our database operations. The query DSL and the `read` and `transact` scopes are described in [The database layer](https://eezo.io/docs/explanation/the-database-layer).
 
 The `Guard` type is the Eezo authentication module's way of handling user authentication. It provides a structured way to define how users sign in, how they're authorized, and where they should be redirected after a successful login.
 
@@ -471,13 +471,14 @@ If we run the `eezo dev` command again, we should now see three new routes appea
   GET /login
   POST /login
   POST /logout
+  ...
 ```
 
 The authentication routes appear because we used the `User.guard.required` instance in our `Book` model, which triggers the inclusion of the login and logout routes automatically. If we point our browser to `/login`, we should see the login page rendered by the framework. Behind that page, the session cookie and the CSRF token are handled by the framework, as described in [Sessions, flash and the CSRF token](https://eezo.io/docs/explanation/sessions-and-csrf).
 
 ![The login page](./images/login.png)
 
-With authentication in place, there is one last pillar of Eezo we showed at Scala Days: the UI.
+With authentication in place, there is one last pillar of Eezo: the UI.
 
 ## Live Components: Keeping Pages in Sync
 
