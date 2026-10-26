@@ -11,6 +11,28 @@ runtimes:
     - node@18.20.5
     - python@3.10.8
 lint:
+  # The upstream oxipng plugin only ships an Intel macOS download, which fails
+  # with "Bad CPU type in executable" on Apple Silicon without Rosetta.
+  # Override it so arm64 macOS gets the native build.
+  downloads:
+    - name: oxipng
+      downloads:
+        - os: macos
+          cpu: arm_64
+          url: https://github.com/shssoichiro/oxipng/releases/download/v${version}/oxipng-${version}-aarch64-apple-darwin.tar.gz
+          strip_components: 1
+        - os: macos
+          cpu: x86_64
+          url: https://github.com/shssoichiro/oxipng/releases/download/v${version}/oxipng-${version}-x86_64-apple-darwin.tar.gz
+          strip_components: 1
+        - os: linux
+          cpu: x86_64
+          url: https://github.com/shssoichiro/oxipng/releases/download/v${version}/oxipng-${version}-x86_64-unknown-linux-musl.tar.gz
+          strip_components: 1
+        - os: windows
+          cpu: x86_64
+          url: https://github.com/shssoichiro/oxipng/releases/download/v${version}/oxipng-${version}-x86_64-pc-windows-msvc.zip
+          strip_components: 1
   enabled:
     - actionlint@1.7.7
     - checkov@3.2.392
