@@ -410,14 +410,42 @@ Indexes:
     "user_pkey" PRIMARY KEY, btree (id)
 ```
 
-Next, let's add a user to the table using an `INSERT` statement:
+Next, we need a first user in the table. Instead of writing SQL by hand, we can let Eezo do the work. We have already seen that deriving `Form` and `Resource` mounts the CRUD routes for a model, so let's temporarily do that for `User`, together with a public `Guarded` instance, as the compiler asked us before:
 
-```sql
-insert into public."user" ("id", "name", "password") values
-  ('b373da80-9b47-4326-9042-9b0175431235', 'admin',  '$2b$12$xx4SRIIHYVtV3dTH9tRLwe.a/cpgykhXlT9YzWiqtPvubfHKx/uZO');
+```scala
+package models
+
+import io.eezo.auth.Password
+import io.eezo.core.Id
+import io.eezo.db.{Column, Table}
+import io.eezo.http.{Form, Guarded, Resource}
+
+final case class User(
+  id: Id[User],
+  username: String,
+  password: Password
+) derives Table, Form, Resource
+
+object User {
+  given Column[Password] = Column[String].imap(Password.stored)(_.value)
+
+  given Guarded[User] = Guarded.public // <== Temporary, we will remove it soon
+}
 ```
 
-The statement above inserts a new user called `admin` with the password `qwerty`. Please don't use it in production environments.
+Now we can run `eezo dev` and point our browser to `/users`. From there, we can create the first user through the form that Eezo generates for us. **The password input is masked and shown as `****`, and the value we type is stored as a bcrypt hash, so we never have to compute one ourselves.**
+
+Once the user exists, we must remove `Form`, `Resource`, and the temporary `Guarded` instance from the `User` model. Otherwise, the `user` table would stay exposed through public CRUD routes, which is the last thing we want for a table that holds credentials. The model goes back to deriving only `Table`:
+
+```scala
+final case class User(
+  id: Id[User],
+  username: String,
+  password: Password
+) derives Table
+```
+
+Creating users by hand through a temporary resource is fine for a tutorial, but a real application would want a proper seeding mechanism for this kind of initial data.
 
 Now that the user is in the database, it's time to add the missing functions to our application to retrieve and manage users. The best way to tackle this is to provide the full code now, then explain it step by step. So, the code to add to the `User` object is as follows:
 
@@ -444,7 +472,7 @@ object User {
 }
 ```
 
-Let's break down the code added to the `User` object. First, the `byUserName` function. It is a helper function that retrieves a user from the database by `username`. It uses the Eezo DSL for querying the database. As we can see, the `Table` type provides a convenient way to interact with the underlying database tables, allowing us to construct queries in a type-safe manner. The interesting part is the use of the `read` scope, which ensures that the database read operation is performed within the appropriate context. It uses Scala 3 capabilities under the hood. In detail, it opens a read-only database scope, preventing inappropriate mixing of read and write operations. **In fact, if we try to run a write operation within a read scope, the compiler catches it, preventing potential runtime errors and maintaining the integrity of our database operations.** The query DSL and the `read` and `transact` scopes are described in [The database layer](https://eezo.io/docs/explanation/the-database-layer).
+Let's break down the code added to the `User` object. First, the `byUserName` function. It is a helper function that retrieves a user from the database by `username`. It uses the Eezo DSL for querying the database. As we can see, the `Table` type provides a convenient way to interact with the underlying database tables, allowing us to construct queries in a type-safe manner. The interesting part is the use of the `read` scope, which ensures that the database read operation is performed within the appropriate context. It uses Scala 3 capture checking under the hood. In detail, it opens a read-only database scope, preventing inappropriate mixing of read and write operations. **In fact, if we try to run a write operation within a read scope, the compiler catches it, preventing potential runtime errors and maintaining the integrity of our database operations.** The query DSL and the `read` and `transact` scopes are described in [The database layer](https://eezo.io/docs/explanation/the-database-layer).
 
 **The `Guard` type is the Eezo authentication module's way of handling user authentication.** It provides a structured way to define how users sign in, how they're authorized, and where they should be redirected after a successful login.
 
@@ -482,7 +510,7 @@ With authentication in place, there is one last pillar of Eezo: the UI.
 
 ## Live Components: Keeping Pages in Sync
 
-So far, every page we served was plain HTML: the browser asks, the server answers, and that's it. The last feature we want to show is Eezo's reactive UI. **Eezo offers server-side rendered components with a React-style shape, miming the model of [Phoenix LiveView](https://www.phoenixframework.org/): the state lives on the server, the browser is a thin renderer, and the framework ships the little JavaScript it needs.** We will not write a line of JavaScript of our own.
+So far, every page we served was plain HTML: the browser asks, the server answers, and that's it. The last feature we want to show is Eezo's reactive UI. **Eezo offers server-side rendered components with a React-style shape, inspired by the model of [Phoenix LiveView](https://www.phoenixframework.org/): the state lives on the server, the browser is a thin renderer, and the framework ships the little JavaScript it needs.** We will not write a line of JavaScript of our own.
 
 Let's build the standard counter component. Components live in the `src/main/scala/components` directory, and each one is a class that extends `io.eezo.live.Component` with a type parameter for its state. The state can be a case class, a number, or anything else we like. For a counter, an `Int` is enough:
 
