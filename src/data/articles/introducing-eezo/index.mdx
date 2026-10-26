@@ -433,7 +433,7 @@ object User {
 }
 ```
 
-Now we can run `eezo dev` and point our browser to `/users`. From there, we can create the first user through the form that Eezo generates for us. **The password input is masked and shown as `\*\***`, and the value we type is stored as a bcrypt hash, so we never have to compute one ourselves.\*\*
+Now we can run `eezo dev` and point our browser to `/users`. From there, we can create the first user through the form that Eezo generates for us. **The password input is masked and shown as `****`, and the value we type is stored as a bcrypt hash, so we never have to compute one ourselves.**
 
 Once the user exists, we must remove `Form`, `Resource`, and the temporary `Guarded` instance from the `User` model. Otherwise, the `user` table would stay exposed through public CRUD routes, which is the last thing we want for a table that holds credentials. The model goes back to deriving only `Table`:
 
