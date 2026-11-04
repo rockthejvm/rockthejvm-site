@@ -12,9 +12,13 @@ jobs:
       checks: write # trunk PR annotations
       contents: read # code checkout and dependency installation
     steps:
-      # Trunk only sees LFS pointer files, not image bytes, so skip LFS download.
+      # oxipng runs on LFS-tracked PNGs (include_lfs: true in the trunk plugin),
+      # so it needs the real image bytes. Without LFS it receives pointer files
+      # and fails with "Invalid PNG header detected".
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true
       - name: Setup
         uses: ./.github/actions/setup
       - name: Trunk Code Quality
