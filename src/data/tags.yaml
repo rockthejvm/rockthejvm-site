@@ -23,6 +23,7 @@
 - id: devops
 - id: distributed-systems
 - id: doobie
+- id: eezo
 - id: effect-systems
 - id: event-sourcing
 - id: file_list
