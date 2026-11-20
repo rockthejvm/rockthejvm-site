@@ -15,61 +15,83 @@ interface Props {
 const { bundleImage, offer, prices, title, courseSlug, pricingPlanId } =
     Astro.props,
   checkoutURL = `https://courses.rockthejvm.com/purchase?product_id=${pricingPlanId}`,
-  learnMoreURL = `/courses/${courseSlug}`;
+  learnMoreURL = `/courses/${courseSlug}`,
+  savings = prices.old - prices.new;
 ---
 
-<section class="mb-8 min-h-[60vh] md:mb-16">
-  <div class="relative isolate">
-    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+<section id="bundle" class="mb-12 scroll-mt-20 md:mb-20">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="relative">
       <div
-        class="m-8 max-w-4xl animate-gradient-xy rounded-3xl bg-gradient-to-r from-yellow-400 via-blue-500 via-cyan-500 via-orange-500 via-pink-500 via-purple-500 via-red-500 to-yellow-400 bg-[length:400%_400%] p-1 shadow-[0_0_30px_theme(colors.orange.500/60%)] lg:max-w-7xl"
+        class="pointer-events-none absolute -inset-1 rounded-[1.75rem] bg-gradient-to-br from-orange-400 via-orange-600 to-amber-300 opacity-50 blur-xl"
+      >
+      </div>
+      <div
+        class="relative rounded-3xl bg-gradient-to-br from-orange-400 via-orange-600/60 to-amber-300 p-[2px]"
       >
         <div
-          class="mx-auto flex w-full flex-col gap-16 rounded-3xl bg-holiday-bkg p-6 sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center xl:gap-x-20 xl:px-20"
+          class="relative overflow-hidden rounded-[calc(1.5rem-2px)] bg-holiday-bkg"
         >
-          <a href={learnMoreURL}>
-            <MyPicture
-              src={bundleImage}
-              alt={title}
-              class="mx-auto w-full max-w-lg flex-none"
-              quality="mid"
-              widths={[400, 512, 1024]}
-              sizes="(min-width: 1024px) 512px, 100vw"
-            />
-          </a>
-          <div class="w-full flex-auto">
-            <h2
-              class="text-4xl font-bold tracking-tight text-holiday-content-1 sm:text-5xl"
-            >
-              {`The ${title} bundle`.toUpperCase()}
-            </h2>
-            <div class="mt-6 text-lg leading-8 text-holiday-content-1">
-              {offer}
-            </div>
-            <div class="mt-6 text-3xl font-bold">
-              <span class="text-holiday-card-content-1"
-                ><s>${numberToPrice(prices.old)}</s></span
+          <div
+            class="pointer-events-none absolute inset-0 bg-holiday-content/5 bg-[radial-gradient(ellipse_at_top_left,_rgba(249,115,22,0.14),_transparent_50%),radial-gradient(ellipse_at_bottom_right,_rgba(56,189,248,0.08),_transparent_50%)]"
+          >
+          </div>
+          <div
+            class="relative flex flex-col gap-10 p-6 sm:p-10 lg:flex-row lg:items-center lg:gap-16 lg:p-14"
+          >
+            <a href={learnMoreURL} class="w-full lg:w-1/2">
+              <MyPicture
+                src={bundleImage}
+                alt={title}
+                class="mx-auto w-full"
+                quality="mid"
+                widths={[400, 512, 1024]}
+                sizes="(min-width: 1024px) 512px, 100vw"
+              />
+            </a>
+            <div class="w-full lg:w-1/2">
+              <p
+                class="mb-4 text-sm font-semibold uppercase tracking-widest text-holiday-accent-1"
               >
-              {" "}
-              <span class="text-holiday-card-accent-1 text-orange-500"
-                >${numberToPrice(prices.new)}</span
+                Best value
+              </p>
+              <h2
+                class="mb-6 text-3xl font-bold tracking-tight text-holiday-content sm:text-4xl"
               >
-            </div>
-            <div
-              class="mt-8 flex flex-row items-center justify-center gap-5 gap-x-6 lg:justify-start"
-            >
-              <a
-                href={checkoutURL}
-                class="rounded-3xl bg-holiday-cta px-3.5 py-2.5 text-sm font-semibold text-holiday-ctatext shadow-sm hover:bg-accent-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <span>Get it now</span>
-              </a>
-              <a
-                href={learnMoreURL}
-                class="rounded-3xl px-3.5 py-2.5 text-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <span class="text-gray-100">Learn more</span>
-              </a>
+                The {title} bundle
+              </h2>
+              <p class="mb-8 text-lg leading-8 text-holiday-content-1">
+                {offer}
+              </p>
+              <div class="mb-8 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+                <span class="text-4xl font-bold text-holiday-accent-1">
+                  ${numberToPrice(prices.new)}
+                </span>
+                <s class="text-2xl text-holiday-content-2">
+                  ${numberToPrice(prices.old)}
+                </s>
+                {
+                  savings > 0 && (
+                    <span class="rounded-full bg-holiday-accent-1/15 px-3 py-1 text-sm font-semibold text-holiday-accent-1 ring-1 ring-inset ring-holiday-accent-1/30">
+                      Save ${numberToPrice(savings)}
+                    </span>
+                  )
+                }
+              </div>
+              <div class="flex flex-col gap-y-3 sm:flex-row sm:gap-x-4">
+                <a
+                  href={checkoutURL}
+                  class="rounded-md bg-holiday-cta px-5 py-3 text-center text-sm font-semibold text-holiday-ctatext shadow-sm transition-colors hover:bg-holiday-accent-1 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-holiday-accent-1"
+                >
+                  Get the bundle
+                </a>
+                <a
+                  href={learnMoreURL}
+                  class="rounded-md px-5 py-3 text-center text-sm font-semibold text-holiday-content ring-1 ring-inset ring-holiday-content/30 transition-colors hover:text-holiday-content hover:no-underline hover:ring-holiday-content/60"
+                >
+                  Learn more &rarr;
+                </a>
+              </div>
             </div>
           </div>
         </div>
