@@ -25,9 +25,7 @@ export default function Example(props) {
         >
           <span className="sr-only">{site.name}</span>
           {props.logo}
-          <div
-            className={`flex flex-col text-xs font-bold uppercase leading-tight tracking-wider ${props.holiday ? "text-holiday-content-1 hover:text-holiday-content-1" : "text-content hover:text-content"}`}
-          >
+          <div className="flex flex-col text-xs font-bold uppercase leading-tight tracking-wider text-content hover:text-content">
             <span>ROCK</span>
             <span>THE</span>
             <span>JVM</span>
@@ -41,16 +39,14 @@ export default function Example(props) {
                 href={item.href}
                 className="text-sm font-semibold leading-6"
               >
-                <span
-                  className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
-                >
+                <span className="text-content hover:text-link-hover">
                   {item.name}
                 </span>
               </a>
             ))}
             <a
               href="https://sso.teachable.com/secure/256201/identity/login/password"
-              className={`rounded-md px-3.5 py-2 text-sm font-semibold ring-1 ring-inset transition-colors hover:no-underline ${props.holiday ? "text-holiday-content-1 ring-holiday-content-1/30 hover:ring-holiday-content-1/60" : "text-content ring-content/30 hover:ring-content/60"}`}
+              className="rounded-md px-3.5 py-2 text-sm font-semibold ring-1 ring-inset transition-colors hover:no-underline text-content ring-content/30 hover:ring-content/60"
             >
               Sign In
             </a>
@@ -69,9 +65,7 @@ export default function Example(props) {
               onClick={() => setMobileMenuOpen(true)}
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
             >
-              <span
-                className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
-              >
+              <span className="text-content hover:text-link-hover">
                 <span className="sr-only">Open main menu</span>
                 <Bars3Icon aria-hidden="true" className="size-6" />
               </span>
@@ -93,9 +87,7 @@ export default function Example(props) {
             >
               <span className="sr-only">{site.name}</span>
               {props.logo}
-              <div
-                className={`flex flex-col text-xs font-bold uppercase leading-tight tracking-wider ${props.holiday ? "text-holiday-content-1 hover:text-holiday-content-1" : "text-content hover:text-content"}`}
-              >
+              <div className="flex flex-col text-xs font-bold uppercase leading-tight tracking-wider text-content hover:text-content">
                 <span>ROCK</span>
                 <span>THE</span>
                 <span>JVM</span>
@@ -119,9 +111,7 @@ export default function Example(props) {
                     href={item.href}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-secondary"
                   >
-                    <span
-                      className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
-                    >
+                    <span className="text-content hover:text-link-hover">
                       {item.name}
                     </span>
                   </a>
@@ -132,9 +122,7 @@ export default function Example(props) {
                   href="https://sso.teachable.com/secure/256201/identity/login/password"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-secondary"
                 >
-                  <span
-                    className={`${props.holiday ? "text-holiday-content-1 hover:text-holiday-accent-2" : "text-content hover:text-link-hover"}`}
-                  >
+                  <span className="text-content hover:text-link-hover">
                     Sign In
                   </span>
                 </a>

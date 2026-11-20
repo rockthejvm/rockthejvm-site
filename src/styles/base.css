@@ -145,6 +145,21 @@
     --color-holiday-cta: 25deg 88% 57%;
     --color-holiday-tag: 226deg 100% 94%;
 
+    /* Header, search and menus use the regular tokens: pin them to the dark theme */
+    --color-bkg: 220deg 30% 10%;
+    --color-content1: 217deg 15% 96%;
+    --color-content2: 220deg 12% 72%;
+    --color-accent1: 25deg 80% 67%;
+    --color-accent2: 168deg 65% 42%;
+    --color-link-hover: 25deg 92% 79%;
+    --color-primary: 221deg 50% 38%;
+    --color-secondary: 221deg 38% 19%;
+    --color-base: 360deg 100% 0%;
+    --color-text-cta: 0deg 0% 100%;
+    --color-cta: 25deg 88% 57%;
+    --color-tag: 226deg 100% 94%;
+    --color-search: 220deg 25% 16%;
+
     .card-shadow {
       @apply shadow-[0px_4px_50px_0px_#000000];
     }
