@@ -46,7 +46,7 @@ export default function Example(props) {
             ))}
             <a
               href="https://sso.teachable.com/secure/256201/identity/login/password"
-              className="rounded-md px-3.5 py-2 text-sm font-semibold ring-1 ring-inset transition-colors hover:no-underline text-content ring-content/30 hover:ring-content/60"
+              className="rounded-md px-3.5 py-2 text-sm font-semibold text-content ring-1 ring-inset ring-content/30 transition-colors hover:no-underline hover:ring-content/60"
             >
               Sign In
             </a>
