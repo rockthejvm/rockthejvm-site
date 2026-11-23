@@ -1,7 +1,6 @@
 ---
-import NewsletterForm from "@/components/NewsletterForm.astro";
-import CourseEntry from "@/pages/_components/CourseEntry.astro";
 import type { HolidayCategory } from "../_types/holidayCategory.ts";
+import HolidayCourseCard from "./HolidayCourseCard.astro";
 
 interface Props {
   categories: HolidayCategory[];
@@ -11,24 +10,26 @@ interface Props {
 const { categories, couponCode } = Astro.props;
 ---
 
-<article>
+<article id="courses" class="scroll-mt-20 pb-12 md:pb-20">
   {
     categories.map(({ category, description, courses }) => (
-      <section class="mx-auto max-w-7xl px-16 pt-4 sm:pt-8 md:pt-12 xl:px-32">
-        <div class="flex flex-row gap-x-4">
-          <h2 class="my-auto w-full text-center">{category}</h2>
+      <section class="pt-8 md:pt-12">
+        <div class="mx-auto max-w-3xl px-8 text-center">
+          <h2 class="font-bold text-holiday-content">{category}</h2>
+          <p class="mt-2 text-holiday-content-2">{description}</p>
         </div>
-        <p class="my-2 text-center">{description}</p>
-        {courses.map(({ course, hasCoupon, prices }) => (
-          <CourseEntry
-            {course}
-            holiday={true}
-            couponCode={hasCoupon ? couponCode : undefined}
-            {prices}
-          />
-        ))}
+        <ul class="mx-auto my-8 grid max-w-7xl list-none grid-cols-1 gap-6 px-8 sm:grid-cols-2 lg:grid-cols-3">
+          {courses.map(({ course, hasCoupon, prices }) => (
+            <li class="col-span-1 flex justify-center">
+              <HolidayCourseCard
+                {course}
+                couponCode={hasCoupon ? couponCode : undefined}
+                {prices}
+              />
+            </li>
+          ))}
+        </ul>
       </section>
     ))
   }
-  <!-- <NewsletterForm /> -->
 </article>

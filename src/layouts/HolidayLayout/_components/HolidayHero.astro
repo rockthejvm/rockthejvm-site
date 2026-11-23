@@ -12,35 +12,52 @@ interface Props {
 const { annotation, logoSuffix, subtitle1, subtitle2, title } = Astro.props;
 ---
 
-<header>
-  <div class="min-h-[50vh] pb-40 pt-20">
-    <div class="hidden sm:mb-8 sm:flex sm:justify-center"></div>
-    <div class="mx-auto flex justify-center">
-      <div class="mx-8 my-auto md:mx-24 md:flex">
-        <div class="mb-4 shrink-0 sm:mb-0 sm:mr-4">
-          <RockTheJVM
-            class="h-48 w-full md:h-64"
-            slot="logo"
-            suffix={logoSuffix}
-          />
-        </div>
-        <div>
-          <div class="text-xl font-semibold text-gray-500">
-            {annotation.toUpperCase()}
-          </div>
-          <h1
-            class="mb-4 mt-2 text-5xl font-extrabold text-holiday-content sm:text-6xl md:text-7xl"
-          >
-            {`${title} ${new Date().getFullYear()}`.toUpperCase()}
-          </h1>
-          <p class="mb-8 text-xl text-gray-300">
-            {subtitle1.toUpperCase()}
-          </p>
-          <p class="rainbow-text mb-24 text-2xl font-semibold italic">
-            {subtitle2.toUpperCase()}
-          </p>
-        </div>
+<header class="relative isolate overflow-hidden pb-16 pt-12 md:pt-20">
+  <div
+    class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,_rgba(249,115,22,0.16),_transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(56,189,248,0.08),_transparent_55%)]"
+  >
+  </div>
+
+  <div
+    class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-x-12 gap-y-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8"
+  >
+    <div class="flex flex-col items-start">
+      <div
+        class="mb-6 rounded-full px-3 py-1 text-sm leading-6 text-holiday-content-1 ring-1 ring-holiday-content/10"
+      >
+        {annotation}
       </div>
+      <h1
+        class="text-4xl font-extrabold tracking-tight text-holiday-content sm:text-5xl lg:text-6xl"
+      >
+        {`${title} ${new Date().getFullYear()}`}
+      </h1>
+      <p class="mt-4 text-lg leading-8 text-holiday-content-2 sm:mt-6">
+        {subtitle1}
+      </p>
+      <p
+        class="mt-2 text-lg font-semibold leading-8 text-holiday-accent-1 sm:mt-3"
+      >
+        {subtitle2}
+      </p>
+      <div class="mt-6 flex flex-col gap-y-3 sm:mt-8 sm:flex-row sm:gap-x-4">
+        <a
+          href="#bundle"
+          class="rounded-md bg-holiday-cta px-5 py-3 text-center text-sm font-semibold text-holiday-ctatext shadow-sm transition-colors hover:bg-holiday-accent-1 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-holiday-accent-1"
+        >
+          See the bundle
+        </a>
+        <a
+          href="#courses"
+          class="rounded-md px-5 py-3 text-center text-sm font-semibold text-holiday-content ring-1 ring-inset ring-holiday-content/30 transition-colors hover:text-holiday-content hover:no-underline hover:ring-holiday-content/60"
+        >
+          Browse the sale &darr;
+        </a>
+      </div>
+    </div>
+
+    <div class="flex justify-center lg:justify-end">
+      <RockTheJVM class="h-40 w-full sm:h-56 lg:h-64" suffix={logoSuffix} />
     </div>
   </div>
 </header>

@@ -61,12 +61,12 @@ export const _courses: {
       {
         id: "the-scala-bundle",
         hasCoupon: true,
-        prices: { old: 245, new: 122.5 },
+        prices: { old: 295, new: 147.5 },
       },
       {
         id: "the-kotlin-bundle",
         hasCoupon: true,
-        prices: { old: 160, new: 80 },
+        prices: { old: 195, new: 97.5 },
       },
       {
         id: "the-apache-spark-bundle-with-scala",
@@ -88,12 +88,12 @@ export const _courses: {
       {
         id: "scala-essentials",
         hasCoupon: true,
-        prices: { old: 85, new: 42.5 },
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "advanced-scala",
         hasCoupon: true,
-        prices: { old: 85, new: 42.5 },
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "scala-projects",
@@ -140,12 +140,12 @@ export const _courses: {
       {
         id: "advanced-kotlin",
         hasCoupon: true,
-        prices: { old: 75, new: 37.5 },
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "kotlin-coroutines-and-concurrency",
         hasCoupon: true,
-        prices: { old: 75, new: 37.5 },
+        prices: { old: 95, new: 47.5 },
       },
     ],
   },
@@ -167,7 +167,7 @@ export const _courses: {
       {
         id: "cats",
         hasCoupon: true,
-        prices: { old: 85, new: 42.5 },
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "cats-effect",
@@ -194,22 +194,22 @@ export const _courses: {
       {
         id: "apache-spark-essentials-with-scala",
         hasCoupon: true,
-        prices: { old: 75, new: 37.5 },
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "apache-spark-optimization-with-scala",
         hasCoupon: true,
-        prices: { old: 85, new: 42.5 },
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "apache-spark-performance-tuning-with-scala",
         hasCoupon: true,
-        prices: { old: 75, new: 37.5 },
+        prices: { old: 95, new: 47.5 },
       },
       {
         id: "apache-spark-streaming-with-scala",
         hasCoupon: true,
-        prices: { old: 75, new: 37.5 },
+        prices: { old: 95, new: 47.5 },
       },
     ],
   },
